@@ -1,0 +1,10 @@
+{
+  "homepage": "https://www.tntmodders.com/takumicraft/",
+  "1.18.1": {
+    "2.2.0": "MC1.18.1対応"
+  },
+  "promos": {
+    "1.18.1-latest": "2.2.0",
+    "1.18.1-recommended": "2.2.0"
+  }
+}

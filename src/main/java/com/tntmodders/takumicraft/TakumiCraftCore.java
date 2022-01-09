@@ -62,5 +62,7 @@ public class TakumiCraftCore {
         public static void onItemsRegistry(final RegistryEvent.Register<Item> itemRegistryEvent) {
             TCItemCore.register(itemRegistryEvent);
         }
+
+
     }
 }
