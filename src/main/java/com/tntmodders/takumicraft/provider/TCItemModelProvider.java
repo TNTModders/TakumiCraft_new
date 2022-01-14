@@ -13,7 +13,7 @@ import java.util.Objects;
 
 public class TCItemModelProvider extends ItemModelProvider {
     public TCItemModelProvider(DataGenerator generator, ExistingFileHelper existingFileHelper) {
-        super(generator, TakumiCraftCore.MOD_ID, existingFileHelper);
+        super(generator, TakumiCraftCore.MODID, existingFileHelper);
     }
 
     @Override
@@ -26,6 +26,7 @@ public class TCItemModelProvider extends ItemModelProvider {
                     case SHIELD -> {
                         //shield
                     }
+                    case SPAWN_EGG -> this.eggItem(item);
                 }
                 TCLoggingUtils.entryRegistry("ItemModel_" + ((ITCItems) item).getItemModelType().name(), item.getRegistryName().getPath());
             }
@@ -36,5 +37,9 @@ public class TCItemModelProvider extends ItemModelProvider {
     private void simpleItem(Item item) {
         ResourceLocation name = Objects.requireNonNull(item.getRegistryName());
         singleTexture(name.getPath(), mcLoc(folder + "/generated"), "layer0", new ResourceLocation(name.getNamespace(), folder + "/" + name.getPath()));
+    }
+
+    public void eggItem(Item item) {
+        withExistingParent(item.getRegistryName().getPath(), mcLoc("item/template_spawn_egg"));
     }
 }

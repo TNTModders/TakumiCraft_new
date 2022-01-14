@@ -30,12 +30,12 @@ public class CreeperTCBombBlock extends AbstractTCBombBlock implements ITCRecipe
     }
 
     @Override
-    public String getEnUSname() {
+    public String getEnUSName() {
         return "Creeper Bomb";
     }
 
     @Override
-    public String getJaJPname() {
+    public String getJaJPName() {
         return "匠式高性能爆弾";
     }
 

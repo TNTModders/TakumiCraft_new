@@ -7,6 +7,6 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-public interface ITCEntities extends ITCTranslator {
-    Supplier<Consumer<BiConsumer<ResourceLocation, LootTable.Builder>>> getBlockLoot();
+public interface ITCEntities{
+    Supplier<Consumer<BiConsumer<ResourceLocation, LootTable.Builder>>> getEntityLoot();
 }

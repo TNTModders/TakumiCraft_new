@@ -1,4 +1,10 @@
 {
   "block.takumicraft.creeperbomb": "Creeper Bomb",
-  "item.takumicraft.tester": "Creeper Rod"
+  "entity.takumicraft.lavacreeper": "Lava Creeper",
+  "entity.takumicraft.silentcreeper": "Silent Creeper",
+  "item.takumicraft.lavacreeper_spawn_egg": "Spawn Lava Creeper",
+  "item.takumicraft.silentcreeper_spawn_egg": "Spawn Silent Creeper",
+  "item.takumicraft.tester": "Creeper Rod",
+  "itemGroup.takumicraft": "Takumi Craft",
+  "itemGroup.takumicraft.egg": "Spawn Eggs"
 }

@@ -6,6 +6,7 @@ public interface ITCItems extends ITCTranslator {
     enum EnumTCItemModelType {
         SIMPLE,
         SHIELD,
+        SPAWN_EGG,
         NONE
     }
 }

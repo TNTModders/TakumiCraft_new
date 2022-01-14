@@ -10,7 +10,7 @@ import net.minecraft.world.item.Rarity;
 public class TCCreeperRodItem extends Item implements ITCItems, ITCTranslator {
     public TCCreeperRodItem() {
         super(new Properties().tab(TCCreativeModeTabCore.TAB_TC).rarity(Rarity.EPIC).stacksTo(1));
-        this.setRegistryName(TakumiCraftCore.MOD_ID, "tester");
+        this.setRegistryName(TakumiCraftCore.MODID, "tester");
     }
 
     @Override
@@ -19,12 +19,12 @@ public class TCCreeperRodItem extends Item implements ITCItems, ITCTranslator {
     }
 
     @Override
-    public String getEnUSname() {
+    public String getEnUSName() {
         return "Creeper Rod";
     }
 
     @Override
-    public String getJaJPname() {
+    public String getJaJPName() {
         return "匠式錫杖";
     }
 }

@@ -2,6 +2,7 @@ package com.tntmodders.takumicraft.provider;
 
 import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.core.TCBlockCore;
+import com.tntmodders.takumicraft.core.TCEntityCore;
 import com.tntmodders.takumicraft.core.TCItemCore;
 import com.tntmodders.takumicraft.utils.TCLoggingUtils;
 import net.minecraft.data.DataGenerator;
@@ -14,7 +15,7 @@ public abstract class TCLanguageProvider extends LanguageProvider {
     private static final List<ITCTranslator> TRANSLATORS = new ArrayList<>();
 
     protected TCLanguageProvider(DataGenerator gen, String locale) {
-        super(gen, TakumiCraftCore.MOD_ID, locale);
+        super(gen, TakumiCraftCore.MODID, locale);
     }
 
     @Override
@@ -29,6 +30,7 @@ public abstract class TCLanguageProvider extends LanguageProvider {
                 this.add(item, this.getTranslation(((ITCTranslator) item)));
             }
         });
+        TCEntityCore.ENTITY_CONTEXTS.forEach(context -> this.add(context.entityType(), this.getTranslation(context)));
         this.additionalTranslations();
     }
 
@@ -51,12 +53,13 @@ public abstract class TCLanguageProvider extends LanguageProvider {
 
         @Override
         String getTranslation(ITCTranslator translator) {
-            return translator.getEnUSname();
+            return translator.getEnUSName();
         }
 
         @Override
         void additionalTranslations() {
-
+            this.add("itemGroup.takumicraft", "Takumi Craft");
+            this.add("itemGroup.takumicraft.egg", "Spawn Eggs");
         }
     }
 
@@ -75,12 +78,13 @@ public abstract class TCLanguageProvider extends LanguageProvider {
 
         @Override
         String getTranslation(ITCTranslator translator) {
-            return translator.getJaJPname();
+            return translator.getJaJPName();
         }
 
         @Override
         void additionalTranslations() {
-
+            this.add("itemGroup.takumicraft", "匠Craft");
+            this.add("itemGroup.takumicraft.egg", "スポーンエッグ");
         }
     }
 }

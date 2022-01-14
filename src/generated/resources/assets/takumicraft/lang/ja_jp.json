@@ -1,4 +1,10 @@
 {
   "block.takumicraft.creeperbomb": "\u5320\u5F0F\u9AD8\u6027\u80FD\u7206\u5F3E",
-  "item.takumicraft.tester": "\u5320\u5F0F\u932B\u6756"
+  "entity.takumicraft.lavacreeper": "\u7194\u5CA9\u5320",
+  "entity.takumicraft.silentcreeper": "\u30B5\u30A4\u30EC\u30F3\u30C8\u5320",
+  "item.takumicraft.lavacreeper_spawn_egg": "\u30B9\u30DD\u30FC\u30F3 \u7194\u5CA9\u5320",
+  "item.takumicraft.silentcreeper_spawn_egg": "\u30B9\u30DD\u30FC\u30F3 \u30B5\u30A4\u30EC\u30F3\u30C8\u5320",
+  "item.takumicraft.tester": "\u5320\u5F0F\u932B\u6756",
+  "itemGroup.takumicraft": "\u5320Craft",
+  "itemGroup.takumicraft.egg": "\u30B9\u30DD\u30FC\u30F3\u30A8\u30C3\u30B0"
 }

@@ -1,7 +1,7 @@
 package com.tntmodders.takumicraft.provider;
 
 public interface ITCTranslator {
-    String getEnUSname();
+    String getEnUSName();
 
-    String getJaJPname();
+    String getJaJPName();
 }

@@ -12,7 +12,7 @@ import net.minecraftforge.common.data.ExistingFileHelper;
 
 public class TCBlockStateProvider extends BlockStateProvider {
     public TCBlockStateProvider(DataGenerator gen, ExistingFileHelper exFileHelper) {
-        super(gen, TakumiCraftCore.MOD_ID, exFileHelper);
+        super(gen, TakumiCraftCore.MODID, exFileHelper);
     }
 
     @Override
