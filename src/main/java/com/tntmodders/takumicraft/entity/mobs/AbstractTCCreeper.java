@@ -134,7 +134,7 @@ public abstract class AbstractTCCreeper extends Creeper implements ITCEntities {
          * TAK       :777
          * ITEM     :900~
          */
-        int getRegisterID();
+        //int getRegisterID();
 
         enum EnumTakumiRank {
             LOW(1, 5, 10, 50),

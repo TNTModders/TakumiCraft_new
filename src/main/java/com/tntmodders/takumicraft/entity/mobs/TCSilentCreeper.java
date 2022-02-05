@@ -83,11 +83,6 @@ public class TCSilentCreeper extends AbstractTCCreeper {
         }
 
         @Override
-        public int getRegisterID() {
-            return 3;
-        }
-
-        @Override
         public EnumTakumiElement getElement() {
             return EnumTakumiElement.WIND;
         }

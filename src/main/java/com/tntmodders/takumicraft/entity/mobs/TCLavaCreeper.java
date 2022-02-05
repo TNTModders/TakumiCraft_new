@@ -86,11 +86,6 @@ public class TCLavaCreeper extends AbstractTCCreeper {
         }
 
         @Override
-        public int getRegisterID() {
-            return 6;
-        }
-
-        @Override
         public EnumTakumiElement getElement() {
             return EnumTakumiElement.FIRE;
         }
