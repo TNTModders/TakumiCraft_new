@@ -83,6 +83,7 @@ public class TCZombieCreeper extends AbstractTCCreeper {
         return TCEntityCore.ZOMBIE;
     }
 
+    @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(4, new ZombieAttackTurtleEggGoal(this, 1.0D, 3));
         this.goalSelector.addGoal(8, new LookAtPlayerGoal(this, Player.class, 8.0F));
@@ -102,6 +103,7 @@ public class TCZombieCreeper extends AbstractTCCreeper {
         this.targetSelector.addGoal(5, new NearestAttackableTargetGoal<>(this, Turtle.class, 10, true, false, Turtle.BABY_ON_LAND_SELECTOR));
     }
 
+    @Override
     protected void defineSynchedData() {
         super.defineSynchedData();
         this.getEntityData().define(DATA_BABY_ID, false);
@@ -139,10 +141,12 @@ public class TCZombieCreeper extends AbstractTCCreeper {
         return true;
     }
 
+    @Override
     public boolean isBaby() {
         return this.getEntityData().get(DATA_BABY_ID);
     }
 
+    @Override
     public void setBaby(boolean p_34309_) {
         this.getEntityData().set(DATA_BABY_ID, p_34309_);
         if (this.level != null && !this.level.isClientSide) {
@@ -155,6 +159,7 @@ public class TCZombieCreeper extends AbstractTCCreeper {
 
     }
 
+    @Override
     protected int getExperienceReward(Player p_34322_) {
         if (this.isBaby()) {
             this.xpReward = (int) ((float) this.xpReward * 2.5F);
@@ -163,6 +168,7 @@ public class TCZombieCreeper extends AbstractTCCreeper {
         return super.getExperienceReward(p_34322_);
     }
 
+    @Override
     public void onSyncedDataUpdated(EntityDataAccessor<?> p_34307_) {
         if (DATA_BABY_ID.equals(p_34307_)) {
             this.refreshDimensions();
@@ -175,6 +181,7 @@ public class TCZombieCreeper extends AbstractTCCreeper {
         return true;
     }
 
+    @Override
     public void tick() {
         if (!this.level.isClientSide && this.isAlive() && !this.isNoAi()) {
             if (this.isUnderWaterConverting()) {
@@ -197,6 +204,7 @@ public class TCZombieCreeper extends AbstractTCCreeper {
         super.tick();
     }
 
+    @Override
     public void aiStep() {
         if (this.isAlive()) {
             boolean flag = this.isSunSensitive() && this.isSunBurnTick();
@@ -250,6 +258,7 @@ public class TCZombieCreeper extends AbstractTCCreeper {
         return true;
     }
 
+    @Override
     public boolean hurt(DamageSource p_34288_, float p_34289_) {
         if (!super.hurt(p_34288_, p_34289_)) {
             return false;
@@ -296,6 +305,7 @@ public class TCZombieCreeper extends AbstractTCCreeper {
         }
     }
 
+    @Override
     public boolean doHurtTarget(Entity p_34276_) {
         boolean flag = super.doHurtTarget(p_34276_);
         if (flag) {
@@ -308,14 +318,17 @@ public class TCZombieCreeper extends AbstractTCCreeper {
         return flag;
     }
 
+    @Override
     protected SoundEvent getAmbientSound() {
         return SoundEvents.ZOMBIE_AMBIENT;
     }
 
+    @Override
     protected SoundEvent getHurtSound(DamageSource p_34327_) {
         return SoundEvents.ZOMBIE_HURT;
     }
 
+    @Override
     protected SoundEvent getDeathSound() {
         return SoundEvents.ZOMBIE_DEATH;
     }
@@ -324,14 +337,17 @@ public class TCZombieCreeper extends AbstractTCCreeper {
         return SoundEvents.ZOMBIE_STEP;
     }
 
+    @Override
     protected void playStepSound(BlockPos p_34316_, BlockState p_34317_) {
         this.playSound(this.getStepSound(), 0.15F, 1.0F);
     }
 
+    @Override
     public MobType getMobType() {
         return MobType.UNDEAD;
     }
 
+    @Override
     protected void populateDefaultEquipmentSlots(DifficultyInstance p_34286_) {
         super.populateDefaultEquipmentSlots(p_34286_);
         if (this.random.nextFloat() < (this.level.getDifficulty() == Difficulty.HARD ? 0.05F : 0.01F)) {
@@ -345,6 +361,7 @@ public class TCZombieCreeper extends AbstractTCCreeper {
 
     }
 
+    @Override
     public void addAdditionalSaveData(CompoundTag p_34319_) {
         super.addAdditionalSaveData(p_34319_);
         p_34319_.putBoolean("IsBaby", this.isBaby());
@@ -353,6 +370,7 @@ public class TCZombieCreeper extends AbstractTCCreeper {
         p_34319_.putInt("DrownedConversionTime", this.isUnderWaterConverting() ? this.conversionTime : -1);
     }
 
+    @Override
     public void readAdditionalSaveData(CompoundTag p_34305_) {
         super.readAdditionalSaveData(p_34305_);
         this.setBaby(p_34305_.getBoolean("IsBaby"));
@@ -364,6 +382,7 @@ public class TCZombieCreeper extends AbstractTCCreeper {
 
     }
 
+    @Override
     public void killed(ServerLevel p_34281_, LivingEntity p_34282_) {
         super.killed(p_34281_, p_34282_);
         if ((p_34281_.getDifficulty() == Difficulty.NORMAL || p_34281_.getDifficulty() == Difficulty.HARD) && p_34282_ instanceof Villager villager && net.minecraftforge.event.ForgeEventFactory.canLivingConvert(p_34282_, EntityType.ZOMBIE_VILLAGER, (timer) -> {
@@ -386,18 +405,22 @@ public class TCZombieCreeper extends AbstractTCCreeper {
 
     }
 
+    @Override
     protected float getStandingEyeHeight(Pose p_34313_, EntityDimensions p_34314_) {
         return this.isBaby() ? 0.93F : 1.74F;
     }
 
+    @Override
     public boolean canHoldItem(ItemStack p_34332_) {
         return (!p_34332_.is(Items.EGG) || !this.isBaby() || !this.isPassenger()) && super.canHoldItem(p_34332_);
     }
 
+    @Override
     public boolean wantsToPickUp(ItemStack p_182400_) {
         return !p_182400_.is(Items.GLOW_INK_SAC) && super.wantsToPickUp(p_182400_);
     }
 
+    @Override
     @Nullable
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_34297_, DifficultyInstance p_34298_, MobSpawnType p_34299_, @Nullable SpawnGroupData p_34300_, @Nullable CompoundTag p_34301_) {
         p_34300_ = super.finalizeSpawn(p_34297_, p_34298_, p_34299_, p_34300_, p_34301_);
@@ -468,10 +491,12 @@ public class TCZombieCreeper extends AbstractTCCreeper {
         this.getAttribute(Attributes.SPAWN_REINFORCEMENTS_CHANCE).setBaseValue(this.random.nextDouble() * net.minecraftforge.common.ForgeConfig.SERVER.zombieBaseSummonChance.get());
     }
 
+    @Override
     public double getMyRidingOffset() {
         return this.isBaby() ? 0.0D : -0.45D;
     }
 
+    @Override
     protected void dropCustomDeathLoot(DamageSource p_34291_, int p_34292_, boolean p_34293_) {
         super.dropCustomDeathLoot(p_34291_, p_34292_, p_34293_);
         Entity entity = p_34291_.getEntity();
@@ -557,6 +582,7 @@ public class TCZombieCreeper extends AbstractTCCreeper {
                     .add(Attributes.SPAWN_REINFORCEMENTS_CHANCE);
         }
 
+        @Override
         public void registerRenderer(EntityRenderersEvent.RegisterRenderers event, EntityType<?> type) {
             event.registerEntityRenderer(((EntityType<TCZombieCreeper>) type), TCZombieCreeperRenderer::new);
         }
@@ -577,14 +603,17 @@ public class TCZombieCreeper extends AbstractTCCreeper {
             super(Blocks.TURTLE_EGG, p_34344_, p_34345_, p_34346_);
         }
 
+        @Override
         public void playDestroyProgressSound(LevelAccessor p_34351_, BlockPos p_34352_) {
             p_34351_.playSound(null, p_34352_, SoundEvents.ZOMBIE_DESTROY_EGG, SoundSource.HOSTILE, 0.5F, 0.9F + TCZombieCreeper.this.random.nextFloat() * 0.2F);
         }
 
+        @Override
         public void playBreakSound(Level p_34348_, BlockPos p_34349_) {
             p_34348_.playSound(null, p_34349_, SoundEvents.TURTLE_EGG_BREAK, SoundSource.BLOCKS, 0.7F, 0.9F + p_34348_.random.nextFloat() * 0.2F);
         }
 
+        @Override
         public double acceptedDistance() {
             return 1.14D;
         }

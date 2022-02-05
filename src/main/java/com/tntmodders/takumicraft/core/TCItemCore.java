@@ -4,6 +4,7 @@ import com.tntmodders.takumicraft.entity.mobs.AbstractTCCreeper;
 import com.tntmodders.takumicraft.item.TCBlockItem;
 import com.tntmodders.takumicraft.item.TCCreeperRodItem;
 import com.tntmodders.takumicraft.item.TCSpawnEggItem;
+import com.tntmodders.takumicraft.item.TCTakumiBookItem;
 import com.tntmodders.takumicraft.utils.TCLoggingUtils;
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.entity.EntityType;
@@ -22,6 +23,7 @@ public class TCItemCore {
     public static final HashMap<Block, Item> BLOCKITEMS = new HashMap<>();
 
     public static final Item CREEPER_ROD = new TCCreeperRodItem();
+    public static final Item TAKUMIBOOK = new TCTakumiBookItem();
 
     public static void register(final RegistryEvent.Register<Item> event) {
         TCLoggingUtils.startRegistry("Item");

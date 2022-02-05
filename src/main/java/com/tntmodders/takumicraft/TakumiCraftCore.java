@@ -61,7 +61,7 @@ public class TakumiCraftCore {
         if (event.includeServer()) {
             gen.addProvider(new TCRecipeProvider(gen));
             gen.addProvider(new TCLootTableProvider(gen));
-
+            gen.addProvider(new TCAdvancementProvider(gen, event.getExistingFileHelper()));
         }
     }
 

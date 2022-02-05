@@ -80,6 +80,7 @@ public abstract class TCLanguageProvider extends LanguageProvider {
             this.add("takumicraft.rank.mid", "Mid");
             this.add("takumicraft.rank.high", "High");
             this.add("takumicraft.rank.boss", "Boss");
+            this.add("takumicraft.message.slay","registered to TakumiBook.");
         }
     }
 
@@ -127,6 +128,7 @@ public abstract class TCLanguageProvider extends LanguageProvider {
             this.add("takumicraft.rank.mid", "中位");
             this.add("takumicraft.rank.high", "上位");
             this.add("takumicraft.rank.boss", "王位");
+            this.add("takumicraft.message.slay","が図鑑に登録された。");
         }
     }
 }
