@@ -1,7 +1,10 @@
 package com.tntmodders.takumicraft.provider;
 
 public interface ITCItems extends ITCTranslator {
-    EnumTCItemModelType getItemModelType();
+
+    default EnumTCItemModelType getItemModelType() {
+        return EnumTCItemModelType.SIMPLE;
+    }
 
     enum EnumTCItemModelType {
         SIMPLE,

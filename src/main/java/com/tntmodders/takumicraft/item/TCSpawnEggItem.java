@@ -19,6 +19,10 @@ public class TCSpawnEggItem extends ForgeSpawnEggItem implements ITCItems {
         this.setRegistryName(TakumiCraftCore.MODID, context.entityType().getRegistryName().getPath() + "_spawn_egg");
     }
 
+    public AbstractTCCreeper.TCCreeperContext<?> getContext() {
+        return this.context;
+    }
+
     @Override
     public EnumTCItemModelType getItemModelType() {
         return EnumTCItemModelType.SPAWN_EGG;

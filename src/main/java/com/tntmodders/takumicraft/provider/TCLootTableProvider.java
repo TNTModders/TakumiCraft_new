@@ -31,7 +31,7 @@ public class TCLootTableProvider extends LootTableProvider {
         TCBlockCore.BLOCKS.forEach(block -> {
             if (block instanceof ITCBlocks) {
                 TCLoggingUtils.entryRegistry("LootTable", block.getRegistryName().getPath());
-                tableList.add(Pair.of(((ITCBlocks) block).getBlockLoot(), LootContextParamSets.BLOCK));
+                tableList.add(Pair.of(((ITCBlocks) block).getBlockLoot(block), LootContextParamSets.BLOCK));
             }
         });
         TCLoggingUtils.completeRegistry("LootTable");

@@ -14,11 +14,6 @@ public class TCCreeperRodItem extends Item implements ITCItems, ITCTranslator {
     }
 
     @Override
-    public EnumTCItemModelType getItemModelType() {
-        return EnumTCItemModelType.SIMPLE;
-    }
-
-    @Override
     public String getEnUSName() {
         return "Creeper Rod";
     }

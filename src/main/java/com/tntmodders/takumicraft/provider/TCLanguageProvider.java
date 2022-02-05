@@ -30,7 +30,10 @@ public abstract class TCLanguageProvider extends LanguageProvider {
                 this.add(item, this.getTranslation(((ITCTranslator) item)));
             }
         });
-        TCEntityCore.ENTITY_CONTEXTS.forEach(context -> this.add(context.entityType(), this.getTranslation(context)));
+        TCEntityCore.ENTITY_CONTEXTS.forEach(context -> {
+            this.add(context.entityType(), this.getTranslation(context));
+            this.add(context.entityType().getDescriptionId() + ".desc", this instanceof TCJaJPLanguageProvider ? context.getJaJPDesc() : context.getEnUSDesc());
+        });
         this.additionalTranslations();
     }
 
@@ -60,6 +63,23 @@ public abstract class TCLanguageProvider extends LanguageProvider {
         void additionalTranslations() {
             this.add("itemGroup.takumicraft", "Takumi Craft");
             this.add("itemGroup.takumicraft.egg", "Spawn Eggs");
+            this.add("key.takumicraft.takumibook", "Open Takumi Book");
+            this.add("takumicraft.takumibook", "Takumi Book");
+            this.add("takumicraft.takumibook.search", "Search");
+            this.add("takumicraft.elem.takumi", "Takumi");
+            this.add("takumicraft.elem.fire", "Fire");
+            this.add("takumicraft.elem.grass", "Grass");
+            this.add("takumicraft.elem.water", "Water");
+            this.add("takumicraft.elem.wind", "Wind");
+            this.add("takumicraft.elem.ground", "Ground");
+            this.add("takumicraft.elem.normal", "Normal");
+            this.add("takumicraft.elem.underfound", "???");
+            this.add("takumicraft.elem.magic", "Magic");
+            this.add("takumicraft.elem.dest", "Dest");
+            this.add("takumicraft.rank.low", "Low");
+            this.add("takumicraft.rank.mid", "Mid");
+            this.add("takumicraft.rank.high", "High");
+            this.add("takumicraft.rank.boss", "Boss");
         }
     }
 
@@ -73,6 +93,11 @@ public abstract class TCLanguageProvider extends LanguageProvider {
         protected void addTranslations() {
             TCLoggingUtils.startRegistry("Ja-JP_Translations");
             super.addTranslations();
+            TCEntityCore.ENTITY_CONTEXTS.forEach(context -> {
+                if (context.getJaJPRead() != null) {
+                    this.add(context.entityType().getDescriptionId() + ".read", context.getJaJPRead());
+                }
+            });
             TCLoggingUtils.completeRegistry("Ja-JP_Translations");
         }
 
@@ -85,6 +110,23 @@ public abstract class TCLanguageProvider extends LanguageProvider {
         void additionalTranslations() {
             this.add("itemGroup.takumicraft", "匠Craft");
             this.add("itemGroup.takumicraft.egg", "スポーンエッグ");
+            this.add("key.takumicraft.takumibook", "匠の書");
+            this.add("takumicraft.takumibook", "匠の書");
+            this.add("takumicraft.takumibook.search", "匠の書 検索");
+            this.add("takumicraft.elem.takumi", "匠属性");
+            this.add("takumicraft.elem.fire", "火属性");
+            this.add("takumicraft.elem.grass", "草属性");
+            this.add("takumicraft.elem.water", "水属性");
+            this.add("takumicraft.elem.wind", "風属性");
+            this.add("takumicraft.elem.ground", "地属性");
+            this.add("takumicraft.elem.normal", "無属性");
+            this.add("takumicraft.elem.underfound", "???");
+            this.add("takumicraft.elem.magic", "魔");
+            this.add("takumicraft.elem.dest", "壊");
+            this.add("takumicraft.rank.low", "下位");
+            this.add("takumicraft.rank.mid", "中位");
+            this.add("takumicraft.rank.high", "上位");
+            this.add("takumicraft.rank.boss", "王位");
         }
     }
 }

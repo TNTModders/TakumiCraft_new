@@ -2,9 +2,12 @@ package com.tntmodders.takumicraft;
 
 import com.tntmodders.takumicraft.core.TCBlockCore;
 import com.tntmodders.takumicraft.core.TCEntityCore;
-import com.tntmodders.takumicraft.core.TCEvents;
 import com.tntmodders.takumicraft.core.TCItemCore;
+import com.tntmodders.takumicraft.core.client.TCKeyBindingCore;
 import com.tntmodders.takumicraft.core.client.TCRenderCore;
+import com.tntmodders.takumicraft.core.client.TCSearchTreeCore;
+import com.tntmodders.takumicraft.event.TCEvents;
+import com.tntmodders.takumicraft.event.client.TCClientEvents;
 import com.tntmodders.takumicraft.provider.*;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.world.entity.EntityType;
@@ -20,8 +23,10 @@ import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fml.loading.FMLEnvironment;
 import net.minecraftforge.forge.event.lifecycle.GatherDataEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -37,6 +42,9 @@ public class TakumiCraftCore {
         modEventBus.addListener(this::registerProviders);
         MinecraftForge.EVENT_BUS.register(this);
         MinecraftForge.EVENT_BUS.register(TCEvents.INSTANCE);
+        if (FMLEnvironment.dist == Dist.CLIENT) {
+            MinecraftForge.EVENT_BUS.register(TCClientEvents.INSTANCE);
+        }
     }
 
     private void setup(final FMLCommonSetupEvent event) {
@@ -89,6 +97,12 @@ public class TakumiCraftCore {
         @SubscribeEvent
         public static void registerEntityRender(EntityRenderersEvent.RegisterRenderers rendererRegister) {
             TCRenderCore.registerEntityRender(rendererRegister);
+        }
+
+        @SubscribeEvent
+        public static void ClientInit(FMLClientSetupEvent event) {
+            TCKeyBindingCore.register();
+            TCSearchTreeCore.register();
         }
     }
 }

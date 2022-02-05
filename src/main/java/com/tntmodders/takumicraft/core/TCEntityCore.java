@@ -13,6 +13,7 @@ import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 public class TCEntityCore {
@@ -27,11 +28,12 @@ public class TCEntityCore {
         fieldList.forEach(field -> {
             try {
                 Object obj = field.get(null);
-                if (obj instanceof AbstractTCCreeper.TCCreeperContext<?>) {
-                    EntityType<?> type = ((AbstractTCCreeper.TCCreeperContext<?>) obj).entityType();
+                if (obj instanceof AbstractTCCreeper.TCCreeperContext<?> context) {
+                    EntityType<?> type = context.entityType();
                     event.getRegistry().register(type);
                     ENTITY_TYPES.add(type);
-                    ENTITY_CONTEXTS.add(((AbstractTCCreeper.TCCreeperContext<?>) obj));
+                    ENTITY_CONTEXTS.add(context);
+                    context.registerSpawn(((EntityType<? extends AbstractTCCreeper>) type));
                     TCLoggingUtils.entryRegistry("Entity", type.getRegistryName().getPath());
                 }
             } catch (IllegalAccessException e) {
@@ -39,6 +41,7 @@ public class TCEntityCore {
             }
         });
         registerAdditionalEntityType(event);
+        ENTITY_CONTEXTS.sort(Comparator.comparing(AbstractTCCreeper.TCCreeperContext::getPrimaryColor));
         TCLoggingUtils.completeRegistry("Entity");
     }
 

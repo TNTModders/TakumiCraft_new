@@ -5,12 +5,12 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
 public class TCCreativeModeTabCore {
-    public static final CreativeModeTab TAB_TC = new CreativeModeTab("takumicraft") {
+    public static final CreativeModeTab TAB_TC = (new CreativeModeTab("takumicraft") {
         @Override
         public ItemStack makeIcon() {
             return new ItemStack(TCBlockCore.CREEPER_BOMB);
         }
-    };
+    }).setRecipeFolderName("takumicraft");
 
     public static final CreativeModeTab TAB_EGGS = new CreativeModeTab("takumicraft.egg") {
         @Override

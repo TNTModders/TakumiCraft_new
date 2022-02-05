@@ -20,15 +20,10 @@ import org.jetbrains.annotations.Nullable;
 public abstract class AbstractTCBombBlock extends Block implements ITCBlocks {
     public AbstractTCBombBlock(Properties properties, String name) {
         super(properties);
-        this.setRegistryName(TakumiCraftCore.MOD_ID, name);
+        this.setRegistryName(TakumiCraftCore.MODID, name);
     }
 
     public abstract float getPower();
-
-    @Override
-    public EnumTCBlockStateModelType getBlockStateModelType() {
-        return EnumTCBlockStateModelType.SIMPLE;
-    }
 
     @Override
     public void wasExploded(Level level, BlockPos pos, Explosion explosion) {

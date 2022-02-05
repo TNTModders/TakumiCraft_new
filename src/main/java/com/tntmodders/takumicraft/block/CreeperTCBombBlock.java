@@ -10,18 +10,23 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
 import net.minecraft.world.level.storage.loot.LootTable;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
+import java.util.function.ToIntFunction;
 
 public class CreeperTCBombBlock extends AbstractTCBombBlock implements ITCRecipe {
+    public static final ToIntFunction<BlockState> LIGHT_TCBOMB = (state) -> 2;
+
     public CreeperTCBombBlock() {
-        super(BlockBehaviour.Properties.of(Material.EXPLOSIVE).strength(0.1f, 0f).color(MaterialColor.COLOR_LIGHT_GREEN), "creeperbomb");
+        super(BlockBehaviour.Properties.of(Material.EXPLOSIVE).strength(0.1f, 0f).color(MaterialColor.COLOR_LIGHT_GREEN).lightLevel(LIGHT_TCBOMB), "creeperbomb");
     }
 
     @Override
@@ -39,17 +44,17 @@ public class CreeperTCBombBlock extends AbstractTCBombBlock implements ITCRecipe
         return "匠式高性能爆弾";
     }
 
-    @Override
-    public Supplier<Consumer<BiConsumer<ResourceLocation, LootTable.Builder>>> getBlockLoot() {
+    public Supplier<Consumer<BiConsumer<ResourceLocation, LootTable.Builder>>> getBlockLoot(@NotNull Block block) {
         return () -> new BlockLoot() {
+
             @Override
-            protected @NotNull Iterable<Block> getKnownBlocks() {
-                return TCBlockCore.BLOCKS;
+            protected Iterable<Block> getKnownBlocks() {
+                return List.of(block);
             }
 
             @Override
             protected void addTables() {
-                this.dropSelf(TCBlockCore.CREEPER_BOMB);
+                this.dropSelf(block);
             }
         };
     }

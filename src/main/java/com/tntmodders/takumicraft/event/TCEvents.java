@@ -1,4 +1,4 @@
-package com.tntmodders.takumicraft.core;
+package com.tntmodders.takumicraft.event;
 
 import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.entity.mobs.AbstractTCCreeper;
@@ -12,7 +12,7 @@ public class TCEvents {
 
     @SubscribeEvent
     public void onExplosion(ExplosionEvent.Detonate event) {
-        if (!event.getExplosion().getExploder().level.isClientSide) {
+        if (!event.getWorld().isClientSide) {
             if (event.getExplosion().getExploder() instanceof AbstractTCCreeper) {
                 ((AbstractTCCreeper) event.getExplosion().getExploder()).explodeCreeperEvent(event);
             }
