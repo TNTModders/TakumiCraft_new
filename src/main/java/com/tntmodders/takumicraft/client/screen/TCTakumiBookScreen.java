@@ -34,10 +34,12 @@ public class TCTakumiBookScreen extends Screen {
     public static final int PAGE_TEXT_X_OFFSET = 36;
     public static final int PAGE_TEXT_Y_OFFSET = 30;
     public static final TCTakumiBookScreen.BookAccess EMPTY_ACCESS = new TCTakumiBookScreen.BookAccess() {
+        @Override
         public int getPageCount() {
             return TCEntityCore.ENTITY_CONTEXTS.size();
         }
 
+        @Override
         public FormattedText getPageRaw(int p_98306_) {
             return FormattedText.EMPTY;
         }
@@ -121,6 +123,7 @@ public class TCTakumiBookScreen extends Screen {
         return this.setPage(p_98295_);
     }
 
+    @Override
     protected void init() {
         this.createMenuControls();
         this.createPageControlButtons();
@@ -165,6 +168,7 @@ public class TCTakumiBookScreen extends Screen {
         this.backButton.visible = this.currentPage > 0;
     }
 
+    @Override
     public boolean keyPressed(int p_98278_, int p_98279_, int p_98280_) {
         if (super.keyPressed(p_98278_, p_98279_, p_98280_)) {
             return true;
@@ -182,6 +186,7 @@ public class TCTakumiBookScreen extends Screen {
         }
     }
 
+    @Override
     public void render(PoseStack poseStack, int mouseX, int mouseY, float p_98285_) {
         this.renderBackground(poseStack);
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
@@ -221,10 +226,13 @@ public class TCTakumiBookScreen extends Screen {
         RenderSystem.setShaderTexture(0, context.getElement().getIcon());
         this.blit(poseStack, i, 2, 0, 0, 192, 192);
 
-        Component read = new TranslatableComponent(context.entityType().getDescriptionId() + ".read");
-        this.font.draw(poseStack, read, (float) (i + 70), 25, 0);
+        if (context.showRead()) {
+            Component read = new TranslatableComponent(context.entityType().getDescriptionId() + ".read");
+            this.font.draw(poseStack, read, (float) (i + 70), 25, 0);
+        }
     }
 
+    @Override
     public boolean mouseClicked(double p_98272_, double p_98273_, int p_98274_) {
         if (p_98274_ == 0) {
             Style style = this.getClickedComponentStyleAt(p_98272_, p_98273_);
@@ -235,6 +243,7 @@ public class TCTakumiBookScreen extends Screen {
         return super.mouseClicked(p_98272_, p_98273_, p_98274_);
     }
 
+    @Override
     public boolean handleComponentClicked(Style p_98293_) {
         ClickEvent clickevent = p_98293_.getClickEvent();
         if (clickevent == null) {

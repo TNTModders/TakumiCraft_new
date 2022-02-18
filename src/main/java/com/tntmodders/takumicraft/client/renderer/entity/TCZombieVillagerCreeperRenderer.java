@@ -2,21 +2,23 @@ package com.tntmodders.takumicraft.client.renderer.entity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.tntmodders.takumicraft.TakumiCraftCore;
-import com.tntmodders.takumicraft.client.model.TCZombieModel;
-import com.tntmodders.takumicraft.entity.mobs.TCZombieCreeper;
+import com.tntmodders.takumicraft.client.model.TCZombieVillagerModel;
+import com.tntmodders.takumicraft.entity.mobs.TCZombieVillagerCreeper;
 import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.HumanoidMobRenderer;
 import net.minecraft.client.renderer.entity.layers.HumanoidArmorLayer;
+import net.minecraft.client.renderer.entity.layers.VillagerProfessionLayer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 
-public class TCZombieCreeperRenderer<T extends TCZombieCreeper, M extends TCZombieModel<T>> extends HumanoidMobRenderer<T, M> {
+public class TCZombieVillagerCreeperRenderer<T extends TCZombieVillagerCreeper, M extends TCZombieVillagerModel<T>> extends HumanoidMobRenderer<T, M> {
 
-    public TCZombieCreeperRenderer(EntityRendererProvider.Context context) {
-        super(context, (M) new TCZombieModel<>(context.bakeLayer(ModelLayers.ZOMBIE)), 0.5F);
-        this.addLayer(new HumanoidArmorLayer<>(this, (M) new TCZombieModel<>(context.bakeLayer(ModelLayers.ZOMBIE_INNER_ARMOR)),
-                (M) new TCZombieModel<>(context.bakeLayer(ModelLayers.ZOMBIE_OUTER_ARMOR))));
+    public TCZombieVillagerCreeperRenderer(EntityRendererProvider.Context context) {
+        super(context, (M) new TCZombieVillagerModel<T>(context.bakeLayer(ModelLayers.ZOMBIE_VILLAGER)), 0.5F);
+        this.addLayer(new HumanoidArmorLayer<>(this, new TCZombieVillagerModel<>(context.bakeLayer(ModelLayers.ZOMBIE_VILLAGER_INNER_ARMOR)),
+                new TCZombieVillagerModel<>(context.bakeLayer(ModelLayers.ZOMBIE_VILLAGER_OUTER_ARMOR))));
+        this.addLayer(new VillagerProfessionLayer<>(this, context.getResourceManager(), "zombie_villager"));
     }
 
     @Override
@@ -44,6 +46,6 @@ public class TCZombieCreeperRenderer<T extends TCZombieCreeper, M extends TCZomb
 
     @Override
     protected boolean isShaking(T p_113773_) {
-        return super.isShaking(p_113773_) || p_113773_.isUnderWaterConverting();
+        return super.isShaking(p_113773_) || p_113773_.isConverting();
     }
 }

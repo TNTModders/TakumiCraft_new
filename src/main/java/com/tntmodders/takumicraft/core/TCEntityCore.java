@@ -1,9 +1,6 @@
 package com.tntmodders.takumicraft.core;
 
-import com.tntmodders.takumicraft.entity.mobs.AbstractTCCreeper;
-import com.tntmodders.takumicraft.entity.mobs.TCLavaCreeper;
-import com.tntmodders.takumicraft.entity.mobs.TCSilentCreeper;
-import com.tntmodders.takumicraft.entity.mobs.TCZombieCreeper;
+import com.tntmodders.takumicraft.entity.mobs.*;
 import com.tntmodders.takumicraft.utils.TCLoggingUtils;
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.entity.EntityType;
@@ -23,6 +20,7 @@ public class TCEntityCore {
     public static final AbstractTCCreeper.TCCreeperContext<TCSilentCreeper> SILENT = new TCSilentCreeper.TCSilentCreeperContext();
     public static final AbstractTCCreeper.TCCreeperContext<TCLavaCreeper> LAVA = new TCLavaCreeper.TCLavatCreeperContext();
     public static final AbstractTCCreeper.TCCreeperContext<TCZombieCreeper> ZOMBIE = new TCZombieCreeper.TCZombieCreeperContext();
+    public static final AbstractTCCreeper.TCCreeperContext<TCZombieVillagerCreeper> ZOMBIE_VILLAGER = new TCZombieVillagerCreeper.TCZombieVillagerCreeperContext();
 
     public static void registerEntityType(RegistryEvent.Register<EntityType<?>> event) {
         TCLoggingUtils.startRegistry("Entity");
@@ -44,7 +42,7 @@ public class TCEntityCore {
         });
         registerAdditionalEntityType(event);
         ENTITY_CONTEXTS.sort(Comparator.comparing(context -> context.getRank().getLevel()));
-        TCLoggingUtils.logMessage("Entity",ENTITY_CONTEXTS.size()+" Takumis Registered.");
+        TCLoggingUtils.logMessage("Entity", ENTITY_CONTEXTS.size() + " Takumis Registered.");
         TCLoggingUtils.completeRegistry("Entity");
     }
 

@@ -99,6 +99,10 @@ public abstract class AbstractTCCreeper extends Creeper implements ITCEntities {
     }
 
     public interface TCCreeperContext<T extends AbstractTCCreeper> extends ITCTranslator {
+        default boolean showRead() {
+            return false;
+        }
+
         String getJaJPRead();
 
         String getEnUSDesc();

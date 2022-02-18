@@ -44,6 +44,7 @@ public class CreeperTCBombBlock extends AbstractTCBombBlock implements ITCRecipe
         return "匠式高性能爆弾";
     }
 
+    @Override
     public Supplier<Consumer<BiConsumer<ResourceLocation, LootTable.Builder>>> getBlockLoot(@NotNull Block block) {
         return () -> new BlockLoot() {
 

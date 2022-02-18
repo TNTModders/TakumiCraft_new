@@ -38,9 +38,7 @@ import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.*;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.client.event.EntityRenderersEvent;
@@ -273,12 +271,8 @@ public class TCZombieCreeper extends AbstractTCCreeper {
             int i = Mth.floor(this.getX());
             int j = Mth.floor(this.getY());
             int k = Mth.floor(this.getZ());
-          /*  net.minecraftforge.event.entity.living.ZombieEvent.SummonAidEvent event = net.minecraftforge.event.ForgeEventFactory.fireZombieSummonAid(this, level, i, j, k, livingentity, this.getAttribute(Attributes.SPAWN_REINFORCEMENTS_CHANCE).getValue());
-            if (event.getResult() == net.minecraftforge.eventbus.api.Event.Result.DENY) return true;
-            if (event.getResult() == net.minecraftforge.eventbus.api.Event.Result.ALLOW ||
-                    livingentity != null && this.level.getDifficulty() == Difficulty.HARD && (double) this.random.nextFloat() < this.getAttribute(Attributes.SPAWN_REINFORCEMENTS_CHANCE).getValue() && this.level.getGameRules().getBoolean(GameRules.RULE_DOMOBSPAWNING)) {
-                Zombie zombie = event.getCustomSummonedAid() != null && event.getResult() == net.minecraftforge.eventbus.api.Event.Result.ALLOW ? event.getCustomSummonedAid() : EntityType.ZOMBIE.create(this.level);
-
+            if (livingentity != null && this.level.getDifficulty() == Difficulty.HARD && (double) this.random.nextFloat() < this.getAttribute(Attributes.SPAWN_REINFORCEMENTS_CHANCE).getValue() && this.level.getGameRules().getBoolean(GameRules.RULE_DOMOBSPAWNING)) {
+                TCZombieCreeper zombie = ((TCZombieCreeper) TCEntityCore.ZOMBIE.entityType().create(this.level));
                 for (int l = 0; l < 50; ++l) {
                     int i1 = i + Mth.nextInt(this.random, 7, 40) * Mth.nextInt(this.random, -1, 1);
                     int j1 = j + Mth.nextInt(this.random, 7, 40) * Mth.nextInt(this.random, -1, 1);
@@ -300,7 +294,7 @@ public class TCZombieCreeper extends AbstractTCCreeper {
                     }
                 }
             }
-*/
+
             return true;
         }
     }
@@ -427,10 +421,10 @@ public class TCZombieCreeper extends AbstractTCCreeper {
         float f = p_34298_.getSpecialMultiplier();
         this.setCanPickUpLoot(this.random.nextFloat() < 0.55F * f);
         if (p_34300_ == null) {
-            p_34300_ = new Zombie.ZombieGroupData(getSpawnAsBabyOdds(p_34297_.getRandom()), true);
+            p_34300_ = new TCZombieCreeper.ZombieGroupData(getSpawnAsBabyOdds(p_34297_.getRandom()), true);
         }
 
-        if (p_34300_ instanceof Zombie.ZombieGroupData zombie$zombiegroupdata) {
+        if (p_34300_ instanceof TCZombieCreeper.ZombieGroupData zombie$zombiegroupdata) {
             if (zombie$zombiegroupdata.isBaby) {
                 this.setBaby(true);
                 if (zombie$zombiegroupdata.canSpawnJockey) {
