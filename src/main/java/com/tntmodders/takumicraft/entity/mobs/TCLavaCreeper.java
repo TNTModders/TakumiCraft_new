@@ -81,6 +81,7 @@ public class TCLavaCreeper extends AbstractTCCreeper {
             return Creeper.createAttributes();
         }
 
+        @Override
         public void registerRenderer(EntityRenderersEvent.RegisterRenderers event, EntityType<?> type) {
             event.registerEntityRenderer(((EntityType<Creeper>) type), TCCreeperRenderer::new);
         }

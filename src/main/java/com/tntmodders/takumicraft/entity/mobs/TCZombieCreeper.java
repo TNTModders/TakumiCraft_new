@@ -235,22 +235,22 @@ public class TCZombieCreeper extends AbstractTCCreeper {
     }
 
     protected void doUnderWaterConversion() {
-        //this.convertToZombieType(EntityType.DROWNED);
+        this.convertToZombieType(((EntityType<? extends TCZombieCreeper>) TCEntityCore.DROWNED));
         if (!this.isSilent()) {
             this.level.levelEvent(null, 1040, this.blockPosition(), 0);
         }
 
     }
 
-/*    protected void convertToZombieType(EntityType<? extends Zombie> p_34311_) {
-        Zombie zombie = this.convertTo(p_34311_, true);
+    protected void convertToZombieType(EntityType<? extends TCZombieCreeper> p_34311_) {
+        TCZombieCreeper zombie = this.convertTo(p_34311_, true);
         if (zombie != null) {
             zombie.handleAttributes(zombie.level.getCurrentDifficultyAt(zombie.blockPosition()).getSpecialMultiplier());
             zombie.setCanBreakDoors(zombie.supportsBreakDoorGoal() && this.canBreakDoors());
             net.minecraftforge.event.ForgeEventFactory.onLivingConvert(this, zombie);
         }
 
-    }*/
+    }
 
     protected boolean isSunSensitive() {
         return true;
@@ -300,12 +300,12 @@ public class TCZombieCreeper extends AbstractTCCreeper {
     }
 
     @Override
-    public boolean doHurtTarget(Entity p_34276_) {
-        boolean flag = super.doHurtTarget(p_34276_);
+    public boolean doHurtTarget(Entity entity) {
+        boolean flag = super.doHurtTarget(entity);
         if (flag) {
             float f = this.level.getCurrentDifficultyAt(this.blockPosition()).getEffectiveDifficulty();
             if (this.getMainHandItem().isEmpty() && this.isOnFire() && this.random.nextFloat() < f * 0.3F) {
-                p_34276_.setSecondsOnFire(2 * (int) f);
+                entity.setSecondsOnFire(2 * (int) f);
             }
         }
 

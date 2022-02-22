@@ -1,5 +1,7 @@
 {
   "block.takumicraft.creeperbomb": "Creeper Bomb",
+  "entity.takumicraft.drownedcreeper": "Drowned Creeper",
+  "entity.takumicraft.drownedcreeper.desc": "Danger from the sea, deeper than the cave.",
   "entity.takumicraft.lavacreeper": "Lava Creeper",
   "entity.takumicraft.lavacreeper.desc": "Lava press you like Tsunami, not to be burnt, you must cold with water.",
   "entity.takumicraft.silentcreeper": "Silent Creeper",
@@ -8,6 +10,7 @@
   "entity.takumicraft.zombiecreeper.desc": "They attack villager, with the explosion changes them to zombie creeper.",
   "entity.takumicraft.zombievillagercreeper": "Zombie Villager Creeper",
   "entity.takumicraft.zombievillagercreeper.desc": "Villager changed zombie, attacks friends, not knowing who they are.",
+  "item.takumicraft.drownedcreeper_spawn_egg": "Spawn Drowned Creeper",
   "item.takumicraft.lavacreeper_spawn_egg": "Spawn Lava Creeper",
   "item.takumicraft.silentcreeper_spawn_egg": "Spawn Silent Creeper",
   "item.takumicraft.takumibook": "TakumiBook",

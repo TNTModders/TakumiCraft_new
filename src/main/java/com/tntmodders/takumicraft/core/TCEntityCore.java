@@ -21,6 +21,7 @@ public class TCEntityCore {
     public static final AbstractTCCreeper.TCCreeperContext<TCLavaCreeper> LAVA = new TCLavaCreeper.TCLavatCreeperContext();
     public static final AbstractTCCreeper.TCCreeperContext<TCZombieCreeper> ZOMBIE = new TCZombieCreeper.TCZombieCreeperContext();
     public static final AbstractTCCreeper.TCCreeperContext<TCZombieVillagerCreeper> ZOMBIE_VILLAGER = new TCZombieVillagerCreeper.TCZombieVillagerCreeperContext();
+    public static final AbstractTCCreeper.TCCreeperContext<TCDrownedCreeper> DROWNED = new TCDrownedCreeper.TCDrownedCreeperContext();
 
     public static void registerEntityType(RegistryEvent.Register<EntityType<?>> event) {
         TCLoggingUtils.startRegistry("Entity");

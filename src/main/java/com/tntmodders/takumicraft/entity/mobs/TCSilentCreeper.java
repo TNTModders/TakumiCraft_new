@@ -78,6 +78,7 @@ public class TCSilentCreeper extends AbstractTCCreeper {
             return Creeper.createAttributes().add(Attributes.MOVEMENT_SPEED, 0.3D);
         }
 
+        @Override
         public void registerRenderer(EntityRenderersEvent.RegisterRenderers event, EntityType<?> type) {
             event.registerEntityRenderer(((EntityType<Creeper>) type), TCCreeperRenderer::new);
         }
