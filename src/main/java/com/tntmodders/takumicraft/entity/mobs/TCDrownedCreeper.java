@@ -4,8 +4,8 @@ import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.client.renderer.entity.TCDrownedCreeperRenderer;
 import com.tntmodders.takumicraft.entity.ai.TCZombieCreeperAttackGoal;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.FluidTags;
@@ -54,8 +54,6 @@ import net.minecraftforge.client.event.EntityRenderersEvent;
 
 import javax.annotation.Nullable;
 import java.util.EnumSet;
-import java.util.Objects;
-import java.util.Optional;
 import java.util.Random;
 
 public class TCDrownedCreeper extends TCZombieCreeper implements RangedAttackMob {
@@ -72,13 +70,13 @@ public class TCDrownedCreeper extends TCZombieCreeper implements RangedAttackMob
         this.groundNavigation = new GroundPathNavigation(this, level);
     }
 
-    public static boolean checkDrownedSpawnRules(EntityType<? extends Monster> p_32350_, ServerLevelAccessor p_32351_, MobSpawnType p_32352_, BlockPos p_32353_, Random p_32354_) {
+    public static boolean checkDrownedSpawnRules(EntityType<? extends AbstractTCCreeper> p_32350_, ServerLevelAccessor p_32351_, MobSpawnType p_32352_, BlockPos p_32353_, Random p_32354_) {
         if (!p_32351_.getFluidState(p_32353_.below()).is(FluidTags.WATER)) {
             return false;
         } else {
-            Optional<ResourceKey<Biome>> optional = p_32351_.getBiomeName(p_32353_);
+            Holder<Biome> holder = p_32351_.getBiome(p_32353_);
             boolean flag = p_32351_.getDifficulty() != Difficulty.PEACEFUL && isDarkEnoughToSpawn(p_32351_, p_32353_, p_32354_) && (p_32352_ == MobSpawnType.SPAWNER || p_32351_.getFluidState(p_32353_).is(FluidTags.WATER));
-            if (!Objects.equals(optional, Optional.of(Biomes.RIVER)) && !Objects.equals(optional, Optional.of(Biomes.FROZEN_RIVER))) {
+            if (!holder.is(Biomes.RIVER) && !holder.is(Biomes.FROZEN_RIVER)) {
                 return p_32354_.nextInt(40) == 0 && isDeepEnoughToSpawn(p_32351_, p_32353_) && flag;
             } else {
                 return p_32354_.nextInt(15) == 0 && flag;

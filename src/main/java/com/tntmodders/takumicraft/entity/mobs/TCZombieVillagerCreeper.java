@@ -1,5 +1,6 @@
 package com.tntmodders.takumicraft.entity.mobs;
 
+import com.mojang.logging.LogUtils;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.Dynamic;
 import com.tntmodders.takumicraft.TakumiCraftCore;
@@ -41,11 +42,13 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraftforge.client.event.EntityRenderersEvent;
+import org.slf4j.Logger;
 
 import javax.annotation.Nullable;
 import java.util.UUID;
 
 public class TCZombieVillagerCreeper extends TCZombieCreeper implements VillagerDataHolder {
+    private static final Logger LOGGER = LogUtils.getLogger();
     private static final EntityDataAccessor<Boolean> DATA_CONVERTING_ID = SynchedEntityData.defineId(TCZombieVillagerCreeper.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<VillagerData> DATA_VILLAGER_DATA = SynchedEntityData.defineId(TCZombieVillagerCreeper.class, EntityDataSerializers.VILLAGER_DATA);
     private static final int VILLAGER_CONVERSION_WAIT_MIN = 3600;
@@ -63,7 +66,7 @@ public class TCZombieVillagerCreeper extends TCZombieCreeper implements Villager
 
     public TCZombieVillagerCreeper(EntityType<? extends Creeper> entityType, Level level) {
         super(entityType, level);
-        this.setVillagerData(this.getVillagerData().setProfession(Registry.VILLAGER_PROFESSION.getRandom(this.random)));
+        Registry.VILLAGER_PROFESSION.getRandom(this.random).ifPresent((p_204069_) -> this.setVillagerData(this.getVillagerData().setProfession(p_204069_.value())));
     }
 
     @Override
@@ -299,7 +302,7 @@ public class TCZombieVillagerCreeper extends TCZombieCreeper implements Villager
     @Override
     @Nullable
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_34378_, DifficultyInstance p_34379_, MobSpawnType p_34380_, @Nullable SpawnGroupData p_34381_, @Nullable CompoundTag p_34382_) {
-        this.setVillagerData(this.getVillagerData().setType(VillagerType.byBiome(p_34378_.getBiomeName(this.blockPosition()))));
+        this.setVillagerData(this.getVillagerData().setType(VillagerType.byBiome(p_34378_.getBiome(this.blockPosition()))));
         return super.finalizeSpawn(p_34378_, p_34379_, p_34380_, p_34381_, p_34382_);
     }
 
