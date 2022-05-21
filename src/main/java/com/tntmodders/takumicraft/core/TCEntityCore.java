@@ -18,7 +18,11 @@ public class TCEntityCore {
     public static final NonNullList<EntityType<?>> ENTITY_TYPES = NonNullList.create();
     public static final NonNullList<AbstractTCCreeper.TCCreeperContext<?>> ENTITY_CONTEXTS = NonNullList.create();
     public static final AbstractTCCreeper.TCCreeperContext<TCSilentCreeper> SILENT = new TCSilentCreeper.TCSilentCreeperContext();
-    public static final AbstractTCCreeper.TCCreeperContext<TCLavaCreeper> LAVA = new TCLavaCreeper.TCLavatCreeperContext();
+    public static final AbstractTCCreeper.TCCreeperContext<TCLavaCreeper> LAVA = new TCLavaCreeper.TCLavaCreeperContext();
+    public static final AbstractTCCreeper.TCCreeperContext<TCSandCreeper> SAND = new TCSandCreeper.TCSandCreeperContext();
+    public static final AbstractTCCreeper.TCCreeperContext<TCWaterCreeper> WATER = new TCWaterCreeper.TCWaterCreeperContext();
+    public static final AbstractTCCreeper.TCCreeperContext<TCIceCreeper> ICE = new TCIceCreeper.TCIceCreeperContext();
+    public static final AbstractTCCreeper.TCCreeperContext<TCFireCreeper> FIRE = new TCFireCreeper.TCFireCreeperContext();
     public static final AbstractTCCreeper.TCCreeperContext<TCZombieCreeper> ZOMBIE = new TCZombieCreeper.TCZombieCreeperContext();
     public static final AbstractTCCreeper.TCCreeperContext<TCZombieVillagerCreeper> ZOMBIE_VILLAGER = new TCZombieVillagerCreeper.TCZombieVillagerCreeperContext();
     public static final AbstractTCCreeper.TCCreeperContext<TCDrownedCreeper> DROWNED = new TCDrownedCreeper.TCDrownedCreeperContext();

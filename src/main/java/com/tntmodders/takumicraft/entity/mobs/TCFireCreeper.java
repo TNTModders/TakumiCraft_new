@@ -12,53 +12,57 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.event.world.ExplosionEvent;
 
-public class TCLavaCreeper extends AbstractTCCreeper {
+public class TCFireCreeper extends AbstractTCCreeper {
 
-    public TCLavaCreeper(EntityType<? extends Creeper> entityType, Level level) {
+    public TCFireCreeper(EntityType<? extends Creeper> entityType, Level level) {
         super(entityType, level);
         this.explosionRadius = 2;
     }
 
     @Override
     public TCCreeperContext<? extends AbstractTCCreeper> getContext() {
-        return TCEntityCore.LAVA;
+        return TCEntityCore.FIRE;
     }
 
     @Override
     public void explodeCreeperEvent(ExplosionEvent.Detonate event) {
-        event.getExplosion().getToBlow().forEach(pos -> this.level.setBlock(pos, Blocks.LAVA.defaultBlockState(), 3));
+        event.getExplosion().getToBlow().forEach(pos -> {
+            if (pos.getY() > event.getExplosion().getPosition().y - 0.5) {
+                this.level.setBlock(pos, Blocks.FIRE.defaultBlockState(), 3);
+            }
+        });
         event.getExplosion().clearToBlow();
     }
 
-    public static class TCLavaCreeperContext implements TCCreeperContext<TCLavaCreeper> {
-        private static final String NAME = "lavacreeper";
+    public static class TCFireCreeperContext implements TCCreeperContext<TCFireCreeper> {
+        private static final String NAME = "firecreeper";
         public static final EntityType<? extends AbstractTCCreeper> CREEPER = ((EntityType<? extends AbstractTCCreeper>) EntityType.Builder
-                .of(TCLavaCreeper::new, MobCategory.MONSTER).sized(0.6F, 1.7F).clientTrackingRange(8)
+                .of(TCFireCreeper::new, MobCategory.MONSTER).sized(0.6F, 1.7F).clientTrackingRange(8)
                 .build(TakumiCraftCore.MODID + ":" + NAME).setRegistryName(TakumiCraftCore.MODID, NAME));
 
         @Override
         public String getJaJPRead() {
-            return "ようがんたくみ";
+            return "はっかたくみ";
         }
 
         @Override
         public String getEnUSDesc() {
-            return "Lava press you like Tsunami, not to be burnt, you must cold with water.";
+            return "As soon as it explode, the forest is going to be burnt. Stop it!";
         }
 
         @Override
         public String getJaJPDesc() {
-            return "熔岩で閉じ込めれば、もう帰ることは無い。水を持っていこう。";
+            return "火がついてしまってはもう遅い。突然現れては森を焦土に変える。";
         }
 
         @Override
         public String getEnUSName() {
-            return "Lava Creeper";
+            return "Fire Creeper";
         }
 
         @Override
         public String getJaJPName() {
-            return "熔岩匠";
+            return "発火匠";
         }
 
         @Override
@@ -73,7 +77,7 @@ public class TCLavaCreeper extends AbstractTCCreeper {
 
         @Override
         public int getSecondaryColor() {
-            return 16711680;
+            return 0xff8888;
         }
 
         @Override
