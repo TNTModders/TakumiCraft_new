@@ -199,9 +199,9 @@ public class TCTakumiBookScreen extends Screen {
         AbstractTCCreeper.TCCreeperContext<? extends AbstractTCCreeper> context = TCEntityCore.ENTITY_CONTEXTS.get(this.currentPage);
         this.tick++;
         TCEntityUtils.renderEntity(i + 51, j + 80, 30, this.tick / 100f, 0, context.entityType());
-
+        boolean flg = TCEntityUtils.checkSlayAdv(context.entityType());
         if (this.cachedPage != this.currentPage) {
-            FormattedText formattedtext = new TranslatableComponent(context.entityType().getDescriptionId() + ".desc");
+            FormattedText formattedtext = new TranslatableComponent(flg ? context.entityType().getDescriptionId() + ".desc" : "???");
             this.cachedPageComponents = this.font.split(formattedtext, 114);
             this.pageMsg = new TranslatableComponent("book.pageIndicator", this.currentPage + 1, Math.max(this.getNumPages(), 1));
         }
@@ -218,16 +218,26 @@ public class TCTakumiBookScreen extends Screen {
 
         super.render(poseStack, mouseX, mouseY, p_98285_);
 
-        Component name = TCEntityUtils.getEntityName(context.entityType());
+        Component name = flg ? TCEntityUtils.getEntityName(context.entityType()) : new TranslatableComponent("???");
         this.font.draw(poseStack, name, (float) (i + 80), 34, 0);
 
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        RenderSystem.setShaderTexture(0, context.getElement().getIcon());
+        if (flg) {
+            RenderSystem.setShaderTexture(0, context.getElement().getIcon());
+            if (context.getElement().isDest()) {
+                RenderSystem.setShaderTexture(0, new ResourceLocation(TakumiCraftCore.MODID, "textures/book/dest.png"));
+            }
+            if (context.getElement().isMagic()) {
+                RenderSystem.setShaderTexture(0, new ResourceLocation(TakumiCraftCore.MODID, "textures/book/magic.png"));
+            }
+        } else {
+            RenderSystem.setShaderTexture(0, new ResourceLocation(TakumiCraftCore.MODID, "textures/book/underfound.png"));
+        }
         this.blit(poseStack, i, 2, 0, 0, 192, 192);
 
         if (context.showRead()) {
-            Component read = new TranslatableComponent(context.entityType().getDescriptionId() + ".read");
+            Component read = new TranslatableComponent(flg ? context.entityType().getDescriptionId() + ".read" : "???");
             this.font.draw(poseStack, read, (float) (i + 70), 25, 0);
         }
     }

@@ -411,11 +411,18 @@ public class TCTakumiBookOutlineScreen extends EffectRenderingInventoryScreen<TC
     @Override
     protected void renderTooltip(PoseStack p_98590_, ItemStack p_98591_, int p_98592_, int p_98593_) {
         if (p_98591_.getItem() instanceof TCSpawnEggItem eggItem) {
-            super.renderTooltip(p_98590_,
-                    List.of(TCEntityUtils.getEntityName(eggItem.getType(p_98591_.getOrCreateTag())).setStyle(Style.EMPTY.withBold(true)),
-                            eggItem.getContext().getElement().getElementName().setStyle(Style.EMPTY.withColor(eggItem.getContext().getElement().getElementColor())),
-                            eggItem.getContext().getRank().getRankName().setStyle(Style.EMPTY.withColor(0x888888).withItalic(true))),
-                    p_98591_.getTooltipImage(), p_98592_, p_98593_);
+            List components;
+            if (TCEntityUtils.checkSlayAdv(eggItem.getContext().entityType())) {
+                components = List.of(TCEntityUtils.getEntityName(eggItem.getType(p_98591_.getOrCreateTag())).setStyle(Style.EMPTY.withBold(true)),
+                        eggItem.getContext().getRank().getRankName().setStyle(Style.EMPTY.withColor(0x888888).withItalic(true)),
+                        eggItem.getContext().getElement().getElementName().setStyle(Style.EMPTY.withColor(eggItem.getContext().getElement().getElementColor())));
+                if (eggItem.getContext().getElement().getSubElementName() != null) {
+                    components.add(eggItem.getContext().getElement().getSubElementName());
+                }
+            } else {
+                components = List.of(new TranslatableComponent("???"));
+            }
+            super.renderTooltip(p_98590_, components, p_98591_.getTooltipImage(), p_98592_, p_98593_);
         }
     }
 

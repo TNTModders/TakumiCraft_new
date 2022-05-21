@@ -36,6 +36,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.event.world.ExplosionEvent;
 
+import javax.annotation.Nullable;
 import java.util.Random;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
@@ -221,6 +222,20 @@ public abstract class AbstractTCCreeper extends Creeper implements ITCEntities {
                     case 6 -> new TranslatableComponent("takumicraft.elem.normal");
                     default -> new TranslatableComponent("takumicraft.elem.underfound");
                 };
+            }
+
+            @Nullable
+            public TranslatableComponent getSubElementName(){
+                if(this.isDest&& this.isMagic){
+                    return new TranslatableComponent("takumicraft.attr.MD");
+                }else if(this.isMagic){
+                    return new TranslatableComponent("takumicraft.attr.M");
+                }else if (this.isDest){
+                    return new TranslatableComponent("takumicraft.attr.D");
+                }
+                else {
+                    return null;
+                }
             }
 
             public int getElementColor() {

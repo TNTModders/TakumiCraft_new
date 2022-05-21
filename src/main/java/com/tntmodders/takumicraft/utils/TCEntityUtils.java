@@ -5,11 +5,16 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Quaternion;
 import com.mojang.math.Vector3f;
+import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.entity.mobs.TCZombieVillagerCreeper;
+import net.minecraft.advancements.AdvancementProgress;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ClientAdvancements;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -25,8 +30,8 @@ public class TCEntityUtils {
     }
 
     @OnlyIn(Dist.CLIENT)
-    public static void renderEntity(double p_98851_, double p_98852_, int p_98853_, float f, float f1, EntityType<?> p_98856_) {
-        if (p_98856_.create(Minecraft.getInstance().level) instanceof LivingEntity entity) {
+    public static void renderEntity(double p_98851_, double p_98852_, int p_98853_, float f, float f1, EntityType<?> entityType) {
+        if (entityType.create(Minecraft.getInstance().level) instanceof LivingEntity entity) {
             PoseStack posestack = RenderSystem.getModelViewStack();
             posestack.pushPose();
             posestack.translate(p_98851_, p_98852_, 1050.0D);
@@ -56,8 +61,8 @@ public class TCEntityUtils {
             entityrenderdispatcher.setRenderShadow(false);
             MultiBufferSource.BufferSource multibuffersource$buffersource = Minecraft.getInstance().renderBuffers().bufferSource();
             renderEntitySP(entity);
-            RenderSystem.runAsFancy(() -> entityrenderdispatcher.render(entity, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F,
-                    posestack1, multibuffersource$buffersource, 15728880));
+            entityrenderdispatcher.render(entity, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F,
+                    posestack1, multibuffersource$buffersource, TCEntityUtils.checkSlayAdv(entityType) ? 0xf000f0 : -1);
             multibuffersource$buffersource.endBatch();
             entityrenderdispatcher.setRenderShadow(true);
             entity.yBodyRot = f2;
@@ -75,5 +80,13 @@ public class TCEntityUtils {
         if (entity instanceof TCZombieVillagerCreeper creeper) {
             creeper.setVillagerData(new VillagerData(VillagerType.PLAINS, VillagerProfession.NONE, 0));
         }
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public static boolean checkSlayAdv(EntityType entity) {
+        LocalPlayer player = Minecraft.getInstance().player;
+        ClientAdvancements advancements = player.connection.getAdvancements();
+        AdvancementProgress progress = advancements.progress.get(advancements.getAdvancements().get(new ResourceLocation(TakumiCraftCore.MODID, "slay/slay_" + entity.getRegistryName().getPath())));
+        return progress != null && progress.isDone();
     }
 }
