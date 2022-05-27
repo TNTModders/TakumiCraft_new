@@ -2,6 +2,7 @@ package com.tntmodders.takumicraft.provider;
 
 import com.mojang.datafixers.util.Pair;
 import com.tntmodders.takumicraft.core.TCBlockCore;
+import com.tntmodders.takumicraft.core.TCEntityCore;
 import com.tntmodders.takumicraft.utils.TCLoggingUtils;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.loot.LootTableProvider;
@@ -33,6 +34,10 @@ public class TCLootTableProvider extends LootTableProvider {
                 TCLoggingUtils.entryRegistry("LootTable", block.getRegistryName().getPath());
                 tableList.add(Pair.of(((ITCBlocks) block).getBlockLoot(block), LootContextParamSets.BLOCK));
             }
+        });
+
+        TCEntityCore.ENTITY_CONTEXTS.forEach(context->{
+
         });
         TCLoggingUtils.completeRegistry("LootTable");
         return tableList;
