@@ -5,11 +5,14 @@ import com.tntmodders.takumicraft.client.renderer.entity.TCZombieCreeperRenderer
 import com.tntmodders.takumicraft.core.TCEntityCore;
 import com.tntmodders.takumicraft.entity.ai.TCZombieCreeperAttackGoal;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.NonNullList;
+import net.minecraft.data.loot.EntityLoot;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -41,6 +44,18 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.*;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.LootPool;
+import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.world.level.storage.loot.entries.LootItem;
+import net.minecraft.world.level.storage.loot.functions.LootingEnchantFunction;
+import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
+import net.minecraft.world.level.storage.loot.functions.SmeltItemFunction;
+import net.minecraft.world.level.storage.loot.predicates.LootItemEntityPropertyCondition;
+import net.minecraft.world.level.storage.loot.predicates.LootItemKilledByPlayerCondition;
+import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceWithLootingCondition;
+import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
+import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 
 import javax.annotation.Nullable;
@@ -49,7 +64,10 @@ import java.time.temporal.ChronoField;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 public class TCZombieCreeper extends AbstractTCCreeper {
     public static final float ZOMBIE_LEADER_CHANCE = 0.05F;
@@ -589,6 +607,22 @@ public class TCZombieCreeper extends AbstractTCCreeper {
         @Override
         public EnumTakumiRank getRank() {
             return EnumTakumiRank.LOW;
+        }
+
+        @Nullable
+        @Override
+        public Supplier<Consumer<BiConsumer<ResourceLocation, LootTable.Builder>>> getCreeperLoot(EntityType<?> type) {
+            return () -> new EntityLoot() {
+                @Override
+                protected Iterable<EntityType<?>> getKnownEntities() {
+                    return NonNullList.of(type);
+                }
+
+                @Override
+                protected void addTables() {
+                    this.add(CREEPER, LootTable.lootTable().withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F)).add(LootItem.lootTableItem(Items.ROTTEN_FLESH).apply(SetItemCountFunction.setCount(UniformGenerator.between(0.0F, 2.0F))).apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(0.0F, 1.0F))))).withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F)).add(LootItem.lootTableItem(Items.IRON_INGOT)).add(LootItem.lootTableItem(Items.CARROT)).add(LootItem.lootTableItem(Items.POTATO).apply(SmeltItemFunction.smelted().when(LootItemEntityPropertyCondition.hasProperties(LootContext.EntityTarget.THIS, ENTITY_ON_FIRE)))).when(LootItemKilledByPlayerCondition.killedByPlayer()).when(LootItemRandomChanceWithLootingCondition.randomChanceAndLootingBoost(0.025F, 0.01F))));
+                }
+            };
         }
     }
 

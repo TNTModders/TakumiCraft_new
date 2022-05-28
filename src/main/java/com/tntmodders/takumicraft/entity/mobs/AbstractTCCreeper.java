@@ -1,11 +1,13 @@
 package com.tntmodders.takumicraft.entity.mobs;
 
 import com.tntmodders.takumicraft.TakumiCraftCore;
+import com.tntmodders.takumicraft.core.TCBlockCore;
 import com.tntmodders.takumicraft.core.TCEntityCore;
 import com.tntmodders.takumicraft.provider.ITCEntities;
 import com.tntmodders.takumicraft.provider.ITCTranslator;
 import net.minecraft.advancements.critereon.EntityPredicate;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.NonNullList;
 import net.minecraft.data.loot.EntityLoot;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -112,6 +114,33 @@ public abstract class AbstractTCCreeper extends Creeper implements ITCEntities {
 
         default void registerSpawn(EntityType<? extends AbstractTCCreeper> type) {
             SpawnPlacements.register(type, SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AbstractTCCreeper::checkTakumiSpawnRules);
+        }
+
+        @Nullable
+        default Supplier<Consumer<BiConsumer<ResourceLocation, LootTable.Builder>>> getCreeperLoot(EntityType<?> type) {
+            return () -> new EntityLoot() {
+                @Override
+                protected Iterable<EntityType<?>> getKnownEntities() {
+                    return NonNullList.of(type);
+                }
+
+                @Override
+                protected void addTables() {
+                    this.add(type,
+                            LootTable.lootTable()
+                                    .withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
+                                            .add(LootItem.lootTableItem(Items.GUNPOWDER)
+                                                    .apply(SetItemCountFunction.setCount(UniformGenerator.between(0.0F, 2.0F)))
+                                                    .apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(0.0F, 1.0F)))))
+                                    .withPool(LootPool.lootPool().add(TagEntry.expandTag(ItemTags.CREEPER_DROP_MUSIC_DISCS))
+                                            .when(LootItemEntityPropertyCondition.hasProperties(LootContext.EntityTarget.KILLER,
+                                                    EntityPredicate.Builder.entity().of(EntityTypeTags.SKELETONS))))
+                                    .withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1f))
+                                            .add(LootItem.lootTableItem(TCBlockCore.CREEPER_BOMB))
+                                            .apply(SetItemCountFunction.setCount(UniformGenerator.between(0f, TCCreeperContext.this.getRank().level > 1 ? 2f : 0f))))
+                    );
+                }
+            };
         }
 
         EntityType<?> entityType();
@@ -225,15 +254,14 @@ public abstract class AbstractTCCreeper extends Creeper implements ITCEntities {
             }
 
             @Nullable
-            public TranslatableComponent getSubElementName(){
-                if(this.isDest&& this.isMagic){
+            public TranslatableComponent getSubElementName() {
+                if (this.isDest && this.isMagic) {
                     return new TranslatableComponent("takumicraft.attr.MD");
-                }else if(this.isMagic){
+                } else if (this.isMagic) {
                     return new TranslatableComponent("takumicraft.attr.M");
-                }else if (this.isDest){
+                } else if (this.isDest) {
                     return new TranslatableComponent("takumicraft.attr.D");
-                }
-                else {
+                } else {
                     return null;
                 }
             }

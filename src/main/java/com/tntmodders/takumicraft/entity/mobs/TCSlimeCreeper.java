@@ -4,8 +4,10 @@ import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.client.renderer.entity.TCSlimeCreeperRenderer;
 import com.tntmodders.takumicraft.core.TCEntityCore;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.NonNullList;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.data.loot.EntityLoot;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -28,17 +30,28 @@ import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.animal.IronGolem;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.*;
 import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.WorldgenRandom;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
+import net.minecraft.world.level.storage.loot.LootPool;
+import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.world.level.storage.loot.entries.LootItem;
+import net.minecraft.world.level.storage.loot.functions.LootingEnchantFunction;
+import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
+import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
+import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 
 import javax.annotation.Nullable;
 import java.util.EnumSet;
 import java.util.Random;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 public class TCSlimeCreeper extends AbstractTCCreeper {
     public static final int MIN_SIZE = 1;
@@ -635,6 +648,24 @@ public class TCSlimeCreeper extends AbstractTCCreeper {
         @Override
         public void registerSpawn(EntityType<? extends AbstractTCCreeper> type) {
             SpawnPlacements.register(type, SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, TCSlimeCreeper::checkSlimeSpawnRules);
+        }
+
+        @Nullable
+        @Override
+        public Supplier<Consumer<BiConsumer<ResourceLocation, LootTable.Builder>>> getCreeperLoot(EntityType<?> type) {
+            return () -> new EntityLoot() {
+                @Override
+                protected Iterable<EntityType<?>> getKnownEntities() {
+                    return NonNullList.of(type);
+                }
+
+                @Override
+                protected void addTables() {
+                    this.add(CREEPER, LootTable.lootTable().withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
+                            .add(LootItem.lootTableItem(Items.SLIME_BALL).apply(SetItemCountFunction.setCount(UniformGenerator.between(0.0F, 2.0F)))
+                                    .apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(0.0F, 1.0F))))));
+                }
+            };
         }
     }
 }
