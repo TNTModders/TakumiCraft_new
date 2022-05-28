@@ -4,6 +4,8 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Vector3f;
 import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.client.model.TCPhantomCreeperModel;
+import com.tntmodders.takumicraft.client.renderer.entity.layer.TCCreeperPowerLayer;
+import com.tntmodders.takumicraft.core.TCEntityCore;
 import com.tntmodders.takumicraft.entity.mobs.TCPhantomCreeper;
 import com.tntmodders.takumicraft.utils.client.TCClientUtils;
 import net.minecraft.client.model.geom.ModelLayers;
@@ -21,9 +23,10 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 public class TCPhantomCreeperRenderer extends MobRenderer<TCPhantomCreeper, TCPhantomCreeperModel<TCPhantomCreeper>> {
     private static final ResourceLocation PHANTOM_LOCATION = new ResourceLocation(TakumiCraftCore.MODID, "textures/entity/creeper/phantomcreeper.png");
 
-    public TCPhantomCreeperRenderer(EntityRendererProvider.Context p_174338_) {
-        super(p_174338_, new TCPhantomCreeperModel<>(p_174338_.bakeLayer(ModelLayers.PHANTOM)), 0.75F);
+    public TCPhantomCreeperRenderer(EntityRendererProvider.Context context) {
+        super(context, new TCPhantomCreeperModel<>(context.bakeLayer(ModelLayers.PHANTOM)), 0.75F);
         this.addLayer(new TCPhantomCreeperEyesLayer<>(this));
+        this.addLayer(new TCCreeperPowerLayer(this, context.getModelSet(), new TCPhantomCreeperModel<>(context.bakeLayer(ModelLayers.PHANTOM)), TCEntityCore.PHANTOM));
     }
 
     @Override

@@ -2,12 +2,14 @@ package com.tntmodders.takumicraft.utils.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.tntmodders.takumicraft.entity.mobs.AbstractTCCreeper;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class TCClientUtils {
+    public static final ResourceLocation POWER_LOCATION = new ResourceLocation("textures/entity/creeper/creeper_armor.png");
     public static void scaleSwelling(AbstractTCCreeper creeper, PoseStack poseStack, float pertialTick) {
         float f = creeper.getSwelling(pertialTick);
         float f1 = 1.0F + Mth.sin(f * 100.0F) * f * 0.01F;

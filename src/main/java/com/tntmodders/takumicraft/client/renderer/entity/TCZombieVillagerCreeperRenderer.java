@@ -3,6 +3,8 @@ package com.tntmodders.takumicraft.client.renderer.entity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.client.model.TCZombieVillagerModel;
+import com.tntmodders.takumicraft.client.renderer.entity.layer.TCCreeperPowerLayer;
+import com.tntmodders.takumicraft.core.TCEntityCore;
 import com.tntmodders.takumicraft.entity.mobs.TCZombieVillagerCreeper;
 import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -19,6 +21,8 @@ public class TCZombieVillagerCreeperRenderer<T extends TCZombieVillagerCreeper, 
         this.addLayer(new HumanoidArmorLayer<>(this, new TCZombieVillagerModel<>(context.bakeLayer(ModelLayers.ZOMBIE_VILLAGER_INNER_ARMOR)),
                 new TCZombieVillagerModel<>(context.bakeLayer(ModelLayers.ZOMBIE_VILLAGER_OUTER_ARMOR))));
         this.addLayer(new VillagerProfessionLayer<>(this, context.getResourceManager(), "zombie_villager"));
+        this.addLayer(new TCCreeperPowerLayer(this, context.getModelSet(), new TCZombieVillagerModel<>(context.bakeLayer(ModelLayers.ZOMBIE_VILLAGER_OUTER_ARMOR)),
+                TCEntityCore.ZOMBIE_VILLAGER));
     }
 
     @Override

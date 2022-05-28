@@ -2,6 +2,8 @@ package com.tntmodders.takumicraft.client.renderer.entity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.tntmodders.takumicraft.TakumiCraftCore;
+import com.tntmodders.takumicraft.client.renderer.entity.layer.TCCreeperPowerLayer;
+import com.tntmodders.takumicraft.core.TCEntityCore;
 import com.tntmodders.takumicraft.entity.mobs.TCSlimeCreeper;
 import com.tntmodders.takumicraft.utils.client.TCClientUtils;
 import net.minecraft.client.model.SlimeModel;
@@ -18,9 +20,10 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class TCSlimeCreeperRenderer extends MobRenderer<TCSlimeCreeper, SlimeModel<TCSlimeCreeper>> {
 
-    public TCSlimeCreeperRenderer(EntityRendererProvider.Context p_174391_) {
-        super(p_174391_, new SlimeModel<>(p_174391_.bakeLayer(ModelLayers.SLIME)), 0.25F);
-        this.addLayer(new SlimeOuterLayer<>(this, p_174391_.getModelSet()));
+    public TCSlimeCreeperRenderer(EntityRendererProvider.Context context) {
+        super(context, new SlimeModel<>(context.bakeLayer(ModelLayers.SLIME)), 0.25F);
+        this.addLayer(new SlimeOuterLayer<>(this, context.getModelSet()));
+        this.addLayer(new TCCreeperPowerLayer(this, context.getModelSet(), new SlimeModel<>(context.bakeLayer(ModelLayers.SLIME_OUTER)), TCEntityCore.SLIME));
     }
 
     @Override

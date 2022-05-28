@@ -5,6 +5,7 @@ import com.tntmodders.takumicraft.core.TCBlockCore;
 import com.tntmodders.takumicraft.core.TCEntityCore;
 import com.tntmodders.takumicraft.provider.ITCEntities;
 import com.tntmodders.takumicraft.provider.ITCTranslator;
+import com.tntmodders.takumicraft.utils.client.TCClientUtils;
 import net.minecraft.advancements.critereon.EntityPredicate;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
@@ -142,6 +143,12 @@ public abstract class AbstractTCCreeper extends Creeper implements ITCEntities {
                 }
             };
         }
+
+        @OnlyIn(Dist.CLIENT)
+        default ResourceLocation getArmor() {
+            return TCClientUtils.POWER_LOCATION;
+        }
+
 
         EntityType<?> entityType();
 

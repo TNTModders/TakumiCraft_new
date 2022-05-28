@@ -4,6 +4,8 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Vector3f;
 import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.client.model.TCDrownedModel;
+import com.tntmodders.takumicraft.client.renderer.entity.layer.TCCreeperPowerLayer;
+import com.tntmodders.takumicraft.core.TCEntityCore;
 import com.tntmodders.takumicraft.entity.mobs.TCDrownedCreeper;
 import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.model.geom.ModelLayers;
@@ -26,6 +28,7 @@ public class TCDrownedCreeperRenderer<T extends TCDrownedCreeper, M extends TCDr
         this.addLayer(new HumanoidArmorLayer<>(this, new TCDrownedModel<>(context.bakeLayer(ModelLayers.DROWNED_INNER_ARMOR)),
                 new TCDrownedModel<>(context.bakeLayer(ModelLayers.DROWNED_OUTER_ARMOR))));
         this.addLayer(new TCDrownedOuterLayer(this, context.getModelSet()));
+        this.addLayer(new TCCreeperPowerLayer(this, context.getModelSet(), new TCDrownedModel<>(context.bakeLayer(ModelLayers.DROWNED_OUTER_ARMOR)), TCEntityCore.DROWNED));
     }
 
     @Override

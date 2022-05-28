@@ -9,7 +9,7 @@ import net.minecraft.world.entity.monster.Creeper;
 
 public class TCCreeperRenderer extends CreeperRenderer {
     private boolean isBright = false;
-    //@TODO add powered layer for all renderer
+
     public TCCreeperRenderer(EntityRendererProvider.Context p_173958_) {
         super(p_173958_);
     }
