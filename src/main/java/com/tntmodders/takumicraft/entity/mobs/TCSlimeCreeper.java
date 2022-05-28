@@ -218,7 +218,7 @@ public class TCSlimeCreeper extends AbstractTCCreeper {
     public void remove(Entity.RemovalReason p_149847_) {
         int i = this.getSize();
         this.spawnChildren(i, this.isDeadOrDying(), -1);
-        if (!this.level.isClientSide) {
+        if (!this.level.isClientSide && this.level.getDifficulty() != Difficulty.PEACEFUL) {
             Explosion.BlockInteraction explosion$blockinteraction = net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.level, this) ? Explosion.BlockInteraction.DESTROY : Explosion.BlockInteraction.NONE;
             float f = this.isPowered() ? 2.0F : 1.0F;
             this.dead = true;

@@ -29,6 +29,7 @@ public class TCEntityCore {
     public static final AbstractTCCreeper.TCCreeperContext<TCEnderCreeper> ENDER = new TCEnderCreeper.TCEnderCreeperContext();
     public static final AbstractTCCreeper.TCCreeperContext<TCLightCreeper> LIGHT = new TCLightCreeper.TCLightCreeperContext();
     public static final AbstractTCCreeper.TCCreeperContext<TCSlimeCreeper> SLIME = new TCSlimeCreeper.TCSlimeCreeperContext();
+    public static final AbstractTCCreeper.TCCreeperContext<TCPhantomCreeper> PHANTOM = new TCPhantomCreeper.TCPhantomCreeperContext();
 
     public static void registerEntityType(RegistryEvent.Register<EntityType<?>> event) {
         TCLoggingUtils.startRegistry("Entity");
