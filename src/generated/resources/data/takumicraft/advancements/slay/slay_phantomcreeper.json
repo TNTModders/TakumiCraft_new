@@ -1,14 +1,14 @@
 {
   "parent": "takumicraft:slay/root",
   "criteria": {
-    "killed_entity.takumicraft.firecreeper": {
+    "killed_phantomcreeper": {
       "conditions": {
         "entity": [
           {
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "takumicraft:firecreeper"
+              "type": "takumicraft:phantomcreeper"
             }
           }
         ]
@@ -28,12 +28,12 @@
     },
     "show_toast": true,
     "title": {
-      "translate": "entity.takumicraft.firecreeper"
+      "translate": "phantomcreeper"
     }
   },
   "requirements": [
     [
-      "killed_entity.takumicraft.firecreeper"
+      "killed_phantomcreeper"
     ]
   ]
 }

@@ -1,14 +1,14 @@
 {
   "parent": "takumicraft:slay/root",
   "criteria": {
-    "killed_entity.takumicraft.silentcreeper": {
+    "killed_drownedcreeper": {
       "conditions": {
         "entity": [
           {
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "takumicraft:silentcreeper"
+              "type": "takumicraft:drownedcreeper"
             }
           }
         ]
@@ -28,12 +28,12 @@
     },
     "show_toast": true,
     "title": {
-      "translate": "entity.takumicraft.silentcreeper"
+      "translate": "drownedcreeper"
     }
   },
   "requirements": [
     [
-      "killed_entity.takumicraft.silentcreeper"
+      "killed_drownedcreeper"
     ]
   ]
 }

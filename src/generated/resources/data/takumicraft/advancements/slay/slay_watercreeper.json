@@ -1,14 +1,14 @@
 {
   "parent": "takumicraft:slay/root",
   "criteria": {
-    "killed_entity.takumicraft.slimecreeper": {
+    "killed_watercreeper": {
       "conditions": {
         "entity": [
           {
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "takumicraft:slimecreeper"
+              "type": "takumicraft:watercreeper"
             }
           }
         ]
@@ -28,12 +28,12 @@
     },
     "show_toast": true,
     "title": {
-      "translate": "entity.takumicraft.slimecreeper"
+      "translate": "watercreeper"
     }
   },
   "requirements": [
     [
-      "killed_entity.takumicraft.slimecreeper"
+      "killed_watercreeper"
     ]
   ]
 }

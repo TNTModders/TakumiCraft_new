@@ -1,14 +1,14 @@
 {
   "parent": "takumicraft:slay/root",
   "criteria": {
-    "killed_entity.takumicraft.zombiecreeper": {
+    "killed_bangcreeper": {
       "conditions": {
         "entity": [
           {
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "takumicraft:zombiecreeper"
+              "type": "takumicraft:bangcreeper"
             }
           }
         ]
@@ -28,12 +28,12 @@
     },
     "show_toast": true,
     "title": {
-      "translate": "entity.takumicraft.zombiecreeper"
+      "translate": "bangcreeper"
     }
   },
   "requirements": [
     [
-      "killed_entity.takumicraft.zombiecreeper"
+      "killed_bangcreeper"
     ]
   ]
 }

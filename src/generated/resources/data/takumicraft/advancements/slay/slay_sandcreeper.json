@@ -1,14 +1,14 @@
 {
   "parent": "takumicraft:slay/root",
   "criteria": {
-    "killed_entity.takumicraft.endercreeper": {
+    "killed_sandcreeper": {
       "conditions": {
         "entity": [
           {
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "takumicraft:endercreeper"
+              "type": "takumicraft:sandcreeper"
             }
           }
         ]
@@ -28,12 +28,12 @@
     },
     "show_toast": true,
     "title": {
-      "translate": "entity.takumicraft.endercreeper"
+      "translate": "sandcreeper"
     }
   },
   "requirements": [
     [
-      "killed_entity.takumicraft.endercreeper"
+      "killed_sandcreeper"
     ]
   ]
 }
