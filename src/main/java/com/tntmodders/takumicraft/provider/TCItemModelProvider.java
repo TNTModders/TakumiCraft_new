@@ -9,8 +9,6 @@ import net.minecraft.world.item.Item;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
 
-import java.util.Objects;
-
 public class TCItemModelProvider extends ItemModelProvider {
     public TCItemModelProvider(DataGenerator generator, ExistingFileHelper existingFileHelper) {
         super(generator, TakumiCraftCore.MODID, existingFileHelper);
@@ -28,18 +26,18 @@ public class TCItemModelProvider extends ItemModelProvider {
                     }
                     case SPAWN_EGG -> this.eggItem(item);
                 }
-                TCLoggingUtils.entryRegistry("ItemModel_" + ((ITCItems) item).getItemModelType().name(), item.getRegistryName().getPath());
+                TCLoggingUtils.entryRegistry("ItemModel_" + ((ITCItems) item).getItemModelType().name(), ((ITCItems) item).getRegistryName());
             }
         });
         TCLoggingUtils.completeRegistry("ItemModel");
     }
 
     private void simpleItem(Item item) {
-        ResourceLocation name = Objects.requireNonNull(item.getRegistryName());
+        ResourceLocation name = new ResourceLocation(modid, ((ITCItems) item).getRegistryName());
         singleTexture(name.getPath(), mcLoc(folder + "/generated"), "layer0", new ResourceLocation(name.getNamespace(), folder + "/" + name.getPath()));
     }
 
     public void eggItem(Item item) {
-        withExistingParent(item.getRegistryName().getPath(), mcLoc("item/template_spawn_egg"));
+        withExistingParent(((ITCItems) item).getRegistryName(), mcLoc("item/template_spawn_egg"));
     }
 }

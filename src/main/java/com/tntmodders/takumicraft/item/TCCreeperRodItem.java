@@ -2,7 +2,6 @@ package com.tntmodders.takumicraft.item;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
-import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.core.TCCreativeModeTabCore;
 import com.tntmodders.takumicraft.provider.ITCItems;
 import com.tntmodders.takumicraft.provider.ITCTranslator;
@@ -19,7 +18,6 @@ public class TCCreeperRodItem extends Item implements ITCItems, ITCTranslator {
 
     public TCCreeperRodItem() {
         super(new Properties().tab(TCCreativeModeTabCore.TAB_TC).rarity(Rarity.EPIC).stacksTo(1));
-        this.setRegistryName(TakumiCraftCore.MODID, "tester");
         ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
         builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Weapon modifier", 19, AttributeModifier.Operation.ADDITION));
         this.defaultModifiers = builder.build();
@@ -38,5 +36,10 @@ public class TCCreeperRodItem extends Item implements ITCItems, ITCTranslator {
     @Override
     public String getJaJPName() {
         return "匠式錫杖";
+    }
+
+    @Override
+    public String getRegistryName() {
+        return "tester";
     }
 }

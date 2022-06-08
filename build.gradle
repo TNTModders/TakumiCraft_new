@@ -7,12 +7,14 @@ buildscript {
         classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
     }
 }
-apply plugin: 'net.minecraftforge.gradle'
 
 // Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
-apply plugin: 'eclipse'
-apply plugin: 'maven-publish'
-apply plugin: 'idea'
+plugins {
+    id 'idea'
+    id 'maven-publish'
+    id 'net.minecraftforge.gradle' version '5.+'
+}
+
 
 version = '2.2.0'
 group = 'com.yourname.modid'
@@ -22,7 +24,7 @@ java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
 println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
 minecraft {
-    mappings channel: 'official', version: '1.18.2'
+    mappings channel: 'official', version: '1.19'
 
     accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
 
@@ -31,6 +33,7 @@ minecraft {
             workingDirectory project.file('run')
             property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
+            property 'forge.enabledGameTestNamespaces', 'takumicraft'
             mods {
                 takumicraft {
                     source sourceSets.main
@@ -43,6 +46,7 @@ minecraft {
             workingDirectory project.file('run')
             property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
+            property 'forge.enabledGameTestNamespaces', 'takumicraft'
             mods {
                 takumicraft {
                     source sourceSets.main
@@ -54,6 +58,7 @@ minecraft {
             workingDirectory project.file('run')
             property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
+            property 'forge.enabledGameTestNamespaces', 'takumicraft'
             // Specify the modid for data generation, where to output the resulting resource, and where to look for existing resources.
             args '--mod', 'takumicraft', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
             mods {
@@ -76,8 +81,9 @@ repositories {
     // }
 }
 
+//only change this on the version-up
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.18.2-40.1.0'
+    minecraft 'net.minecraftforge:forge:1.19-41.0.1'
 }
 
 jar {
@@ -109,6 +115,6 @@ publishing {
     }
 }
 
-tasks.withType(Jar) {
-    compileJava.options.encoding = 'UTF-8'
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
 }

@@ -10,6 +10,7 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
@@ -54,7 +55,6 @@ import net.minecraftforge.client.event.EntityRenderersEvent;
 
 import javax.annotation.Nullable;
 import java.util.EnumSet;
-import java.util.Random;
 
 public class TCDrownedCreeper extends TCZombieCreeper implements RangedAttackMob {
     protected final WaterBoundPathNavigation waterNavigation;
@@ -70,7 +70,7 @@ public class TCDrownedCreeper extends TCZombieCreeper implements RangedAttackMob
         this.groundNavigation = new GroundPathNavigation(this, level);
     }
 
-    public static boolean checkDrownedSpawnRules(EntityType<? extends AbstractTCCreeper> p_32350_, ServerLevelAccessor p_32351_, MobSpawnType p_32352_, BlockPos p_32353_, Random p_32354_) {
+    public static boolean checkDrownedSpawnRules(EntityType<? extends AbstractTCCreeper> p_32350_, ServerLevelAccessor p_32351_, MobSpawnType p_32352_, BlockPos p_32353_, RandomSource p_32354_) {
         if (!p_32351_.getFluidState(p_32353_.below()).is(FluidTags.WATER)) {
             return false;
         } else {
@@ -156,7 +156,7 @@ public class TCDrownedCreeper extends TCZombieCreeper implements RangedAttackMob
     }
 
     @Override
-    protected void populateDefaultEquipmentSlots(DifficultyInstance p_32348_) {
+    protected void populateDefaultEquipmentSlots(RandomSource source, DifficultyInstance p_32348_) {
         if ((double) this.random.nextFloat() > 0.9D) {
             int i = this.random.nextInt(16);
             if (i < 10) {
@@ -372,7 +372,7 @@ public class TCDrownedCreeper extends TCZombieCreeper implements RangedAttackMob
 
         @Nullable
         private Vec3 getWaterPos() {
-            Random random = this.mob.getRandom();
+            RandomSource random = this.mob.getRandom();
             BlockPos blockpos = this.mob.blockPosition();
 
             for (int i = 0; i < 10; ++i) {
@@ -509,7 +509,12 @@ public class TCDrownedCreeper extends TCZombieCreeper implements RangedAttackMob
 
     public static class TCDrownedCreeperContext implements TCCreeperContext<TCDrownedCreeper> {
         private static final String NAME = "drownedcreeper";
-        public static final EntityType<? extends AbstractTCCreeper> CREEPER = ((EntityType<? extends AbstractTCCreeper>) EntityType.Builder.of(TCDrownedCreeper::new, MobCategory.MONSTER).sized(0.6F, 1.95F).clientTrackingRange(8).build(TakumiCraftCore.MODID + ":" + NAME).setRegistryName(TakumiCraftCore.MODID, NAME));
+        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCDrownedCreeper::new, MobCategory.MONSTER).sized(0.6F, 1.95F).clientTrackingRange(8).build(TakumiCraftCore.MODID + ":" + NAME);
+
+        @Override
+        public String getRegistryName() {
+            return NAME;
+        }
 
         @Override
         public String getJaJPRead() {
@@ -572,7 +577,7 @@ public class TCDrownedCreeper extends TCZombieCreeper implements RangedAttackMob
         }
 
         @Override
-        public void registerSpawn(EntityType<? extends AbstractTCCreeper> type) {
+        public void registerSpawn(EntityType<AbstractTCCreeper> type) {
             SpawnPlacements.register(type, SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, TCDrownedCreeper::checkDrownedSpawnRules);
         }
     }

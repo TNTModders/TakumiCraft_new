@@ -1,0 +1,39 @@
+{
+  "parent": "takumicraft:slay/root",
+  "criteria": {
+    "killed_entity.takumicraft.lightcreeper": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "takumicraft:lightcreeper"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "takumicraft.message.slay"
+    },
+    "frame": "task",
+    "hidden": true,
+    "icon": {
+      "item": "takumicraft:takumibook"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "entity.takumicraft.lightcreeper"
+    }
+  },
+  "requirements": [
+    [
+      "killed_entity.takumicraft.lightcreeper"
+    ]
+  ]
+}

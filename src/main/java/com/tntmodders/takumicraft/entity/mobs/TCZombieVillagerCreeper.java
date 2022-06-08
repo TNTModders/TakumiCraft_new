@@ -44,7 +44,6 @@ import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.BedBlock;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
@@ -172,7 +171,6 @@ public class TCZombieVillagerCreeper extends TCZombieCreeper implements Villager
                     this.startConverting(p_34394_.getUUID(), this.random.nextInt(2401) + 3600);
                 }
 
-                this.gameEvent(GameEvent.MOB_INTERACT, this.eyeBlockPosition());
                 return InteractionResult.SUCCESS;
             } else {
                 return InteractionResult.CONSUME;
@@ -355,9 +353,14 @@ public class TCZombieVillagerCreeper extends TCZombieCreeper implements Villager
 
     public static class TCZombieVillagerCreeperContext implements TCCreeperContext<TCZombieVillagerCreeper> {
         private static final String NAME = "zombievillagercreeper";
-        public static final EntityType<? extends AbstractTCCreeper> CREEPER = ((EntityType<? extends AbstractTCCreeper>) EntityType.Builder
+        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder
                 .of(TCZombieVillagerCreeper::new, MobCategory.MONSTER).sized(0.6F, 1.95F).clientTrackingRange(8)
-                .build(TakumiCraftCore.MODID + ":" + NAME).setRegistryName(TakumiCraftCore.MODID, NAME));
+                .build(TakumiCraftCore.MODID + ":" + NAME);
+
+        @Override
+        public String getRegistryName() {
+            return NAME;
+        }
 
         @Override
         public String getJaJPRead() {

@@ -24,7 +24,7 @@ public class TCBlockStateProvider extends BlockStateProvider {
                     case SIMPLE -> this.simpleBlockWithItem(block);
                     case HALF -> this.halfBlockWithItem(block);
                 }
-                TCLoggingUtils.entryRegistry("BlockStateModel_" + ((ITCBlocks) block).getBlockStateModelType().name(), block.getRegistryName().getPath());
+                TCLoggingUtils.entryRegistry("BlockStateModel_" + ((ITCBlocks) block).getBlockStateModelType().name(), ((ITCBlocks) block).getRegistryName());
             }
         });
         TCLoggingUtils.completeRegistry("BlockStateModel");

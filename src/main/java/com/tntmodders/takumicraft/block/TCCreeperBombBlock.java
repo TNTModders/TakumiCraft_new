@@ -3,6 +3,7 @@ package com.tntmodders.takumicraft.block;
 import com.tntmodders.takumicraft.core.TCBlockCore;
 import com.tntmodders.takumicraft.provider.ITCRecipe;
 import com.tntmodders.takumicraft.provider.TCRecipeProvider;
+import net.minecraft.core.NonNullList;
 import net.minecraft.data.loot.BlockLoot;
 import net.minecraft.data.recipes.RecipeBuilder;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
@@ -22,10 +23,10 @@ import java.util.function.Consumer;
 import java.util.function.Supplier;
 import java.util.function.ToIntFunction;
 
-public class CreeperTCBombBlock extends AbstractTCBombBlock implements ITCRecipe {
+public class TCCreeperBombBlock extends AbstractTCBombBlock implements ITCRecipe {
     public static final ToIntFunction<BlockState> LIGHT_TCBOMB = (state) -> 2;
 
-    public CreeperTCBombBlock() {
+    public TCCreeperBombBlock() {
         super(BlockBehaviour.Properties.of(Material.EXPLOSIVE).strength(0.1f, 0f).color(MaterialColor.COLOR_LIGHT_GREEN).lightLevel(LIGHT_TCBOMB), "creeperbomb");
     }
 
@@ -45,6 +46,11 @@ public class CreeperTCBombBlock extends AbstractTCBombBlock implements ITCRecipe
     }
 
     @Override
+    public String getRegistryName() {
+        return "creeperbomb";
+    }
+
+    @Override
     public Supplier<Consumer<BiConsumer<ResourceLocation, LootTable.Builder>>> getBlockLoot(@NotNull Block block) {
         return () -> new BlockLoot() {
 
@@ -61,12 +67,12 @@ public class CreeperTCBombBlock extends AbstractTCBombBlock implements ITCRecipe
     }
 
     @Override
-    public RecipeBuilder addRecipe() {
-        return ShapedRecipeBuilder.shaped(TCBlockCore.CREEPER_BOMB)
+    public NonNullList<RecipeBuilder> addRecipes() {
+        return NonNullList.of(ShapedRecipeBuilder.shaped(TCBlockCore.CREEPER_BOMB)
                 .define('#', Items.CREEPER_HEAD)
                 .pattern(" # ")
                 .pattern("###")
                 .pattern(" # ")
-                .unlockedBy("has_gunpowder", TCRecipeProvider.hasItem(Items.CREEPER_HEAD));
+                .unlockedBy("has_gunpowder", TCRecipeProvider.hasItem(Items.CREEPER_HEAD)));
     }
 }

@@ -10,10 +10,12 @@ import net.minecraft.advancements.critereon.EntityPredicate;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.data.loot.EntityLoot;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.SpawnPlacements;
@@ -40,7 +42,6 @@ import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.event.world.ExplosionEvent;
 
 import javax.annotation.Nullable;
-import java.util.Random;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
@@ -50,7 +51,7 @@ public abstract class AbstractTCCreeper extends Creeper implements ITCEntities {
         super(entityType, level);
     }
 
-    public static boolean checkTakumiSpawnRules(EntityType<? extends Monster> type, ServerLevelAccessor levelAccessor, MobSpawnType spawnType, BlockPos pos, Random random) {
+    public static boolean checkTakumiSpawnRules(EntityType<? extends Monster> type, ServerLevelAccessor levelAccessor, MobSpawnType spawnType, BlockPos pos, RandomSource random) {
         if (type.create(levelAccessor.getLevel()) instanceof AbstractTCCreeper creeper) {
             TCCreeperContext.EnumTakumiRank rank = creeper.getContext().getRank();
             if (rank.level > 2 || random.nextInt(50) > rank.getSpawnWeight()) {
@@ -107,13 +108,15 @@ public abstract class AbstractTCCreeper extends Creeper implements ITCEntities {
             return false;
         }
 
+        String getRegistryName();
+
         String getJaJPRead();
 
         String getEnUSDesc();
 
         String getJaJPDesc();
 
-        default void registerSpawn(EntityType<? extends AbstractTCCreeper> type) {
+        default void registerSpawn(EntityType<AbstractTCCreeper> type) {
             SpawnPlacements.register(type, SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AbstractTCCreeper::checkTakumiSpawnRules);
         }
 
@@ -200,13 +203,13 @@ public abstract class AbstractTCCreeper extends Creeper implements ITCEntities {
                 return point;
             }
 
-            public TranslatableComponent getRankName() {
+            public Component getRankName() {
                 return switch (this.level) {
-                    case 1 -> new TranslatableComponent("takumicraft.rank.low");
-                    case 2 -> new TranslatableComponent("takumicraft.rank.mid");
-                    case 3 -> new TranslatableComponent("takumicraft.rank.high");
-                    case 4 -> new TranslatableComponent("takumicraft.rank.boss");
-                    default -> new TranslatableComponent("takumicraft.elem.underfound");
+                    case 1 -> Component.translatable("takumicraft.rank.low");
+                    case 2 -> Component.translatable("takumicraft.rank.mid");
+                    case 3 -> Component.translatable("takumicraft.rank.high");
+                    case 4 -> Component.translatable("takumicraft.rank.boss");
+                    default -> Component.translatable("takumicraft.elem.underfound");
                 };
             }
         }
@@ -247,27 +250,27 @@ public abstract class AbstractTCCreeper extends Creeper implements ITCEntities {
                 };
             }
 
-            public TranslatableComponent getElementName() {
+            public TranslatableContents getElementName() {
                 return switch (this.id) {
-                    case 0 -> new TranslatableComponent("takumicraft.elem.takumi");
-                    case 1 -> new TranslatableComponent("takumicraft.elem.fire");
-                    case 2 -> new TranslatableComponent("takumicraft.elem.grass");
-                    case 3 -> new TranslatableComponent("takumicraft.elem.water");
-                    case 4 -> new TranslatableComponent("takumicraft.elem.wind");
-                    case 5 -> new TranslatableComponent("takumicraft.elem.ground");
-                    case 6 -> new TranslatableComponent("takumicraft.elem.normal");
-                    default -> new TranslatableComponent("takumicraft.elem.underfound");
+                    case 0 -> new TranslatableContents("takumicraft.elem.takumi");
+                    case 1 -> new TranslatableContents("takumicraft.elem.fire");
+                    case 2 -> new TranslatableContents("takumicraft.elem.grass");
+                    case 3 -> new TranslatableContents("takumicraft.elem.water");
+                    case 4 -> new TranslatableContents("takumicraft.elem.wind");
+                    case 5 -> new TranslatableContents("takumicraft.elem.ground");
+                    case 6 -> new TranslatableContents("takumicraft.elem.normal");
+                    default -> new TranslatableContents("takumicraft.elem.underfound");
                 };
             }
 
             @Nullable
-            public TranslatableComponent getSubElementName() {
+            public TranslatableContents getSubElementName() {
                 if (this.isDest && this.isMagic) {
-                    return new TranslatableComponent("takumicraft.attr.MD");
+                    return new TranslatableContents("takumicraft.attr.MD");
                 } else if (this.isMagic) {
-                    return new TranslatableComponent("takumicraft.attr.M");
+                    return new TranslatableContents("takumicraft.attr.M");
                 } else if (this.isDest) {
-                    return new TranslatableComponent("takumicraft.attr.D");
+                    return new TranslatableContents("takumicraft.attr.D");
                 } else {
                     return null;
                 }

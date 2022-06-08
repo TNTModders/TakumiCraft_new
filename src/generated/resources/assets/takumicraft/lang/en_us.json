@@ -1,5 +1,8 @@
 {
   "block.takumicraft.creeperbomb": "Creeper Bomb",
+  "block.takumicraft.gunore": "Gunpowder Ore",
+  "entity.takumicraft.bangcreeper": "Bang Creeper",
+  "entity.takumicraft.bangcreeper.desc": "This explosion can even destroy obsidian. There's no way to protect you.",
   "entity.takumicraft.drownedcreeper": "Drowned Creeper",
   "entity.takumicraft.drownedcreeper.desc": "Danger from the sea, deeper than the cave.",
   "entity.takumicraft.endercreeper": "Ender Creeper",
@@ -26,6 +29,7 @@
   "entity.takumicraft.zombiecreeper.desc": "They attack villager, with the explosion changes them to zombie creeper.",
   "entity.takumicraft.zombievillagercreeper": "Zombie Villager Creeper",
   "entity.takumicraft.zombievillagercreeper.desc": "Villager changed zombie, attacks friends, not knowing who they are.",
+  "item.takumicraft.bangcreeper_spawn_egg": "Spawn Bang Creeper",
   "item.takumicraft.drownedcreeper_spawn_egg": "Spawn Drowned Creeper",
   "item.takumicraft.endercreeper_spawn_egg": "Spawn Ender Creeper",
   "item.takumicraft.firecreeper_spawn_egg": "Spawn Fire Creeper",

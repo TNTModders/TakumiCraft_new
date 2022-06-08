@@ -31,7 +31,7 @@ public class TCLootTableProvider extends LootTableProvider {
         List<Pair<Supplier<Consumer<BiConsumer<ResourceLocation, LootTable.Builder>>>, LootContextParamSet>> tableList = new ArrayList<>();
         TCBlockCore.BLOCKS.forEach(block -> {
             if (block instanceof ITCBlocks itcBlocks) {
-                TCLoggingUtils.entryRegistry("LootTable", block.getRegistryName().getPath());
+                TCLoggingUtils.entryRegistry("LootTable", ((ITCBlocks) block).getRegistryName());
                 tableList.add(Pair.of(itcBlocks.getBlockLoot(block), LootContextParamSets.BLOCK));
             }
         });
@@ -39,7 +39,7 @@ public class TCLootTableProvider extends LootTableProvider {
         TCEntityCore.ENTITY_CONTEXTS.forEach(context -> {
             Supplier supplier = context.getCreeperLoot(context.entityType());
             if (supplier != null) {
-                TCLoggingUtils.entryRegistry("LootTable", context.entityType().getRegistryName().getPath());
+                TCLoggingUtils.entryRegistry("LootTable", context.getRegistryName());
                 tableList.add(Pair.of(supplier, LootContextParamSets.ENTITY));
             }
         });

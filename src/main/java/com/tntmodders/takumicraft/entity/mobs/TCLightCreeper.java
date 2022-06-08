@@ -54,16 +54,19 @@ public class TCLightCreeper extends AbstractTCCreeper {
     }
 
     @Override
-    public float getBrightness() {
-        return 1f;
+    public float getLightLevelDependentMagicValue() {
+        return 1.0F;
     }
 
     public static class TCLightCreeperContext implements TCCreeperContext<TCLightCreeper> {
         private static final String NAME = "lightcreeper";
-        public static final EntityType<? extends AbstractTCCreeper> CREEPER = ((EntityType<? extends AbstractTCCreeper>) EntityType.Builder
+        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder
                 .of(TCLightCreeper::new, MobCategory.MONSTER).sized(0.6F, 1.7F).clientTrackingRange(8)
-                .build(TakumiCraftCore.MODID + ":" + NAME).setRegistryName(TakumiCraftCore.MODID, NAME));
-
+                .build(TakumiCraftCore.MODID + ":" + NAME);
+        @Override
+        public String getRegistryName() {
+            return NAME;
+        }
         @Override
         public String getJaJPRead() {
             return "ひかりたくみ";

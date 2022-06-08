@@ -58,7 +58,7 @@ public class TCTakumiBookScreen extends Screen {
     private int currentPage;
     private List<FormattedCharSequence> cachedPageComponents = Collections.emptyList();
     private int cachedPage = -1;
-    private Component pageMsg = TextComponent.EMPTY;
+    private Component pageMsg = CommonComponents.EMPTY;
     private PageButton forwardButton;
     private PageButton backButton;
 
@@ -131,7 +131,7 @@ public class TCTakumiBookScreen extends Screen {
 
     protected void createMenuControls() {
         this.addRenderableWidget(new Button((this.width - IMAGE_WIDTH) / 2 + 40, 140, 105, 20,
-                new TranslatableComponent("takumicraft.takumibook.search"), (p_98299_) -> this.minecraft.setScreen(new TCTakumiBookOutlineScreen(Minecraft.getInstance().player))));
+                Component.translatable("takumicraft.takumibook.search"), (p_98299_) -> this.minecraft.setScreen(new TCTakumiBookOutlineScreen(Minecraft.getInstance().player))));
         this.addRenderableWidget(new Button(this.width / 2 - 100, 196, 200, 20, CommonComponents.GUI_DONE, (p_98299_) -> this.minecraft.setScreen(null)));
     }
 
@@ -201,9 +201,9 @@ public class TCTakumiBookScreen extends Screen {
         TCEntityUtils.renderEntity(i + 51, j + 80, 30, this.tick / 100f, 0, context.entityType());
         boolean flg = TCEntityUtils.checkSlayAdv(context.entityType());
         if (this.cachedPage != this.currentPage) {
-            FormattedText formattedtext = new TranslatableComponent(flg ? context.entityType().getDescriptionId() + ".desc" : "???");
+            FormattedText formattedtext = Component.translatable(flg ? context.entityType().toShortString() + ".desc" : "???");
             this.cachedPageComponents = this.font.split(formattedtext, 114);
-            this.pageMsg = new TranslatableComponent("book.pageIndicator", this.currentPage + 1, Math.max(this.getNumPages(), 1));
+            this.pageMsg = Component.translatable("book.pageIndicator", this.currentPage + 1, Math.max(this.getNumPages(), 1));
         }
 
         this.cachedPage = this.currentPage;
@@ -218,7 +218,7 @@ public class TCTakumiBookScreen extends Screen {
 
         super.render(poseStack, mouseX, mouseY, p_98285_);
 
-        Component name = flg ? TCEntityUtils.getEntityName(context.entityType()) : new TranslatableComponent("???");
+        Component name = flg ? TCEntityUtils.getEntityName(context.entityType()) : Component.translatable("???");
         this.font.draw(poseStack, name, (float) (i + 80), 34, 0);
 
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
@@ -237,7 +237,7 @@ public class TCTakumiBookScreen extends Screen {
         this.blit(poseStack, i, 2, 0, 0, 192, 192);
 
         if (context.showRead()) {
-            Component read = new TranslatableComponent(flg ? context.entityType().getDescriptionId() + ".read" : "???");
+            Component read = Component.translatable(flg ? context.entityType().toShortString() + ".read" : "???");
             this.font.draw(poseStack, read, (float) (i + 70), 25, 0);
         }
     }

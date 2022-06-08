@@ -1,6 +1,5 @@
 package com.tntmodders.takumicraft.block;
 
-import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.provider.ITCBlocks;
 import com.tntmodders.takumicraft.utils.TCExplosionUtils;
 import net.minecraft.core.BlockPos;
@@ -20,7 +19,6 @@ import org.jetbrains.annotations.Nullable;
 public abstract class AbstractTCBombBlock extends Block implements ITCBlocks {
     public AbstractTCBombBlock(Properties properties, String name) {
         super(properties);
-        this.setRegistryName(TakumiCraftCore.MODID, name);
     }
 
     public abstract float getPower();

@@ -10,14 +10,10 @@ import com.tntmodders.takumicraft.event.TCEvents;
 import com.tntmodders.takumicraft.event.client.TCClientEvents;
 import com.tntmodders.takumicraft.provider.*;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.level.block.Block;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -28,6 +24,8 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLEnvironment;
 import net.minecraftforge.forge.event.lifecycle.GatherDataEvent;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegisterEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -53,15 +51,15 @@ public class TakumiCraftCore {
     private void registerProviders(GatherDataEvent event) {
         DataGenerator gen = event.getGenerator();
         if (event.includeClient()) {
-            gen.addProvider(new TCBlockStateProvider(gen, event.getExistingFileHelper()));
-            gen.addProvider(new TCItemModelProvider(gen, event.getExistingFileHelper()));
-            gen.addProvider(new TCLanguageProvider.TCEnUSLanguageProvider(gen));
-            gen.addProvider(new TCLanguageProvider.TCJaJPLanguageProvider(gen));
+            gen.addProvider(true, new TCBlockStateProvider(gen, event.getExistingFileHelper()));
+            gen.addProvider(true, new TCItemModelProvider(gen, event.getExistingFileHelper()));
+            gen.addProvider(true, new TCLanguageProvider.TCEnUSLanguageProvider(gen));
+            gen.addProvider(true, new TCLanguageProvider.TCJaJPLanguageProvider(gen));
         }
         if (event.includeServer()) {
-            gen.addProvider(new TCRecipeProvider(gen));
-            gen.addProvider(new TCLootTableProvider(gen));
-            gen.addProvider(new TCAdvancementProvider(gen, event.getExistingFileHelper()));
+            gen.addProvider(true, new TCRecipeProvider(gen));
+            gen.addProvider(true, new TCLootTableProvider(gen));
+            gen.addProvider(true, new TCAdvancementProvider(gen, event.getExistingFileHelper()));
         }
     }
 
@@ -72,6 +70,19 @@ public class TakumiCraftCore {
     @Mod.EventBusSubscriber(modid = TakumiCraftCore.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
     public static class RegistryEvents {
         @SubscribeEvent
+        public static void OnRegistry(final RegisterEvent event) {
+            if (ForgeRegistries.BLOCKS.equals(event.getForgeRegistry())) {
+                TCBlockCore.register(event);
+            }
+            if (ForgeRegistries.ITEMS.equals(event.getForgeRegistry())) {
+                TCItemCore.register(event);
+            }
+            if (ForgeRegistries.ENTITIES.equals(event.getForgeRegistry())) {
+                TCEntityCore.registerEntityType(event);
+            }
+        }
+
+/*        @SubscribeEvent
         public static void onBlocksRegistry(final RegistryEvent.Register<Block> blockRegister) {
             TCBlockCore.register(blockRegister);
         }
@@ -84,7 +95,7 @@ public class TakumiCraftCore {
         @SubscribeEvent
         public static void onEntitiesRegistry(final RegistryEvent.Register<EntityType<?>> entityTypeRegister) {
             TCEntityCore.registerEntityType(entityTypeRegister);
-        }
+        }*/
 
         @SubscribeEvent
         public static void registerEntityAttribute(EntityAttributeCreationEvent event) {

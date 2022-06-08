@@ -17,6 +17,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
@@ -48,7 +49,6 @@ import net.minecraftforge.client.event.EntityRenderersEvent;
 
 import javax.annotation.Nullable;
 import java.util.EnumSet;
-import java.util.Random;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
@@ -68,7 +68,7 @@ public class TCSlimeCreeper extends AbstractTCCreeper {
         this.moveControl = new TCSlimeCreeper.SlimeMoveControl(this);
     }
 
-    public static boolean checkSlimeSpawnRules(EntityType<? extends AbstractTCCreeper> p_33621_, LevelAccessor p_33622_, MobSpawnType p_33623_, BlockPos p_33624_, Random p_33625_) {
+    public static boolean checkSlimeSpawnRules(EntityType<AbstractTCCreeper> p_33621_, LevelAccessor p_33622_, MobSpawnType p_33623_, BlockPos p_33624_, RandomSource p_33625_) {
         if (p_33622_.getDifficulty() != Difficulty.PEACEFUL) {
             if (p_33622_.getBiome(p_33624_).is(Biomes.SWAMP) && p_33624_.getY() > 50 && p_33624_.getY() < 70 && p_33625_.nextFloat() < 0.5F && p_33625_.nextFloat() < p_33622_.getMoonBrightness() && p_33622_.getMaxLocalRawBrightness(p_33624_) <= p_33625_.nextInt(8)) {
                 return checkMobSpawnRules(p_33621_, p_33622_, p_33623_, p_33624_, p_33625_);
@@ -581,9 +581,14 @@ public class TCSlimeCreeper extends AbstractTCCreeper {
 
     public static class TCSlimeCreeperContext implements TCCreeperContext<TCSlimeCreeper> {
         private static final String NAME = "slimecreeper";
-        public static final EntityType<? extends AbstractTCCreeper> CREEPER = ((EntityType<? extends AbstractTCCreeper>) EntityType.Builder
+        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder
                 .of(TCSlimeCreeper::new, MobCategory.MONSTER).sized(2.04f, 2.04f).clientTrackingRange(10)
-                .build(TakumiCraftCore.MODID + ":" + NAME).setRegistryName(TakumiCraftCore.MODID, NAME));
+                .build(TakumiCraftCore.MODID + ":" + NAME);
+
+        @Override
+        public String getRegistryName() {
+            return NAME;
+        }
 
         @Override
         public String getJaJPRead() {
@@ -646,7 +651,7 @@ public class TCSlimeCreeper extends AbstractTCCreeper {
         }
 
         @Override
-        public void registerSpawn(EntityType<? extends AbstractTCCreeper> type) {
+        public void registerSpawn(EntityType<AbstractTCCreeper> type) {
             SpawnPlacements.register(type, SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, TCSlimeCreeper::checkSlimeSpawnRules);
         }
 

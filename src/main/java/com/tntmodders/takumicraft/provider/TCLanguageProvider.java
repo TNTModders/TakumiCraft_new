@@ -32,7 +32,7 @@ public abstract class TCLanguageProvider extends LanguageProvider {
         });
         TCEntityCore.ENTITY_CONTEXTS.forEach(context -> {
             this.add(context.entityType(), this.getTranslation(context));
-            this.add(context.entityType().getDescriptionId() + ".desc", this instanceof TCJaJPLanguageProvider ? context.getJaJPDesc() : context.getEnUSDesc());
+            this.add(context.entityType().toShortString() + ".desc", this instanceof TCJaJPLanguageProvider ? context.getJaJPDesc() : context.getEnUSDesc());
         });
         this.additionalTranslations();
     }
@@ -99,7 +99,7 @@ public abstract class TCLanguageProvider extends LanguageProvider {
             super.addTranslations();
             TCEntityCore.ENTITY_CONTEXTS.forEach(context -> {
                 if (context.getJaJPRead() != null) {
-                    this.add(context.entityType().getDescriptionId() + ".read", context.getJaJPRead());
+                    this.add(context.entityType().toShortString() + ".read", context.getJaJPRead());
                 }
             });
             TCLoggingUtils.completeRegistry("Ja-JP_Translations");

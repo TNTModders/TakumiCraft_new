@@ -11,8 +11,9 @@ import net.minecraft.advancements.critereon.ImpossibleTrigger;
 import net.minecraft.advancements.critereon.KilledTrigger;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.advancements.AdvancementProvider;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.data.ExistingFileHelper;
 
 import java.util.function.Consumer;
@@ -27,17 +28,17 @@ public class TCAdvancementProvider extends AdvancementProvider {
         TCLoggingUtils.startRegistry("Advancements");
 
         Advancement slay_root = Advancement.Builder.advancement()
-                /*.display(TCBlockCore.CREEPER_BOMB, new TranslatableComponent("takumicraft.takumibook"),
-                        new TranslatableComponent("takumicraft.takumibook"), new ResourceLocation(TakumiCraftCore.MODID, "textures/block/creeperbomb.png"), FrameType.TASK,
+                /*.display(TCBlockCore.CREEPER_BOMB, new TranslatableContents("takumicraft.takumibook"),
+                        new TranslatableContents("takumicraft.takumibook"), new ResourceLocation(TakumiCraftCore.MODID, "textures/block/creeperbomb.png"), FrameType.TASK,
                         false, false, true)*/
                 .addCriterion("impossible", new ImpossibleTrigger.TriggerInstance())
                 .save(consumer, new ResourceLocation(TakumiCraftCore.MODID, "slay/root"), fileHelper);
 
         TCEntityCore.ENTITY_TYPES.forEach(type -> Advancement.Builder.advancement().parent(slay_root)
-                .display(TCItemCore.TAKUMIBOOK, new TranslatableComponent(type.getDescriptionId()),
-                        new TranslatableComponent("takumicraft.message.slay"), null, FrameType.TASK, true, true, true)
-                .addCriterion("killed_" + type.getRegistryName().getPath(), KilledTrigger.TriggerInstance.playerKilledEntity(EntityPredicate.Builder.entity().of(type)))
-                .save(consumer, new ResourceLocation(TakumiCraftCore.MODID, "slay/slay_" + type.getRegistryName().getPath()), fileHelper));
+                .display(new ItemStack(TCItemCore.TAKUMIBOOK), Component.translatable(type.toShortString()),
+                        Component.translatable("takumicraft.message.slay"), null, FrameType.TASK, true, true, true)
+                .addCriterion("killed_" + type.toShortString(), KilledTrigger.TriggerInstance.playerKilledEntity(EntityPredicate.Builder.entity().of(type)))
+                .save(consumer, new ResourceLocation(TakumiCraftCore.MODID, "slay/slay_" + type.toShortString()), fileHelper));
 
         TCLoggingUtils.completeRegistry("Advancements");
     }

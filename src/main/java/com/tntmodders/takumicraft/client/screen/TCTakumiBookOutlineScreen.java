@@ -20,7 +20,9 @@ import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.searchtree.SearchTree;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.Registry;
-import net.minecraft.network.chat.*;
+import net.minecraft.network.chat.CommonComponents;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
@@ -53,7 +55,7 @@ public class TCTakumiBookOutlineScreen extends EffectRenderingInventoryScreen<TC
     private static final int TAB_HEIGHT = 32;
     private static final int SCROLLER_WIDTH = 12;
     private static final int SCROLLER_HEIGHT = 15;
-    private static final Component TRASH_SLOT_TOOLTIP = new TranslatableComponent("inventory.binSlot");
+    private static final TranslatableContents TRASH_SLOT_TOOLTIP = new TranslatableContents("inventory.binSlot");
     private static final int TEXT_COLOR = 16777215;
     private static final int tabPage = 0;
     private static int selectedTab = CreativeModeTab.TAB_SEARCH.getId();
@@ -73,7 +75,7 @@ public class TCTakumiBookOutlineScreen extends EffectRenderingInventoryScreen<TC
     private int tick;
 
     public TCTakumiBookOutlineScreen(Player player) {
-        super(new TakumiPickerMenu(player), player.getInventory(), TextComponent.EMPTY);
+        super(new TakumiPickerMenu(player), player.getInventory(), CommonComponents.EMPTY);
         player.containerMenu = this.menu;
         this.passEvents = true;
         this.imageHeight = 136;
@@ -112,7 +114,7 @@ public class TCTakumiBookOutlineScreen extends EffectRenderingInventoryScreen<TC
         super.init();
         int tabCount = CreativeModeTab.TABS.length;
         this.minecraft.keyboardHandler.setSendRepeatsToGui(true);
-        this.searchBox = new EditBox(this.font, this.leftPos + this.searchBoxX, this.topPos + 114, 80, 9, new TranslatableComponent("itemGroup.search"));
+        this.searchBox = new EditBox(this.font, this.leftPos + this.searchBoxX, this.topPos + 114, 80, 9, Component.translatable("itemGroup.search"));
         this.searchBox.setMaxLength(50);
         this.searchBox.setBordered(false);
         this.searchBox.setVisible(false);
@@ -273,7 +275,7 @@ public class TCTakumiBookOutlineScreen extends EffectRenderingInventoryScreen<TC
         CreativeModeTab creativemodetab = CreativeModeTab.TABS[selectedTab];
         if (creativemodetab != null && isAllowedTab(creativemodetab) && creativemodetab.showTitle()) {
             RenderSystem.disableBlend();
-            this.font.draw(p_98616_, new TranslatableComponent("takumicraft.takumibook.search"), 8.0F, 6.0F, creativemodetab.getLabelColor());
+            this.font.draw(p_98616_, Component.translatable("takumicraft.takumibook.search"), 8.0F, 6.0F, creativemodetab.getLabelColor());
         }
     }
 
@@ -410,7 +412,7 @@ public class TCTakumiBookOutlineScreen extends EffectRenderingInventoryScreen<TC
 
     @Override
     protected void renderTooltip(PoseStack p_98590_, ItemStack p_98591_, int p_98592_, int p_98593_) {
-        if (p_98591_.getItem() instanceof TCSpawnEggItem eggItem) {
+       /* if (p_98591_.getItem() instanceof TCSpawnEggItem eggItem) {
             List components;
             if (TCEntityUtils.checkSlayAdv(eggItem.getContext().entityType())) {
                 components = List.of(TCEntityUtils.getEntityName(eggItem.getType(p_98591_.getOrCreateTag())).setStyle(Style.EMPTY.withBold(true)),
@@ -420,10 +422,10 @@ public class TCTakumiBookOutlineScreen extends EffectRenderingInventoryScreen<TC
                     components.add(eggItem.getContext().getElement().getSubElementName());
                 }
             } else {
-                components = List.of(new TranslatableComponent("???"));
+                components = List.of(new TranslatableContents("???"));
             }
             super.renderTooltip(p_98590_, components, p_98591_.getTooltipImage(), p_98592_, p_98593_);
-        }
+        }*/
     }
 
     @Override
@@ -560,6 +562,11 @@ public class TCTakumiBookOutlineScreen extends EffectRenderingInventoryScreen<TC
 
         public boolean canScroll() {
             return this.items.size() > 45;
+        }
+
+        @Override
+        public ItemStack quickMoveStack(Player p_38941_, int p_38942_) {
+            return ItemStack.EMPTY;
         }
 
         @Override

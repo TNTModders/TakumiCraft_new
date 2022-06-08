@@ -32,10 +32,13 @@ public class TCWaterCreeper extends AbstractTCCreeper {
 
     public static class TCWaterCreeperContext implements TCCreeperContext<TCWaterCreeper> {
         private static final String NAME = "watercreeper";
-        public static final EntityType<? extends AbstractTCCreeper> CREEPER = ((EntityType<? extends AbstractTCCreeper>) EntityType.Builder
+        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder
                 .of(TCWaterCreeper::new, MobCategory.MONSTER).sized(0.6F, 1.7F).clientTrackingRange(8)
-                .build(TakumiCraftCore.MODID + ":" + NAME).setRegistryName(TakumiCraftCore.MODID, NAME));
-
+                .build(TakumiCraftCore.MODID + ":" + NAME);
+        @Override
+        public String getRegistryName() {
+            return NAME;
+        }
         @Override
         public String getJaJPRead() {
             return "みずたくみ";

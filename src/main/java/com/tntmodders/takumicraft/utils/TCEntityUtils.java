@@ -13,7 +13,7 @@ import net.minecraft.client.multiplayer.ClientAdvancements;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -25,8 +25,8 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class TCEntityUtils {
-    public static TranslatableComponent getEntityName(EntityType<?> type) {
-        return new TranslatableComponent(type.getDescriptionId());
+    public static Component getEntityName(EntityType<?> type) {
+        return Component.translatable(type.toShortString());
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -86,7 +86,7 @@ public class TCEntityUtils {
     public static boolean checkSlayAdv(EntityType entity) {
         LocalPlayer player = Minecraft.getInstance().player;
         ClientAdvancements advancements = player.connection.getAdvancements();
-        AdvancementProgress progress = advancements.progress.get(advancements.getAdvancements().get(new ResourceLocation(TakumiCraftCore.MODID, "slay/slay_" + entity.getRegistryName().getPath())));
+        AdvancementProgress progress = advancements.progress.get(advancements.getAdvancements().get(new ResourceLocation(TakumiCraftCore.MODID, "slay/slay_" + entity.toShortString())));
         return progress != null && progress.isDone();
     }
 }

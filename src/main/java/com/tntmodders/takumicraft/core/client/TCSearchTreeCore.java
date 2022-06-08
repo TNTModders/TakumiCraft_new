@@ -3,7 +3,7 @@ package com.tntmodders.takumicraft.core.client;
 import com.tntmodders.takumicraft.item.TCSpawnEggItem;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.searchtree.ReloadableSearchTree;
+import net.minecraft.client.searchtree.FullTextSearchTree;
 import net.minecraft.client.searchtree.SearchRegistry;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.Registry;
@@ -22,12 +22,6 @@ public class TCSearchTreeCore {
 
     @OnlyIn(Dist.CLIENT)
     public static void register() {
-        ReloadableSearchTree<ItemStack> reloadablesearchtree = new ReloadableSearchTree<>((itemStack) -> {
-            if (itemStack.getItem() instanceof TCSpawnEggItem item) {
-                return Stream.of(item.getContext().getEnUSName(), item.getContext().getJaJPName(), item.getContext().getJaJPRead()).filter(s -> s != null && !s.isEmpty());
-            }
-            return itemStack.getTooltipLines(null, TooltipFlag.Default.NORMAL).stream().map((component) -> ChatFormatting.stripFormatting(component.getString()).trim()).filter((s) -> !s.isEmpty());
-        }, (itemStack) -> Stream.of(Registry.ITEM.getKey(itemStack.getItem())));
 
         NonNullList<ItemStack> nonnulllist = NonNullList.create();
 
@@ -36,7 +30,12 @@ public class TCSearchTreeCore {
                 item.fillItemCategory(CreativeModeTab.TAB_SEARCH, nonnulllist);
             }
         }
-        nonnulllist.forEach(reloadablesearchtree::add);
-        Minecraft.getInstance().getSearchTreeManager().register(CREEPER_NAMES, reloadablesearchtree);
+
+        Minecraft.getInstance().getSearchTreeManager().register(CREEPER_NAMES, (itemStacks) -> new FullTextSearchTree<>(itemStack -> {
+            if (itemStack.getItem() instanceof TCSpawnEggItem item) {
+                return Stream.of(item.getContext().getEnUSName(), item.getContext().getJaJPName(), item.getContext().getJaJPRead()).filter(s -> s != null && !s.isEmpty());
+            }
+            return itemStack.getTooltipLines(null, TooltipFlag.Default.NORMAL).stream().map((component) -> ChatFormatting.stripFormatting(component.getString()).trim()).filter((s) -> !s.isEmpty());
+        }, (itemStack) -> Stream.of(Registry.ITEM.getKey(itemStack.getItem())), nonnulllist));
     }
 }

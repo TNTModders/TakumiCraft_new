@@ -1,13 +1,16 @@
 package com.tntmodders.takumicraft.core;
 
+import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.entity.mobs.*;
 import com.tntmodders.takumicraft.utils.TCLoggingUtils;
 import net.minecraft.core.NonNullList;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
-import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegisterEvent;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
@@ -30,8 +33,11 @@ public class TCEntityCore {
     public static final AbstractTCCreeper.TCCreeperContext<TCLightCreeper> LIGHT = new TCLightCreeper.TCLightCreeperContext();
     public static final AbstractTCCreeper.TCCreeperContext<TCSlimeCreeper> SLIME = new TCSlimeCreeper.TCSlimeCreeperContext();
     public static final AbstractTCCreeper.TCCreeperContext<TCPhantomCreeper> PHANTOM = new TCPhantomCreeper.TCPhantomCreeperContext();
+    //public static final AbstractTCCreeper.TCCreeperContext<TCFireFlyCreeper>FIREFLY;
+    //NaturalCreeper
+    public static final AbstractTCCreeper.TCCreeperContext<TCBangCreeper> BANG = new TCBangCreeper.TCBangCreeperContext();
 
-    public static void registerEntityType(RegistryEvent.Register<EntityType<?>> event) {
+    public static void registerEntityType(RegisterEvent event) {
         TCLoggingUtils.startRegistry("Entity");
         List<Field> fieldList = Arrays.asList(TCEntityCore.class.getDeclaredFields());
         fieldList.forEach(field -> {
@@ -39,11 +45,11 @@ public class TCEntityCore {
                 Object obj = field.get(null);
                 if (obj instanceof AbstractTCCreeper.TCCreeperContext<?> context) {
                     EntityType<?> type = context.entityType();
-                    event.getRegistry().register(type);
+                    event.register(ForgeRegistries.ENTITIES.getRegistryKey(), entityTypeRegisterHelper -> entityTypeRegisterHelper.register(new ResourceLocation(TakumiCraftCore.MODID,context.getRegistryName()), type));
                     ENTITY_TYPES.add(type);
                     ENTITY_CONTEXTS.add(context);
-                    context.registerSpawn(((EntityType<? extends AbstractTCCreeper>) type));
-                    TCLoggingUtils.entryRegistry("Entity", type.getRegistryName().getPath());
+                    context.registerSpawn(((EntityType<AbstractTCCreeper>) type));
+                    TCLoggingUtils.entryRegistry("Entity", context.getRegistryName());
                 }
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
@@ -55,7 +61,7 @@ public class TCEntityCore {
         TCLoggingUtils.completeRegistry("Entity");
     }
 
-    private static void registerAdditionalEntityType(RegistryEvent.Register<EntityType<?>> event) {
+    private static void registerAdditionalEntityType(RegisterEvent event) {
 
     }
 
@@ -65,11 +71,11 @@ public class TCEntityCore {
         fieldList.forEach(field -> {
             try {
                 Object obj = field.get(null);
-                if (obj instanceof AbstractTCCreeper.TCCreeperContext<?>) {
+                if (obj instanceof AbstractTCCreeper.TCCreeperContext<?> context) {
                     EntityType<? extends LivingEntity> type = ((EntityType<? extends LivingEntity>) ((AbstractTCCreeper.TCCreeperContext<?>) obj).entityType());
                     AttributeSupplier.Builder builder = ((AbstractTCCreeper.TCCreeperContext<?>) obj).entityAttribute();
                     event.put(type, builder.build());
-                    TCLoggingUtils.entryRegistry("EntityAttribute", type.getRegistryName().getPath());
+                    TCLoggingUtils.entryRegistry("EntityAttribute", context.getRegistryName());
                 }
             } catch (IllegalAccessException e) {
                 e.printStackTrace();

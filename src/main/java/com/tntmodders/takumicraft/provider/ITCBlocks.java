@@ -9,6 +9,8 @@ import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 public interface ITCBlocks extends ITCTranslator {
+    String getRegistryName();
+
     default EnumTCBlockStateModelType getBlockStateModelType() {
         return EnumTCBlockStateModelType.SIMPLE;
     }

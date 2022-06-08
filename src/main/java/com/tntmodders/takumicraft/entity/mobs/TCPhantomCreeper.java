@@ -312,10 +312,13 @@ public class TCPhantomCreeper extends AbstractTCCreeper {
 
     public static class TCPhantomCreeperContext implements TCCreeperContext<TCPhantomCreeper> {
         private static final String NAME = "phantomcreeper";
-        public static final EntityType<? extends AbstractTCCreeper> CREEPER = ((EntityType<? extends AbstractTCCreeper>) EntityType.Builder
+        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder
                 .of(TCPhantomCreeper::new, MobCategory.MONSTER).sized(0.9F, 0.5F).clientTrackingRange(8)
-                .build(TakumiCraftCore.MODID + ":" + NAME).setRegistryName(TakumiCraftCore.MODID, NAME));
-
+                .build(TakumiCraftCore.MODID + ":" + NAME);
+        @Override
+        public String getRegistryName() {
+            return NAME;
+        }
         @Override
         public String getJaJPRead() {
             return "ふぁんとむたくみ";

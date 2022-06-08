@@ -21,7 +21,7 @@ public class TCCreeperRenderer extends CreeperRenderer {
 
     @Override
     public ResourceLocation getTextureLocation(Creeper creeper) {
-        return new ResourceLocation(TakumiCraftCore.MODID, "textures/entity/creeper/" + creeper.getType().getRegistryName().getPath() + ".png");
+        return new ResourceLocation(TakumiCraftCore.MODID, "textures/entity/creeper/" + creeper.getType().toShortString() + ".png");
     }
 
     @Override

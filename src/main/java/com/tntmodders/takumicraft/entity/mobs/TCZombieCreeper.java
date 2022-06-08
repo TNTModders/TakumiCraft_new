@@ -19,6 +19,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
@@ -62,7 +63,6 @@ import javax.annotation.Nullable;
 import java.time.LocalDate;
 import java.time.temporal.ChronoField;
 import java.util.List;
-import java.util.Random;
 import java.util.UUID;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
@@ -90,7 +90,7 @@ public class TCZombieCreeper extends AbstractTCCreeper {
         super(entityType, level);
     }
 
-    public static boolean getSpawnAsBabyOdds(Random p_34303_) {
+    public static boolean getSpawnAsBabyOdds(RandomSource p_34303_) {
         return p_34303_.nextFloat() < net.minecraftforge.common.ForgeConfig.SERVER.zombieBabyChance.get();
     }
 
@@ -175,13 +175,14 @@ public class TCZombieCreeper extends AbstractTCCreeper {
 
     }
 
+
     @Override
-    protected int getExperienceReward(Player p_34322_) {
+    public int getExperienceReward() {
         if (this.isBaby()) {
             this.xpReward = (int) ((float) this.xpReward * 2.5F);
         }
 
-        return super.getExperienceReward(p_34322_);
+        return super.getExperienceReward();
     }
 
     @Override
@@ -360,8 +361,8 @@ public class TCZombieCreeper extends AbstractTCCreeper {
     }
 
     @Override
-    protected void populateDefaultEquipmentSlots(DifficultyInstance p_34286_) {
-        super.populateDefaultEquipmentSlots(p_34286_);
+    protected void populateDefaultEquipmentSlots(RandomSource randomSource, DifficultyInstance difficulty) {
+        super.populateDefaultEquipmentSlots(randomSource, difficulty);
         if (this.random.nextFloat() < (this.level.getDifficulty() == Difficulty.HARD ? 0.05F : 0.01F)) {
             int i = this.random.nextInt(3);
             if (i == 0) {
@@ -395,14 +396,13 @@ public class TCZombieCreeper extends AbstractTCCreeper {
     }
 
     @Override
-    public void killed(ServerLevel p_34281_, LivingEntity p_34282_) {
-        super.killed(p_34281_, p_34282_);
+    public boolean wasKilled(ServerLevel p_34281_, LivingEntity p_34282_) {
+        boolean flg = super.wasKilled(p_34281_, p_34282_);
         if ((p_34281_.getDifficulty() == Difficulty.NORMAL || p_34281_.getDifficulty() == Difficulty.HARD) && p_34282_ instanceof Villager villager && net.minecraftforge.event.ForgeEventFactory.canLivingConvert(p_34282_, EntityType.ZOMBIE_VILLAGER, (timer) -> {
         })) {
             if (p_34281_.getDifficulty() != Difficulty.HARD && this.random.nextBoolean()) {
-                return;
+                return flg;
             }
-
             ZombieVillager zombievillager = villager.convertTo(EntityType.ZOMBIE_VILLAGER, false);
             zombievillager.finalizeSpawn(p_34281_, p_34281_.getCurrentDifficultyAt(zombievillager.blockPosition()), MobSpawnType.CONVERSION, new Zombie.ZombieGroupData(false, true), null);
             zombievillager.setVillagerData(villager.getVillagerData());
@@ -413,8 +413,9 @@ public class TCZombieCreeper extends AbstractTCCreeper {
             if (!this.isSilent()) {
                 p_34281_.levelEvent(null, 1026, this.blockPosition(), 0);
             }
+            flg = false;
         }
-
+        return flg;
     }
 
     @Override
@@ -465,8 +466,8 @@ public class TCZombieCreeper extends AbstractTCCreeper {
             }
 
             this.setCanBreakDoors(this.supportsBreakDoorGoal() && this.random.nextFloat() < f * 0.1F);
-            this.populateDefaultEquipmentSlots(p_34298_);
-            this.populateDefaultEquipmentEnchantments(p_34298_);
+            this.populateDefaultEquipmentSlots(random, p_34298_);
+            this.populateDefaultEquipmentEnchantments(random, p_34298_);
         }
 
         if (this.getItemBySlot(EquipmentSlot.HEAD).isEmpty()) {
@@ -540,9 +541,14 @@ public class TCZombieCreeper extends AbstractTCCreeper {
 
     public static class TCZombieCreeperContext implements TCCreeperContext<TCZombieCreeper> {
         private static final String NAME = "zombiecreeper";
-        public static final EntityType<? extends AbstractTCCreeper> CREEPER = ((EntityType<? extends AbstractTCCreeper>) EntityType.Builder
+        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder
                 .of(TCZombieCreeper::new, MobCategory.MONSTER).sized(0.6F, 1.95F).clientTrackingRange(8)
-                .build(TakumiCraftCore.MODID + ":" + NAME).setRegistryName(TakumiCraftCore.MODID, NAME));
+                .build(TakumiCraftCore.MODID + ":" + NAME);
+
+        @Override
+        public String getRegistryName() {
+            return NAME;
+        }
 
         @Override
         public String getJaJPRead() {
