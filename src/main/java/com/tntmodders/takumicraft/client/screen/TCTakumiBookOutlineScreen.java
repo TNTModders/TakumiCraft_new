@@ -22,6 +22,7 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.core.Registry;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
@@ -411,21 +412,21 @@ public class TCTakumiBookOutlineScreen extends EffectRenderingInventoryScreen<TC
     }
 
     @Override
-    protected void renderTooltip(PoseStack p_98590_, ItemStack p_98591_, int p_98592_, int p_98593_) {
-       /* if (p_98591_.getItem() instanceof TCSpawnEggItem eggItem) {
-            List components;
+    protected void renderTooltip(PoseStack p_98590_, ItemStack stack, int p_98592_, int p_98593_) {
+        if (stack.getItem() instanceof TCSpawnEggItem eggItem) {
+            List<Component> components = new ArrayList<>();
             if (TCEntityUtils.checkSlayAdv(eggItem.getContext().entityType())) {
-                components = List.of(TCEntityUtils.getEntityName(eggItem.getType(p_98591_.getOrCreateTag())).setStyle(Style.EMPTY.withBold(true)),
-                        eggItem.getContext().getRank().getRankName().setStyle(Style.EMPTY.withColor(0x888888).withItalic(true)),
-                        eggItem.getContext().getElement().getElementName().setStyle(Style.EMPTY.withColor(eggItem.getContext().getElement().getElementColor())));
-                if (eggItem.getContext().getElement().getSubElementName() != null) {
+                components.add(TCEntityUtils.getEntityName(eggItem.getType(stack.getOrCreateTag())).copy().withStyle(Style.EMPTY.withBold(true)));
+                components.add(eggItem.getContext().getRank().getRankName().copy().withStyle(Style.EMPTY.withColor(0x888888).withItalic(true)));
+                components.add(eggItem.getContext().getElement().getElementName().copy().setStyle(Style.EMPTY.withColor(eggItem.getContext().getElement().getElementColor())));
+                if (eggItem.getContext().getElement().getSubElementName() != CommonComponents.EMPTY) {
                     components.add(eggItem.getContext().getElement().getSubElementName());
                 }
             } else {
-                components = List.of(new TranslatableContents("???"));
+                components = List.of(Component.translatable("???"));
             }
-            super.renderTooltip(p_98590_, components, p_98591_.getTooltipImage(), p_98592_, p_98593_);
-        }*/
+            super.renderTooltip(p_98590_, components, stack.getTooltipImage(), p_98592_, p_98593_);
+        }
     }
 
     @Override

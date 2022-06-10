@@ -10,8 +10,8 @@ import net.minecraft.advancements.critereon.EntityPredicate;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.data.loot.EntityLoot;
+import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.tags.ItemTags;
@@ -250,29 +250,28 @@ public abstract class AbstractTCCreeper extends Creeper implements ITCEntities {
                 };
             }
 
-            public TranslatableContents getElementName() {
+            public Component getElementName() {
                 return switch (this.id) {
-                    case 0 -> new TranslatableContents("takumicraft.elem.takumi");
-                    case 1 -> new TranslatableContents("takumicraft.elem.fire");
-                    case 2 -> new TranslatableContents("takumicraft.elem.grass");
-                    case 3 -> new TranslatableContents("takumicraft.elem.water");
-                    case 4 -> new TranslatableContents("takumicraft.elem.wind");
-                    case 5 -> new TranslatableContents("takumicraft.elem.ground");
-                    case 6 -> new TranslatableContents("takumicraft.elem.normal");
-                    default -> new TranslatableContents("takumicraft.elem.underfound");
+                    case 0 -> Component.translatable("takumicraft.elem.takumi");
+                    case 1 -> Component.translatable("takumicraft.elem.fire");
+                    case 2 -> Component.translatable("takumicraft.elem.grass");
+                    case 3 -> Component.translatable("takumicraft.elem.water");
+                    case 4 -> Component.translatable("takumicraft.elem.wind");
+                    case 5 -> Component.translatable("takumicraft.elem.ground");
+                    case 6 -> Component.translatable("takumicraft.elem.normal");
+                    default -> Component.translatable("takumicraft.elem.underfound");
                 };
             }
 
-            @Nullable
-            public TranslatableContents getSubElementName() {
+            public Component getSubElementName() {
                 if (this.isDest && this.isMagic) {
-                    return new TranslatableContents("takumicraft.attr.MD");
+                    return Component.translatable("takumicraft.attr.MD");
                 } else if (this.isMagic) {
-                    return new TranslatableContents("takumicraft.attr.M");
+                    return Component.translatable("takumicraft.attr.M");
                 } else if (this.isDest) {
-                    return new TranslatableContents("takumicraft.attr.D");
+                    return Component.translatable("takumicraft.attr.D");
                 } else {
-                    return null;
+                    return CommonComponents.EMPTY;
                 }
             }
 

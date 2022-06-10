@@ -23,10 +23,15 @@ import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.entity.npc.VillagerType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import org.jetbrains.annotations.NotNull;
 
 public class TCEntityUtils {
     public static Component getEntityName(EntityType<?> type) {
-        return Component.translatable(type.toShortString());
+        return Component.translatable(type.getDescriptionId());
+    }
+
+    public static String getEntityLangCode(EntityType<?> type, @NotNull String suffix) {
+        return "entity.takumicraft." + type.toShortString() + suffix;
     }
 
     @OnlyIn(Dist.CLIENT)

@@ -4,6 +4,7 @@ import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.core.TCBlockCore;
 import com.tntmodders.takumicraft.core.TCEntityCore;
 import com.tntmodders.takumicraft.core.TCItemCore;
+import com.tntmodders.takumicraft.utils.TCEntityUtils;
 import com.tntmodders.takumicraft.utils.TCLoggingUtils;
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.common.data.LanguageProvider;
@@ -31,8 +32,8 @@ public abstract class TCLanguageProvider extends LanguageProvider {
             }
         });
         TCEntityCore.ENTITY_CONTEXTS.forEach(context -> {
-            this.add(context.entityType(), this.getTranslation(context));
-            this.add(context.entityType().toShortString() + ".desc", this instanceof TCJaJPLanguageProvider ? context.getJaJPDesc() : context.getEnUSDesc());
+            this.add(TCEntityUtils.getEntityLangCode(context.entityType(), ""), this.getTranslation(context));
+            this.add(TCEntityUtils.getEntityLangCode(context.entityType(), ".desc"), this instanceof TCJaJPLanguageProvider ? context.getJaJPDesc() : context.getEnUSDesc());
         });
         this.additionalTranslations();
     }
@@ -81,9 +82,9 @@ public abstract class TCLanguageProvider extends LanguageProvider {
             this.add("takumicraft.rank.high", "High");
             this.add("takumicraft.rank.boss", "Boss");
             this.add("takumicraft.message.slay", "registered to TakumiBook.");
-            this.add("takumicraft.attr.MD","Magic/Dest");
-            this.add("takumicraft.attr.M","Magic");
-            this.add("takumicraft.attr.D","Dest");
+            this.add("takumicraft.attr.MD", "Magic/Dest");
+            this.add("takumicraft.attr.M", "Magic");
+            this.add("takumicraft.attr.D", "Dest");
         }
     }
 
@@ -99,7 +100,7 @@ public abstract class TCLanguageProvider extends LanguageProvider {
             super.addTranslations();
             TCEntityCore.ENTITY_CONTEXTS.forEach(context -> {
                 if (context.getJaJPRead() != null) {
-                    this.add(context.entityType().toShortString() + ".read", context.getJaJPRead());
+                    this.add(TCEntityUtils.getEntityLangCode(context.entityType(), ".read"), context.getJaJPRead());
                 }
             });
             TCLoggingUtils.completeRegistry("Ja-JP_Translations");
@@ -132,9 +133,9 @@ public abstract class TCLanguageProvider extends LanguageProvider {
             this.add("takumicraft.rank.high", "上位");
             this.add("takumicraft.rank.boss", "王位");
             this.add("takumicraft.message.slay", "が図鑑に登録された。");
-            this.add("takumicraft.attr.MD","魔/壊");
-            this.add("takumicraft.attr.M","魔");
-            this.add("takumicraft.attr.D","壊");
+            this.add("takumicraft.attr.MD", "魔/壊");
+            this.add("takumicraft.attr.M", "魔");
+            this.add("takumicraft.attr.D", "壊");
         }
     }
 }

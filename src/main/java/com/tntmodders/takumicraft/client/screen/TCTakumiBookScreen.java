@@ -225,19 +225,21 @@ public class TCTakumiBookScreen extends Screen {
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         if (flg) {
             RenderSystem.setShaderTexture(0, context.getElement().getIcon());
+        } else {
+            RenderSystem.setShaderTexture(0, new ResourceLocation(TakumiCraftCore.MODID, "textures/book/underfound.png"));
+        }
+        this.blit(poseStack, i, 2, 0, 0, 192, 192);
+        if (flg) {
             if (context.getElement().isDest()) {
                 RenderSystem.setShaderTexture(0, new ResourceLocation(TakumiCraftCore.MODID, "textures/book/dest.png"));
             }
             if (context.getElement().isMagic()) {
                 RenderSystem.setShaderTexture(0, new ResourceLocation(TakumiCraftCore.MODID, "textures/book/magic.png"));
             }
-        } else {
-            RenderSystem.setShaderTexture(0, new ResourceLocation(TakumiCraftCore.MODID, "textures/book/underfound.png"));
+            this.blit(poseStack, i, 2, 0, 0, 192, 192);
         }
-        this.blit(poseStack, i, 2, 0, 0, 192, 192);
-
         if (context.showRead()) {
-            Component read = Component.translatable(flg ? context.entityType().toShortString() + ".read" : "???");
+            Component read = Component.translatable(flg ? TCEntityUtils.getEntityLangCode(context.entityType(), ".read") : "???");
             this.font.draw(poseStack, read, (float) (i + 70), 25, 0);
         }
     }

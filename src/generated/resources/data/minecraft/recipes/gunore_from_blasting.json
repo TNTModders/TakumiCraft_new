@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:blasting",
+  "cookingtime": 50,
+  "experience": 0.5,
+  "ingredient": {
+    "item": "takumicraft:gunore"
+  },
+  "result": "minecraft:gunpowder"
+}
