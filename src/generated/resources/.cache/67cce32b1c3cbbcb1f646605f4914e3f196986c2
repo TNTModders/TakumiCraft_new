@@ -1,5 +1,6 @@
-// 1.19	2022-06-11T10:28:11.4189289	LootTables
+// 1.19	2022-06-11T10:41:40.9346928	LootTables
 d9014bdd11aaf081252afc9c216db0a0ce0d6d84 data/takumicraft/loot_tables/blocks/creeperbomb.json
+eaf71ab263dc2858c84056b16c0306dd535dbe58 data/takumicraft/loot_tables/blocks/deepslate_gunore.json
 cd6fd361a41dc3e10f0b8036003dc2d4f861719f data/takumicraft/loot_tables/blocks/gunore.json
 61e88981bdf68bded90d9073d1cbaa1c8517920a data/takumicraft/loot_tables/entities/bangcreeper.json
 a54c32a3c8df2c7be92312e1f7db618b38ab4db0 data/takumicraft/loot_tables/entities/drownedcreeper.json

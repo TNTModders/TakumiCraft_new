@@ -9,7 +9,9 @@ import com.tntmodders.takumicraft.item.TCTakumiBookItem;
 import com.tntmodders.takumicraft.provider.ITCItems;
 import com.tntmodders.takumicraft.utils.TCLoggingUtils;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.item.Item;
@@ -29,6 +31,8 @@ public class TCItemCore {
     public static final Item CREEPER_ROD = new TCCreeperRodItem();
     public static final Item TAKUMIBOOK = new TCTakumiBookItem();
 
+    public static final TagKey<Item> GUNORES = TagKey.create(Registry.ITEM_REGISTRY, new ResourceLocation(TakumiCraftCore.MODID, "gunores"));
+
     public static void register(final RegisterEvent event) {
         TCLoggingUtils.startRegistry("Item");
         List<Field> fieldList = Arrays.asList(TCItemCore.class.getDeclaredFields());
@@ -45,23 +49,9 @@ public class TCItemCore {
             }
         });
 
-        /*List<Field> blockFieldList = Arrays.asList(TCBlockCore.class.getDeclaredFields());
-        blockFieldList.forEach(field -> {
-            try {
-                Object obj = field.get(null);
-                if (obj instanceof Block) {
-                    TCBlockItem blockItem = new TCBlockItem(((Block) obj));
-                    event.getRegistry().register(blockItem);
-                    BLOCKITEMS.put(((Block) obj), blockItem);
-                    TCLoggingUtils.entryRegistry("BlockItem", ((Block) obj).getRegistryName().getPath());
-                }
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            }
-        });*/
         TCBlockCore.BLOCKS.forEach(block -> {
             TCBlockItem blockItem = new TCBlockItem(block);
-            event.register(ForgeRegistries.ITEMS.getRegistryKey(), itemRegisterHelper -> itemRegisterHelper.register(new ResourceLocation(TakumiCraftCore.MODID,blockItem.getRegistryName()), blockItem));
+            event.register(ForgeRegistries.ITEMS.getRegistryKey(), itemRegisterHelper -> itemRegisterHelper.register(new ResourceLocation(TakumiCraftCore.MODID, blockItem.getRegistryName()), blockItem));
             BLOCKITEMS.put(block, blockItem);
             TCLoggingUtils.entryRegistry("BlockItem", blockItem.getRegistryName());
         });
@@ -72,7 +62,7 @@ public class TCItemCore {
                 Object obj = field.get(null);
                 if (obj instanceof AbstractTCCreeper.TCCreeperContext<?> context) {
                     TCSpawnEggItem eggItem = new TCSpawnEggItem(() -> (EntityType<? extends Mob>) context.entityType(), context);
-                    event.register(ForgeRegistries.ITEMS.getRegistryKey(), itemRegisterHelper -> itemRegisterHelper.register(new ResourceLocation(TakumiCraftCore.MODID,eggItem.getRegistryName()), eggItem));
+                    event.register(ForgeRegistries.ITEMS.getRegistryKey(), itemRegisterHelper -> itemRegisterHelper.register(new ResourceLocation(TakumiCraftCore.MODID, eggItem.getRegistryName()), eggItem));
                     ITEMS.add(eggItem);
                     TCLoggingUtils.entryRegistry("SpawnEggItem", context.getRegistryName());
                 }

@@ -46,11 +46,6 @@ public class TCCreeperBombBlock extends AbstractTCBombBlock implements ITCRecipe
     }
 
     @Override
-    public String getRegistryName() {
-        return "creeperbomb";
-    }
-
-    @Override
     public Supplier<Consumer<BiConsumer<ResourceLocation, LootTable.Builder>>> getBlockLoot(@NotNull Block block) {
         return () -> new BlockLoot() {
 

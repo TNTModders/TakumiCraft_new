@@ -11,6 +11,7 @@ import com.tntmodders.takumicraft.event.TCEvents;
 import com.tntmodders.takumicraft.event.client.TCClientEvents;
 import com.tntmodders.takumicraft.provider.*;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.data.tags.BlockTagsProvider;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.EntityRenderersEvent;
@@ -52,17 +53,17 @@ public class TakumiCraftCore {
 
     private void registerProviders(GatherDataEvent event) {
         DataGenerator gen = event.getGenerator();
-        if (event.includeClient()) {
-            gen.addProvider(true, new TCBlockStateProvider(gen, event.getExistingFileHelper()));
-            gen.addProvider(true, new TCItemModelProvider(gen, event.getExistingFileHelper()));
-            gen.addProvider(true, new TCLanguageProvider.TCEnUSLanguageProvider(gen));
-            gen.addProvider(true, new TCLanguageProvider.TCJaJPLanguageProvider(gen));
-        }
-        if (event.includeServer()) {
-            gen.addProvider(true, new TCRecipeProvider(gen));
-            gen.addProvider(true, new TCLootTableProvider(gen));
-            gen.addProvider(true, new TCAdvancementProvider(gen, event.getExistingFileHelper()));
-        }
+        gen.addProvider(event.includeClient(), new TCBlockStateProvider(gen, event.getExistingFileHelper()));
+        gen.addProvider(event.includeClient(), new TCItemModelProvider(gen, event.getExistingFileHelper()));
+        gen.addProvider(event.includeClient(), new TCLanguageProvider.TCEnUSLanguageProvider(gen));
+        gen.addProvider(event.includeClient(), new TCLanguageProvider.TCJaJPLanguageProvider(gen));
+
+        BlockTagsProvider blockTagsProvider = new TCBlockTagsProvider(gen, event.getExistingFileHelper());
+        gen.addProvider(event.includeServer(), blockTagsProvider);
+        gen.addProvider(event.includeServer(), new TCItemTagsProvider(gen, blockTagsProvider, event.getExistingFileHelper()));
+        gen.addProvider(event.includeServer(), new TCRecipeProvider(gen));
+        gen.addProvider(event.includeServer(), new TCLootTableProvider(gen));
+        gen.addProvider(event.includeServer(), new TCAdvancementProvider(gen, event.getExistingFileHelper()));
     }
 
     @SubscribeEvent

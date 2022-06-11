@@ -1,6 +1,8 @@
 package com.tntmodders.takumicraft.block;
 
+import com.ibm.icu.impl.Pair;
 import com.tntmodders.takumicraft.core.TCBlockCore;
+import com.tntmodders.takumicraft.core.TCItemCore;
 import com.tntmodders.takumicraft.provider.ITCRecipe;
 import com.tntmodders.takumicraft.provider.TCRecipeProvider;
 import net.minecraft.core.BlockPos;
@@ -9,8 +11,11 @@ import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.SimpleCookingRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.valueproviders.UniformInt;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -35,7 +40,11 @@ public class TCGunOreBlock extends AbstractTCBombBlock implements ITCRecipe {
     private final UniformInt xpRange = UniformInt.of(3, 8);
 
     public TCGunOreBlock() {
-        super(BlockBehaviour.Properties.of(Material.EXPLOSIVE).strength(5f, 0f).color(MaterialColor.STONE), "gunore");
+        super(BlockBehaviour.Properties.of(Material.EXPLOSIVE, MaterialColor.DEEPSLATE).strength(5f, 0f).color(MaterialColor.STONE), "gunore");
+    }
+
+    public TCGunOreBlock(Properties properties, String name) {
+        super(properties, name);
     }
 
     @Override
@@ -55,7 +64,7 @@ public class TCGunOreBlock extends AbstractTCBombBlock implements ITCRecipe {
 
     @Override
     public float getPower() {
-        return 1.5f;
+        return 2f;
     }
 
     @Override
@@ -66,11 +75,6 @@ public class TCGunOreBlock extends AbstractTCBombBlock implements ITCRecipe {
     @Override
     public String getJaJPName() {
         return "火薬岩";
-    }
-
-    @Override
-    public String getRegistryName() {
-        return "gunore";
     }
 
     @Override
@@ -91,7 +95,17 @@ public class TCGunOreBlock extends AbstractTCBombBlock implements ITCRecipe {
 
     @Override
     public void addRecipes(TCRecipeProvider provider, ItemLike itemLike, Consumer<FinishedRecipe> consumer) {
-        provider.saveRecipe(itemLike, consumer, SimpleCookingRecipeBuilder.smelting(Ingredient.of(TCBlockCore.GUNORE), Items.GUNPOWDER, 0.5f, 100));
-        provider.saveRecipe(itemLike, consumer, SimpleCookingRecipeBuilder.blasting(Ingredient.of(TCBlockCore.GUNORE), Items.GUNPOWDER, 0.5f, 50));
+        provider.saveRecipe(itemLike, consumer, SimpleCookingRecipeBuilder.smelting(Ingredient.of(itemLike), Items.GUNPOWDER, 0.5f, 100));
+        provider.saveRecipe(itemLike, consumer, SimpleCookingRecipeBuilder.blasting(Ingredient.of(itemLike), Items.GUNPOWDER, 0.5f, 50));
+    }
+
+    @Override
+    public List<TagKey<Block>> getBlockTags() {
+        return List.of(BlockTags.NEEDS_STONE_TOOL, TCBlockCore.GUNORES, BlockTags.MINEABLE_WITH_PICKAXE);
+    }
+
+    @Override
+    public List<Pair<TagKey<Block>, TagKey<Item>>> getItemTags() {
+        return List.of(Pair.of(TCBlockCore.GUNORES, TCItemCore.GUNORES));
     }
 }

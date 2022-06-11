@@ -17,8 +17,11 @@ import net.minecraft.world.level.material.FluidState;
 import org.jetbrains.annotations.Nullable;
 
 public abstract class AbstractTCBombBlock extends Block implements ITCBlocks {
+    private final String registryName;
+
     public AbstractTCBombBlock(Properties properties, String name) {
         super(properties);
+        this.registryName = name;
     }
 
     public abstract float getPower();
@@ -26,7 +29,7 @@ public abstract class AbstractTCBombBlock extends Block implements ITCBlocks {
     @Override
     public void wasExploded(Level level, BlockPos pos, Explosion explosion) {
         super.wasExploded(level, pos, explosion);
-        this.explode(level, pos);
+        this.explode(level, pos, Math.max(Math.min(this.getPower(), explosion.radius - 0.1f), this.getPower() / 2));
     }
 
     @Override
@@ -52,6 +55,15 @@ public abstract class AbstractTCBombBlock extends Block implements ITCBlocks {
     }
 
     protected void explode(Level level, BlockPos pos) {
-        TCExplosionUtils.createExplosion(level, null, pos, this.getPower());
+        this.explode(level, pos, this.getPower());
+    }
+
+    protected void explode(Level level, BlockPos pos, float power) {
+        TCExplosionUtils.createExplosion(level, null, pos, power);
+    }
+
+    @Override
+    public String getRegistryName() {
+        return this.registryName;
     }
 }

@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:blasting",
+  "cookingtime": 50,
+  "experience": 1.0,
+  "ingredient": {
+    "item": "takumicraft:deepslate_gunore"
+  },
+  "result": "minecraft:gunpowder"
+}
