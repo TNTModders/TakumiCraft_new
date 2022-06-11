@@ -29,7 +29,7 @@ public class TCBangCreeper extends AbstractTCCreeper {
 
     @Override
     public TCCreeperContext<? extends AbstractTCCreeper> getContext() {
-        return TCEntityCore.LIGHT;
+        return TCEntityCore.BANG;
     }
 
     @Override
@@ -110,7 +110,7 @@ public class TCBangCreeper extends AbstractTCCreeper {
 
         @Override
         public void registerRenderer(EntityRenderersEvent.RegisterRenderers event, EntityType<?> type) {
-            event.registerEntityRenderer(((EntityType<Creeper>) type), context -> new TCCreeperRenderer(context, true));
+            event.registerEntityRenderer(((EntityType<Creeper>) type), TCCreeperRenderer::new);
         }
 
         @Override
