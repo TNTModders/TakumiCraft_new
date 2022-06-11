@@ -2,10 +2,10 @@ package com.tntmodders.takumicraft.block;
 
 import com.tntmodders.takumicraft.core.TCBlockCore;
 import com.tntmodders.takumicraft.provider.ITCRecipe;
+import com.tntmodders.takumicraft.provider.TCRecipeProvider;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.NonNullList;
 import net.minecraft.data.loot.BlockLoot;
-import net.minecraft.data.recipes.RecipeBuilder;
+import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.SimpleCookingRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -14,6 +14,7 @@ import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
@@ -89,9 +90,8 @@ public class TCGunOreBlock extends AbstractTCBombBlock implements ITCRecipe {
     }
 
     @Override
-    public NonNullList<RecipeBuilder> addRecipes() {
-        return NonNullList.of(
-                SimpleCookingRecipeBuilder.smelting(Ingredient.of(TCBlockCore.GUNORE), Items.GUNPOWDER, 0.5f, 100),
-                SimpleCookingRecipeBuilder.blasting(Ingredient.of(TCBlockCore.GUNORE), Items.GUNPOWDER, 0.5f, 50));
+    public void addRecipes(TCRecipeProvider provider, ItemLike itemLike, Consumer<FinishedRecipe> consumer) {
+        provider.saveRecipe(itemLike, consumer, SimpleCookingRecipeBuilder.smelting(Ingredient.of(TCBlockCore.GUNORE), Items.GUNPOWDER, 0.5f, 100));
+        provider.saveRecipe(itemLike, consumer, SimpleCookingRecipeBuilder.blasting(Ingredient.of(TCBlockCore.GUNORE), Items.GUNPOWDER, 0.5f, 50));
     }
 }

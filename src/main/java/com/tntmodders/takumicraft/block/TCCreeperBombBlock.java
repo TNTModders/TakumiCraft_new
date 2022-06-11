@@ -3,12 +3,12 @@ package com.tntmodders.takumicraft.block;
 import com.tntmodders.takumicraft.core.TCBlockCore;
 import com.tntmodders.takumicraft.provider.ITCRecipe;
 import com.tntmodders.takumicraft.provider.TCRecipeProvider;
-import net.minecraft.core.NonNullList;
 import net.minecraft.data.loot.BlockLoot;
-import net.minecraft.data.recipes.RecipeBuilder;
+import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
@@ -67,8 +67,8 @@ public class TCCreeperBombBlock extends AbstractTCBombBlock implements ITCRecipe
     }
 
     @Override
-    public NonNullList<RecipeBuilder> addRecipes() {
-        return NonNullList.of(ShapedRecipeBuilder.shaped(TCBlockCore.CREEPER_BOMB)
+    public void addRecipes(TCRecipeProvider provider, ItemLike itemLike, Consumer<FinishedRecipe> consumer) {
+        provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(TCBlockCore.CREEPER_BOMB)
                 .define('#', Items.CREEPER_HEAD)
                 .pattern(" # ")
                 .pattern("###")

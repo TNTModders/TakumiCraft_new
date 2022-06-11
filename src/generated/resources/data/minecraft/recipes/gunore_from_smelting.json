@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "cookingtime": 100,
+  "experience": 0.5,
+  "ingredient": {
+    "item": "takumicraft:gunore"
+  },
+  "result": "minecraft:gunpowder"
+}

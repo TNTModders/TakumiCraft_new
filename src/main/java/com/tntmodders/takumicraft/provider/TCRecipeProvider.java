@@ -27,13 +27,13 @@ public class TCRecipeProvider extends RecipeProvider {
         TCLoggingUtils.startRegistry("Recipe");
         TCBlockCore.BLOCKS.forEach(block -> {
             if (block instanceof ITCRecipe && block instanceof ITCBlocks) {
-                ((ITCRecipe) block).addRecipes().forEach(recipe -> saveRecipe(block, recipe, consumer));
+                ((ITCRecipe) block).addRecipes(this, block,consumer);
                 TCLoggingUtils.entryRegistry("Recipe", ((ITCBlocks) block).getRegistryName());
             }
         });
         TCItemCore.ITEMS.forEach(item -> {
             if (item instanceof ITCRecipe && item instanceof ITCItems) {
-                ((ITCRecipe) item).addRecipes().forEach(recipe -> saveRecipe(item, recipe, consumer));
+                ((ITCRecipe) item).addRecipes(this, item, consumer);
                 TCLoggingUtils.entryRegistry("Recipe", ((ITCItems) item).getRegistryName());
             }
         });
@@ -41,7 +41,7 @@ public class TCRecipeProvider extends RecipeProvider {
         TCLoggingUtils.completeRegistry("Recipe");
     }
 
-    private void saveRecipe(ItemLike itemLike, RecipeBuilder recipe, @NotNull Consumer<FinishedRecipe> consumer) {
+    public void saveRecipe(ItemLike itemLike,  @NotNull Consumer<FinishedRecipe> consumer, RecipeBuilder recipe) {
         if (recipe instanceof SimpleCookingRecipeBuilder) {
             if (((SimpleCookingRecipeBuilder) recipe).serializer == RecipeSerializer.BLASTING_RECIPE) {
                 recipe.unlockedBy("has_" + itemLike.asItem(), has(itemLike)).save(consumer, RecipeProvider.getBlastingRecipeName(itemLike));
