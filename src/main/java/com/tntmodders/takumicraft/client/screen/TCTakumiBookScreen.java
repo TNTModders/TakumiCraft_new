@@ -201,7 +201,7 @@ public class TCTakumiBookScreen extends Screen {
         TCEntityUtils.renderEntity(i + 51, j + 80, 30, this.tick / 100f, 0, context.entityType());
         boolean flg = TCEntityUtils.checkSlayAdv(context.entityType());
         if (this.cachedPage != this.currentPage) {
-            FormattedText formattedtext = Component.translatable(flg ? context.entityType().toShortString() + ".desc" : "???");
+            FormattedText formattedtext = Component.translatable(flg ? context.entityType().getDescriptionId() + ".desc" : "???");
             this.cachedPageComponents = this.font.split(formattedtext, 114);
             this.pageMsg = Component.translatable("book.pageIndicator", this.currentPage + 1, Math.max(this.getNumPages(), 1));
         }

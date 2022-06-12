@@ -28,7 +28,7 @@
     },
     "show_toast": true,
     "title": {
-      "translate": "firecreeper"
+      "translate": "entity.takumicraft.firecreeper"
     }
   },
   "requirements": [

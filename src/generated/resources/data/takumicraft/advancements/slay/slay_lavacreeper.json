@@ -28,7 +28,7 @@
     },
     "show_toast": true,
     "title": {
-      "translate": "lavacreeper"
+      "translate": "entity.takumicraft.lavacreeper"
     }
   },
   "requirements": [

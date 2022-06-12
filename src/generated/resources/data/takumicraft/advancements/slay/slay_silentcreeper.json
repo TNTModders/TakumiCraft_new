@@ -28,7 +28,7 @@
     },
     "show_toast": true,
     "title": {
-      "translate": "silentcreeper"
+      "translate": "entity.takumicraft.silentcreeper"
     }
   },
   "requirements": [

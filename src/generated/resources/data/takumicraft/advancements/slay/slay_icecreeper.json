@@ -28,7 +28,7 @@
     },
     "show_toast": true,
     "title": {
-      "translate": "icecreeper"
+      "translate": "entity.takumicraft.icecreeper"
     }
   },
   "requirements": [

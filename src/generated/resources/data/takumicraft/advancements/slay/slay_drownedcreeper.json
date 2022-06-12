@@ -28,7 +28,7 @@
     },
     "show_toast": true,
     "title": {
-      "translate": "drownedcreeper"
+      "translate": "entity.takumicraft.drownedcreeper"
     }
   },
   "requirements": [

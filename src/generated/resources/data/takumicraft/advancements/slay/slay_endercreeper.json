@@ -28,7 +28,7 @@
     },
     "show_toast": true,
     "title": {
-      "translate": "endercreeper"
+      "translate": "entity.takumicraft.endercreeper"
     }
   },
   "requirements": [

@@ -28,7 +28,7 @@
     },
     "show_toast": true,
     "title": {
-      "translate": "phantomcreeper"
+      "translate": "entity.takumicraft.phantomcreeper"
     }
   },
   "requirements": [

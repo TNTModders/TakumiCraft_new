@@ -28,7 +28,7 @@
     },
     "show_toast": true,
     "title": {
-      "translate": "slimecreeper"
+      "translate": "entity.takumicraft.slimecreeper"
     }
   },
   "requirements": [

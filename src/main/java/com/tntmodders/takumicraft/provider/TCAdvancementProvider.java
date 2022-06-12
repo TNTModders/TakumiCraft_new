@@ -35,7 +35,7 @@ public class TCAdvancementProvider extends AdvancementProvider {
                 .save(consumer, new ResourceLocation(TakumiCraftCore.MODID, "slay/root"), fileHelper);
 
         TCEntityCore.ENTITY_TYPES.forEach(type -> Advancement.Builder.advancement().parent(slay_root)
-                .display(new ItemStack(TCItemCore.TAKUMIBOOK), Component.translatable(type.toShortString()),
+                .display(new ItemStack(TCItemCore.TAKUMIBOOK), Component.translatable(type.getDescriptionId()),
                         Component.translatable("takumicraft.message.slay"), null, FrameType.TASK, true, true, true)
                 .addCriterion("killed_" + type.toShortString(), KilledTrigger.TriggerInstance.playerKilledEntity(EntityPredicate.Builder.entity().of(type)))
                 .save(consumer, new ResourceLocation(TakumiCraftCore.MODID, "slay/slay_" + type.toShortString()), fileHelper));

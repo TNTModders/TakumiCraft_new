@@ -28,7 +28,7 @@
     },
     "show_toast": true,
     "title": {
-      "translate": "zombievillagercreeper"
+      "translate": "entity.takumicraft.zombievillagercreeper"
     }
   },
   "requirements": [

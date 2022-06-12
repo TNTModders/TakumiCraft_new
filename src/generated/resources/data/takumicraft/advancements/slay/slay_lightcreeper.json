@@ -28,7 +28,7 @@
     },
     "show_toast": true,
     "title": {
-      "translate": "lightcreeper"
+      "translate": "entity.takumicraft.lightcreeper"
     }
   },
   "requirements": [

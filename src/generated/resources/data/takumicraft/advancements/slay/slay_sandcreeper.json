@@ -28,7 +28,7 @@
     },
     "show_toast": true,
     "title": {
-      "translate": "sandcreeper"
+      "translate": "entity.takumicraft.sandcreeper"
     }
   },
   "requirements": [

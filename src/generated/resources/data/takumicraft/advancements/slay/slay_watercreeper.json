@@ -28,7 +28,7 @@
     },
     "show_toast": true,
     "title": {
-      "translate": "watercreeper"
+      "translate": "entity.takumicraft.watercreeper"
     }
   },
   "requirements": [
