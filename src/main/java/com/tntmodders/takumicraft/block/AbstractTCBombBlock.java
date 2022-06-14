@@ -37,7 +37,7 @@ public abstract class AbstractTCBombBlock extends Block implements ITCBlocks {
     public boolean onDestroyedByPlayer(BlockState state, Level world, BlockPos pos, Player player, boolean willHarvest, FluidState fluid) {
         boolean flg = super.onDestroyedByPlayer(state, world, pos, player, willHarvest, fluid);
         if (flg) {
-            if (EnchantmentHelper.getItemEnchantmentLevel(Enchantments.BLAST_PROTECTION, player.getMainHandItem()) == 0 || player.getMainHandItem().getItem() == TCItemCore.CREEPER_ROD) {
+            if (EnchantmentHelper.getItemEnchantmentLevel(Enchantments.BLAST_PROTECTION, player.getMainHandItem()) == 0 && player.getMainHandItem().getItem() != TCItemCore.CREEPER_ROD) {
                 this.explode(world, pos);
             }
         }

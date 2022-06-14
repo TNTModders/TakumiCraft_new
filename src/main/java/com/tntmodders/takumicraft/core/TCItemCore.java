@@ -2,10 +2,7 @@ package com.tntmodders.takumicraft.core;
 
 import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.entity.mobs.AbstractTCCreeper;
-import com.tntmodders.takumicraft.item.TCBlockItem;
-import com.tntmodders.takumicraft.item.TCCreeperRodItem;
-import com.tntmodders.takumicraft.item.TCSpawnEggItem;
-import com.tntmodders.takumicraft.item.TCTakumiBookItem;
+import com.tntmodders.takumicraft.item.*;
 import com.tntmodders.takumicraft.provider.ITCItems;
 import com.tntmodders.takumicraft.utils.TCLoggingUtils;
 import net.minecraft.core.NonNullList;
@@ -30,6 +27,7 @@ public class TCItemCore {
 
     public static final Item CREEPER_ROD = new TCCreeperRodItem();
     public static final Item TAKUMIBOOK = new TCTakumiBookItem();
+    public static final Item BOLTSTONE = new TCBoltstoneItem();
 
     public static final TagKey<Item> GUNORES = TagKey.create(Registry.ITEM_REGISTRY, new ResourceLocation(TakumiCraftCore.MODID, "gunores"));
 
