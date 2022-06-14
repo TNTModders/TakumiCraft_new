@@ -1,4 +1,4 @@
-// 1.19	2022-06-11T10:41:40.9346928	LootTables
+// 1.19	2022-06-14T22:54:21.2530057	LootTables
 d9014bdd11aaf081252afc9c216db0a0ce0d6d84 data/takumicraft/loot_tables/blocks/creeperbomb.json
 eaf71ab263dc2858c84056b16c0306dd535dbe58 data/takumicraft/loot_tables/blocks/deepslate_gunore.json
 cd6fd361a41dc3e10f0b8036003dc2d4f861719f data/takumicraft/loot_tables/blocks/gunore.json
@@ -9,6 +9,7 @@ a54c32a3c8df2c7be92312e1f7db618b38ab4db0 data/takumicraft/loot_tables/entities/f
 a54c32a3c8df2c7be92312e1f7db618b38ab4db0 data/takumicraft/loot_tables/entities/icecreeper.json
 a54c32a3c8df2c7be92312e1f7db618b38ab4db0 data/takumicraft/loot_tables/entities/lavacreeper.json
 a54c32a3c8df2c7be92312e1f7db618b38ab4db0 data/takumicraft/loot_tables/entities/lightcreeper.json
+61e88981bdf68bded90d9073d1cbaa1c8517920a data/takumicraft/loot_tables/entities/naturalcreeper.json
 61e88981bdf68bded90d9073d1cbaa1c8517920a data/takumicraft/loot_tables/entities/phantomcreeper.json
 a54c32a3c8df2c7be92312e1f7db618b38ab4db0 data/takumicraft/loot_tables/entities/sandcreeper.json
 a54c32a3c8df2c7be92312e1f7db618b38ab4db0 data/takumicraft/loot_tables/entities/silentcreeper.json

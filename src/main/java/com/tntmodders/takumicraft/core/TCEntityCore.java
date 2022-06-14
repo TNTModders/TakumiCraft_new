@@ -34,7 +34,7 @@ public class TCEntityCore {
     public static final AbstractTCCreeper.TCCreeperContext<TCSlimeCreeper> SLIME = new TCSlimeCreeper.TCSlimeCreeperContext();
     public static final AbstractTCCreeper.TCCreeperContext<TCPhantomCreeper> PHANTOM = new TCPhantomCreeper.TCPhantomCreeperContext();
     //public static final AbstractTCCreeper.TCCreeperContext<TCFireFlyCreeper>FIREFLY;
-    //NaturalCreeper
+    public static final AbstractTCCreeper.TCCreeperContext<TCNaturalCreeper> NATURAL = new TCNaturalCreeper.TCNaturalCreeperContext();
     public static final AbstractTCCreeper.TCCreeperContext<TCBangCreeper> BANG = new TCBangCreeper.TCBangCreeperContext();
 
     public static void registerEntityType(RegisterEvent event) {

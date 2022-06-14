@@ -1,4 +1,4 @@
-// 1.19	2022-06-12T16:41:12.3160767	Advancements
+// 1.19	2022-06-14T22:54:21.2540034	Advancements
 d248c5232893b08a0d5830d0f2f575fd11fe9f3a data/takumicraft/advancements/slay/root.json
 b737202c45242e45a9cf0a29a1ee709e2cf6e8d6 data/takumicraft/advancements/slay/slay_bangcreeper.json
 2942679a384e6d4a4a64b3897203b5effbae6ea4 data/takumicraft/advancements/slay/slay_drownedcreeper.json
@@ -7,6 +7,7 @@ d320d528c98921724d786b4daaae2a60c46009f5 data/takumicraft/advancements/slay/slay
 dadd735fcfd0efc70e594227a33df27560a53c0b data/takumicraft/advancements/slay/slay_icecreeper.json
 a5a7638038badc80080c066f70cdfdd633789c3d data/takumicraft/advancements/slay/slay_lavacreeper.json
 dcf81cb7594283d0481d0ee348d654a51c0133de data/takumicraft/advancements/slay/slay_lightcreeper.json
+2f06b55013cb71b589519e4bbe8953cfe1c2e5d4 data/takumicraft/advancements/slay/slay_naturalcreeper.json
 dfee36387e6cb7f5d14562e9599192182f81ff16 data/takumicraft/advancements/slay/slay_phantomcreeper.json
 d896bd84e2fe128992d7d78f2bd953361e37af56 data/takumicraft/advancements/slay/slay_sandcreeper.json
 fd1566e0a9b19224cf0cb15dd0a5d8e22b2396f9 data/takumicraft/advancements/slay/slay_silentcreeper.json
