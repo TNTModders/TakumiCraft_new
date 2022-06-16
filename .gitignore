@@ -32,3 +32,4 @@ old
 # Files from Forge MDK
 forge*changelog.txt
 mcmodsrepo
+/src/generated/resources/.cache/

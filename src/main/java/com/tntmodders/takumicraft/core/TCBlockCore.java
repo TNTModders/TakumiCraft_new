@@ -24,7 +24,7 @@ public class TCBlockCore {
     public static final Block GUNORE = new TCGunOreBlock();
     public static final Block DEEPSLATE_GUNORE =new TCDeepGunOreBlock();
 
-    public static final TagKey<Block> GUNORES=TagKey.create(Registry.BLOCK_REGISTRY,new ResourceLocation(TakumiCraftCore.MODID,"gunores"));
+    public static final TagKey<Block> GUNORES=TagKey.create(Registry.BLOCK_REGISTRY,new ResourceLocation("forge","gunores"));
 
     public static void register(final RegisterEvent event) {
         TCLoggingUtils.startRegistry("Block");
