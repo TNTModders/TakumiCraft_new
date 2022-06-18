@@ -6,6 +6,7 @@ import com.tntmodders.takumicraft.utils.TCLoggingUtils;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.tags.BlockTagsProvider;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import org.jetbrains.annotations.Nullable;
 
@@ -32,13 +33,18 @@ public class TCBlockTagsProvider extends BlockTagsProvider {
                             this.tag(blockTagKey).add(((Block) block));
                             TCLoggingUtils.entryRegistry("Block Tag", block.getRegistryName() + " as " + blockTagKey);
                         });
-
                     }
                 }
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
             }
         });
+        this.additionalTag();
         TCLoggingUtils.completeRegistry("Block Tag");
+    }
+
+    private void additionalTag() {
+        this.tag(TCBlockCore.ANTI_EXPLOSION).add(Blocks.BEDROCK, Blocks.END_PORTAL, Blocks.END_PORTAL_FRAME, Blocks.COMMAND_BLOCK, Blocks.BARRIER, Blocks.LIGHT,
+                Blocks.END_GATEWAY, Blocks.REPEATING_COMMAND_BLOCK, Blocks.CHAIN_COMMAND_BLOCK, Blocks.STRUCTURE_BLOCK, Blocks.JIGSAW);
     }
 }

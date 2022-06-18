@@ -1,6 +1,7 @@
 package com.tntmodders.takumicraft.event;
 
 import com.tntmodders.takumicraft.TakumiCraftCore;
+import com.tntmodders.takumicraft.core.TCBlockCore;
 import com.tntmodders.takumicraft.core.TCEntityCore;
 import com.tntmodders.takumicraft.entity.mobs.AbstractTCCreeper;
 import com.tntmodders.takumicraft.entity.mobs.TCPhantomCreeper;
@@ -14,12 +15,26 @@ import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Mod.EventBusSubscriber(modid = TakumiCraftCore.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class TCEvents {
     public static final TCEvents INSTANCE = new TCEvents();
 
     @SubscribeEvent
     public void onExplosion(ExplosionEvent.Detonate event) {
+        //onExplosionInit
+        //protection etc.
+        List<BlockPos> removePosList = new ArrayList<>();
+        event.getAffectedBlocks().forEach(pos -> {
+            if (event.getWorld().getBlockState(pos).is(TCBlockCore.ANTI_EXPLOSION)) {
+                removePosList.add(pos);
+            }
+        });
+        event.getAffectedBlocks().removeAll(removePosList);
+
+        //onExplosion
         if (!event.getWorld().isClientSide) {
             if (event.getExplosion().getExploder() instanceof AbstractTCCreeper) {
                 ((AbstractTCCreeper) event.getExplosion().getExploder()).explodeCreeperEvent(event);

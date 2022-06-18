@@ -1,9 +1,7 @@
 package com.tntmodders.takumicraft.core;
 
 import com.tntmodders.takumicraft.TakumiCraftCore;
-import com.tntmodders.takumicraft.block.TCCreeperBombBlock;
-import com.tntmodders.takumicraft.block.TCDeepGunOreBlock;
-import com.tntmodders.takumicraft.block.TCGunOreBlock;
+import com.tntmodders.takumicraft.block.*;
 import com.tntmodders.takumicraft.provider.ITCBlocks;
 import com.tntmodders.takumicraft.utils.TCLoggingUtils;
 import net.minecraft.core.NonNullList;
@@ -22,9 +20,12 @@ public class TCBlockCore {
     public static final NonNullList<Block> BLOCKS = NonNullList.create();
     public static final Block CREEPER_BOMB = new TCCreeperBombBlock();
     public static final Block GUNORE = new TCGunOreBlock();
-    public static final Block DEEPSLATE_GUNORE =new TCDeepGunOreBlock();
+    public static final Block DEEPSLATE_GUNORE = new TCDeepGunOreBlock();
+    public static final Block CREEPER_IRON = new TCCreeperIronBlock();
+    public static final Block CREEPER_BRICKS = new TCCreeperBricksBlock();
 
-    public static final TagKey<Block> GUNORES=TagKey.create(Registry.BLOCK_REGISTRY,new ResourceLocation("forge","gunores"));
+    public static final TagKey<Block> GUNORES = TagKey.create(Registry.BLOCK_REGISTRY, new ResourceLocation("forge", "gunores"));
+    public static final TagKey<Block> ANTI_EXPLOSION = TagKey.create(Registry.BLOCK_REGISTRY, new ResourceLocation("forge", "anti_explosion"));
 
     public static void register(final RegisterEvent event) {
         TCLoggingUtils.startRegistry("Block");

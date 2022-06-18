@@ -4,6 +4,7 @@ import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.client.renderer.entity.TCCreeperRenderer;
 import com.tntmodders.takumicraft.core.TCBlockCore;
 import com.tntmodders.takumicraft.core.TCEntityCore;
+import com.tntmodders.takumicraft.utils.TCBlockUtils;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -33,26 +34,26 @@ public class TCNaturalCreeper extends AbstractTCCreeper {
     public void explodeCreeper() {
         super.explodeCreeper();
         if (!this.level.isClientSide) {
-            this.level.setBlock(this.getOnPos().above(6), TCBlockCore.CREEPER_BOMB.defaultBlockState(), 3);
-            this.level.setBlock(this.getOnPos().above(6).east(1), TCBlockCore.CREEPER_BOMB.defaultBlockState(), 3);
-            this.level.setBlock(this.getOnPos().above(6).north(1), TCBlockCore.CREEPER_BOMB.defaultBlockState(), 3);
-            this.level.setBlock(this.getOnPos().above(6).east(-1), TCBlockCore.CREEPER_BOMB.defaultBlockState(), 3);
-            this.level.setBlock(this.getOnPos().above(6).north(-1), TCBlockCore.CREEPER_BOMB.defaultBlockState(), 3);
-            this.level.setBlock(this.getOnPos().above(5), TCBlockCore.CREEPER_BOMB.defaultBlockState(), 3);
-            this.level.setBlock(this.getOnPos().above(5).east(1), TCBlockCore.CREEPER_BOMB.defaultBlockState(), 3);
-            this.level.setBlock(this.getOnPos().above(5).north(1), TCBlockCore.CREEPER_BOMB.defaultBlockState(), 3);
-            this.level.setBlock(this.getOnPos().above(5).east(-1), TCBlockCore.CREEPER_BOMB.defaultBlockState(), 3);
-            this.level.setBlock(this.getOnPos().above(5).north(-1), TCBlockCore.CREEPER_BOMB.defaultBlockState(), 3);
+            TCBlockUtils.TCSetBlock(this.level, this.getOnPos().above(6), TCBlockCore.CREEPER_BOMB.defaultBlockState());
+            TCBlockUtils.TCSetBlock(this.level, this.getOnPos().above(6).east(1), TCBlockCore.CREEPER_BOMB.defaultBlockState());
+            TCBlockUtils.TCSetBlock(this.level, this.getOnPos().above(6).north(1), TCBlockCore.CREEPER_BOMB.defaultBlockState());
+            TCBlockUtils.TCSetBlock(this.level, this.getOnPos().above(6).east(-1), TCBlockCore.CREEPER_BOMB.defaultBlockState());
+            TCBlockUtils.TCSetBlock(this.level, this.getOnPos().above(6).north(-1), TCBlockCore.CREEPER_BOMB.defaultBlockState());
+            TCBlockUtils.TCSetBlock(this.level, this.getOnPos().above(5), TCBlockCore.CREEPER_BOMB.defaultBlockState());
+            TCBlockUtils.TCSetBlock(this.level, this.getOnPos().above(5).east(1), TCBlockCore.CREEPER_BOMB.defaultBlockState());
+            TCBlockUtils.TCSetBlock(this.level, this.getOnPos().above(5).north(1), TCBlockCore.CREEPER_BOMB.defaultBlockState());
+            TCBlockUtils.TCSetBlock(this.level, this.getOnPos().above(5).east(-1), TCBlockCore.CREEPER_BOMB.defaultBlockState());
+            TCBlockUtils.TCSetBlock(this.level, this.getOnPos().above(5).north(-1), TCBlockCore.CREEPER_BOMB.defaultBlockState());
             for (int x = -2; x <= 2; x++) {
                 for (int z = -2; z <= 2; z++) {
                     if (Math.abs(x * z) != 4) {
-                        this.level.setBlock(this.getOnPos().above(4).offset(x, 0, z), TCBlockCore.CREEPER_BOMB.defaultBlockState(), 3);
-                        this.level.setBlock(this.getOnPos().above(3).offset(x, 0, z), TCBlockCore.CREEPER_BOMB.defaultBlockState(), 3);
+                        TCBlockUtils.TCSetBlock(this.level, this.getOnPos().above(4).offset(x, 0, z), TCBlockCore.CREEPER_BOMB.defaultBlockState());
+                        TCBlockUtils.TCSetBlock(this.level, this.getOnPos().above(3).offset(x, 0, z), TCBlockCore.CREEPER_BOMB.defaultBlockState());
                     }
                 }
             }
             for (int y = 0; y < 6; y++) {
-                this.level.setBlock(this.getOnPos().above(y), (this.isPowered() ? TCBlockCore.DEEPSLATE_GUNORE : TCBlockCore.GUNORE).defaultBlockState(), 3);
+                TCBlockUtils.TCSetBlock(this.level, this.getOnPos().above(y), (this.isPowered() ? TCBlockCore.DEEPSLATE_GUNORE : TCBlockCore.GUNORE).defaultBlockState());
             }
         }
     }

@@ -40,7 +40,7 @@ public class TCGunOreBlock extends AbstractTCBombBlock implements ITCRecipe {
     private final UniformInt xpRange = UniformInt.of(3, 8);
 
     public TCGunOreBlock() {
-        super(BlockBehaviour.Properties.of(Material.EXPLOSIVE, MaterialColor.DEEPSLATE).strength(5f, 0f).color(MaterialColor.STONE), "gunore");
+        super(BlockBehaviour.Properties.of(Material.EXPLOSIVE, MaterialColor.DEEPSLATE).requiresCorrectToolForDrops().strength(5f, 0f).color(MaterialColor.STONE), "gunore");
     }
 
     public TCGunOreBlock(Properties properties, String name) {

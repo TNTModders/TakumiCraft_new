@@ -18,7 +18,7 @@ import java.util.function.Consumer;
 
 public class TCDeepGunOreBlock extends TCGunOreBlock {
     public TCDeepGunOreBlock() {
-        super(BlockBehaviour.Properties.of(Material.EXPLOSIVE).strength(10f, 0f).color(MaterialColor.STONE), "deepslate_gunore");
+        super(BlockBehaviour.Properties.of(Material.EXPLOSIVE).requiresCorrectToolForDrops().strength(10f, 0f).color(MaterialColor.STONE), "deepslate_gunore");
     }
 
     @Override
