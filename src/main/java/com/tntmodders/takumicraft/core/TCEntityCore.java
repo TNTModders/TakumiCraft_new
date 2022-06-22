@@ -49,7 +49,6 @@ public class TCEntityCore {
                     event.register(ForgeRegistries.ENTITIES.getRegistryKey(), entityTypeRegisterHelper -> entityTypeRegisterHelper.register(new ResourceLocation(TakumiCraftCore.MODID,context.getRegistryName()), type));
                     ENTITY_TYPES.add(type);
                     ENTITY_CONTEXTS.add(context);
-                    context.registerSpawn(((EntityType<AbstractTCCreeper>) type));
                     TCLoggingUtils.entryRegistry("Entity", context.getRegistryName());
                 }
             } catch (IllegalAccessException e) {
@@ -73,9 +72,10 @@ public class TCEntityCore {
             try {
                 Object obj = field.get(null);
                 if (obj instanceof AbstractTCCreeper.TCCreeperContext<?> context) {
-                    EntityType<? extends LivingEntity> type = ((EntityType<? extends LivingEntity>) ((AbstractTCCreeper.TCCreeperContext<?>) obj).entityType());
-                    AttributeSupplier.Builder builder = ((AbstractTCCreeper.TCCreeperContext<?>) obj).entityAttribute();
+                    EntityType<? extends LivingEntity> type = ((EntityType<? extends LivingEntity>) context.entityType());
+                    AttributeSupplier.Builder builder = context.entityAttribute();
                     event.put(type, builder.build());
+                    context.registerSpawn(((EntityType<AbstractTCCreeper>) type));
                     TCLoggingUtils.entryRegistry("EntityAttribute", context.getRegistryName());
                 }
             } catch (IllegalAccessException e) {

@@ -32,6 +32,14 @@ public class TCLightCreeper extends AbstractTCCreeper {
     }
 
     @Override
+    public void tick() {
+        super.tick();
+        if (this.isAlive() && !this.level.isClientSide) {
+            this.addEffect(new MobEffectInstance(MobEffects.GLOWING, 400, 0));
+        }
+    }
+
+    @Override
     public void explodeCreeperEvent(ExplosionEvent.Detonate event) {
         event.getAffectedEntities().forEach(entity -> {
             if (entity instanceof LivingEntity livingEntity) {
@@ -63,10 +71,12 @@ public class TCLightCreeper extends AbstractTCCreeper {
         public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder
                 .of(TCLightCreeper::new, MobCategory.MONSTER).sized(0.6F, 1.7F).clientTrackingRange(8)
                 .build(TakumiCraftCore.MODID + ":" + NAME);
+
         @Override
         public String getRegistryName() {
             return NAME;
         }
+
         @Override
         public String getJaJPRead() {
             return "ひかりたくみ";

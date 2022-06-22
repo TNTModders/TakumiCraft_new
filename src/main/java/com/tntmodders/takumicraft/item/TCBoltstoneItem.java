@@ -30,7 +30,7 @@ public class TCBoltstoneItem extends Item implements ITCItems, ITCTranslator {
 
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
-        ItemStack itemstack = player.getItemInHand(hand);
+        ItemStack itemStack = player.getItemInHand(hand);
         player.getCooldowns().addCooldown(this, 20);
         if (!level.isClientSide) {
             Vec3 vec3 = player.getLookAngle();
@@ -41,10 +41,10 @@ public class TCBoltstoneItem extends Item implements ITCItems, ITCTranslator {
             level.addFreshEntity(bolt);
         }
         player.awardStat(Stats.ITEM_USED.get(this));
-        if (!player.getAbilities().instabuild) {
-            itemstack.shrink(1);
+        if (!player.getAbilities().instabuild && !level.isClientSide) {
+            itemStack.shrink(1);
         }
-        return InteractionResultHolder.sidedSuccess(itemstack, level.isClientSide());
+        return InteractionResultHolder.sidedSuccess(itemStack, level.isClientSide());
     }
 
     @Override
@@ -54,6 +54,12 @@ public class TCBoltstoneItem extends Item implements ITCItems, ITCTranslator {
             bolt.moveTo(entity.position());
             bolt.setCause(attacker instanceof ServerPlayer ? ((ServerPlayer) attacker) : null);
             attacker.level.addFreshEntity(bolt);
+        }
+        if (attacker instanceof Player player) {
+            player.awardStat(Stats.ITEM_USED.get(this));
+            if (!player.getAbilities().instabuild && !player.level.isClientSide) {
+                itemStack.shrink(1);
+            }
         }
         return true;
     }

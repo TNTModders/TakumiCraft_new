@@ -10,6 +10,7 @@ import net.minecraft.advancements.critereon.EntityPredicate;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.data.loot.EntityLoot;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -17,6 +18,7 @@ import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -25,6 +27,7 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.biome.MobSpawnSettings;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.LootPool;
@@ -39,6 +42,8 @@ import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.EntityRenderersEvent;
+import net.minecraftforge.common.world.MobSpawnSettingsBuilder;
+import net.minecraftforge.entity.IEntityAdditionalSpawnData;
 import net.minecraftforge.event.world.ExplosionEvent;
 
 import javax.annotation.Nullable;
@@ -46,7 +51,7 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-public abstract class AbstractTCCreeper extends Creeper implements ITCEntities {
+public abstract class AbstractTCCreeper extends Creeper implements ITCEntities, IEntityAdditionalSpawnData {
     public AbstractTCCreeper(EntityType<? extends Creeper> entityType, Level level) {
         super(entityType, level);
     }
@@ -54,14 +59,12 @@ public abstract class AbstractTCCreeper extends Creeper implements ITCEntities {
     public static boolean checkTakumiSpawnRules(EntityType<? extends Monster> type, ServerLevelAccessor levelAccessor, MobSpawnType spawnType, BlockPos pos, RandomSource random) {
         if (type.create(levelAccessor.getLevel()) instanceof AbstractTCCreeper creeper) {
             TCCreeperContext.EnumTakumiRank rank = creeper.getContext().getRank();
-            if (rank.level > 2 || random.nextInt(50) > rank.getSpawnWeight()) {
+            if (rank.getLevel() > 2 || random.nextInt(50) > rank.getSpawnWeight()) {
                 return false;
             }
         }
         return checkMonsterSpawnRules(type, levelAccessor, spawnType, pos, random);
     }
-
-    public abstract TCCreeperContext<? extends AbstractTCCreeper> getContext();
 
     public void explodeCreeperEvent(ExplosionEvent.Detonate event) {
     }
@@ -77,6 +80,8 @@ public abstract class AbstractTCCreeper extends Creeper implements ITCEntities {
     public void setPowered(boolean flg) {
         this.entityData.set(Creeper.DATA_IS_POWERED, flg);
     }
+
+    public abstract TCCreeperContext<? extends AbstractTCCreeper> getContext();
 
     @Override
     public Supplier<Consumer<BiConsumer<ResourceLocation, LootTable.Builder>>> getEntityLoot() {
@@ -103,10 +108,15 @@ public abstract class AbstractTCCreeper extends Creeper implements ITCEntities {
         };
     }
 
+    @Override
+    public void writeSpawnData(FriendlyByteBuf buffer) {
+    }
+
+    @Override
+    public void readSpawnData(FriendlyByteBuf additionalData) {
+    }
+
     public interface TCCreeperContext<T extends AbstractTCCreeper> extends ITCTranslator {
-        default boolean showRead() {
-            return false;
-        }
 
         String getRegistryName();
 
@@ -116,8 +126,24 @@ public abstract class AbstractTCCreeper extends Creeper implements ITCEntities {
 
         String getJaJPDesc();
 
+        default boolean showRead() {
+            return false;
+        }
+
         default void registerSpawn(EntityType<AbstractTCCreeper> type) {
             SpawnPlacements.register(type, SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AbstractTCCreeper::checkTakumiSpawnRules);
+        }
+
+        default void addSpawn(MobSpawnSettingsBuilder builder) {
+            builder.addSpawn(this.getCategory(), new MobSpawnSettings.SpawnerData(this.entityType(), this.getRank().getSpawnWeight(), 2, this.getMaxSpawn()));
+        }
+
+        default MobCategory getCategory() {
+            return MobCategory.MONSTER;
+        }
+
+        default int getMaxSpawn() {
+            return this.getRank().getMaxSpawn();
         }
 
         @Nullable
@@ -141,7 +167,7 @@ public abstract class AbstractTCCreeper extends Creeper implements ITCEntities {
                                                     EntityPredicate.Builder.entity().of(EntityTypeTags.SKELETONS))))
                                     .withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1f))
                                             .add(LootItem.lootTableItem(TCBlockCore.CREEPER_BOMB))
-                                            .apply(SetItemCountFunction.setCount(UniformGenerator.between(0f, TCCreeperContext.this.getRank().level > 1 ? 2f : 0f))))
+                                            .apply(SetItemCountFunction.setCount(UniformGenerator.between(0f, TCCreeperContext.this.getRank().getLevel() > 1 ? 2f : 0f))))
                     );
                 }
             };
@@ -169,22 +195,24 @@ public abstract class AbstractTCCreeper extends Creeper implements ITCEntities {
         EnumTakumiRank getRank();
 
         enum EnumTakumiRank {
-            LOW(1, 5, 10, 50),
-            MID(2, 10, 50, 25),
-            HIGH(3, 100, 250, 0),
-            BOSS(4, 500, 500, 0),
-            TAKUMI(0, 0, 0, 0);
+            LOW(1, 5, 10, 150, 32),
+            MID(2, 10, 50, 75, 16),
+            HIGH(3, 100, 250, 0, 0),
+            BOSS(4, 500, 500, 0, 0),
+            TAKUMI(0, 0, 0, 0, 0);
 
             private final int level;
             private final int experiment;
             private final int point;
             private final int spawnWeight;
+            private final int maxSpawn;
 
-            EnumTakumiRank(int lv, int exp, int poi, int sw) {
+            EnumTakumiRank(int lv, int exp, int poi, int sw, int ms) {
                 this.level = lv;
                 this.experiment = exp;
                 this.point = poi;
                 this.spawnWeight = sw;
+                this.maxSpawn = ms;
             }
 
             public int getSpawnWeight() {
@@ -201,6 +229,10 @@ public abstract class AbstractTCCreeper extends Creeper implements ITCEntities {
 
             public int getPoint() {
                 return point;
+            }
+
+            public int getMaxSpawn() {
+                return maxSpawn;
             }
 
             public Component getRankName() {

@@ -1,9 +1,9 @@
 package com.tntmodders.takumicraft;
 
+import com.tntmodders.takumicraft.core.TCBiomeModifierCore;
 import com.tntmodders.takumicraft.core.TCBlockCore;
 import com.tntmodders.takumicraft.core.TCEntityCore;
 import com.tntmodders.takumicraft.core.TCItemCore;
-import com.tntmodders.takumicraft.core.TCOreGenCore;
 import com.tntmodders.takumicraft.core.client.TCKeyBindingCore;
 import com.tntmodders.takumicraft.core.client.TCRenderCore;
 import com.tntmodders.takumicraft.core.client.TCSearchTreeCore;
@@ -45,7 +45,7 @@ public class TakumiCraftCore {
         if (FMLEnvironment.dist == Dist.CLIENT) {
             MinecraftForge.EVENT_BUS.register(TCClientEvents.INSTANCE);
         }
-        TCOreGenCore.register(modEventBus);
+        TCBiomeModifierCore.register(modEventBus);
     }
 
     private void setup(final FMLCommonSetupEvent event) {
@@ -84,7 +84,7 @@ public class TakumiCraftCore {
                 TCEntityCore.registerEntityType(event);
             }
             if (ForgeRegistries.FEATURES.equals(event.getForgeRegistry())) {
-                TCOreGenCore.registerModifiers(event);
+                TCBiomeModifierCore.registerModifiers(event);
             }
         }
 

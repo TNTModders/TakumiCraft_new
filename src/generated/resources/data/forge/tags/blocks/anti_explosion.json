@@ -1,0 +1,17 @@
+{
+  "values": [
+    "takumicraft:creeperiron",
+    "takumicraft:creeperbrick",
+    "minecraft:bedrock",
+    "minecraft:end_portal",
+    "minecraft:end_portal_frame",
+    "minecraft:command_block",
+    "minecraft:barrier",
+    "minecraft:light",
+    "minecraft:end_gateway",
+    "minecraft:repeating_command_block",
+    "minecraft:chain_command_block",
+    "minecraft:structure_block",
+    "minecraft:jigsaw"
+  ]
+}

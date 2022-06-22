@@ -6,6 +6,7 @@ import com.tntmodders.takumicraft.utils.TCBlockUtils;
 import net.minecraft.core.Holder;
 import net.minecraft.data.worldgen.features.FeatureUtils;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
+import net.minecraft.tags.BiomeTags;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.levelgen.GenerationStep;
@@ -26,11 +27,11 @@ import net.minecraftforge.registries.RegistryObject;
 
 import java.util.List;
 
-public class TCOreGenCore {
+public class TCBiomeModifierCore {
     public static final DeferredRegister<BiomeModifier> BIOME_MODIFIER = DeferredRegister.create(ForgeRegistries.Keys.BIOME_MODIFIERS, TakumiCraftCore.MODID);
-    public static final RegistryObject<BiomeModifier> TC_OREGEN = BIOME_MODIFIER.register("tc_oregen", TCOreGenBiomeModifier::new);
+    public static final RegistryObject<BiomeModifier> TC_OREGEN = BIOME_MODIFIER.register("tc_oregen", TCBiomeModifier::new);
     public static final DeferredRegister<Codec<? extends BiomeModifier>> BIOME_MODIFIER_SER = DeferredRegister.create(ForgeRegistries.Keys.BIOME_MODIFIER_SERIALIZERS, TakumiCraftCore.MODID);
-    public static final RegistryObject<Codec<TCOreGenBiomeModifier>> TC_OREGEN_SER = BIOME_MODIFIER_SER.register("tc_oregen_ser", () -> Codec.unit(TCOreGenBiomeModifier.INSTANCE));
+    public static final RegistryObject<Codec<TCBiomeModifier>> TC_OREGEN_SER = BIOME_MODIFIER_SER.register("tc_oregen_ser", () -> Codec.unit(TCBiomeModifier.INSTANCE));
 
     public static final RuleTest STONE_ORE_REPLACEABLES = new TagMatchTest(BlockTags.STONE_ORE_REPLACEABLES);
     public static final RuleTest DEEPSLATE_ORE_REPLACEABLES = new TagMatchTest(BlockTags.DEEPSLATE_ORE_REPLACEABLES);
@@ -66,20 +67,27 @@ public class TCOreGenCore {
         BIOME_MODIFIER.register(eventBus);
     }
 
-    public static class TCOreGenBiomeModifier implements BiomeModifier {
-        public static final TCOreGenBiomeModifier INSTANCE = new TCOreGenBiomeModifier();
+    public static class TCBiomeModifier implements BiomeModifier {
+        public static final TCBiomeModifier INSTANCE = new TCBiomeModifier();
 
         @Override
         public void modify(Holder<Biome> biome, Phase phase, ModifiableBiomeInfo.BiomeInfo.Builder builder) {
-            if (phase.equals(Phase.ADD)) {
-                builder.getGenerationSettings().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, ORE_GUNORE_UPPER);
-                builder.getGenerationSettings().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, ORE_GUNORE_MIDDLE);
+            switch (phase) {
+                case ADD -> {
+                    if (biome.containsTag(BiomeTags.IS_OVERWORLD)) {
+                        builder.getGenerationSettings().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, ORE_GUNORE_UPPER);
+                        builder.getGenerationSettings().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, ORE_GUNORE_MIDDLE);
+                    }
+                    TCEntityCore.ENTITY_CONTEXTS.forEach(context -> context.addSpawn(builder.getMobSpawnSettings()));
+                }
+                default -> {
+                }
             }
         }
 
         @Override
         public Codec<? extends BiomeModifier> codec() {
-            return TCOreGenCore.TC_OREGEN_SER.get();
+            return TCBiomeModifierCore.TC_OREGEN_SER.get();
         }
     }
 }
