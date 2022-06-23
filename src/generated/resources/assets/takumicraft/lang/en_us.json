@@ -61,6 +61,7 @@
   "takumicraft.attr.D": "Dest",
   "takumicraft.attr.M": "Magic",
   "takumicraft.attr.MD": "Magic/Dest",
+  "takumicraft.config.isdebugmode": "RECOMMEND TO SET THIS FALSE, this config is only for TakumiCraft debugger.",
   "takumicraft.elem.dest": "Dest",
   "takumicraft.elem.fire": "Fire",
   "takumicraft.elem.grass": "Grass",

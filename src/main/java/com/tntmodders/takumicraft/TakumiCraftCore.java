@@ -1,9 +1,6 @@
 package com.tntmodders.takumicraft;
 
-import com.tntmodders.takumicraft.core.TCBiomeModifierCore;
-import com.tntmodders.takumicraft.core.TCBlockCore;
-import com.tntmodders.takumicraft.core.TCEntityCore;
-import com.tntmodders.takumicraft.core.TCItemCore;
+import com.tntmodders.takumicraft.core.*;
 import com.tntmodders.takumicraft.core.client.TCKeyBindingCore;
 import com.tntmodders.takumicraft.core.client.TCRenderCore;
 import com.tntmodders.takumicraft.core.client.TCSearchTreeCore;
@@ -23,6 +20,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLEnvironment;
 import net.minecraftforge.forge.event.lifecycle.GatherDataEvent;
@@ -39,7 +37,9 @@ public class TakumiCraftCore {
     public TakumiCraftCore() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         modEventBus.addListener(this::setup);
+        TCConfigCore.register();
         modEventBus.addListener(this::registerProviders);
+        modEventBus.addListener(this::complete);
         MinecraftForge.EVENT_BUS.register(this);
         MinecraftForge.EVENT_BUS.register(TCEvents.INSTANCE);
         if (FMLEnvironment.dist == Dist.CLIENT) {
@@ -48,7 +48,11 @@ public class TakumiCraftCore {
         TCBiomeModifierCore.register(modEventBus);
     }
 
+    //DO NOT REFER TO CONFIG
     private void setup(final FMLCommonSetupEvent event) {
+    }
+
+    private void complete(FMLLoadCompleteEvent event) {
     }
 
     private void registerProviders(GatherDataEvent event) {

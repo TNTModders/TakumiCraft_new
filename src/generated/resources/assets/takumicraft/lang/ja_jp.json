@@ -77,6 +77,7 @@
   "takumicraft.attr.D": "壊",
   "takumicraft.attr.M": "魔",
   "takumicraft.attr.MD": "魔/壊",
+  "takumicraft.config.isdebugmode": "デバッグモードで起動するときのみtrueに設定して下さい。",
   "takumicraft.elem.dest": "壊",
   "takumicraft.elem.fire": "火属性",
   "takumicraft.elem.grass": "草属性",

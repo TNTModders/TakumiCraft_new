@@ -85,6 +85,7 @@ public abstract class TCLanguageProvider extends LanguageProvider {
             this.add("takumicraft.attr.MD", "Magic/Dest");
             this.add("takumicraft.attr.M", "Magic");
             this.add("takumicraft.attr.D", "Dest");
+            this.add("takumicraft.config.isdebugmode","RECOMMEND TO SET THIS FALSE, this config is only for TakumiCraft debugger.");
         }
     }
 
@@ -136,6 +137,7 @@ public abstract class TCLanguageProvider extends LanguageProvider {
             this.add("takumicraft.attr.MD", "魔/壊");
             this.add("takumicraft.attr.M", "魔");
             this.add("takumicraft.attr.D", "壊");
+            this.add("takumicraft.config.isdebugmode","デバッグモードで起動するときのみtrueに設定して下さい。");
         }
     }
 }
