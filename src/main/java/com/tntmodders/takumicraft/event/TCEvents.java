@@ -9,6 +9,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.monster.Phantom;
 import net.minecraft.world.entity.player.Player;
@@ -31,18 +32,12 @@ public class TCEvents {
         //protection etc.
         List<BlockPos> removePosList = new ArrayList<>();
         event.getAffectedBlocks().forEach(pos -> {
-            if (event.getWorld().getBlockState(pos).is(TCBlockCore.ANTI_EXPLOSION)) {
+            if (event.getWorld().getBlockState(pos).is(TCBlockCore.ANTI_EXPLOSION)
+                    || (event.getWorld() instanceof ServerLevel level && this.isUnderProtection(level, pos))) {
                 removePosList.add(pos);
             }
         });
         event.getAffectedBlocks().removeAll(removePosList);
-
-        //onExplosion
-        if (!event.getWorld().isClientSide) {
-            if (event.getExplosion().getExploder() instanceof AbstractTCCreeper) {
-                ((AbstractTCCreeper) event.getExplosion().getExploder()).explodeCreeperEvent(event);
-            }
-        }
 
         List<? extends Player> playerList = event.getWorld().players();
         if (!playerList.isEmpty()) {
@@ -52,6 +47,13 @@ public class TCEvents {
                             .award(((ServerPlayer) player).server.getAdvancements().getAdvancement(new ResourceLocation(TakumiCraftCore.MODID, "root")), "impossible");
                 }
             });
+        }
+
+        //onExplosion
+        if (!event.getWorld().isClientSide) {
+            if (event.getExplosion().getExploder() instanceof AbstractTCCreeper) {
+                ((AbstractTCCreeper) event.getExplosion().getExploder()).explodeCreeperEvent(event);
+            }
         }
     }
 
@@ -66,5 +68,13 @@ public class TCEvents {
                 event.setResult(Event.Result.DENY);
             }
         }
+    }
+
+    private boolean isUnderProtection(ServerLevel level, BlockPos pos) {
+        BlockPos blockpos = level.getSharedSpawnPos();
+        int i = Mth.abs(pos.getX() - blockpos.getX());
+        int j = Mth.abs(pos.getZ() - blockpos.getZ());
+        int k = Math.max(i, j);
+        return k <= level.getServer().getSpawnProtectionRadius();
     }
 }
