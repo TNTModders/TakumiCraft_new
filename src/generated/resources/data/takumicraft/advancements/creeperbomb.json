@@ -1,0 +1,37 @@
+{
+  "parent": "takumicraft:root",
+  "criteria": {
+    "creeperbomb": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "takumicraft:creeperbomb"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancement.takumicraft.creeperbomb.desc"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "takumicraft:creeperbomb"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancement.takumicraft.creeperbomb.title"
+    }
+  },
+  "requirements": [
+    [
+      "creeperbomb"
+    ]
+  ]
+}

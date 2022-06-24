@@ -1,4 +1,10 @@
 {
+  "advancement.takumicraft.creeperbomb.desc": "Got a CreeperBomb.",
+  "advancement.takumicraft.creeperbomb.title": "All You Need Is Bomb",
+  "advancement.takumicraft.root.desc": "Going into Chaotic Creeper World! \n Get damaged from explosion.",
+  "advancement.takumicraft.root.title": "Takumi Craft",
+  "advancement.takumicraft.slay_all.desc": "Complete the Creeper Book.",
+  "advancement.takumicraft.slay_all.title": "All Complete",
   "block.takumicraft.creeperbomb": "Creeper Bomb",
   "block.takumicraft.creeperbrick": "Creeper Bricks Block",
   "block.takumicraft.creeperiron": "Creeper Iron Block",
@@ -58,6 +64,7 @@
   "itemGroup.takumicraft": "Takumi Craft",
   "itemGroup.takumicraft.egg": "Spawn Eggs",
   "key.takumicraft.takumibook": "Open Takumi Book",
+  "takumicraft": "Takumi Craft",
   "takumicraft.attr.D": "Dest",
   "takumicraft.attr.M": "Magic",
   "takumicraft.attr.MD": "Magic/Dest",

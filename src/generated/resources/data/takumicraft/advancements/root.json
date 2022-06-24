@@ -1,0 +1,28 @@
+{
+  "criteria": {
+    "impossible": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "background": "takumicraft:textures/block/gunore.png",
+    "description": {
+      "translate": "advancement.takumicraft.root.desc"
+    },
+    "frame": "task",
+    "hidden": true,
+    "icon": {
+      "item": "minecraft:creeper_head"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancement.takumicraft.root.title"
+    }
+  },
+  "requirements": [
+    [
+      "impossible"
+    ]
+  ]
+}

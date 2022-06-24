@@ -6,9 +6,12 @@ import com.tntmodders.takumicraft.core.TCEntityCore;
 import com.tntmodders.takumicraft.entity.mobs.AbstractTCCreeper;
 import com.tntmodders.takumicraft.entity.mobs.TCPhantomCreeper;
 import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.monster.Phantom;
+import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.event.world.ExplosionEvent;
 import net.minecraftforge.eventbus.api.Event;
@@ -39,6 +42,16 @@ public class TCEvents {
             if (event.getExplosion().getExploder() instanceof AbstractTCCreeper) {
                 ((AbstractTCCreeper) event.getExplosion().getExploder()).explodeCreeperEvent(event);
             }
+        }
+
+        List<? extends Player> playerList = event.getWorld().players();
+        if (!playerList.isEmpty()) {
+            playerList.forEach(player -> {
+                if (player instanceof ServerPlayer && player.distanceToSqr(event.getExplosion().getPosition()) < 100) {
+                    ((ServerPlayer) player).getAdvancements()
+                            .award(((ServerPlayer) player).server.getAdvancements().getAdvancement(new ResourceLocation(TakumiCraftCore.MODID, "root")), "impossible");
+                }
+            });
         }
     }
 

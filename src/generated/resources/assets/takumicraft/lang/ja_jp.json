@@ -1,4 +1,10 @@
 {
+  "advancement.takumicraft.creeperbomb.desc": "匠式高性能爆弾を入手する \n 全ては爆弾から。",
+  "advancement.takumicraft.creeperbomb.title": "爆発物注意",
+  "advancement.takumicraft.root.desc": "この匠だらけの世界へ! \n 爆発の洗礼を受ける。",
+  "advancement.takumicraft.root.title": "匠Craft",
+  "advancement.takumicraft.slay_all.desc": "匠の書の制覇\n 王の創る次なる匠を待たれよ。",
+  "advancement.takumicraft.slay_all.title": "完全覇者",
   "block.takumicraft.creeperbomb": "匠式高性能爆弾",
   "block.takumicraft.creeperbrick": "匠式硬質煉瓦",
   "block.takumicraft.creeperiron": "匠式硬質鋼",
@@ -74,6 +80,7 @@
   "itemGroup.takumicraft": "匠Craft",
   "itemGroup.takumicraft.egg": "スポーンエッグ",
   "key.takumicraft.takumibook": "匠の書",
+  "takumicraft": "匠Craft",
   "takumicraft.attr.D": "壊",
   "takumicraft.attr.M": "魔",
   "takumicraft.attr.MD": "魔/壊",
