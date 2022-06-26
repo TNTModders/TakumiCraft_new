@@ -3,6 +3,7 @@ package com.tntmodders.takumicraft.client.screen;
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.datafixers.util.Pair;
 import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.core.TCCreativeModeTabCore;
 import com.tntmodders.takumicraft.core.TCEntityCore;
@@ -81,6 +82,11 @@ public class TCTakumiBookOutlineScreen extends EffectRenderingInventoryScreen<TC
         this.passEvents = true;
         this.imageHeight = 136;
         this.imageWidth = 198;
+    }
+
+    @Override
+    public boolean isPauseScreen() {
+        return true;
     }
 
     private boolean isAllowedTab(CreativeModeTab tab) {
@@ -277,6 +283,9 @@ public class TCTakumiBookOutlineScreen extends EffectRenderingInventoryScreen<TC
         if (creativemodetab != null && isAllowedTab(creativemodetab) && creativemodetab.showTitle()) {
             RenderSystem.disableBlend();
             this.font.draw(p_98616_, Component.translatable("takumicraft.takumibook.search"), 8.0F, 6.0F, creativemodetab.getLabelColor());
+            Pair<Integer, Integer> pair = TCEntityUtils.checkSlayAllAdv();
+            this.font.draw(p_98616_, Component.translatable("takumicraft.takumibook.comp").append(pair.getFirst() + "/" + pair.getSecond()),
+                    115.0f, 6.0f, creativemodetab.getLabelColor());
         }
     }
 

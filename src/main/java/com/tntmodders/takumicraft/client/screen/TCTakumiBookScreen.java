@@ -75,6 +75,11 @@ public class TCTakumiBookScreen extends Screen {
         });
     }
 
+    @Override
+    public boolean isPauseScreen() {
+        return true;
+    }
+
     static List<String> loadPages(CompoundTag p_169695_) {
         ImmutableList.Builder<String> builder = ImmutableList.builder();
         loadPages(p_169695_, builder::add);

@@ -72,9 +72,6 @@ public abstract class AbstractTCCreeper extends Creeper implements ITCEntities, 
     @Override
     public void tick() {
         super.tick();
-        if (this.level.isThundering()) {
-            this.setPowered(true);
-        }
     }
 
     public void setPowered(boolean flg) {

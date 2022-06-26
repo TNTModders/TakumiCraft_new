@@ -3,6 +3,7 @@ package com.tntmodders.takumicraft.utils;
 import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.datafixers.util.Pair;
 import com.mojang.math.Quaternion;
 import com.mojang.math.Vector3f;
 import com.tntmodders.takumicraft.TakumiCraftCore;
@@ -24,6 +25,8 @@ import net.minecraft.world.entity.npc.VillagerType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
 
 public class TCEntityUtils {
     public static Component getEntityName(EntityType<?> type) {
@@ -93,5 +96,15 @@ public class TCEntityUtils {
         ClientAdvancements advancements = player.connection.getAdvancements();
         AdvancementProgress progress = advancements.progress.get(advancements.getAdvancements().get(new ResourceLocation(TakumiCraftCore.MODID, "slay/slay_" + entity.toShortString())));
         return progress != null && progress.isDone();
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public static Pair<Integer, Integer> checkSlayAllAdv() {
+        LocalPlayer player = Minecraft.getInstance().player;
+        ClientAdvancements advancements = player.connection.getAdvancements();
+        AdvancementProgress progress = advancements.progress.get(advancements.getAdvancements().get(new ResourceLocation(TakumiCraftCore.MODID, "slay_all")));
+        int size = ((List) progress.getCompletedCriteria()).size();
+        int allSize = ((List) progress.getRemainingCriteria()).size() + size;
+        return Pair.of(size, allSize);
     }
 }

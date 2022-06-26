@@ -232,7 +232,7 @@
       "translate": "advancement.takumicraft.slay_all.desc"
     },
     "frame": "goal",
-    "hidden": true,
+    "hidden": false,
     "icon": {
       "item": "takumicraft:takumibook"
     },

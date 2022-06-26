@@ -1,6 +1,8 @@
 {
   "advancement.takumicraft.creeperbomb.desc": "Got a CreeperBomb.",
   "advancement.takumicraft.creeperbomb.title": "All You Need Is Bomb",
+  "advancement.takumicraft.disarmament.desc": "Disarmament creeper's lighting armor.",
+  "advancement.takumicraft.disarmament.title": "Disarmament",
   "advancement.takumicraft.root.desc": "Going into Chaotic Creeper World! \n Get damaged from explosion.",
   "advancement.takumicraft.root.title": "Takumi Craft",
   "advancement.takumicraft.slay_all.desc": "Complete the Creeper Book.",
@@ -10,6 +12,7 @@
   "block.takumicraft.creeperiron": "Creeper Iron Block",
   "block.takumicraft.deepslate_gunore": "Deepslate Gunpowder Ore",
   "block.takumicraft.gunore": "Gunpowder Ore",
+  "enchantment.takumicraft.anti_powered": "Anti Powered",
   "entity.takumicraft.bangcreeper": "Bang Creeper",
   "entity.takumicraft.bangcreeper.desc": "This explosion can even destroy obsidian. There's no way to protect you.",
   "entity.takumicraft.drownedcreeper": "Drowned Creeper",
@@ -85,5 +88,6 @@
   "takumicraft.rank.low": "Low",
   "takumicraft.rank.mid": "Mid",
   "takumicraft.takumibook": "Takumi Book",
+  "takumicraft.takumibook.comp": "Complete: ",
   "takumicraft.takumibook.search": "Search"
 }

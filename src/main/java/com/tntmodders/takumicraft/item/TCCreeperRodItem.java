@@ -3,10 +3,12 @@ package com.tntmodders.takumicraft.item;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import com.tntmodders.takumicraft.core.TCCreativeModeTabCore;
+import com.tntmodders.takumicraft.core.TCEnchantmentCore;
 import com.tntmodders.takumicraft.provider.ITCItems;
 import com.tntmodders.takumicraft.provider.ITCTranslator;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -38,6 +40,14 @@ public class TCCreeperRodItem extends Item implements ITCItems, ITCTranslator {
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         level.getEntities(player, player.getBoundingBox().inflate(50), entity -> entity instanceof Creeper).forEach(entity -> ((Creeper) entity).ignite());
         return super.use(level, player, hand);
+    }
+
+    @Override
+    public void inventoryTick(ItemStack p_41404_, Level p_41405_, Entity p_41406_, int p_41407_, boolean p_41408_) {
+        super.inventoryTick(p_41404_, p_41405_, p_41406_, p_41407_, p_41408_);
+        if (!p_41404_.isEnchanted()) {
+            p_41404_.enchant(TCEnchantmentCore.ANTI_POWERED, 1);
+        }
     }
 
     @Override

@@ -90,6 +90,9 @@ public class TakumiCraftCore {
             if (ForgeRegistries.FEATURES.equals(event.getForgeRegistry())) {
                 TCBiomeModifierCore.registerModifiers(event);
             }
+            if (ForgeRegistries.ENCHANTMENTS.equals(event.getForgeRegistry())) {
+                TCEnchantmentCore.register(event);
+            }
         }
 
         @SubscribeEvent

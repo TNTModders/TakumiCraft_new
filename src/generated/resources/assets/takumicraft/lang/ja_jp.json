@@ -1,6 +1,8 @@
 {
   "advancement.takumicraft.creeperbomb.desc": "匠式高性能爆弾を入手する \n 全ては爆弾から。",
   "advancement.takumicraft.creeperbomb.title": "爆発物注意",
+  "advancement.takumicraft.disarmament.desc": "巨匠化状態を解除する\n怖いものなし、匠の狩人。",
+  "advancement.takumicraft.disarmament.title": "武装解除",
   "advancement.takumicraft.root.desc": "この匠だらけの世界へ! \n 爆発の洗礼を受ける。",
   "advancement.takumicraft.root.title": "匠Craft",
   "advancement.takumicraft.slay_all.desc": "匠の書の制覇\n 王の創る次なる匠を待たれよ。",
@@ -10,6 +12,7 @@
   "block.takumicraft.creeperiron": "匠式硬質鋼",
   "block.takumicraft.deepslate_gunore": "深層火薬岩",
   "block.takumicraft.gunore": "火薬岩",
+  "enchantment.takumicraft.anti_powered": "巨匠特攻",
   "entity.takumicraft.bangcreeper": "爆匠",
   "entity.takumicraft.bangcreeper.desc": "強力な爆発は黒曜石をも破壊する。身を守る術なく、高密度破壊をもたらす。",
   "entity.takumicraft.bangcreeper.read": "ばくしょう",
@@ -101,5 +104,6 @@
   "takumicraft.rank.low": "下位",
   "takumicraft.rank.mid": "中位",
   "takumicraft.takumibook": "匠の書",
+  "takumicraft.takumibook.comp": "進捗: ",
   "takumicraft.takumibook.search": "匠の書 検索"
 }
