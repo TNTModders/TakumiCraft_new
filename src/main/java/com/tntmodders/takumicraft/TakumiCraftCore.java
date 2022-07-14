@@ -12,7 +12,9 @@ import net.minecraft.data.tags.BlockTagsProvider;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.EntityRenderersEvent;
+import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -23,7 +25,6 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLEnvironment;
-import net.minecraftforge.forge.event.lifecycle.GatherDataEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegisterEvent;
 import org.apache.logging.log4j.LogManager;
@@ -84,7 +85,7 @@ public class TakumiCraftCore {
             if (ForgeRegistries.ITEMS.equals(event.getForgeRegistry())) {
                 TCItemCore.register(event);
             }
-            if (ForgeRegistries.ENTITIES.equals(event.getForgeRegistry())) {
+            if (ForgeRegistries.ENTITY_TYPES.equals(event.getForgeRegistry())) {
                 TCEntityCore.registerEntityType(event);
             }
             if (ForgeRegistries.FEATURES.equals(event.getForgeRegistry())) {
@@ -111,8 +112,12 @@ public class TakumiCraftCore {
 
         @SubscribeEvent
         public static void ClientInit(FMLClientSetupEvent event) {
-            TCKeyBindingCore.register();
             TCSearchTreeCore.register();
+        }
+
+        @SubscribeEvent
+        public static  void RegisterKeyBinding(RegisterKeyMappingsEvent event){
+            TCKeyBindingCore.register(event);
         }
     }
 }

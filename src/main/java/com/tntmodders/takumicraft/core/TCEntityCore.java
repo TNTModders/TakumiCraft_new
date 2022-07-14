@@ -46,7 +46,7 @@ public class TCEntityCore {
                 Object obj = field.get(null);
                 if (obj instanceof AbstractTCCreeper.TCCreeperContext<?> context) {
                     EntityType<?> type = context.entityType();
-                    event.register(ForgeRegistries.ENTITIES.getRegistryKey(), entityTypeRegisterHelper -> entityTypeRegisterHelper.register(new ResourceLocation(TakumiCraftCore.MODID,context.getRegistryName()), type));
+                    event.register(ForgeRegistries.ENTITY_TYPES.getRegistryKey(), entityTypeRegisterHelper -> entityTypeRegisterHelper.register(new ResourceLocation(TakumiCraftCore.MODID,context.getRegistryName()), type));
                     ENTITY_TYPES.add(type);
                     ENTITY_CONTEXTS.add(context);
                     TCLoggingUtils.entryRegistry("Entity", context.getRegistryName());

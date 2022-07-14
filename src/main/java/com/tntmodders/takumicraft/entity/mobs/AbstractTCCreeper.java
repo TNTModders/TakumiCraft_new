@@ -44,7 +44,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.common.world.MobSpawnSettingsBuilder;
 import net.minecraftforge.entity.IEntityAdditionalSpawnData;
-import net.minecraftforge.event.world.ExplosionEvent;
+import net.minecraftforge.event.level.ExplosionEvent;
 
 import javax.annotation.Nullable;
 import java.util.function.BiConsumer;

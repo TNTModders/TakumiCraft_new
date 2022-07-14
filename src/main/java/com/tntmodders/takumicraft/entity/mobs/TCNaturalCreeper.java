@@ -11,7 +11,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.client.event.EntityRenderersEvent;
-import net.minecraftforge.event.world.ExplosionEvent;
+import net.minecraftforge.event.level.ExplosionEvent;
 
 public class TCNaturalCreeper extends AbstractTCCreeper {
 

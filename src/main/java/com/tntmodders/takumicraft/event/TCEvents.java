@@ -16,7 +16,7 @@ import net.minecraft.world.entity.monster.Phantom;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
-import net.minecraftforge.event.world.ExplosionEvent;
+import net.minecraftforge.event.level.ExplosionEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -35,14 +35,14 @@ public class TCEvents {
         //protection etc.
         List<BlockPos> removePosList = new ArrayList<>();
         event.getAffectedBlocks().forEach(pos -> {
-            if (event.getWorld().getBlockState(pos).is(TCBlockCore.ANTI_EXPLOSION)
-                    || (event.getWorld() instanceof ServerLevel level && this.isUnderProtection(level, pos))) {
+            if (event.getLevel().getBlockState(pos).is(TCBlockCore.ANTI_EXPLOSION)
+                    || (event.getLevel()instanceof ServerLevel level && this.isUnderProtection(level, pos))) {
                 removePosList.add(pos);
             }
         });
         event.getAffectedBlocks().removeAll(removePosList);
 
-        List<? extends Player> playerList = event.getWorld().players();
+        List<? extends Player> playerList = event.getLevel().players();
         if (!playerList.isEmpty()) {
             playerList.forEach(player -> {
                 if (player instanceof ServerPlayer && player.distanceToSqr(event.getExplosion().getPosition()) < 100) {
@@ -53,7 +53,7 @@ public class TCEvents {
         }
 
         //onExplosion
-        if (!event.getWorld().isClientSide) {
+        if (!event.getLevel().isClientSide) {
             if (event.getExplosion().getExploder() instanceof AbstractTCCreeper) {
                 ((AbstractTCCreeper) event.getExplosion().getExploder()).explodeCreeperEvent(event);
             }
@@ -62,7 +62,7 @@ public class TCEvents {
 
     @SubscribeEvent
     public void onEntitySpawn(LivingSpawnEvent.CheckSpawn event) {
-        if (event.getEntity() instanceof Phantom && event.getWorld().getRandom().nextInt(10) == 0 && event.getEntity().level instanceof ServerLevel level) {
+        if (event.getEntity() instanceof Phantom && event.getLevel().getRandom().nextInt(10) == 0 && event.getEntity().level instanceof ServerLevel level) {
             BlockPos pos = new BlockPos(event.getX(), event.getY(), event.getZ());
             TCPhantomCreeper creeper = ((TCPhantomCreeper) TCEntityCore.PHANTOM.entityType().create(level));
             creeper.moveTo(pos, 0f, 0f);
@@ -74,7 +74,7 @@ public class TCEvents {
     }
 
     @SubscribeEvent
-    public void onEntityTick(LivingEvent.LivingUpdateEvent event) {
+    public void onEntityTick(LivingEvent.LivingTickEvent event) {
         if (!event.getEntity().level.isClientSide && event.getEntity() instanceof Creeper creeper && event.getEntity().level.isThundering()) {
             creeper.getEntityData().set(ObfuscationReflectionHelper.getPrivateValue(Creeper.class, creeper, "DATA_IS_POWERED"), true);
         }

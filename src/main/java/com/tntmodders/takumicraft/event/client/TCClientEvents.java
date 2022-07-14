@@ -16,7 +16,7 @@ public class TCClientEvents {
     public static final TCClientEvents INSTANCE = new TCClientEvents();
 
     @SubscribeEvent
-    public void onKeyPressed(InputEvent.KeyInputEvent event) {
+    public void onKeyPressed(InputEvent.Key event) {
         if (Minecraft.getInstance().screen == null) {
             if (event.getKey() == TCKeyBindingCore.MAP_TAKUMIBOOK.getKey().getValue()) {
                 Minecraft.getInstance().setScreen(new TCTakumiBookScreen());

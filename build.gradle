@@ -83,7 +83,7 @@ repositories {
 
 //only change this on the version-up
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.19-41.0.45'
+    minecraft 'net.minecraftforge:forge:1.19-41.0.98'
 }
 
 jar {
@@ -117,4 +117,5 @@ publishing {
 
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
+    options.compilerArgs << '-Xlint:-deprecation'
 }
