@@ -25,6 +25,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.biome.MobSpawnSettings;
@@ -132,7 +133,11 @@ public abstract class AbstractTCCreeper extends Creeper implements ITCEntities, 
         }
 
         default void addSpawn(MobSpawnSettingsBuilder builder) {
-            builder.addSpawn(this.getCategory(), new MobSpawnSettings.SpawnerData(this.entityType(), this.getRank().getSpawnWeight(), 2, this.getMaxSpawn()));
+            builder.addSpawn(this.getCategory(), new MobSpawnSettings.SpawnerData(this.entityType(), this.getSpawnWeight(), 2, this.getMaxSpawn()));
+        }
+
+        default int getSpawnWeight() {
+            return this.getRank().getSpawnWeight();
         }
 
         default MobCategory getCategory() {
@@ -141,6 +146,10 @@ public abstract class AbstractTCCreeper extends Creeper implements ITCEntities, 
 
         default int getMaxSpawn() {
             return this.getRank().getMaxSpawn();
+        }
+
+        default ItemLike getMainDropItem() {
+            return Items.GUNPOWDER;
         }
 
         @Nullable
@@ -156,7 +165,7 @@ public abstract class AbstractTCCreeper extends Creeper implements ITCEntities, 
                     this.add(type,
                             LootTable.lootTable()
                                     .withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
-                                            .add(LootItem.lootTableItem(Items.GUNPOWDER)
+                                            .add(LootItem.lootTableItem(TCCreeperContext.this.getMainDropItem())
                                                     .apply(SetItemCountFunction.setCount(UniformGenerator.between(0.0F, 2.0F)))
                                                     .apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(0.0F, 1.0F)))))
                                     .withPool(LootPool.lootPool().add(TagEntry.expandTag(ItemTags.CREEPER_DROP_MUSIC_DISCS))

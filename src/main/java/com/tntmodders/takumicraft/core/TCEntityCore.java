@@ -38,6 +38,8 @@ public class TCEntityCore {
     public static final AbstractTCCreeper.TCCreeperContext<TCBangCreeper> BANG = new TCBangCreeper.TCBangCreeperContext();
     public static final AbstractTCCreeper.TCCreeperContext<TCHuskCreeper> HUSK = new TCHuskCreeper.TCHuskCreeperContext();
 
+    public static final AbstractTCCreeper.TCCreeperContext<TCCowCreeper> COW = new TCCowCreeper.TCCowCreeperContext();
+
     public static void registerEntityType(RegisterEvent event) {
         TCLoggingUtils.startRegistry("Entity");
         List<Field> fieldList = Arrays.asList(TCEntityCore.class.getDeclaredFields());

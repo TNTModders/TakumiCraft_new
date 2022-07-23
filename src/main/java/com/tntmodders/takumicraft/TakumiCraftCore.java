@@ -116,7 +116,7 @@ public class TakumiCraftCore {
         }
 
         @SubscribeEvent
-        public static  void RegisterKeyBinding(RegisterKeyMappingsEvent event){
+        public static void RegisterKeyBinding(RegisterKeyMappingsEvent event) {
             TCKeyBindingCore.register(event);
         }
     }
