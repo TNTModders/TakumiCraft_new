@@ -36,7 +36,10 @@ import net.minecraft.world.entity.ai.util.GoalUtils;
 import net.minecraft.world.entity.animal.Chicken;
 import net.minecraft.world.entity.animal.IronGolem;
 import net.minecraft.world.entity.animal.Turtle;
-import net.minecraft.world.entity.monster.*;
+import net.minecraft.world.entity.monster.Creeper;
+import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.monster.Zombie;
+import net.minecraft.world.entity.monster.ZombifiedPiglin;
 import net.minecraft.world.entity.npc.AbstractVillager;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
@@ -58,6 +61,7 @@ import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceWit
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import net.minecraftforge.client.event.EntityRenderersEvent;
+import net.minecraftforge.event.level.ExplosionEvent;
 
 import javax.annotation.Nullable;
 import java.time.LocalDate;
@@ -97,6 +101,15 @@ public class TCZombieCreeper extends AbstractTCCreeper {
     @Override
     public TCCreeperContext<? extends AbstractTCCreeper> getContext() {
         return TCEntityCore.ZOMBIE;
+    }
+
+    @Override
+    public void explodeCreeperEvent(ExplosionEvent.Detonate event) {
+        event.getAffectedEntities().forEach(entity -> {
+            if (entity instanceof Villager) {
+                ((Villager) entity).die(DamageSource.explosion(event.getExplosion()));
+            }
+        });
     }
 
     @Override
@@ -398,12 +411,13 @@ public class TCZombieCreeper extends AbstractTCCreeper {
     @Override
     public boolean wasKilled(ServerLevel p_34281_, LivingEntity p_34282_) {
         boolean flg = super.wasKilled(p_34281_, p_34282_);
-        if ((p_34281_.getDifficulty() == Difficulty.NORMAL || p_34281_.getDifficulty() == Difficulty.HARD) && p_34282_ instanceof Villager villager && net.minecraftforge.event.ForgeEventFactory.canLivingConvert(p_34282_, EntityType.ZOMBIE_VILLAGER, (timer) -> {
-        })) {
+        if ((p_34281_.getDifficulty() == Difficulty.NORMAL || p_34281_.getDifficulty() == Difficulty.HARD) && p_34282_ instanceof Villager villager &&
+                net.minecraftforge.event.ForgeEventFactory.canLivingConvert(p_34282_, (EntityType<TCZombieVillagerCreeper>) TCEntityCore.ZOMBIE_VILLAGER.entityType(), (timer) -> {
+                })) {
             if (p_34281_.getDifficulty() != Difficulty.HARD && this.random.nextBoolean()) {
                 return flg;
             }
-            ZombieVillager zombievillager = villager.convertTo(EntityType.ZOMBIE_VILLAGER, false);
+            TCZombieVillagerCreeper zombievillager = villager.convertTo(((EntityType<TCZombieVillagerCreeper>) TCEntityCore.ZOMBIE_VILLAGER.entityType()), false);
             zombievillager.finalizeSpawn(p_34281_, p_34281_.getCurrentDifficultyAt(zombievillager.blockPosition()), MobSpawnType.CONVERSION, new Zombie.ZombieGroupData(false, true), null);
             zombievillager.setVillagerData(villager.getVillagerData());
             zombievillager.setGossips(villager.getGossips().store(NbtOps.INSTANCE).getValue());

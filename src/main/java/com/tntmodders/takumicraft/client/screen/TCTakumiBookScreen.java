@@ -7,8 +7,8 @@ import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.core.TCEntityCore;
 import com.tntmodders.takumicraft.entity.mobs.AbstractTCCreeper;
 import com.tntmodders.takumicraft.utils.TCEntityUtils;
+import net.minecraft.client.GameNarrator;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.chat.NarratorChatListener;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.PageButton;
@@ -65,7 +65,7 @@ public class TCTakumiBookScreen extends Screen {
     private int tick = 0;
 
     public TCTakumiBookScreen() {
-        super(NarratorChatListener.NO_TITLE);
+        super(GameNarrator.NO_TITLE);
         this.bookAccess = EMPTY_ACCESS;
         this.playTurnSound = false;
         TCEntityCore.ENTITY_CONTEXTS.forEach(context -> {
@@ -73,11 +73,6 @@ public class TCTakumiBookScreen extends Screen {
                 CREEPERS.add(creeper);
             }
         });
-    }
-
-    @Override
-    public boolean isPauseScreen() {
-        return true;
     }
 
     static List<String> loadPages(CompoundTag p_169695_) {
@@ -103,6 +98,11 @@ public class TCTakumiBookScreen extends Screen {
             p_169698_.accept(intfunction.apply(i));
         }
 
+    }
+
+    @Override
+    public boolean isPauseScreen() {
+        return true;
     }
 
     public void setBookAccess(TCTakumiBookScreen.BookAccess p_98289_) {
