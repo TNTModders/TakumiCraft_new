@@ -37,7 +37,7 @@ public class TCEntityCore {
     public static final AbstractTCCreeper.TCCreeperContext<TCNaturalCreeper> NATURAL = new TCNaturalCreeper.TCNaturalCreeperContext();
     public static final AbstractTCCreeper.TCCreeperContext<TCBangCreeper> BANG = new TCBangCreeper.TCBangCreeperContext();
     public static final AbstractTCCreeper.TCCreeperContext<TCHuskCreeper> HUSK = new TCHuskCreeper.TCHuskCreeperContext();
-
+    public static final AbstractTCCreeper.TCCreeperContext<TCHappinessCreeper> HAPPINESS = new TCHappinessCreeper.TCHappinessCreeperContext();
     public static final AbstractTCCreeper.TCCreeperContext<TCCowCreeper> COW = new TCCowCreeper.TCCowCreeperContext();
 
     public static void registerEntityType(RegisterEvent event) {
@@ -48,7 +48,7 @@ public class TCEntityCore {
                 Object obj = field.get(null);
                 if (obj instanceof AbstractTCCreeper.TCCreeperContext<?> context) {
                     EntityType<?> type = context.entityType();
-                    event.register(ForgeRegistries.ENTITY_TYPES.getRegistryKey(), entityTypeRegisterHelper -> entityTypeRegisterHelper.register(new ResourceLocation(TakumiCraftCore.MODID,context.getRegistryName()), type));
+                    event.register(ForgeRegistries.ENTITY_TYPES.getRegistryKey(), entityTypeRegisterHelper -> entityTypeRegisterHelper.register(new ResourceLocation(TakumiCraftCore.MODID, context.getRegistryName()), type));
                     ENTITY_TYPES.add(type);
                     ENTITY_CONTEXTS.add(context);
                     TCLoggingUtils.entryRegistry("Entity", context.getRegistryName());

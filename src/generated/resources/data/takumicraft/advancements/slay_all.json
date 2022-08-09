@@ -71,6 +71,20 @@
       },
       "trigger": "minecraft:player_killed_entity"
     },
+    "slay_happinesscreeper": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "takumicraft:happinesscreeper"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
     "slay_huskcreeper": {
       "conditions": {
         "entity": [
@@ -291,6 +305,9 @@
     ],
     [
       "slay_slimecreeper"
+    ],
+    [
+      "slay_happinesscreeper"
     ],
     [
       "slay_cowcreeper"

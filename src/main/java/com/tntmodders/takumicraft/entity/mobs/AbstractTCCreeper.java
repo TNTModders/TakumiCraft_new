@@ -1,6 +1,7 @@
 package com.tntmodders.takumicraft.entity.mobs;
 
 import com.tntmodders.takumicraft.TakumiCraftCore;
+import com.tntmodders.takumicraft.client.renderer.entity.TCCreeperRenderer;
 import com.tntmodders.takumicraft.core.TCBlockCore;
 import com.tntmodders.takumicraft.core.TCEntityCore;
 import com.tntmodders.takumicraft.provider.ITCEntities;
@@ -194,7 +195,9 @@ public abstract class AbstractTCCreeper extends Creeper implements ITCEntities, 
         AttributeSupplier.Builder entityAttribute();
 
         @OnlyIn(Dist.CLIENT)
-        void registerRenderer(EntityRenderersEvent.RegisterRenderers event, EntityType<?> type);
+        default void registerRenderer(EntityRenderersEvent.RegisterRenderers event, EntityType<?> type) {
+            event.registerEntityRenderer(((EntityType<Creeper>) type), TCCreeperRenderer::new);
+        }
 
         EnumTakumiElement getElement();
 
