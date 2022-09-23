@@ -83,7 +83,7 @@ repositories {
 
 //only change this on the version-up
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.19.1-42.0.9'
+    minecraft 'net.minecraftforge:forge:1.19.2-43.1.27'
 }
 
 jar {
