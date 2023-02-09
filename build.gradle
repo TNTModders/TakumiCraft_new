@@ -16,7 +16,7 @@ plugins {
 }
 
 
-version = '1.19.1-2.2.0.0-beta.0'
+version = '1.19.2-2.2.0.0-beta.0'
 group = 'com.yourname.modid'
 archivesBaseName = 'takumicraft'
 
@@ -31,6 +31,7 @@ minecraft {
     runs {
         client {
             workingDirectory project.file('run')
+            jvmArgs '-XX:+AllowRedefinitionToAddDeleteMethods'
             property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
             property 'forge.enabledGameTestNamespaces', 'takumicraft'
@@ -44,6 +45,7 @@ minecraft {
 
         server {
             workingDirectory project.file('run')
+            jvmArgs '-XX:+AllowRedefinitionToAddDeleteMethods'
             property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
             property 'forge.enabledGameTestNamespaces', 'takumicraft'
@@ -56,6 +58,7 @@ minecraft {
 
         data {
             workingDirectory project.file('run')
+            jvmArgs '-XX:+AllowRedefinitionToAddDeleteMethods'
             property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
             property 'forge.enabledGameTestNamespaces', 'takumicraft'
@@ -83,7 +86,7 @@ repositories {
 
 //only change this on the version-up
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.19.2-43.1.27'
+    minecraft 'net.minecraftforge:forge:1.19.2-43.2.4'
 }
 
 jar {
