@@ -52,6 +52,7 @@ import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.level.pathfinder.Path;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.client.event.EntityRenderersEvent;
+import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
 
 import javax.annotation.Nullable;
 import java.util.EnumSet;
@@ -577,7 +578,7 @@ public class TCDrownedCreeper extends TCZombieCreeper implements RangedAttackMob
         }
 
         @Override
-        public void registerSpawn(EntityType<AbstractTCCreeper> type) {
+        public void registerSpawn(SpawnPlacementRegisterEvent event, EntityType<AbstractTCCreeper> type) {
             SpawnPlacements.register(type, SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, TCDrownedCreeper::checkDrownedSpawnRules);
         }
     }

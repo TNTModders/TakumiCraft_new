@@ -9,6 +9,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
+import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegisterEvent;
 
@@ -64,7 +65,6 @@ public class TCEntityCore {
     }
 
     private static void registerAdditionalEntityType(RegisterEvent event) {
-
     }
 
     public static void registerAttribute(EntityAttributeCreationEvent event) {
@@ -77,7 +77,7 @@ public class TCEntityCore {
                     EntityType<? extends LivingEntity> type = ((EntityType<? extends LivingEntity>) context.entityType());
                     AttributeSupplier.Builder builder = context.entityAttribute();
                     event.put(type, builder.build());
-                    context.registerSpawn(((EntityType<AbstractTCCreeper>) type));
+                    //context.registerSpawn(((EntityType<AbstractTCCreeper>) type));
                     TCLoggingUtils.entryRegistry("EntityAttribute", context.getRegistryName());
                 }
             } catch (IllegalAccessException e) {
@@ -85,5 +85,22 @@ public class TCEntityCore {
             }
         });
         TCLoggingUtils.completeRegistry("EntityAttribute");
+    }
+
+    public static void registerSpawn(SpawnPlacementRegisterEvent event) {
+        TCLoggingUtils.startRegistry("EntitySpawn");
+        List<Field> fieldList = Arrays.asList(TCEntityCore.class.getDeclaredFields());
+        fieldList.forEach(field -> {
+            try {
+                Object obj = field.get(null);
+                if (obj instanceof AbstractTCCreeper.TCCreeperContext<?> context) {
+                    EntityType<? extends LivingEntity> type = ((EntityType<? extends LivingEntity>) context.entityType());
+                    context.registerSpawn(event, ((EntityType<AbstractTCCreeper>) type));
+                }
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        });
+        TCLoggingUtils.completeRegistry("EntitySpawn");
     }
 }

@@ -46,6 +46,7 @@ import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.client.event.EntityRenderersEvent;
+import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
 
 import javax.annotation.Nullable;
 import java.util.EnumSet;
@@ -651,7 +652,7 @@ public class TCSlimeCreeper extends AbstractTCCreeper {
         }
 
         @Override
-        public void registerSpawn(EntityType<AbstractTCCreeper> type) {
+        public void registerSpawn(SpawnPlacementRegisterEvent event, EntityType<AbstractTCCreeper> type) {
             SpawnPlacements.register(type, SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, TCSlimeCreeper::checkSlimeSpawnRules);
         }
 

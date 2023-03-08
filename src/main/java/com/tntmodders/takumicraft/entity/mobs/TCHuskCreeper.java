@@ -33,6 +33,7 @@ import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceWit
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import net.minecraftforge.client.event.EntityRenderersEvent;
+import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
 import net.minecraftforge.event.level.ExplosionEvent;
 
 import javax.annotation.Nullable;
@@ -142,7 +143,7 @@ public class TCHuskCreeper extends TCZombieCreeper {
         }
 
         @Override
-        public void registerSpawn(EntityType<AbstractTCCreeper> type) {
+        public void registerSpawn(SpawnPlacementRegisterEvent event, EntityType<AbstractTCCreeper> type) {
             SpawnPlacements.register(type, SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, TCHuskCreeper::checkHuskCreeperSpawnRules);
         }
 

@@ -46,6 +46,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.common.world.MobSpawnSettingsBuilder;
 import net.minecraftforge.entity.IEntityAdditionalSpawnData;
+import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
 import net.minecraftforge.event.level.ExplosionEvent;
 
 import javax.annotation.Nullable;
@@ -129,7 +130,8 @@ public abstract class AbstractTCCreeper extends Creeper implements ITCEntities, 
             return false;
         }
 
-        default void registerSpawn(EntityType<AbstractTCCreeper> type) {
+        default void registerSpawn(SpawnPlacementRegisterEvent event, EntityType<AbstractTCCreeper> type) {
+            event.register(type, SpawnPlacements.Type.ON_GROUND,Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,AbstractTCCreeper::checkTakumiSpawnRules, SpawnPlacementRegisterEvent.Operation.OR);
             SpawnPlacements.register(type, SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AbstractTCCreeper::checkTakumiSpawnRules);
         }
 
