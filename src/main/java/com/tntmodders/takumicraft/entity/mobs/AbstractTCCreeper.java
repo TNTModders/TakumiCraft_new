@@ -9,8 +9,8 @@ import com.tntmodders.takumicraft.provider.ITCTranslator;
 import com.tntmodders.takumicraft.utils.client.TCClientUtils;
 import net.minecraft.advancements.critereon.EntityPredicate;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.NonNullList;
-import net.minecraft.data.loot.EntityLoot;
+import net.minecraft.data.loot.EntityLootSubProvider;
+import net.minecraft.data.loot.LootTableSubProvider;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
@@ -25,6 +25,7 @@ import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
@@ -50,9 +51,8 @@ import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
 import net.minecraftforge.event.level.ExplosionEvent;
 
 import javax.annotation.Nullable;
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 import java.util.function.Supplier;
+import java.util.stream.Stream;
 
 public abstract class AbstractTCCreeper extends Creeper implements ITCEntities, IEntityAdditionalSpawnData {
     public AbstractTCCreeper(EntityType<? extends Creeper> entityType, Level level) {
@@ -84,20 +84,15 @@ public abstract class AbstractTCCreeper extends Creeper implements ITCEntities, 
     public abstract TCCreeperContext<? extends AbstractTCCreeper> getContext();
 
     @Override
-    public Supplier<Consumer<BiConsumer<ResourceLocation, LootTable.Builder>>> getEntityLoot() {
-        return () -> new EntityLoot() {
+    public Supplier<LootTableSubProvider> getEntityLoot() {
+        return () -> new EntityLootSubProvider(FeatureFlags.REGISTRY.allFlags()) {
             @Override
-            protected Iterable<EntityType<?>> getKnownEntities() {
-                return TCEntityCore.ENTITY_TYPES;
+            protected Stream<EntityType<?>> getKnownEntityTypes() {
+                return TCEntityCore.ENTITY_TYPES.stream();
             }
 
             @Override
-            protected boolean isNonLiving(EntityType<?> entitytype) {
-                return false;
-            }
-
-            @Override
-            protected void addTables() {
+            public void generate() {
                 this.add(AbstractTCCreeper.this.getType(), LootTable.lootTable().withPool(
                                 LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F)).add(LootItem.lootTableItem(Items.GUNPOWDER)
                                         .apply(SetItemCountFunction.setCount(UniformGenerator.between(0.0F, 2.0F)))
@@ -131,7 +126,7 @@ public abstract class AbstractTCCreeper extends Creeper implements ITCEntities, 
         }
 
         default void registerSpawn(SpawnPlacementRegisterEvent event, EntityType<AbstractTCCreeper> type) {
-            event.register(type, SpawnPlacements.Type.ON_GROUND,Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,AbstractTCCreeper::checkTakumiSpawnRules, SpawnPlacementRegisterEvent.Operation.OR);
+            event.register(type, SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AbstractTCCreeper::checkTakumiSpawnRules, SpawnPlacementRegisterEvent.Operation.OR);
             SpawnPlacements.register(type, SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AbstractTCCreeper::checkTakumiSpawnRules);
         }
 
@@ -156,15 +151,15 @@ public abstract class AbstractTCCreeper extends Creeper implements ITCEntities, 
         }
 
         @Nullable
-        default Supplier<Consumer<BiConsumer<ResourceLocation, LootTable.Builder>>> getCreeperLoot(EntityType<?> type) {
-            return () -> new EntityLoot() {
+        default Supplier<LootTableSubProvider> getCreeperLoot(EntityType<?> type) {
+            return () -> new EntityLootSubProvider(FeatureFlags.REGISTRY.allFlags()) {
                 @Override
-                protected Iterable<EntityType<?>> getKnownEntities() {
-                    return NonNullList.of(type);
+                public Stream<EntityType<?>> getKnownEntityTypes() {
+                    return Stream.of(type);
                 }
 
                 @Override
-                protected void addTables() {
+                public void generate() {
                     this.add(type,
                             LootTable.lootTable()
                                     .withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))

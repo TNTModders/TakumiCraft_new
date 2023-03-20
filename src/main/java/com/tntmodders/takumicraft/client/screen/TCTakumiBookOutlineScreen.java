@@ -35,10 +35,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.inventory.Slot;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.*;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -60,7 +57,7 @@ public class TCTakumiBookOutlineScreen extends EffectRenderingInventoryScreen<TC
     private static final TranslatableContents TRASH_SLOT_TOOLTIP = new TranslatableContents("inventory.binSlot");
     private static final int TEXT_COLOR = 16777215;
     private static final int tabPage = 0;
-    private static int selectedTab = CreativeModeTab.TAB_SEARCH.getId();
+    private static int selectedTab = CreativeModeTabs.SEARCH.getId();
     private final Set<TagKey<Item>> visibleTags = new HashSet<>();
     private final int maxPages = 0;
     private final int searchBoxX = 10;

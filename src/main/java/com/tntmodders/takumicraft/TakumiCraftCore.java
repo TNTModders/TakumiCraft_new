@@ -7,8 +7,9 @@ import com.tntmodders.takumicraft.core.client.TCSearchTreeCore;
 import com.tntmodders.takumicraft.event.TCEvents;
 import com.tntmodders.takumicraft.event.client.TCClientEvents;
 import com.tntmodders.takumicraft.provider.*;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.data.tags.BlockTagsProvider;
+import net.minecraft.data.PackOutput;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.EntityRenderersEvent;
@@ -30,6 +31,8 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegisterEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.util.concurrent.CompletableFuture;
 
 @Mod(TakumiCraftCore.MODID)
 public class TakumiCraftCore {
@@ -63,12 +66,13 @@ public class TakumiCraftCore {
         gen.addProvider(event.includeClient(), new TCItemModelProvider(gen, event.getExistingFileHelper()));
         gen.addProvider(event.includeClient(), new TCLanguageProvider.TCEnUSLanguageProvider(gen));
         gen.addProvider(event.includeClient(), new TCLanguageProvider.TCJaJPLanguageProvider(gen));
-
-        BlockTagsProvider blockTagsProvider = new TCBlockTagsProvider(gen, event.getExistingFileHelper());
+        PackOutput packOutput = gen.getPackOutput();
+        CompletableFuture<HolderLookup.Provider> lookupProvider = event.getLookupProvider();
+        TCBlockTagsProvider blockTagsProvider = new TCBlockTagsProvider(packOutput, lookupProvider, event.getExistingFileHelper());
         gen.addProvider(event.includeServer(), blockTagsProvider);
-        gen.addProvider(event.includeServer(), new TCItemTagsProvider(gen, blockTagsProvider, event.getExistingFileHelper()));
-        gen.addProvider(event.includeServer(), new TCRecipeProvider(gen));
-        gen.addProvider(event.includeServer(), new TCLootTableProvider(gen));
+        gen.addProvider(event.includeServer(), new TCItemTagsProvider(packOutput, lookupProvider, blockTagsProvider.contentsGetter(), event.getExistingFileHelper()));
+        gen.addProvider(event.includeServer(), new TCRecipeProvider(packOutput));
+        gen.addProvider(event.includeServer(), new TCLootTableProvider(packOutput));
         gen.addProvider(event.includeServer(), new TCAdvancementProvider(gen, event.getExistingFileHelper()));
     }
 

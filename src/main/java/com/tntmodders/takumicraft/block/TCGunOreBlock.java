@@ -3,13 +3,14 @@ package com.tntmodders.takumicraft.block;
 import com.ibm.icu.impl.Pair;
 import com.tntmodders.takumicraft.core.TCBlockCore;
 import com.tntmodders.takumicraft.core.TCItemCore;
+import com.tntmodders.takumicraft.data.loot.TCBlockLoot;
 import com.tntmodders.takumicraft.provider.ITCRecipe;
 import com.tntmodders.takumicraft.provider.TCRecipeProvider;
 import net.minecraft.core.BlockPos;
-import net.minecraft.data.loot.BlockLoot;
+import net.minecraft.data.loot.LootTableSubProvider;
 import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.SimpleCookingRecipeBuilder;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
@@ -27,11 +28,8 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
-import net.minecraft.world.level.storage.loot.LootTable;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
-import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -78,25 +76,16 @@ public class TCGunOreBlock extends AbstractTCBombBlock implements ITCRecipe {
     }
 
     @Override
-    public Supplier<Consumer<BiConsumer<ResourceLocation, LootTable.Builder>>> getBlockLoot(@NotNull Block block) {
-        return () -> new BlockLoot() {
-
-            @Override
-            protected Iterable<Block> getKnownBlocks() {
-                return List.of(block);
-            }
-
-            @Override
-            protected void addTables() {
-                this.add(block, (func) -> BlockLoot.createOreDrop(block, Items.GUNPOWDER));
-            }
-        };
+    public Supplier<LootTableSubProvider> getBlockLootSubProvider(Block block) {
+        return () -> new TCBlockLoot(block, false);
     }
 
     @Override
     public void addRecipes(TCRecipeProvider provider, ItemLike itemLike, Consumer<FinishedRecipe> consumer) {
-        provider.saveRecipe(itemLike, consumer, SimpleCookingRecipeBuilder.smelting(Ingredient.of(itemLike), Items.GUNPOWDER, 0.5f, 100));
-        provider.saveRecipe(itemLike, consumer, SimpleCookingRecipeBuilder.blasting(Ingredient.of(itemLike), Items.GUNPOWDER, 0.5f, 50));
+        provider.saveRecipe(itemLike, consumer, SimpleCookingRecipeBuilder.smelting(Ingredient.of(itemLike),
+                RecipeCategory.DECORATIONS, Items.GUNPOWDER, 0.5f, 100));
+        provider.saveRecipe(itemLike, consumer, SimpleCookingRecipeBuilder.blasting(Ingredient.of(itemLike),
+                RecipeCategory.DECORATIONS, Items.GUNPOWDER, 0.5f, 50));
     }
 
     @Override

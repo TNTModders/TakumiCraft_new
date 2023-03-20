@@ -1,4 +1,4 @@
-buildscript {
+/*buildscript {
     repositories {
         maven { url = 'https://maven.minecraftforge.net' }
         mavenCentral()
@@ -6,13 +6,13 @@ buildscript {
     dependencies {
         classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
     }
-}
+}*/
 
 // Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 plugins {
     id 'idea'
     id 'maven-publish'
-    id 'net.minecraftforge.gradle' version '5.+'
+    id 'net.minecraftforge.gradle' version '5.1.+'
 }
 
 
@@ -22,9 +22,9 @@ archivesBaseName = 'takumicraft'
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
-println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
+println "Java: ${System.getProperty 'java.version'}, JVM: ${System.getProperty 'java.vm.version'} (${System.getProperty 'java.vendor'}), Arch: ${System.getProperty 'os.arch'}"
 minecraft {
-    mappings channel: 'official', version: '1.19.2'
+    mappings channel: 'official', version: '1.19.4'
 
     accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
 
@@ -86,7 +86,7 @@ repositories {
 
 //only change this on the version-up
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.19.2-43.2.6'
+    minecraft 'net.minecraftforge:forge:1.19.4-45.0.10'
 }
 
 jar {
@@ -120,5 +120,5 @@ publishing {
 
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
-    //options.compilerArgs << '-Xlint:-deprecation'
+    options.compilerArgs << '-Xlint:-deprecation'
 }

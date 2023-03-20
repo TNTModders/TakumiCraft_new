@@ -5,14 +5,13 @@ import com.tntmodders.takumicraft.client.renderer.entity.TCZombieCreeperRenderer
 import com.tntmodders.takumicraft.core.TCEntityCore;
 import com.tntmodders.takumicraft.entity.ai.TCZombieCreeperAttackGoal;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.NonNullList;
-import net.minecraft.data.loot.EntityLoot;
+import net.minecraft.data.loot.EntityLootSubProvider;
+import net.minecraft.data.loot.LootTableSubProvider;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -43,6 +42,7 @@ import net.minecraft.world.entity.monster.ZombifiedPiglin;
 import net.minecraft.world.entity.npc.AbstractVillager;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.*;
@@ -68,10 +68,9 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoField;
 import java.util.List;
 import java.util.UUID;
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
+import java.util.stream.Stream;
 
 public class TCZombieCreeper extends AbstractTCCreeper {
     public static final float ZOMBIE_LEADER_CHANCE = 0.05F;
@@ -107,7 +106,7 @@ public class TCZombieCreeper extends AbstractTCCreeper {
     public void explodeCreeperEvent(ExplosionEvent.Detonate event) {
         event.getAffectedEntities().forEach(entity -> {
             if (entity instanceof Villager) {
-                ((Villager) entity).die(DamageSource.explosion(event.getExplosion()));
+                ((Villager) entity).die(this.level.damageSources().explosion(event.getExplosion()));
             }
         });
     }
@@ -420,7 +419,7 @@ public class TCZombieCreeper extends AbstractTCCreeper {
             TCZombieVillagerCreeper zombievillager = villager.convertTo(((EntityType<TCZombieVillagerCreeper>) TCEntityCore.ZOMBIE_VILLAGER.entityType()), false);
             zombievillager.finalizeSpawn(p_34281_, p_34281_.getCurrentDifficultyAt(zombievillager.blockPosition()), MobSpawnType.CONVERSION, new Zombie.ZombieGroupData(false, true), null);
             zombievillager.setVillagerData(villager.getVillagerData());
-            zombievillager.setGossips(villager.getGossips().store(NbtOps.INSTANCE).getValue());
+            zombievillager.setGossips(villager.getGossips().store(NbtOps.INSTANCE));
             zombievillager.setTradeOffers(villager.getOffers().createTag());
             zombievillager.setVillagerXp(villager.getVillagerXp());
             net.minecraftforge.event.ForgeEventFactory.onLivingConvert(p_34282_, zombievillager);
@@ -631,15 +630,15 @@ public class TCZombieCreeper extends AbstractTCCreeper {
 
         @Nullable
         @Override
-        public Supplier<Consumer<BiConsumer<ResourceLocation, LootTable.Builder>>> getCreeperLoot(EntityType<?> type) {
-            return () -> new EntityLoot() {
+        public Supplier<LootTableSubProvider> getCreeperLoot(EntityType<?> type) {
+            return () -> new EntityLootSubProvider(FeatureFlags.REGISTRY.allFlags()) {
                 @Override
-                protected Iterable<EntityType<?>> getKnownEntities() {
-                    return NonNullList.of(type);
+                protected Stream<EntityType<?>> getKnownEntityTypes() {
+                    return Stream.of(type);
                 }
 
                 @Override
-                protected void addTables() {
+                public void generate() {
                     this.add(CREEPER, LootTable.lootTable().withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F)).add(LootItem.lootTableItem(Items.ROTTEN_FLESH).apply(SetItemCountFunction.setCount(UniformGenerator.between(0.0F, 2.0F))).apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(0.0F, 1.0F))))).withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F)).add(LootItem.lootTableItem(Items.IRON_INGOT)).add(LootItem.lootTableItem(Items.CARROT)).add(LootItem.lootTableItem(Items.POTATO).apply(SmeltItemFunction.smelted().when(LootItemEntityPropertyCondition.hasProperties(LootContext.EntityTarget.THIS, ENTITY_ON_FIRE)))).when(LootItemKilledByPlayerCondition.killedByPlayer()).when(LootItemRandomChanceWithLootingCondition.randomChanceAndLootingBoost(0.025F, 0.01F))));
                 }
             };

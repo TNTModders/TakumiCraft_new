@@ -1,12 +1,9 @@
 package com.tntmodders.takumicraft.provider;
 
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.data.loot.LootTableSubProvider;
 
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 public interface ITCEntities{
-    Supplier<Consumer<BiConsumer<ResourceLocation, LootTable.Builder>>> getEntityLoot();
+    Supplier<LootTableSubProvider> getEntityLoot();
 }

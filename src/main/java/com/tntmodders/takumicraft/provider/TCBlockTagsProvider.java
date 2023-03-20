@@ -3,25 +3,28 @@ package com.tntmodders.takumicraft.provider;
 import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.core.TCBlockCore;
 import com.tntmodders.takumicraft.utils.TCLoggingUtils;
-import net.minecraft.data.DataGenerator;
-import net.minecraft.data.tags.BlockTagsProvider;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.data.PackOutput;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraftforge.common.data.BlockTagsProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 public class TCBlockTagsProvider extends BlockTagsProvider {
 
-    public TCBlockTagsProvider(DataGenerator p_126511_, @Nullable ExistingFileHelper existingFileHelper) {
-        super(p_126511_, TakumiCraftCore.MODID, existingFileHelper);
+    public TCBlockTagsProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider,
+                               @Nullable ExistingFileHelper existingFileHelper) {
+        super(output, lookupProvider, TakumiCraftCore.MODID, existingFileHelper);
     }
 
     @Override
-    protected void addTags() {
+    protected void addTags(HolderLookup.Provider provider) {
         TCLoggingUtils.startRegistry("Block Tag");
         List<Field> fieldList = Arrays.asList(TCBlockCore.class.getDeclaredFields());
         fieldList.forEach(field -> {
