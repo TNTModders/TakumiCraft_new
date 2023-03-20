@@ -17,7 +17,7 @@ public abstract class TCLanguageProvider extends LanguageProvider {
     private static final List<ITCTranslator> TRANSLATORS = new ArrayList<>();
 
     protected TCLanguageProvider(DataGenerator gen, String locale) {
-        super(gen, TakumiCraftCore.MODID, locale);
+        super(gen.getPackOutput(), TakumiCraftCore.MODID, locale);
     }
 
     @Override

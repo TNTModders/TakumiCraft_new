@@ -6,13 +6,13 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.searchtree.FullTextSearchTree;
 import net.minecraft.client.searchtree.SearchRegistry;
 import net.minecraft.core.NonNullList;
-import net.minecraft.core.Registry;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.stream.Stream;
 
@@ -25,7 +25,7 @@ public class TCSearchTreeCore {
 
         NonNullList<ItemStack> nonnulllist = NonNullList.create();
 
-        for (Item item : Registry.ITEM) {
+        for (Item item : ForgeRegistries.ITEMS) {
             if (item instanceof TCSpawnEggItem) {
                 item.fillItemCategory(CreativeModeTab.TAB_SEARCH, nonnulllist);
             }
@@ -36,6 +36,6 @@ public class TCSearchTreeCore {
                 return Stream.of(item.getContext().getEnUSName(), item.getContext().getJaJPName(), item.getContext().getJaJPRead()).filter(s -> s != null && !s.isEmpty());
             }
             return itemStack.getTooltipLines(null, TooltipFlag.Default.NORMAL).stream().map((component) -> ChatFormatting.stripFormatting(component.getString()).trim()).filter((s) -> !s.isEmpty());
-        }, (itemStack) -> Stream.of(Registry.ITEM.getKey(itemStack.getItem())), nonnulllist));
+        }, (itemStack) -> Stream.of(ForgeRegistries.ITEMS.getKey(itemStack.getItem())), nonnulllist));
     }
 }

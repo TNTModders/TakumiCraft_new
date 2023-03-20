@@ -63,7 +63,7 @@ public class TCEvents {
     @SubscribeEvent
     public void onEntitySpawn(LivingSpawnEvent.CheckSpawn event) {
         if (event.getEntity() instanceof Phantom && event.getLevel().getRandom().nextInt(10) == 0 && event.getEntity().level instanceof ServerLevel level) {
-            BlockPos pos = new BlockPos(event.getX(), event.getY(), event.getZ());
+            BlockPos pos = new BlockPos(((int) event.getX()), ((int) event.getY()), ((int) event.getZ()));
             TCPhantomCreeper creeper = ((TCPhantomCreeper) TCEntityCore.PHANTOM.entityType().create(level));
             creeper.moveTo(pos, 0f, 0f);
             creeper.finalizeSpawn(level, level.getCurrentDifficultyAt(pos), MobSpawnType.NATURAL, null, null);

@@ -3,15 +3,15 @@ package com.tntmodders.takumicraft.provider;
 import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.core.TCItemCore;
 import com.tntmodders.takumicraft.utils.TCLoggingUtils;
-import net.minecraft.data.DataGenerator;
+import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
 
 public class TCItemModelProvider extends ItemModelProvider {
-    public TCItemModelProvider(DataGenerator generator, ExistingFileHelper existingFileHelper) {
-        super(generator, TakumiCraftCore.MODID, existingFileHelper);
+    public TCItemModelProvider(PackOutput output, ExistingFileHelper existingFileHelper) {
+        super(output, TakumiCraftCore.MODID, existingFileHelper);
     }
 
     @Override

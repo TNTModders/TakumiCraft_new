@@ -3,6 +3,7 @@ package com.tntmodders.takumicraft.block;
 import com.tntmodders.takumicraft.provider.TCRecipeProvider;
 import net.minecraft.core.BlockPos;
 import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.SimpleCookingRecipeBuilder;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.Items;
@@ -43,7 +44,9 @@ public class TCDeepGunOreBlock extends TCGunOreBlock {
 
     @Override
     public void addRecipes(TCRecipeProvider provider, ItemLike itemLike, Consumer<FinishedRecipe> consumer) {
-        provider.saveRecipe(itemLike, consumer, SimpleCookingRecipeBuilder.smelting(Ingredient.of(itemLike), Items.GUNPOWDER, 1f, 100));
-        provider.saveRecipe(itemLike, consumer, SimpleCookingRecipeBuilder.blasting(Ingredient.of(itemLike), Items.GUNPOWDER, 1f, 50));
+        provider.saveRecipe(itemLike, consumer, SimpleCookingRecipeBuilder.smelting(Ingredient.of(itemLike),
+                RecipeCategory.BUILDING_BLOCKS, Items.GUNPOWDER, 1f, 100));
+        provider.saveRecipe(itemLike, consumer, SimpleCookingRecipeBuilder.blasting(Ingredient.of(itemLike),
+                RecipeCategory.BUILDING_BLOCKS, Items.GUNPOWDER, 1f, 50));
     }
 }

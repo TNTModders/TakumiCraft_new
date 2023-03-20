@@ -4,6 +4,7 @@ import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.datafixers.util.Pair;
+import com.mojang.math.Axis;
 import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.entity.mobs.TCZombieVillagerCreeper;
 import net.minecraft.advancements.AdvancementProgress;
@@ -23,6 +24,7 @@ import net.minecraft.world.entity.npc.VillagerType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
+import org.joml.Quaternionf;
 
 import java.util.List;
 
@@ -46,8 +48,8 @@ public class TCEntityUtils {
             PoseStack posestack1 = new PoseStack();
             posestack1.translate(0.0D, 0.0D, 1000.0D);
             posestack1.scale((float) p_98853_, (float) p_98853_, (float) p_98853_);
-            Quaternion quaternion = Vector3f.ZP.rotationDegrees(180.0F);
-            Quaternion quaternion1 = Vector3f.XP.rotationDegrees(f1 * 20.0F);
+            Quaternionf quaternion = Axis.ZP.rotationDegrees(180.0F);
+            Quaternionf quaternion1 = Axis.XP.rotationDegrees(f1 * 20.0F);
             quaternion.mul(quaternion1);
             posestack1.mulPose(quaternion);
             float f2 = entity.yBodyRot;
@@ -62,7 +64,7 @@ public class TCEntityUtils {
             entity.yHeadRotO = entity.getYRot();
             Lighting.setupForEntityInInventory();
             EntityRenderDispatcher entityrenderdispatcher = Minecraft.getInstance().getEntityRenderDispatcher();
-            quaternion1.conj();
+            quaternion1.conjugate();
             entityrenderdispatcher.overrideCameraOrientation(quaternion1);
             entityrenderdispatcher.setRenderShadow(false);
             MultiBufferSource.BufferSource multibuffersource$buffersource = Minecraft.getInstance().renderBuffers().bufferSource();

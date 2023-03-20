@@ -18,7 +18,7 @@ public class TCZombieCreeperRenderer<T extends TCZombieCreeper, M extends TCZomb
     public TCZombieCreeperRenderer(EntityRendererProvider.Context context) {
         super(context, (M) new TCZombieModel<>(context.bakeLayer(ModelLayers.ZOMBIE)), 0.5F);
         this.addLayer(new HumanoidArmorLayer<>(this, (M) new TCZombieModel<>(context.bakeLayer(ModelLayers.ZOMBIE_INNER_ARMOR)),
-                (M) new TCZombieModel<>(context.bakeLayer(ModelLayers.ZOMBIE_OUTER_ARMOR))));
+                (M) new TCZombieModel<>(context.bakeLayer(ModelLayers.ZOMBIE_OUTER_ARMOR)), context.getModelManager()));
         this.addLayer(new TCCreeperPowerLayer(this, context.getModelSet(), new TCZombieModel<>(context.bakeLayer(ModelLayers.ZOMBIE_OUTER_ARMOR)), TCEntityCore.ZOMBIE));
     }
 

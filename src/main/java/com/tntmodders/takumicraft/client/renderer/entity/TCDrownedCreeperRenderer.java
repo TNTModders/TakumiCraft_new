@@ -1,7 +1,7 @@
 package com.tntmodders.takumicraft.client.renderer.entity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.client.model.TCDrownedModel;
 import com.tntmodders.takumicraft.client.renderer.entity.layer.TCCreeperPowerLayer;
@@ -26,7 +26,7 @@ public class TCDrownedCreeperRenderer<T extends TCDrownedCreeper, M extends TCDr
         super(context,
                 (M) new TCDrownedModel(context.bakeLayer(ModelLayers.DROWNED)), 0.5f);
         this.addLayer(new HumanoidArmorLayer<>(this, new TCDrownedModel<>(context.bakeLayer(ModelLayers.DROWNED_INNER_ARMOR)),
-                new TCDrownedModel<>(context.bakeLayer(ModelLayers.DROWNED_OUTER_ARMOR))));
+                new TCDrownedModel<>(context.bakeLayer(ModelLayers.DROWNED_OUTER_ARMOR)), context.getModelManager()));
         this.addLayer(new TCDrownedOuterLayer(this, context.getModelSet()));
         this.addLayer(new TCCreeperPowerLayer(this, context.getModelSet(), new TCDrownedModel<>(context.bakeLayer(ModelLayers.DROWNED_OUTER_ARMOR)), TCEntityCore.DROWNED));
     }
@@ -55,12 +55,16 @@ public class TCDrownedCreeperRenderer<T extends TCDrownedCreeper, M extends TCDr
     }
 
     @Override
-    protected void setupRotations(T p_114109_, PoseStack p_114110_, float p_114111_, float p_114112_, float p_114113_) {
+    protected void setupRotations(T p_114109_, PoseStack p_114110_, float p_114111_, float p_114112_,
+                                  float p_114113_) {
         super.setupRotations(p_114109_, p_114110_, p_114111_, p_114112_, p_114113_);
         float f = p_114109_.getSwimAmount(p_114113_);
         if (f > 0.0F) {
-            p_114110_.mulPose(Vector3f.XP.rotationDegrees(Mth.lerp(f, p_114109_.getXRot(), -10.0F - p_114109_.getXRot())));
+            float f1 = -10.0F - p_114109_.getXRot();
+            float f2 = Mth.lerp(f, 0.0F, f1);
+            p_114110_.rotateAround(Axis.XP.rotationDegrees(f2), 0.0F, p_114109_.getBbHeight() / 2.0F, 0.0F);
         }
+
     }
 
     @OnlyIn(Dist.CLIENT)

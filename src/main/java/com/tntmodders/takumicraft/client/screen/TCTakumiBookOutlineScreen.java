@@ -20,7 +20,6 @@ import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.searchtree.SearchTree;
 import net.minecraft.core.NonNullList;
-import net.minecraft.core.Registry;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
@@ -243,7 +242,7 @@ public class TCTakumiBookOutlineScreen extends EffectRenderingInventoryScreen<TC
 
         String s = this.searchBox.getValue();
         if (s.isEmpty()) {
-            for (Item item : Registry.ITEM) {
+            for (Item item : ForgeRegistries.ITEM) {
                 if (item.getItemCategory() == TCCreativeModeTabCore.TAB_EGGS) {
                     item.fillItemCategory(CreativeModeTab.TAB_SEARCH, (this.menu).items);
                 }
@@ -271,7 +270,7 @@ public class TCTakumiBookOutlineScreen extends EffectRenderingInventoryScreen<TC
             predicate = (p_98606_) -> p_98606_.getNamespace().contains(s) && p_98606_.getPath().contains(s1);
         }
 
-        Registry.ITEM.getTagNames().filter((p_205410_) -> predicate.test(p_205410_.location())).forEach(this.visibleTags::add);
+        ForgeRegistries.ITEM.getTagNames().filter((p_205410_) -> predicate.test(p_205410_.location())).forEach(this.visibleTags::add);
     }
 
     @Override

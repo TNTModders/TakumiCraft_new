@@ -82,7 +82,7 @@ public class TCPhantomCreeper extends AbstractTCCreeper {
             this.move(MoverType.SELF, this.getDeltaMovement());
             this.setDeltaMovement(this.getDeltaMovement().scale(0.5D));
         } else {
-            BlockPos ground = new BlockPos(this.getX(), this.getY() - 1.0D, this.getZ());
+            BlockPos ground = this.getOnPos().below(1);
             float f = 0.91F;
             if (this.onGround) {
                 f = this.level.getBlockState(ground).getFriction(this.level, ground, this) * 0.91F;
@@ -99,7 +99,7 @@ public class TCPhantomCreeper extends AbstractTCCreeper {
             this.setDeltaMovement(this.getDeltaMovement().scale(f));
         }
 
-        this.calculateEntityAnimation(this, false);
+        this.calculateEntityAnimation(false);
     }
 
     @Override
@@ -315,10 +315,12 @@ public class TCPhantomCreeper extends AbstractTCCreeper {
         public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder
                 .of(TCPhantomCreeper::new, MobCategory.MONSTER).sized(0.9F, 0.5F).clientTrackingRange(8)
                 .build(TakumiCraftCore.MODID + ":" + NAME);
+
         @Override
         public String getRegistryName() {
             return NAME;
         }
+
         @Override
         public String getJaJPRead() {
             return "ふぁんとむたくみ";

@@ -6,7 +6,7 @@ import com.tntmodders.takumicraft.item.*;
 import com.tntmodders.takumicraft.provider.ITCItems;
 import com.tntmodders.takumicraft.utils.TCLoggingUtils;
 import net.minecraft.core.NonNullList;
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
@@ -29,7 +29,8 @@ public class TCItemCore {
     public static final Item TAKUMIBOOK = new TCTakumiBookItem();
     public static final Item BOLTSTONE = new TCBoltstoneItem();
 
-    public static final TagKey<Item> GUNORES = TagKey.create(Registry.ITEM_REGISTRY, new ResourceLocation(TakumiCraftCore.MODID, "gunores"));
+    public static final TagKey<Item> GUNORES = TagKey.create(Registries.ITEM, new ResourceLocation(TakumiCraftCore.MODID,
+            "gunores"));
 
     public static void register(final RegisterEvent event) {
         TCLoggingUtils.startRegistry("Item");

@@ -6,7 +6,6 @@ import com.tntmodders.takumicraft.utils.TCExplosionUtils;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -24,12 +23,12 @@ public class TCAntiPoweredEnchantment extends AbstractTCEnchantment {
         if (target instanceof Creeper creeper && creeper.isPowered()
                 && player.getMainHandItem().getEnchantmentLevel(TCEnchantmentCore.ANTI_POWERED) > 0) {
             if (!creeper.level.isClientSide) {
-                creeper.hurt(DamageSource.mobAttack(player), 20f);
+                creeper.hurt(player.level.damageSources().mobAttack(player), 20f);
                 creeper.getEntityData().set(ObfuscationReflectionHelper.getPrivateValue(Creeper.class, creeper, "DATA_IS_POWERED"), false);
                 TCExplosionUtils.createExplosion(creeper.level, player, creeper.blockPosition(), 0f);
             }
             player.playSound(SoundEvents.TRIDENT_THUNDER);
-            if(player instanceof ServerPlayer){
+            if (player instanceof ServerPlayer) {
                 ((ServerPlayer) player).getAdvancements()
                         .award(((ServerPlayer) player).server.getAdvancements().getAdvancement(new ResourceLocation(TakumiCraftCore.MODID, "disarmament")), "impossible");
             }

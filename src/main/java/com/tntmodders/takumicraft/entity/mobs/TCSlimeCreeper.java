@@ -21,6 +21,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -218,13 +219,32 @@ public class TCSlimeCreeper extends AbstractTCCreeper {
     @Override
     public void remove(Entity.RemovalReason p_149847_) {
         int i = this.getSize();
-        this.spawnChildren(i, this.isDeadOrDying(), -1);
-        if (!this.level.isClientSide && this.level.getDifficulty() != Difficulty.PEACEFUL) {
-            Explosion.BlockInteraction explosion$blockinteraction = net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.level, this) ? Explosion.BlockInteraction.DESTROY : Explosion.BlockInteraction.NONE;
-            float f = this.isPowered() ? 2.0F : 1.0F;
-            this.dead = true;
-            this.level.explode(this, this.getX(), this.getY(), this.getZ(), (float) this.explosionRadius * f * (Math.min(this.getSize(), 5) + 0.5f), explosion$blockinteraction);
+        if (!this.level.isClientSide && i > 1 && this.isDeadOrDying()) {
+            Component component = this.getCustomName();
+            boolean flag = this.isNoAi();
+            float f = (float) i / 4.0F;
+            int j = i / 2;
+            int k = 2 + this.random.nextInt(3);
+
+            for (int l = 0; l < k; ++l) {
+                float f1 = ((float) (l % 2) - 0.5F) * f;
+                float f2 = ((float) (l / 2) - 0.5F) * f;
+                TCSlimeCreeper slime = this.getType().create(this.level);
+                if (slime != null) {
+                    if (this.isPersistenceRequired()) {
+                        slime.setPersistenceRequired();
+                    }
+
+                    slime.setCustomName(component);
+                    slime.setNoAi(flag);
+                    slime.setInvulnerable(this.isInvulnerable());
+                    slime.setSize(j, true);
+                    slime.moveTo(this.getX() + (double) f1, this.getY() + 0.5D, this.getZ() + (double) f2, this.random.nextFloat() * 360.0F, 0.0F);
+                    this.level.addFreshEntity(slime);
+                }
+            }
         }
+
         super.remove(p_149847_);
     }
 
@@ -277,7 +297,7 @@ public class TCSlimeCreeper extends AbstractTCCreeper {
     protected void dealDamage(LivingEntity p_33638_) {
         if (this.isAlive()) {
             int i = this.getSize();
-            if (this.distanceToSqr(p_33638_) < 0.6D * (double) i * 0.6D * (double) i && this.hasLineOfSight(p_33638_) && p_33638_.hurt(DamageSource.mobAttack(this), this.getAttackDamage())) {
+            if (this.distanceToSqr(p_33638_) < 0.6D * (double) i * 0.6D * (double) i && this.hasLineOfSight(p_33638_) && p_33638_.hurt(this.level.damageSources().mobAttack(this), this.getAttackDamage())) {
                 this.playSound(SoundEvents.SLIME_ATTACK, 1.0F, (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F);
                 this.doEnchantDamageEffects(this, p_33638_);
             }
@@ -375,7 +395,8 @@ public class TCSlimeCreeper extends AbstractTCCreeper {
 
     @Override
     public boolean hurt(DamageSource source, float damage) {
-        return (source.isExplosion() && source.getEntity() instanceof TCSlimeCreeper) || super.hurt(source, damage);
+        return (source.is(DamageTypes.EXPLOSION) && source.getEntity() instanceof TCSlimeCreeper) || super.hurt(source,
+                damage);
     }
 
     @Override
@@ -386,10 +407,10 @@ public class TCSlimeCreeper extends AbstractTCCreeper {
     @Override
     public void explodeCreeper() {
         if (!this.level.isClientSide) {
-            Explosion.BlockInteraction explosion$blockinteraction = net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.level, this) ? Explosion.BlockInteraction.DESTROY : Explosion.BlockInteraction.NONE;
             float f = this.isPowered() ? 2.0F : 1.0F;
             this.dead = true;
-            this.level.explode(this, this.getX(), this.getY(), this.getZ(), (float) this.explosionRadius * f * (Math.min(this.getSize(), 5) + 0.5f), explosion$blockinteraction);
+            this.level.explode(this, this.getX(), this.getY(), this.getZ(),
+                    (float) this.explosionRadius * f * (Math.min(this.getSize(), 5) + 0.5f), Level.ExplosionInteraction.MOB);
             int i = this.getSize();
             this.spawnChildren(i, true, 1);
             this.discard();

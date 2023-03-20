@@ -3,7 +3,7 @@ package com.tntmodders.takumicraft.provider;
 import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.core.TCBlockCore;
 import com.tntmodders.takumicraft.utils.TCLoggingUtils;
-import net.minecraft.data.DataGenerator;
+import net.minecraft.data.PackOutput;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
@@ -11,8 +11,8 @@ import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
 
 public class TCBlockStateProvider extends BlockStateProvider {
-    public TCBlockStateProvider(DataGenerator gen, ExistingFileHelper exFileHelper) {
-        super(gen, TakumiCraftCore.MODID, exFileHelper);
+    public TCBlockStateProvider(PackOutput output, ExistingFileHelper exFileHelper) {
+        super(output, TakumiCraftCore.MODID, exFileHelper);
     }
 
     @Override

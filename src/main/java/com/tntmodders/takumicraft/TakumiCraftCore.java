@@ -62,11 +62,11 @@ public class TakumiCraftCore {
 
     private void registerProviders(GatherDataEvent event) {
         DataGenerator gen = event.getGenerator();
-        gen.addProvider(event.includeClient(), new TCBlockStateProvider(gen, event.getExistingFileHelper()));
-        gen.addProvider(event.includeClient(), new TCItemModelProvider(gen, event.getExistingFileHelper()));
+        PackOutput packOutput = gen.getPackOutput();
+        gen.addProvider(event.includeClient(), new TCBlockStateProvider(packOutput, event.getExistingFileHelper()));
+        gen.addProvider(event.includeClient(), new TCItemModelProvider(packOutput, event.getExistingFileHelper()));
         gen.addProvider(event.includeClient(), new TCLanguageProvider.TCEnUSLanguageProvider(gen));
         gen.addProvider(event.includeClient(), new TCLanguageProvider.TCJaJPLanguageProvider(gen));
-        PackOutput packOutput = gen.getPackOutput();
         CompletableFuture<HolderLookup.Provider> lookupProvider = event.getLookupProvider();
         TCBlockTagsProvider blockTagsProvider = new TCBlockTagsProvider(packOutput, lookupProvider, event.getExistingFileHelper());
         gen.addProvider(event.includeServer(), blockTagsProvider);

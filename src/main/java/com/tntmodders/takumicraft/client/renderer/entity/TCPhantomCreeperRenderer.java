@@ -1,7 +1,7 @@
 package com.tntmodders.takumicraft.client.renderer.entity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.client.model.TCPhantomCreeperModel;
 import com.tntmodders.takumicraft.client.renderer.entity.layer.TCCreeperPowerLayer;
@@ -52,7 +52,7 @@ public class TCPhantomCreeperRenderer extends MobRenderer<TCPhantomCreeper, TCPh
     @Override
     protected void setupRotations(TCPhantomCreeper p_115685_, PoseStack p_115686_, float p_115687_, float p_115688_, float p_115689_) {
         super.setupRotations(p_115685_, p_115686_, p_115687_, p_115688_, p_115689_);
-        p_115686_.mulPose(Vector3f.XP.rotationDegrees(p_115685_.getXRot()));
+        p_115686_.mulPose(Axis.XP.rotationDegrees(p_115685_.getXRot()));
     }
 
     @OnlyIn(Dist.CLIENT)

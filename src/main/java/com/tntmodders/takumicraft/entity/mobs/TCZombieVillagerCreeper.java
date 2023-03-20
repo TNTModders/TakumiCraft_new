@@ -7,7 +7,7 @@ import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.client.renderer.entity.TCZombieVillagerCreeperRenderer;
 import com.tntmodders.takumicraft.core.TCEntityCore;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.loot.EntityLootSubProvider;
 import net.minecraft.data.loot.LootTableSubProvider;
 import net.minecraft.nbt.CompoundTag;
@@ -83,7 +83,7 @@ public class TCZombieVillagerCreeper extends TCZombieCreeper implements Villager
 
     public TCZombieVillagerCreeper(EntityType<? extends Creeper> entityType, Level level) {
         super(entityType, level);
-        Registry.VILLAGER_PROFESSION.getRandom(this.random).ifPresent((p_204069_) -> this.setVillagerData(this.getVillagerData().setProfession(p_204069_.value())));
+        BuiltInRegistries.VILLAGER_PROFESSION.getRandom(this.random).ifPresent((p_255550_) -> this.setVillagerData(this.getVillagerData().setProfession(p_255550_.value())));
     }
 
     @Override
