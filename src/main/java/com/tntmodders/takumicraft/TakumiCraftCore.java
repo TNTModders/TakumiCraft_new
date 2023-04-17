@@ -76,7 +76,7 @@ public class TakumiCraftCore {
         gen.addProvider(event.includeServer(), new TCRecipeProvider(packOutput));
         gen.addProvider(event.includeServer(), new TCLootTableProvider(packOutput));
         gen.addProvider(event.includeServer(), new TCAdvancementProvider(packOutput,lookupProvider,
-                event.getExistingFileHelper(), List.of(/*Sublist*/)));
+                event.getExistingFileHelper(), List.of(new TCAdvancementProvider.TCAdvancementGenerator())));
     }
 
     @SubscribeEvent

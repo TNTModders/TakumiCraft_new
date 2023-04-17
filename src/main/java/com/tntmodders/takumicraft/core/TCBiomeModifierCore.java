@@ -2,17 +2,12 @@ package com.tntmodders.takumicraft.core;
 
 import com.mojang.serialization.Codec;
 import com.tntmodders.takumicraft.TakumiCraftCore;
-import com.tntmodders.takumicraft.utils.TCBlockUtils;
 import net.minecraft.core.Holder;
-import net.minecraft.data.worldgen.features.FeatureUtils;
-import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.tags.BiomeTags;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.levelgen.GenerationStep;
-import net.minecraft.world.level.levelgen.VerticalAnchor;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
-import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration;
 import net.minecraft.world.level.levelgen.placement.*;
 import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
@@ -54,12 +49,12 @@ public class TCBiomeModifierCore {
     }
 
     public static void registerModifiers(RegisterEvent event) {
-        ORE_GUNORE_TARGET_LIST = List.of(
+      /*  ORE_GUNORE_TARGET_LIST = List.of(
                 OreConfiguration.target(STONE_ORE_REPLACEABLES, TCBlockUtils.getTCBlockFromRegistry("gunore").defaultBlockState()),
                 OreConfiguration.target(DEEPSLATE_ORE_REPLACEABLES, TCBlockUtils.getTCBlockFromRegistry("deepslate_gunore").defaultBlockState()));
         ORE_GUNORE = FeatureUtils.register("tc_ore_gunore", Feature.ORE, new OreConfiguration(ORE_GUNORE_TARGET_LIST, 25));
         ORE_GUNORE_UPPER = PlacementUtils.register("tc_ore_gunore_upper", ORE_GUNORE, commonOrePlacement(45, HeightRangePlacement.triangle(VerticalAnchor.absolute(80), VerticalAnchor.absolute(384))));
-        ORE_GUNORE_MIDDLE = PlacementUtils.register("tc_ore_gunore_middle", ORE_GUNORE, commonOrePlacement(20, HeightRangePlacement.triangle(VerticalAnchor.absolute(-24), VerticalAnchor.absolute(56))));
+        ORE_GUNORE_MIDDLE = PlacementUtils.register("tc_ore_gunore_middle", ORE_GUNORE, commonOrePlacement(20, HeightRangePlacement.triangle(VerticalAnchor.absolute(-24), VerticalAnchor.absolute(56))));*/
     }
 
     public static void register(IEventBus eventBus) {
