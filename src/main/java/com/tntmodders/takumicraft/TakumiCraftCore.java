@@ -16,6 +16,7 @@ import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.data.event.GatherDataEvent;
+import net.minecraftforge.event.CreativeModeTabEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
@@ -109,6 +110,16 @@ public class TakumiCraftCore {
         @SubscribeEvent
         public static void registerSpawnPlacements(SpawnPlacementRegisterEvent event) {
             TCEntityCore.registerSpawn(event);
+        }
+
+        @SubscribeEvent
+        public static void registerCreativeModeTab(CreativeModeTabEvent.Register event) {
+            TCCreativeModeTabCore.register(event);
+        }
+
+        @SubscribeEvent
+        public static void registerCreativeModeTabItems(CreativeModeTabEvent.BuildContents event) {
+            TCCreativeModeTabCore.registerItems(event);
         }
     }
 
