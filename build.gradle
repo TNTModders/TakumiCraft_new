@@ -54,6 +54,7 @@ minecraft {
                     source sourceSets.main
                 }
             }
+            args '--nogui'
         }
 
         data {

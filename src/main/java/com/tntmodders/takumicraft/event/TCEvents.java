@@ -24,6 +24,7 @@ import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Mod.EventBusSubscriber(modid = TakumiCraftCore.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class TCEvents {
@@ -47,7 +48,7 @@ public class TCEvents {
             playerList.forEach(player -> {
                 if (player instanceof ServerPlayer && player.distanceToSqr(event.getExplosion().getPosition()) < 100) {
                     ((ServerPlayer) player).getAdvancements()
-                            .award(((ServerPlayer) player).server.getAdvancements().getAdvancement(new ResourceLocation(TakumiCraftCore.MODID, "root")), "impossible");
+                            .award(Objects.requireNonNull(((ServerPlayer) player).server.getAdvancements().getAdvancement(new ResourceLocation(TakumiCraftCore.MODID, "root"))), "impossible");
                 }
             });
         }

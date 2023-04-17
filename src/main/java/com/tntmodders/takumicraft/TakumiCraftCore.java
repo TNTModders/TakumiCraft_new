@@ -33,6 +33,7 @@ import net.minecraftforge.registries.RegisterEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 @Mod(TakumiCraftCore.MODID)
@@ -74,7 +75,8 @@ public class TakumiCraftCore {
         gen.addProvider(event.includeServer(), new TCItemTagsProvider(packOutput, lookupProvider, blockTagsProvider.contentsGetter(), event.getExistingFileHelper()));
         gen.addProvider(event.includeServer(), new TCRecipeProvider(packOutput));
         gen.addProvider(event.includeServer(), new TCLootTableProvider(packOutput));
-        gen.addProvider(event.includeServer(), new TCAdvancementProvider(gen, event.getExistingFileHelper()));
+        gen.addProvider(event.includeServer(), new TCAdvancementProvider(packOutput,lookupProvider,
+                event.getExistingFileHelper(), List.of(/*Sublist*/)));
     }
 
     @SubscribeEvent
