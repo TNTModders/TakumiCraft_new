@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "key": {
     "#": {
       "item": "minecraft:creeper_head"
@@ -12,5 +13,6 @@
   ],
   "result": {
     "item": "takumicraft:creeperbomb"
-  }
+  },
+  "show_notification": true
 }

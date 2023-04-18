@@ -1,12 +1,12 @@
 package com.tntmodders.takumicraft.core.client;
 
+import com.tntmodders.takumicraft.core.TCItemCore;
 import com.tntmodders.takumicraft.item.TCSpawnEggItem;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.searchtree.FullTextSearchTree;
 import net.minecraft.client.searchtree.SearchRegistry;
 import net.minecraft.core.NonNullList;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -25,9 +25,9 @@ public class TCSearchTreeCore {
 
         NonNullList<ItemStack> nonnulllist = NonNullList.create();
 
-        for (Item item : ForgeRegistries.ITEMS) {
+        for (Item item : TCItemCore.ITEMS) {
             if (item instanceof TCSpawnEggItem) {
-                item.fillItemCategory(CreativeModeTab.TAB_SEARCH, nonnulllist);
+                nonnulllist.add(item.getDefaultInstance());
             }
         }
 

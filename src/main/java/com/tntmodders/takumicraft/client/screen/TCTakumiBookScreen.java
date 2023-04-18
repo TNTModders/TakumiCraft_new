@@ -135,9 +135,11 @@ public class TCTakumiBookScreen extends Screen {
     }
 
     protected void createMenuControls() {
-        this.addRenderableWidget(new Button((this.width - IMAGE_WIDTH) / 2 + 40, 140, 105, 20,
-                Component.translatable("takumicraft.takumibook.search"), (p_98299_) -> this.minecraft.setScreen(new TCTakumiBookOutlineScreen(Minecraft.getInstance().player))));
-        this.addRenderableWidget(new Button(this.width / 2 - 100, 196, 200, 20, CommonComponents.GUI_DONE, (p_98299_) -> this.minecraft.setScreen(null)));
+        this.addRenderableWidget(Button.builder(
+                Component.translatable("takumicraft.takumibook.search"),
+                (p_98299_) -> this.minecraft.setScreen(new TCTakumiBookOutlineScreen(Minecraft.getInstance().player))).bounds((this.width - IMAGE_WIDTH) / 2 + 40, 140, 105, 20).build());
+        this.addRenderableWidget(Button.builder(CommonComponents.GUI_DONE,
+                (p_98299_) -> this.minecraft.setScreen(null)).bounds(this.width / 2 - 100, 196, 200, 20).build());
     }
 
     protected void createPageControlButtons() {
@@ -179,14 +181,17 @@ public class TCTakumiBookScreen extends Screen {
             return true;
         } else {
             switch (p_98278_) {
-                case 266:
+                case 266 -> {
                     this.backButton.onPress();
                     return true;
-                case 267:
+                }
+                case 267 -> {
                     this.forwardButton.onPress();
                     return true;
-                default:
+                }
+                default -> {
                     return false;
+                }
             }
         }
     }
@@ -199,7 +204,7 @@ public class TCTakumiBookScreen extends Screen {
         RenderSystem.setShaderTexture(0, BOOK_LOCATION);
         int i = (this.width - 192) / 2;
         int j = 2;
-        this.blit(poseStack, i, 2, 0, 0, 192, 192);
+        blit(poseStack, i, 2, 0, 0, 192, 192);
 
         AbstractTCCreeper.TCCreeperContext<? extends AbstractTCCreeper> context = TCEntityCore.ENTITY_CONTEXTS.get(this.currentPage);
         this.tick++;
@@ -233,7 +238,7 @@ public class TCTakumiBookScreen extends Screen {
         } else {
             RenderSystem.setShaderTexture(0, new ResourceLocation(TakumiCraftCore.MODID, "textures/book/underfound.png"));
         }
-        this.blit(poseStack, i, 2, 0, 0, 192, 192);
+        blit(poseStack, i, 2, 0, 0, 192, 192);
         if (flg) {
             if (context.getElement().isDest()) {
                 RenderSystem.setShaderTexture(0, new ResourceLocation(TakumiCraftCore.MODID, "textures/book/dest.png"));
@@ -241,7 +246,7 @@ public class TCTakumiBookScreen extends Screen {
             if (context.getElement().isMagic()) {
                 RenderSystem.setShaderTexture(0, new ResourceLocation(TakumiCraftCore.MODID, "textures/book/magic.png"));
             }
-            this.blit(poseStack, i, 2, 0, 0, 192, 192);
+            blit(poseStack, i, 2, 0, 0, 192, 192);
         }
         if (context.showRead()) {
             Component read = Component.translatable(flg ? TCEntityUtils.getEntityLangCode(context.entityType(), ".read") : "???");
