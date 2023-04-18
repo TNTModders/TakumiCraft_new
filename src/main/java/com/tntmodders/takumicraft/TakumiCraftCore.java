@@ -52,7 +52,7 @@ public class TakumiCraftCore {
         if (FMLEnvironment.dist == Dist.CLIENT) {
             MinecraftForge.EVENT_BUS.register(TCClientEvents.INSTANCE);
         }
-        TCBiomeModifierCore.register(modEventBus);
+        //TCBiomeModifierCore.register(modEventBus);
     }
 
     //DO NOT REFER TO CONFIG
@@ -75,8 +75,9 @@ public class TakumiCraftCore {
         gen.addProvider(event.includeServer(), new TCItemTagsProvider(packOutput, lookupProvider, blockTagsProvider.contentsGetter(), event.getExistingFileHelper()));
         gen.addProvider(event.includeServer(), new TCRecipeProvider(packOutput));
         gen.addProvider(event.includeServer(), new TCLootTableProvider(packOutput));
-        gen.addProvider(event.includeServer(), new TCAdvancementProvider(packOutput,lookupProvider,
+        gen.addProvider(event.includeServer(), new TCAdvancementProvider(packOutput, lookupProvider,
                 event.getExistingFileHelper(), List.of(new TCAdvancementProvider.TCAdvancementGenerator())));
+        gen.addProvider(event.includeServer(), new TCOreGenCore(packOutput, event.getLookupProvider()));
     }
 
     @SubscribeEvent
@@ -97,7 +98,7 @@ public class TakumiCraftCore {
                 TCEntityCore.registerEntityType(event);
             }
             if (ForgeRegistries.FEATURES.equals(event.getForgeRegistry())) {
-                TCBiomeModifierCore.registerModifiers(event);
+                //TCBiomeModifierCore.registerModifiers(event);
             }
             if (ForgeRegistries.ENCHANTMENTS.equals(event.getForgeRegistry())) {
                 TCEnchantmentCore.register(event);
