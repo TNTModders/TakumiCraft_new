@@ -21,6 +21,7 @@ import net.minecraftforge.registries.RegisterEvent;
 import net.minecraftforge.registries.RegistryObject;
 
 import java.util.List;
+import java.util.Objects;
 
 public class TCBiomeModifierCore {
     public static final DeferredRegister<BiomeModifier> BIOME_MODIFIER = DeferredRegister.create(ForgeRegistries.Keys.BIOME_MODIFIERS, TakumiCraftCore.MODID);
@@ -67,16 +68,12 @@ public class TCBiomeModifierCore {
 
         @Override
         public void modify(Holder<Biome> biome, Phase phase, ModifiableBiomeInfo.BiomeInfo.Builder builder) {
-            switch (phase) {
-                case ADD -> {
-                    if (biome.containsTag(BiomeTags.IS_OVERWORLD)) {
-                        builder.getGenerationSettings().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, ORE_GUNORE_UPPER);
-                        builder.getGenerationSettings().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, ORE_GUNORE_MIDDLE);
-                    }
-                    TCEntityCore.ENTITY_CONTEXTS.forEach(context -> context.addSpawn(builder.getMobSpawnSettings()));
+            if (Objects.requireNonNull(phase) == Phase.ADD) {
+                if (biome.containsTag(BiomeTags.IS_OVERWORLD)) {
+                    builder.getGenerationSettings().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, ORE_GUNORE_UPPER);
+                    builder.getGenerationSettings().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, ORE_GUNORE_MIDDLE);
                 }
-                default -> {
-                }
+                TCEntityCore.ENTITY_CONTEXTS.forEach(context -> context.addSpawn(builder.getMobSpawnSettings()));
             }
         }
 

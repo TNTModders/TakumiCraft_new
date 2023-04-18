@@ -1,6 +1,5 @@
 package com.tntmodders.takumicraft.core;
 
-import com.electronwill.nightconfig.core.utils.ConfigWrapper;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.config.ModConfig;

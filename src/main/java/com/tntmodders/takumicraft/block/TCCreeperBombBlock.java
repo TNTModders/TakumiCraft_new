@@ -42,6 +42,7 @@ public class TCCreeperBombBlock extends AbstractTCBombBlock implements ITCRecipe
         return "匠式高性能爆弾";
     }
 
+    @Override
     public Supplier<LootTableSubProvider> getBlockLootSubProvider(Block block) {
         return () -> new TCBlockLoot(block, false);
     }
