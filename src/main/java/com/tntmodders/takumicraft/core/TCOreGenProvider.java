@@ -12,8 +12,8 @@ import net.minecraftforge.common.data.DatapackBuiltinEntriesProvider;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 
-public class TCOreGenCore extends DatapackBuiltinEntriesProvider {
-    public TCOreGenCore(PackOutput output, CompletableFuture<HolderLookup.Provider> registries) {
+public class TCOreGenProvider extends DatapackBuiltinEntriesProvider {
+    public TCOreGenProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> registries) {
         super(output, registries, new RegistrySetBuilder().add(Registries.CONFIGURED_FEATURE, TCOreFeatures::bootstap)
                         .add(Registries.PLACED_FEATURE, TCOrePlacements::bootstap),
                 Set.of(TakumiCraftCore.MODID));
