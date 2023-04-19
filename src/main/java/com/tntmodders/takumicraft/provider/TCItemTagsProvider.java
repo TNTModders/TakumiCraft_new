@@ -33,7 +33,7 @@ public class TCItemTagsProvider extends ItemTagsProvider {
                 if (obj instanceof Item && obj instanceof ITCItems item) {
                     if (!item.getItemTags().isEmpty()) {
                         item.getItemTags().forEach(itemTagKey -> {
-                            this.tag(itemTagKey).add(((Item) item));
+                            this.tag(itemTagKey).add((Item) item);
                             TCLoggingUtils.entryRegistry("Item Tag", item.getRegistryName() + " as " + itemTagKey);
                         });
                     }

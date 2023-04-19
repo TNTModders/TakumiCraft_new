@@ -21,7 +21,7 @@ import java.util.function.Supplier;
 import java.util.function.ToIntFunction;
 
 public class TCCreeperBombBlock extends AbstractTCBombBlock implements ITCRecipe {
-    public static final ToIntFunction<BlockState> LIGHT_TCBOMB = (state) -> 2;
+    public static final ToIntFunction<BlockState> LIGHT_TCBOMB = state -> 2;
 
     public TCCreeperBombBlock() {
         super(BlockBehaviour.Properties.of(Material.EXPLOSIVE).strength(0.1f, 0f).color(MaterialColor.COLOR_LIGHT_GREEN).lightLevel(LIGHT_TCBOMB), "creeperbomb");

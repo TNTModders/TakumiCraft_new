@@ -12,7 +12,6 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
@@ -166,11 +165,6 @@ public class TCPhantomCreeper extends AbstractTCCreeper {
     }
 
     @Override
-    protected boolean shouldDespawnInPeaceful() {
-        return true;
-    }
-
-    @Override
     public void aiStep() {
         if (this.isAlive() && this.isSunBurnTick()) {
             this.setSecondsOnFire(8);
@@ -216,11 +210,6 @@ public class TCPhantomCreeper extends AbstractTCCreeper {
     }
 
     @Override
-    public SoundSource getSoundSource() {
-        return SoundSource.HOSTILE;
-    }
-
-    @Override
     protected SoundEvent getAmbientSound() {
         return SoundEvents.PHANTOM_AMBIENT;
     }
@@ -238,11 +227,6 @@ public class TCPhantomCreeper extends AbstractTCCreeper {
     @Override
     public MobType getMobType() {
         return MobType.UNDEAD;
-    }
-
-    @Override
-    protected float getSoundVolume() {
-        return 1.0F;
     }
 
     @Override
@@ -272,9 +256,9 @@ public class TCPhantomCreeper extends AbstractTCCreeper {
             this.setSwellDir(1);
         } else if (this.getTarget() != null && Math.abs(this.getTarget().getX() - this.getX()) + Math.abs(this.getTarget().getZ() - this.getZ()) < 6 && this.getY() > this.getTarget().getY()
                 && !this.hasEffect(MobEffects.MOVEMENT_SPEED) && this.level instanceof ServerLevel) {
-            TCZombieCreeper creeper = ((TCZombieCreeper) TCEntityCore.ZOMBIE.entityType().create(this.level));
+            TCZombieCreeper creeper = (TCZombieCreeper) TCEntityCore.ZOMBIE.entityType().create(this.level);
             creeper.copyPosition(this);
-            creeper.finalizeSpawn(((ServerLevel) this.level), this.level.getCurrentDifficultyAt(this.blockPosition()), MobSpawnType.MOB_SUMMONED, null, null);
+            creeper.finalizeSpawn((ServerLevel) this.level, this.level.getCurrentDifficultyAt(this.blockPosition()), MobSpawnType.MOB_SUMMONED, null, null);
             creeper.setItemSlot(EquipmentSlot.CHEST, new ItemStack(Items.ELYTRA));
             ((ServerLevel) this.level).addFreshEntityWithPassengers(creeper);
         }
@@ -368,7 +352,7 @@ public class TCPhantomCreeper extends AbstractTCCreeper {
 
         @Override
         public void registerRenderer(EntityRenderersEvent.RegisterRenderers event, EntityType<?> type) {
-            event.registerEntityRenderer(((EntityType<TCPhantomCreeper>) type), TCPhantomCreeperRenderer::new);
+            event.registerEntityRenderer((EntityType<TCPhantomCreeper>) type, TCPhantomCreeperRenderer::new);
         }
 
         @Override
@@ -571,14 +555,14 @@ public class TCPhantomCreeper extends AbstractTCCreeper {
                     this.speed = Mth.approach(this.speed, 0.2F, 0.025F);
                 }
 
-                float f4 = (float) (-(Mth.atan2(-d1, d3) * (double) (180F / (float) Math.PI)));
+                float f4 = (float) -(Mth.atan2(-d1, d3) * (double) (180F / (float) Math.PI));
                 TCPhantomCreeper.this.setXRot(f4);
                 float f5 = TCPhantomCreeper.this.getYRot() + 90.0F;
                 double d6 = (double) (this.speed * Mth.cos(f5 * ((float) Math.PI / 180F))) * Math.abs(d0 / d5);
                 double d7 = (double) (this.speed * Mth.sin(f5 * ((float) Math.PI / 180F))) * Math.abs(d2 / d5);
                 double d8 = (double) (this.speed * Mth.sin(f4 * ((float) Math.PI / 180F))) * Math.abs(d1 / d5);
                 Vec3 vec3 = TCPhantomCreeper.this.getDeltaMovement();
-                TCPhantomCreeper.this.setDeltaMovement(vec3.add((new Vec3(d6, d8, d7)).subtract(vec3).scale(0.2D)));
+                TCPhantomCreeper.this.setDeltaMovement(vec3.add(new Vec3(d6, d8, d7).subtract(vec3).scale(0.2D)));
             }
 
         }
@@ -635,10 +619,6 @@ public class TCPhantomCreeper extends AbstractTCCreeper {
                     return !this.isScaredOfCat;
                 }
             }
-        }
-
-        @Override
-        public void start() {
         }
 
         @Override

@@ -24,12 +24,12 @@ public abstract class TCLanguageProvider extends LanguageProvider {
     protected void addTranslations() {
         TCBlockCore.BLOCKS.forEach(block -> {
             if (block instanceof ITCTranslator) {
-                this.add(block, this.getTranslation(((ITCTranslator) block)));
+                this.add(block, this.getTranslation((ITCTranslator) block));
             }
         });
         TCItemCore.ITEMS.forEach(item -> {
             if (item instanceof ITCTranslator) {
-                this.add(item, this.getTranslation(((ITCTranslator) item)));
+                this.add(item, this.getTranslation((ITCTranslator) item));
             }
         });
         TCEntityCore.ENTITY_CONTEXTS.forEach(context -> {

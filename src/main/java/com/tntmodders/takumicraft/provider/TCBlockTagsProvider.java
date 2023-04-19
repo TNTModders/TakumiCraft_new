@@ -33,7 +33,7 @@ public class TCBlockTagsProvider extends BlockTagsProvider {
                 if (obj instanceof Block && obj instanceof ITCBlocks block) {
                     if (!block.getBlockTags().isEmpty()) {
                         block.getBlockTags().forEach(blockTagKey -> {
-                            this.tag(blockTagKey).add(((Block) block));
+                            this.tag(blockTagKey).add((Block) block);
                             TCLoggingUtils.entryRegistry("Block Tag", block.getRegistryName() + " as " + blockTagKey);
                         });
                     }

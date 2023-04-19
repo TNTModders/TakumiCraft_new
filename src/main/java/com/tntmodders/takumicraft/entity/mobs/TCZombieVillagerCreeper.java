@@ -83,7 +83,7 @@ public class TCZombieVillagerCreeper extends TCZombieCreeper implements Villager
 
     public TCZombieVillagerCreeper(EntityType<? extends Creeper> entityType, Level level) {
         super(entityType, level);
-        BuiltInRegistries.VILLAGER_PROFESSION.getRandom(this.random).ifPresent((p_255550_) -> this.setVillagerData(this.getVillagerData().setProfession(p_255550_.value())));
+        BuiltInRegistries.VILLAGER_PROFESSION.getRandom(this.random).ifPresent(p_255550_ -> this.setVillagerData(this.getVillagerData().setProfession(p_255550_.value())));
     }
 
     @Override
@@ -101,7 +101,7 @@ public class TCZombieVillagerCreeper extends TCZombieCreeper implements Villager
     @Override
     public void addAdditionalSaveData(CompoundTag p_34397_) {
         super.addAdditionalSaveData(p_34397_);
-        VillagerData.CODEC.encodeStart(NbtOps.INSTANCE, this.getVillagerData()).resultOrPartial(LOGGER::error).ifPresent((p_34390_) -> p_34397_.put("VillagerData", p_34390_));
+        VillagerData.CODEC.encodeStart(NbtOps.INSTANCE, this.getVillagerData()).resultOrPartial(LOGGER::error).ifPresent(p_34390_ -> p_34397_.put("VillagerData", p_34390_));
         if (this.tradeOffers != null) {
             p_34397_.put("Offers", this.tradeOffers);
         }
@@ -149,7 +149,7 @@ public class TCZombieVillagerCreeper extends TCZombieCreeper implements Villager
         if (!this.level.isClientSide && this.isAlive() && this.isConverting()) {
             int i = this.getConversionProgress();
             this.villagerConversionTime -= i;
-            if (this.villagerConversionTime <= 0 && net.minecraftforge.event.ForgeEventFactory.canLivingConvert(this, EntityType.VILLAGER, (timer) -> this.villagerConversionTime = timer)) {
+            if (this.villagerConversionTime <= 0 && net.minecraftforge.event.ForgeEventFactory.canLivingConvert(this, EntityType.VILLAGER, timer -> this.villagerConversionTime = timer)) {
                 this.finishConversion((ServerLevel) this.level);
             }
         }
@@ -413,7 +413,7 @@ public class TCZombieVillagerCreeper extends TCZombieCreeper implements Villager
 
         @Override
         public void registerRenderer(EntityRenderersEvent.RegisterRenderers event, EntityType<?> type) {
-            event.registerEntityRenderer(((EntityType<TCZombieVillagerCreeper>) type), TCZombieVillagerCreeperRenderer::new);
+            event.registerEntityRenderer((EntityType<TCZombieVillagerCreeper>) type, TCZombieVillagerCreeperRenderer::new);
         }
 
         @Override

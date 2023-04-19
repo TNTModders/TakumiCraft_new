@@ -128,7 +128,7 @@ public class TCHuskCreeper extends TCZombieCreeper {
 
         @Override
         public void registerRenderer(EntityRenderersEvent.RegisterRenderers event, EntityType<?> type) {
-            event.registerEntityRenderer(((EntityType<TCZombieCreeper>) type), TCZombieCreeperRenderer::new);
+            event.registerEntityRenderer((EntityType<TCZombieCreeper>) type, TCZombieCreeperRenderer::new);
         }
 
         @Override

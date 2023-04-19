@@ -74,7 +74,7 @@ public class TCEntityCore {
             try {
                 Object obj = field.get(null);
                 if (obj instanceof AbstractTCCreeper.TCCreeperContext<?> context) {
-                    EntityType<? extends LivingEntity> type = ((EntityType<? extends LivingEntity>) context.entityType());
+                    EntityType<? extends LivingEntity> type = (EntityType<? extends LivingEntity>) context.entityType();
                     AttributeSupplier.Builder builder = context.entityAttribute();
                     event.put(type, builder.build());
                     //context.registerSpawn(((EntityType<AbstractTCCreeper>) type));
@@ -94,8 +94,8 @@ public class TCEntityCore {
             try {
                 Object obj = field.get(null);
                 if (obj instanceof AbstractTCCreeper.TCCreeperContext<?> context) {
-                    EntityType<? extends LivingEntity> type = ((EntityType<? extends LivingEntity>) context.entityType());
-                    context.registerSpawn(event, ((EntityType<AbstractTCCreeper>) type));
+                    EntityType<? extends LivingEntity> type = (EntityType<? extends LivingEntity>) context.entityType();
+                    context.registerSpawn(event, (EntityType<AbstractTCCreeper>) type);
                 }
             } catch (IllegalAccessException e) {
                 e.printStackTrace();

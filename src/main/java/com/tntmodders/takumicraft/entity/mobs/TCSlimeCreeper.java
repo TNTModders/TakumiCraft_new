@@ -97,7 +97,7 @@ public class TCSlimeCreeper extends AbstractTCCreeper {
         this.goalSelector.addGoal(3, new TCSlimeCreeper.SlimeRandomDirectionGoal(this));
         this.goalSelector.addGoal(5, new TCSlimeCreeper.SlimeKeepOnJumpingGoal(this));
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, 10, true, false,
-                (p_33641_) -> Math.abs(p_33641_.getY() - this.getY()) <= 4.0D));
+                p_33641_ -> Math.abs(p_33641_.getY() - this.getY()) <= 4.0D));
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, IronGolem.class, true));
     }
 
@@ -395,7 +395,7 @@ public class TCSlimeCreeper extends AbstractTCCreeper {
 
     @Override
     public boolean hurt(DamageSource source, float damage) {
-        return (source.is(DamageTypes.EXPLOSION) && source.getEntity() instanceof TCSlimeCreeper) || super.hurt(source,
+        return source.is(DamageTypes.EXPLOSION) && source.getEntity() instanceof TCSlimeCreeper || super.hurt(source,
                 damage);
     }
 
@@ -659,7 +659,7 @@ public class TCSlimeCreeper extends AbstractTCCreeper {
 
         @Override
         public void registerRenderer(EntityRenderersEvent.RegisterRenderers event, EntityType<?> type) {
-            event.registerEntityRenderer(((EntityType<TCSlimeCreeper>) type), TCSlimeCreeperRenderer::new);
+            event.registerEntityRenderer((EntityType<TCSlimeCreeper>) type, TCSlimeCreeperRenderer::new);
         }
 
         @Override

@@ -26,7 +26,6 @@ import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.client.event.EntityRenderersEvent;
-import net.minecraftforge.event.level.ExplosionEvent;
 
 public class TCCowCreeper extends AbstractTCCreeper {
 
@@ -93,10 +92,6 @@ public class TCCowCreeper extends AbstractTCCreeper {
         return TCEntityCore.COW;
     }
 
-    @Override
-    public void explodeCreeperEvent(ExplosionEvent.Detonate event) {
-    }
-
     public static class TCCowCreeperContext implements TCCreeperContext<TCCowCreeper> {
         private static final String NAME = "cowcreeper";
         public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCCowCreeper::new, MobCategory.CREATURE).sized(0.9F, 1.4F).clientTrackingRange(10).build(TakumiCraftCore.MODID + ":" + NAME);
@@ -153,7 +148,7 @@ public class TCCowCreeper extends AbstractTCCreeper {
 
         @Override
         public void registerRenderer(EntityRenderersEvent.RegisterRenderers event, EntityType<?> type) {
-            event.registerEntityRenderer(((EntityType<TCCowCreeper>) type), TCCowCreeperRenderer::new);
+            event.registerEntityRenderer((EntityType<TCCowCreeper>) type, TCCowCreeperRenderer::new);
         }
 
         @Override

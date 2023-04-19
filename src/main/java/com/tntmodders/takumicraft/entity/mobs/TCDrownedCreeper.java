@@ -102,7 +102,7 @@ public class TCDrownedCreeper extends TCZombieCreeper implements RangedAttackMob
         this.goalSelector.addGoal(5, new TCDrownedCreeper.DrownedGoToBeachGoal(this, 1.0D));
         this.goalSelector.addGoal(6, new TCDrownedCreeper.DrownedSwimUpGoal(this, 1.0D, this.level.getSeaLevel()));
         this.goalSelector.addGoal(7, new RandomStrollGoal(this, 1.0D));
-        this.targetSelector.addGoal(1, (new HurtByTargetGoal(this, TCDrownedCreeper.class)).setAlertOthers(ZombifiedPiglin.class));
+        this.targetSelector.addGoal(1, new HurtByTargetGoal(this, TCDrownedCreeper.class).setAlertOthers(ZombifiedPiglin.class));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, 10, true, false, this::okTarget));
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, AbstractVillager.class, false));
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, IronGolem.class, true));
@@ -564,7 +564,7 @@ public class TCDrownedCreeper extends TCZombieCreeper implements RangedAttackMob
 
         @Override
         public void registerRenderer(EntityRenderersEvent.RegisterRenderers event, EntityType<?> type) {
-            event.registerEntityRenderer(((EntityType<TCDrownedCreeper>) type), TCDrownedCreeperRenderer::new);
+            event.registerEntityRenderer((EntityType<TCDrownedCreeper>) type, TCDrownedCreeperRenderer::new);
         }
 
         @Override

@@ -37,7 +37,7 @@ public class TCEvents {
         List<BlockPos> removePosList = new ArrayList<>();
         event.getAffectedBlocks().forEach(pos -> {
             if (event.getLevel().getBlockState(pos).is(TCBlockCore.ANTI_EXPLOSION)
-                    || (event.getLevel() instanceof ServerLevel level && this.isUnderProtection(level, pos))) {
+                    || event.getLevel() instanceof ServerLevel level && this.isUnderProtection(level, pos)) {
                 removePosList.add(pos);
             }
         });
@@ -64,8 +64,8 @@ public class TCEvents {
     @SubscribeEvent
     public void onEntitySpawn(MobSpawnEvent event) {
         if (event.getEntity() instanceof Phantom && event.getLevel().getRandom().nextInt(10) == 0 && event.getEntity().level instanceof ServerLevel level) {
-            BlockPos pos = new BlockPos(((int) event.getX()), ((int) event.getY()), ((int) event.getZ()));
-            TCPhantomCreeper creeper = ((TCPhantomCreeper) TCEntityCore.PHANTOM.entityType().create(level));
+            BlockPos pos = new BlockPos((int) event.getX(), (int) event.getY(), (int) event.getZ());
+            TCPhantomCreeper creeper = (TCPhantomCreeper) TCEntityCore.PHANTOM.entityType().create(level);
             creeper.moveTo(pos, 0f, 0f);
             creeper.finalizeSpawn(level, level.getCurrentDifficultyAt(pos), MobSpawnType.NATURAL, null, null);
             if (level.tryAddFreshEntityWithPassengers(creeper)) {

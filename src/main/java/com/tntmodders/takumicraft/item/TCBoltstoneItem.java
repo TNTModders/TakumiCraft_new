@@ -36,7 +36,7 @@ public class TCBoltstoneItem extends Item implements ITCItems, ITCTranslator {
             vec3 = vec3.normalize().scale(10);
             LightningBolt bolt = new LightningBolt(EntityType.LIGHTNING_BOLT, level);
             bolt.moveTo(player.position().add(vec3));
-            bolt.setCause(player instanceof ServerPlayer ? ((ServerPlayer) player) : null);
+            bolt.setCause(player instanceof ServerPlayer ? (ServerPlayer) player : null);
             level.addFreshEntity(bolt);
         }
         player.awardStat(Stats.ITEM_USED.get(this));
@@ -51,7 +51,7 @@ public class TCBoltstoneItem extends Item implements ITCItems, ITCTranslator {
         if (!attacker.level.isClientSide) {
             LightningBolt bolt = new LightningBolt(EntityType.LIGHTNING_BOLT, attacker.level);
             bolt.moveTo(entity.position());
-            bolt.setCause(attacker instanceof ServerPlayer ? ((ServerPlayer) attacker) : null);
+            bolt.setCause(attacker instanceof ServerPlayer ? (ServerPlayer) attacker : null);
             attacker.level.addFreshEntity(bolt);
         }
         if (attacker instanceof Player player) {

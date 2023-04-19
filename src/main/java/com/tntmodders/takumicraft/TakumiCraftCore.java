@@ -97,9 +97,6 @@ public class TakumiCraftCore {
             if (ForgeRegistries.ENTITY_TYPES.equals(event.getForgeRegistry())) {
                 TCEntityCore.registerEntityType(event);
             }
-            if (ForgeRegistries.FEATURES.equals(event.getForgeRegistry())) {
-                //TCBiomeModifierCore.registerModifiers(event);
-            }
             if (ForgeRegistries.ENCHANTMENTS.equals(event.getForgeRegistry())) {
                 TCEnchantmentCore.register(event);
             }

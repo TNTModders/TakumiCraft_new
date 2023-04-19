@@ -35,7 +35,7 @@ public class TCEnderCreeper extends AbstractTCCreeper {
             if (entity instanceof LivingEntity && entity != this) {
                 boolean flg;
                 for (int i = 0; i < 5 * (this.isPowered() ? 2 : 1); i++) {
-                    flg = this.teleport(((LivingEntity) entity));
+                    flg = this.teleport((LivingEntity) entity);
                     if (flg) {
                         break;
                     }
@@ -140,7 +140,7 @@ public class TCEnderCreeper extends AbstractTCCreeper {
 
         @Override
         public void registerRenderer(EntityRenderersEvent.RegisterRenderers event, EntityType<?> type) {
-            event.registerEntityRenderer(((EntityType<Creeper>) type), TCCreeperRenderer::new);
+            event.registerEntityRenderer((EntityType<Creeper>) type, TCCreeperRenderer::new);
         }
 
         @Override

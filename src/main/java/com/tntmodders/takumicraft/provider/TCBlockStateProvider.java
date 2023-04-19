@@ -60,7 +60,7 @@ public class TCBlockStateProvider extends BlockStateProvider {
     private void halfBlockWithItem(Block block) {
         if (block instanceof SlabBlock) {
             ModelFile model = this.cubeAll(block);
-            this.slabBlock(((SlabBlock) block), model, model, model);
+            this.slabBlock((SlabBlock) block, model, model, model);
         }
     }
 }
