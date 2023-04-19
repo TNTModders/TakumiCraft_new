@@ -4,6 +4,6 @@ import net.minecraft.data.loot.LootTableSubProvider;
 
 import java.util.function.Supplier;
 
-public interface ITCEntities{
+public interface ITCEntities {
     Supplier<LootTableSubProvider> getEntityLoot();
 }

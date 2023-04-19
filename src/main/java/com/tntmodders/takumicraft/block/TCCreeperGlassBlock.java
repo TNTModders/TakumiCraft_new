@@ -23,6 +23,11 @@ public class TCCreeperGlassBlock extends AbstractGlassBlock implements ITCBlocks
     }
 
     @Override
+    public EnumTCBlockStateModelType getBlockStateModelType() {
+        return EnumTCBlockStateModelType.GLASS;
+    }
+
+    @Override
     public Supplier<LootTableSubProvider> getBlockLootSubProvider(Block block) {
         return () -> new TCBlockLoot(block, true);
     }

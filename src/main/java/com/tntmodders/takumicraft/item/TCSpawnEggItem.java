@@ -39,6 +39,6 @@ public class TCSpawnEggItem extends ForgeSpawnEggItem implements ITCItems {
 
     @Override
     public String getJaJPName() {
-        return "スポーン " + context.getJaJPName();
+        return context.getJaJPName()+"のスポーンエッグ";
     }
 }

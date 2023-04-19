@@ -38,18 +38,18 @@ public class TCEntityUtils {
     }
 
     @OnlyIn(Dist.CLIENT)
-    public static void renderEntity(double p_98851_, double p_98852_, int p_98853_, float f, float f1, EntityType<?> entityType) {
+    public static void renderEntity(double x, double y, int size, float yrot, float xrot, EntityType<?> entityType) {
         if (entityType.create(Minecraft.getInstance().level) instanceof LivingEntity entity) {
             PoseStack posestack = RenderSystem.getModelViewStack();
             posestack.pushPose();
-            posestack.translate(p_98851_, p_98852_, 1050.0D);
+            posestack.translate(x, y, 1050.0D);
             posestack.scale(1.0F, 1.0F, -1.0F);
             RenderSystem.applyModelViewMatrix();
             PoseStack posestack1 = new PoseStack();
             posestack1.translate(0.0D, 0.0D, 1000.0D);
-            posestack1.scale((float) p_98853_, (float) p_98853_, (float) p_98853_);
+            posestack1.scale((float) size, (float) size, (float) size);
             Quaternionf quaternion = Axis.ZP.rotationDegrees(180.0F);
-            Quaternionf quaternion1 = Axis.XP.rotationDegrees(f1 * 20.0F);
+            Quaternionf quaternion1 = Axis.XP.rotationDegrees(xrot * 20.0F);
             quaternion.mul(quaternion1);
             posestack1.mulPose(quaternion);
             float f2 = entity.yBodyRot;
@@ -57,9 +57,9 @@ public class TCEntityUtils {
             float f4 = entity.getXRot();
             float f5 = entity.yHeadRotO;
             float f6 = entity.yHeadRot;
-            entity.yBodyRot = 180.0F + f * 20.0F;
-            entity.setYRot(180.0F + f * 40.0F);
-            entity.setXRot(-f1 * 20.0F);
+            entity.yBodyRot = 180.0F + yrot * 20.0F;
+            entity.setYRot(180.0F + yrot * 40.0F);
+            entity.setXRot(-xrot * 20.0F);
             entity.yHeadRot = entity.getYRot();
             entity.yHeadRotO = entity.getYRot();
             Lighting.setupForEntityInInventory();
@@ -70,7 +70,7 @@ public class TCEntityUtils {
             MultiBufferSource.BufferSource multibuffersource$buffersource = Minecraft.getInstance().renderBuffers().bufferSource();
             renderEntitySP(entity);
             entityrenderdispatcher.render(entity, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F,
-                    posestack1, multibuffersource$buffersource, TCEntityUtils.checkSlayAdv(entityType) ? 0xf000f0 : -1);
+                    posestack1, multibuffersource$buffersource, TCEntityUtils.checkSlayAdv(entityType) ? 0xf000f0 : -10000);
             multibuffersource$buffersource.endBatch();
             entityrenderdispatcher.setRenderShadow(true);
             entity.yBodyRot = f2;
@@ -100,11 +100,15 @@ public class TCEntityUtils {
 
     @OnlyIn(Dist.CLIENT)
     public static Pair<Integer, Integer> checkSlayAllAdv() {
-        LocalPlayer player = Minecraft.getInstance().player;
-        ClientAdvancements advancements = player.connection.getAdvancements();
-        AdvancementProgress progress = advancements.progress.get(advancements.getAdvancements().get(new ResourceLocation(TakumiCraftCore.MODID, "slay_all")));
-        int size = ((List) progress.getCompletedCriteria()).size();
-        int allSize = ((List) progress.getRemainingCriteria()).size() + size;
-        return Pair.of(size, allSize);
+        try {
+            LocalPlayer player = Minecraft.getInstance().player;
+            ClientAdvancements advancements = player.connection.getAdvancements();
+            AdvancementProgress progress = advancements.progress.get(advancements.getAdvancements().get(new ResourceLocation(TakumiCraftCore.MODID, "slay_all")));
+            int size = ((List<?>) progress.getCompletedCriteria()).size();
+            int allSize = ((List<?>) progress.getRemainingCriteria()).size() + size;
+            return Pair.of(size, allSize);
+        } catch (Exception ignored) {
+        }
+        return Pair.of(0, 0);
     }
 }

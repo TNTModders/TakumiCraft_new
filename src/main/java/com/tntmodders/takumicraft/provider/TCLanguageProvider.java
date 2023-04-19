@@ -65,8 +65,8 @@ public abstract class TCLanguageProvider extends LanguageProvider {
         @Override
         void additionalTranslations() {
             this.add("takumicraft", "Takumi Craft");
-            this.add("itemGroup.takumicraft", "Takumi Craft");
-            this.add("itemGroup.takumicraft.egg", "Spawn Eggs");
+            this.add("item_group.takumicraft", "Takumi Craft");
+            this.add("item_group.takumicraft.egg", "Takumi Spawn Eggs");
             this.add("key.takumicraft.takumibook", "Open Takumi Book");
             this.add("takumicraft.takumibook", "Takumi Book");
             this.add("takumicraft.takumibook.search", "Search");
@@ -128,8 +128,8 @@ public abstract class TCLanguageProvider extends LanguageProvider {
         @Override
         void additionalTranslations() {
             this.add("takumicraft", "匠Craft");
-            this.add("itemGroup.takumicraft", "匠Craft");
-            this.add("itemGroup.takumicraft.egg", "スポーンエッグ");
+            this.add("item_group.takumicraft", "匠Craft");
+            this.add("item_group.takumicraft.egg", "匠のスポーンエッグ");
             this.add("key.takumicraft.takumibook", "匠の書");
             this.add("takumicraft.takumibook", "匠の書");
             this.add("takumicraft.takumibook.search", "匠の書 検索");

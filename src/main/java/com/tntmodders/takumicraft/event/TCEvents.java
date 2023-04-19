@@ -15,7 +15,7 @@ import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.Phantom;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.event.entity.living.LivingEvent;
-import net.minecraftforge.event.entity.living.LivingSpawnEvent;
+import net.minecraftforge.event.entity.living.MobSpawnEvent;
 import net.minecraftforge.event.level.ExplosionEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -37,7 +37,7 @@ public class TCEvents {
         List<BlockPos> removePosList = new ArrayList<>();
         event.getAffectedBlocks().forEach(pos -> {
             if (event.getLevel().getBlockState(pos).is(TCBlockCore.ANTI_EXPLOSION)
-                    || (event.getLevel()instanceof ServerLevel level && this.isUnderProtection(level, pos))) {
+                    || (event.getLevel() instanceof ServerLevel level && this.isUnderProtection(level, pos))) {
                 removePosList.add(pos);
             }
         });
@@ -62,7 +62,7 @@ public class TCEvents {
     }
 
     @SubscribeEvent
-    public void onEntitySpawn(LivingSpawnEvent.CheckSpawn event) {
+    public void onEntitySpawn(MobSpawnEvent event) {
         if (event.getEntity() instanceof Phantom && event.getLevel().getRandom().nextInt(10) == 0 && event.getEntity().level instanceof ServerLevel level) {
             BlockPos pos = new BlockPos(((int) event.getX()), ((int) event.getY()), ((int) event.getZ()));
             TCPhantomCreeper creeper = ((TCPhantomCreeper) TCEntityCore.PHANTOM.entityType().create(level));

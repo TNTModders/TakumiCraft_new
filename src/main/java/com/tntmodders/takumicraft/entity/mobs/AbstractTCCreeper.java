@@ -193,7 +193,7 @@ public abstract class AbstractTCCreeper extends Creeper implements ITCEntities, 
 
         @OnlyIn(Dist.CLIENT)
         default void registerRenderer(EntityRenderersEvent.RegisterRenderers event, EntityType<?> type) {
-            event.registerEntityRenderer(((EntityType<Creeper>) type), TCCreeperRenderer::new);
+            event.registerEntityRenderer((EntityType<Creeper>) type, TCCreeperRenderer::new);
         }
 
         EnumTakumiElement getElement();

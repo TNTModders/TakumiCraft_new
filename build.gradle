@@ -40,7 +40,7 @@ minecraft {
                     source sourceSets.main
                 }
             }
-            args '--username', 'tomkate', '--width', '1920', '--height', '1000'
+            args '--username', 'tomkate','--uuid', '0', '--width', '1920', '--height', '1000'
         }
 
         server {
@@ -87,7 +87,7 @@ repositories {
 
 //only change this on the version-up
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.19.4-45.0.10'
+    minecraft 'net.minecraftforge:forge:1.19.4-45.0.44'
 }
 
 jar {

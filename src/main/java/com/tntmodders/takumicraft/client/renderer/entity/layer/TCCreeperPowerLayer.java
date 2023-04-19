@@ -7,7 +7,7 @@ import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.EnergySwirlLayer;
 import net.minecraft.resources.ResourceLocation;
 
-public class TCCreeperPowerLayer<T extends AbstractTCCreeper,M extends EntityModel<T>> extends EnergySwirlLayer<T,M> {
+public class TCCreeperPowerLayer<T extends AbstractTCCreeper, M extends EntityModel<T>> extends EnergySwirlLayer<T, M> {
 
     private final M model;
     private final AbstractTCCreeper.TCCreeperContext context;

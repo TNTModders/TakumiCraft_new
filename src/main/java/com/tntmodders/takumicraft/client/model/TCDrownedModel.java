@@ -11,10 +11,11 @@ import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
-public class TCDrownedModel<T extends TCDrownedCreeper> extends TCZombieModel<T>{
+public class TCDrownedModel<T extends TCDrownedCreeper> extends TCZombieModel<T> {
     public TCDrownedModel(ModelPart p_170337_) {
         super(p_170337_);
     }
+
     public static LayerDefinition createBodyLayer(CubeDeformation p_170536_) {
         MeshDefinition meshdefinition = HumanoidModel.createMesh(p_170536_, 0.0F);
         PartDefinition partdefinition = meshdefinition.getRoot();
@@ -43,12 +44,12 @@ public class TCDrownedModel<T extends TCDrownedCreeper> extends TCZombieModel<T>
     public void setupAnim(T p_102526_, float p_102527_, float p_102528_, float p_102529_, float p_102530_, float p_102531_) {
         super.setupAnim(p_102526_, p_102527_, p_102528_, p_102529_, p_102530_, p_102531_);
         if (this.leftArmPose == HumanoidModel.ArmPose.THROW_SPEAR) {
-            this.leftArm.xRot = this.leftArm.xRot * 0.5F - (float)Math.PI;
+            this.leftArm.xRot = this.leftArm.xRot * 0.5F - (float) Math.PI;
             this.leftArm.yRot = 0.0F;
         }
 
         if (this.rightArmPose == HumanoidModel.ArmPose.THROW_SPEAR) {
-            this.rightArm.xRot = this.rightArm.xRot * 0.5F - (float)Math.PI;
+            this.rightArm.xRot = this.rightArm.xRot * 0.5F - (float) Math.PI;
             this.rightArm.yRot = 0.0F;
         }
 

@@ -56,13 +56,13 @@ public class TCPhantomCreeperModel<T extends TCPhantomCreeper> extends Hierarchi
 
     @Override
     public void setupAnim(T p_170791_, float p_170792_, float p_170793_, float p_170794_, float p_170795_, float p_170796_) {
-        float f = ((float)p_170791_.getUniqueFlapTickOffset() + p_170794_) * 7.448451F * ((float)Math.PI / 180F);
+        float f = ((float) p_170791_.getUniqueFlapTickOffset() + p_170794_) * 7.448451F * ((float) Math.PI / 180F);
         float f1 = 16.0F;
-        this.leftWingBase.zRot = Mth.cos(f) * 16.0F * ((float)Math.PI / 180F);
-        this.leftWingTip.zRot = Mth.cos(f) * 16.0F * ((float)Math.PI / 180F);
+        this.leftWingBase.zRot = Mth.cos(f) * 16.0F * ((float) Math.PI / 180F);
+        this.leftWingTip.zRot = Mth.cos(f) * 16.0F * ((float) Math.PI / 180F);
         this.rightWingBase.zRot = -this.leftWingBase.zRot;
         this.rightWingTip.zRot = -this.leftWingTip.zRot;
-        this.tailBase.xRot = -(5.0F + Mth.cos(f * 2.0F) * 5.0F) * ((float)Math.PI / 180F);
-        this.tailTip.xRot = -(5.0F + Mth.cos(f * 2.0F) * 5.0F) * ((float)Math.PI / 180F);
+        this.tailBase.xRot = -(5.0F + Mth.cos(f * 2.0F) * 5.0F) * ((float) Math.PI / 180F);
+        this.tailTip.xRot = -(5.0F + Mth.cos(f * 2.0F) * 5.0F) * ((float) Math.PI / 180F);
     }
 }

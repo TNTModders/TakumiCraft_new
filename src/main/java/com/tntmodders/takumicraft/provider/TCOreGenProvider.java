@@ -1,4 +1,4 @@
-package com.tntmodders.takumicraft.core;
+package com.tntmodders.takumicraft.provider;
 
 import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.data.worldgen.features.TCOreFeatures;

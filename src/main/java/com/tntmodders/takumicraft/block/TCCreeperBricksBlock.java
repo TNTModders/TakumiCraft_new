@@ -10,9 +10,9 @@ import net.minecraft.world.level.material.MaterialColor;
 
 import java.util.List;
 
-public class TCCreeperBricksBlock extends AbstractTCAntiExplosionBlock{
+public class TCCreeperBricksBlock extends AbstractTCAntiExplosionBlock {
     public TCCreeperBricksBlock() {
-        super( BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_RED).requiresCorrectToolForDrops().strength(2.0F, 6.0F));
+        super(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_RED).requiresCorrectToolForDrops().strength(2.0F, 6.0F));
     }
 
     @Override
@@ -32,6 +32,6 @@ public class TCCreeperBricksBlock extends AbstractTCAntiExplosionBlock{
 
     @Override
     public List<TagKey<Block>> getBlockTags() {
-        return List.of(TCBlockCore.ANTI_EXPLOSION,BlockTags.NEEDS_IRON_TOOL, BlockTags.MINEABLE_WITH_PICKAXE);
+        return List.of(TCBlockCore.ANTI_EXPLOSION, BlockTags.NEEDS_IRON_TOOL, BlockTags.MINEABLE_WITH_PICKAXE);
     }
 }

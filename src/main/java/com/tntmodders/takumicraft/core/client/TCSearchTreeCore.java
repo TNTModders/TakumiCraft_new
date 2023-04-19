@@ -19,6 +19,7 @@ import java.util.stream.Stream;
 public class TCSearchTreeCore {
 
     public static final SearchRegistry.Key<ItemStack> CREEPER_NAMES = new SearchRegistry.Key<>();
+    public static final SearchRegistry REGISTRY = Minecraft.getInstance().getSearchTreeManager();
 
     @OnlyIn(Dist.CLIENT)
     public static void register() {
@@ -31,11 +32,13 @@ public class TCSearchTreeCore {
             }
         }
 
-        Minecraft.getInstance().getSearchTreeManager().register(CREEPER_NAMES, (itemStacks) -> new FullTextSearchTree<>(itemStack -> {
+        REGISTRY.register(CREEPER_NAMES, itemStacks -> new FullTextSearchTree<>(itemStack -> {
             if (itemStack.getItem() instanceof TCSpawnEggItem item) {
                 return Stream.of(item.getContext().getEnUSName(), item.getContext().getJaJPName(), item.getContext().getJaJPRead()).filter(s -> s != null && !s.isEmpty());
             }
-            return itemStack.getTooltipLines(null, TooltipFlag.Default.NORMAL).stream().map((component) -> ChatFormatting.stripFormatting(component.getString()).trim()).filter((s) -> !s.isEmpty());
-        }, (itemStack) -> Stream.of(ForgeRegistries.ITEMS.getKey(itemStack.getItem())), nonnulllist));
+            return itemStack.getTooltipLines(null, TooltipFlag.Default.NORMAL).stream().map(component -> ChatFormatting.stripFormatting(component.getString()).trim()).filter(s -> !s.isEmpty());
+        }, itemStack -> Stream.of(ForgeRegistries.ITEMS.getKey(itemStack.getItem())), nonnulllist));
+
+        REGISTRY.populate(CREEPER_NAMES, nonnulllist);
     }
 }

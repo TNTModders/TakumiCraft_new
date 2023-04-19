@@ -49,13 +49,13 @@ public class TCTakumiBookScreen extends Screen {
     protected static final int TEXT_HEIGHT = 128;
     protected static final int IMAGE_WIDTH = 192;
     protected static final int IMAGE_HEIGHT = 192;
-    static final NonNullList<AbstractTCCreeper> CREEPERS = NonNullList.create();
     private static final ResourceLocation BOOK_GUI_TEXTURES = new ResourceLocation("textures/gui/book.png");
     private static final ResourceLocation BOOK_GUI_TEXTURES_BOSS =
             new ResourceLocation(TakumiCraftCore.MODID, "textures/book/book_boss.png");
+    public final NonNullList<AbstractTCCreeper> creepers = NonNullList.create();
     private final boolean playTurnSound;
     private TCTakumiBookScreen.BookAccess bookAccess;
-    private int currentPage;
+    private static int currentPage;
     private List<FormattedCharSequence> cachedPageComponents = Collections.emptyList();
     private int cachedPage = -1;
     private Component pageMsg = CommonComponents.EMPTY;
@@ -70,9 +70,14 @@ public class TCTakumiBookScreen extends Screen {
         this.playTurnSound = false;
         TCEntityCore.ENTITY_CONTEXTS.forEach(context -> {
             if (context.entityType().create(Minecraft.getInstance().level) instanceof AbstractTCCreeper creeper) {
-                CREEPERS.add(creeper);
+                creepers.add(creeper);
             }
         });
+    }
+
+    public TCTakumiBookScreen(int page){
+        this();
+        currentPage=page;
     }
 
     static List<String> loadPages(CompoundTag p_169695_) {
@@ -86,7 +91,7 @@ public class TCTakumiBookScreen extends Screen {
         IntFunction<String> intfunction;
         if (Minecraft.getInstance().isTextFilteringEnabled() && p_169697_.contains("filtered_pages", 10)) {
             CompoundTag compoundtag = p_169697_.getCompound("filtered_pages");
-            intfunction = (p_169702_) -> {
+            intfunction = p_169702_ -> {
                 String s = String.valueOf(p_169702_);
                 return compoundtag.contains(s) ? compoundtag.getString(s) : listtag.getString(p_169702_);
             };
@@ -100,22 +105,17 @@ public class TCTakumiBookScreen extends Screen {
 
     }
 
-    @Override
-    public boolean isPauseScreen() {
-        return true;
-    }
-
     public void setBookAccess(TCTakumiBookScreen.BookAccess p_98289_) {
         this.bookAccess = p_98289_;
-        this.currentPage = Mth.clamp(this.currentPage, 0, p_98289_.getPageCount());
+        currentPage = Mth.clamp(currentPage, 0, p_98289_.getPageCount());
         this.updateButtonVisibility();
         this.cachedPage = -1;
     }
 
     public boolean setPage(int p_98276_) {
         int i = Mth.clamp(p_98276_, 0, this.bookAccess.getPageCount() - 1);
-        if (i != this.currentPage) {
-            this.currentPage = i;
+        if (i != currentPage) {
+            currentPage = i;
             this.updateButtonVisibility();
             this.cachedPage = -1;
             return true;
@@ -136,17 +136,18 @@ public class TCTakumiBookScreen extends Screen {
 
     protected void createMenuControls() {
         this.addRenderableWidget(Button.builder(
-                Component.translatable("takumicraft.takumibook.search"),
-                (p_98299_) -> this.minecraft.setScreen(new TCTakumiBookOutlineScreen(Minecraft.getInstance().player))).bounds((this.width - IMAGE_WIDTH) / 2 + 40, 140, 105, 20).build());
+                        Component.translatable("takumicraft.takumibook.search"),
+                        p_98299_ -> this.minecraft.setScreen(new TCTakumiBookOutlineScreen(Minecraft.getInstance().player, currentPage)))
+                .bounds((this.width - IMAGE_WIDTH) / 2 + 40, 140, 105, 20).build());
         this.addRenderableWidget(Button.builder(CommonComponents.GUI_DONE,
-                (p_98299_) -> this.minecraft.setScreen(null)).bounds(this.width / 2 - 100, 196, 200, 20).build());
+                p_98299_ -> this.minecraft.setScreen(null)).bounds(this.width / 2 - 100, 196, 200, 20).build());
     }
 
     protected void createPageControlButtons() {
         int i = (this.width - 192) / 2;
         int j = 2;
-        this.forwardButton = this.addRenderableWidget(new PageButton(i + 116, 159, true, (p_98297_) -> this.pageForward(), this.playTurnSound));
-        this.backButton = this.addRenderableWidget(new PageButton(i + 43, 159, false, (p_98287_) -> this.pageBack(), this.playTurnSound));
+        this.forwardButton = this.addRenderableWidget(new PageButton(i + 116, 159, true, p_98297_ -> this.pageForward(), this.playTurnSound));
+        this.backButton = this.addRenderableWidget(new PageButton(i + 43, 159, false, p_98287_ -> this.pageBack(), this.playTurnSound));
         this.updateButtonVisibility();
     }
 
@@ -155,24 +156,24 @@ public class TCTakumiBookScreen extends Screen {
     }
 
     protected void pageBack() {
-        if (this.currentPage > 0) {
-            --this.currentPage;
+        if (currentPage > 0) {
+            --currentPage;
         }
 
         this.updateButtonVisibility();
     }
 
     protected void pageForward() {
-        if (this.currentPage < this.getNumPages() - 1) {
-            ++this.currentPage;
+        if (currentPage < this.getNumPages() - 1) {
+            ++currentPage;
         }
 
         this.updateButtonVisibility();
     }
 
     private void updateButtonVisibility() {
-        this.forwardButton.visible = this.currentPage < this.getNumPages() - 1;
-        this.backButton.visible = this.currentPage > 0;
+        this.forwardButton.visible = currentPage < this.getNumPages() - 1;
+        this.backButton.visible = currentPage > 0;
     }
 
     @Override
@@ -206,17 +207,17 @@ public class TCTakumiBookScreen extends Screen {
         int j = 2;
         blit(poseStack, i, 2, 0, 0, 192, 192);
 
-        AbstractTCCreeper.TCCreeperContext<? extends AbstractTCCreeper> context = TCEntityCore.ENTITY_CONTEXTS.get(this.currentPage);
+        AbstractTCCreeper.TCCreeperContext<? extends AbstractTCCreeper> context = TCEntityCore.ENTITY_CONTEXTS.get(currentPage);
         this.tick++;
         TCEntityUtils.renderEntity(i + 51, j + 80, 30, this.tick / 100f, 0, context.entityType());
         boolean flg = TCEntityUtils.checkSlayAdv(context.entityType());
-        if (this.cachedPage != this.currentPage) {
+        if (this.cachedPage != currentPage) {
             FormattedText formattedtext = Component.translatable(flg ? context.entityType().getDescriptionId() + ".desc" : "???");
             this.cachedPageComponents = this.font.split(formattedtext, 114);
-            this.pageMsg = Component.translatable("book.pageIndicator", this.currentPage + 1, Math.max(this.getNumPages(), 1));
+            this.pageMsg = Component.translatable("book.pageIndicator", currentPage + 1, Math.max(this.getNumPages(), 1));
         }
 
-        this.cachedPage = this.currentPage;
+        this.cachedPage = currentPage;
         int i1 = this.font.width(this.pageMsg);
         this.font.draw(poseStack, this.pageMsg, (float) (i - i1 + 192 - 44), 18.0F, 0);
         int k = Math.min(128 / 9, this.cachedPageComponents.size());

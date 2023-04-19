@@ -1,6 +1,7 @@
 package com.tntmodders.takumicraft.core;
 
 import com.tntmodders.takumicraft.TakumiCraftCore;
+import com.tntmodders.takumicraft.item.TCSpawnEggItem;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
@@ -30,7 +31,7 @@ public class TCCreativeModeTabCore {
                 builder -> builder.title(Component.translatable("item_group.takumicraft.egg"))
                         .icon(() -> new ItemStack(Items.CREEPER_SPAWN_EGG))
                         .displayItems((params, output) -> ForgeRegistries.ITEMS.forEach(item -> {
-                            if (item instanceof SpawnEggItem) {
+                            if (item instanceof TCSpawnEggItem) {
                                 output.accept(item);
                             }
                         })));

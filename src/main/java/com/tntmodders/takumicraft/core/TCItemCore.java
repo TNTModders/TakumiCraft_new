@@ -40,7 +40,7 @@ public class TCItemCore {
                 Object obj = field.get(null);
                 if (obj instanceof ITCItems && obj instanceof Item item) {
                     event.register(ForgeRegistries.ITEMS.getRegistryKey(), itemRegisterHelper -> itemRegisterHelper.register(new ResourceLocation(TakumiCraftCore.MODID, ((ITCItems) item).getRegistryName()), item));
-                    ITEMS.add(((Item) obj));
+                    ITEMS.add((Item) obj);
                     TCLoggingUtils.entryRegistry("Item", ((ITCItems) item).getRegistryName());
                 }
             } catch (IllegalAccessException e) {
