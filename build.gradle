@@ -22,6 +22,11 @@ archivesBaseName = 'takumicraft'
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
+//only change this on the version-up
+dependencies {
+    minecraft 'net.minecraftforge:forge:1.19.4-45.0.46'
+}
+
 println "Java: ${System.getProperty 'java.version'}, JVM: ${System.getProperty 'java.vm.version'} (${System.getProperty 'java.vendor'}), Arch: ${System.getProperty 'os.arch'}"
 minecraft {
     mappings channel: 'official', version: '1.19.4'
@@ -83,11 +88,6 @@ repositories {
     // flatDir {
     //     dir 'libs'
     // }
-}
-
-//only change this on the version-up
-dependencies {
-    minecraft 'net.minecraftforge:forge:1.19.4-45.0.44'
 }
 
 jar {
