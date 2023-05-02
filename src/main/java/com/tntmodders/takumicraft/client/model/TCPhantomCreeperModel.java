@@ -55,8 +55,11 @@ public class TCPhantomCreeperModel<T extends TCPhantomCreeper> extends Hierarchi
     }
 
     @Override
-    public void setupAnim(T p_170791_, float p_170792_, float p_170793_, float p_170794_, float p_170795_, float p_170796_) {
-        float f = ((float) p_170791_.getUniqueFlapTickOffset() + p_170794_) * 7.448451F * ((float) Math.PI / 180F);
+    public void setupAnim(T creeper, float p_170792_, float p_170793_, float p_170794_, float p_170795_, float p_170796_) {
+        float f = ((float) creeper.getUniqueFlapTickOffset() + p_170794_) * 7.448451F * ((float) Math.PI / 180F);
+        if (creeper.isOnBook()) {
+            f = f / 15;
+        }
         float f1 = 16.0F;
         this.leftWingBase.zRot = Mth.cos(f) * 16.0F * ((float) Math.PI / 180F);
         this.leftWingTip.zRot = Mth.cos(f) * 16.0F * ((float) Math.PI / 180F);

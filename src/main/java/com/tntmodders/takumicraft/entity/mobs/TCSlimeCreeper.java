@@ -154,6 +154,14 @@ public class TCSlimeCreeper extends AbstractTCCreeper {
     }
 
     @Override
+    public void die(DamageSource source) {
+        if (!source.is(DamageTypes.PLAYER_ATTACK)) {
+            this.explodeCreeper();
+        }
+        super.die(source);
+    }
+
+    @Override
     public void tick() {
         this.squish += (this.targetSquish - this.squish) * 0.5F;
         this.oSquish = this.squish;
@@ -161,7 +169,7 @@ public class TCSlimeCreeper extends AbstractTCCreeper {
         if (this.onGround && !this.wasOnGround) {
             int i = this.getSize();
 
-            if (spawnCustomParticles()) i = 0; // don't spawn particles if it's handled by the implementation itself
+            if (spawnCustomParticles()) i = 0;
             for (int j = 0; j < i * 8; ++j) {
                 float f = this.random.nextFloat() * ((float) Math.PI * 2F);
                 float f1 = this.random.nextFloat() * 0.5F + 0.5F;
@@ -268,7 +276,7 @@ public class TCSlimeCreeper extends AbstractTCCreeper {
                 slime.setNoAi(flag);
                 slime.setInvulnerable(this.isInvulnerable());
                 slime.setSize(j, true);
-                slime.moveTo(this.getX() + (double) f1, this.getY() + 0.5D, this.getZ() + (double) f2, this.random.nextFloat() * 360.0F, 0.0F);
+                slime.moveTo(this.getX() + (double) f1, this.getY() + 1.5D, this.getZ() + (double) f2, this.random.nextFloat() * 360.0F, 0.0F);
                 this.level.addFreshEntity(slime);
                 if (hp > 0) {
                     slime.setHealth(hp);
@@ -385,10 +393,6 @@ public class TCSlimeCreeper extends AbstractTCCreeper {
         return super.getDimensions(p_33597_).scale(0.255F * (float) this.getSize());
     }
 
-    /**
-     * Called when the slime spawns particles on landing, see onUpdate.
-     * Return true to prevent the spawning of the default particles.
-     */
     protected boolean spawnCustomParticles() {
         return false;
     }

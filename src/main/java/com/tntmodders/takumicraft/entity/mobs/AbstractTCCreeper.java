@@ -57,6 +57,8 @@ import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 public abstract class AbstractTCCreeper extends Creeper implements ITCEntities, IEntityAdditionalSpawnData {
+    private boolean onBook = false;
+
     public AbstractTCCreeper(EntityType<? extends Creeper> entityType, Level level) {
         super(entityType, level);
     }
@@ -69,6 +71,14 @@ public abstract class AbstractTCCreeper extends Creeper implements ITCEntities, 
             }
         }
         return checkMonsterSpawnRules(type, levelAccessor, spawnType, pos, random);
+    }
+
+    public boolean isOnBook() {
+        return this.onBook;
+    }
+
+    public void setOnBook(boolean book) {
+        this.onBook = book;
     }
 
     public void explodeCreeperEvent(ExplosionEvent.Detonate event) {

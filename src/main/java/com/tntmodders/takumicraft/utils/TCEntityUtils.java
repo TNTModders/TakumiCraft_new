@@ -6,6 +6,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.math.Axis;
 import com.tntmodders.takumicraft.TakumiCraftCore;
+import com.tntmodders.takumicraft.entity.mobs.AbstractTCCreeper;
 import com.tntmodders.takumicraft.entity.mobs.TCZombieVillagerCreeper;
 import net.minecraft.advancements.AdvancementProgress;
 import net.minecraft.client.Minecraft;
@@ -17,7 +18,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.npc.VillagerData;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.entity.npc.VillagerType;
@@ -33,7 +33,7 @@ public class TCEntityUtils {
         return Component.translatable(type.getDescriptionId());
     }
 
-    public static Component getUnknown(){
+    public static Component getUnknown() {
         return Component.empty().append("???");
     }
 
@@ -43,7 +43,8 @@ public class TCEntityUtils {
 
     @OnlyIn(Dist.CLIENT)
     public static void renderEntity(double x, double y, int size, float yrot, float xrot, EntityType<?> entityType) {
-        if (entityType.create(Minecraft.getInstance().level) instanceof LivingEntity entity) {
+        if (entityType.create(Minecraft.getInstance().level) instanceof AbstractTCCreeper creeper) {
+            creeper.setOnBook(true);
             PoseStack posestack = RenderSystem.getModelViewStack();
             posestack.pushPose();
             posestack.translate(x, y, 1050.0D);
@@ -56,32 +57,32 @@ public class TCEntityUtils {
             Quaternionf quaternion1 = Axis.XP.rotationDegrees(xrot * 20.0F);
             quaternion.mul(quaternion1);
             posestack1.mulPose(quaternion);
-            float f2 = entity.yBodyRot;
-            float f3 = entity.getYRot();
-            float f4 = entity.getXRot();
-            float f5 = entity.yHeadRotO;
-            float f6 = entity.yHeadRot;
-            entity.yBodyRot = 180.0F + yrot * 20.0F;
-            entity.setYRot(180.0F + yrot * 40.0F);
-            entity.setXRot(-xrot * 20.0F);
-            entity.yHeadRot = entity.getYRot();
-            entity.yHeadRotO = entity.getYRot();
+            float f2 = creeper.yBodyRot;
+            float f3 = creeper.getYRot();
+            float f4 = creeper.getXRot();
+            float f5 = creeper.yHeadRotO;
+            float f6 = creeper.yHeadRot;
+            creeper.yBodyRot = 180.0F + yrot * 20.0F;
+            creeper.setYRot(180.0F + yrot * 40.0F);
+            creeper.setXRot(-xrot * 20.0F);
+            creeper.yHeadRot = creeper.getYRot();
+            creeper.yHeadRotO = creeper.getYRot();
             Lighting.setupForEntityInInventory();
             EntityRenderDispatcher entityrenderdispatcher = Minecraft.getInstance().getEntityRenderDispatcher();
             quaternion1.conjugate();
             entityrenderdispatcher.overrideCameraOrientation(quaternion1);
             entityrenderdispatcher.setRenderShadow(false);
             MultiBufferSource.BufferSource multibuffersource$buffersource = Minecraft.getInstance().renderBuffers().bufferSource();
-            renderEntitySP(entity);
-            entityrenderdispatcher.render(entity, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F,
+            renderEntitySP(creeper);
+            entityrenderdispatcher.render(creeper, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F,
                     posestack1, multibuffersource$buffersource, TCEntityUtils.checkSlayAdv(entityType) ? 0xf000f0 : -10000);
             multibuffersource$buffersource.endBatch();
             entityrenderdispatcher.setRenderShadow(true);
-            entity.yBodyRot = f2;
-            entity.setYRot(f3);
-            entity.setXRot(f4);
-            entity.yHeadRotO = f5;
-            entity.yHeadRot = f6;
+            creeper.yBodyRot = f2;
+            creeper.setYRot(f3);
+            creeper.setXRot(f4);
+            creeper.yHeadRotO = f5;
+            creeper.yHeadRot = f6;
             posestack.popPose();
             RenderSystem.applyModelViewMatrix();
             Lighting.setupFor3DItems();

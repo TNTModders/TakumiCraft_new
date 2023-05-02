@@ -3,7 +3,7 @@ package com.tntmodders.takumicraft.utils;
 import static com.tntmodders.takumicraft.TakumiCraftCore.TC_LOGGER;
 
 public class TCLoggingUtils {
-    public static void message(String msg){
+    public static void info(Object msg){
         TC_LOGGER.info(msg);
     }
 

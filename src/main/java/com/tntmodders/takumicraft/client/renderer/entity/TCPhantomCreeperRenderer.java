@@ -7,8 +7,10 @@ import com.tntmodders.takumicraft.client.model.TCPhantomCreeperModel;
 import com.tntmodders.takumicraft.client.renderer.entity.layer.TCCreeperPowerLayer;
 import com.tntmodders.takumicraft.core.TCEntityCore;
 import com.tntmodders.takumicraft.entity.mobs.TCPhantomCreeper;
+import com.tntmodders.takumicraft.utils.TCEntityUtils;
 import com.tntmodders.takumicraft.utils.client.TCClientUtils;
 import net.minecraft.client.model.geom.ModelLayers;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
@@ -61,6 +63,13 @@ public class TCPhantomCreeperRenderer extends MobRenderer<TCPhantomCreeper, TCPh
 
         public TCPhantomCreeperEyesLayer(RenderLayerParent<T, TCPhantomCreeperModel<T>> p_117342_) {
             super(p_117342_);
+        }
+
+        @Override
+        public void render(PoseStack p_116983_, MultiBufferSource p_116984_, int p_116985_, T creeper, float p_116987_, float p_116988_, float p_116989_, float p_116990_, float p_116991_, float p_116992_) {
+            if (!creeper.isOnBook() || TCEntityUtils.checkSlayAdv(creeper.getType())) {
+                super.render(p_116983_, p_116984_, p_116985_, creeper, p_116987_, p_116988_, p_116989_, p_116990_, p_116991_, p_116992_);
+            }
         }
 
         @Override
