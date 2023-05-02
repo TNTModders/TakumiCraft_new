@@ -526,7 +526,7 @@ public class TCTakumiBookOutlineScreen extends EffectRenderingInventoryScreen<TC
         if (itemStack.getItem() instanceof TCSpawnEggItem egg) {
             AbstractTCCreeper.TCCreeperContext context = egg.getContext();
             boolean flg = TCEntityUtils.checkSlayAdv(context.entityType());
-            Component name = flg ? TCEntityUtils.getEntityName(context.entityType()) : Component.translatable("???");
+            Component name = flg ? TCEntityUtils.getEntityName(context.entityType()) : TCEntityUtils.getUnknown();
             components.add(name);
             if (flg) {
                 components.add(MutableComponent.create(context.getRank().getRankName().getContents())

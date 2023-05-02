@@ -33,6 +33,10 @@ public class TCEntityUtils {
         return Component.translatable(type.getDescriptionId());
     }
 
+    public static Component getUnknown(){
+        return Component.empty().append("???");
+    }
+
     public static String getEntityLangCode(EntityType<?> type, @NotNull String suffix) {
         return "entity.takumicraft." + type.toShortString() + suffix;
     }

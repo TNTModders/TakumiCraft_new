@@ -229,7 +229,7 @@ public class TCTakumiBookScreen extends Screen {
 
         super.render(poseStack, mouseX, mouseY, p_98285_);
 
-        Component name = flg ? TCEntityUtils.getEntityName(context.entityType()) : Component.translatable("???");
+        Component name = flg ? TCEntityUtils.getEntityName(context.entityType()) : TCEntityUtils.getUnknown();
         this.font.draw(poseStack, name, (float) (i + 80), 34, 0);
 
         RenderSystem.setShader(GameRenderer::getPositionTexShader);

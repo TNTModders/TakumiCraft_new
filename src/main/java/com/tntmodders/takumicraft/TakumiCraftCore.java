@@ -15,6 +15,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.event.CreativeModeTabEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
@@ -47,12 +48,12 @@ public class TakumiCraftCore {
         TCConfigCore.register();
         modEventBus.addListener(this::registerProviders);
         modEventBus.addListener(this::complete);
+        TCBiomeModifierCore.BIOME_MODIFIER_SERIALIZERS.register(modEventBus);
         MinecraftForge.EVENT_BUS.register(this);
         MinecraftForge.EVENT_BUS.register(TCEvents.INSTANCE);
         if (FMLEnvironment.dist == Dist.CLIENT) {
             MinecraftForge.EVENT_BUS.register(TCClientEvents.INSTANCE);
         }
-        //TCBiomeModifierCore.register(modEventBus);
     }
 
     //DO NOT REFER TO CONFIG
@@ -65,19 +66,20 @@ public class TakumiCraftCore {
     private void registerProviders(GatherDataEvent event) {
         DataGenerator gen = event.getGenerator();
         PackOutput packOutput = gen.getPackOutput();
-        gen.addProvider(event.includeClient(), new TCBlockStateProvider(packOutput, event.getExistingFileHelper()));
-        gen.addProvider(event.includeClient(), new TCItemModelProvider(packOutput, event.getExistingFileHelper()));
+        ExistingFileHelper fileHelper = event.getExistingFileHelper();
+        CompletableFuture<HolderLookup.Provider> lookupProvider = event.getLookupProvider();
+        gen.addProvider(event.includeClient(), new TCBlockStateProvider(packOutput, fileHelper));
+        gen.addProvider(event.includeClient(), new TCItemModelProvider(packOutput, fileHelper));
         gen.addProvider(event.includeClient(), new TCLanguageProvider.TCEnUSLanguageProvider(gen));
         gen.addProvider(event.includeClient(), new TCLanguageProvider.TCJaJPLanguageProvider(gen));
-        CompletableFuture<HolderLookup.Provider> lookupProvider = event.getLookupProvider();
-        TCBlockTagsProvider blockTagsProvider = new TCBlockTagsProvider(packOutput, lookupProvider, event.getExistingFileHelper());
+        TCBlockTagsProvider blockTagsProvider = new TCBlockTagsProvider(packOutput, lookupProvider, fileHelper);
         gen.addProvider(event.includeServer(), blockTagsProvider);
-        gen.addProvider(event.includeServer(), new TCItemTagsProvider(packOutput, lookupProvider, blockTagsProvider.contentsGetter(), event.getExistingFileHelper()));
+        gen.addProvider(event.includeServer(), new TCItemTagsProvider(packOutput, lookupProvider, blockTagsProvider.contentsGetter(), fileHelper));
         gen.addProvider(event.includeServer(), new TCRecipeProvider(packOutput));
         gen.addProvider(event.includeServer(), new TCLootTableProvider(packOutput));
         gen.addProvider(event.includeServer(), new TCAdvancementProvider(packOutput, lookupProvider,
-                event.getExistingFileHelper(), List.of(new TCAdvancementProvider.TCAdvancementGenerator())));
-        gen.addProvider(event.includeServer(), new TCOreGenProvider(packOutput, event.getLookupProvider()));
+                fileHelper, List.of(new TCAdvancementProvider.TCAdvancementGenerator())));
+        gen.addProvider(event.includeServer(), new TCOreGenProvider(packOutput, lookupProvider));
     }
 
     @SubscribeEvent

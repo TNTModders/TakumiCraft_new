@@ -5,15 +5,18 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.SimpleCookingRecipeBuilder;
+import net.minecraft.tags.TagKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
+import net.minecraftforge.common.Tags;
 
 import java.util.function.Consumer;
 
@@ -48,5 +51,10 @@ public class TCDeepGunOreBlock extends TCGunOreBlock {
                 RecipeCategory.BUILDING_BLOCKS, Items.GUNPOWDER, 1f, 100));
         provider.saveRecipe(itemLike, consumer, SimpleCookingRecipeBuilder.blasting(Ingredient.of(itemLike),
                 RecipeCategory.BUILDING_BLOCKS, Items.GUNPOWDER, 1f, 50));
+    }
+
+    @Override
+    protected TagKey<Block> oreTag() {
+        return Tags.Blocks.ORES_IN_GROUND_DEEPSLATE;
     }
 }

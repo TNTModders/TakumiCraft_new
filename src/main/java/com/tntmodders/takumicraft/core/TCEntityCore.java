@@ -77,7 +77,6 @@ public class TCEntityCore {
                     EntityType<? extends LivingEntity> type = (EntityType<? extends LivingEntity>) context.entityType();
                     AttributeSupplier.Builder builder = context.entityAttribute();
                     event.put(type, builder.build());
-                    //context.registerSpawn(((EntityType<AbstractTCCreeper>) type));
                     TCLoggingUtils.entryRegistry("EntityAttribute", context.getRegistryName());
                 }
             } catch (IllegalAccessException e) {
@@ -96,6 +95,7 @@ public class TCEntityCore {
                 if (obj instanceof AbstractTCCreeper.TCCreeperContext<?> context) {
                     EntityType<? extends LivingEntity> type = (EntityType<? extends LivingEntity>) context.entityType();
                     context.registerSpawn(event, (EntityType<AbstractTCCreeper>) type);
+                    TCLoggingUtils.logMessage("EntitySpawn", context.getEnUSName());
                 }
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
