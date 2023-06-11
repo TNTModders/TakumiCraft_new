@@ -15,6 +15,20 @@
       },
       "trigger": "minecraft:player_killed_entity"
     },
+    "slay_childcreeper": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "takumicraft:childcreeper"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
     "slay_cowcreeper": {
       "conditions": {
         "entity": [
@@ -311,6 +325,9 @@
     ],
     [
       "slay_cowcreeper"
+    ],
+    [
+      "slay_childcreeper"
     ],
     [
       "slay_phantomcreeper"

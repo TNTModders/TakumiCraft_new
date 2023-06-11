@@ -12,11 +12,11 @@
 plugins {
     id 'idea'
     id 'maven-publish'
-    id 'net.minecraftforge.gradle' version '5.1.+'
+    id 'net.minecraftforge.gradle' version '[6.0,6.2)'
 }
 
 
-version = '1.19.4-2.2.0.0-beta.0'
+version = '1.20-2.2.0.0-beta.0'
 group = 'com.yourname.modid'
 archivesBaseName = 'takumicraft'
 
@@ -24,12 +24,12 @@ java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
 //only change this on the version-up
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.19.4-45.0.52'
+    minecraft 'net.minecraftforge:forge:1.20-46.0.13'
 }
 
 println "Java: ${System.getProperty 'java.version'}, JVM: ${System.getProperty 'java.vm.version'} (${System.getProperty 'java.vendor'}), Arch: ${System.getProperty 'os.arch'}"
 minecraft {
-    mappings channel: 'official', version: '1.19.4'
+    mappings channel: 'official', version: '1.20'
 
     accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
 

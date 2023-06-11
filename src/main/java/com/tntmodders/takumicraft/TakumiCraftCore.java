@@ -128,6 +128,12 @@ public class TakumiCraftCore {
     @OnlyIn(Dist.CLIENT)
     @Mod.EventBusSubscriber(modid = TakumiCraftCore.MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
     public static class RegistryClientEvents {
+
+        @SubscribeEvent
+        public static void registerLayerDefinition(EntityRenderersEvent.RegisterLayerDefinitions layerRegister) {
+            TCRenderCore.registerLayerDefinition(layerRegister);
+        }
+
         @SubscribeEvent
         public static void registerEntityRender(EntityRenderersEvent.RegisterRenderers rendererRegister) {
             TCRenderCore.registerEntityRender(rendererRegister);
