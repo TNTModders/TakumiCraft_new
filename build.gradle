@@ -13,6 +13,7 @@ plugins {
     id 'idea'
     id 'maven-publish'
     id 'net.minecraftforge.gradle' version '[6.0,6.2)'
+    id 'io.github.serenibyss.fractureiser-scanner' version '1.0.1'
 }
 
 
