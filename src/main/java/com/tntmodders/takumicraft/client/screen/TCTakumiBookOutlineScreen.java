@@ -3,7 +3,6 @@ package com.tntmodders.takumicraft.client.screen;
 import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.datafixers.util.Pair;
 import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.core.TCCreativeModeTabCore;
@@ -14,6 +13,7 @@ import com.tntmodders.takumicraft.utils.TCEntityUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.HotbarManager;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.inventory.CreativeInventoryListener;
@@ -61,7 +61,7 @@ public class TCTakumiBookOutlineScreen extends EffectRenderingInventoryScreen<TC
     private static final int SCROLLER_HEIGHT = 15;
     private static final Component TRASH_SLOT_TOOLTIP = Component.translatable("inventory.binSlot");
     private static final int TEXT_COLOR = 16777215;
-    private static CreativeModeTab selectedTab = CreativeModeTabs.SEARCH;
+    private static CreativeModeTab selectedTab = BuiltInRegistries.CREATIVE_MODE_TAB.get(CreativeModeTabs.SEARCH);
     private final Set<TagKey<Item>> visibleTags = new HashSet<>();
     private final List<net.minecraftforge.client.gui.CreativeTabsScreenPage> pages = new java.util.ArrayList<>();
     private float scrollOffs;
@@ -82,7 +82,6 @@ public class TCTakumiBookOutlineScreen extends EffectRenderingInventoryScreen<TC
     public TCTakumiBookOutlineScreen(Player p_259788_) {
         super(new TCTakumiBookOutlineScreen.TakumiPickerMenu(p_259788_), p_259788_.getInventory(), CommonComponents.EMPTY);
         p_259788_.containerMenu = this.menu;
-        this.passEvents = true;
         this.imageHeight = 136;
         this.imageWidth = 195;
     }
@@ -125,17 +124,19 @@ public class TCTakumiBookOutlineScreen extends EffectRenderingInventoryScreen<TC
         this.menu.scrollTo(this.scrollOffs);
     }
 
+    @Override
     public void containerTick() {
         super.containerTick();
         this.tick++;
         if (this.minecraft != null) {
             if (this.minecraft.player != null) {
-                this.tryRefreshInvalidatedTabs(this.minecraft.player.connection.enabledFeatures(), this.hasPermissions(this.minecraft.player), this.minecraft.player.level.registryAccess());
+                this.tryRefreshInvalidatedTabs(this.minecraft.player.connection.enabledFeatures(), this.hasPermissions(this.minecraft.player), this.minecraft.player.level().registryAccess());
             }
             this.searchBox.tick();
         }
     }
 
+    @Override
     protected void slotClicked(@Nullable Slot slot, int p_98557_, int p_98558_, ClickType p_98559_) {
         if (slot != null && slot.getItem().getItem() instanceof TCSpawnEggItem eggItem) {
             TCTakumiBookScreen screen = new TCTakumiBookScreen();
@@ -155,12 +156,13 @@ public class TCTakumiBookOutlineScreen extends EffectRenderingInventoryScreen<TC
         return p_98554_ != null && p_98554_.container == CONTAINER;
     }
 
+    @Override
     protected void init() {
         super.init();
         this.pages.clear();
         int tabIndex = 0;
         List<CreativeModeTab> currentPage = new java.util.ArrayList<>();
-        currentPage.add(CreativeModeTabs.SEARCH);
+        currentPage.add(BuiltInRegistries.CREATIVE_MODE_TAB.get(CreativeModeTabs.SEARCH));
         this.pages.add(new net.minecraftforge.client.gui.CreativeTabsScreenPage(currentPage));
         this.currentPage = this.pages.get(0);
 
@@ -176,7 +178,7 @@ public class TCTakumiBookOutlineScreen extends EffectRenderingInventoryScreen<TC
         this.searchBox.setTextColor(16777215);
         this.addWidget(this.searchBox);
         CreativeModeTab creativemodetab = selectedTab;
-        selectedTab = CreativeModeTabs.SEARCH;
+        selectedTab = BuiltInRegistries.CREATIVE_MODE_TAB.get(CreativeModeTabs.SEARCH);
         this.selectTab(creativemodetab);
         this.minecraft.player.inventoryMenu.removeSlotListener(this.listener);
         this.listener = new CreativeInventoryListener(this.minecraft);
@@ -191,6 +193,7 @@ public class TCTakumiBookOutlineScreen extends EffectRenderingInventoryScreen<TC
                 p_98299_ -> this.minecraft.setScreen(null)).bounds(this.width / 2 - 100, 196, 200, 20).build());
     }
 
+    @Override
     public void resize(Minecraft p_98595_, int p_98596_, int p_98597_) {
         int i = this.menu.getRowIndexForScroll(this.scrollOffs);
         String s = this.searchBox.getValue();
@@ -204,6 +207,7 @@ public class TCTakumiBookOutlineScreen extends EffectRenderingInventoryScreen<TC
         this.menu.scrollTo(this.scrollOffs);
     }
 
+    @Override
     public void removed() {
         super.removed();
         if (this.minecraft.player != null && this.minecraft.player.getInventory() != null) {
@@ -212,6 +216,7 @@ public class TCTakumiBookOutlineScreen extends EffectRenderingInventoryScreen<TC
 
     }
 
+    @Override
     public boolean charTyped(char p_98521_, int p_98522_) {
         if (this.ignoreTextInput) {
             return false;
@@ -231,6 +236,7 @@ public class TCTakumiBookOutlineScreen extends EffectRenderingInventoryScreen<TC
         }
     }
 
+    @Override
     public boolean keyPressed(int p_98547_, int p_98548_, int p_98549_) {
         this.ignoreTextInput = false;
         if (!selectedTab.hasSearchBar()) {
@@ -262,6 +268,7 @@ public class TCTakumiBookOutlineScreen extends EffectRenderingInventoryScreen<TC
         }
     }
 
+    @Override
     public boolean keyReleased(int p_98612_, int p_98613_, int p_98614_) {
         this.ignoreTextInput = false;
         return super.keyReleased(p_98612_, p_98613_, p_98614_);
@@ -302,14 +309,16 @@ public class TCTakumiBookOutlineScreen extends EffectRenderingInventoryScreen<TC
         BuiltInRegistries.ITEM.getTagNames().filter(p_205410_ -> predicate.test(p_205410_.location())).forEach(this.visibleTags::add);
     }
 
-    protected void renderLabels(PoseStack p_98616_, int p_98617_, int p_98618_) {
+    @Override
+    protected void renderLabels(GuiGraphics p_98616_, int p_98617_, int p_98618_) {
         if (selectedTab.showTitle()) {
             RenderSystem.disableBlend();
-            this.font.draw(p_98616_, Component.translatable("takumicraft.takumibook.search"), 8.0F, 6.0F, selectedTab.getLabelColor());
+            p_98616_.drawString(font, Component.translatable("takumicraft.takumibook.search"), 8, 6, selectedTab.getLabelColor());
         }
 
     }
 
+    @Override
     public boolean mouseClicked(double p_98531_, double p_98532_, int p_98533_) {
         if (p_98533_ == 0) {
             double d0 = p_98531_ - (double) this.leftPos;
@@ -330,6 +339,7 @@ public class TCTakumiBookOutlineScreen extends EffectRenderingInventoryScreen<TC
         return super.mouseClicked(p_98531_, p_98532_, p_98533_);
     }
 
+    @Override
     public boolean mouseReleased(double p_98622_, double p_98623_, int p_98624_) {
         if (p_98624_ == 0) {
             double d0 = p_98622_ - (double) this.leftPos;
@@ -352,7 +362,7 @@ public class TCTakumiBookOutlineScreen extends EffectRenderingInventoryScreen<TC
     }
 
     private void selectTab(CreativeModeTab p_98561_) {
-        p_98561_ = CreativeModeTabs.SEARCH;
+        p_98561_ = BuiltInRegistries.CREATIVE_MODE_TAB.get(CreativeModeTabs.SEARCH);
         CreativeModeTab creativemodetab = selectedTab;
         selectedTab = p_98561_;
         slotColor = p_98561_.getSlotColor();
@@ -455,6 +465,7 @@ public class TCTakumiBookOutlineScreen extends EffectRenderingInventoryScreen<TC
         this.menu.scrollTo(0.0F);
     }
 
+    @Override
     public boolean mouseScrolled(double p_98527_, double p_98528_, double p_98529_) {
         if (!this.canScroll()) {
             return false;
@@ -465,6 +476,7 @@ public class TCTakumiBookOutlineScreen extends EffectRenderingInventoryScreen<TC
         }
     }
 
+    @Override
     protected boolean hasClickedOutside(double p_98541_, double p_98542_, int p_98543_, int p_98544_, int p_98545_) {
         boolean flag = p_98541_ < (double) p_98543_ || p_98542_ < (double) p_98544_ || p_98541_ >= (double) (p_98543_ + this.imageWidth) || p_98542_ >= (double) (p_98544_ + this.imageHeight);
         this.hasClickedOutside = flag && !this.checkTabClicked(selectedTab, p_98541_, p_98542_);
@@ -481,6 +493,7 @@ public class TCTakumiBookOutlineScreen extends EffectRenderingInventoryScreen<TC
         return p_98524_ >= (double) k && p_98525_ >= (double) l && p_98524_ < (double) i1 && p_98525_ < (double) j1;
     }
 
+    @Override
     public boolean mouseDragged(double p_98535_, double p_98536_, int p_98537_, double p_98538_, double p_98539_) {
         if (this.scrolling) {
             int i = this.topPos + 18;
@@ -494,7 +507,8 @@ public class TCTakumiBookOutlineScreen extends EffectRenderingInventoryScreen<TC
         }
     }
 
-    public void render(PoseStack p_98577_, int p_98578_, int p_98579_, float p_98580_) {
+    @Override
+    public void render(GuiGraphics p_98577_, int p_98578_, int p_98579_, float p_98580_) {
         this.renderBackground(p_98577_);
         super.render(p_98577_, p_98578_, p_98579_, p_98580_);
 
@@ -505,23 +519,23 @@ public class TCTakumiBookOutlineScreen extends EffectRenderingInventoryScreen<TC
         }
 
         if (this.destroyItemSlot != null && selectedTab.getType() == CreativeModeTab.Type.INVENTORY && this.isHovering(this.destroyItemSlot.x, this.destroyItemSlot.y, 16, 16, p_98578_, p_98579_)) {
-            this.renderTooltip(p_98577_, TRASH_SLOT_TOOLTIP, p_98578_, p_98579_);
+            //this.renderTooltip(p_98577_, TRASH_SLOT_TOOLTIP, p_98578_, p_98579_);
         }
 
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         this.renderTooltip(p_98577_, p_98578_, p_98579_);
     }
 
-    @Override
-    public void renderSlot(PoseStack poseStack, Slot slot) {
+/*    @Override
+    public void renderSlot(GuiGraphics poseStack, Slot slot) {
         if (slot.getItem().getItem() instanceof TCSpawnEggItem item) {
             TCEntityUtils.renderEntity(slot.x + this.leftPos + (double) this.imageWidth / 25, slot.y + this.topPos + (double) this.imageHeight / 9, 7, this.tick / 100f, 0f, item.getContext().entityType());
         } else {
             super.renderSlot(poseStack, slot);
         }
-    }
+    }*/
 
-    protected void renderTooltip(PoseStack p_98590_, ItemStack itemStack, int p_98592_, int p_98593_) {
+    protected void renderTooltip(GuiGraphics p_98590_, ItemStack itemStack, int p_98592_, int p_98593_) {
         List<Component> components = new ArrayList<>();
         if (itemStack.getItem() instanceof TCSpawnEggItem egg) {
             AbstractTCCreeper.TCCreeperContext context = egg.getContext();
@@ -538,19 +552,20 @@ public class TCTakumiBookOutlineScreen extends EffectRenderingInventoryScreen<TC
                 }
             }
         }
-        this.renderTooltip(p_98590_, components, itemStack.getTooltipImage(), p_98592_, p_98593_, null, itemStack);
+        //this.renderTooltip(p_98590_, components, itemStack.getTooltipImage(), p_98592_, p_98593_, null, itemStack);
     }
 
-    protected void renderBg(PoseStack p_98572_, float p_98573_, int p_98574_, int p_98575_) {
+    @Override
+    protected void renderBg(GuiGraphics p_98572_, float p_98573_, int p_98574_, int p_98575_) {
         RenderSystem.setShaderTexture(0, SEARCH_GUI_TEXTURES);
-        blit(p_98572_, this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight);
+        p_98572_.blit(SEARCH_GUI_TEXTURES, this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight);
         this.searchBox.render(p_98572_, p_98574_, p_98575_, p_98573_);
         int j = this.leftPos + 175;
         int k = this.topPos + 18;
         int i = k + 112;
         RenderSystem.setShaderTexture(0, SEARCH_GUI_TEXTURES);
         if (selectedTab.canScroll()) {
-            blit(p_98572_, j, k + (int) ((float) (i - k - 17) * this.scrollOffs), 232 + (this.canScroll() ? 0 : 12), 0, 12, 15);
+            p_98572_.blit(SEARCH_GUI_TEXTURES, j, k + (int) ((float) (i - k - 17) * this.scrollOffs), 232 + (this.canScroll() ? 0 : 12), 0, 12, 15);
         }
     }
 
@@ -580,11 +595,11 @@ public class TCTakumiBookOutlineScreen extends EffectRenderingInventoryScreen<TC
         return false;
     }
 
-    protected boolean checkTabHovering(PoseStack p_98585_, CreativeModeTab p_98586_, int p_98587_, int p_98588_) {
+    protected boolean checkTabHovering(GuiGraphics p_98585_, CreativeModeTab p_98586_, int p_98587_, int p_98588_) {
         return false;
     }
 
-    protected void renderTabButton(PoseStack p_98582_, CreativeModeTab p_98583_) {
+    protected void renderTabButton(GuiGraphics p_98582_, CreativeModeTab p_98583_) {
     }
 
     public boolean isInventoryOpen() {
@@ -605,6 +620,7 @@ public class TCTakumiBookOutlineScreen extends EffectRenderingInventoryScreen<TC
             super(p_98633_, p_98634_, p_98635_, p_98636_);
         }
 
+        @Override
         public boolean mayPickup(Player p_98638_) {
             ItemStack itemstack = this.getItem();
             if (super.mayPickup(p_98638_) && !itemstack.isEmpty()) {
@@ -634,6 +650,7 @@ public class TCTakumiBookOutlineScreen extends EffectRenderingInventoryScreen<TC
             this.scrollTo(0.0F);
         }
 
+        @Override
         public boolean stillValid(Player p_98645_) {
             return true;
         }
@@ -674,6 +691,7 @@ public class TCTakumiBookOutlineScreen extends EffectRenderingInventoryScreen<TC
             return this.items.size() > 45;
         }
 
+        @Override
         public ItemStack quickMoveStack(Player p_98650_, int p_98651_) {
             if (p_98651_ >= this.slots.size() - 9 && p_98651_ < this.slots.size()) {
                 Slot slot = this.slots.get(p_98651_);
@@ -685,18 +703,22 @@ public class TCTakumiBookOutlineScreen extends EffectRenderingInventoryScreen<TC
             return ItemStack.EMPTY;
         }
 
+        @Override
         public boolean canTakeItemForPickAll(ItemStack p_98647_, Slot p_98648_) {
             return p_98648_.container != TCTakumiBookOutlineScreen.CONTAINER;
         }
 
+        @Override
         public boolean canDragTo(Slot p_98653_) {
             return p_98653_.container != TCTakumiBookOutlineScreen.CONTAINER;
         }
 
+        @Override
         public ItemStack getCarried() {
             return this.inventoryMenu.getCarried();
         }
 
+        @Override
         public void setCarried(ItemStack p_169751_) {
             this.inventoryMenu.setCarried(p_169751_);
         }
@@ -711,55 +733,68 @@ public class TCTakumiBookOutlineScreen extends EffectRenderingInventoryScreen<TC
             this.target = p_98657_;
         }
 
+        @Override
         public void onTake(Player p_169754_, ItemStack p_169755_) {
             this.target.onTake(p_169754_, p_169755_);
         }
 
+        @Override
         public boolean mayPlace(ItemStack p_98670_) {
             return this.target.mayPlace(p_98670_);
         }
 
+        @Override
         public ItemStack getItem() {
             return this.target.getItem();
         }
 
+        @Override
         public boolean hasItem() {
             return this.target.hasItem();
         }
 
+        @Override
         public void setByPlayer(ItemStack p_271008_) {
             this.target.setByPlayer(p_271008_);
         }
 
+        @Override
         public void set(ItemStack p_98679_) {
             this.target.set(p_98679_);
         }
 
+        @Override
         public void setChanged() {
             this.target.setChanged();
         }
 
+        @Override
         public int getMaxStackSize() {
             return this.target.getMaxStackSize();
         }
 
+        @Override
         public int getMaxStackSize(ItemStack p_98675_) {
             return this.target.getMaxStackSize(p_98675_);
         }
 
+        @Override
         @Nullable
         public Pair<ResourceLocation, ResourceLocation> getNoItemIcon() {
             return this.target.getNoItemIcon();
         }
 
+        @Override
         public ItemStack remove(int p_98663_) {
             return this.target.remove(p_98663_);
         }
 
+        @Override
         public boolean isActive() {
             return this.target.isActive();
         }
 
+        @Override
         public boolean mayPickup(Player p_98665_) {
             return this.target.mayPickup(p_98665_);
         }

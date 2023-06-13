@@ -2,13 +2,13 @@ package com.tntmodders.takumicraft.client.screen;
 
 import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.core.TCEntityCore;
 import com.tntmodders.takumicraft.entity.mobs.AbstractTCCreeper;
 import com.tntmodders.takumicraft.utils.TCEntityUtils;
 import net.minecraft.client.GameNarrator;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.PageButton;
@@ -24,6 +24,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Consumer;
@@ -52,10 +53,10 @@ public class TCTakumiBookScreen extends Screen {
     private static final ResourceLocation BOOK_GUI_TEXTURES = new ResourceLocation("textures/gui/book.png");
     private static final ResourceLocation BOOK_GUI_TEXTURES_BOSS =
             new ResourceLocation(TakumiCraftCore.MODID, "textures/book/book_boss.png");
+    private static int currentPage;
     public final NonNullList<AbstractTCCreeper> creepers = NonNullList.create();
     private final boolean playTurnSound;
     private TCTakumiBookScreen.BookAccess bookAccess;
-    private static int currentPage;
     private List<FormattedCharSequence> cachedPageComponents = Collections.emptyList();
     private int cachedPage = -1;
     private Component pageMsg = CommonComponents.EMPTY;
@@ -69,15 +70,15 @@ public class TCTakumiBookScreen extends Screen {
         this.bookAccess = EMPTY_ACCESS;
         this.playTurnSound = false;
         TCEntityCore.ENTITY_CONTEXTS.forEach(context -> {
-            if (context.entityType().create(Minecraft.getInstance().level(). instanceof AbstractTCCreeper creeper) {
+            if (context.entityType().create(Minecraft.getInstance().level) instanceof AbstractTCCreeper creeper) {
                 creepers.add(creeper);
             }
         });
     }
 
-    public TCTakumiBookScreen(int page){
+    public TCTakumiBookScreen(int page) {
         this();
-        currentPage=page;
+        currentPage = page;
     }
 
     static List<String> loadPages(CompoundTag p_169695_) {
@@ -198,14 +199,14 @@ public class TCTakumiBookScreen extends Screen {
     }
 
     @Override
-    public void render(PoseStack poseStack, int mouseX, int mouseY, float p_98285_) {
-        this.renderBackground(poseStack);
+    public void render(GuiGraphics graphics, int mouseX, int mouseY, float p_98285_) {
+        this.renderBackground(graphics);
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.setShaderTexture(0, BOOK_LOCATION);
         int i = (this.width - 192) / 2;
         int j = 2;
-        blit(poseStack, i, 2, 0, 0, 192, 192);
+        graphics.blit(BOOK_LOCATION, i, 2, 0, 0, 192, 192);
 
         AbstractTCCreeper.TCCreeperContext<? extends AbstractTCCreeper> context = TCEntityCore.ENTITY_CONTEXTS.get(currentPage);
         this.tick++;
@@ -219,18 +220,20 @@ public class TCTakumiBookScreen extends Screen {
 
         this.cachedPage = currentPage;
         int i1 = this.font.width(this.pageMsg);
-        this.font.draw(poseStack, this.pageMsg, (float) (i - i1 + 192 - 44), 18.0F, 0);
+
+        graphics.drawString(font, this.pageMsg, i - i1 + 192 - 44, 18, 0);
         int k = Math.min(128 / 9, this.cachedPageComponents.size());
 
         for (int l = 0; l < k; ++l) {
             FormattedCharSequence formattedcharsequence = this.cachedPageComponents.get(l);
-            this.font.draw(poseStack, formattedcharsequence, (float) (i + 40), (float) (100 + l * 9), 0);
+
+            graphics.drawString(font, formattedcharsequence, (i + 40), (100 + l * 9), 0);
         }
 
-        super.render(poseStack, mouseX, mouseY, p_98285_);
+        super.render(graphics, mouseX, mouseY, p_98285_);
 
         Component name = flg ? TCEntityUtils.getEntityName(context.entityType()) : TCEntityUtils.getUnknown();
-        this.font.draw(poseStack, name, (float) (i + 80), 34, 0);
+        graphics.drawString(font, name, (i + 80), 34, 0);
 
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
@@ -239,19 +242,22 @@ public class TCTakumiBookScreen extends Screen {
         } else {
             RenderSystem.setShaderTexture(0, new ResourceLocation(TakumiCraftCore.MODID, "textures/book/underfound.png"));
         }
-        blit(poseStack, i, 2, 0, 0, 192, 192);
+        graphics.blit(new ResourceLocation(TakumiCraftCore.MODID, "textures/book/underfound.png"), i, 2, 0, 0, 192, 192);
         if (flg) {
+            ArrayList<ResourceLocation> locations = new ArrayList<>();
             if (context.getElement().isDest()) {
-                RenderSystem.setShaderTexture(0, new ResourceLocation(TakumiCraftCore.MODID, "textures/book/dest.png"));
+                locations.add(new ResourceLocation(TakumiCraftCore.MODID, "textures/book/dest.png"));
             }
             if (context.getElement().isMagic()) {
-                RenderSystem.setShaderTexture(0, new ResourceLocation(TakumiCraftCore.MODID, "textures/book/magic.png"));
+                locations.add(new ResourceLocation(TakumiCraftCore.MODID, "textures/book/magic.png"));
             }
-            blit(poseStack, i, 2, 0, 0, 192, 192);
+            if (!locations.isEmpty()) {
+                locations.forEach(resourceLocation -> graphics.blit(resourceLocation, i, 2, 0, 0, 192, 192));
+            }
         }
         if (context.showRead()) {
             Component read = Component.translatable(flg ? TCEntityUtils.getEntityLangCode(context.entityType(), ".read") : "???");
-            this.font.draw(poseStack, read, (float) (i + 70), 25, 0);
+            graphics.drawString(font, read, (i + 70), 25, 0);
         }
     }
 
