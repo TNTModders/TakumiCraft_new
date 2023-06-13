@@ -35,5 +35,6 @@
     [
       "killed_huskcreeper"
     ]
-  ]
+  ],
+  "sends_telemetry_event": true
 }

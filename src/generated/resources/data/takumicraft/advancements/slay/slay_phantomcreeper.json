@@ -35,5 +35,6 @@
     [
       "killed_phantomcreeper"
     ]
-  ]
+  ],
+  "sends_telemetry_event": true
 }

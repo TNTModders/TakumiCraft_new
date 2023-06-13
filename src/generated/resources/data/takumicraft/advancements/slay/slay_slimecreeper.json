@@ -35,5 +35,6 @@
     [
       "killed_slimecreeper"
     ]
-  ]
+  ],
+  "sends_telemetry_event": true
 }

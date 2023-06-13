@@ -1,9 +1,8 @@
 {
     "pack": {
         "description": {
-            "text": "TakumiCraft Resources"
+            "text": "${mod_id} resources"
         },
-        "forge:server_data_pack_format": 15,
         "pack_format": 15
     }
 }

@@ -35,5 +35,6 @@
     [
       "killed_lightcreeper"
     ]
-  ]
+  ],
+  "sends_telemetry_event": true
 }

@@ -35,5 +35,6 @@
     [
       "killed_icecreeper"
     ]
-  ]
+  ],
+  "sends_telemetry_event": true
 }

@@ -35,5 +35,6 @@
     [
       "killed_watercreeper"
     ]
-  ]
+  ],
+  "sends_telemetry_event": true
 }

@@ -35,5 +35,6 @@
     [
       "killed_sandcreeper"
     ]
-  ]
+  ],
+  "sends_telemetry_event": true
 }

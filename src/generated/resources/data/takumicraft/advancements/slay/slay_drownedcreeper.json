@@ -35,5 +35,6 @@
     [
       "killed_drownedcreeper"
     ]
-  ]
+  ],
+  "sends_telemetry_event": true
 }

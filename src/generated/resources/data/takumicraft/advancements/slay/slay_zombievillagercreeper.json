@@ -35,5 +35,6 @@
     [
       "killed_zombievillagercreeper"
     ]
-  ]
+  ],
+  "sends_telemetry_event": true
 }

@@ -43,5 +43,6 @@
     "recipes": [
       "takumicraft:creeperbomb"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

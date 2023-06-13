@@ -35,5 +35,6 @@
     [
       "killed_happinesscreeper"
     ]
-  ]
+  ],
+  "sends_telemetry_event": true
 }
