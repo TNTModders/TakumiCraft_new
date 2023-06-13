@@ -5,14 +5,12 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.world.level.material.MaterialColor;
 
 import java.util.List;
 
 public class TCCreeperBricksBlock extends AbstractTCAntiExplosionBlock {
     public TCCreeperBricksBlock() {
-        super(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_RED).requiresCorrectToolForDrops().strength(2.0F, 6.0F));
+        super(BlockBehaviour.Properties.of().requiresCorrectToolForDrops().strength(2.0F, 6.0F));
     }
 
     @Override

@@ -166,7 +166,7 @@ public class TCSlimeCreeper extends AbstractTCCreeper {
         this.squish += (this.targetSquish - this.squish) * 0.5F;
         this.oSquish = this.squish;
         super.tick();
-        if (this.onGround && !this.wasOnGround) {
+        if (this.onGround() && !this.wasOnGround) {
             int i = this.getSize();
 
             if (spawnCustomParticles()) i = 0;
@@ -175,16 +175,16 @@ public class TCSlimeCreeper extends AbstractTCCreeper {
                 float f1 = this.random.nextFloat() * 0.5F + 0.5F;
                 float f2 = Mth.sin(f) * (float) i * 0.5F * f1;
                 float f3 = Mth.cos(f) * (float) i * 0.5F * f1;
-                this.level.addParticle(this.getParticleType(), this.getX() + (double) f2, this.getY(), this.getZ() + (double) f3, 0.0D, 0.0D, 0.0D);
+                this.level().addParticle(this.getParticleType(), this.getX() + (double) f2, this.getY(), this.getZ() + (double) f3, 0.0D, 0.0D, 0.0D);
             }
 
             this.playSound(this.getSquishSound(), this.getSoundVolume(), ((this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F) / 0.8F);
             this.targetSquish = -0.5F;
-        } else if (!this.onGround && this.wasOnGround) {
+        } else if (!this.onGround() && this.wasOnGround) {
             this.targetSquish = 1.0F;
         }
 
-        this.wasOnGround = this.onGround;
+        this.wasOnGround = this.onGround();
         this.decreaseSquish();
     }
 
@@ -227,7 +227,7 @@ public class TCSlimeCreeper extends AbstractTCCreeper {
     @Override
     public void remove(Entity.RemovalReason p_149847_) {
         int i = this.getSize();
-        if (!this.level.isClientSide && i > 1 && this.isDeadOrDying()) {
+        if (!this.level().isClientSide && i > 1 && this.isDeadOrDying()) {
             Component component = this.getCustomName();
             boolean flag = this.isNoAi();
             float f = (float) i / 4.0F;
@@ -237,7 +237,7 @@ public class TCSlimeCreeper extends AbstractTCCreeper {
             for (int l = 0; l < k; ++l) {
                 float f1 = ((float) (l % 2) - 0.5F) * f;
                 float f2 = ((float) (l / 2) - 0.5F) * f;
-                TCSlimeCreeper slime = this.getType().create(this.level);
+                TCSlimeCreeper slime = this.getType().create(this.level());
                 if (slime != null) {
                     if (this.isPersistenceRequired()) {
                         slime.setPersistenceRequired();
@@ -248,7 +248,7 @@ public class TCSlimeCreeper extends AbstractTCCreeper {
                     slime.setInvulnerable(this.isInvulnerable());
                     slime.setSize(j, true);
                     slime.moveTo(this.getX() + (double) f1, this.getY() + 0.5D, this.getZ() + (double) f2, this.random.nextFloat() * 360.0F, 0.0F);
-                    this.level.addFreshEntity(slime);
+                    this.level().addFreshEntity(slime);
                 }
             }
         }
@@ -257,7 +257,7 @@ public class TCSlimeCreeper extends AbstractTCCreeper {
     }
 
     private void spawnChildren(int i, boolean flg, int hp) {
-        if (!this.level.isClientSide && i > 1 && flg) {
+        if (!this.level().isClientSide && i > 1 && flg) {
             Component component = this.getCustomName();
             boolean flag = this.isNoAi();
             float f = (float) i / 4.0F;
@@ -267,7 +267,7 @@ public class TCSlimeCreeper extends AbstractTCCreeper {
             for (int l = 0; l < k; ++l) {
                 float f1 = ((float) (l % 2) - 0.5F) * f;
                 float f2 = ((float) (l / 2) - 0.5F) * f;
-                TCSlimeCreeper slime = this.getType().create(this.level);
+                TCSlimeCreeper slime = this.getType().create(this.level());
                 if (this.isPersistenceRequired()) {
                     slime.setPersistenceRequired();
                 }
@@ -277,7 +277,7 @@ public class TCSlimeCreeper extends AbstractTCCreeper {
                 slime.setInvulnerable(this.isInvulnerable());
                 slime.setSize(j, true);
                 slime.moveTo(this.getX() + (double) f1, this.getY() + 1.5D, this.getZ() + (double) f2, this.random.nextFloat() * 360.0F, 0.0F);
-                this.level.addFreshEntity(slime);
+                this.level().addFreshEntity(slime);
                 if (hp > 0) {
                     slime.setHealth(hp);
                 }
@@ -305,7 +305,7 @@ public class TCSlimeCreeper extends AbstractTCCreeper {
     protected void dealDamage(LivingEntity p_33638_) {
         if (this.isAlive()) {
             int i = this.getSize();
-            if (this.distanceToSqr(p_33638_) < 0.6D * (double) i * 0.6D * (double) i && this.hasLineOfSight(p_33638_) && p_33638_.hurt(this.level.damageSources().mobAttack(this), this.getAttackDamage())) {
+            if (this.distanceToSqr(p_33638_) < 0.6D * (double) i * 0.6D * (double) i && this.hasLineOfSight(p_33638_) && p_33638_.hurt(this.level().damageSources().mobAttack(this), this.getAttackDamage())) {
                 this.playSound(SoundEvents.SLIME_ATTACK, 1.0F, (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F);
                 this.doEnchantDamageEffects(this, p_33638_);
             }
@@ -410,10 +410,10 @@ public class TCSlimeCreeper extends AbstractTCCreeper {
 
     @Override
     public void explodeCreeper() {
-        if (!this.level.isClientSide) {
+        if (!this.level().isClientSide) {
             float f = this.isPowered() ? 2.0F : 1.0F;
             this.dead = true;
-            this.level.explode(this, this.getX(), this.getY(), this.getZ(),
+            this.level().explode(this, this.getX(), this.getY(), this.getZ(),
                     (float) this.explosionRadius * f * (Math.min(this.getSize(), 5) + 0.5f), Level.ExplosionInteraction.MOB);
             int i = this.getSize();
             this.spawnChildren(i, true, 1);
@@ -554,7 +554,7 @@ public class TCSlimeCreeper extends AbstractTCCreeper {
                 this.mob.setZza(0.0F);
             } else {
                 this.operation = MoveControl.Operation.WAIT;
-                if (this.mob.isOnGround()) {
+                if (this.mob.onGround()) {
                     this.mob.setSpeed((float) (this.speedModifier * this.mob.getAttributeValue(Attributes.MOVEMENT_SPEED)));
                     if (this.jumpDelay-- <= 0) {
                         this.jumpDelay = this.slime.getJumpDelay();
@@ -591,7 +591,7 @@ public class TCSlimeCreeper extends AbstractTCCreeper {
 
         @Override
         public boolean canUse() {
-            return this.slime.getTarget() == null && (this.slime.onGround || this.slime.isInWater() || this.slime.isInLava() || this.slime.hasEffect(MobEffects.LEVITATION)) && this.slime.getMoveControl() instanceof TCSlimeCreeper.SlimeMoveControl;
+            return this.slime.getTarget() == null && (this.slime.onGround() || this.slime.isInWater() || this.slime.isInLava() || this.slime.hasEffect(MobEffects.LEVITATION)) && this.slime.getMoveControl() instanceof TCSlimeCreeper.SlimeMoveControl;
         }
 
         @Override

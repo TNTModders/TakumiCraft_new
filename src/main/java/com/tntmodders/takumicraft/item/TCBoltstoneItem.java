@@ -31,7 +31,7 @@ public class TCBoltstoneItem extends Item implements ITCItems, ITCTranslator {
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         ItemStack itemStack = player.getItemInHand(hand);
         player.getCooldowns().addCooldown(this, 20);
-        if (!level.isClientSide) {
+        if (level.isClientSide) {
             Vec3 vec3 = player.getLookAngle();
             vec3 = vec3.normalize().scale(10);
             LightningBolt bolt = new LightningBolt(EntityType.LIGHTNING_BOLT, level);
@@ -40,7 +40,7 @@ public class TCBoltstoneItem extends Item implements ITCItems, ITCTranslator {
             level.addFreshEntity(bolt);
         }
         player.awardStat(Stats.ITEM_USED.get(this));
-        if (!player.getAbilities().instabuild && !level.isClientSide) {
+        if (!player.getAbilities().instabuild && level.isClientSide) {
             itemStack.shrink(1);
         }
         return InteractionResultHolder.sidedSuccess(itemStack, level.isClientSide());
@@ -48,15 +48,15 @@ public class TCBoltstoneItem extends Item implements ITCItems, ITCTranslator {
 
     @Override
     public boolean hurtEnemy(ItemStack itemStack, LivingEntity entity, LivingEntity attacker) {
-        if (!attacker.level.isClientSide) {
-            LightningBolt bolt = new LightningBolt(EntityType.LIGHTNING_BOLT, attacker.level);
+        if (!attacker.level().isClientSide) {
+            LightningBolt bolt = new LightningBolt(EntityType.LIGHTNING_BOLT, attacker.level());
             bolt.moveTo(entity.position());
             bolt.setCause(attacker instanceof ServerPlayer ? (ServerPlayer) attacker : null);
-            attacker.level.addFreshEntity(bolt);
+            attacker.level().addFreshEntity(bolt);
         }
         if (attacker instanceof Player player) {
             player.awardStat(Stats.ITEM_USED.get(this));
-            if (!player.getAbilities().instabuild && !player.level.isClientSide) {
+            if (!player.getAbilities().instabuild && !player.level().isClientSide) {
                 itemStack.shrink(1);
             }
         }

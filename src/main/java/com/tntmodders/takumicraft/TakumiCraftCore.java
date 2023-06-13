@@ -8,6 +8,7 @@ import com.tntmodders.takumicraft.event.TCEvents;
 import com.tntmodders.takumicraft.event.client.TCClientEvents;
 import com.tntmodders.takumicraft.provider.*;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
 import net.minecraftforge.api.distmarker.Dist;
@@ -17,7 +18,7 @@ import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.data.event.GatherDataEvent;
-import net.minecraftforge.event.CreativeModeTabEvent;
+import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
@@ -102,6 +103,9 @@ public class TakumiCraftCore {
             if (ForgeRegistries.ENCHANTMENTS.equals(event.getForgeRegistry())) {
                 TCEnchantmentCore.register(event);
             }
+            if (BuiltInRegistries.CREATIVE_MODE_TAB.equals(event.getVanillaRegistry())) {
+                TCCreativeModeTabCore.register(event);
+            }
         }
 
         @SubscribeEvent
@@ -115,12 +119,7 @@ public class TakumiCraftCore {
         }
 
         @SubscribeEvent
-        public static void registerCreativeModeTab(CreativeModeTabEvent.Register event) {
-            TCCreativeModeTabCore.register(event);
-        }
-
-        @SubscribeEvent
-        public static void registerCreativeModeTabItems(CreativeModeTabEvent.BuildContents event) {
+        public static void registerCreativeModeTabItems(BuildCreativeModeTabContentsEvent event) {
             TCCreativeModeTabCore.registerItems(event);
         }
     }

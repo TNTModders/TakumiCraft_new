@@ -69,7 +69,7 @@ public class TCTakumiBookScreen extends Screen {
         this.bookAccess = EMPTY_ACCESS;
         this.playTurnSound = false;
         TCEntityCore.ENTITY_CONTEXTS.forEach(context -> {
-            if (context.entityType().create(Minecraft.getInstance().level) instanceof AbstractTCCreeper creeper) {
+            if (context.entityType().create(Minecraft.getInstance().level(). instanceof AbstractTCCreeper creeper) {
                 creepers.add(creeper);
             }
         });

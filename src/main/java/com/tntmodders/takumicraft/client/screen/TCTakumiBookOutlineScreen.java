@@ -608,7 +608,7 @@ public class TCTakumiBookOutlineScreen extends EffectRenderingInventoryScreen<TC
         public boolean mayPickup(Player p_98638_) {
             ItemStack itemstack = this.getItem();
             if (super.mayPickup(p_98638_) && !itemstack.isEmpty()) {
-                return itemstack.isItemEnabled(p_98638_.level.enabledFeatures()) && itemstack.getTagElement("CustomCreativeLock") == null;
+                return itemstack.isItemEnabled(p_98638_.level().enabledFeatures()) && itemstack.getTagElement("CustomCreativeLock") == null;
             } else {
                 return itemstack.isEmpty();
             }

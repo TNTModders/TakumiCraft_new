@@ -26,7 +26,7 @@ public class TCSandCreeper extends AbstractTCCreeper {
 
     @Override
     public void explodeCreeperEvent(ExplosionEvent.Detonate event) {
-        event.getExplosion().getToBlow().forEach(pos -> this.level.setBlock(pos, Blocks.SAND.defaultBlockState(), 3));
+        event.getExplosion().getToBlow().forEach(pos -> this.level().setBlock(pos, Blocks.SAND.defaultBlockState(), 3));
         event.getExplosion().clearToBlow();
     }
 

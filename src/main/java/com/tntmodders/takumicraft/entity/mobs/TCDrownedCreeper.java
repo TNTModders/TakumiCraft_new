@@ -100,7 +100,7 @@ public class TCDrownedCreeper extends TCZombieCreeper implements RangedAttackMob
         this.goalSelector.addGoal(2, new TCDrownedCreeper.DrownedTridentAttackGoal(this, 1.0D, 40, 10.0F));
         this.goalSelector.addGoal(2, new TCDrownedCreeper.DrownedAttackGoal(this, 1.0D, false));
         this.goalSelector.addGoal(5, new TCDrownedCreeper.DrownedGoToBeachGoal(this, 1.0D));
-        this.goalSelector.addGoal(6, new TCDrownedCreeper.DrownedSwimUpGoal(this, 1.0D, this.level.getSeaLevel()));
+        this.goalSelector.addGoal(6, new TCDrownedCreeper.DrownedSwimUpGoal(this, 1.0D, this.level().getSeaLevel()));
         this.goalSelector.addGoal(7, new RandomStrollGoal(this, 1.0D));
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this, TCDrownedCreeper.class).setAlertOthers(ZombifiedPiglin.class));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, 10, true, false, this::okTarget));
@@ -196,7 +196,7 @@ public class TCDrownedCreeper extends TCZombieCreeper implements RangedAttackMob
 
     public boolean okTarget(@Nullable LivingEntity p_32396_) {
         if (p_32396_ != null) {
-            return !this.level.isDay() || p_32396_.isInWater();
+            return !this.level().isDay() || p_32396_.isInWater();
         } else {
             return false;
         }
@@ -230,7 +230,7 @@ public class TCDrownedCreeper extends TCZombieCreeper implements RangedAttackMob
 
     @Override
     public void updateSwimming() {
-        if (!this.level.isClientSide) {
+        if (!this.level().isClientSide) {
             if (this.isEffectiveAi() && this.isInWater() && this.wantsToSwim()) {
                 this.navigation = this.waterNavigation;
                 this.setSwimming(true);
@@ -257,14 +257,14 @@ public class TCDrownedCreeper extends TCZombieCreeper implements RangedAttackMob
 
     @Override
     public void performRangedAttack(LivingEntity p_32356_, float p_32357_) {
-        ThrownTrident throwntrident = new ThrownTrident(this.level, this, new ItemStack(Items.TRIDENT));
+        ThrownTrident throwntrident = new ThrownTrident(this.level(), this, new ItemStack(Items.TRIDENT));
         double d0 = p_32356_.getX() - this.getX();
         double d1 = p_32356_.getY(0.3333333333333333D) - throwntrident.getY();
         double d2 = p_32356_.getZ() - this.getZ();
         double d3 = Math.sqrt(d0 * d0 + d2 * d2);
-        throwntrident.shoot(d0, d1 + d3 * (double) 0.2F, d2, 1.6F, (float) (14 - this.level.getDifficulty().getId() * 4));
+        throwntrident.shoot(d0, d1 + d3 * (double) 0.2F, d2, 1.6F, (float) (14 - this.level().getDifficulty().getId() * 4));
         this.playSound(SoundEvents.DROWNED_SHOOT, 1.0F, 1.0F / (this.getRandom().nextFloat() * 0.4F + 0.8F));
-        this.level.addFreshEntity(throwntrident);
+        this.level().addFreshEntity(throwntrident);
     }
 
     public void setSearchingForLand(boolean p_32399_) {
@@ -300,7 +300,7 @@ public class TCDrownedCreeper extends TCZombieCreeper implements RangedAttackMob
 
         @Override
         public boolean canUse() {
-            return super.canUse() && !drowned.level.isDay() && drowned.isInWater() && drowned.getY() >= (double) (drowned.level.getSeaLevel() - 3);
+            return super.canUse() && !drowned.level().isDay() && drowned.isInWater() && drowned.getY() >= (double) (drowned.level().getSeaLevel() - 3);
         }
 
         @Override
@@ -338,7 +338,7 @@ public class TCDrownedCreeper extends TCZombieCreeper implements RangedAttackMob
         public DrownedGoToWaterGoal(PathfinderMob p_32425_, double p_32426_) {
             this.mob = p_32425_;
             this.speedModifier = p_32426_;
-            this.level = p_32425_.level;
+            level = p_32425_.level();
             this.setFlags(EnumSet.of(Goal.Flag.MOVE));
         }
 
@@ -421,7 +421,7 @@ public class TCDrownedCreeper extends TCZombieCreeper implements RangedAttackMob
                 drowned.setSpeed(f2);
                 drowned.setDeltaMovement(drowned.getDeltaMovement().add((double) f2 * d0 * 0.005D, (double) f2 * d1 * 0.1D, (double) f2 * d2 * 0.005D));
             } else {
-                if (!drowned.onGround) {
+                if (!drowned.onGround()) {
                     drowned.setDeltaMovement(drowned.getDeltaMovement().add(0.0D, -0.008D, 0.0D));
                 }
 
@@ -445,7 +445,7 @@ public class TCDrownedCreeper extends TCZombieCreeper implements RangedAttackMob
 
         @Override
         public boolean canUse() {
-            return !drowned.level.isDay() && drowned.isInWater() && drowned.getY() < (double) (this.seaLevel - 2);
+            return !drowned.level().isDay() && drowned.isInWater() && drowned.getY() < (double) (this.seaLevel - 2);
         }
 
         @Override

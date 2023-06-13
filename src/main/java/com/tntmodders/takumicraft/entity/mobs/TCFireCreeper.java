@@ -28,7 +28,7 @@ public class TCFireCreeper extends AbstractTCCreeper {
     public void explodeCreeperEvent(ExplosionEvent.Detonate event) {
         event.getExplosion().getToBlow().forEach(pos -> {
             if (pos.getY() > event.getExplosion().getPosition().y - 0.5) {
-                this.level.setBlock(pos, Blocks.FIRE.defaultBlockState(), 3);
+                this.level().setBlock(pos, Blocks.FIRE.defaultBlockState(), 3);
             }
         });
         event.getExplosion().clearToBlow();

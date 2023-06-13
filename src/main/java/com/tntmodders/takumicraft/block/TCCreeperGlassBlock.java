@@ -8,13 +8,12 @@ import net.minecraft.world.level.block.AbstractGlassBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.material.Material;
 
 import java.util.function.Supplier;
 
 public class TCCreeperGlassBlock extends AbstractGlassBlock implements ITCBlocks {
     public TCCreeperGlassBlock() {
-        super(BlockBehaviour.Properties.of(Material.GLASS)
+        super(BlockBehaviour.Properties.of()
                 .strength(6f)
                 .sound(SoundType.GLASS)
                 .noOcclusion()

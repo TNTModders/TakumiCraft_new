@@ -83,17 +83,17 @@ public class TCPhantomCreeper extends AbstractTCCreeper {
         } else {
             BlockPos ground = this.getOnPos().below(1);
             float f = 0.91F;
-            if (this.onGround) {
-                f = this.level.getBlockState(ground).getFriction(this.level, ground, this) * 0.91F;
+            if (this.onGround()) {
+                f = this.level().getBlockState(ground).getFriction(this.level(), ground, this) * 0.91F;
             }
 
             float f1 = 0.16277137F / (f * f * f);
             f = 0.91F;
-            if (this.onGround) {
-                f = this.level.getBlockState(ground).getFriction(this.level, ground, this) * 0.91F;
+            if (this.onGround()) {
+                f = this.level().getBlockState(ground).getFriction(this.level(), ground, this) * 0.91F;
             }
 
-            this.moveRelative(this.onGround ? 0.1F * f1 : 0.02F, p_20818_);
+            this.moveRelative(this.onGround() ? 0.1F * f1 : 0.02F, p_20818_);
             this.move(MoverType.SELF, this.getDeltaMovement());
             this.setDeltaMovement(this.getDeltaMovement().scale(f));
         }
@@ -255,27 +255,27 @@ public class TCPhantomCreeper extends AbstractTCCreeper {
         } else if (this.getTarget() != null && this.distanceToSqr(this.getTarget()) < 16) {
             this.setSwellDir(1);
         } else if (this.getTarget() != null && Math.abs(this.getTarget().getX() - this.getX()) + Math.abs(this.getTarget().getZ() - this.getZ()) < 6 && this.getY() > this.getTarget().getY()
-                && !this.hasEffect(MobEffects.MOVEMENT_SPEED) && this.level instanceof ServerLevel) {
-            TCZombieCreeper creeper = (TCZombieCreeper) TCEntityCore.ZOMBIE.entityType().create(this.level);
+                && !this.hasEffect(MobEffects.MOVEMENT_SPEED) && this.level() instanceof ServerLevel) {
+            TCZombieCreeper creeper = (TCZombieCreeper) TCEntityCore.ZOMBIE.entityType().create(this.level());
             creeper.copyPosition(this);
-            creeper.finalizeSpawn((ServerLevel) this.level, this.level.getCurrentDifficultyAt(this.blockPosition()), MobSpawnType.MOB_SUMMONED, null, null);
+            creeper.finalizeSpawn((ServerLevel) this.level(), this.level().getCurrentDifficultyAt(this.blockPosition()), MobSpawnType.MOB_SUMMONED, null, null);
             creeper.setItemSlot(EquipmentSlot.CHEST, new ItemStack(Items.ELYTRA));
-            ((ServerLevel) this.level).addFreshEntityWithPassengers(creeper);
+            ((ServerLevel) this.level()).addFreshEntityWithPassengers(creeper);
         }
 
-        if (this.level.isClientSide) {
+        if (this.level().isClientSide) {
             float f = Mth.cos((float) (this.getUniqueFlapTickOffset() + this.tickCount) * 7.448451F * ((float) Math.PI / 180F) + (float) Math.PI);
             float f1 = Mth.cos((float) (this.getUniqueFlapTickOffset() + this.tickCount + 1) * 7.448451F * ((float) Math.PI / 180F) + (float) Math.PI);
             if (f > 0.0F && f1 <= 0.0F) {
-                this.level.playLocalSound(this.getX(), this.getY(), this.getZ(), SoundEvents.PHANTOM_FLAP, this.getSoundSource(), 0.95F + this.random.nextFloat() * 0.05F, 0.95F + this.random.nextFloat() * 0.05F, false);
+                this.level().playLocalSound(this.getX(), this.getY(), this.getZ(), SoundEvents.PHANTOM_FLAP, this.getSoundSource(), 0.95F + this.random.nextFloat() * 0.05F, 0.95F + this.random.nextFloat() * 0.05F, false);
             }
 
             int i = this.getPhantomSize();
             float f2 = Mth.cos(this.getYRot() * ((float) Math.PI / 180F)) * (1.3F + 0.21F * (float) i);
             float f3 = Mth.sin(this.getYRot() * ((float) Math.PI / 180F)) * (1.3F + 0.21F * (float) i);
             float f4 = (0.3F + f * 0.45F) * ((float) i * 0.2F + 1.0F);
-            this.level.addParticle(ParticleTypes.MYCELIUM, this.getX() + (double) f2, this.getY() + (double) f4, this.getZ() + (double) f3, 0.0D, 0.0D, 0.0D);
-            this.level.addParticle(ParticleTypes.MYCELIUM, this.getX() - (double) f2, this.getY() + (double) f4, this.getZ() - (double) f3, 0.0D, 0.0D, 0.0D);
+            this.level().addParticle(ParticleTypes.MYCELIUM, this.getX() + (double) f2, this.getY() + (double) f4, this.getZ() + (double) f3, 0.0D, 0.0D, 0.0D);
+            this.level().addParticle(ParticleTypes.MYCELIUM, this.getX() - (double) f2, this.getY() + (double) f4, this.getZ() - (double) f3, 0.0D, 0.0D, 0.0D);
         }
     }
 
@@ -376,7 +376,7 @@ public class TCPhantomCreeper extends AbstractTCCreeper {
                 --this.nextScanTick;
             } else {
                 this.nextScanTick = reducedTickDelay(60);
-                List<Player> list = TCPhantomCreeper.this.level.getNearbyPlayers(this.attackTargeting, TCPhantomCreeper.this, TCPhantomCreeper.this.getBoundingBox().inflate(16.0D, 64.0D, 16.0D));
+                List<Player> list = TCPhantomCreeper.this.level().getNearbyPlayers(this.attackTargeting, TCPhantomCreeper.this, TCPhantomCreeper.this.getBoundingBox().inflate(16.0D, 64.0D, 16.0D));
                 if (!list.isEmpty()) {
                     list.sort(Comparator.<Entity, Double>comparing(Entity::getY).reversed());
 
@@ -417,7 +417,7 @@ public class TCPhantomCreeper extends AbstractTCCreeper {
 
         @Override
         public void stop() {
-            TCPhantomCreeper.this.anchorPoint = TCPhantomCreeper.this.level.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING, TCPhantomCreeper.this.anchorPoint).above(10 + TCPhantomCreeper.this.random.nextInt(20));
+            TCPhantomCreeper.this.anchorPoint = TCPhantomCreeper.this.level().getHeightmapPos(Heightmap.Types.MOTION_BLOCKING, TCPhantomCreeper.this.anchorPoint).above(10 + TCPhantomCreeper.this.random.nextInt(20));
         }
 
         @Override
@@ -436,8 +436,8 @@ public class TCPhantomCreeper extends AbstractTCCreeper {
 
         private void setAnchorAboveTarget() {
             TCPhantomCreeper.this.anchorPoint = TCPhantomCreeper.this.getTarget().blockPosition().above(20 + TCPhantomCreeper.this.random.nextInt(20));
-            if (TCPhantomCreeper.this.anchorPoint.getY() < TCPhantomCreeper.this.level.getSeaLevel()) {
-                TCPhantomCreeper.this.anchorPoint = new BlockPos(TCPhantomCreeper.this.anchorPoint.getX(), TCPhantomCreeper.this.level.getSeaLevel() + 1, TCPhantomCreeper.this.anchorPoint.getZ());
+            if (TCPhantomCreeper.this.anchorPoint.getY() < TCPhantomCreeper.this.level().getSeaLevel()) {
+                TCPhantomCreeper.this.anchorPoint = new BlockPos(TCPhantomCreeper.this.anchorPoint.getX(), TCPhantomCreeper.this.level().getSeaLevel() + 1, TCPhantomCreeper.this.anchorPoint.getZ());
             }
 
         }
@@ -497,12 +497,12 @@ public class TCPhantomCreeper extends AbstractTCCreeper {
                 this.selectNext();
             }
 
-            if (TCPhantomCreeper.this.moveTargetPoint.y < TCPhantomCreeper.this.getY() && !TCPhantomCreeper.this.level.isEmptyBlock(TCPhantomCreeper.this.blockPosition().below(1))) {
+            if (TCPhantomCreeper.this.moveTargetPoint.y < TCPhantomCreeper.this.getY() && !TCPhantomCreeper.this.level().isEmptyBlock(TCPhantomCreeper.this.blockPosition().below(1))) {
                 this.height = Math.max(1.0F, this.height);
                 this.selectNext();
             }
 
-            if (TCPhantomCreeper.this.moveTargetPoint.y > TCPhantomCreeper.this.getY() && !TCPhantomCreeper.this.level.isEmptyBlock(TCPhantomCreeper.this.blockPosition().above(1))) {
+            if (TCPhantomCreeper.this.moveTargetPoint.y > TCPhantomCreeper.this.getY() && !TCPhantomCreeper.this.level().isEmptyBlock(TCPhantomCreeper.this.blockPosition().above(1))) {
                 this.height = Math.min(-1.0F, this.height);
                 this.selectNext();
             }
@@ -607,7 +607,7 @@ public class TCPhantomCreeper extends AbstractTCCreeper {
                 } else {
                     if (TCPhantomCreeper.this.tickCount > this.catSearchTick) {
                         this.catSearchTick = TCPhantomCreeper.this.tickCount + 20;
-                        List<Cat> list = TCPhantomCreeper.this.level.getEntitiesOfClass(Cat.class, TCPhantomCreeper.this.getBoundingBox().inflate(16.0D), EntitySelector.ENTITY_STILL_ALIVE);
+                        List<Cat> list = TCPhantomCreeper.this.level().getEntitiesOfClass(Cat.class, TCPhantomCreeper.this.getBoundingBox().inflate(16.0D), EntitySelector.ENTITY_STILL_ALIVE);
 
                         for (Cat cat : list) {
                             cat.hiss();
@@ -636,7 +636,7 @@ public class TCPhantomCreeper extends AbstractTCCreeper {
                     TCPhantomCreeper.this.doHurtTarget(livingentity);
                     TCPhantomCreeper.this.attackPhase = TCPhantomCreeper.AttackPhase.CIRCLE;
                     if (!TCPhantomCreeper.this.isSilent()) {
-                        TCPhantomCreeper.this.level.levelEvent(1039, TCPhantomCreeper.this.blockPosition(), 0);
+                        TCPhantomCreeper.this.level().levelEvent(1039, TCPhantomCreeper.this.blockPosition(), 0);
                     }
                 } else if (TCPhantomCreeper.this.horizontalCollision || TCPhantomCreeper.this.hurtTime > 0) {
                     TCPhantomCreeper.this.attackPhase = TCPhantomCreeper.AttackPhase.CIRCLE;

@@ -34,10 +34,10 @@ public class TCChildCreeper extends AbstractTCCreeper {
     public void explodeCreeperEvent(ExplosionEvent.Detonate event) {
         List<BlockPos> posList = new ArrayList<>();
         event.getAffectedBlocks().forEach(blockPos -> {
-            float f = this.level.getBlockState(blockPos).getExplosionResistance(this.level, blockPos, event.getExplosion());
+            float f = this.level().getBlockState(blockPos).getExplosionResistance(this.level(), blockPos, event.getExplosion());
             if (f > 0.2 && event.getExplosion().radius > 1) {
-                this.level.destroyBlock(blockPos, true, this);
-                TCExplosionUtils.createExplosion(this.level, this, blockPos, Math.max(0, event.getExplosion().radius - 0.2f - 2 / f));
+                this.level().destroyBlock(blockPos, true, this);
+                TCExplosionUtils.createExplosion(this.level(), this, blockPos, Math.max(0, event.getExplosion().radius - 0.2f - 2 / f));
                 posList.add(blockPos);
 
             }

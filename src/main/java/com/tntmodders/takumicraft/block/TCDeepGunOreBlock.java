@@ -14,15 +14,14 @@ import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.world.level.material.MaterialColor;
+import net.minecraft.world.level.material.MapColor;
 import net.minecraftforge.common.Tags;
 
 import java.util.function.Consumer;
 
 public class TCDeepGunOreBlock extends TCGunOreBlock {
     public TCDeepGunOreBlock() {
-        super(BlockBehaviour.Properties.of(Material.EXPLOSIVE).requiresCorrectToolForDrops().strength(10f, 0f).color(MaterialColor.STONE), "deepslate_gunore");
+        super(BlockBehaviour.Properties.of().requiresCorrectToolForDrops().strength(10f, 0f).mapColor(MapColor.DEEPSLATE), "deepslate_gunore");
     }
 
     @Override

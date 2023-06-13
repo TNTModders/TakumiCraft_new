@@ -237,7 +237,7 @@ public abstract class AbstractTCCreeper extends Creeper implements ITCEntities, 
             }
 
             public int getLevel() {
-                return level;
+                return this.level;
             }
 
             public int getExperiment() {

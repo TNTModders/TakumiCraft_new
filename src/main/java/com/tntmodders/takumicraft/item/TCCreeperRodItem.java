@@ -37,7 +37,7 @@ public class TCCreeperRodItem extends Item implements ITCItems, ITCTranslator {
 
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
-        level.getEntities(player, player.getBoundingBox().inflate(50), entity -> entity instanceof Creeper).forEach(entity -> ((Creeper) entity).ignite());
+       level.getEntities(player, player.getBoundingBox().inflate(50), entity -> entity instanceof Creeper).forEach(entity -> ((Creeper) entity).ignite());
         return super.use(level, player, hand);
     }
 

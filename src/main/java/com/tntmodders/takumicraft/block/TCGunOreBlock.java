@@ -26,8 +26,7 @@ import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.world.level.material.MaterialColor;
+import net.minecraft.world.level.material.MapColor;
 import net.minecraftforge.common.Tags;
 
 import java.util.List;
@@ -39,7 +38,7 @@ public class TCGunOreBlock extends AbstractTCBombBlock implements ITCRecipe {
     private final UniformInt xpRange = UniformInt.of(3, 8);
 
     public TCGunOreBlock() {
-        super(BlockBehaviour.Properties.of(Material.EXPLOSIVE, MaterialColor.DEEPSLATE).requiresCorrectToolForDrops().strength(5f, 0f).color(MaterialColor.STONE), "gunore");
+        super(BlockBehaviour.Properties.of().requiresCorrectToolForDrops().strength(5f, 0f).mapColor(MapColor.STONE), "gunore");
     }
 
     public TCGunOreBlock(Properties properties, String name) {
@@ -94,7 +93,7 @@ public class TCGunOreBlock extends AbstractTCBombBlock implements ITCRecipe {
         return List.of(BlockTags.NEEDS_STONE_TOOL, TCBlockCore.GUNORES, BlockTags.MINEABLE_WITH_PICKAXE, Tags.Blocks.ORES, Tags.Blocks.ORE_RATES_SINGULAR, this.oreTag());
     }
 
-    protected TagKey<Block> oreTag(){
+    protected TagKey<Block> oreTag() {
         return Tags.Blocks.ORES_IN_GROUND_STONE;
     }
 

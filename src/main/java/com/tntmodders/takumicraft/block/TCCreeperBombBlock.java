@@ -13,8 +13,7 @@ import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.world.level.material.MaterialColor;
+import net.minecraft.world.level.material.MapColor;
 
 import java.util.function.Consumer;
 import java.util.function.Supplier;
@@ -24,7 +23,7 @@ public class TCCreeperBombBlock extends AbstractTCBombBlock implements ITCRecipe
     public static final ToIntFunction<BlockState> LIGHT_TCBOMB = state -> 2;
 
     public TCCreeperBombBlock() {
-        super(BlockBehaviour.Properties.of(Material.EXPLOSIVE).strength(0.1f, 0f).color(MaterialColor.COLOR_LIGHT_GREEN).lightLevel(LIGHT_TCBOMB), "creeperbomb");
+        super(BlockBehaviour.Properties.of().strength(0.1f, 0f).mapColor(MapColor.COLOR_LIGHT_GREEN).lightLevel(LIGHT_TCBOMB), "creeperbomb");
     }
 
     @Override

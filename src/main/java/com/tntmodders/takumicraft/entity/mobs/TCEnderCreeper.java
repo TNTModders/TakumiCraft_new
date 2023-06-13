@@ -46,7 +46,7 @@ public class TCEnderCreeper extends AbstractTCCreeper {
     }
 
     protected boolean teleport(LivingEntity entity) {
-        if (!entity.level.isClientSide() && entity.isAlive()) {
+        if (!entity.level().isClientSide() && entity.isAlive()) {
             double d = this.isPowered() ? 2 : 1;
             double d0 = this.getX() + (this.random.nextDouble() - 0.5D) * 128.0D * d;
             double d1 = this.getY() + (double) (this.random.nextInt(128) - 64);
@@ -60,19 +60,19 @@ public class TCEnderCreeper extends AbstractTCCreeper {
     private boolean teleport(double x, double y, double z, LivingEntity entity) {
         BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos(x, y, z);
 
-        while (blockpos$mutableblockpos.getY() > entity.level.getMinBuildHeight() && !entity.level.getBlockState(blockpos$mutableblockpos).getMaterial().blocksMotion()) {
+        while (blockpos$mutableblockpos.getY() > entity.level().getMinBuildHeight() && !entity.level().getBlockState(blockpos$mutableblockpos).blocksMotion()) {
             blockpos$mutableblockpos.move(Direction.DOWN);
         }
 
-        BlockState blockstate = entity.level.getBlockState(blockpos$mutableblockpos);
-        boolean flag = blockstate.getMaterial().blocksMotion();
+        BlockState blockstate = entity.level().getBlockState(blockpos$mutableblockpos);
+        boolean flag = blockstate.blocksMotion();
         boolean flag1 = blockstate.getFluidState().is(FluidTags.WATER);
         if (flag && !flag1) {
             net.minecraftforge.event.entity.EntityTeleportEvent.EnderEntity event = net.minecraftforge.event.ForgeEventFactory.onEnderTeleport(entity, x, y, z);
             if (event.isCanceled()) return false;
             boolean flag2 = entity.randomTeleport(event.getTargetX(), event.getTargetY(), event.getTargetZ(), true);
             if (flag2 && !entity.isSilent()) {
-                entity.level.playSound(null, entity.xo, entity.yo, entity.zo, SoundEvents.ENDERMAN_TELEPORT, entity.getSoundSource(), 1.0F, 1.0F);
+                entity.level().playSound(null, entity.xo, entity.yo, entity.zo, SoundEvents.ENDERMAN_TELEPORT, entity.getSoundSource(), 1.0F, 1.0F);
                 entity.playSound(SoundEvents.ENDERMAN_TELEPORT, 1.0F, 1.0F);
             }
 

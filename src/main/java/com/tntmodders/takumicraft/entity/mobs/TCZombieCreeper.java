@@ -106,7 +106,7 @@ public class TCZombieCreeper extends AbstractTCCreeper {
     public void explodeCreeperEvent(ExplosionEvent.Detonate event) {
         event.getAffectedEntities().forEach(entity -> {
             if (entity instanceof Villager) {
-                ((Villager) entity).die(this.level.damageSources().explosion(event.getExplosion()));
+                ((Villager) entity).die(this.level().damageSources().explosion(event.getExplosion()));
             }
         });
     }
@@ -177,7 +177,7 @@ public class TCZombieCreeper extends AbstractTCCreeper {
     @Override
     public void setBaby(boolean p_34309_) {
         this.getEntityData().set(DATA_BABY_ID, p_34309_);
-        if (this.level != null && !this.level.isClientSide) {
+        if (this.level() != null && !this.level().isClientSide) {
             AttributeInstance attributeinstance = this.getAttribute(Attributes.MOVEMENT_SPEED);
             attributeinstance.removeModifier(SPEED_MODIFIER_BABY);
             if (p_34309_) {
@@ -212,7 +212,7 @@ public class TCZombieCreeper extends AbstractTCCreeper {
 
     @Override
     public void tick() {
-        if (!this.level.isClientSide && this.isAlive() && !this.isNoAi()) {
+        if (!this.level().isClientSide && this.isAlive() && !this.isNoAi()) {
             if (this.isUnderWaterConverting()) {
                 --this.conversionTime;
                 if (this.conversionTime < 0 && net.minecraftforge.event.ForgeEventFactory.canLivingConvert(this, EntityType.ZOMBIE, timer -> this.conversionTime = timer)) {
@@ -268,7 +268,7 @@ public class TCZombieCreeper extends AbstractTCCreeper {
     protected void doUnderWaterConversion() {
         this.convertToZombieType((EntityType<? extends TCZombieCreeper>) TCEntityCore.DROWNED);
         if (!this.isSilent()) {
-            this.level.levelEvent(null, 1040, this.blockPosition(), 0);
+            this.level().levelEvent(null, 1040, this.blockPosition(), 0);
         }
 
     }
@@ -276,7 +276,7 @@ public class TCZombieCreeper extends AbstractTCCreeper {
     protected void convertToZombieType(EntityType<? extends TCZombieCreeper> p_34311_) {
         TCZombieCreeper zombie = this.convertTo(p_34311_, true);
         if (zombie != null) {
-            zombie.handleAttributes(zombie.level.getCurrentDifficultyAt(zombie.blockPosition()).getSpecialMultiplier());
+            zombie.handleAttributes(zombie.level().getCurrentDifficultyAt(zombie.blockPosition()).getSpecialMultiplier());
             zombie.setCanBreakDoors(zombie.supportsBreakDoorGoal() && this.canBreakDoors());
             net.minecraftforge.event.ForgeEventFactory.onLivingConvert(this, zombie);
         }
@@ -291,7 +291,7 @@ public class TCZombieCreeper extends AbstractTCCreeper {
     public boolean hurt(DamageSource p_34288_, float p_34289_) {
         if (!super.hurt(p_34288_, p_34289_)) {
             return false;
-        } else if (!(this.level instanceof ServerLevel serverlevel)) {
+        } else if (!(this.level() instanceof ServerLevel serverLevel)) {
             return false;
         } else {
             LivingEntity livingentity = this.getTarget();
@@ -302,8 +302,8 @@ public class TCZombieCreeper extends AbstractTCCreeper {
             int i = Mth.floor(this.getX());
             int j = Mth.floor(this.getY());
             int k = Mth.floor(this.getZ());
-            if (livingentity != null && this.level.getDifficulty() == Difficulty.HARD && (double) this.random.nextFloat() < this.getAttribute(Attributes.SPAWN_REINFORCEMENTS_CHANCE).getValue() && this.level.getGameRules().getBoolean(GameRules.RULE_DOMOBSPAWNING)) {
-                TCZombieCreeper zombie = (TCZombieCreeper) TCEntityCore.ZOMBIE.entityType().create(this.level);
+            if (livingentity != null && this.level().getDifficulty() == Difficulty.HARD && (double) this.random.nextFloat() < this.getAttribute(Attributes.SPAWN_REINFORCEMENTS_CHANCE).getValue() && this.level().getGameRules().getBoolean(GameRules.RULE_DOMOBSPAWNING)) {
+                TCZombieCreeper zombie = (TCZombieCreeper) TCEntityCore.ZOMBIE.entityType().create(this.level());
                 for (int l = 0; l < 50; ++l) {
                     int i1 = i + Mth.nextInt(this.random, 7, 40) * Mth.nextInt(this.random, -1, 1);
                     int j1 = j + Mth.nextInt(this.random, 7, 40) * Mth.nextInt(this.random, -1, 1);
@@ -311,13 +311,13 @@ public class TCZombieCreeper extends AbstractTCCreeper {
                     BlockPos blockpos = new BlockPos(i1, j1, k1);
                     EntityType<?> entitytype = zombie.getType();
                     SpawnPlacements.Type spawnplacements$type = SpawnPlacements.getPlacementType(entitytype);
-                    if (NaturalSpawner.isSpawnPositionOk(spawnplacements$type, this.level, blockpos, entitytype) && SpawnPlacements.checkSpawnRules(entitytype, serverlevel, MobSpawnType.REINFORCEMENT, blockpos, this.level.random)) {
+                    if (NaturalSpawner.isSpawnPositionOk(spawnplacements$type, this.level(), blockpos, entitytype) && SpawnPlacements.checkSpawnRules(entitytype, serverLevel, MobSpawnType.REINFORCEMENT, blockpos, this.level().random)) {
                         zombie.setPos(i1, j1, k1);
-                        if (!this.level.hasNearbyAlivePlayer(i1, j1, k1, 7.0D) && this.level.isUnobstructed(zombie) && this.level.noCollision(zombie) && !this.level.containsAnyLiquid(zombie.getBoundingBox())) {
+                        if (!this.level().hasNearbyAlivePlayer(i1, j1, k1, 7.0D) && this.level().isUnobstructed(zombie) && this.level().noCollision(zombie) && !this.level().containsAnyLiquid(zombie.getBoundingBox())) {
                             if (livingentity != null)
                                 zombie.setTarget(livingentity);
-                            zombie.finalizeSpawn(serverlevel, this.level.getCurrentDifficultyAt(zombie.blockPosition()), MobSpawnType.REINFORCEMENT, null, null);
-                            serverlevel.addFreshEntityWithPassengers(zombie);
+                            zombie.finalizeSpawn(serverLevel, this.level().getCurrentDifficultyAt(zombie.blockPosition()), MobSpawnType.REINFORCEMENT, null, null);
+                            serverLevel.addFreshEntityWithPassengers(zombie);
                             this.getAttribute(Attributes.SPAWN_REINFORCEMENTS_CHANCE).addPermanentModifier(new AttributeModifier("Zombie reinforcement caller charge", -0.05F, AttributeModifier.Operation.ADDITION));
                             zombie.getAttribute(Attributes.SPAWN_REINFORCEMENTS_CHANCE).addPermanentModifier(new AttributeModifier("Zombie reinforcement callee charge", -0.05F, AttributeModifier.Operation.ADDITION));
                             break;
@@ -334,7 +334,7 @@ public class TCZombieCreeper extends AbstractTCCreeper {
     public boolean doHurtTarget(Entity entity) {
         boolean flag = super.doHurtTarget(entity);
         if (flag) {
-            float f = this.level.getCurrentDifficultyAt(this.blockPosition()).getEffectiveDifficulty();
+            float f = this.level().getCurrentDifficultyAt(this.blockPosition()).getEffectiveDifficulty();
             if (this.getMainHandItem().isEmpty() && this.isOnFire() && this.random.nextFloat() < f * 0.3F) {
                 entity.setSecondsOnFire(2 * (int) f);
             }
@@ -375,7 +375,7 @@ public class TCZombieCreeper extends AbstractTCCreeper {
     @Override
     protected void populateDefaultEquipmentSlots(RandomSource randomSource, DifficultyInstance difficulty) {
         super.populateDefaultEquipmentSlots(randomSource, difficulty);
-        if (this.random.nextFloat() < (this.level.getDifficulty() == Difficulty.HARD ? 0.05F : 0.01F)) {
+        if (this.random.nextFloat() < (this.level().getDifficulty() == Difficulty.HARD ? 0.05F : 0.01F)) {
             int i = this.random.nextInt(3);
             if (i == 0) {
                 this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.IRON_SWORD));
@@ -408,8 +408,8 @@ public class TCZombieCreeper extends AbstractTCCreeper {
     }
 
     @Override
-    public boolean wasKilled(ServerLevel p_34281_, LivingEntity p_34282_) {
-        boolean flg = super.wasKilled(p_34281_, p_34282_);
+    public boolean killedEntity(ServerLevel p_34281_, LivingEntity p_34282_) {
+        boolean flg = super.killedEntity(p_34281_, p_34282_);
         if ((p_34281_.getDifficulty() == Difficulty.NORMAL || p_34281_.getDifficulty() == Difficulty.HARD) && p_34282_ instanceof Villager villager &&
                 net.minecraftforge.event.ForgeEventFactory.canLivingConvert(p_34282_, (EntityType<TCZombieVillagerCreeper>) TCEntityCore.ZOMBIE_VILLAGER.entityType(), timer -> {
                 })) {
@@ -468,7 +468,7 @@ public class TCZombieCreeper extends AbstractTCCreeper {
                             this.startRiding(chicken);
                         }
                     } else if ((double) p_34297_.getRandom().nextFloat() < 0.05D) {
-                        Chicken chicken1 = EntityType.CHICKEN.create(this.level);
+                        Chicken chicken1 = EntityType.CHICKEN.create(this.level());
                         chicken1.moveTo(this.getX(), this.getY(), this.getZ(), this.getYRot(), 0.0F);
                         chicken1.finalizeSpawn(p_34297_, p_34298_, MobSpawnType.JOCKEY, null, null);
                         chicken1.setChickenJockey(true);

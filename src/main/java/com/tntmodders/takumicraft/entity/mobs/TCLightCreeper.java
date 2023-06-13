@@ -34,7 +34,7 @@ public class TCLightCreeper extends AbstractTCCreeper {
     @Override
     public void tick() {
         super.tick();
-        if (this.isAlive() && !this.level.isClientSide) {
+        if (this.isAlive() && !this.level().isClientSide) {
             this.addEffect(new MobEffectInstance(MobEffects.GLOWING, 400, 0));
         }
     }
@@ -48,10 +48,10 @@ public class TCLightCreeper extends AbstractTCCreeper {
         });
         List<BlockPos> posList = new ArrayList<>();
         event.getAffectedBlocks().forEach(blockPos -> {
-            int i = this.level.getBlockState(blockPos).getLightEmission(this.level, blockPos);
+            int i = this.level().getBlockState(blockPos).getLightEmission(this.level(), blockPos);
             if (i > 0.5 && event.getExplosion().radius > 1) {
-                this.level.destroyBlock(blockPos, true, this);
-                TCExplosionUtils.createExplosion(this.level, this, blockPos, event.getExplosion().radius - 0.2f);
+                this.level().destroyBlock(blockPos, true, this);
+                TCExplosionUtils.createExplosion(this.level(), this, blockPos, event.getExplosion().radius - 0.2f);
                 posList.add(blockPos);
 
             }

@@ -22,10 +22,10 @@ public class TCAntiPoweredEnchantment extends AbstractTCEnchantment {
     public void doPostAttack(LivingEntity player, Entity target, int lv) {
         if (target instanceof Creeper creeper && creeper.isPowered()
                 && player.getMainHandItem().getEnchantmentLevel(TCEnchantmentCore.ANTI_POWERED) > 0) {
-            if (!creeper.level.isClientSide) {
-                creeper.hurt(player.level.damageSources().mobAttack(player), 20f);
+            if (!creeper.level().isClientSide) {
+                creeper.hurt(player.level().damageSources().mobAttack(player), 20f);
                 creeper.getEntityData().set(ObfuscationReflectionHelper.getPrivateValue(Creeper.class, creeper, "DATA_IS_POWERED"), false);
-                TCExplosionUtils.createExplosion(creeper.level, player, creeper.blockPosition(), 0f);
+                TCExplosionUtils.createExplosion(creeper.level(), player, creeper.blockPosition(), 0f);
             }
             player.playSound(SoundEvents.TRIDENT_THUNDER);
             if (player instanceof ServerPlayer) {
