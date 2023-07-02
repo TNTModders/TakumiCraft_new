@@ -312,6 +312,19 @@ public abstract class AbstractTCCreeper extends Creeper implements ITCEntities, 
                 };
             }
 
+            public String getElementID() {
+                return switch (this.id) {
+                    case 0 -> "takumi";
+                    case 1 -> "fire";
+                    case 2 -> "grass";
+                    case 3 -> "water";
+                    case 4 -> "wind";
+                    case 5 -> "ground";
+                    case 6 -> "normal";
+                    default -> "undefined";
+                };
+            }
+
             public Component getSubElementName() {
                 if (this.isDest && this.isMagic) {
                     return Component.translatable("takumicraft.attr.MD");

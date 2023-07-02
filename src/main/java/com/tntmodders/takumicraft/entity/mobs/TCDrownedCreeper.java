@@ -64,7 +64,7 @@ public class TCDrownedCreeper extends TCZombieCreeper implements RangedAttackMob
 
     public TCDrownedCreeper(EntityType<? extends Creeper> entityType, Level level) {
         super(entityType, level);
-        this.maxUpStep = 1.0F;
+        this.setMaxUpStep(1.0f);
         this.moveControl = new TCDrownedCreeper.DrownedMoveControl(this);
         this.setPathfindingMalus(BlockPathTypes.WATER, 0.0F);
         this.waterNavigation = new WaterBoundPathNavigation(this, level);

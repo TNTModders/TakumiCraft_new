@@ -20,7 +20,7 @@ public interface ITCItems extends ITCTranslator {
 
     enum EnumTCItemModelType {
         SIMPLE,
-        SHIELD,
+        SP,
         SPAWN_EGG,
         NONE
     }

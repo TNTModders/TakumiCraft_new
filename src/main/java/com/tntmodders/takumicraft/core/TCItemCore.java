@@ -28,6 +28,7 @@ public class TCItemCore {
     public static final Item CREEPER_ROD = new TCCreeperRodItem();
     public static final Item TAKUMIBOOK = new TCTakumiBookItem();
     public static final Item BOLTSTONE = new TCBoltstoneItem();
+    public static final Item LIGHTSABER = new TCSaberItem();
 
     public static final TagKey<Item> GUNORES = TagKey.create(Registries.ITEM, new ResourceLocation(TakumiCraftCore.MODID,
             "gunores"));

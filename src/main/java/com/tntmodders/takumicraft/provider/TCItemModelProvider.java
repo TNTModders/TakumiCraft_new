@@ -21,7 +21,7 @@ public class TCItemModelProvider extends ItemModelProvider {
             if (item instanceof ITCItems) {
                 switch (((ITCItems) item).getItemModelType()) {
                     case SIMPLE -> this.simpleItem(item);
-                    case SHIELD -> {
+                    case SP -> {
                         //shield
                     }
                     case SPAWN_EGG -> this.eggItem(item);
