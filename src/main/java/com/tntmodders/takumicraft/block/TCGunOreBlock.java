@@ -8,8 +8,8 @@ import com.tntmodders.takumicraft.provider.ITCRecipe;
 import com.tntmodders.takumicraft.provider.TCRecipeProvider;
 import net.minecraft.core.BlockPos;
 import net.minecraft.data.loot.LootTableSubProvider;
-import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.RecipeCategory;
+import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.SimpleCookingRecipeBuilder;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
@@ -30,7 +30,6 @@ import net.minecraft.world.level.material.MapColor;
 import net.minecraftforge.common.Tags;
 
 import java.util.List;
-import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 public class TCGunOreBlock extends AbstractTCBombBlock implements ITCRecipe {
@@ -81,10 +80,10 @@ public class TCGunOreBlock extends AbstractTCBombBlock implements ITCRecipe {
     }
 
     @Override
-    public void addRecipes(TCRecipeProvider provider, ItemLike itemLike, Consumer<FinishedRecipe> consumer) {
-        provider.saveRecipe(itemLike, consumer, SimpleCookingRecipeBuilder.smelting(Ingredient.of(itemLike),
+    public void addRecipes(TCRecipeProvider provider, ItemLike itemLike, RecipeOutput output) {
+        provider.saveRecipe(itemLike, output, SimpleCookingRecipeBuilder.smelting(Ingredient.of(itemLike),
                 RecipeCategory.BUILDING_BLOCKS, Items.GUNPOWDER, 0.5f, 100));
-        provider.saveRecipe(itemLike, consumer, SimpleCookingRecipeBuilder.blasting(Ingredient.of(itemLike),
+        provider.saveRecipe(itemLike, output, SimpleCookingRecipeBuilder.blasting(Ingredient.of(itemLike),
                 RecipeCategory.BUILDING_BLOCKS, Items.GUNPOWDER, 0.5f, 50));
     }
 

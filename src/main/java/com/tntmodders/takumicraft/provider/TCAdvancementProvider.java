@@ -6,8 +6,9 @@ import com.tntmodders.takumicraft.core.TCEntityCore;
 import com.tntmodders.takumicraft.core.TCItemCore;
 import com.tntmodders.takumicraft.utils.TCLoggingUtils;
 import net.minecraft.advancements.Advancement;
+import net.minecraft.advancements.AdvancementHolder;
+import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.advancements.FrameType;
-import net.minecraft.advancements.RequirementsStrategy;
 import net.minecraft.advancements.critereon.EntityPredicate;
 import net.minecraft.advancements.critereon.ImpossibleTrigger;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
@@ -32,59 +33,58 @@ public class TCAdvancementProvider extends ForgeAdvancementProvider {
 
     public static class TCAdvancementGenerator implements AdvancementGenerator {
         @Override
-        public void generate(HolderLookup.Provider registries, Consumer<Advancement> consumer,
+        public void generate(HolderLookup.Provider registries, Consumer<AdvancementHolder> consumer,
                              ExistingFileHelper fileHelper) {
             TCLoggingUtils.startRegistry("Advancements");
 
-            Advancement slay_root = Advancement.Builder.advancement()
+            AdvancementHolder slay_root = Advancement.Builder.advancement()
                     /*.display(TCBlockCore.CREEPER_BOMB, new TranslatableContents("takumicraft.takumibook"),
                             new TranslatableContents("takumicraft.takumibook"), new ResourceLocation(TakumiCraftCore.MODID, "textures/block/creeperbomb.png"), FrameType.TASK,
                             false, false, true)*/
-                    .addCriterion("impossible", new ImpossibleTrigger.TriggerInstance())
-                    .save(consumer, new ResourceLocation(TakumiCraftCore.MODID, "slay/root"), fileHelper);
+                    .addCriterion("impossible", CriteriaTriggers.IMPOSSIBLE.createCriterion(new ImpossibleTrigger.TriggerInstance()))
+                    .save(consumer, new ResourceLocation(TakumiCraftCore.MODID, "slay/root"));
 
             TCEntityCore.ENTITY_TYPES.forEach(type -> Advancement.Builder.advancement().parent(slay_root)
                     .display(new ItemStack(TCItemCore.TAKUMIBOOK), Component.translatable(type.getDescriptionId()),
                             Component.translatable("takumicraft.message.slay"), null, FrameType.TASK, true, true, true)
                     .addCriterion("killed_" + type.toShortString(), KilledTrigger.TriggerInstance.playerKilledEntity(EntityPredicate.Builder.entity().of(type)))
-                    .save(consumer, new ResourceLocation(TakumiCraftCore.MODID, "slay/slay_" + type.toShortString()), fileHelper));
+                    .save(consumer, new ResourceLocation(TakumiCraftCore.MODID, "slay/slay_" + type.toShortString())));
 
             this.registerAdditionalAdvancements(consumer, fileHelper);
 
             TCLoggingUtils.completeRegistry("Advancements");
         }
 
-        private void registerAdditionalAdvancements(Consumer<Advancement> consumer, ExistingFileHelper fileHelper) {
-            Advancement root = Advancement.Builder.advancement()
+        private void registerAdditionalAdvancements(Consumer<AdvancementHolder> consumer, ExistingFileHelper fileHelper) {
+            AdvancementHolder root = Advancement.Builder.advancement()
                     .display(new ItemStack(Items.CREEPER_HEAD), Component.translatable("advancement.takumicraft.root.title"),
                             Component.translatable("advancement.takumicraft.root.desc"), new ResourceLocation(TakumiCraftCore.MODID, "textures/block/gunore.png"),
                             FrameType.TASK, true, false, true)
-                    .addCriterion("impossible", new ImpossibleTrigger.TriggerInstance())
-                    .save(consumer, new ResourceLocation(TakumiCraftCore.MODID, "root"), fileHelper);
+                    .addCriterion("impossible", CriteriaTriggers.IMPOSSIBLE.createCriterion(new ImpossibleTrigger.TriggerInstance()))
+                    .save(consumer, new ResourceLocation(TakumiCraftCore.MODID, "root"));
 
-            Advancement creeperbomb = Advancement.Builder.advancement()
+            AdvancementHolder creeperbomb = Advancement.Builder.advancement()
                     .display(new ItemStack(TCBlockCore.CREEPER_BOMB), Component.translatable("advancement.takumicraft.creeperbomb.title"),
                             Component.translatable("advancement.takumicraft.creeperbomb.desc"), null,
                             FrameType.TASK, true, true, false)
                     .addCriterion("creeperbomb", InventoryChangeTrigger.TriggerInstance.hasItems(TCBlockCore.CREEPER_BOMB))
-                    .parent(root).save(consumer, new ResourceLocation(TakumiCraftCore.MODID, "creeperbomb"), fileHelper);
+                    .parent(root).save(consumer, new ResourceLocation(TakumiCraftCore.MODID, "creeperbomb"));
 
             Advancement.Builder slay_all_builder = Advancement.Builder.advancement()
                     .display(new ItemStack(TCItemCore.TAKUMIBOOK), Component.translatable("advancement.takumicraft.slay_all.title"),
                             Component.translatable("advancement.takumicraft.slay_all.desc"), null,
-                            FrameType.GOAL, true, true, false)
-                    .requirements(RequirementsStrategy.AND).parent(root);
+                            FrameType.GOAL, true, true, false).parent(root);
             TCEntityCore.ENTITY_CONTEXTS.forEach(context ->
                     slay_all_builder.addCriterion("slay_" + context.getRegistryName(), KilledTrigger.TriggerInstance.playerKilledEntity(new EntityPredicate.Builder().of(context.entityType()))));
-            Advancement slay_all = slay_all_builder.save(consumer, new ResourceLocation(TakumiCraftCore.MODID, "slay_all"), fileHelper);
+            AdvancementHolder slay_all = slay_all_builder.save(consumer, new ResourceLocation(TakumiCraftCore.MODID, "slay_all"));
 
-            Advancement disarmament = Advancement.Builder.advancement()
+            AdvancementHolder disarmament = Advancement.Builder.advancement()
                     .display(new ItemStack(TCBlockCore.CREEPER_BOMB), Component.translatable("advancement.takumicraft.disarmament.title"),
                             Component.translatable("advancement.takumicraft.disarmament.desc"), null,
                             FrameType.TASK, true, true, false)
-                    .addCriterion("impossible", new ImpossibleTrigger.TriggerInstance())
+                    .addCriterion("impossible", CriteriaTriggers.IMPOSSIBLE.createCriterion(new ImpossibleTrigger.TriggerInstance()))
                     //.parent(type_magic)
-                    .parent(root).save(consumer, new ResourceLocation(TakumiCraftCore.MODID, "disarmament"), fileHelper);
+                    .parent(root).save(consumer, new ResourceLocation(TakumiCraftCore.MODID, "disarmament"));
         }
     }
 }

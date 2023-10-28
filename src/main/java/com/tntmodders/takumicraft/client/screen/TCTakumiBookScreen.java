@@ -200,7 +200,7 @@ public class TCTakumiBookScreen extends Screen {
 
     @Override
     public void render(GuiGraphics graphics, int mouseX, int mouseY, float p_98285_) {
-        this.renderBackground(graphics);
+        this.renderBackground(graphics, mouseX, mouseY, p_98285_);
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.setShaderTexture(0, BOOK_LOCATION);
@@ -227,13 +227,13 @@ public class TCTakumiBookScreen extends Screen {
         for (int l = 0; l < k; ++l) {
             FormattedCharSequence formattedcharsequence = this.cachedPageComponents.get(l);
 
-            graphics.drawString(font, formattedcharsequence, (i + 40), (100 + l * 9), 0);
+            graphics.drawString(font, formattedcharsequence, i + 40, 100 + l * 9, 0);
         }
 
         super.render(graphics, mouseX, mouseY, p_98285_);
 
         Component name = flg ? TCEntityUtils.getEntityName(context.entityType()) : TCEntityUtils.getUnknown();
-        graphics.drawString(font, name, (i + 80), 34, 0);
+        graphics.drawString(font, name, i + 80, 34, 0);
 
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
@@ -257,7 +257,7 @@ public class TCTakumiBookScreen extends Screen {
         }
         if (context.showRead()) {
             Component read = Component.translatable(flg ? TCEntityUtils.getEntityLangCode(context.entityType(), ".read") : "???");
-            graphics.drawString(font, read, (i + 70), 25, 0);
+            graphics.drawString(font, read, i + 70, 25, 0);
         }
     }
 

@@ -48,7 +48,7 @@ public class TCEvents {
             playerList.forEach(player -> {
                 if (player instanceof ServerPlayer && player.distanceToSqr(event.getExplosion().getPosition()) < 100) {
                     ((ServerPlayer) player).getAdvancements()
-                            .award(Objects.requireNonNull(((ServerPlayer) player).server.getAdvancements().getAdvancement(new ResourceLocation(TakumiCraftCore.MODID, "root"))), "impossible");
+                            .award(Objects.requireNonNull(((ServerPlayer) player).server.getAdvancements().get(new ResourceLocation(TakumiCraftCore.MODID, "root"))), "impossible");
                 }
             });
         }

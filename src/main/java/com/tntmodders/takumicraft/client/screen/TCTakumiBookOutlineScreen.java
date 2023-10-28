@@ -132,7 +132,6 @@ public class TCTakumiBookOutlineScreen extends EffectRenderingInventoryScreen<TC
             if (this.minecraft.player != null) {
                 this.tryRefreshInvalidatedTabs(this.minecraft.player.connection.enabledFeatures(), this.hasPermissions(this.minecraft.player), this.minecraft.player.level().registryAccess());
             }
-            this.searchBox.tick();
         }
     }
 
@@ -465,12 +464,13 @@ public class TCTakumiBookOutlineScreen extends EffectRenderingInventoryScreen<TC
         this.menu.scrollTo(0.0F);
     }
 
+
     @Override
-    public boolean mouseScrolled(double p_98527_, double p_98528_, double p_98529_) {
+    public boolean mouseScrolled(double p_94686_, double p_94687_, double p_94688_, double p_299502_) {
         if (!this.canScroll()) {
             return false;
         } else {
-            this.scrollOffs = this.menu.subtractInputFromScroll(this.scrollOffs, p_98529_);
+            this.scrollOffs = this.menu.subtractInputFromScroll(this.scrollOffs, p_94688_);
             this.menu.scrollTo(this.scrollOffs);
             return true;
         }
@@ -509,7 +509,7 @@ public class TCTakumiBookOutlineScreen extends EffectRenderingInventoryScreen<TC
 
     @Override
     public void render(GuiGraphics p_98577_, int p_98578_, int p_98579_, float p_98580_) {
-        this.renderBackground(p_98577_);
+        this.renderBackground(p_98577_, p_98578_, p_98579_, p_98580_);
         super.render(p_98577_, p_98578_, p_98579_, p_98580_);
 
         for (CreativeModeTab creativemodetab : currentPage.getVisibleTabs()) {

@@ -65,7 +65,6 @@ import net.minecraftforge.event.level.ExplosionEvent;
 
 import javax.annotation.Nullable;
 import java.time.LocalDate;
-import java.time.temporal.ChronoField;
 import java.util.List;
 import java.util.UUID;
 import java.util.function.Predicate;
@@ -179,7 +178,7 @@ public class TCZombieCreeper extends AbstractTCCreeper {
         this.getEntityData().set(DATA_BABY_ID, p_34309_);
         if (this.level() != null && !this.level().isClientSide) {
             AttributeInstance attributeinstance = this.getAttribute(Attributes.MOVEMENT_SPEED);
-            attributeinstance.removeModifier(SPEED_MODIFIER_BABY);
+            attributeinstance.removeModifier(SPEED_MODIFIER_BABY.getId());
             if (p_34309_) {
                 attributeinstance.addTransientModifier(SPEED_MODIFIER_BABY);
             }
@@ -485,8 +484,8 @@ public class TCZombieCreeper extends AbstractTCCreeper {
 
         if (this.getItemBySlot(EquipmentSlot.HEAD).isEmpty()) {
             LocalDate localdate = LocalDate.now();
-            int i = localdate.get(ChronoField.DAY_OF_MONTH);
-            int j = localdate.get(ChronoField.MONTH_OF_YEAR);
+            int i = localdate.getDayOfMonth();
+            int j = localdate.getMonthValue();
             if (j == 10 && i == 31 && this.random.nextFloat() < 0.25F) {
                 this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(this.random.nextFloat() < 0.1F ? Blocks.JACK_O_LANTERN : Blocks.CARVED_PUMPKIN));
                 this.armorDropChances[EquipmentSlot.HEAD.getIndex()] = 0.0F;
@@ -517,9 +516,10 @@ public class TCZombieCreeper extends AbstractTCCreeper {
         this.getAttribute(Attributes.SPAWN_REINFORCEMENTS_CHANCE).setBaseValue(this.random.nextDouble() * net.minecraftforge.common.ForgeConfig.SERVER.zombieBaseSummonChance.get());
     }
 
+
     @Override
-    public double getMyRidingOffset() {
-        return this.isBaby() ? 0.0D : -0.45D;
+    public float getMyRidingOffset(Entity riding) {
+        return this.isBaby() ? 0.0f : -0.45f;
     }
 
     @Override

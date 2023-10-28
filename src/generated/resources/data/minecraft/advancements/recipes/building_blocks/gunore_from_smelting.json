@@ -22,8 +22,8 @@
   },
   "requirements": [
     [
-      "has_gunore",
-      "has_the_recipe"
+      "has_the_recipe",
+      "has_gunore"
     ]
   ],
   "rewards": {

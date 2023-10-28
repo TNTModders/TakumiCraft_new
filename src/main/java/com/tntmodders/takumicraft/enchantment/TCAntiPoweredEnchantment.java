@@ -30,7 +30,7 @@ public class TCAntiPoweredEnchantment extends AbstractTCEnchantment {
             player.playSound(SoundEvents.TRIDENT_THUNDER);
             if (player instanceof ServerPlayer) {
                 ((ServerPlayer) player).getAdvancements()
-                        .award(((ServerPlayer) player).server.getAdvancements().getAdvancement(new ResourceLocation(TakumiCraftCore.MODID, "disarmament")), "impossible");
+                        .award(((ServerPlayer) player).server.getAdvancements().get(new ResourceLocation(TakumiCraftCore.MODID, "disarmament")), "impossible");
             }
         }
     }

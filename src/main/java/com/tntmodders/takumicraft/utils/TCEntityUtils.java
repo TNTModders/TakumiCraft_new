@@ -99,7 +99,7 @@ public class TCEntityUtils {
     public static boolean checkSlayAdv(EntityType entity) {
         LocalPlayer player = Minecraft.getInstance().player;
         ClientAdvancements advancements = player.connection.getAdvancements();
-        AdvancementProgress progress = advancements.progress.get(advancements.getAdvancements().get(new ResourceLocation(TakumiCraftCore.MODID, "slay/slay_" + entity.toShortString())));
+        AdvancementProgress progress = advancements.progress.get(advancements.get(new ResourceLocation(TakumiCraftCore.MODID, "slay/slay_" + entity.toShortString())));
         return progress != null && progress.isDone();
     }
 
@@ -108,7 +108,7 @@ public class TCEntityUtils {
         try {
             LocalPlayer player = Minecraft.getInstance().player;
             ClientAdvancements advancements = player.connection.getAdvancements();
-            AdvancementProgress progress = advancements.progress.get(advancements.getAdvancements().get(new ResourceLocation(TakumiCraftCore.MODID, "slay_all")));
+            AdvancementProgress progress = advancements.progress.get(advancements.get(new ResourceLocation(TakumiCraftCore.MODID, "slay_all")));
             int size = ((List<?>) progress.getCompletedCriteria()).size();
             int allSize = ((List<?>) progress.getRemainingCriteria()).size() + size;
             return Pair.of(size, allSize);

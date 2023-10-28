@@ -3,27 +3,25 @@ package com.tntmodders.takumicraft.provider;
 import com.tntmodders.takumicraft.core.TCBlockCore;
 import com.tntmodders.takumicraft.core.TCItemCore;
 import com.tntmodders.takumicraft.utils.TCLoggingUtils;
+import net.minecraft.advancements.Criterion;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.ItemLike;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.function.Consumer;
 
 public class TCRecipeProvider extends RecipeProvider {
     public TCRecipeProvider(PackOutput output) {
         super(output);
     }
 
-    public static InventoryChangeTrigger.TriggerInstance hasItem(ItemLike itemLike) {
+    public static Criterion<InventoryChangeTrigger.TriggerInstance> hasItem(ItemLike itemLike) {
         return has(itemLike);
     }
 
     @Override
-    protected void buildRecipes(@NotNull Consumer<FinishedRecipe> consumer) {
+    protected void buildRecipes(RecipeOutput consumer) {
         TCLoggingUtils.startRegistry("Recipe");
         TCBlockCore.BLOCKS.forEach(block -> {
             if (block instanceof ITCRecipe && block instanceof ITCBlocks) {
@@ -41,19 +39,19 @@ public class TCRecipeProvider extends RecipeProvider {
         TCLoggingUtils.completeRegistry("Recipe");
     }
 
-    public void saveRecipe(ItemLike itemLike, @NotNull Consumer<FinishedRecipe> consumer, RecipeBuilder recipe) {
+    public void saveRecipe(ItemLike itemLike, RecipeOutput output, RecipeBuilder recipe) {
         if (recipe instanceof SimpleCookingRecipeBuilder) {
             if (((SimpleCookingRecipeBuilder) recipe).serializer == RecipeSerializer.BLASTING_RECIPE) {
-                recipe.unlockedBy("has_" + itemLike.asItem(), has(itemLike)).save(consumer, RecipeProvider.getBlastingRecipeName(itemLike));
+                recipe.unlockedBy("has_" + itemLike.asItem(), has(itemLike)).save(output, RecipeProvider.getBlastingRecipeName(itemLike));
             } else if (((SimpleCookingRecipeBuilder) recipe).serializer == RecipeSerializer.SMELTING_RECIPE) {
-                recipe.unlockedBy("has_" + itemLike.asItem(), has(itemLike)).save(consumer, RecipeProvider.getSmeltingRecipeName(itemLike));
+                recipe.unlockedBy("has_" + itemLike.asItem(), has(itemLike)).save(output, RecipeProvider.getSmeltingRecipeName(itemLike));
             }
         } else {
-            recipe.unlockedBy("has_" + itemLike.asItem(), has(itemLike)).save(consumer);
+            recipe.unlockedBy("has_" + itemLike.asItem(), has(itemLike)).save(output);
         }
     }
 
-    private void additionalRecipes(@NotNull Consumer<FinishedRecipe> consumer) {
+    private void additionalRecipes(RecipeOutput consumer) {
         ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, Items.CREEPER_HEAD).define('#', Items.GUNPOWDER).pattern(" # ").pattern("###").pattern(" # ").unlockedBy("has_gunpowder", hasItem(Items.GUNPOWDER)).save(consumer);
     }
 }

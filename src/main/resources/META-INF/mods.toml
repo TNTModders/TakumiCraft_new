@@ -15,12 +15,12 @@ description = '''改築にご注意ください。口凸口''' #mandatory
 [[dependencies.takumicraft]] #optional
 modId = "forge" #mandatory
 mandatory = true #mandatory
-versionRange = "[47,)" #mandatory
+versionRange = "[48,)" #mandatory
 ordering = "NONE"
 side = "BOTH"
 [[dependencies.takumicraft]]
 modId = "minecraft"
 mandatory = true
-versionRange = "[1.20.1]"
+versionRange = "[1.20.2]"
 ordering = "NONE"
 side = "BOTH"
