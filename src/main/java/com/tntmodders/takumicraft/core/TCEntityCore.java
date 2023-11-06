@@ -41,7 +41,8 @@ public class TCEntityCore {
     public static final TCCreeperContext<TCHuskCreeper> HUSK = new TCHuskCreeper.TCHuskCreeperContext();
     public static final TCCreeperContext<TCHappinessCreeper> HAPPINESS = new TCHappinessCreeper.TCHappinessCreeperContext();
     public static final TCCreeperContext<TCCowCreeper> COW = new TCCowCreeper.TCCowCreeperContext();
-    public static final TCCreeperContext<TCChildCreeper> CHILD=new TCChildCreeper.TCChildCreeperContext();
+    public static final TCCreeperContext<TCChildCreeper> CHILD = new TCChildCreeper.TCChildCreeperContext();
+    public static final TCCreeperContext<TCCopperCreeper> COPPER = new TCCopperCreeper.TCCopperCreeperContext();
 
     public static void registerEntityType(RegisterEvent event) {
         TCLoggingUtils.startRegistry("Entity");
