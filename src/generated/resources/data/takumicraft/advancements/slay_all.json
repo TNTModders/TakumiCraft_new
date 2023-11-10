@@ -183,6 +183,20 @@
       },
       "trigger": "minecraft:player_killed_entity"
     },
+    "slay_patinacreeper": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "takumicraft:patinacreeper"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
     "slay_phantomcreeper": {
       "conditions": {
         "entity": [
@@ -345,6 +359,9 @@
     ],
     [
       "slay_coppercreeper"
+    ],
+    [
+      "slay_patinacreeper"
     ],
     [
       "slay_phantomcreeper"

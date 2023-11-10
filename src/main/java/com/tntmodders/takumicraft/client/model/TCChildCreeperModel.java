@@ -102,7 +102,7 @@ public class TCChildCreeperModel<T extends TCChildCreeper> extends CreeperModel<
         poseStack.pushPose();
         if (flg) {
             poseStack.translate(0f, 0.375f, 0.05f);
-            poseStack.rotateAround(Axis.XP.rotationDegrees(20),0,1,0);
+            poseStack.rotateAround(Axis.XP.rotationDegrees(20), 0, 1, 0);
         } else {
             poseStack.translate(0f, 1f, 0f);
         }

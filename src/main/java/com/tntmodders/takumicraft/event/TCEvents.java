@@ -14,6 +14,7 @@ import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.Phantom;
 import net.minecraft.world.entity.player.Player;
+import net.minecraftforge.event.entity.EntityMobGriefingEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.MobSpawnEvent;
 import net.minecraftforge.event.level.ExplosionEvent;
@@ -78,6 +79,13 @@ public class TCEvents {
     public void onEntityTick(LivingEvent.LivingTickEvent event) {
         if (!event.getEntity().level().isClientSide && event.getEntity() instanceof Creeper creeper && event.getEntity().level().isThundering()) {
             creeper.getEntityData().set(ObfuscationReflectionHelper.getPrivateValue(Creeper.class, creeper, "DATA_IS_POWERED"), true);
+        }
+    }
+
+    @SubscribeEvent
+    public void doMobGriefing(EntityMobGriefingEvent event) {
+        if (event.getEntity() instanceof AbstractTCCreeper creeper) {
+            event.setResult(creeper.getContext().doCreeperGriefing(creeper) ? Event.Result.DEFAULT : Event.Result.DENY);
         }
     }
 

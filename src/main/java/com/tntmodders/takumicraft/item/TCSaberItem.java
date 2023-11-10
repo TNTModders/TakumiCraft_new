@@ -26,7 +26,7 @@ public class TCSaberItem extends AbstractTCWeaponItem {
     @Override
     public boolean hurtEnemy(ItemStack stack, LivingEntity enemy, LivingEntity attacker) {
         if (!attacker.level().isClientSide()) {
-            attacker.level().explode(enemy, enemy.getX(), enemy.getY(), enemy.getZ(), 0f, Level.ExplosionInteraction.MOB);
+            attacker.level().explode(enemy, enemy.getX(), enemy.getY(), enemy.getZ(), 0f, Level.ExplosionInteraction.NONE);
         }
         return super.hurtEnemy(stack, enemy, attacker);
     }

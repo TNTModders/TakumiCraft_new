@@ -3,6 +3,7 @@ package com.tntmodders.takumicraft.entity.mobs;
 import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.client.renderer.entity.TCSlimeCreeperRenderer;
 import com.tntmodders.takumicraft.core.TCEntityCore;
+import com.tntmodders.takumicraft.utils.TCExplosionUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
@@ -413,8 +414,8 @@ public class TCSlimeCreeper extends AbstractTCCreeper {
         if (!this.level().isClientSide) {
             float f = this.isPowered() ? 2.0F : 1.0F;
             this.dead = true;
-            this.level().explode(this, this.getX(), this.getY(), this.getZ(),
-                    (float) this.explosionRadius * f * (Math.min(this.getSize(), 5) + 0.5f), Level.ExplosionInteraction.MOB);
+            TCExplosionUtils.createExplosion(this.level(), this, this.getX(), this.getY(), this.getZ(),
+                    (float) this.explosionRadius * f * (Math.min(this.getSize(), 5) + 0.5f), false);
             int i = this.getSize();
             this.spawnChildren(i, true, 1);
             this.discard();

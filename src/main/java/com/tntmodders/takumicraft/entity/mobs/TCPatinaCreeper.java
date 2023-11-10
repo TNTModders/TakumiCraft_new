@@ -14,9 +14,9 @@ import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.event.level.ExplosionEvent;
 
-public class TCCopperCreeper extends AbstractTCCreeper {
+public class TCPatinaCreeper extends AbstractTCCreeper {
 
-    public TCCopperCreeper(EntityType<? extends Creeper> entityType, Level level) {
+    public TCPatinaCreeper(EntityType<? extends Creeper> entityType, Level level) {
         super(entityType, level);
         this.explosionRadius = 10;
     }
@@ -31,24 +31,26 @@ public class TCCopperCreeper extends AbstractTCCreeper {
         event.getExplosion().getToBlow().forEach(pos -> {
             if (this.level().getBlockState(pos).getBlock() instanceof WeatheringCopper copper) {
                 BlockState previous = this.level().getBlockState(pos);
-                BlockState state = WeatheringCopper.getFirst(previous);
-                if (!previous.getProperties().isEmpty()) {
-                    for (Property property : previous.getProperties()) {
-                        state=state.setValue(property, previous.getValue(property));
+                if (WeatheringCopper.getNext(previous.getBlock()).isPresent()) {
+                    BlockState state = WeatheringCopper.getNext(previous.getBlock()).get().defaultBlockState();
+                    if (!previous.getProperties().isEmpty()) {
+                        for (Property property : previous.getProperties()) {
+                            state = state.setValue(property, previous.getValue(property));
+                        }
                     }
+                    this.level().setBlock(pos, state, 3);
+                    this.level().explode(null, pos.getX(), pos.getY(), pos.getZ(), this.isPowered() ? 6f : 4f, Level.ExplosionInteraction.NONE);
                 }
-                this.level().setBlock(pos, state, 3);
-                this.level().explode(null, pos.getX(), pos.getY(), pos.getZ(), this.isPowered() ? 6f : 4f, Level.ExplosionInteraction.NONE);
             }
         });
         event.getExplosion().clearToBlow();
         event.getAffectedEntities().clear();
     }
 
-    public static class TCCopperCreeperContext implements TCCreeperContext<TCCopperCreeper> {
-        private static final String NAME = "coppercreeper";
+    public static class TCPatinaCreeperContext implements TCCreeperContext<TCPatinaCreeper> {
+        private static final String NAME = "patinacreeper";
         public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder
-                .of(TCCopperCreeper::new, MobCategory.MONSTER).sized(0.6F, 1.7F).clientTrackingRange(8)
+                .of(TCPatinaCreeper::new, MobCategory.MONSTER).sized(0.6F, 1.7F).clientTrackingRange(8)
                 .build(TakumiCraftCore.MODID + ":" + NAME);
 
         @Override
@@ -58,27 +60,27 @@ public class TCCopperCreeper extends AbstractTCCreeper {
 
         @Override
         public String getJaJPRead() {
-            return "どうしょう";
+            return "ろくしょう";
         }
 
         @Override
         public String getEnUSDesc() {
-            return "A creeper with copper metalic luster. Too unbated, too strong.";
+            return "A creeper with copper metalic rust. Too bated, too brittle.";
         }
 
         @Override
         public String getJaJPDesc() {
-            return "輝く体躯と錆知らぬ技、銅の匠は衰えない。";
+            return "錆びた体躯と染み付いた技、銅の匠は衰えない。";
         }
 
         @Override
         public String getEnUSName() {
-            return "Copper Creeper";
+            return "Patina Creeper";
         }
 
         @Override
         public String getJaJPName() {
-            return "銅匠";
+            return "緑匠";
         }
 
         @Override
@@ -88,12 +90,12 @@ public class TCCopperCreeper extends AbstractTCCreeper {
 
         @Override
         public int getPrimaryColor() {
-            return 0xaa3300;
+            return 0x33aa00;
         }
 
         @Override
         public int getSecondaryColor() {
-            return 12303206;
+            return 0xaa3300;
         }
 
         @Override

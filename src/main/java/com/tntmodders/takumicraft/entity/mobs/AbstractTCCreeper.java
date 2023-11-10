@@ -161,6 +161,10 @@ public abstract class AbstractTCCreeper extends Creeper implements ITCEntities, 
             return Items.GUNPOWDER;
         }
 
+        default boolean doCreeperGriefing(AbstractTCCreeper creeper) {
+            return true;
+        }
+
         @Nullable
         default Supplier<LootTableSubProvider> getCreeperLoot(EntityType<?> type) {
             return () -> new EntityLootSubProvider(FeatureFlags.REGISTRY.allFlags()) {
