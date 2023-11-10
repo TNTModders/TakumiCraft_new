@@ -3,6 +3,7 @@ package com.tntmodders.takumicraft.client.screen;
 import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.datafixers.util.Pair;
 import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.core.TCCreativeModeTabCore;
@@ -61,7 +62,7 @@ public class TCTakumiBookOutlineScreen extends EffectRenderingInventoryScreen<TC
     private static final int SCROLLER_HEIGHT = 15;
     private static final Component TRASH_SLOT_TOOLTIP = Component.translatable("inventory.binSlot");
     private static final int TEXT_COLOR = 16777215;
-    private static CreativeModeTab selectedTab = BuiltInRegistries.CREATIVE_MODE_TAB.get(CreativeModeTabs.SEARCH);
+    private static CreativeModeTab selectedTab = CreativeModeTabs.searchTab();
     private final Set<TagKey<Item>> visibleTags = new HashSet<>();
     private final List<net.minecraftforge.client.gui.CreativeTabsScreenPage> pages = new java.util.ArrayList<>();
     private float scrollOffs;
@@ -125,6 +126,12 @@ public class TCTakumiBookOutlineScreen extends EffectRenderingInventoryScreen<TC
     }
 
     @Override
+    public void renderBackground(GuiGraphics p_301081_, int p_297765_, int p_300192_, float p_297977_) {
+        super.renderBackground(p_301081_, p_297765_, p_300192_, p_297977_);
+        p_301081_.blit(SEARCH_GUI_TEXTURES, this.leftPos, this.topPos, 0, 0, 192, 192);
+    }
+
+    @Override
     public void containerTick() {
         super.containerTick();
         this.tick++;
@@ -132,6 +139,7 @@ public class TCTakumiBookOutlineScreen extends EffectRenderingInventoryScreen<TC
             if (this.minecraft.player != null) {
                 this.tryRefreshInvalidatedTabs(this.minecraft.player.connection.enabledFeatures(), this.hasPermissions(this.minecraft.player), this.minecraft.player.level().registryAccess());
             }
+            //this.searchBox.tick();
         }
     }
 
@@ -161,7 +169,7 @@ public class TCTakumiBookOutlineScreen extends EffectRenderingInventoryScreen<TC
         this.pages.clear();
         int tabIndex = 0;
         List<CreativeModeTab> currentPage = new java.util.ArrayList<>();
-        currentPage.add(BuiltInRegistries.CREATIVE_MODE_TAB.get(CreativeModeTabs.SEARCH));
+        currentPage.add(CreativeModeTabs.searchTab());
         this.pages.add(new net.minecraftforge.client.gui.CreativeTabsScreenPage(currentPage));
         this.currentPage = this.pages.get(0);
 
@@ -177,7 +185,7 @@ public class TCTakumiBookOutlineScreen extends EffectRenderingInventoryScreen<TC
         this.searchBox.setTextColor(16777215);
         this.addWidget(this.searchBox);
         CreativeModeTab creativemodetab = selectedTab;
-        selectedTab = BuiltInRegistries.CREATIVE_MODE_TAB.get(CreativeModeTabs.SEARCH);
+        selectedTab = CreativeModeTabs.searchTab();
         this.selectTab(creativemodetab);
         this.minecraft.player.inventoryMenu.removeSlotListener(this.listener);
         this.listener = new CreativeInventoryListener(this.minecraft);
@@ -309,10 +317,11 @@ public class TCTakumiBookOutlineScreen extends EffectRenderingInventoryScreen<TC
     }
 
     @Override
-    protected void renderLabels(GuiGraphics p_98616_, int p_98617_, int p_98618_) {
+    protected void renderLabels(GuiGraphics graphics, int p_98617_, int p_98618_) {
         if (selectedTab.showTitle()) {
             RenderSystem.disableBlend();
-            p_98616_.drawString(font, Component.translatable("takumicraft.takumibook.search"), 8, 6, selectedTab.getLabelColor());
+
+            graphics.drawString(this.font, Component.translatable("takumicraft.takumibook.search"), 8, 6, 0, false);
         }
 
     }
@@ -361,7 +370,7 @@ public class TCTakumiBookOutlineScreen extends EffectRenderingInventoryScreen<TC
     }
 
     private void selectTab(CreativeModeTab p_98561_) {
-        p_98561_ = BuiltInRegistries.CREATIVE_MODE_TAB.get(CreativeModeTabs.SEARCH);
+        p_98561_ = CreativeModeTabs.searchTab();
         CreativeModeTab creativemodetab = selectedTab;
         selectedTab = p_98561_;
         slotColor = p_98561_.getSlotColor();
@@ -464,13 +473,11 @@ public class TCTakumiBookOutlineScreen extends EffectRenderingInventoryScreen<TC
         this.menu.scrollTo(0.0F);
     }
 
-
-    @Override
-    public boolean mouseScrolled(double p_94686_, double p_94687_, double p_94688_, double p_299502_) {
+    public boolean mouseScrolled(double p_98527_, double p_98528_, double p_98529_) {
         if (!this.canScroll()) {
             return false;
         } else {
-            this.scrollOffs = this.menu.subtractInputFromScroll(this.scrollOffs, p_94688_);
+            this.scrollOffs = this.menu.subtractInputFromScroll(this.scrollOffs, p_98529_);
             this.menu.scrollTo(this.scrollOffs);
             return true;
         }
@@ -513,59 +520,64 @@ public class TCTakumiBookOutlineScreen extends EffectRenderingInventoryScreen<TC
         super.render(p_98577_, p_98578_, p_98579_, p_98580_);
 
         for (CreativeModeTab creativemodetab : currentPage.getVisibleTabs()) {
-            if (this.checkTabHovering(p_98577_, creativemodetab, p_98578_, p_98579_)) {
+            if (this.checkTabHovering(p_98577_.pose(), creativemodetab, p_98578_, p_98579_)) {
                 break;
             }
         }
 
         if (this.destroyItemSlot != null && selectedTab.getType() == CreativeModeTab.Type.INVENTORY && this.isHovering(this.destroyItemSlot.x, this.destroyItemSlot.y, 16, 16, p_98578_, p_98579_)) {
-            //this.renderTooltip(p_98577_, TRASH_SLOT_TOOLTIP, p_98578_, p_98579_);
+            p_98577_.renderTooltip(this.font, TRASH_SLOT_TOOLTIP, p_98578_, p_98579_);
         }
 
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         this.renderTooltip(p_98577_, p_98578_, p_98579_);
     }
 
-/*    @Override
-    public void renderSlot(GuiGraphics poseStack, Slot slot) {
+    @Override
+    public void renderSlot(GuiGraphics graphics, Slot slot) {
+
         if (slot.getItem().getItem() instanceof TCSpawnEggItem item) {
             TCEntityUtils.renderEntity(slot.x + this.leftPos + (double) this.imageWidth / 25, slot.y + this.topPos + (double) this.imageHeight / 9, 7, this.tick / 100f, 0f, item.getContext().entityType());
         } else {
-            super.renderSlot(poseStack, slot);
+            super.renderSlot(graphics, slot);
         }
-    }*/
-
-    protected void renderTooltip(GuiGraphics p_98590_, ItemStack itemStack, int p_98592_, int p_98593_) {
-        List<Component> components = new ArrayList<>();
-        if (itemStack.getItem() instanceof TCSpawnEggItem egg) {
-            AbstractTCCreeper.TCCreeperContext context = egg.getContext();
-            boolean flg = TCEntityUtils.checkSlayAdv(context.entityType());
-            Component name = flg ? TCEntityUtils.getEntityName(context.entityType()) : TCEntityUtils.getUnknown();
-            components.add(name);
-            if (flg) {
-                components.add(MutableComponent.create(context.getRank().getRankName().getContents())
-                        .withStyle(context.getRank().getLevel() > 2 ? ChatFormatting.DARK_PURPLE : ChatFormatting.GRAY));
-                components.add(MutableComponent.create(context.getElement().getElementName().getContents())
-                        .withStyle(Style.EMPTY.withColor(context.getElement().getElementColor())));
-                if (context.getElement().getSubElementName() != CommonComponents.EMPTY) {
-                    components.add(MutableComponent.create(context.getElement().getSubElementName().getContents()).withStyle(ChatFormatting.DARK_GRAY));
-                }
-            }
-        }
-        //this.renderTooltip(p_98590_, components, itemStack.getTooltipImage(), p_98592_, p_98593_, null, itemStack);
     }
 
     @Override
-    protected void renderBg(GuiGraphics p_98572_, float p_98573_, int p_98574_, int p_98575_) {
+    protected void renderTooltip(GuiGraphics p_98590_, int p_98592_, int p_98593_) {
+        List<Component> components = new ArrayList<>();
+        if (this.hoveredSlot != null) {
+            ItemStack itemStack = this.hoveredSlot.getItem();
+            if (!itemStack.isEmpty() && itemStack.getItem() instanceof TCSpawnEggItem egg) {
+                AbstractTCCreeper.TCCreeperContext context = egg.getContext();
+                boolean flg = TCEntityUtils.checkSlayAdv(context.entityType());
+                Component name = flg ? TCEntityUtils.getEntityName(context.entityType()) : TCEntityUtils.getUnknown();
+                components.add(name);
+                if (flg) {
+                    components.add(MutableComponent.create(context.getRank().getRankName().getContents())
+                            .withStyle(context.getRank().getLevel() > 2 ? ChatFormatting.DARK_PURPLE : ChatFormatting.GRAY));
+                    components.add(MutableComponent.create(context.getElement().getElementName().getContents())
+                            .withStyle(Style.EMPTY.withColor(context.getElement().getElementColor())));
+                    if (context.getElement().getSubElementName() != CommonComponents.EMPTY) {
+                        components.add(MutableComponent.create(context.getElement().getSubElementName().getContents()).withStyle(ChatFormatting.DARK_GRAY));
+                    }
+                }
+            }
+            p_98590_.renderTooltip(this.font, components, itemStack.getTooltipImage(), itemStack, p_98592_, p_98593_);
+        }
+    }
+
+    @Override
+    protected void renderBg(GuiGraphics graphics, float p_98573_, int p_98574_, int p_98575_) {
         RenderSystem.setShaderTexture(0, SEARCH_GUI_TEXTURES);
-        p_98572_.blit(SEARCH_GUI_TEXTURES, this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight);
-        this.searchBox.render(p_98572_, p_98574_, p_98575_, p_98573_);
+        graphics.blit(SEARCH_GUI_TEXTURES, this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight);
+        this.searchBox.render(graphics, p_98574_, p_98575_, p_98573_);
         int j = this.leftPos + 175;
         int k = this.topPos + 18;
         int i = k + 112;
         RenderSystem.setShaderTexture(0, SEARCH_GUI_TEXTURES);
         if (selectedTab.canScroll()) {
-            p_98572_.blit(SEARCH_GUI_TEXTURES, j, k + (int) ((float) (i - k - 17) * this.scrollOffs), 232 + (this.canScroll() ? 0 : 12), 0, 12, 15);
+            graphics.blit(SEARCH_GUI_TEXTURES, j, k + (int) ((float) (i - k - 17) * this.scrollOffs), 232 + (this.canScroll() ? 0 : 12), 0, 12, 15);
         }
     }
 
@@ -595,11 +607,11 @@ public class TCTakumiBookOutlineScreen extends EffectRenderingInventoryScreen<TC
         return false;
     }
 
-    protected boolean checkTabHovering(GuiGraphics p_98585_, CreativeModeTab p_98586_, int p_98587_, int p_98588_) {
+    protected boolean checkTabHovering(PoseStack p_98585_, CreativeModeTab p_98586_, int p_98587_, int p_98588_) {
         return false;
     }
 
-    protected void renderTabButton(GuiGraphics p_98582_, CreativeModeTab p_98583_) {
+    protected void renderTabButton(PoseStack p_98582_, CreativeModeTab p_98583_) {
     }
 
     public boolean isInventoryOpen() {

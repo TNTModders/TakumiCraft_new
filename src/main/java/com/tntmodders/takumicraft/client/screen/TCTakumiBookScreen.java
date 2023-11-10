@@ -24,7 +24,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Consumer;
@@ -45,7 +44,6 @@ public class TCTakumiBookScreen extends Screen {
             return FormattedText.EMPTY;
         }
     };
-    public static final ResourceLocation BOOK_LOCATION = new ResourceLocation("textures/gui/book.png");
     protected static final int TEXT_WIDTH = 114;
     protected static final int TEXT_HEIGHT = 128;
     protected static final int IMAGE_WIDTH = 192;
@@ -199,14 +197,20 @@ public class TCTakumiBookScreen extends Screen {
     }
 
     @Override
+    public void renderBackground(GuiGraphics p_301081_, int p_297765_, int p_300192_, float p_297977_) {
+        super.renderBackground(p_301081_, p_297765_, p_300192_, p_297977_);
+        p_301081_.blit(BOOK_GUI_TEXTURES, (this.width - 192) / 2, 2, 0, 0, 192, 192);
+    }
+
+    @Override
     public void render(GuiGraphics graphics, int mouseX, int mouseY, float p_98285_) {
         this.renderBackground(graphics, mouseX, mouseY, p_98285_);
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        RenderSystem.setShaderTexture(0, BOOK_LOCATION);
+        RenderSystem.setShaderTexture(0, BOOK_GUI_TEXTURES);
         int i = (this.width - 192) / 2;
         int j = 2;
-        graphics.blit(BOOK_LOCATION, i, 2, 0, 0, 192, 192);
+
 
         AbstractTCCreeper.TCCreeperContext<? extends AbstractTCCreeper> context = TCEntityCore.ENTITY_CONTEXTS.get(currentPage);
         this.tick++;
@@ -220,44 +224,46 @@ public class TCTakumiBookScreen extends Screen {
 
         this.cachedPage = currentPage;
         int i1 = this.font.width(this.pageMsg);
-
-        graphics.drawString(font, this.pageMsg, i - i1 + 192 - 44, 18, 0);
+        graphics.drawString(this.font, this.pageMsg, i - i1 + 192 - 44, 18, 0, false);
         int k = Math.min(128 / 9, this.cachedPageComponents.size());
 
         for (int l = 0; l < k; ++l) {
             FormattedCharSequence formattedcharsequence = this.cachedPageComponents.get(l);
-
-            graphics.drawString(font, formattedcharsequence, i + 40, 100 + l * 9, 0);
+            graphics.drawString(this.font, formattedcharsequence, i + 40, 100 + l * 9, 0);
         }
 
         super.render(graphics, mouseX, mouseY, p_98285_);
 
         Component name = flg ? TCEntityUtils.getEntityName(context.entityType()) : TCEntityUtils.getUnknown();
-        graphics.drawString(font, name, i + 80, 34, 0);
+        graphics.drawString(this.font, name, i + 80, 34, 0, false);
 
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+        ResourceLocation location;
         if (flg) {
-            RenderSystem.setShaderTexture(0, context.getElement().getIcon());
+            location = context.getElement().getIcon();
+            RenderSystem.setShaderTexture(0, location);
+            graphics.blit(location, i, 2, 0, 0, 192, 192);
         } else {
-            RenderSystem.setShaderTexture(0, new ResourceLocation(TakumiCraftCore.MODID, "textures/book/underfound.png"));
+            location = new ResourceLocation(TakumiCraftCore.MODID, "textures/book/underfound.png");
+            RenderSystem.setShaderTexture(0, location);
+            graphics.blit(location, i, 2, 0, 0, 192, 192);
         }
-        graphics.blit(new ResourceLocation(TakumiCraftCore.MODID, "textures/book/underfound.png"), i, 2, 0, 0, 192, 192);
         if (flg) {
-            ArrayList<ResourceLocation> locations = new ArrayList<>();
             if (context.getElement().isDest()) {
-                locations.add(new ResourceLocation(TakumiCraftCore.MODID, "textures/book/dest.png"));
+                location = new ResourceLocation(TakumiCraftCore.MODID, "textures/book/dest.png");
+                RenderSystem.setShaderTexture(0, location);
+                graphics.blit(location, i, 2, 0, 0, 192, 192);
             }
             if (context.getElement().isMagic()) {
-                locations.add(new ResourceLocation(TakumiCraftCore.MODID, "textures/book/magic.png"));
-            }
-            if (!locations.isEmpty()) {
-                locations.forEach(resourceLocation -> graphics.blit(resourceLocation, i, 2, 0, 0, 192, 192));
+                location = new ResourceLocation(TakumiCraftCore.MODID, "textures/book/magic.png");
+                RenderSystem.setShaderTexture(0, location);
+                graphics.blit(location, i, 2, 0, 0, 192, 192);
             }
         }
         if (context.showRead()) {
             Component read = Component.translatable(flg ? TCEntityUtils.getEntityLangCode(context.entityType(), ".read") : "???");
-            graphics.drawString(font, read, i + 70, 25, 0);
+            graphics.drawString(this.font, read, i + 70, 25, 0, false);
         }
     }
 
