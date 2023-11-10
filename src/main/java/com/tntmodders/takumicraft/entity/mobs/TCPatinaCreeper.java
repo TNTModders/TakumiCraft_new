@@ -8,6 +8,7 @@ import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.WeatheringCopper;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.Property;
@@ -31,8 +32,12 @@ public class TCPatinaCreeper extends AbstractTCCreeper {
         event.getExplosion().getToBlow().forEach(pos -> {
             if (this.level().getBlockState(pos).getBlock() instanceof WeatheringCopper copper) {
                 BlockState previous = this.level().getBlockState(pos);
-                if (WeatheringCopper.getNext(previous.getBlock()).isPresent()) {
-                    BlockState state = WeatheringCopper.getNext(previous.getBlock()).get().defaultBlockState();
+                Block previousBlock = previous.getBlock();
+                if (WeatheringCopper.getNext(previousBlock).isPresent()) {
+                    while (WeatheringCopper.getNext(previousBlock).isPresent()) {
+                        previousBlock = WeatheringCopper.getNext(previousBlock).get();
+                    }
+                    BlockState state = previousBlock.defaultBlockState();
                     if (!previous.getProperties().isEmpty()) {
                         for (Property property : previous.getProperties()) {
                             state = state.setValue(property, previous.getValue(property));
