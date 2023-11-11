@@ -105,12 +105,8 @@ public abstract class AbstractTCCreeper extends Creeper implements ITCEntities, 
 
             @Override
             public void generate() {
-                this.add(AbstractTCCreeper.this.getType(), LootTable.lootTable().withPool(
-                                LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F)).add(LootItem.lootTableItem(Items.GUNPOWDER)
-                                        .apply(SetItemCountFunction.setCount(UniformGenerator.between(0.0F, 2.0F)))
-                                        .apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(0.0F, 1.0F)))))
-                        .withPool(LootPool.lootPool().add(TagEntry.expandTag(ItemTags.CREEPER_DROP_MUSIC_DISCS))
-                                .when(LootItemEntityPropertyCondition.hasProperties(LootContext.EntityTarget.KILLER, EntityPredicate.Builder.entity().of(EntityTypeTags.SKELETONS)))));
+                TCCreeperContext context = AbstractTCCreeper.this.getContext();
+                context.getCreeperLoot(context.entityType());
             }
         };
     }

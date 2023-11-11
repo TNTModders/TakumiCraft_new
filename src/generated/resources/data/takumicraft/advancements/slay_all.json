@@ -57,6 +57,20 @@
       },
       "trigger": "minecraft:player_killed_entity"
     },
+    "slay_diamondcreeper": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "takumicraft:diamondcreeper"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
     "slay_drownedcreeper": {
       "conditions": {
         "entity": [
@@ -362,6 +376,9 @@
     ],
     [
       "slay_patinacreeper"
+    ],
+    [
+      "slay_diamondcreeper"
     ],
     [
       "slay_phantomcreeper"
