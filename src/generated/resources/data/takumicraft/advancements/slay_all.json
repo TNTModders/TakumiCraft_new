@@ -1,6 +1,20 @@
 {
   "parent": "takumicraft:root",
   "criteria": {
+    "slay_arrowcreeper": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "takumicraft:arrowcreeper"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
     "slay_bangcreeper": {
       "conditions": {
         "entity": [
@@ -432,6 +446,9 @@
     ],
     [
       "slay_patinacreeper"
+    ],
+    [
+      "slay_arrowcreeper"
     ],
     [
       "slay_phantomcreeper"
