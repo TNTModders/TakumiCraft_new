@@ -26,7 +26,7 @@ public class TCCreeperRodItem extends Item implements ITCItems, ITCTranslator {
     public TCCreeperRodItem() {
         super(new Properties().rarity(Rarity.EPIC).stacksTo(1));
         ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
-        builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Weapon modifier", 19, AttributeModifier.Operation.ADDITION));
+        builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Weapon modifier", 99, AttributeModifier.Operation.ADDITION));
         this.defaultModifiers = builder.build();
     }
 
