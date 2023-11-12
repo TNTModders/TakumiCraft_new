@@ -26,9 +26,6 @@ dirtcreeper
 lostcreeper
 fallcreeper
 
-
-
-ironcreeper
 arrowcreeper
 batcreeper
 weathercreeper

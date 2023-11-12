@@ -12,21 +12,21 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 
-public class TCEmeraldCreeper extends AbstractTCCreeper {
+public class TCIronCreeper extends AbstractTCCreeper {
 
-    public TCEmeraldCreeper(EntityType<? extends Creeper> entityType, Level level) {
+    public TCIronCreeper(EntityType<? extends Creeper> entityType, Level level) {
         super(entityType, level);
         this.explosionRadius = 5;
     }
 
     @Override
     public TCCreeperContext<? extends AbstractTCCreeper> getContext() {
-        return TCEntityCore.EMERALD;
+        return TCEntityCore.IRON;
     }
 
-    public static class TCEmeraldCreeperContext implements TCCreeperContext<TCEmeraldCreeper> {
-        private static final String NAME = "emeraldcreeper";
-        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCEmeraldCreeper::new, MobCategory.MONSTER).sized(1.2F, 3.4F).clientTrackingRange(8).build(TakumiCraftCore.MODID + ":" + NAME);
+    public static class TCIronCreeperContext implements TCCreeperContext<TCIronCreeper> {
+        private static final String NAME = "ironcreeper";
+        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCIronCreeper::new, MobCategory.MONSTER).sized(0.6F / 2, 1.7F / 2).clientTrackingRange(8).build(TakumiCraftCore.MODID + ":" + NAME);
 
         @Override
         public String getRegistryName() {
@@ -35,27 +35,27 @@ public class TCEmeraldCreeper extends AbstractTCCreeper {
 
         @Override
         public String getJaJPRead() {
-            return "えめらるどたくみ";
+            return "はがねたくみ";
         }
 
         @Override
         public String getEnUSDesc() {
-            return "A creeper with emerald toughness. Too big, too strong.";
+            return "A creeper with iron compactness. Too small, too strong.";
         }
 
         @Override
         public String getJaJPDesc() {
-            return "巨大な体躯と強力な耐久、エメラルドの匠は倒れない。";
+            return "小型な体躯と俊敏な移動、鋼の匠は当たらない。";
         }
 
         @Override
         public String getEnUSName() {
-            return "Emerald Creeper";
+            return "Iron Creeper";
         }
 
         @Override
         public String getJaJPName() {
-            return "エメラルド匠";
+            return "鋼匠";
         }
 
         @Override
@@ -65,22 +65,23 @@ public class TCEmeraldCreeper extends AbstractTCCreeper {
 
         @Override
         public int getPrimaryColor() {
-            return 0x90a090;
+            return 0x909090;
         }
 
         @Override
         public int getSecondaryColor() {
-            return 0x00ff00;
+            return 0xffffff;
         }
 
         @Override
         public AttributeSupplier.Builder entityAttribute() {
-            return Creeper.createAttributes().add(Attributes.MAX_HEALTH, 80).add(Attributes.MOVEMENT_SPEED, 0.175);
+            return Creeper.createAttributes().add(Attributes.KNOCKBACK_RESISTANCE, 0.01).add(Attributes.MAX_HEALTH, 10)
+                    .add(Attributes.MOVEMENT_SPEED, 0.75);
         }
 
         @Override
         public EnumTakumiElement getElement() {
-            return EnumTakumiElement.GRASS;
+            return EnumTakumiElement.GROUND;
         }
 
         @Override
@@ -90,7 +91,7 @@ public class TCEmeraldCreeper extends AbstractTCCreeper {
 
         @Override
         public ItemLike getMainDropItem() {
-            return Blocks.EMERALD_BLOCK;
+            return Blocks.IRON_BLOCK;
         }
 
         @Override
@@ -100,7 +101,7 @@ public class TCEmeraldCreeper extends AbstractTCCreeper {
 
         @Override
         public float getSizeFactor() {
-            return 2f;
+            return 0.5f;
         }
     }
 }

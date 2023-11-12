@@ -46,6 +46,7 @@ public class TCEntityCore {
     public static final TCCreeperContext<TCDiamondCreeper> DIAMOND = new TCDiamondCreeper.TCDiamondCreeperContext();
     public static final TCCreeperContext<TCRedstoneCreeper> REDSTONE = new TCRedstoneCreeper.TCRedstoneCreeperContext();
     public static final TCCreeperContext<TCEmeraldCreeper> EMERALD = new TCEmeraldCreeper.TCEmeraldCreeperContext();
+    public static final TCCreeperContext<TCIronCreeper> IRON = new TCIronCreeper.TCIronCreeperContext();
 
     public static void registerEntityType(RegisterEvent event) {
         TCLoggingUtils.startRegistry("Entity");

@@ -169,6 +169,20 @@
       },
       "trigger": "minecraft:player_killed_entity"
     },
+    "slay_ironcreeper": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "takumicraft:ironcreeper"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
     "slay_lavacreeper": {
       "conditions": {
         "entity": [
@@ -425,6 +439,9 @@
     ],
     [
       "slay_emeraldcreeper"
+    ],
+    [
+      "slay_ironcreeper"
     ]
   ],
   "sends_telemetry_event": true
