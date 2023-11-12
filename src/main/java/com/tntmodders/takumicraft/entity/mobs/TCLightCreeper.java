@@ -34,7 +34,8 @@ public class TCLightCreeper extends AbstractTCCreeper {
     @Override
     public void tick() {
         super.tick();
-        if (this.isAlive() && !this.level().isClientSide) {
+        if (this.isAlive() && !this.level().isClientSide && this.getEffect(MobEffects.GLOWING) == null &&
+                this.level().getNearestPlayer(this, 32) != null) {
             this.addEffect(new MobEffectInstance(MobEffects.GLOWING, 400, 0));
         }
     }
