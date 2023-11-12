@@ -12,21 +12,21 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 
-public class TCDiamondCreeper extends AbstractTCCreeper {
+public class TCRedstoneCreeper extends AbstractTCCreeper {
 
-    public TCDiamondCreeper(EntityType<? extends Creeper> entityType, Level level) {
+    public TCRedstoneCreeper(EntityType<? extends Creeper> entityType, Level level) {
         super(entityType, level);
         this.explosionRadius = 5;
     }
 
     @Override
     public TCCreeperContext<? extends AbstractTCCreeper> getContext() {
-        return TCEntityCore.DIAMOND;
+        return TCEntityCore.REDSTONE;
     }
 
-    public static class TCDiamondCreeperContext implements TCCreeperContext<TCDiamondCreeper> {
-        private static final String NAME = "diamondcreeper";
-        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCDiamondCreeper::new, MobCategory.MONSTER).sized(0.6F, 1.7F).clientTrackingRange(8).build(TakumiCraftCore.MODID + ":" + NAME);
+    public static class TCRedstoneCreeperContext implements TCCreeperContext<TCRedstoneCreeper> {
+        private static final String NAME = "redstonecreeper";
+        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCRedstoneCreeper::new, MobCategory.MONSTER).sized(0.6F, 1.7F).clientTrackingRange(8).build(TakumiCraftCore.MODID + ":" + NAME);
 
         @Override
         public String getRegistryName() {
@@ -35,27 +35,27 @@ public class TCDiamondCreeper extends AbstractTCCreeper {
 
         @Override
         public String getJaJPRead() {
-            return "だいやもんどたくみ";
+            return "れっどすとーんたくみ";
         }
 
         @Override
         public String getEnUSDesc() {
-            return "A creeper with diamond heart. Too hard, too strong.";
+            return "A creeper with redstone speed. Too fast, too strong.";
         }
 
         @Override
         public String getJaJPDesc() {
-            return "硬い精神と強靭な肉体、ダイヤの匠は砕けない。";
+            return "素早い動きと高速な爆発、レッドストーンの匠は止まらない。";
         }
 
         @Override
         public String getEnUSName() {
-            return "Diamond Creeper";
+            return "RedStone Creeper";
         }
 
         @Override
         public String getJaJPName() {
-            return "ダイヤモンド匠";
+            return "RS匠";
         }
 
         @Override
@@ -65,17 +65,17 @@ public class TCDiamondCreeper extends AbstractTCCreeper {
 
         @Override
         public int getPrimaryColor() {
-            return 0x9090a0;
+            return 0xa09090;
         }
 
         @Override
         public int getSecondaryColor() {
-            return 0x0000ff;
+            return 0xff0000;
         }
 
         @Override
         public AttributeSupplier.Builder entityAttribute() {
-            return Creeper.createAttributes().add(Attributes.MAX_HEALTH, 40).add(Attributes.KNOCKBACK_RESISTANCE, 1000000);
+            return Creeper.createAttributes().add(Attributes.MAX_HEALTH, 10).add(Attributes.MOVEMENT_SPEED, 0.65);
         }
 
         @Override
@@ -90,7 +90,7 @@ public class TCDiamondCreeper extends AbstractTCCreeper {
 
         @Override
         public ItemLike getMainDropItem() {
-            return Blocks.DIAMOND_BLOCK;
+            return Blocks.REDSTONE_BLOCK;
         }
 
         @Override

@@ -157,6 +157,10 @@ public abstract class AbstractTCCreeper extends Creeper implements ITCEntities, 
             return Items.GUNPOWDER;
         }
 
+        default UniformGenerator getDropRange() {
+            return UniformGenerator.between(0.0F, 2.0F);
+        }
+
         default boolean doCreeperGriefing(AbstractTCCreeper creeper) {
             return true;
         }
@@ -175,7 +179,7 @@ public abstract class AbstractTCCreeper extends Creeper implements ITCEntities, 
                             LootTable.lootTable()
                                     .withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
                                             .add(LootItem.lootTableItem(TCCreeperContext.this.getMainDropItem())
-                                                    .apply(SetItemCountFunction.setCount(UniformGenerator.between(0.0F, 2.0F)))
+                                                    .apply(SetItemCountFunction.setCount(TCCreeperContext.this.getDropRange()))
                                                     .apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(0.0F, 1.0F)))))
                                     .withPool(LootPool.lootPool().add(TagEntry.expandTag(ItemTags.CREEPER_DROP_MUSIC_DISCS))
                                             .when(LootItemEntityPropertyCondition.hasProperties(LootContext.EntityTarget.KILLER,

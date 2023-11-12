@@ -225,6 +225,20 @@
       },
       "trigger": "minecraft:player_killed_entity"
     },
+    "slay_redstonecreeper": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "takumicraft:redstonecreeper"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
     "slay_sandcreeper": {
       "conditions": {
         "entity": [
@@ -391,6 +405,9 @@
     ],
     [
       "slay_huskcreeper"
+    ],
+    [
+      "slay_redstonecreeper"
     ]
   ],
   "sends_telemetry_event": true
