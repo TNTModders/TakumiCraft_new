@@ -27,7 +27,7 @@ lostcreeper
 fallcreeper
 
 
-emeraldcreeper
+
 ironcreeper
 arrowcreeper
 batcreeper

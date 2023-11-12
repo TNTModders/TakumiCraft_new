@@ -53,6 +53,8 @@ public class TCEntityUtils {
             PoseStack posestack1 = new PoseStack();
             posestack1.translate(0.0D, 0.0D, 1000.0D);
             posestack1.scale((float) size, (float) size, (float) size);
+            float invscale = 1 / creeper.getContext().getSizeFactor();
+            posestack1.scale(invscale, invscale, invscale);
             Quaternionf quaternion = Axis.ZP.rotationDegrees(180.0F);
             Quaternionf quaternion1 = Axis.XP.rotationDegrees(xrot * 20.0F);
             quaternion.mul(quaternion1);

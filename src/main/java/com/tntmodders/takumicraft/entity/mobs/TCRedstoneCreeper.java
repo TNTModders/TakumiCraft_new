@@ -80,7 +80,7 @@ public class TCRedstoneCreeper extends AbstractTCCreeper {
 
         @Override
         public EnumTakumiElement getElement() {
-            return EnumTakumiElement.NORMAL;
+            return EnumTakumiElement.FIRE;
         }
 
         @Override

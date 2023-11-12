@@ -1,6 +1,8 @@
 package com.tntmodders.takumicraft.client.renderer.entity;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.tntmodders.takumicraft.TakumiCraftCore;
+import com.tntmodders.takumicraft.entity.mobs.AbstractTCCreeper;
 import net.minecraft.client.renderer.entity.CreeperRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.core.BlockPos;
@@ -17,6 +19,15 @@ public class TCCreeperRenderer extends CreeperRenderer {
     public TCCreeperRenderer(EntityRendererProvider.Context p_173958_, boolean isBright) {
         this(p_173958_);
         this.isBright = isBright;
+    }
+
+    @Override
+    protected void scale(Creeper creeper, PoseStack poseStack, float size) {
+        if (creeper instanceof AbstractTCCreeper takumi) {
+            float f = ((AbstractTCCreeper) creeper).getContext().getSizeFactor();
+            poseStack.scale(f, f, f);
+        }
+        super.scale(creeper, poseStack, size);
     }
 
     @Override

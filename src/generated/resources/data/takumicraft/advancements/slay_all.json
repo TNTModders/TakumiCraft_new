@@ -85,6 +85,20 @@
       },
       "trigger": "minecraft:player_killed_entity"
     },
+    "slay_emeraldcreeper": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "takumicraft:emeraldcreeper"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
     "slay_endercreeper": {
       "conditions": {
         "entity": [
@@ -392,9 +406,6 @@
       "slay_patinacreeper"
     ],
     [
-      "slay_diamondcreeper"
-    ],
-    [
       "slay_phantomcreeper"
     ],
     [
@@ -407,7 +418,13 @@
       "slay_huskcreeper"
     ],
     [
+      "slay_diamondcreeper"
+    ],
+    [
       "slay_redstonecreeper"
+    ],
+    [
+      "slay_emeraldcreeper"
     ]
   ],
   "sends_telemetry_event": true

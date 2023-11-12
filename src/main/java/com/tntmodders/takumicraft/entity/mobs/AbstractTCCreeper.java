@@ -161,6 +161,10 @@ public abstract class AbstractTCCreeper extends Creeper implements ITCEntities, 
             return UniformGenerator.between(0.0F, 2.0F);
         }
 
+        default float getSizeFactor() {
+            return 1f;
+        }
+
         default boolean doCreeperGriefing(AbstractTCCreeper creeper) {
             return true;
         }
