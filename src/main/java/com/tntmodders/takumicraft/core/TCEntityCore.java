@@ -68,6 +68,7 @@ public class TCEntityCore {
         });
         registerAdditionalEntityType(event);
         ENTITY_CONTEXTS.sort(Comparator.comparing(context -> context.getRank().getLevel()));
+        TCConfigCore.registerSpawnConfig();
         TCLoggingUtils.logMessage("Entity", ENTITY_CONTEXTS.size() + " Takumis Registered.");
         TCLoggingUtils.completeRegistry("Entity");
     }

@@ -52,7 +52,7 @@ public class TakumiCraftCore {
         TCBiomeModifierCore.BIOME_MODIFIER_SERIALIZERS.register(modEventBus);
         MinecraftForge.EVENT_BUS.register(this);
         MinecraftForge.EVENT_BUS.register(TCEvents.INSTANCE);
-        if (FMLEnvironment.dist == Dist.CLIENT) {
+        if (FMLEnvironment.dist.isClient()) {
             MinecraftForge.EVENT_BUS.register(TCClientEvents.INSTANCE);
         }
     }

@@ -3,6 +3,7 @@ package com.tntmodders.takumicraft.entity.mobs;
 import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.client.renderer.entity.TCCreeperRenderer;
 import com.tntmodders.takumicraft.core.TCBlockCore;
+import com.tntmodders.takumicraft.core.TCConfigCore;
 import com.tntmodders.takumicraft.core.TCEntityCore;
 import com.tntmodders.takumicraft.provider.ITCEntities;
 import com.tntmodders.takumicraft.provider.ITCTranslator;
@@ -138,7 +139,11 @@ public abstract class AbstractTCCreeper extends Creeper implements ITCEntities, 
         }
 
         default void registerModifierSpawn(Holder<Biome> biome, ModifiableBiomeInfo.BiomeInfo.Builder builder) {
-            builder.getMobSpawnSettings().getSpawner(this.getCategory()).add(new MobSpawnSettings.SpawnerData(this.entityType(), this.getSpawnWeight(), 1, this.getMaxSpawn()));
+            double weight = this.getSpawnWeight() * TCConfigCore.TCSpawnConfig.SPAWN.generalSpawnFactor.get();
+            if (TCConfigCore.TCSpawnConfig.SPAWN.creeperSpawnFactors.containsKey(this.entityType())) {
+                weight = weight * TCConfigCore.TCSpawnConfig.SPAWN.creeperSpawnFactors.get(this.entityType()).get();
+            }
+            builder.getMobSpawnSettings().getSpawner(this.getCategory()).add(new MobSpawnSettings.SpawnerData(this.entityType(), (int) weight, 1, this.getMaxSpawn()));
         }
 
         default int getSpawnWeight() {

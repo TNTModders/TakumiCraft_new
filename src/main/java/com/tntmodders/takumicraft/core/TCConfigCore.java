@@ -1,14 +1,22 @@
 package com.tntmodders.takumicraft.core;
 
+import net.minecraft.world.entity.EntityType;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.config.ModConfig;
 import org.apache.commons.lang3.tuple.Pair;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class TCConfigCore {
 
     public static void register() {
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, TCCommonConfig.commonSpec);
+    }
+
+    public static void registerSpawnConfig() {
+        ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, TCSpawnConfig.spawnSpec);
     }
 
     public static class TCCommonConfig {
@@ -31,7 +39,7 @@ public class TCConfigCore {
                     .comment("RECOMMEND TO SET THIS FALSE, this config is only for TakumiCraft debugger.")
                     .translation("takumicraft.config.isdebugmode")
                     .worldRestart()
-                    .define("isDebugMode", false);
+                    .define("debugmode", false);
 
             builder.pop();
         }
@@ -68,6 +76,41 @@ public class TCConfigCore {
 
         public TCClientConfig(ForgeConfigSpec.Builder builder) {
 
+        }
+    }
+
+    public static class TCSpawnConfig {
+        public static final TCSpawnConfig SPAWN;
+        static final ForgeConfigSpec spawnSpec;
+
+        static {
+            final Pair<TCSpawnConfig, ForgeConfigSpec> pair = new ForgeConfigSpec.Builder()
+                    .configure(TCSpawnConfig::new);
+            spawnSpec = pair.getRight();
+            SPAWN = pair.getLeft();
+        }
+
+        public final ForgeConfigSpec.DoubleValue generalSpawnFactor;
+        public final Map<EntityType<?>, ForgeConfigSpec.DoubleValue> creeperSpawnFactors = new HashMap<>();
+
+        public TCSpawnConfig(ForgeConfigSpec.Builder builder) {
+            builder.comment("TakumiCraft spawn configuration factor").push("spawn");
+            this.generalSpawnFactor = builder
+                    .comment("Spawn factor for all takumicraft creeper.")
+                    .translation("takumicraft.config.server.spawnfactor_general")
+                    .worldRestart()
+                    .defineInRange("generalSpawnFactor", 1.0, 0, 10);
+
+            TCEntityCore.ENTITY_TYPES.forEach(type -> {
+                String name = type.getDescriptionId().replace("entity.takumicraft.", "");
+                this.creeperSpawnFactors.put(type, builder
+                        .comment("spawn factor for " + name + ".")
+                        .translation("takumicraft.config.server.spawnfactor_" + name)
+                        .worldRestart()
+                        .defineInRange(name+"SpawnFactor", 1.0, 0, 10));
+
+            });
+            builder.pop();
         }
     }
 }
