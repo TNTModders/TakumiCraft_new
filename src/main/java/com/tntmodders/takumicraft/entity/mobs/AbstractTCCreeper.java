@@ -209,11 +209,17 @@ public abstract class AbstractTCCreeper extends Creeper implements ITCEntities, 
 
         EntityType<?> entityType();
 
-        int getPrimaryColor();
+        default int getPrimaryColor() {
+            return 894731;
+        }
 
-        int getSecondaryColor();
+        default int getSecondaryColor() {
+            return 0;
+        }
 
-        AttributeSupplier.Builder entityAttribute();
+        default AttributeSupplier.Builder entityAttribute() {
+            return Creeper.createAttributes();
+        }
 
         @OnlyIn(Dist.CLIENT)
         default void registerRenderer(EntityRenderersEvent.RegisterRenderers event, EntityType<?> type) {

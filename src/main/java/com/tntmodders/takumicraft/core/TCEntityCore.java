@@ -49,6 +49,9 @@ public class TCEntityCore {
     public static final TCCreeperContext<TCIronCreeper> IRON = new TCIronCreeper.TCIronCreeperContext();
     public static final TCCreeperContext<TCFallCreeper> FALL = new TCFallCreeper.TCFallCreeperContext();
     public static final TCCreeperContext<TCArrowCreeper> ARROW = new TCArrowCreeper.TCArrowCreeperContext();
+    public static final TCCreeperContext<TCStoneCreeper> STONE = new TCStoneCreeper.TCStoneCreeperContext();
+    public static final TCCreeperContext<TCWoodCreeper> WOOD = new TCWoodCreeper.TCWoodCreeperContext();
+    public static final TCCreeperContext<TCDirtCreeper> DIRT = new TCDirtCreeper.TCDirtCreeperContext();
 
     public static void registerEntityType(RegisterEvent event) {
         TCLoggingUtils.startRegistry("Entity");

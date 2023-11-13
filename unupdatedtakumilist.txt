@@ -20,13 +20,8 @@ minispidercreeper
 ghastcreeper
 glasscreeper
 glowstonecreeper
-stonecreeper
-woodcreeper
-dirtcreeper
 lostcreeper
-fallcreeper
 
-arrowcreeper
 batcreeper
 weathercreeper
 colorcreeper

@@ -85,6 +85,20 @@
       },
       "trigger": "minecraft:player_killed_entity"
     },
+    "slay_dirtcreeper": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "takumicraft:dirtcreeper"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
     "slay_drownedcreeper": {
       "conditions": {
         "entity": [
@@ -337,6 +351,20 @@
       },
       "trigger": "minecraft:player_killed_entity"
     },
+    "slay_stonecreeper": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "takumicraft:stonecreeper"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
     "slay_watercreeper": {
       "conditions": {
         "entity": [
@@ -345,6 +373,20 @@
             "entity": "this",
             "predicate": {
               "type": "takumicraft:watercreeper"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
+    "slay_woodcreeper": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "takumicraft:woodcreeper"
             }
           }
         ]
@@ -449,6 +491,15 @@
     ],
     [
       "slay_arrowcreeper"
+    ],
+    [
+      "slay_stonecreeper"
+    ],
+    [
+      "slay_woodcreeper"
+    ],
+    [
+      "slay_dirtcreeper"
     ],
     [
       "slay_phantomcreeper"
