@@ -26,6 +26,7 @@ public class TCBlockStateProvider extends BlockStateProvider {
                     case SIMPLE -> this.simpleBlockWithItem(block);
                     case HALF -> this.halfBlockWithItem(block);
                     case GLASS -> this.glassBlockWithItem(block);
+                    case STAINED_GLASS -> this.stainedGlassBlockWithItem(block);
                 }
                 TCLoggingUtils.entryRegistry("BlockStateModel_" + ((ITCBlocks) block).getBlockStateModelType().name(), ((ITCBlocks) block).getRegistryName());
             }
@@ -47,6 +48,16 @@ public class TCBlockStateProvider extends BlockStateProvider {
 
     private ModelFile glassCubeAll(Block block) {
         return models().cubeAll(name(block), blockTexture(block)).renderType("cutout");
+    }
+
+    private void stainedGlassBlockWithItem(Block block) {
+        ModelFile model = this.stainedGlassCubeAll(block);
+        this.simpleBlock(block, model);
+        this.simpleBlockItem(block, model);
+    }
+
+    private ModelFile stainedGlassCubeAll(Block block) {
+        return models().cubeAll(name(block), blockTexture(block)).renderType("translucent");
     }
 
     private ResourceLocation key(Block block) {

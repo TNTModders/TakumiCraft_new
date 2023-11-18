@@ -32,6 +32,7 @@ public interface ITCBlocks extends ITCTranslator {
         HALF,
         STAIRS,
         GLASS,
+        STAINED_GLASS,
         NONE
     }
 }

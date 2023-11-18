@@ -10,11 +10,10 @@ import com.tntmodders.takumicraft.utils.TCLoggingUtils;
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.common.data.LanguageProvider;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public abstract class TCLanguageProvider extends LanguageProvider {
-    private static final List<ITCTranslator> TRANSLATORS = new ArrayList<>();
 
     protected TCLanguageProvider(DataGenerator gen, String locale) {
         super(gen.getPackOutput(), TakumiCraftCore.MODID, locale);
@@ -22,6 +21,7 @@ public abstract class TCLanguageProvider extends LanguageProvider {
 
     @Override
     protected void addTranslations() {
+        this.additionalTranslations();
         TCBlockCore.BLOCKS.forEach(block -> {
             if (block instanceof ITCTranslator) {
                 this.add(block, this.getTranslation((ITCTranslator) block));
@@ -37,7 +37,6 @@ public abstract class TCLanguageProvider extends LanguageProvider {
             this.add(TCEntityUtils.getEntityLangCode(context.entityType(), ".desc"), this instanceof TCJaJPLanguageProvider ? context.getJaJPDesc() : context.getEnUSDesc());
         });
         TCEnchantmentCore.ENCHANTMENTS.forEach(ench -> this.add(ench, this.getTranslation(ench)));
-        this.additionalTranslations();
     }
 
     abstract String getTranslation(ITCTranslator translator);
@@ -45,6 +44,7 @@ public abstract class TCLanguageProvider extends LanguageProvider {
     abstract void additionalTranslations();
 
     public static class TCEnUSLanguageProvider extends TCLanguageProvider {
+        public static final Map<String, String> TC_ENUS_LANGMAP = new HashMap<>();
 
         public TCEnUSLanguageProvider(DataGenerator gen) {
             super(gen, "en_us");
@@ -91,6 +91,23 @@ public abstract class TCLanguageProvider extends LanguageProvider {
             this.add("takumicraft.attr.D", "Dest");
             this.add("takumicraft.config.isdebugmode", "RECOMMEND TO SET THIS FALSE, this config is only for TakumiCraft debugger.");
 
+            this.add("takumicraft.color.white", "White");
+            this.add("takumicraft.color.orange", "Orange");
+            this.add("takumicraft.color.magenta", "Magenta");
+            this.add("takumicraft.color.light_blue", "Light Blue");
+            this.add("takumicraft.color.yellow", "Yellow");
+            this.add("takumicraft.color.lime", "Lime");
+            this.add("takumicraft.color.pink", "Pink");
+            this.add("takumicraft.color.gray", "Gray");
+            this.add("takumicraft.color.light_gray", "Light Gray");
+            this.add("takumicraft.color.cyan", "Cyan");
+            this.add("takumicraft.color.purple", "Purple");
+            this.add("takumicraft.color.blue", "Blue");
+            this.add("takumicraft.color.brown", "Brown");
+            this.add("takumicraft.color.green", "Green");
+            this.add("takumicraft.color.red", "Red");
+            this.add("takumicraft.color.black", "Black");
+
             this.add("advancement.takumicraft.root.title", "Takumi Craft");
             this.add("advancement.takumicraft.root.desc", "Going into Chaotic Creeper World! \n Get damaged from explosion.");
             this.add("advancement.takumicraft.creeperbomb.title", "All You Need Is Bomb");
@@ -100,9 +117,16 @@ public abstract class TCLanguageProvider extends LanguageProvider {
             this.add("advancement.takumicraft.disarmament.title", "Disarmament");
             this.add("advancement.takumicraft.disarmament.desc", "Disarmament creeper's lighting armor.");
         }
+
+        @Override
+        public void add(String key, String value) {
+            TC_ENUS_LANGMAP.put(key, value);
+            super.add(key, value);
+        }
     }
 
     public static class TCJaJPLanguageProvider extends TCLanguageProvider {
+        public static final Map<String, String> TC_JAJP_LANGMAP = new HashMap<>();
 
         public TCJaJPLanguageProvider(DataGenerator gen) {
             super(gen, "ja_jp");
@@ -154,6 +178,23 @@ public abstract class TCLanguageProvider extends LanguageProvider {
             this.add("takumicraft.attr.D", "壊");
             this.add("takumicraft.config.isdebugmode", "デバッグモードで起動するときのみtrueに設定して下さい。");
 
+            this.add("takumicraft.color.white", "白色");
+            this.add("takumicraft.color.orange", "橙色");
+            this.add("takumicraft.color.magenta", "赤紫");
+            this.add("takumicraft.color.light_blue", "空色");
+            this.add("takumicraft.color.yellow", "黄色");
+            this.add("takumicraft.color.lime", "黄緑");
+            this.add("takumicraft.color.pink", "桃色");
+            this.add("takumicraft.color.gray", "灰色");
+            this.add("takumicraft.color.light_gray", "灰白");
+            this.add("takumicraft.color.cyan", "青緑");
+            this.add("takumicraft.color.purple", "紫色");
+            this.add("takumicraft.color.blue", "青色");
+            this.add("takumicraft.color.brown", "茶色");
+            this.add("takumicraft.color.green", "緑色");
+            this.add("takumicraft.color.red", "赤色");
+            this.add("takumicraft.color.black", "黒色");
+
             this.add("advancement.takumicraft.root.title", "匠Craft");
             this.add("advancement.takumicraft.root.desc", "この匠だらけの世界へ! \n 爆発の洗礼を受ける。");
             this.add("advancement.takumicraft.creeperbomb.title", "爆発物注意");
@@ -162,6 +203,12 @@ public abstract class TCLanguageProvider extends LanguageProvider {
             this.add("advancement.takumicraft.slay_all.desc", "匠の書の制覇\n 王の創る次なる匠を待たれよ。");
             this.add("advancement.takumicraft.disarmament.title", "武装解除");
             this.add("advancement.takumicraft.disarmament.desc", "巨匠化状態を解除する\n怖いものなし、匠の狩人。");
+        }
+
+        @Override
+        public void add(String key, String value) {
+            TC_JAJP_LANGMAP.put(key, value);
+            super.add(key, value);
         }
     }
 }

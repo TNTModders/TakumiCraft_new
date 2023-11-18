@@ -9,6 +9,7 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
@@ -17,7 +18,9 @@ import net.minecraftforge.registries.RegisterEvent;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class TCBlockCore {
     public static final NonNullList<Block> BLOCKS = NonNullList.create();
@@ -27,12 +30,16 @@ public class TCBlockCore {
     public static final Block CREEPER_IRON = new TCCreeperIronBlock();
     public static final Block CREEPER_BRICKS = new TCCreeperBricksBlock();
     public static final Block CREEPER_GLASS = new TCCreeperGlassBlock();
+    public static final Map<DyeColor, TCColoredCreeperGlassBlock> CREEPER_COLORED_GLASS_MAP = new HashMap<>();
 
-    public static final TagKey<Block> GUNORES = TagKey.create(Registries.BLOCK, new ResourceLocation(
-            "forge",
-            "gunores"));
-    public static final TagKey<Block> ANTI_EXPLOSION = TagKey.create(Registries.BLOCK, new ResourceLocation("forge",
-            "anti_explosion"));
+    public static final TagKey<Block> GUNORES = TagKey.create(Registries.BLOCK, new ResourceLocation("forge", "gunores"));
+    public static final TagKey<Block> ANTI_EXPLOSION = TagKey.create(Registries.BLOCK, new ResourceLocation("forge", "anti_explosion"));
+
+    static {
+        Arrays.stream(DyeColor.values()).forEach(dyeColor -> {
+            CREEPER_COLORED_GLASS_MAP.put(dyeColor, new TCColoredCreeperGlassBlock(dyeColor));
+        });
+    }
 
     public static void register(final RegisterEvent event) {
         TCLoggingUtils.startRegistry("Block");
@@ -44,6 +51,14 @@ public class TCBlockCore {
                     event.register(ForgeRegistries.BLOCKS.getRegistryKey(), blockRegisterHelper -> blockRegisterHelper.register(new ResourceLocation(TakumiCraftCore.MODID, ((ITCBlocks) block).getRegistryName()), block));
                     BLOCKS.add(block);
                     TCLoggingUtils.entryRegistry("Block", ((ITCBlocks) block).getRegistryName());
+                } else if (obj instanceof Map map) {
+                    map.values().forEach(value -> {
+                        if (value instanceof ITCBlocks && value instanceof Block block) {
+                            event.register(ForgeRegistries.BLOCKS.getRegistryKey(), blockRegisterHelper -> blockRegisterHelper.register(new ResourceLocation(TakumiCraftCore.MODID, ((ITCBlocks) block).getRegistryName()), block));
+                            BLOCKS.add(block);
+                            TCLoggingUtils.entryRegistry("Block", ((ITCBlocks) block).getRegistryName());
+                        }
+                    });
                 }
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
