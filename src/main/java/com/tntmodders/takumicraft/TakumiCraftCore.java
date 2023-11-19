@@ -1,6 +1,7 @@
 package com.tntmodders.takumicraft;
 
 import com.tntmodders.takumicraft.core.*;
+import com.tntmodders.takumicraft.core.client.TCItemPropertyCore;
 import com.tntmodders.takumicraft.core.client.TCKeyBindingCore;
 import com.tntmodders.takumicraft.core.client.TCRenderCore;
 import com.tntmodders.takumicraft.core.client.TCSearchTreeCore;
@@ -141,6 +142,7 @@ public class TakumiCraftCore {
         @SubscribeEvent
         public static void ClientInit(FMLClientSetupEvent event) {
             TCSearchTreeCore.register();
+            TCItemPropertyCore.register();
         }
 
         @SubscribeEvent

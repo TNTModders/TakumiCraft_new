@@ -3,6 +3,7 @@ package com.tntmodders.takumicraft.event;
 import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.core.TCBlockCore;
 import com.tntmodders.takumicraft.core.TCEntityCore;
+import com.tntmodders.takumicraft.core.TCItemCore;
 import com.tntmodders.takumicraft.entity.mobs.AbstractTCCreeper;
 import com.tntmodders.takumicraft.entity.mobs.TCPhantomCreeper;
 import net.minecraft.core.BlockPos;
@@ -10,13 +11,16 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.Phantom;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.entity.EntityMobGriefingEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.MobSpawnEvent;
+import net.minecraftforge.event.entity.living.ShieldBlockEvent;
 import net.minecraftforge.event.level.ExplosionEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -86,6 +90,18 @@ public class TCEvents {
     public void doMobGriefing(EntityMobGriefingEvent event) {
         if (event.getEntity() instanceof AbstractTCCreeper creeper) {
             event.setResult(creeper.getContext().doCreeperGriefing(creeper) ? Event.Result.DEFAULT : Event.Result.DENY);
+        }
+    }
+
+    @SubscribeEvent
+    public void onShield(ShieldBlockEvent event) {
+        if (event.getDamageSource().is(DamageTypes.EXPLOSION) || event.getDamageSource().is(DamageTypes.PLAYER_EXPLOSION)) {
+            ItemStack stack = event.getEntity().getUseItem();
+            if (event.getEntity().isBlocking() && !stack.isEmpty() && !stack.is(TCItemCore.EXPLOSIVE_SHIELD)) {
+                stack.hurt(10, event.getEntity().getRandom(), null);
+                event.getEntity().stopUsingItem();
+                event.setCanceled(true);
+            }
         }
     }
 

@@ -3,6 +3,7 @@ package com.tntmodders.takumicraft.core.client;
 import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.client.model.TCChildCreeperModel;
 import com.tntmodders.takumicraft.client.renderer.block.model.TCSaberModel;
+import com.tntmodders.takumicraft.client.renderer.block.model.TCShieldModel;
 import com.tntmodders.takumicraft.core.TCEntityCore;
 import com.tntmodders.takumicraft.utils.TCLoggingUtils;
 import net.minecraft.client.model.geom.ModelLayerLocation;
@@ -16,6 +17,7 @@ import net.minecraftforge.client.event.EntityRenderersEvent;
 public class TCRenderCore {
     public static final ModelLayerLocation CHILD = new ModelLayerLocation(new ResourceLocation(TakumiCraftCore.MODID, TCEntityCore.CHILD.getRegistryName()), TCEntityCore.CHILD.getRegistryName());
     public static final ModelLayerLocation SABER = new ModelLayerLocation(new ResourceLocation(TakumiCraftCore.MODID, "typesword_normal"), "typesword_normal");
+    public static final ModelLayerLocation SHIELD = new ModelLayerLocation(new ResourceLocation(TakumiCraftCore.MODID, "creepershield"), "creepershield");
 
     public static void registerEntityRender(EntityRenderersEvent.RegisterRenderers event) {
         TCLoggingUtils.startRegistry("EntityRenderer");
@@ -26,5 +28,6 @@ public class TCRenderCore {
     public static void registerLayerDefinition(EntityRenderersEvent.RegisterLayerDefinitions event) {
         event.registerLayerDefinition(CHILD, () -> TCChildCreeperModel.createBodyLayer(CubeDeformation.NONE));
         event.registerLayerDefinition(SABER, TCSaberModel::createLayer);
+        event.registerLayerDefinition(SHIELD, TCShieldModel::createLayer);
     }
 }
