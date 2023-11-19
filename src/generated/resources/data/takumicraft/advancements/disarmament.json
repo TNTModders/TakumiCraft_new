@@ -13,7 +13,8 @@
     "frame": "task",
     "hidden": false,
     "icon": {
-      "item": "takumicraft:creeperbomb"
+      "item": "takumicraft:creepersword",
+      "nbt": "{Damage:0}"
     },
     "show_toast": true,
     "title": {

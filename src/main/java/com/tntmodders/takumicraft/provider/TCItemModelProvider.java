@@ -25,6 +25,7 @@ public class TCItemModelProvider extends ItemModelProvider {
                         //shield
                     }
                     case SPAWN_EGG -> this.eggItem(item);
+                    case HANDHELD -> this.handheldItem(item);
                 }
                 TCLoggingUtils.entryRegistry("ItemModel_" + ((ITCItems) item).getItemModelType().name(), ((ITCItems) item).getRegistryName());
             }
@@ -35,6 +36,11 @@ public class TCItemModelProvider extends ItemModelProvider {
     private void simpleItem(Item item) {
         ResourceLocation name = new ResourceLocation(modid, ((ITCItems) item).getRegistryName());
         singleTexture(name.getPath(), mcLoc(folder + "/generated"), "layer0", new ResourceLocation(name.getNamespace(), folder + "/" + name.getPath()));
+    }
+
+    private void handheldItem(Item item) {
+        ResourceLocation name = new ResourceLocation(modid, ((ITCItems) item).getRegistryName());
+        singleTexture(name.getPath(), mcLoc(folder + "/handheld"), "layer0", new ResourceLocation(name.getNamespace(), folder + "/" + name.getPath()));
     }
 
     public void eggItem(Item item) {

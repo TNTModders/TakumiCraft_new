@@ -5,6 +5,7 @@ import com.tntmodders.takumicraft.client.renderer.entity.TCCreeperRenderer;
 import com.tntmodders.takumicraft.core.TCBlockCore;
 import com.tntmodders.takumicraft.core.TCConfigCore;
 import com.tntmodders.takumicraft.core.TCEntityCore;
+import com.tntmodders.takumicraft.item.TCElementCoreItem;
 import com.tntmodders.takumicraft.provider.ITCEntities;
 import com.tntmodders.takumicraft.provider.ITCTranslator;
 import com.tntmodders.takumicraft.utils.client.TCClientUtils;
@@ -28,6 +29,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.flag.FeatureFlags;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
@@ -43,6 +45,7 @@ import net.minecraft.world.level.storage.loot.entries.TagEntry;
 import net.minecraft.world.level.storage.loot.functions.LootingEnchantFunction;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.predicates.LootItemEntityPropertyCondition;
+import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceWithLootingCondition;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import net.minecraftforge.api.distmarker.Dist;
@@ -184,7 +187,7 @@ public abstract class AbstractTCCreeper extends Creeper implements ITCEntities, 
 
                 @Override
                 public void generate() {
-                    this.add(type,
+                    LootTable.Builder lootTable =
                             LootTable.lootTable()
                                     .withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
                                             .add(LootItem.lootTableItem(TCCreeperContext.this.getMainDropItem())
@@ -192,13 +195,27 @@ public abstract class AbstractTCCreeper extends Creeper implements ITCEntities, 
                                                     .apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(0.0F, 1.0F)))))
                                     .withPool(LootPool.lootPool().add(TagEntry.expandTag(ItemTags.CREEPER_DROP_MUSIC_DISCS))
                                             .when(LootItemEntityPropertyCondition.hasProperties(LootContext.EntityTarget.KILLER,
-                                                    EntityPredicate.Builder.entity().of(EntityTypeTags.SKELETONS))))
-                                    .withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1f))
-                                            .add(LootItem.lootTableItem(TCBlockCore.CREEPER_BOMB))
-                                            .apply(SetItemCountFunction.setCount(UniformGenerator.between(0f, TCCreeperContext.this.getRank().getLevel() > 1 ? 2f : 0f))))
-                    );
+                                                    EntityPredicate.Builder.entity().of(EntityTypeTags.SKELETONS))));
+                    this.add(type, TCCreeperContext.this.additionalBuilder(lootTable));
                 }
             };
+        }
+
+        default LootTable.Builder additionalBuilder(LootTable.Builder lootTable) {
+            lootTable = lootTable.withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1f))
+                    .add(LootItem.lootTableItem(TCBlockCore.CREEPER_BOMB))
+                    .apply(SetItemCountFunction.setCount(UniformGenerator.between(0f, TCCreeperContext.this.getRank().getLevel() > 1 ? 2f : 0f))));
+            EnumTakumiElement element = TCCreeperContext.this.getElement();
+            if (!element.isSPElement()) {
+                Item item = TCElementCoreItem.getElementCoreFormElement(element.getMainElement());
+                if (item != null) {
+                    lootTable = lootTable.withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1f))
+                            .add(LootItem.lootTableItem(item))
+                            .apply(SetItemCountFunction.setCount(UniformGenerator.between(0f, 1f)))
+                            .when(LootItemRandomChanceWithLootingCondition.randomChanceAndLootingBoost(0.025F, 0.01F)));
+                }
+            }
+            return lootTable;
         }
 
         @OnlyIn(Dist.CLIENT)
@@ -385,6 +402,21 @@ public abstract class AbstractTCCreeper extends Creeper implements ITCEntities, 
                     s = s.split("_")[0];
                 }
                 return s;
+            }
+
+            public boolean isSPElement() {
+                return this.id == 0 || this.id == 7 || this.id == 8;
+            }
+
+            public EnumTakumiElement getMainElement() {
+                return switch (this.id) {
+                    case 1 -> EnumTakumiElement.FIRE;
+                    case 2 -> EnumTakumiElement.GRASS;
+                    case 3 -> EnumTakumiElement.WATER;
+                    case 4 -> EnumTakumiElement.WIND;
+                    case 5 -> EnumTakumiElement.GROUND;
+                    default -> EnumTakumiElement.NORMAL;
+                };
             }
 
             public boolean getStrong(EnumTakumiElement enemyType) {

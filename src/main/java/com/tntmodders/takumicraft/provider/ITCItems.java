@@ -22,6 +22,6 @@ public interface ITCItems extends ITCTranslator {
         SIMPLE,
         SP,
         SPAWN_EGG,
-        NONE
+        HANDHELD, NONE
     }
 }

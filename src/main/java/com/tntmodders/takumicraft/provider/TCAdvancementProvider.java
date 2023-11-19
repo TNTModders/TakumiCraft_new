@@ -79,7 +79,7 @@ public class TCAdvancementProvider extends ForgeAdvancementProvider {
             AdvancementHolder slay_all = slay_all_builder.save(consumer, new ResourceLocation(TakumiCraftCore.MODID, "slay_all"));
 
             AdvancementHolder disarmament = Advancement.Builder.advancement()
-                    .display(new ItemStack(TCBlockCore.CREEPER_BOMB), Component.translatable("advancement.takumicraft.disarmament.title"),
+                    .display(new ItemStack(TCItemCore.CREEPER_SWORD), Component.translatable("advancement.takumicraft.disarmament.title"),
                             Component.translatable("advancement.takumicraft.disarmament.desc"), null,
                             FrameType.TASK, true, true, false)
                     .addCriterion("impossible", CriteriaTriggers.IMPOSSIBLE.createCriterion(new ImpossibleTrigger.TriggerInstance()))

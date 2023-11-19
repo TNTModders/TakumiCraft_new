@@ -29,6 +29,14 @@ public class TCItemCore {
     public static final Item TAKUMIBOOK = new TCTakumiBookItem();
     public static final Item BOLTSTONE = new TCBoltstoneItem();
     public static final Item LIGHTSABER = new TCSaberItem();
+    public static final Item CREEPER_SWORD = new TCCreeperSwordItem();
+    public static final Item ELEMENTCORE_NORMAL = new TCElementCoreItem(AbstractTCCreeper.TCCreeperContext.EnumTakumiElement.NORMAL);
+    public static final Item ELEMENTCORE_FIRE = new TCElementCoreItem(AbstractTCCreeper.TCCreeperContext.EnumTakumiElement.FIRE);
+    public static final Item ELEMENTCORE_WATER = new TCElementCoreItem(AbstractTCCreeper.TCCreeperContext.EnumTakumiElement.WATER);
+    public static final Item ELEMENTCORE_GRASS = new TCElementCoreItem(AbstractTCCreeper.TCCreeperContext.EnumTakumiElement.GRASS);
+    public static final Item ELEMENTCORE_GROUND = new TCElementCoreItem(AbstractTCCreeper.TCCreeperContext.EnumTakumiElement.GROUND);
+    public static final Item ELEMENTCORE_WIND = new TCElementCoreItem(AbstractTCCreeper.TCCreeperContext.EnumTakumiElement.WIND);
+
 
     public static final TagKey<Item> GUNORES = TagKey.create(Registries.ITEM, new ResourceLocation(TakumiCraftCore.MODID,
             "gunores"));
