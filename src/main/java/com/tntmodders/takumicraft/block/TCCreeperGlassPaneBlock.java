@@ -11,29 +11,37 @@ import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.ItemLike;
-import net.minecraft.world.level.block.AbstractGlassBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.IronBarsBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 
 import java.util.List;
 import java.util.function.Supplier;
 
-public class TCCreeperGlassBlock extends AbstractGlassBlock implements ITCBlocks, ITCRecipe {
-    public TCCreeperGlassBlock() {
+public class TCCreeperGlassPaneBlock extends IronBarsBlock implements ITCBlocks, ITCRecipe {
+    private final Block baseTakumiBlock;
+    private final Block baseVannilaBlock;
+
+    public TCCreeperGlassPaneBlock(Block takumiBlock, Block vanillaBlock) {
         super(BlockBehaviour.Properties.of()
-                .strength(6f)
                 .sound(SoundType.GLASS)
+                .instrument(NoteBlockInstrument.HAT)
+                .strength(6F).sound(SoundType.GLASS)
                 .noOcclusion()
                 .isValidSpawn((state, getter, pos, type) -> TCBlockCore.never(state, getter, pos))
-                .isRedstoneConductor(TCBlockCore::never).isSuffocating(TCBlockCore::never).isViewBlocking(TCBlockCore::never)
+                .isRedstoneConductor(TCBlockCore::never).isSuffocating(TCBlockCore::never)
+                .isViewBlocking(TCBlockCore::never)
                 .explosionResistance(1000000f));
+        this.baseTakumiBlock = takumiBlock;
+        this.baseVannilaBlock = vanillaBlock;
     }
 
     @Override
     public EnumTCBlockStateModelType getBlockStateModelType() {
-        return EnumTCBlockStateModelType.GLASS;
+        return EnumTCBlockStateModelType.PANE_GLASS;
     }
 
     @Override
@@ -46,12 +54,20 @@ public class TCCreeperGlassBlock extends AbstractGlassBlock implements ITCBlocks
         return List.of(TCBlockCore.ANTI_EXPLOSION);
     }
 
+    public Block getBaseTakumiBlock() {
+        return baseTakumiBlock;
+    }
+
+    public Block getBaseVannilaBlock() {
+        return baseVannilaBlock;
+    }
+
     @Override
     public void addRecipes(TCRecipeProvider provider, ItemLike itemLike, RecipeOutput consumer) {
         provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS,
-                        TCBlockCore.CREEPER_GLASS)
+                        TCBlockCore.CREEPER_GLASS_PANE)
                 .define('#', TCBlockCore.CREEPER_BOMB)
-                .define('B', Blocks.GLASS)
+                .define('B', Blocks.GLASS_PANE)
                 .pattern("BBB")
                 .pattern("B#B")
                 .pattern("BBB")
@@ -60,16 +76,16 @@ public class TCCreeperGlassBlock extends AbstractGlassBlock implements ITCBlocks
 
     @Override
     public String getRegistryName() {
-        return "creeperglass";
+        return "creeperglasspane";
     }
 
     @Override
     public String getEnUSName() {
-        return "Creeper Glass";
+        return "Creeper Glass Pane";
     }
 
     @Override
     public String getJaJPName() {
-        return "匠式硬質硝子";
+        return "匠式硬質板硝子";
     }
 }

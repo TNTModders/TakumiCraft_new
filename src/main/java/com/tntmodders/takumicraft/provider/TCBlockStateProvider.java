@@ -1,6 +1,7 @@
 package com.tntmodders.takumicraft.provider;
 
 import com.tntmodders.takumicraft.TakumiCraftCore;
+import com.tntmodders.takumicraft.block.TCCreeperGlassPaneBlock;
 import com.tntmodders.takumicraft.core.TCBlockCore;
 import com.tntmodders.takumicraft.utils.TCLoggingUtils;
 import net.minecraft.data.PackOutput;
@@ -9,6 +10,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.client.model.generators.ModelFile;
+import net.minecraftforge.client.model.generators.ModelProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -27,10 +29,13 @@ public class TCBlockStateProvider extends BlockStateProvider {
                     case HALF -> this.halfBlockWithItem(block);
                     case GLASS -> this.glassBlockWithItem(block);
                     case STAINED_GLASS -> this.stainedGlassBlockWithItem(block);
+                    case PANE_GLASS, PANE_STAINED_GLASS ->
+                            this.paneGlassBlockWithItem(block, ((ITCBlocks) block).getBlockStateModelType());
                 }
                 TCLoggingUtils.entryRegistry("BlockStateModel_" + ((ITCBlocks) block).getBlockStateModelType().name(), ((ITCBlocks) block).getRegistryName());
             }
         });
+
         TCLoggingUtils.completeRegistry("BlockStateModel");
     }
 
@@ -50,6 +55,17 @@ public class TCBlockStateProvider extends BlockStateProvider {
         return models().cubeAll(name(block), blockTexture(block)).renderType("cutout");
     }
 
+    private void paneGlassBlockWithItem(Block block, ITCBlocks.EnumTCBlockStateModelType type) {
+        if (block instanceof TCCreeperGlassPaneBlock pane) {
+            ResourceLocation sourceName = blockFolder(key(pane.getBaseTakumiBlock()));
+            this.paneBlockWithRenderType(pane, sourceName, sourceName, type.getType());
+            itemModels().getBuilder(key(block).getPath())
+                    .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                    .texture("layer0", sourceName);
+        }
+
+    }
+
     private void stainedGlassBlockWithItem(Block block) {
         ModelFile model = this.stainedGlassCubeAll(block);
         this.simpleBlock(block, model);
@@ -60,18 +76,24 @@ public class TCBlockStateProvider extends BlockStateProvider {
         return models().cubeAll(name(block), blockTexture(block)).renderType("translucent");
     }
 
-    private ResourceLocation key(Block block) {
-        return ForgeRegistries.BLOCKS.getKey(block);
-    }
-
-    private String name(Block block) {
-        return key(block).getPath();
-    }
-
     private void halfBlockWithItem(Block block) {
         if (block instanceof SlabBlock) {
             ModelFile model = this.cubeAll(block);
             this.slabBlock((SlabBlock) block, model, model, model);
         }
     }
+
+    private ResourceLocation key(Block block) {
+        return ForgeRegistries.BLOCKS.getKey(block);
+    }
+
+    private ResourceLocation blockFolder(ResourceLocation name) {
+        return new ResourceLocation(name.getNamespace(), ModelProvider.BLOCK_FOLDER + '/' + name.getPath());
+    }
+
+    private String name(Block block) {
+        return key(block).getPath();
+    }
+
+
 }

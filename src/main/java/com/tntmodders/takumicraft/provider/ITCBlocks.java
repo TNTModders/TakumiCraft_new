@@ -28,11 +28,23 @@ public interface ITCBlocks extends ITCTranslator {
     }
 
     enum EnumTCBlockStateModelType {
-        SIMPLE,
-        HALF,
-        STAIRS,
-        GLASS,
-        STAINED_GLASS,
-        NONE
+        SIMPLE("solid"),
+        HALF("solid"),
+        STAIRS("solid"),
+        GLASS("cutout"),
+        STAINED_GLASS("translucent"),
+        PANE_GLASS("cutout"),
+        PANE_STAINED_GLASS("translucent"),
+        NONE("solid");
+
+        private final String type;
+
+        EnumTCBlockStateModelType(String renderType) {
+            this.type = renderType;
+        }
+
+        public String getType() {
+            return type;
+        }
     }
 }

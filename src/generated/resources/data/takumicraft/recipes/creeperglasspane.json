@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "#": {
+      "item": "takumicraft:creeperbomb"
+    },
+    "B": {
+      "item": "minecraft:glass_pane"
+    }
+  },
+  "pattern": [
+    "BBB",
+    "B#B",
+    "BBB"
+  ],
+  "result": {
+    "item": "takumicraft:creeperglasspane"
+  },
+  "show_notification": true
+}
