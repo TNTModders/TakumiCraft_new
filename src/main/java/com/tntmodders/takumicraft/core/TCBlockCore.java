@@ -12,7 +12,6 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegisterEvent;
@@ -32,15 +31,15 @@ public class TCBlockCore {
     public static final Block CREEPER_BRICKS = new TCCreeperBricksBlock();
     public static final Block CREEPER_GLASS = new TCCreeperGlassBlock();
     public static final Map<DyeColor, TCColoredCreeperGlassBlock> CREEPER_COLORED_GLASS_MAP = new HashMap<>();
-    public static final Block CREEPER_GLASS_PANE = new TCCreeperGlassPaneBlock(CREEPER_GLASS, Blocks.GLASS_PANE);
+    public static final Block CREEPER_GLASS_PANE = new TCCreeperGlassPaneBlock(CREEPER_GLASS);
+    public static final Map<DyeColor, TCColoredCreeperGlassPaneBlock> CREEPER_COLORED_GLASS_PANE_MAP = new HashMap<>();
 
     public static final TagKey<Block> GUNORES = TagKey.create(Registries.BLOCK, new ResourceLocation("forge", "gunores"));
     public static final TagKey<Block> ANTI_EXPLOSION = TagKey.create(Registries.BLOCK, new ResourceLocation("forge", "anti_explosion"));
 
     static {
-        Arrays.stream(DyeColor.values()).forEach(dyeColor -> {
-            CREEPER_COLORED_GLASS_MAP.put(dyeColor, new TCColoredCreeperGlassBlock(dyeColor));
-        });
+        Arrays.stream(DyeColor.values()).forEach(dyeColor -> CREEPER_COLORED_GLASS_MAP.put(dyeColor, new TCColoredCreeperGlassBlock(dyeColor)));
+        Arrays.stream(DyeColor.values()).forEach(dyeColor -> CREEPER_COLORED_GLASS_PANE_MAP.put(dyeColor, new TCColoredCreeperGlassPaneBlock(dyeColor)));
     }
 
     public static void register(final RegisterEvent event) {

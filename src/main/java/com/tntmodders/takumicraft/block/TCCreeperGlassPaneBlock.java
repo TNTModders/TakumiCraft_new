@@ -23,9 +23,8 @@ import java.util.function.Supplier;
 
 public class TCCreeperGlassPaneBlock extends IronBarsBlock implements ITCBlocks, ITCRecipe {
     private final Block baseTakumiBlock;
-    private final Block baseVannilaBlock;
 
-    public TCCreeperGlassPaneBlock(Block takumiBlock, Block vanillaBlock) {
+    public TCCreeperGlassPaneBlock(Block takumiBlock) {
         super(BlockBehaviour.Properties.of()
                 .sound(SoundType.GLASS)
                 .instrument(NoteBlockInstrument.HAT)
@@ -36,7 +35,6 @@ public class TCCreeperGlassPaneBlock extends IronBarsBlock implements ITCBlocks,
                 .isViewBlocking(TCBlockCore::never)
                 .explosionResistance(1000000f));
         this.baseTakumiBlock = takumiBlock;
-        this.baseVannilaBlock = vanillaBlock;
     }
 
     @Override
@@ -56,10 +54,6 @@ public class TCCreeperGlassPaneBlock extends IronBarsBlock implements ITCBlocks,
 
     public Block getBaseTakumiBlock() {
         return baseTakumiBlock;
-    }
-
-    public Block getBaseVannilaBlock() {
-        return baseVannilaBlock;
     }
 
     @Override

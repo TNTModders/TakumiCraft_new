@@ -1,0 +1,77 @@
+{
+  "multipart": [
+    {
+      "apply": {
+        "model": "takumicraft:block/creeperglasspane_light_gray_post"
+      }
+    },
+    {
+      "apply": {
+        "model": "takumicraft:block/creeperglasspane_light_gray_side"
+      },
+      "when": {
+        "north": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "takumicraft:block/creeperglasspane_light_gray_noside"
+      },
+      "when": {
+        "north": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "takumicraft:block/creeperglasspane_light_gray_side_alt"
+      },
+      "when": {
+        "south": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "takumicraft:block/creeperglasspane_light_gray_noside_alt",
+        "y": 90
+      },
+      "when": {
+        "south": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "takumicraft:block/creeperglasspane_light_gray_side_alt",
+        "y": 90
+      },
+      "when": {
+        "west": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "takumicraft:block/creeperglasspane_light_gray_noside",
+        "y": 270
+      },
+      "when": {
+        "west": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "takumicraft:block/creeperglasspane_light_gray_side",
+        "y": 90
+      },
+      "when": {
+        "east": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "takumicraft:block/creeperglasspane_light_gray_noside_alt"
+      },
+      "when": {
+        "east": "false"
+      }
+    }
+  ]
+}
