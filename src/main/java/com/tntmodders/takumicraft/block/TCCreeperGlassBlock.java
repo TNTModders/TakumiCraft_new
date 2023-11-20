@@ -72,4 +72,9 @@ public class TCCreeperGlassBlock extends AbstractGlassBlock implements ITCBlocks
     public String getJaJPName() {
         return "匠式硬質硝子";
     }
+
+    @Override
+    public void drop(Block block, TCBlockLoot loot) {
+        loot.dropWhenSilkTouch(block);
+    }
 }

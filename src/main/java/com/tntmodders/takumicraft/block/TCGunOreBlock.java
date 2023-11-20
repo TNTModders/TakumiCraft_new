@@ -100,4 +100,9 @@ public class TCGunOreBlock extends AbstractTCBombBlock implements ITCRecipe {
     public List<Pair<TagKey<Block>, TagKey<Item>>> getItemTags() {
         return List.of(Pair.of(TCBlockCore.GUNORES, TCItemCore.GUNORES));
     }
+
+    @Override
+    public void drop(Block block, TCBlockLoot loot) {
+        loot.add(block, p_250359_ -> loot.createOreDrop(p_250359_, Items.GUNPOWDER));
+    }
 }

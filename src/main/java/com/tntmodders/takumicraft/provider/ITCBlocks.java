@@ -1,6 +1,7 @@
 package com.tntmodders.takumicraft.provider;
 
 import com.ibm.icu.impl.Pair;
+import com.tntmodders.takumicraft.data.loot.TCBlockLoot;
 import net.minecraft.data.loot.LootTableSubProvider;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
@@ -15,6 +16,10 @@ public interface ITCBlocks extends ITCTranslator {
 
     default EnumTCBlockStateModelType getBlockStateModelType() {
         return EnumTCBlockStateModelType.SIMPLE;
+    }
+
+    default void drop(Block block, TCBlockLoot loot) {
+        loot.dropSelf(block);
     }
 
     Supplier<LootTableSubProvider> getBlockLootSubProvider(Block block);

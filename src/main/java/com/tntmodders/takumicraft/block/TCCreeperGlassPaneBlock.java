@@ -82,4 +82,9 @@ public class TCCreeperGlassPaneBlock extends IronBarsBlock implements ITCBlocks,
     public String getJaJPName() {
         return "匠式硬質板硝子";
     }
+
+    @Override
+    public void drop(Block block, TCBlockLoot loot) {
+        loot.dropWhenSilkTouch(block);
+    }
 }
