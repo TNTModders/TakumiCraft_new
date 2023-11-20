@@ -10,5 +10,20 @@ public abstract class AbstractTCEnchantment extends Enchantment implements ITCTr
         super(p_44676_, p_44677_, p_44678_);
     }
 
+    @Override
+    public boolean isTreasureOnly() {
+        return true;
+    }
+
+    @Override
+    public boolean isTradeable() {
+        return false;
+    }
+
+    @Override
+    public boolean isDiscoverable() {
+        return false;
+    }
+
     public abstract String getRegistryName();
 }

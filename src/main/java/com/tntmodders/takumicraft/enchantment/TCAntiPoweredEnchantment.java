@@ -36,16 +36,6 @@ public class TCAntiPoweredEnchantment extends AbstractTCEnchantment {
     }
 
     @Override
-    public boolean isAllowedOnBooks() {
-        return false;
-    }
-
-    @Override
-    public boolean isTreasureOnly() {
-        return true;
-    }
-
-    @Override
     public String getEnUSName() {
         return "Anti Powered";
     }

@@ -31,6 +31,7 @@ public class TCConfigCore {
         }
 
         public final ForgeConfigSpec.BooleanValue isDebugMode;
+        public final ForgeConfigSpec.DoubleValue spawnProtectionRadius;
 
         public TCCommonConfig(ForgeConfigSpec.Builder builder) {
             builder.comment("TakumiCraft common configuration settings").push("common");
@@ -40,6 +41,12 @@ public class TCConfigCore {
                     .translation("takumicraft.config.isdebugmode")
                     .worldRestart()
                     .define("debugmode", false);
+
+            this.spawnProtectionRadius = builder
+                    .comment("Config for protect around spawn area. Factor defined to be double, 0 without protection, 1 with full protection on spawn protection set by server.")
+                    .translation("takumicraft.config.spawnprotection")
+                    .worldRestart()
+                    .defineInRange("spawnprotection", 0d, 0d, 1d);
 
             builder.pop();
         }
@@ -107,7 +114,7 @@ public class TCConfigCore {
                         .comment("spawn factor for " + name + ".")
                         .translation("takumicraft.config.server.spawnfactor_" + name)
                         .worldRestart()
-                        .defineInRange(name+"SpawnFactor", 1.0, 0, 10));
+                        .defineInRange(name + "SpawnFactor", 1.0, 0, 10));
 
             });
             builder.pop();

@@ -2,10 +2,12 @@ package com.tntmodders.takumicraft.event;
 
 import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.core.TCBlockCore;
+import com.tntmodders.takumicraft.core.TCConfigCore;
 import com.tntmodders.takumicraft.core.TCEntityCore;
 import com.tntmodders.takumicraft.core.TCItemCore;
 import com.tntmodders.takumicraft.entity.mobs.AbstractTCCreeper;
 import com.tntmodders.takumicraft.entity.mobs.TCPhantomCreeper;
+import com.tntmodders.takumicraft.utils.TCExplosionUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -21,6 +23,7 @@ import net.minecraftforge.event.entity.EntityMobGriefingEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.MobSpawnEvent;
 import net.minecraftforge.event.entity.living.ShieldBlockEvent;
+import net.minecraftforge.event.entity.player.PlayerDestroyItemEvent;
 import net.minecraftforge.event.level.ExplosionEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -105,11 +108,18 @@ public class TCEvents {
         }
     }
 
+    @SubscribeEvent
+    public void onDestroyItem(PlayerDestroyItemEvent event) {
+        if (!event.getEntity().level().isClientSide && event.getOriginal().is(TCItemCore.MINESWEEPER_TOOLS)) {
+            TCExplosionUtils.createExplosion(event.getEntity().level(), null, event.getEntity().getOnPos().above(1), 3f);
+        }
+    }
+
     private boolean isUnderProtection(ServerLevel level, BlockPos pos) {
         BlockPos blockpos = level.getSharedSpawnPos();
         int i = Mth.abs(pos.getX() - blockpos.getX());
         int j = Mth.abs(pos.getZ() - blockpos.getZ());
         int k = Math.max(i, j);
-        return k <= level.getServer().getSpawnProtectionRadius();
+        return k <= level.getServer().getSpawnProtectionRadius() * TCConfigCore.TCCommonConfig.COMMON.spawnProtectionRadius.get();
     }
 }

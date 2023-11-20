@@ -25,7 +25,7 @@ public class TCItemCore {
     public static final NonNullList<Item> ITEMS = NonNullList.create();
     public static final HashMap<Block, Item> BLOCKITEMS = new HashMap<>();
 
-    public static final Item CREEPER_ROD = new TCCreeperRodItem();
+    public static final Item CREEPER_ROD = new TCTesterItem();
     public static final Item TAKUMIBOOK = new TCTakumiBookItem();
     public static final Item BOLTSTONE = new TCBoltstoneItem();
     public static final Item LIGHTSABER = new TCSaberItem();
@@ -39,12 +39,16 @@ public class TCItemCore {
     public static final Item CREEPER_SHIELD = new TCCreeperShieldItem();
     public static final Item CREEPER_BOW = new TCCreeperBowItem();
     public static final Item CREEPER_ARROW = new TCCreeperArrowItem();
+    public static final Item MINESWEEPER_PICKAXE = new TCMinesweeperPickaxeItem();
+    public static final Item MINESWEEPER_AXE = new TCMinesweeperAxeItem();
+    public static final Item MINESWEEPER_SHOVEL = new TCMinesweeperShovelItem();
 
     public static final TagKey<Item> GUNORES = TagKey.create(Registries.ITEM, new ResourceLocation(TakumiCraftCore.MODID,
             "gunores"));
     public static final TagKey<Item> EXPLOSIVE_SHIELDS = TagKey.create(Registries.ITEM, new ResourceLocation(TakumiCraftCore.MODID,
             "can_shield_explosion"));
     public static final TagKey<Item> CREEPER_ARROWS = TagKey.create(Registries.ITEM, new ResourceLocation(TakumiCraftCore.MODID, "creeper_arrow"));
+    public static final TagKey<Item> MINESWEEPER_TOOLS = TagKey.create(Registries.ITEM, new ResourceLocation(TakumiCraftCore.MODID, "minesweeper_tool"));
 
     public static void register(final RegisterEvent event) {
         TCLoggingUtils.startRegistry("Item");

@@ -1,12 +1,22 @@
 package com.tntmodders.takumicraft.data.loot;
 
+import com.tntmodders.takumicraft.core.TCEnchantmentCore;
 import com.tntmodders.takumicraft.provider.ITCBlocks;
+import net.minecraft.advancements.critereon.EnchantmentPredicate;
+import net.minecraft.advancements.critereon.ItemPredicate;
+import net.minecraft.advancements.critereon.MinMaxBounds;
 import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.world.level.storage.loot.entries.LootItem;
+import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
+import net.minecraft.world.level.storage.loot.predicates.MatchTool;
+import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 
 import java.util.List;
 import java.util.Set;
@@ -15,6 +25,10 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class TCBlockLoot extends BlockLootSubProvider {
+
+    public static final LootItemCondition.Builder HAS_MINESWEEPER = MatchTool.toolMatches(ItemPredicate.Builder.item().hasEnchantment(new EnchantmentPredicate(TCEnchantmentCore.MINESWEEPER, MinMaxBounds.Ints.atLeast(1))));
+    public static final LootItemCondition.Builder HAS_SILK_TOUCH = MatchTool.toolMatches(ItemPredicate.Builder.item().hasEnchantment(new EnchantmentPredicate(Enchantments.SILK_TOUCH, MinMaxBounds.Ints.atLeast(1))));
+
     private final Block block;
 
     public TCBlockLoot(Block blockIn, boolean isExplosionResistance) {
@@ -50,6 +64,15 @@ public class TCBlockLoot extends BlockLootSubProvider {
     @Override
     public void dropSelf(Block p_249181_) {
         super.dropSelf(p_249181_);
+    }
+
+    @Override
+    public LootTable.Builder createSingleItemTable(ItemLike p_251912_) {
+        return super.createSingleItemTable(p_251912_);
+    }
+
+    public LootTable.Builder createSingleItemTableWithMinesweeper(ItemLike p_251912_) {
+        return LootTable.lootTable().withPool(LootPool.lootPool().when(TCBlockLoot.HAS_MINESWEEPER).setRolls(ConstantValue.exactly(1.0F)).add(LootItem.lootTableItem(p_251912_)));
     }
 
     @Override

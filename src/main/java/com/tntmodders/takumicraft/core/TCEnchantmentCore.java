@@ -3,6 +3,7 @@ package com.tntmodders.takumicraft.core;
 import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.enchantment.AbstractTCEnchantment;
 import com.tntmodders.takumicraft.enchantment.TCAntiPoweredEnchantment;
+import com.tntmodders.takumicraft.enchantment.TCMinesweeperEnchantment;
 import com.tntmodders.takumicraft.utils.TCLoggingUtils;
 import net.minecraft.core.NonNullList;
 import net.minecraft.resources.ResourceLocation;
@@ -15,6 +16,7 @@ import java.util.List;
 
 public class TCEnchantmentCore {
     public static final AbstractTCEnchantment ANTI_POWERED = new TCAntiPoweredEnchantment();
+    public static final AbstractTCEnchantment MINESWEEPER = new TCMinesweeperEnchantment();
 
     public static final NonNullList<AbstractTCEnchantment> ENCHANTMENTS = NonNullList.create();
 

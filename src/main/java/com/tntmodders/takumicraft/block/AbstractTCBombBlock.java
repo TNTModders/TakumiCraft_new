@@ -1,21 +1,18 @@
 package com.tntmodders.takumicraft.block;
 
-import com.tntmodders.takumicraft.core.TCItemCore;
+import com.tntmodders.takumicraft.core.TCEnchantmentCore;
+import com.tntmodders.takumicraft.data.loot.TCBlockLoot;
 import com.tntmodders.takumicraft.provider.ITCBlocks;
 import com.tntmodders.takumicraft.utils.TCExplosionUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
-import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FluidState;
-import org.jetbrains.annotations.Nullable;
 
 public abstract class AbstractTCBombBlock extends Block implements ITCBlocks {
     private final String registryName;
@@ -37,17 +34,11 @@ public abstract class AbstractTCBombBlock extends Block implements ITCBlocks {
     public boolean onDestroyedByPlayer(BlockState state, Level world, BlockPos pos, Player player, boolean willHarvest, FluidState fluid) {
         boolean flg = super.onDestroyedByPlayer(state, world, pos, player, willHarvest, fluid);
         if (flg) {
-            if (EnchantmentHelper.getItemEnchantmentLevel(Enchantments.BLAST_PROTECTION, player.getMainHandItem()) == 0 && player.getMainHandItem().getItem() != TCItemCore.CREEPER_ROD) {
+            if (EnchantmentHelper.getItemEnchantmentLevel(TCEnchantmentCore.MINESWEEPER, player.getMainHandItem()) == 0) {
                 this.explode(world, pos);
             }
         }
         return flg;
-    }
-
-
-    @Override
-    public void playerDestroy(Level level, Player player, BlockPos pos, BlockState blockState, @Nullable BlockEntity blockEntity, ItemStack itemStack) {
-        super.playerDestroy(level, player, pos, blockState, blockEntity, itemStack);
     }
 
     @Override
@@ -66,5 +57,10 @@ public abstract class AbstractTCBombBlock extends Block implements ITCBlocks {
     @Override
     public String getRegistryName() {
         return this.registryName;
+    }
+
+    @Override
+    public void drop(Block block, TCBlockLoot loot) {
+        loot.add(block, loot.createSingleItemTableWithMinesweeper(block));
     }
 }

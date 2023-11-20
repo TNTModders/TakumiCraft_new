@@ -1,0 +1,32 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": {
+    "item": "takumicraft:creeperbomb"
+  },
+  "base": {
+    "item": "minecraft:iron_shovel"
+  },
+  "result": {
+    "item": "takumicraft:minesweeper_shovel"
+  },
+  "template": [
+    {
+      "item": "takumicraft:elementcore_fire"
+    },
+    {
+      "item": "takumicraft:elementcore_normal"
+    },
+    {
+      "item": "takumicraft:elementcore_water"
+    },
+    {
+      "item": "takumicraft:elementcore_grass"
+    },
+    {
+      "item": "takumicraft:elementcore_wind"
+    },
+    {
+      "item": "takumicraft:elementcore_ground"
+    }
+  ]
+}

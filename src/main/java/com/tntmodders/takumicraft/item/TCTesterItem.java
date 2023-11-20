@@ -19,11 +19,11 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.Level;
 
-public class TCCreeperRodItem extends Item implements ITCItems, ITCTranslator {
+public class TCTesterItem extends Item implements ITCItems, ITCTranslator {
 
     private final Multimap<Attribute, AttributeModifier> defaultModifiers;
 
-    public TCCreeperRodItem() {
+    public TCTesterItem() {
         super(new Properties().rarity(Rarity.EPIC).stacksTo(1));
         ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
         builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Weapon modifier", 99, AttributeModifier.Operation.ADDITION));
@@ -46,6 +46,7 @@ public class TCCreeperRodItem extends Item implements ITCItems, ITCTranslator {
         super.inventoryTick(p_41404_, p_41405_, p_41406_, p_41407_, p_41408_);
         if (!p_41404_.isEnchanted()) {
             p_41404_.enchant(TCEnchantmentCore.ANTI_POWERED, 1);
+            p_41404_.enchant(TCEnchantmentCore.MINESWEEPER, 1);
         }
     }
 
