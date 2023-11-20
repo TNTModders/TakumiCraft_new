@@ -169,6 +169,20 @@
       },
       "trigger": "minecraft:player_killed_entity"
     },
+    "slay_glasscreeper": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "takumicraft:glasscreeper"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
     "slay_happinesscreeper": {
       "conditions": {
         "entity": [
@@ -261,6 +275,20 @@
             "entity": "this",
             "predicate": {
               "type": "takumicraft:naturalcreeper"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
+    "slay_objetcreeper": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "takumicraft:objetcreeper"
             }
           }
         ]
@@ -500,6 +528,12 @@
     ],
     [
       "slay_dirtcreeper"
+    ],
+    [
+      "slay_objetcreeper"
+    ],
+    [
+      "slay_glasscreeper"
     ],
     [
       "slay_phantomcreeper"
