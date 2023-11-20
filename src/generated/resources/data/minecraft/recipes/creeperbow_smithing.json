@@ -4,10 +4,10 @@
     "item": "takumicraft:creeperbomb"
   },
   "base": {
-    "item": "minecraft:shield"
+    "item": "minecraft:bow"
   },
   "result": {
-    "item": "takumicraft:creepershield"
+    "item": "takumicraft:creeperbow"
   },
   "template": [
     {

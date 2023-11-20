@@ -37,11 +37,14 @@ public class TCItemCore {
     public static final Item ELEMENTCORE_GROUND = new TCElementCoreItem(AbstractTCCreeper.TCCreeperContext.EnumTakumiElement.GROUND);
     public static final Item ELEMENTCORE_WIND = new TCElementCoreItem(AbstractTCCreeper.TCCreeperContext.EnumTakumiElement.WIND);
     public static final Item CREEPER_SHIELD = new TCCreeperShieldItem();
+    public static final Item CREEPER_BOW = new TCCreeperBowItem();
+    public static final Item CREEPER_ARROW = new TCCreeperArrowItem();
 
     public static final TagKey<Item> GUNORES = TagKey.create(Registries.ITEM, new ResourceLocation(TakumiCraftCore.MODID,
             "gunores"));
-    public static final TagKey<Item> EXPLOSIVE_SHIELD = TagKey.create(Registries.ITEM, new ResourceLocation(TakumiCraftCore.MODID,
+    public static final TagKey<Item> EXPLOSIVE_SHIELDS = TagKey.create(Registries.ITEM, new ResourceLocation(TakumiCraftCore.MODID,
             "can_shield_explosion"));
+    public static final TagKey<Item> CREEPER_ARROWS = TagKey.create(Registries.ITEM, new ResourceLocation(TakumiCraftCore.MODID, "creeper_arrow"));
 
     public static void register(final RegisterEvent event) {
         TCLoggingUtils.startRegistry("Item");

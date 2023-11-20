@@ -31,7 +31,7 @@ public class TCCreeperShieldItem extends ShieldItem implements ITCItems, ITCTran
 
     @Override
     public List<TagKey<Item>> getItemTags() {
-        return List.of(TCItemCore.EXPLOSIVE_SHIELD, Tags.Items.TOOLS_SHIELDS);
+        return List.of(TCItemCore.EXPLOSIVE_SHIELDS, Tags.Items.TOOLS_SHIELDS);
     }
 
     @Override
@@ -70,7 +70,7 @@ public class TCCreeperShieldItem extends ShieldItem implements ITCItems, ITCTran
     public void addRecipes(TCRecipeProvider provider, ItemLike itemLike, RecipeOutput consumer) {
         SmithingTransformRecipeBuilder.smithing(Ingredient.of(TCItemCore.ELEMENTCORE_FIRE, TCItemCore.ELEMENTCORE_NORMAL, TCItemCore.ELEMENTCORE_WATER, TCItemCore.ELEMENTCORE_GRASS, TCItemCore.ELEMENTCORE_WIND, TCItemCore.ELEMENTCORE_GROUND),
                         Ingredient.of(Items.SHIELD), Ingredient.of(TCBlockCore.CREEPER_BOMB)
-                        , RecipeCategory.COMBAT, TCItemCore.CREEPER_SWORD).unlocks("has_creeperbomb", TCRecipeProvider.hasItem(TCBlockCore.CREEPER_BOMB))
+                        , RecipeCategory.COMBAT, TCItemCore.CREEPER_SHIELD).unlocks("has_creeperbomb", TCRecipeProvider.hasItem(TCBlockCore.CREEPER_BOMB))
                 .save(consumer, "creepershield_smithing");
     }
 }

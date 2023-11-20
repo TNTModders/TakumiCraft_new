@@ -97,7 +97,7 @@ public class TCEvents {
     public void onShield(ShieldBlockEvent event) {
         if (event.getDamageSource().is(DamageTypes.EXPLOSION) || event.getDamageSource().is(DamageTypes.PLAYER_EXPLOSION)) {
             ItemStack stack = event.getEntity().getUseItem();
-            if (event.getEntity().isBlocking() && !stack.isEmpty() && !stack.is(TCItemCore.EXPLOSIVE_SHIELD)) {
+            if (event.getEntity().isBlocking() && !stack.isEmpty() && !stack.is(TCItemCore.EXPLOSIVE_SHIELDS)) {
                 stack.hurt(10, event.getEntity().getRandom(), null);
                 event.getEntity().stopUsingItem();
                 event.setCanceled(true);

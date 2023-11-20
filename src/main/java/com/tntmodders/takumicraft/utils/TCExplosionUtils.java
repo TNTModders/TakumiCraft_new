@@ -10,7 +10,7 @@ public class TCExplosionUtils {
     }
 
     public static void createExplosion(Level level, Entity source, double x, double y, double z, float power, boolean fire) {
-        if (level.isClientSide) {
+        if (!level.isClientSide) {
             level.explode(source, x, y, z, power, fire, Level.ExplosionInteraction.MOB);
         }
     }
