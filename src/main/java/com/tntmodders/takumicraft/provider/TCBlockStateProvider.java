@@ -58,10 +58,16 @@ public class TCBlockStateProvider extends BlockStateProvider {
     private void paneGlassBlockWithItem(Block block, ITCBlocks.EnumTCBlockStateModelType type) {
         if (block instanceof TCCreeperGlassPaneBlock pane) {
             ResourceLocation sourceName = blockFolder(key(pane.getBaseTakumiBlock()));
-            this.paneBlockWithRenderType(pane, sourceName, sourceName, type.getType());
+            if (type == ITCBlocks.EnumTCBlockStateModelType.PANE_GLASS) {
+                ResourceLocation topName = blockFolder(new ResourceLocation(TakumiCraftCore.MODID, "creeperglasspane_top"));
+                this.paneBlockWithRenderType(pane, sourceName, topName, type.getType());
+            } else {
+                this.paneBlockWithRenderType(pane, sourceName, sourceName, type.getType());
+            }
             itemModels().getBuilder(key(block).getPath())
                     .parent(new ModelFile.UncheckedModelFile("item/generated"))
-                    .texture("layer0", sourceName);
+                    .texture("layer0", sourceName)
+                    .renderType(type.getType());
         }
 
     }
