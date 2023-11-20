@@ -108,6 +108,23 @@ public abstract class TCLanguageProvider extends LanguageProvider {
             this.add("takumicraft.color.red", "Red");
             this.add("takumicraft.color.black", "Black");
 
+            this.add("item.takumicraft.creepershield.white", "White Creeper Shield");
+            this.add("item.takumicraft.creepershield.orange", "Orange Creeper Shield");
+            this.add("item.takumicraft.creepershield.magenta", "Magenta Creeper Shield");
+            this.add("item.takumicraft.creepershield.light_blue", "Light Blue Creeper Shield");
+            this.add("item.takumicraft.creepershield.yellow", "Yellow Creeper Shield");
+            this.add("item.takumicraft.creepershield.lime", "Lime Creeper Shield");
+            this.add("item.takumicraft.creepershield.pink", "Pink Creeper Shield");
+            this.add("item.takumicraft.creepershield.gray", "Gray Creeper Shield");
+            this.add("item.takumicraft.creepershield.light_gray", "Light Gray Creeper Shield");
+            this.add("item.takumicraft.creepershield.cyan", "Cyan Creeper Shield");
+            this.add("item.takumicraft.creepershield.purple", "Purple Creeper Shield");
+            this.add("item.takumicraft.creepershield.blue", "Blue Creeper Shield");
+            this.add("item.takumicraft.creepershield.brown", "Brown Creeper Shield");
+            this.add("item.takumicraft.creepershield.green", "Green Creeper Shield");
+            this.add("item.takumicraft.creepershield.red", "Red Creeper Shield");
+            this.add("item.takumicraft.creepershield.black", "Black Creeper Shield");
+
             this.add("advancement.takumicraft.root.title", "Takumi Craft");
             this.add("advancement.takumicraft.root.desc", "Going into Chaotic Creeper World! \n Get damaged from explosion.");
             this.add("advancement.takumicraft.creeperbomb.title", "All You Need Is Bomb");
@@ -194,6 +211,23 @@ public abstract class TCLanguageProvider extends LanguageProvider {
             this.add("takumicraft.color.green", "緑色");
             this.add("takumicraft.color.red", "赤色");
             this.add("takumicraft.color.black", "黒色");
+
+            this.add("item.takumicraft.creepershield.white", "匠式防盾[白]");
+            this.add("item.takumicraft.creepershield.orange", "匠式防盾[橙]");
+            this.add("item.takumicraft.creepershield.magenta", "匠式防盾[赤紫]");
+            this.add("item.takumicraft.creepershield.light_blue", "匠式防盾[空]");
+            this.add("item.takumicraft.creepershield.yellow", "匠式防盾[黄]");
+            this.add("item.takumicraft.creepershield.lime", "匠式防盾[黄緑]");
+            this.add("item.takumicraft.creepershield.pink", "匠式防盾[桃]");
+            this.add("item.takumicraft.creepershield.gray", "匠式防盾[灰]");
+            this.add("item.takumicraft.creepershield.light_gray", "匠式防盾[灰白]");
+            this.add("item.takumicraft.creepershield.cyan", "匠式防盾[青緑]");
+            this.add("item.takumicraft.creepershield.purple", "匠式防盾[紫]");
+            this.add("item.takumicraft.creepershield.blue", "匠式防盾[青]");
+            this.add("item.takumicraft.creepershield.brown", "匠式防盾[茶]");
+            this.add("item.takumicraft.creepershield.green", "匠式防盾[緑]");
+            this.add("item.takumicraft.creepershield.red", "匠式防盾[赤]");
+            this.add("item.takumicraft.creepershield.black", "匠式防盾[黒]");
 
             this.add("advancement.takumicraft.root.title", "匠Craft");
             this.add("advancement.takumicraft.root.desc", "この匠だらけの世界へ! \n 爆発の洗礼を受ける。");

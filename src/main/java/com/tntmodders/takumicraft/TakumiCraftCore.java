@@ -107,6 +107,9 @@ public class TakumiCraftCore {
             if (BuiltInRegistries.CREATIVE_MODE_TAB.equals(event.getVanillaRegistry())) {
                 TCCreativeModeTabCore.register(event);
             }
+            if (ForgeRegistries.RECIPE_SERIALIZERS.equals(event.getForgeRegistry())) {
+                TCRecipeSerializerCore.register(event);
+            }
         }
 
         @SubscribeEvent

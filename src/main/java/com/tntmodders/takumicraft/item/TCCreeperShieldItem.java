@@ -37,7 +37,6 @@ public class TCCreeperShieldItem extends ShieldItem implements ITCItems, ITCTran
     @Override
     public void initializeClient(Consumer<IClientItemExtensions> consumer) {
         consumer.accept(new IClientItemExtensions() {
-
             @Override
             public BlockEntityWithoutLevelRenderer getCustomRenderer() {
                 return new TCBEWLRenderer();
@@ -64,7 +63,6 @@ public class TCCreeperShieldItem extends ShieldItem implements ITCItems, ITCTran
     public String getRegistryName() {
         return "creepershield";
     }
-
 
     @Override
     public void addRecipes(TCRecipeProvider provider, ItemLike itemLike, RecipeOutput consumer) {
