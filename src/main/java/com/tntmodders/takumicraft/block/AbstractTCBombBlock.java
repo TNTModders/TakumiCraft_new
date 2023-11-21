@@ -7,6 +7,7 @@ import com.tntmodders.takumicraft.utils.TCExplosionUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
@@ -34,7 +35,7 @@ public abstract class AbstractTCBombBlock extends Block implements ITCBlocks {
     public boolean onDestroyedByPlayer(BlockState state, Level world, BlockPos pos, Player player, boolean willHarvest, FluidState fluid) {
         boolean flg = super.onDestroyedByPlayer(state, world, pos, player, willHarvest, fluid);
         if (flg) {
-            if (EnchantmentHelper.getItemEnchantmentLevel(TCEnchantmentCore.MINESWEEPER, player.getMainHandItem()) == 0) {
+            if (EnchantmentHelper.getItemEnchantmentLevel(TCEnchantmentCore.MINESWEEPER, player.getMainHandItem()) == 0 && EnchantmentHelper.getItemEnchantmentLevel(Enchantments.SILK_TOUCH, player.getMainHandItem()) == 0) {
                 this.explode(world, pos);
             }
         }

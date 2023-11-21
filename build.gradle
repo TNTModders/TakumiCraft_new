@@ -6,7 +6,7 @@ plugins {
 }
 
 
-version = '1.20.2-3.0.0.0-beta.1.0'
+version = '1.20.2-3.0.0.0-beta.1.1'
 group = 'com.tntmodders.takumicraft'
 archivesBaseName = 'takumicraft'
 
@@ -35,7 +35,7 @@ minecraft {
                     source sourceSets.main
                 }
             }
-            args '--username', 'tomkate','--uuid', '00000000-0000-0000-0000-00000000000c', '--width', '1920', '--height', '1000'
+            args '--username', 'tomkate', '--uuid', '00000000-0000-0000-0000-00000000000c', '--width', '1920', '--height', '1000'
         }
 
         server {
@@ -105,5 +105,5 @@ publishing {
 
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
-    options.compilerArgs << '-Xlint:-deprecation'
+    options.deprecation = false
 }

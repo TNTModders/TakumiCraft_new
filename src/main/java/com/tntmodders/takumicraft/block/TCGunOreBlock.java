@@ -27,9 +27,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.MapColor;
-import net.minecraft.world.level.storage.loot.LootPool;
-import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
-import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import net.minecraftforge.common.Tags;
 
@@ -107,6 +104,6 @@ public class TCGunOreBlock extends AbstractTCBombBlock implements ITCRecipe {
 
     @Override
     public void drop(Block block, TCBlockLoot loot) {
-        loot.add(block, p_250359_ -> loot.createOreDrop(p_250359_, Items.GUNPOWDER).withPool(LootPool.lootPool().when(TCBlockLoot.HAS_MINESWEEPER).setRolls(ConstantValue.exactly(1.0F)).apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 4.0F)))));
+        loot.add(block, p_250359_ -> loot.createOreDropWithMinesweeper(p_250359_, Items.GUNPOWDER, UniformGenerator.between(1f, 4f)));
     }
 }

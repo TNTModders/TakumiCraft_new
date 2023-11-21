@@ -14,9 +14,12 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
+import net.minecraft.world.level.storage.loot.functions.ApplyBonusCount;
+import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraft.world.level.storage.loot.predicates.MatchTool;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
+import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 
 import java.util.List;
 import java.util.Set;
@@ -72,7 +75,7 @@ public class TCBlockLoot extends BlockLootSubProvider {
     }
 
     public LootTable.Builder createSingleItemTableWithMinesweeper(ItemLike p_251912_) {
-        return LootTable.lootTable().withPool(LootPool.lootPool().when(TCBlockLoot.HAS_MINESWEEPER).setRolls(ConstantValue.exactly(1.0F)).add(LootItem.lootTableItem(p_251912_)));
+        return LootTable.lootTable().withPool(LootPool.lootPool().when(TCBlockLoot.HAS_MINESWEEPER.or(HAS_SILK_TOUCH)).setRolls(ConstantValue.exactly(1.0F)).add(LootItem.lootTableItem(p_251912_)));
     }
 
     @Override
@@ -83,5 +86,9 @@ public class TCBlockLoot extends BlockLootSubProvider {
     @Override
     public LootTable.Builder createOreDrop(Block p_250450_, Item p_249745_) {
         return super.createOreDrop(p_250450_, p_249745_);
+    }
+
+    public LootTable.Builder createOreDropWithMinesweeper(Block block, Item item, UniformGenerator generator) {
+        return LootTable.lootTable().withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1f)).add(LootItem.lootTableItem(block)).when(HAS_SILK_TOUCH)).withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1f)).add(LootItem.lootTableItem(item)).apply(SetItemCountFunction.setCount(generator)).apply(ApplyBonusCount.addUniformBonusCount(Enchantments.BLOCK_FORTUNE)).when(HAS_MINESWEEPER.and(HAS_SILK_TOUCH.invert())));
     }
 }
