@@ -1,19 +1,28 @@
 {
   "parent": "takumicraft:creeperbomb",
   "criteria": {
-    "impossible": {
-      "trigger": "minecraft:impossible"
+    "creepershield": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "takumicraft:creepershield"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
     }
   },
   "display": {
     "announce_to_chat": true,
     "description": {
-      "translate": "advancement.takumicraft.disarmament.desc"
+      "translate": "advancement.takumicraft.creepershield.desc"
     },
     "frame": "task",
     "hidden": false,
     "icon": {
-      "item": "takumicraft:creepersword",
+      "item": "takumicraft:creepershield",
       "nbt": "{Damage:0}"
     },
     "show_toast": true,
@@ -23,7 +32,7 @@
   },
   "requirements": [
     [
-      "impossible"
+      "creepershield"
     ]
   ],
   "sends_telemetry_event": true

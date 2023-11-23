@@ -133,6 +133,8 @@ public abstract class TCLanguageProvider extends LanguageProvider {
             this.add("advancement.takumicraft.slay_all.desc", "Complete the Creeper Book.");
             this.add("advancement.takumicraft.disarmament.title", "Disarmament");
             this.add("advancement.takumicraft.disarmament.desc", "Disarmament creeper's lighting armor.");
+            this.add("advancement.takumicraft.creepershield.title","Super Shield");
+            this.add("advancement.takumicraft.creepershield.desc","Don't care about explosion.");
         }
 
         @Override
@@ -237,6 +239,8 @@ public abstract class TCLanguageProvider extends LanguageProvider {
             this.add("advancement.takumicraft.slay_all.desc", "匠の書の制覇\n 王の創る次なる匠を待たれよ。");
             this.add("advancement.takumicraft.disarmament.title", "武装解除");
             this.add("advancement.takumicraft.disarmament.desc", "巨匠化状態を解除する\n怖いものなし、匠の狩人。");
+            this.add("advancement.takumicraft.creepershield.title","爆風もへっちゃら");
+            this.add("advancement.takumicraft.creepershield.desc","匠式防盾を入手する\n(見た目以外は)完璧な盾だ。");
         }
 
         @Override

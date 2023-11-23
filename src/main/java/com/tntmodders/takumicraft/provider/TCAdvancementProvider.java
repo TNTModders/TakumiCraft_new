@@ -83,8 +83,14 @@ public class TCAdvancementProvider extends ForgeAdvancementProvider {
                             Component.translatable("advancement.takumicraft.disarmament.desc"), null,
                             FrameType.TASK, true, true, false)
                     .addCriterion("impossible", CriteriaTriggers.IMPOSSIBLE.createCriterion(new ImpossibleTrigger.TriggerInstance()))
-                    //.parent(type_magic)
-                    .parent(root).save(consumer, new ResourceLocation(TakumiCraftCore.MODID, "disarmament"));
+                    .parent(creeperbomb).save(consumer, new ResourceLocation(TakumiCraftCore.MODID, "disarmament"));
+
+            AdvancementHolder creepershield = Advancement.Builder.advancement()
+                    .display(new ItemStack(TCItemCore.CREEPER_SHIELD), Component.translatable("advancement.takumicraft.disarmament.title"),
+                            Component.translatable("advancement.takumicraft.creepershield.desc"), null,
+                            FrameType.TASK, true, true, false)
+                    .addCriterion("creepershield", InventoryChangeTrigger.TriggerInstance.hasItems(TCItemCore.CREEPER_SHIELD))
+                    .parent(creeperbomb).save(consumer, new ResourceLocation(TakumiCraftCore.MODID, "creepershield"));
         }
     }
 }
