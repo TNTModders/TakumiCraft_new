@@ -18,7 +18,6 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
-import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.BodyRotationControl;
 import net.minecraft.world.entity.ai.control.LookControl;
@@ -343,11 +342,6 @@ public class TCPhantomCreeper extends AbstractTCCreeper {
         @Override
         public int getSecondaryColor() {
             return 0x336633;
-        }
-
-        @Override
-        public AttributeSupplier.Builder entityAttribute() {
-            return Creeper.createAttributes();
         }
 
         @Override

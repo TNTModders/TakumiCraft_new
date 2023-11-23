@@ -18,11 +18,11 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -31,9 +31,7 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.level.ItemLike;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.*;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.MobSpawnSettings;
 import net.minecraft.world.level.levelgen.Heightmap;
@@ -75,6 +73,14 @@ public abstract class AbstractTCCreeper extends Creeper implements ITCEntities, 
             }
         }
         return checkMonsterSpawnRules(type, levelAccessor, spawnType, pos, random);
+    }
+
+    public static boolean checkAnimalSpawnRules(EntityType<? extends AbstractTCCreeper> p_218105_, LevelAccessor p_218106_, MobSpawnType p_218107_, BlockPos p_218108_, RandomSource p_218109_) {
+        return p_218106_.getBlockState(p_218108_.below()).is(BlockTags.ANIMALS_SPAWNABLE_ON) && isBrightEnoughToSpawn(p_218106_, p_218108_);
+    }
+
+    protected static boolean isBrightEnoughToSpawn(BlockAndTintGetter p_186210_, BlockPos p_186211_) {
+        return p_186210_.getRawBrightness(p_186211_, 0) > 8;
     }
 
     public boolean isOnBook() {
@@ -146,15 +152,12 @@ public abstract class AbstractTCCreeper extends Creeper implements ITCEntities, 
             if (TCConfigCore.TCSpawnConfig.SPAWN.creeperSpawnFactors.containsKey(this.entityType())) {
                 weight = weight * TCConfigCore.TCSpawnConfig.SPAWN.creeperSpawnFactors.get(this.entityType()).get();
             }
-            builder.getMobSpawnSettings().getSpawner(this.getCategory()).add(new MobSpawnSettings.SpawnerData(this.entityType(), (int) weight, 1, this.getMaxSpawn()));
+            builder.getMobSpawnSettings().getSpawner(this.entityType().getCategory())
+                    .add(new MobSpawnSettings.SpawnerData(this.entityType(), (int) weight, 1, this.getMaxSpawn()));
         }
 
         default int getSpawnWeight() {
             return this.getRank().getSpawnWeight();
-        }
-
-        default MobCategory getCategory() {
-            return MobCategory.MONSTER;
         }
 
         default int getMaxSpawn() {

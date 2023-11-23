@@ -2,7 +2,7 @@ blazecreeper
 hotspringcreeper
 skeletoncreeper
 witherskeletoncreeper
-objetcreeper
+
 gunorecreeper
 treecreeper
 fishcreeper
@@ -18,7 +18,7 @@ fireworkscreeper
 spidercreeper
 minispidercreeper
 ghastcreeper
-glasscreeper
+
 glowstonecreeper
 lostcreeper
 

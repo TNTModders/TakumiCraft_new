@@ -9,10 +9,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.EntityDimensions;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.MobCategory;
-import net.minecraft.world.entity.Pose;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
@@ -25,13 +22,16 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraftforge.client.event.EntityRenderersEvent;
+import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
 
 public class TCCowCreeper extends AbstractTCCreeper {
 
     public TCCowCreeper(EntityType<? extends Creeper> entityType, Level level) {
         super(entityType, level);
     }
+
 
     @Override
     protected void registerGoals() {
@@ -152,6 +152,11 @@ public class TCCowCreeper extends AbstractTCCreeper {
         }
 
         @Override
+        public void registerSpawn(SpawnPlacementRegisterEvent event, EntityType<AbstractTCCreeper> type) {
+            SpawnPlacements.register(type, SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AbstractTCCreeper::checkAnimalSpawnRules);
+        }
+
+        @Override
         public EnumTakumiElement getElement() {
             return EnumTakumiElement.NORMAL;
         }
@@ -162,13 +167,8 @@ public class TCCowCreeper extends AbstractTCCreeper {
         }
 
         @Override
-        public MobCategory getCategory() {
-            return MobCategory.CREATURE;
-        }
-
-        @Override
         public int getSpawnWeight() {
-            return this.getRank().getSpawnWeight() / 10;
+            return this.getRank().getSpawnWeight();
         }
 
         @Override
