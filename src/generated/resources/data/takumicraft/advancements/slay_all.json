@@ -99,6 +99,20 @@
       },
       "trigger": "minecraft:player_killed_entity"
     },
+    "slay_dripstonecreeper": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "takumicraft:dripstonecreeper"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
     "slay_drownedcreeper": {
       "conditions": {
         "entity": [
@@ -561,6 +575,9 @@
     ],
     [
       "slay_fallcreeper"
+    ],
+    [
+      "slay_dripstonecreeper"
     ]
   ],
   "sends_telemetry_event": true
