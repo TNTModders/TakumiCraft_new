@@ -63,7 +63,7 @@ public class TCFallCreeper extends AbstractTCCreeper {
 
         @Override
         public String getJaJPDesc() {
-            return "=世界は砂利に包まれた。大地も、生物も、ゲームすら落ちる世界へと。";
+            return "世界は砂利に包まれた。大地も、生物も、ゲームすら落ちる世界へと。";
         }
 
         @Override
