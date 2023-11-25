@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "creeperglasspane_from_creeperglass",
+  "key": {
+    "#": {
+      "item": "takumicraft:creeperglass_purple"
+    }
+  },
+  "pattern": [
+    "###",
+    "###"
+  ],
+  "result": {
+    "count": 16,
+    "item": "takumicraft:creeperglasspane_purple"
+  },
+  "show_notification": true
+}

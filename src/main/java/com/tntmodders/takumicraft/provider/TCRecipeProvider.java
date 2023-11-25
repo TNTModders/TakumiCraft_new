@@ -11,6 +11,8 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.ItemLike;
 
+import static net.minecraft.data.recipes.RecipeBuilder.getDefaultRecipeId;
+
 public class TCRecipeProvider extends RecipeProvider {
     public TCRecipeProvider(PackOutput output) {
         super(output);
@@ -49,6 +51,10 @@ public class TCRecipeProvider extends RecipeProvider {
         } else {
             recipe.unlockedBy("has_" + itemLike.asItem(), has(itemLike)).save(output);
         }
+    }
+
+    public void saveRecipe(ItemLike itemLike, RecipeOutput output, RecipeBuilder recipe, String suffix) {
+        recipe.unlockedBy("has_" + itemLike.asItem(), has(itemLike)).save(output, getDefaultRecipeId(itemLike) + "_" + suffix);
     }
 
     private void additionalRecipes(RecipeOutput consumer) {
