@@ -1,6 +1,7 @@
 {
   "type": "minecraft:crafting_shaped",
   "category": "building",
+  "group": "creeperglass",
   "key": {
     "#": {
       "item": "takumicraft:creeperbomb"
@@ -15,6 +16,7 @@
     "BBB"
   ],
   "result": {
+    "count": 8,
     "item": "takumicraft:creeperglass_green"
   },
   "show_notification": true

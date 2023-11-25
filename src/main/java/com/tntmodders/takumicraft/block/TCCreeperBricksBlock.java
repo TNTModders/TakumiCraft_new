@@ -43,7 +43,7 @@ public class TCCreeperBricksBlock extends AbstractTCAntiExplosionBlock implement
     @Override
     public void addRecipes(TCRecipeProvider provider, ItemLike itemLike, RecipeOutput consumer) {
         provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS,
-                        TCBlockCore.CREEPER_BRICKS)
+                        TCBlockCore.CREEPER_BRICKS, 8)
                 .define('#', TCBlockCore.CREEPER_BOMB)
                 .define('B', Blocks.BRICKS)
                 .pattern("BBB")
