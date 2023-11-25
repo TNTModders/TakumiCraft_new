@@ -22,7 +22,7 @@ public class TCWoodCreeper extends AbstractTCCreeper {
 
     public TCWoodCreeper(EntityType<? extends Creeper> entityType, Level level) {
         super(entityType, level);
-        this.explosionRadius = 5;
+        this.explosionRadius = 3;
     }
 
     @Override
@@ -33,7 +33,7 @@ public class TCWoodCreeper extends AbstractTCCreeper {
 
     @Override
     public float getBlockExplosionResistance(Explosion explosion, BlockGetter wolrdIn, BlockPos pos, BlockState blockStateIn, FluidState p_19996_, float p_19997_) {
-        return blockStateIn.isAir() || blockStateIn.is(BlockTags.LEAVES) || blockStateIn.is(BlockTags.MINEABLE_WITH_AXE) ? 0f : super.getBlockExplosionResistance(explosion, wolrdIn, pos, blockStateIn, p_19996_, p_19997_) * 10f;
+        return blockStateIn.isAir() || blockStateIn.is(BlockTags.LEAVES) || blockStateIn.is(BlockTags.MINEABLE_WITH_AXE) ? 0.05f : super.getBlockExplosionResistance(explosion, wolrdIn, pos, blockStateIn, p_19996_, p_19997_) * 10f;
     }
 
     @Override
@@ -43,7 +43,7 @@ public class TCWoodCreeper extends AbstractTCCreeper {
             List<BlockPos> posList = new ArrayList<>();
             event.getAffectedBlocks().stream().filter(pos -> this.level().getBlockState(pos).is(BlockTags.MINEABLE_WITH_AXE)).forEach(pos -> {
                 this.level().destroyBlock(pos, true, this);
-                TCExplosionUtils.createExplosion(this.level(), this, pos, Math.max(0, event.getExplosion().radius - 0.1f));
+                TCExplosionUtils.createExplosion(this.level(), this, pos, Math.max(0, event.getExplosion().radius - 0.3f));
                 posList.add(pos);
             });
             if (!posList.isEmpty()) {
