@@ -28,7 +28,6 @@ import net.minecraftforge.event.level.ExplosionEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -86,7 +85,7 @@ public class TCEvents {
     public void onEntityTick(LivingEvent.LivingTickEvent event) {
         if (!event.getEntity().level().isClientSide && event.getEntity() instanceof Creeper creeper && event.getEntity().level().isThundering()) {
             try {
-                creeper.getEntityData().set(ObfuscationReflectionHelper.getPrivateValue(Creeper.class, creeper, "DATA_IS_POWERED"), true);
+                creeper.getEntityData().set(Creeper.DATA_IS_POWERED, true);
             } catch (Exception ignored) {
             }
         }
