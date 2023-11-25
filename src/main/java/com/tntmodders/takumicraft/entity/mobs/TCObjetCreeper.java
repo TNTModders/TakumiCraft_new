@@ -49,11 +49,6 @@ public class TCObjetCreeper extends AbstractTCCreeper {
         }
     }
 
-    @Override
-    public void explodeCreeper() {
-        super.explodeCreeper();
-    }
-
     public static class TCObjetCreeperContext implements TCCreeperContext<TCObjetCreeper> {
         private static final String NAME = "objetcreeper";
         public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCObjetCreeper::new, MobCategory.MONSTER).sized(0.6F, 1.7F).clientTrackingRange(8).build(TakumiCraftCore.MODID + ":" + NAME);

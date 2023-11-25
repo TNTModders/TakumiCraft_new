@@ -3,6 +3,7 @@ package com.tntmodders.takumicraft.core;
 import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.entity.mobs.*;
 import com.tntmodders.takumicraft.entity.mobs.AbstractTCCreeper.TCCreeperContext;
+import com.tntmodders.takumicraft.entity.projectile.TCAmethystBomb;
 import com.tntmodders.takumicraft.entity.projectile.TCCreeperArrow;
 import com.tntmodders.takumicraft.utils.TCLoggingUtils;
 import net.minecraft.core.NonNullList;
@@ -55,7 +56,8 @@ public class TCEntityCore {
     public static final TCCreeperContext<TCDirtCreeper> DIRT = new TCDirtCreeper.TCDirtCreeperContext();
     public static final TCCreeperContext<TCObjetCreeper> OBJET = new TCObjetCreeper.TCObjetCreeperContext();
     public static final TCCreeperContext<TCGlassCreeper> GLASS = new TCGlassCreeper.TCGlassCreeperContext();
-    public static final TCCreeperContext<TCDripstoneCreeper> DRIPSTONE =new TCDripstoneCreeper.TCDripstoneCreeperContext();
+    public static final TCCreeperContext<TCDripstoneCreeper> DRIPSTONE = new TCDripstoneCreeper.TCDripstoneCreeperContext();
+    public static final TCCreeperContext<TCAmethystCreeper> AMETHYST = new TCAmethystCreeper.TCAmethystCreeperContext();
 
     public static void registerEntityType(RegisterEvent event) {
         TCLoggingUtils.startRegistry("Entity");
@@ -84,6 +86,8 @@ public class TCEntityCore {
     private static void registerAdditionalEntityType(RegisterEvent event) {
         event.register(ForgeRegistries.ENTITY_TYPES.getRegistryKey(), entityTypeRegisterHelper ->
                 entityTypeRegisterHelper.register(new ResourceLocation(TakumiCraftCore.MODID, "creeperarrow"), TCCreeperArrow.ARROW));
+        event.register(ForgeRegistries.ENTITY_TYPES.getRegistryKey(), entityTypeRegisterHelper ->
+                entityTypeRegisterHelper.register(new ResourceLocation(TakumiCraftCore.MODID, "amethystbomb"), TCAmethystBomb.AMETHYST_BOMB));
     }
 
     public static void registerAttribute(EntityAttributeCreationEvent event) {

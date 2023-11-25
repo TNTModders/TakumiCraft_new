@@ -1,6 +1,20 @@
 {
   "parent": "takumicraft:root",
   "criteria": {
+    "slay_amethystcreeper": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "takumicraft:amethystcreeper"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
     "slay_arrowcreeper": {
       "conditions": {
         "entity": [
@@ -578,6 +592,9 @@
     ],
     [
       "slay_dripstonecreeper"
+    ],
+    [
+      "slay_amethystcreeper"
     ]
   ],
   "sends_telemetry_event": true

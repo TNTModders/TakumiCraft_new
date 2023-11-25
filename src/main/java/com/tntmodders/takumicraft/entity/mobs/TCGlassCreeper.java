@@ -29,11 +29,6 @@ public class TCGlassCreeper extends AbstractTCCreeper {
         event.getExplosion().clearToBlow();
     }
 
-    @Override
-    public void explodeCreeper() {
-        super.explodeCreeper();
-    }
-
     public static class TCGlassCreeperContext implements TCCreeperContext<TCGlassCreeper> {
         private static final String NAME = "glasscreeper";
         public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCGlassCreeper::new, MobCategory.MONSTER).sized(0.6F, 1.7F).clientTrackingRange(8).build(TakumiCraftCore.MODID + ":" + NAME);
