@@ -85,7 +85,10 @@ public class TCEvents {
     @SubscribeEvent
     public void onEntityTick(LivingEvent.LivingTickEvent event) {
         if (!event.getEntity().level().isClientSide && event.getEntity() instanceof Creeper creeper && event.getEntity().level().isThundering()) {
-            creeper.getEntityData().set(ObfuscationReflectionHelper.getPrivateValue(Creeper.class, creeper, "DATA_IS_POWERED"), true);
+            try {
+                creeper.getEntityData().set(ObfuscationReflectionHelper.getPrivateValue(Creeper.class, creeper, "DATA_IS_POWERED"), true);
+            } catch (Exception ignored) {
+            }
         }
     }
 
