@@ -29,6 +29,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.MoveControl;
 import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.entity.ai.goal.SwellGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.animal.IronGolem;
 import net.minecraft.world.entity.monster.Creeper;
@@ -93,6 +94,7 @@ public class TCSlimeCreeper extends AbstractTCCreeper {
 
     @Override
     protected void registerGoals() {
+        this.goalSelector.addGoal(2, new SwellGoal(this));
         this.goalSelector.addGoal(1, new TCSlimeCreeper.SlimeFloatGoal(this));
         this.goalSelector.addGoal(2, new TCSlimeCreeper.SlimeAttackGoal(this));
         this.goalSelector.addGoal(3, new TCSlimeCreeper.SlimeRandomDirectionGoal(this));

@@ -53,6 +53,8 @@ public class TCPhantomCreeper extends AbstractTCCreeper {
     BlockPos anchorPoint = BlockPos.ZERO;
     TCPhantomCreeper.AttackPhase attackPhase = TCPhantomCreeper.AttackPhase.CIRCLE;
 
+    private int summonCooldown;
+
     public TCPhantomCreeper(EntityType<? extends Creeper> entityType, Level level) {
         super(entityType, level);
         this.xpReward = 5;
@@ -260,6 +262,7 @@ public class TCPhantomCreeper extends AbstractTCCreeper {
             creeper.finalizeSpawn((ServerLevel) this.level(), this.level().getCurrentDifficultyAt(this.blockPosition()), MobSpawnType.MOB_SUMMONED, null, null);
             creeper.setItemSlot(EquipmentSlot.CHEST, new ItemStack(Items.ELYTRA));
             ((ServerLevel) this.level()).addFreshEntityWithPassengers(creeper);
+            this.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 60));
         }
 
         if (this.level().isClientSide) {

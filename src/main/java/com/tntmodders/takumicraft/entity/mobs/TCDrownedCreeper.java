@@ -19,10 +19,7 @@ import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.MoveControl;
-import net.minecraft.world.entity.ai.goal.Goal;
-import net.minecraft.world.entity.ai.goal.MoveToBlockGoal;
-import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
-import net.minecraft.world.entity.ai.goal.RangedAttackGoal;
+import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.navigation.GroundPathNavigation;
@@ -96,6 +93,7 @@ public class TCDrownedCreeper extends TCZombieCreeper implements RangedAttackMob
 
     @Override
     protected void addBehaviourGoals() {
+        this.goalSelector.addGoal(1, new SwellGoal(this));
         this.goalSelector.addGoal(1, new TCDrownedCreeper.DrownedGoToWaterGoal(this, 1.0D));
         this.goalSelector.addGoal(2, new TCDrownedCreeper.DrownedTridentAttackGoal(this, 1.0D, 40, 10.0F));
         this.goalSelector.addGoal(2, new TCDrownedCreeper.DrownedAttackGoal(this, 1.0D, false));
