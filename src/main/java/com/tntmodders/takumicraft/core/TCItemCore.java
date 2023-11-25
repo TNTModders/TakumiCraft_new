@@ -18,12 +18,13 @@ import net.minecraftforge.registries.RegisterEvent;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
 public class TCItemCore {
     public static final NonNullList<Item> ITEMS = NonNullList.create();
-    public static final HashMap<Block, Item> BLOCKITEMS = new HashMap<>();
+    public static final HashMap<Block, TCBlockItem> BLOCKITEMS = new HashMap<>();
 
     public static final Item CREEPER_ROD = new TCTesterItem();
     public static final Item TAKUMIBOOK = new TCTakumiBookItem();
@@ -87,6 +88,7 @@ public class TCItemCore {
                 e.printStackTrace();
             }
         });
+        ITEMS.sort(Comparator.comparing(o -> o.getClass().getName()));
         TCLoggingUtils.completeRegistry("Item");
     }
 }

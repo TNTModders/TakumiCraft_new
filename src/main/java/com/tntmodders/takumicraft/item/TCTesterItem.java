@@ -31,6 +31,11 @@ public class TCTesterItem extends Item implements ITCItems, ITCTranslator {
     }
 
     @Override
+    public boolean hideOnCreativeTab() {
+        return true;
+    }
+
+    @Override
     public Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(EquipmentSlot p_43274_) {
         return p_43274_ == EquipmentSlot.MAINHAND ? this.defaultModifiers : super.getDefaultAttributeModifiers(p_43274_);
     }

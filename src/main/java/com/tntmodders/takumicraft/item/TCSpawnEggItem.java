@@ -18,6 +18,11 @@ public class TCSpawnEggItem extends ForgeSpawnEggItem implements ITCItems {
         this.registryName = context.getRegistryName() + "_spawn_egg";
     }
 
+    @Override
+    public boolean hideOnCreativeTab() {
+        return true;
+    }
+
     public AbstractTCCreeper.TCCreeperContext<?> getContext() {
         return this.context;
     }

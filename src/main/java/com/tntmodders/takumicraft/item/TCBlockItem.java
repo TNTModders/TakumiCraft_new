@@ -12,6 +12,10 @@ public class TCBlockItem extends BlockItem {
         this.block = block;
     }
 
+    public boolean hideOnCreativeTab() {
+        return this.block instanceof ITCBlocks && ((ITCBlocks) this.block).hideOnCreativeTab();
+    }
+
     public String getRegistryName() {
         return ((ITCBlocks) block).getRegistryName();
     }

@@ -14,6 +14,10 @@ import java.util.function.Supplier;
 public interface ITCBlocks extends ITCTranslator {
     String getRegistryName();
 
+    default boolean hideOnCreativeTab() {
+        return false;
+    }
+
     default EnumTCBlockStateModelType getBlockStateModelType() {
         return EnumTCBlockStateModelType.SIMPLE;
     }

@@ -17,10 +17,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegisterEvent;
 
 import java.lang.reflect.Field;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class TCBlockCore {
     public static final NonNullList<Block> BLOCKS = NonNullList.create();
@@ -33,6 +30,7 @@ public class TCBlockCore {
     public static final Map<DyeColor, TCColoredCreeperGlassBlock> CREEPER_COLORED_GLASS_MAP = new HashMap<>();
     public static final Block CREEPER_GLASS_PANE = new TCCreeperGlassPaneBlock(CREEPER_GLASS);
     public static final Map<DyeColor, TCColoredCreeperGlassPaneBlock> CREEPER_COLORED_GLASS_PANE_MAP = new HashMap<>();
+    public static final Block CREEPER_TINTED_GLASS = new TCCreeperTintedGlassBlock();
 
     public static final TagKey<Block> GUNORES = TagKey.create(Registries.BLOCK, new ResourceLocation("forge", "gunores"));
     public static final TagKey<Block> ANTI_EXPLOSION = TagKey.create(Registries.BLOCK, new ResourceLocation("forge", "anti_explosion"));
@@ -65,6 +63,7 @@ public class TCBlockCore {
                 e.printStackTrace();
             }
         });
+        BLOCKS.sort(Comparator.comparing(o -> o.getClass().getName()));
         TCLoggingUtils.completeRegistry("Block");
     }
 
