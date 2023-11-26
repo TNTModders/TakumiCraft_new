@@ -15,7 +15,9 @@ import java.util.function.Supplier;
 public interface ITCBlocks extends ITCTranslator {
     String getRegistryName();
 
-    default TCBlockItem getCustomBlockItem(Block block){return new TCBlockItem(block);}
+    default TCBlockItem getCustomBlockItem(Block block) {
+        return new TCBlockItem(block);
+    }
 
     default boolean hideOnCreativeTab() {
         return false;
@@ -39,10 +41,14 @@ public interface ITCBlocks extends ITCTranslator {
         return new ArrayList<>();
     }
 
+    /**
+     * If you need vanilla rendertype,see {@link net.minecraft.client.renderer.ItemBlockRenderTypes }.
+     */
     enum EnumTCBlockStateModelType {
         SIMPLE("solid"),
-        HALF("solid"),
+        SLAB("solid"),
         STAIRS("solid"),
+        WALL("solid"),
         GLASS("cutout"),
         STAINED_GLASS("translucent"),
         PANE_GLASS("cutout"),

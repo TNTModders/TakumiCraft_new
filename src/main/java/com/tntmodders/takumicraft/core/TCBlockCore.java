@@ -18,7 +18,10 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegisterEvent;
 
 import java.lang.reflect.Field;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class TCBlockCore {
     public static final NonNullList<Block> BLOCKS = NonNullList.create();
@@ -26,7 +29,13 @@ public class TCBlockCore {
     public static final Block GUNORE = new TCGunOreBlock();
     public static final Block DEEPSLATE_GUNORE = new TCDeepGunOreBlock();
     public static final Block CREEPER_IRON = new TCCreeperIronBlock();
+    public static final Block CREEPER_IRON_STAIRS = new TCAntiExplosionStairsBlock(CREEPER_IRON::defaultBlockState, true);
+    public static final Block CREEPER_IRON_SLAB = new TCAntiExplosionHalfBlock(CREEPER_IRON::defaultBlockState, true);
+    public static final Block CREEPER_IRON_WALL = new TCAntiExplosionWallBlock(CREEPER_IRON::defaultBlockState);
     public static final Block CREEPER_BRICKS = new TCCreeperBricksBlock();
+    public static final Block CREEPER_BRICKS_STAIRS = new TCAntiExplosionStairsBlock(CREEPER_BRICKS::defaultBlockState, true);
+    public static final Block CREEPER_BRICKS_SLAB = new TCAntiExplosionHalfBlock(CREEPER_BRICKS::defaultBlockState, true);
+    public static final Block CREEPER_BRICKS_WALL = new TCAntiExplosionWallBlock(CREEPER_BRICKS::defaultBlockState);
     public static final Block CREEPER_GLASS = new TCCreeperGlassBlock();
     public static final Map<DyeColor, TCColoredCreeperGlassBlock> CREEPER_COLORED_GLASS_MAP = new HashMap<>();
     public static final Block CREEPER_GLASS_PANE = new TCCreeperGlassPaneBlock(CREEPER_GLASS);
@@ -66,7 +75,6 @@ public class TCBlockCore {
                 e.printStackTrace();
             }
         });
-        BLOCKS.sort(Comparator.comparing(o -> o.getClass().getName()));
         TCLoggingUtils.completeRegistry("Block");
     }
 

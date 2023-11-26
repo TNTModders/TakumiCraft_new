@@ -1,6 +1,12 @@
 {
   "values": [
     "takumicraft:creeperiron",
-    "takumicraft:creeperbrick"
+    "takumicraft:creeperiron_stairs",
+    "takumicraft:creeperiron_half",
+    "takumicraft:creeperiron_wall",
+    "takumicraft:creeperbrick",
+    "takumicraft:creeperbrick_stairs",
+    "takumicraft:creeperbrick_half",
+    "takumicraft:creeperbrick_wall"
   ]
 }

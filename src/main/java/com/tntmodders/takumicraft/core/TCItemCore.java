@@ -19,7 +19,6 @@ import net.minecraftforge.registries.RegisterEvent;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
@@ -89,7 +88,6 @@ public class TCItemCore {
                 e.printStackTrace();
             }
         });
-        ITEMS.sort(Comparator.comparing(o -> o.getClass().getName()));
         TCLoggingUtils.completeRegistry("Item");
     }
 }

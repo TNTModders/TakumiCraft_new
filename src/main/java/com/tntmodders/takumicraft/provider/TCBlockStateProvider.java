@@ -1,18 +1,18 @@
 package com.tntmodders.takumicraft.provider;
 
 import com.tntmodders.takumicraft.TakumiCraftCore;
+import com.tntmodders.takumicraft.block.TCAntiExplosionHalfBlock;
+import com.tntmodders.takumicraft.block.TCAntiExplosionStairsBlock;
+import com.tntmodders.takumicraft.block.TCAntiExplosionWallBlock;
 import com.tntmodders.takumicraft.block.TCCreeperGlassPaneBlock;
 import com.tntmodders.takumicraft.core.TCBlockCore;
 import com.tntmodders.takumicraft.utils.TCLoggingUtils;
+import net.minecraft.core.Direction;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.ScaffoldingBlock;
-import net.minecraft.world.level.block.SlabBlock;
-import net.minecraftforge.client.model.generators.BlockStateProvider;
-import net.minecraftforge.client.model.generators.ConfiguredModel;
-import net.minecraftforge.client.model.generators.ModelFile;
-import net.minecraftforge.client.model.generators.ModelProvider;
+import net.minecraftforge.client.model.generators.*;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -28,7 +28,9 @@ public class TCBlockStateProvider extends BlockStateProvider {
             if (block instanceof ITCBlocks) {
                 switch (((ITCBlocks) block).getBlockStateModelType()) {
                     case SIMPLE -> this.simpleBlockWithItem(block);
-                    case HALF -> this.halfBlockWithItem(block);
+                    case STAIRS -> this.stairsBlockWithItem(block);
+                    case SLAB -> this.halfBlockWithItem(block);
+                    case WALL -> this.wallBlockWithItem(block);
                     case GLASS -> this.glassBlockWithItem(block);
                     case STAINED_GLASS -> this.stainedGlassBlockWithItem(block);
                     case PANE_GLASS, PANE_STAINED_GLASS ->
@@ -54,10 +56,10 @@ public class TCBlockStateProvider extends BlockStateProvider {
         ResourceLocation side = blockFolder(new ResourceLocation(TakumiCraftCore.MODID, name(block) + "_side"));
         ResourceLocation bottom = blockFolder(new ResourceLocation(TakumiCraftCore.MODID, name(block) + "_bottom"));
 
-        ModelFile model_stable = this.models().withExistingParent(name(block)+"_stable", "scaffolding_stable").texture("particle", top)
-                .texture("top", top).texture("side", side).texture("bottom",bottom).renderType("cutout");
-        ModelFile model_unstable = this.models().withExistingParent(name(block)+"_unstable", "scaffolding_unstable").texture("particle", top)
-                .texture("top", top).texture("side", side).texture("bottom",bottom).renderType("cutout");
+        ModelFile model_stable = this.models().withExistingParent(name(block) + "_stable", "scaffolding_stable").texture("particle", top)
+                .texture("top", top).texture("side", side).texture("bottom", bottom).renderType("cutout");
+        ModelFile model_unstable = this.models().withExistingParent(name(block) + "_unstable", "scaffolding_unstable").texture("particle", top)
+                .texture("top", top).texture("side", side).texture("bottom", bottom).renderType("cutout");
 
         this.getVariantBuilder(block).partialState().with(ScaffoldingBlock.BOTTOM, false).addModels(new ConfiguredModel(model_stable)).partialState().with(ScaffoldingBlock.BOTTOM, true).addModels(new ConfiguredModel(model_unstable));
         this.simpleBlockItem(block, model_stable);
@@ -105,9 +107,26 @@ public class TCBlockStateProvider extends BlockStateProvider {
     }
 
     private void halfBlockWithItem(Block block) {
-        if (block instanceof SlabBlock) {
-            ModelFile model = this.cubeAll(block);
-            this.slabBlock((SlabBlock) block, model, model, model);
+        if (block instanceof TCAntiExplosionHalfBlock slab) {
+            VariantBlockStateBuilder builder = this.getVariantBuilder(block);
+            Direction.stream().forEach(direction -> builder.partialState().with(TCAntiExplosionHalfBlock.FACING, direction).addModels(new ConfiguredModel(models().withExistingParent(name(slab) + "_" + direction.getName(), new ResourceLocation(TakumiCraftCore.MODID, "half_" + direction.getName())).texture("top", blockFolder(new ResourceLocation(TakumiCraftCore.MODID, slab.getTopTextureName()))).texture("side", blockFolder(new ResourceLocation(TakumiCraftCore.MODID, slab.getTextureName()))).texture("bottom", blockFolder(new ResourceLocation(TakumiCraftCore.MODID, slab.getBottomTextureName()))).renderType("cutout"))));
+            itemModels().withExistingParent(slab.getRegistryName(), blockFolder(new ResourceLocation(TakumiCraftCore.MODID, slab.getRegistryName() + "_east")));
+        }
+    }
+
+    private void stairsBlockWithItem(Block block) {
+        if (block instanceof TCAntiExplosionStairsBlock stairs) {
+            this.stairsBlock(stairs, blockTexture(stairs.getBaseBlock()));
+            String location = stairs.getRegistryName();
+            itemModels().withExistingParent(location, blockFolder(new ResourceLocation(TakumiCraftCore.MODID, location)));
+        }
+    }
+
+    private void wallBlockWithItem(Block block) {
+        if (block instanceof TCAntiExplosionWallBlock wall) {
+            this.wallBlock(wall, blockTexture(wall.getBaseBlock()));
+            ModelFile model = models().withExistingParent(wall.getRegistryName(), "block/wall_inventory").texture("wall", blockTexture(wall.getBaseBlock()));
+            this.simpleBlockItem(block, model);
         }
     }
 
