@@ -159,7 +159,7 @@ public class TCAntiExplosionHalfBlock extends Block implements ITCBlocks, ITCRec
 
     @Override
     public String getJaJPName() {
-        return this.getITCBlock().getJaJPName() + "半ブロック";
+        return this.getITCBlock().getJaJPName() + "半材";
     }
 
     @Override
