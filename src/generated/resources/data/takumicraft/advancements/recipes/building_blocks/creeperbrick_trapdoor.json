@@ -1,0 +1,48 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_baseblock": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "takumicraft:creeperbrick"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_creeperbrick_trapdoor": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "takumicraft:creeperbrick_trapdoor"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "takumicraft:creeperbrick_trapdoor"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_baseblock",
+      "has_creeperbrick_trapdoor"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "takumicraft:creeperbrick_trapdoor"
+    ]
+  },
+  "sends_telemetry_event": false
+}

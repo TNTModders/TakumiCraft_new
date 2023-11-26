@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "takumicraft:block/creeperiron_door"
+  }
+}

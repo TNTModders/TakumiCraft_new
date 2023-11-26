@@ -36,12 +36,28 @@ public class TCBlockStateProvider extends BlockStateProvider {
                             this.paneGlassBlockWithItem(block, ((ITCBlocks) block).getBlockStateModelType());
                     case LADDER -> this.ladderBlockWithItem(block);
                     case SCCAFOLDING -> this.scaffoldingBlockWithItem(block);
+                    case DOOR -> this.doorBlockWithItem(block);
+                    case TRAP_DOOR -> this.trapdoorBlockWithItem(block);
                 }
                 TCLoggingUtils.entryRegistry("BlockStateModel_" + ((ITCBlocks) block).getBlockStateModelType().name(), ((ITCBlocks) block).getRegistryName());
             }
         });
 
         TCLoggingUtils.completeRegistry("BlockStateModel");
+    }
+
+    private void trapdoorBlockWithItem(Block block) {
+        if (block instanceof TCAntiExplosionTrapDoorBlock door) {
+            this.trapdoorBlockWithRenderType(door, blockTexture(door), door.isOrientable(), "cutout");
+            itemModels().withExistingParent(door.getRegistryName(), blockFolder(new ResourceLocation(TakumiCraftCore.MODID, door.getRegistryName() + "_bottom")));
+        }
+    }
+
+    private void doorBlockWithItem(Block block) {
+        if (block instanceof TCAntiExplosionDoorBlock door) {
+            this.doorBlockWithRenderType(door, blockFolder(new ResourceLocation(TakumiCraftCore.MODID, key(door.getBaseBlock()).getPath() + "_door_bottom")), blockFolder(new ResourceLocation(TakumiCraftCore.MODID, key(door.getBaseBlock()).getPath() + "_door_top")), "cutout");
+            this.singleBlockItem(block, blockTexture(block));
+        }
     }
 
     private void fenceGateBlockWithItem(Block block) {
@@ -83,7 +99,7 @@ public class TCBlockStateProvider extends BlockStateProvider {
         ResourceLocation location = blockTexture(block);
         ModelFile model = this.models().withExistingParent(name(block), "ladder").texture("particle", location).texture("texture", location).renderType("cutout");
         this.horizontalBlock(block, model);
-        this.singleBlockItem(block, location, ITCBlocks.EnumTCBlockStateModelType.LADDER);
+        this.singleBlockItem(block, location);
     }
 
     private void glassBlockWithItem(Block block) {
@@ -105,7 +121,7 @@ public class TCBlockStateProvider extends BlockStateProvider {
             } else {
                 this.paneBlockWithRenderType(pane, sourceName, sourceName, type.getType());
             }
-            this.singleBlockItem(block, sourceName, type);
+            this.singleBlockItem(block, sourceName);
         }
 
     }
@@ -144,11 +160,10 @@ public class TCBlockStateProvider extends BlockStateProvider {
         }
     }
 
-    private void singleBlockItem(Block block, ResourceLocation sourceName, ITCBlocks.EnumTCBlockStateModelType type) {
+    private void singleBlockItem(Block block, ResourceLocation sourceName) {
         itemModels().getBuilder(key(block).getPath())
                 .parent(new ModelFile.UncheckedModelFile("item/generated"))
-                .texture("layer0", sourceName)
-                .renderType(type.getType());
+                .texture("layer0", sourceName);
     }
 
     private ResourceLocation key(Block block) {

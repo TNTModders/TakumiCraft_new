@@ -14,6 +14,7 @@ import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegisterEvent;
 
@@ -32,10 +33,14 @@ public class TCBlockCore {
     public static final Block CREEPER_IRON_STAIRS = new TCAntiExplosionStairsBlock(CREEPER_IRON::defaultBlockState, true);
     public static final Block CREEPER_IRON_HALF = new TCAntiExplosionHalfBlock(CREEPER_IRON::defaultBlockState, true);
     public static final Block CREEPER_IRON_WALL = new TCAntiExplosionWallBlock(CREEPER_IRON::defaultBlockState);
+    public static final Block CREEPER_IRON_DOOR = new TCAntiExplosionDoorBlock(CREEPER_IRON::defaultBlockState, BlockSetType.IRON);
+    public static final Block CREEPER_IRON_TRAPDOOR = new TCAntiExplosionTrapDoorBlock(CREEPER_IRON::defaultBlockState, BlockSetType.IRON);
     public static final Block CREEPER_BRICKS = new TCCreeperBricksBlock();
     public static final Block CREEPER_BRICKS_STAIRS = new TCAntiExplosionStairsBlock(CREEPER_BRICKS::defaultBlockState, true);
     public static final Block CREEPER_BRICKS_HALF = new TCAntiExplosionHalfBlock(CREEPER_BRICKS::defaultBlockState, true);
     public static final Block CREEPER_BRICKS_WALL = new TCAntiExplosionWallBlock(CREEPER_BRICKS::defaultBlockState);
+    public static final Block CREEPER_BRICKS_DOOR = new TCAntiExplosionDoorBlock(CREEPER_BRICKS::defaultBlockState, BlockSetType.STONE);
+    public static final Block CREEPER_BRICKS_TRAPDOOR = new TCAntiExplosionTrapDoorBlock(CREEPER_BRICKS::defaultBlockState, BlockSetType.STONE, false);
     public static final Block CREEPER_GLASS = new TCCreeperGlassBlock();
     public static final Map<DyeColor, TCColoredCreeperGlassBlock> CREEPER_COLORED_GLASS_MAP = new HashMap<>();
     public static final Block CREEPER_GLASS_PANE = new TCCreeperGlassPaneBlock(CREEPER_GLASS);
@@ -48,6 +53,8 @@ public class TCBlockCore {
     public static final Block CREEPER_PLANKS_HALF = new TCAntiExplosionHalfBlock(CREEPER_PLANKS::defaultBlockState, false);
     public static final Block CREEPER_PLANKS_FENCE = new TCAntiExplosionFenceBlock(CREEPER_PLANKS::defaultBlockState);
     public static final Block CREEPER_PLANKS_FENCE_GATE = new TCAntiExplosionFenceGateBlock(CREEPER_PLANKS::defaultBlockState);
+    public static final Block CREEPER_PLANKS_DOOR = new TCAntiExplosionDoorBlock(CREEPER_PLANKS::defaultBlockState, BlockSetType.OAK);
+    public static final Block CREEPER_PLANKS_TRAPDOOR = new TCAntiExplosionTrapDoorBlock(CREEPER_PLANKS::defaultBlockState, BlockSetType.OAK);
 
     public static final TagKey<Block> GUNORES = TagKey.create(Registries.BLOCK, new ResourceLocation(TakumiCraftCore.MODID, "gunores"));
     public static final TagKey<Block> ANTI_EXPLOSION = TagKey.create(Registries.BLOCK, new ResourceLocation(TakumiCraftCore.MODID, "anti_explosion"));

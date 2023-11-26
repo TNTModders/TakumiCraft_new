@@ -4,14 +4,20 @@
     "takumicraft:creeperiron_stairs",
     "takumicraft:creeperiron_half",
     "takumicraft:creeperiron_wall",
+    "takumicraft:creeperiron_door",
+    "takumicraft:creeperiron_trapdoor",
     "takumicraft:creeperbrick",
     "takumicraft:creeperbrick_stairs",
     "takumicraft:creeperbrick_half",
     "takumicraft:creeperbrick_wall",
+    "takumicraft:creeperbrick_door",
+    "takumicraft:creeperbrick_trapdoor",
     "takumicraft:creeperplanks",
     "takumicraft:creeperplanks_stairs",
     "takumicraft:creeperplanks_half",
     "takumicraft:creeperplanks_fence",
-    "takumicraft:creeperplanks_fencegate"
+    "takumicraft:creeperplanks_fencegate",
+    "takumicraft:creeperplanks_door",
+    "takumicraft:creeperplanks_trapdoor"
   ]
 }
