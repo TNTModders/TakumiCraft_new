@@ -44,8 +44,8 @@ public class TCBlockCore {
     public static final Block CREEPER_LADDER = new TCLadderBlock();
     public static final Block CREEPER_SCAFFOLDING = new TCScaffoldingBlock();
 
-    public static final TagKey<Block> GUNORES = TagKey.create(Registries.BLOCK, new ResourceLocation("forge", "gunores"));
-    public static final TagKey<Block> ANTI_EXPLOSION = TagKey.create(Registries.BLOCK, new ResourceLocation("forge", "anti_explosion"));
+    public static final TagKey<Block> GUNORES = TagKey.create(Registries.BLOCK, new ResourceLocation(TakumiCraftCore.MODID, "gunores"));
+    public static final TagKey<Block> ANTI_EXPLOSION = TagKey.create(Registries.BLOCK, new ResourceLocation(TakumiCraftCore.MODID, "anti_explosion"));
 
     static {
         Arrays.stream(DyeColor.values()).forEach(dyeColor -> CREEPER_COLORED_GLASS_MAP.put(dyeColor, new TCColoredCreeperGlassBlock(dyeColor)));
