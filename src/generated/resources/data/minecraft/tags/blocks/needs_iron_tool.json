@@ -7,6 +7,11 @@
     "takumicraft:creeperbrick",
     "takumicraft:creeperbrick_stairs",
     "takumicraft:creeperbrick_half",
-    "takumicraft:creeperbrick_wall"
+    "takumicraft:creeperbrick_wall",
+    "takumicraft:creeperplanks",
+    "takumicraft:creeperplanks_stairs",
+    "takumicraft:creeperplanks_half",
+    "takumicraft:creeperplanks_fence",
+    "takumicraft:creeperplanks_fencegate"
   ]
 }

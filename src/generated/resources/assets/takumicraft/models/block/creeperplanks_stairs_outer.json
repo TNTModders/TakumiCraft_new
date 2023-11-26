@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/outer_stairs",
+  "textures": {
+    "bottom": "takumicraft:block/creeperplanks",
+    "side": "takumicraft:block/creeperplanks",
+    "top": "takumicraft:block/creeperplanks"
+  }
+}

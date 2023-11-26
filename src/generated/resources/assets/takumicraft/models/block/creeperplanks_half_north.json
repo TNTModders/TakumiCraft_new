@@ -1,0 +1,9 @@
+{
+  "parent": "takumicraft:block/half_north",
+  "render_type": "minecraft:cutout",
+  "textures": {
+    "bottom": "takumicraft:block/creeperplanks",
+    "side": "takumicraft:block/creeperplanks",
+    "top": "takumicraft:block/creeperplanks"
+  }
+}

@@ -1,6 +1,11 @@
 {
   "values": [
     "takumicraft:creeperladder",
-    "takumicraft:creeperscaffolding"
+    "takumicraft:creeperscaffolding",
+    "takumicraft:creeperplanks",
+    "takumicraft:creeperplanks_stairs",
+    "takumicraft:creeperplanks_half",
+    "takumicraft:creeperplanks_fence",
+    "takumicraft:creeperplanks_fencegate"
   ]
 }

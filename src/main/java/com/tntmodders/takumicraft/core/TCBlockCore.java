@@ -30,11 +30,11 @@ public class TCBlockCore {
     public static final Block DEEPSLATE_GUNORE = new TCDeepGunOreBlock();
     public static final Block CREEPER_IRON = new TCCreeperIronBlock();
     public static final Block CREEPER_IRON_STAIRS = new TCAntiExplosionStairsBlock(CREEPER_IRON::defaultBlockState, true);
-    public static final Block CREEPER_IRON_SLAB = new TCAntiExplosionHalfBlock(CREEPER_IRON::defaultBlockState, true);
+    public static final Block CREEPER_IRON_HALF = new TCAntiExplosionHalfBlock(CREEPER_IRON::defaultBlockState, true);
     public static final Block CREEPER_IRON_WALL = new TCAntiExplosionWallBlock(CREEPER_IRON::defaultBlockState);
     public static final Block CREEPER_BRICKS = new TCCreeperBricksBlock();
     public static final Block CREEPER_BRICKS_STAIRS = new TCAntiExplosionStairsBlock(CREEPER_BRICKS::defaultBlockState, true);
-    public static final Block CREEPER_BRICKS_SLAB = new TCAntiExplosionHalfBlock(CREEPER_BRICKS::defaultBlockState, true);
+    public static final Block CREEPER_BRICKS_HALF = new TCAntiExplosionHalfBlock(CREEPER_BRICKS::defaultBlockState, true);
     public static final Block CREEPER_BRICKS_WALL = new TCAntiExplosionWallBlock(CREEPER_BRICKS::defaultBlockState);
     public static final Block CREEPER_GLASS = new TCCreeperGlassBlock();
     public static final Map<DyeColor, TCColoredCreeperGlassBlock> CREEPER_COLORED_GLASS_MAP = new HashMap<>();
@@ -43,6 +43,11 @@ public class TCBlockCore {
     public static final Block CREEPER_TINTED_GLASS = new TCCreeperTintedGlassBlock();
     public static final Block CREEPER_LADDER = new TCLadderBlock();
     public static final Block CREEPER_SCAFFOLDING = new TCScaffoldingBlock();
+    public static final Block CREEPER_PLANKS = new TCCreeperPlanksBlock();
+    public static final Block CREEPER_PLANKS_STAIRS = new TCAntiExplosionStairsBlock(CREEPER_PLANKS::defaultBlockState, false);
+    public static final Block CREEPER_PLANKS_HALF = new TCAntiExplosionHalfBlock(CREEPER_PLANKS::defaultBlockState, false);
+    public static final Block CREEPER_PLANKS_FENCE = new TCAntiExplosionFenceBlock(CREEPER_PLANKS::defaultBlockState);
+    public static final Block CREEPER_PLANKS_FENCE_GATE = new TCAntiExplosionFenceGateBlock(CREEPER_PLANKS::defaultBlockState);
 
     public static final TagKey<Block> GUNORES = TagKey.create(Registries.BLOCK, new ResourceLocation(TakumiCraftCore.MODID, "gunores"));
     public static final TagKey<Block> ANTI_EXPLOSION = TagKey.create(Registries.BLOCK, new ResourceLocation(TakumiCraftCore.MODID, "anti_explosion"));

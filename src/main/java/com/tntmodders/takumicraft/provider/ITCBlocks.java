@@ -49,6 +49,8 @@ public interface ITCBlocks extends ITCTranslator {
         SLAB("solid"),
         STAIRS("solid"),
         WALL("solid"),
+        FENCE("solid"),
+        FENCE_GATE("solid"),
         GLASS("cutout"),
         STAINED_GLASS("translucent"),
         PANE_GLASS("cutout"),

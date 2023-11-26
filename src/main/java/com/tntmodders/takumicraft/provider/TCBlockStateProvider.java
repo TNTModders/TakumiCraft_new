@@ -1,10 +1,7 @@
 package com.tntmodders.takumicraft.provider;
 
 import com.tntmodders.takumicraft.TakumiCraftCore;
-import com.tntmodders.takumicraft.block.TCAntiExplosionHalfBlock;
-import com.tntmodders.takumicraft.block.TCAntiExplosionStairsBlock;
-import com.tntmodders.takumicraft.block.TCAntiExplosionWallBlock;
-import com.tntmodders.takumicraft.block.TCCreeperGlassPaneBlock;
+import com.tntmodders.takumicraft.block.*;
 import com.tntmodders.takumicraft.core.TCBlockCore;
 import com.tntmodders.takumicraft.utils.TCLoggingUtils;
 import net.minecraft.core.Direction;
@@ -31,6 +28,8 @@ public class TCBlockStateProvider extends BlockStateProvider {
                     case STAIRS -> this.stairsBlockWithItem(block);
                     case SLAB -> this.halfBlockWithItem(block);
                     case WALL -> this.wallBlockWithItem(block);
+                    case FENCE -> this.fenceBlockWithItem(block);
+                    case FENCE_GATE -> this.fenceGateBlockWithItem(block);
                     case GLASS -> this.glassBlockWithItem(block);
                     case STAINED_GLASS -> this.stainedGlassBlockWithItem(block);
                     case PANE_GLASS, PANE_STAINED_GLASS ->
@@ -43,6 +42,21 @@ public class TCBlockStateProvider extends BlockStateProvider {
         });
 
         TCLoggingUtils.completeRegistry("BlockStateModel");
+    }
+
+    private void fenceGateBlockWithItem(Block block) {
+        if (block instanceof TCAntiExplosionFenceGateBlock fence) {
+            this.fenceGateBlock(fence, blockTexture(fence.getBaseBlock()));
+            itemModels().withExistingParent(fence.getRegistryName(), blockFolder(key(fence)));
+        }
+    }
+
+    private void fenceBlockWithItem(Block block) {
+        if (block instanceof TCAntiExplosionFenceBlock fence) {
+            this.fenceBlock(fence, blockTexture(fence.getBaseBlock()));
+            ModelFile model = models().withExistingParent(fence.getRegistryName(), "block/fence_inventory").texture("texture", blockTexture(fence.getBaseBlock()));
+            this.simpleBlockItem(block, model);
+        }
     }
 
     private void simpleBlockWithItem(Block block) {
