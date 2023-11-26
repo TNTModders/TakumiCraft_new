@@ -7,8 +7,10 @@ import com.tntmodders.takumicraft.utils.TCLoggingUtils;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.ScaffoldingBlock;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
+import net.minecraftforge.client.model.generators.ConfiguredModel;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.client.model.generators.ModelProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
@@ -31,6 +33,8 @@ public class TCBlockStateProvider extends BlockStateProvider {
                     case STAINED_GLASS -> this.stainedGlassBlockWithItem(block);
                     case PANE_GLASS, PANE_STAINED_GLASS ->
                             this.paneGlassBlockWithItem(block, ((ITCBlocks) block).getBlockStateModelType());
+                    case LADDER -> this.ladderBlockWithItem(block);
+                    case SCCAFOLDING -> this.scaffoldingBlockWithItem(block);
                 }
                 TCLoggingUtils.entryRegistry("BlockStateModel_" + ((ITCBlocks) block).getBlockStateModelType().name(), ((ITCBlocks) block).getRegistryName());
             }
@@ -45,6 +49,27 @@ public class TCBlockStateProvider extends BlockStateProvider {
         this.simpleBlockItem(block, model);
     }
 
+    private void scaffoldingBlockWithItem(Block block) {
+        ResourceLocation top = blockFolder(new ResourceLocation(TakumiCraftCore.MODID, name(block) + "_top"));
+        ResourceLocation side = blockFolder(new ResourceLocation(TakumiCraftCore.MODID, name(block) + "_side"));
+        ResourceLocation bottom = blockFolder(new ResourceLocation(TakumiCraftCore.MODID, name(block) + "_bottom"));
+
+        ModelFile model_stable = this.models().withExistingParent(name(block)+"_stable", "scaffolding_stable").texture("particle", top)
+                .texture("top", top).texture("side", side).texture("bottom",bottom).renderType("cutout");
+        ModelFile model_unstable = this.models().withExistingParent(name(block)+"_unstable", "scaffolding_unstable").texture("particle", top)
+                .texture("top", top).texture("side", side).texture("bottom",bottom).renderType("cutout");
+
+        this.getVariantBuilder(block).partialState().with(ScaffoldingBlock.BOTTOM, false).addModels(new ConfiguredModel(model_stable)).partialState().with(ScaffoldingBlock.BOTTOM, true).addModels(new ConfiguredModel(model_unstable));
+        this.simpleBlockItem(block, model_stable);
+    }
+
+    private void ladderBlockWithItem(Block block) {
+        ResourceLocation location = blockTexture(block);
+        ModelFile model = this.models().withExistingParent(name(block), "ladder").texture("particle", location).texture("texture", location).renderType("cutout");
+        this.horizontalBlock(block, model);
+        this.singleBlockItem(block, location, ITCBlocks.EnumTCBlockStateModelType.LADDER);
+    }
+
     private void glassBlockWithItem(Block block) {
         ModelFile model = this.glassCubeAll(block);
         this.simpleBlock(block, model);
@@ -57,17 +82,14 @@ public class TCBlockStateProvider extends BlockStateProvider {
 
     private void paneGlassBlockWithItem(Block block, ITCBlocks.EnumTCBlockStateModelType type) {
         if (block instanceof TCCreeperGlassPaneBlock pane) {
-            ResourceLocation sourceName = blockFolder(key(pane.getBaseTakumiBlock()));
+            ResourceLocation sourceName = blockTexture(pane.getBaseTakumiBlock());
             if (type == ITCBlocks.EnumTCBlockStateModelType.PANE_GLASS) {
                 ResourceLocation topName = blockFolder(new ResourceLocation(TakumiCraftCore.MODID, "creeperglasspane_top"));
                 this.paneBlockWithRenderType(pane, sourceName, topName, type.getType());
             } else {
                 this.paneBlockWithRenderType(pane, sourceName, sourceName, type.getType());
             }
-            itemModels().getBuilder(key(block).getPath())
-                    .parent(new ModelFile.UncheckedModelFile("item/generated"))
-                    .texture("layer0", sourceName)
-                    .renderType(type.getType());
+            this.singleBlockItem(block, sourceName, type);
         }
 
     }
@@ -87,6 +109,13 @@ public class TCBlockStateProvider extends BlockStateProvider {
             ModelFile model = this.cubeAll(block);
             this.slabBlock((SlabBlock) block, model, model, model);
         }
+    }
+
+    private void singleBlockItem(Block block, ResourceLocation sourceName, ITCBlocks.EnumTCBlockStateModelType type) {
+        itemModels().getBuilder(key(block).getPath())
+                .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .texture("layer0", sourceName)
+                .renderType(type.getType());
     }
 
     private ResourceLocation key(Block block) {
