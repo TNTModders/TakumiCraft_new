@@ -197,6 +197,20 @@
       },
       "trigger": "minecraft:player_killed_entity"
     },
+    "slay_fireworkscreeper": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "takumicraft:fireworkscreeper"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
     "slay_glasscreeper": {
       "conditions": {
         "entity": [
@@ -562,6 +576,9 @@
     ],
     [
       "slay_glasscreeper"
+    ],
+    [
+      "slay_fireworkscreeper"
     ],
     [
       "slay_phantomcreeper"

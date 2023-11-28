@@ -58,6 +58,7 @@ public class TCEntityCore {
     public static final TCCreeperContext<TCGlassCreeper> GLASS = new TCGlassCreeper.TCGlassCreeperContext();
     public static final TCCreeperContext<TCDripstoneCreeper> DRIPSTONE = new TCDripstoneCreeper.TCDripstoneCreeperContext();
     public static final TCCreeperContext<TCAmethystCreeper> AMETHYST = new TCAmethystCreeper.TCAmethystCreeperContext();
+    public static final TCCreeperContext<TCFireworksCreeper> FIREWORKS = new TCFireworksCreeper.TCFireworksCreeperContext();
 
     public static void registerEntityType(RegisterEvent event) {
         TCLoggingUtils.startRegistry("Entity");
