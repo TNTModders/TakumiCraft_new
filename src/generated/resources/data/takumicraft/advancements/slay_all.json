@@ -225,6 +225,20 @@
       },
       "trigger": "minecraft:player_killed_entity"
     },
+    "slay_glowstonecreeper": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "takumicraft:glowstonecreeper"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
     "slay_happinesscreeper": {
       "conditions": {
         "entity": [
@@ -579,6 +593,9 @@
     ],
     [
       "slay_fireworkscreeper"
+    ],
+    [
+      "slay_glowstonecreeper"
     ],
     [
       "slay_phantomcreeper"

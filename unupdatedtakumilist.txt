@@ -14,12 +14,12 @@ frostcreeper
 magmacreeper
 sandstormcreeper
 wrylycreeper
-fireworkscreeper
+
 spidercreeper
 minispidercreeper
 ghastcreeper
 
-glowstonecreeper
+
 lostcreeper
 
 batcreeper
