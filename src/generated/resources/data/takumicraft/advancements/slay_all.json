@@ -253,6 +253,20 @@
       },
       "trigger": "minecraft:player_killed_entity"
     },
+    "slay_horsecreeper": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "takumicraft:horsecreeper"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
     "slay_huskcreeper": {
       "conditions": {
         "entity": [
@@ -613,6 +627,9 @@
     ],
     [
       "slay_pigcreeper"
+    ],
+    [
+      "slay_horsecreeper"
     ],
     [
       "slay_phantomcreeper"
