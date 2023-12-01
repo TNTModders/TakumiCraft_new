@@ -62,6 +62,7 @@ public class TCEntityCore {
     public static final TCCreeperContext<TCGlowstoneCreeper> GLOWSTONE =new TCGlowstoneCreeper.TCGlowstoneCreeperContext();
     public static final TCCreeperContext<TCPigCreeper> PIG = new TCPigCreeper.TCPigCreeperContext();
     public static final TCCreeperContext<TCHorseCreeper> HORSE = new TCHorseCreeper.TCHorseCreeperContext();
+    public static final TCCreeperContext<TCRabbitCreeper> RABBIT = new TCRabbitCreeper.TCRabbitCreeperContext();
 
     public static void registerEntityType(RegisterEvent event) {
         TCLoggingUtils.startRegistry("Entity");

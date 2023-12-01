@@ -407,6 +407,20 @@
       },
       "trigger": "minecraft:player_killed_entity"
     },
+    "slay_rabbitcreeper": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "takumicraft:rabbitcreeper"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
     "slay_redstonecreeper": {
       "conditions": {
         "entity": [
@@ -630,6 +644,9 @@
     ],
     [
       "slay_horsecreeper"
+    ],
+    [
+      "slay_rabbitcreeper"
     ],
     [
       "slay_phantomcreeper"

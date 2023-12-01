@@ -19,15 +19,12 @@ spidercreeper
 minispidercreeper
 ghastcreeper
 
-
 lostcreeper
 
 batcreeper
 weathercreeper
 colorcreeper
 
-horsecreeper
-rabbitcreeper
 musiccreeper
 sheepcreeper
 wolfcreeper
