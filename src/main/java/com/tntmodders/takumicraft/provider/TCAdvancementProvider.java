@@ -17,6 +17,7 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.common.data.ExistingFileHelper;
@@ -84,6 +85,13 @@ public class TCAdvancementProvider extends ForgeAdvancementProvider {
                             FrameType.TASK, true, true, false)
                     .addCriterion("impossible", CriteriaTriggers.IMPOSSIBLE.createCriterion(new ImpossibleTrigger.TriggerInstance()))
                     .parent(creeperbomb).save(consumer, new ResourceLocation(TakumiCraftCore.MODID, "disarmament"));
+
+            AdvancementHolder rainbowsheep = Advancement.Builder.advancement()
+                    .display(new ItemStack(TCBlockCore.CREEPER_WOOL_MAP.get(DyeColor.WHITE)), Component.translatable("advancement.takumicraft.rainbowsheep.title"),
+                            Component.translatable("advancement.takumicraft.rainbowsheep.desc"), null,
+                            FrameType.GOAL, true, true, true)
+                    .addCriterion("impossible", CriteriaTriggers.IMPOSSIBLE.createCriterion(new ImpossibleTrigger.TriggerInstance()))
+                    .parent(creeperbomb).save(consumer, new ResourceLocation(TakumiCraftCore.MODID, "rainbowsheep"));
 
             AdvancementHolder creepershield = Advancement.Builder.advancement()
                     .display(new ItemStack(TCItemCore.CREEPER_SHIELD), Component.translatable("advancement.takumicraft.disarmament.title"),

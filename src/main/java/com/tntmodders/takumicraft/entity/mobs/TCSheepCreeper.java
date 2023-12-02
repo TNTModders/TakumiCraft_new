@@ -10,12 +10,15 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -40,6 +43,7 @@ import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
 import org.joml.Vector3f;
 
 import javax.annotation.Nullable;
+import java.util.Objects;
 
 public class TCSheepCreeper extends AbstractTCCreeper {
     private static final int EAT_ANIMATION_TICKS = 40;
@@ -206,11 +210,23 @@ public class TCSheepCreeper extends AbstractTCCreeper {
     @Nullable
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_29835_, DifficultyInstance p_29836_, MobSpawnType p_29837_, @Nullable SpawnGroupData p_29838_, @Nullable CompoundTag p_29839_) {
         this.setColor(getRandomSheepColor(p_29835_.getRandom()));
-        if (this.random.nextInt(10000) == 0) {
+        this.random.nextInt(10000);
+        if (true) {
             this.setCustomName(Component.literal(RAINBOW_NAME));
             this.setPowered(true);
         }
         return super.finalizeSpawn(p_29835_, p_29836_, p_29837_, p_29838_, p_29839_);
+    }
+
+    @Override
+    public void die(DamageSource p_21014_) {
+        super.die(p_21014_);
+        if (this.isRainbow() && p_21014_.is(DamageTypes.PLAYER_ATTACK) && p_21014_.getEntity() instanceof ServerPlayer player) {
+            if (player instanceof ServerPlayer && player.distanceToSqr(this) < 100) {
+                player.getAdvancements()
+                        .award(Objects.requireNonNull(player.server.getAdvancements().get(new ResourceLocation(TakumiCraftCore.MODID, "rainbowsheep"))), "impossible");
+            }
+        }
     }
 
     @Override

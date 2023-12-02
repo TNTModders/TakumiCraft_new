@@ -135,6 +135,8 @@ public abstract class TCLanguageProvider extends LanguageProvider {
             this.add("advancement.takumicraft.disarmament.desc", "Disarmament creeper's lighting armor.");
             this.add("advancement.takumicraft.creepershield.title","Super Shield");
             this.add("advancement.takumicraft.creepershield.desc","Don't care about explosion.");
+            this.add("advancement.takumicraft.rainbowsheep.title","Rainbow Sheep");
+            this.add("advancement.takumicraft.rainbowsheep.desc","Slay rainbow Sheep Creeper.");
         }
 
         @Override
@@ -241,6 +243,8 @@ public abstract class TCLanguageProvider extends LanguageProvider {
             this.add("advancement.takumicraft.disarmament.desc", "巨匠化状態を解除する\n怖いものなし、匠の狩人。");
             this.add("advancement.takumicraft.creepershield.title","爆風もへっちゃら");
             this.add("advancement.takumicraft.creepershield.desc","匠式防盾を入手する\n(見た目以外は)完璧な盾だ。");
+            this.add("advancement.takumicraft.rainbowsheep.title","幻の虹色");
+            this.add("advancement.takumicraft.rainbowsheep.desc","虹の羊匠を倒す\n見つけたら幸せになれるかも?");
         }
 
         @Override
