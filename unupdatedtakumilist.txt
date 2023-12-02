@@ -9,7 +9,7 @@ fishcreeper
 subsidencecreeper
 straycreeper
 parrotcreeper
-squidcreeper
+
 frostcreeper
 magmacreeper
 sandstormcreeper
@@ -206,7 +206,6 @@ statuecreeper
 vanillamobs
 
 allay
-squid
 axolotol
 parrot
 frog
@@ -220,7 +219,6 @@ snowgolem
 bird
 cat
 sheep
-glowingsquid
 pufferfish
 mooshroom
 camel

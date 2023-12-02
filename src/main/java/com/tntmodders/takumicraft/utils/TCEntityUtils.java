@@ -7,6 +7,7 @@ import com.mojang.datafixers.util.Pair;
 import com.mojang.math.Axis;
 import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.entity.mobs.AbstractTCCreeper;
+import com.tntmodders.takumicraft.entity.mobs.TCSquidCreeper;
 import com.tntmodders.takumicraft.entity.mobs.TCZombieVillagerCreeper;
 import net.minecraft.advancements.AdvancementProgress;
 import net.minecraft.client.Minecraft;
@@ -75,7 +76,7 @@ public class TCEntityUtils {
             entityrenderdispatcher.overrideCameraOrientation(quaternion1);
             entityrenderdispatcher.setRenderShadow(false);
             MultiBufferSource.BufferSource multibuffersource$buffersource = Minecraft.getInstance().renderBuffers().bufferSource();
-            renderEntitySP(creeper);
+            renderEntitySP(creeper, posestack1);
             entityrenderdispatcher.render(creeper, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F,
                     posestack1, multibuffersource$buffersource, TCEntityUtils.checkSlayAdv(entityType) ? 0xf000f0 : -10000);
             multibuffersource$buffersource.endBatch();
@@ -91,9 +92,13 @@ public class TCEntityUtils {
         }
     }
 
-    private static void renderEntitySP(Entity entity) {
+    private static void renderEntitySP(Entity entity, PoseStack posestack) {
         if (entity instanceof TCZombieVillagerCreeper creeper) {
             creeper.setVillagerData(new VillagerData(VillagerType.PLAINS, VillagerProfession.NONE, 0));
+        } else if (entity instanceof TCSquidCreeper creeper) {
+            posestack.scale(0.65f, 0.65f, 0.65f);
+            posestack.translate(0, 1.1, 0.25);
+            posestack.rotateAround(Axis.ZP.rotationDegrees(10),0,1,0);
         }
     }
 
