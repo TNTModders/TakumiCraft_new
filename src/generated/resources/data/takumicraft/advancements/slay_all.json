@@ -225,6 +225,20 @@
       },
       "trigger": "minecraft:player_killed_entity"
     },
+    "slay_glowingsquidcreeper": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "takumicraft:glowingsquidcreeper"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
     "slay_glowstonecreeper": {
       "conditions": {
         "entity": [
@@ -477,6 +491,20 @@
       },
       "trigger": "minecraft:player_killed_entity"
     },
+    "slay_squidcreeper": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "takumicraft:squidcreeper"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
     "slay_stonecreeper": {
       "conditions": {
         "entity": [
@@ -647,6 +675,12 @@
     ],
     [
       "slay_rabbitcreeper"
+    ],
+    [
+      "slay_squidcreeper"
+    ],
+    [
+      "slay_glowingsquidcreeper"
     ],
     [
       "slay_phantomcreeper"

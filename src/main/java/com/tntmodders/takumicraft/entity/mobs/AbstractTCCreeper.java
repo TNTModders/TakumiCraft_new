@@ -83,6 +83,10 @@ public abstract class AbstractTCCreeper extends Creeper implements ITCEntities, 
         return p_186210_.getRawBrightness(p_186211_, 0) > 8;
     }
 
+    public double getRandomY(double dy) {
+        return this.getY((2.0D * this.random.nextDouble() - 1.0D) * dy);
+    }
+
     public boolean isOnBook() {
         return this.onBook;
     }

@@ -16,6 +16,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
+import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.data.event.GatherDataEvent;
@@ -109,6 +110,8 @@ public class TakumiCraftCore {
             }
             if (ForgeRegistries.RECIPE_SERIALIZERS.equals(event.getForgeRegistry())) {
                 TCRecipeSerializerCore.register(event);
+            }if(ForgeRegistries.PARTICLE_TYPES.equals(event.getForgeRegistry())){
+                TCParticleTypeCore.register(event);
             }
         }
 
@@ -151,6 +154,11 @@ public class TakumiCraftCore {
         @SubscribeEvent
         public static void RegisterKeyBinding(RegisterKeyMappingsEvent event) {
             TCKeyBindingCore.register(event);
+        }
+
+        @SubscribeEvent
+        public static void RegisterParticleEngine(RegisterParticleProvidersEvent event){
+            TCParticleTypeCore.registerParticleEngine(event);
         }
     }
 }
