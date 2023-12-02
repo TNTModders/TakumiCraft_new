@@ -463,6 +463,20 @@
       },
       "trigger": "minecraft:player_killed_entity"
     },
+    "slay_sheepcreeper": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "takumicraft:sheepcreeper"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
     "slay_silentcreeper": {
       "conditions": {
         "entity": [
@@ -681,6 +695,9 @@
     ],
     [
       "slay_glowingsquidcreeper"
+    ],
+    [
+      "slay_sheepcreeper"
     ],
     [
       "slay_phantomcreeper"
