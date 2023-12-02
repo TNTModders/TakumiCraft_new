@@ -4,6 +4,7 @@ import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.entity.mobs.*;
 import com.tntmodders.takumicraft.entity.mobs.AbstractTCCreeper.TCCreeperContext;
 import com.tntmodders.takumicraft.entity.projectile.TCAmethystBomb;
+import com.tntmodders.takumicraft.entity.projectile.TCBirdBomb;
 import com.tntmodders.takumicraft.entity.projectile.TCCreeperArrow;
 import com.tntmodders.takumicraft.utils.TCLoggingUtils;
 import net.minecraft.core.NonNullList;
@@ -59,13 +60,14 @@ public class TCEntityCore {
     public static final TCCreeperContext<TCDripstoneCreeper> DRIPSTONE = new TCDripstoneCreeper.TCDripstoneCreeperContext();
     public static final TCCreeperContext<TCAmethystCreeper> AMETHYST = new TCAmethystCreeper.TCAmethystCreeperContext();
     public static final TCCreeperContext<TCFireworksCreeper> FIREWORKS = new TCFireworksCreeper.TCFireworksCreeperContext();
-    public static final TCCreeperContext<TCGlowstoneCreeper> GLOWSTONE =new TCGlowstoneCreeper.TCGlowstoneCreeperContext();
+    public static final TCCreeperContext<TCGlowstoneCreeper> GLOWSTONE = new TCGlowstoneCreeper.TCGlowstoneCreeperContext();
     public static final TCCreeperContext<TCPigCreeper> PIG = new TCPigCreeper.TCPigCreeperContext();
     public static final TCCreeperContext<TCHorseCreeper> HORSE = new TCHorseCreeper.TCHorseCreeperContext();
     public static final TCCreeperContext<TCRabbitCreeper> RABBIT = new TCRabbitCreeper.TCRabbitCreeperContext();
     public static final TCCreeperContext<TCSquidCreeper> SQUID = new TCSquidCreeper.TCSquidCreeperContext();
     public static final TCCreeperContext<TCGlowingSquidCreeper> GLOWING_SQUID = new TCGlowingSquidCreeper.TCSquidCreeperContext();
-    public static final TCCreeperContext<TCSheepCreeper> SHEEP=new TCSheepCreeper.TCSheepCreeperContext();
+    public static final TCCreeperContext<TCSheepCreeper> SHEEP = new TCSheepCreeper.TCSheepCreeperContext();
+    public static final TCCreeperContext<TCBirdCreeper> BIRD = new TCBirdCreeper.TCBirdCreeperContext();
 
     public static void registerEntityType(RegisterEvent event) {
         TCLoggingUtils.startRegistry("Entity");
@@ -96,6 +98,8 @@ public class TCEntityCore {
                 entityTypeRegisterHelper.register(new ResourceLocation(TakumiCraftCore.MODID, "creeperarrow"), TCCreeperArrow.ARROW));
         event.register(ForgeRegistries.ENTITY_TYPES.getRegistryKey(), entityTypeRegisterHelper ->
                 entityTypeRegisterHelper.register(new ResourceLocation(TakumiCraftCore.MODID, "amethystbomb"), TCAmethystBomb.AMETHYST_BOMB));
+        event.register(ForgeRegistries.ENTITY_TYPES.getRegistryKey(), entityTypeRegisterHelper ->
+                entityTypeRegisterHelper.register(new ResourceLocation(TakumiCraftCore.MODID, "birdbomb"), TCBirdBomb.BIRD_BOMB));
     }
 
     public static void registerAttribute(EntityAttributeCreationEvent event) {

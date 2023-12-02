@@ -7,11 +7,13 @@ import com.tntmodders.takumicraft.client.renderer.block.model.TCShieldModel;
 import com.tntmodders.takumicraft.client.renderer.entity.TCAmethystBombRenderer;
 import com.tntmodders.takumicraft.core.TCEntityCore;
 import com.tntmodders.takumicraft.entity.projectile.TCAmethystBomb;
+import com.tntmodders.takumicraft.entity.projectile.TCBirdBomb;
 import com.tntmodders.takumicraft.entity.projectile.TCCreeperArrow;
 import com.tntmodders.takumicraft.utils.TCLoggingUtils;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
 import net.minecraft.client.renderer.entity.ArrowRenderer;
+import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.projectile.Arrow;
 import net.minecraftforge.api.distmarker.Dist;
@@ -39,6 +41,7 @@ public class TCRenderCore {
             }
         });
         event.registerEntityRenderer(TCAmethystBomb.AMETHYST_BOMB, TCAmethystBombRenderer::new);
+        event.registerEntityRenderer(TCBirdBomb.BIRD_BOMB, ThrownItemRenderer::new);
     }
 
     public static void registerLayerDefinition(EntityRenderersEvent.RegisterLayerDefinitions event) {

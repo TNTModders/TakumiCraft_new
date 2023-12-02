@@ -210,8 +210,7 @@ public class TCSheepCreeper extends AbstractTCCreeper {
     @Nullable
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_29835_, DifficultyInstance p_29836_, MobSpawnType p_29837_, @Nullable SpawnGroupData p_29838_, @Nullable CompoundTag p_29839_) {
         this.setColor(getRandomSheepColor(p_29835_.getRandom()));
-        this.random.nextInt(10000);
-        if (true) {
+        if (this.random.nextInt(10000) == 0) {
             this.setCustomName(Component.literal(RAINBOW_NAME));
             this.setPowered(true);
         }
