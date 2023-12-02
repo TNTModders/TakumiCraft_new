@@ -38,12 +38,21 @@ public class TCBlockStateProvider extends BlockStateProvider {
                     case SCCAFOLDING -> this.scaffoldingBlockWithItem(block);
                     case DOOR -> this.doorBlockWithItem(block);
                     case TRAP_DOOR -> this.trapdoorBlockWithItem(block);
+                    case CARPET -> this.carpetBlockWithItem(block);
                 }
                 TCLoggingUtils.entryRegistry("BlockStateModel_" + ((ITCBlocks) block).getBlockStateModelType().name(), ((ITCBlocks) block).getRegistryName());
             }
         });
 
         TCLoggingUtils.completeRegistry("BlockStateModel");
+    }
+
+    private void carpetBlockWithItem(Block block) {
+        if(block instanceof TCCarpetBlock carpet){
+            ModelFile model = models().withExistingParent(carpet.getRegistryName(), "block/carpet").texture("wool", blockTexture(TCBlockCore.CREEPER_WOOL_MAP.get(carpet.getColor())));
+            this.simpleBlock(carpet,model);
+            this.simpleBlockItem(carpet,model);
+        }
     }
 
     private void trapdoorBlockWithItem(Block block) {

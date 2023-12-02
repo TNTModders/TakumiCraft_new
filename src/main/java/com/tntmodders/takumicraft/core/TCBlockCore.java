@@ -55,13 +55,19 @@ public class TCBlockCore {
     public static final Block CREEPER_PLANKS_FENCE_GATE = new TCAntiExplosionFenceGateBlock(CREEPER_PLANKS::defaultBlockState);
     public static final Block CREEPER_PLANKS_DOOR = new TCAntiExplosionDoorBlock(CREEPER_PLANKS::defaultBlockState, BlockSetType.OAK);
     public static final Block CREEPER_PLANKS_TRAPDOOR = new TCAntiExplosionTrapDoorBlock(CREEPER_PLANKS::defaultBlockState, BlockSetType.OAK);
+    public static final Map<DyeColor, TCWoolBlock> CREEPER_WOOL_MAP = new HashMap<>();
+    public static final Map<DyeColor, TCCarpetBlock> CREEPER_CARPET_MAP = new HashMap<>();
 
     public static final TagKey<Block> GUNORES = TagKey.create(Registries.BLOCK, new ResourceLocation(TakumiCraftCore.MODID, "gunores"));
     public static final TagKey<Block> ANTI_EXPLOSION = TagKey.create(Registries.BLOCK, new ResourceLocation(TakumiCraftCore.MODID, "anti_explosion"));
 
     static {
-        Arrays.stream(DyeColor.values()).forEach(dyeColor -> CREEPER_COLORED_GLASS_MAP.put(dyeColor, new TCColoredCreeperGlassBlock(dyeColor)));
-        Arrays.stream(DyeColor.values()).forEach(dyeColor -> CREEPER_COLORED_GLASS_PANE_MAP.put(dyeColor, new TCColoredCreeperGlassPaneBlock(dyeColor)));
+        Arrays.stream(DyeColor.values()).forEach(dyeColor -> {
+            CREEPER_COLORED_GLASS_MAP.put(dyeColor, new TCColoredCreeperGlassBlock(dyeColor));
+            CREEPER_COLORED_GLASS_PANE_MAP.put(dyeColor, new TCColoredCreeperGlassPaneBlock(dyeColor));
+            CREEPER_WOOL_MAP.put(dyeColor, new TCWoolBlock(dyeColor));
+            CREEPER_CARPET_MAP.put(dyeColor, new TCCarpetBlock(dyeColor));
+        });
     }
 
     public static void register(final RegisterEvent event) {

@@ -1,0 +1,48 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_creepercarpet_light_blue": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "takumicraft:creepercarpet_light_blue"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_creeperwool": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "takumicraft:creeperwool_light_blue"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "takumicraft:creepercarpet_light_blue_from_creeperwool"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_creeperwool",
+      "has_creepercarpet_light_blue"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "takumicraft:creepercarpet_light_blue_from_creeperwool"
+    ]
+  },
+  "sends_telemetry_event": false
+}

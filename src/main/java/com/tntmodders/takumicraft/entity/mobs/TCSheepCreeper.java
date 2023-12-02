@@ -1,17 +1,15 @@
 package com.tntmodders.takumicraft.entity.mobs;
 
-import com.google.common.collect.Maps;
 import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.client.renderer.entity.TCSheepCreeperRenderer;
+import com.tntmodders.takumicraft.core.TCBlockCore;
 import com.tntmodders.takumicraft.core.TCEntityCore;
-import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
@@ -35,39 +33,18 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
-import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
 import org.joml.Vector3f;
 
 import javax.annotation.Nullable;
-import java.util.Map;
 
 public class TCSheepCreeper extends AbstractTCCreeper {
     private static final int EAT_ANIMATION_TICKS = 40;
     private static final String RAINBOW_NAME = "jeb_";
     private static final EntityDataAccessor<Byte> DATA_WOOL_ID = SynchedEntityData.defineId(TCSheepCreeper.class, EntityDataSerializers.BYTE);
-    private static final Map<DyeColor, ItemLike> ITEM_BY_DYE = Util.make(Maps.newEnumMap(DyeColor.class), p_29841_ -> {
-        p_29841_.put(DyeColor.WHITE, Blocks.WHITE_WOOL);
-        p_29841_.put(DyeColor.ORANGE, Blocks.ORANGE_WOOL);
-        p_29841_.put(DyeColor.MAGENTA, Blocks.MAGENTA_WOOL);
-        p_29841_.put(DyeColor.LIGHT_BLUE, Blocks.LIGHT_BLUE_WOOL);
-        p_29841_.put(DyeColor.YELLOW, Blocks.YELLOW_WOOL);
-        p_29841_.put(DyeColor.LIME, Blocks.LIME_WOOL);
-        p_29841_.put(DyeColor.PINK, Blocks.PINK_WOOL);
-        p_29841_.put(DyeColor.GRAY, Blocks.GRAY_WOOL);
-        p_29841_.put(DyeColor.LIGHT_GRAY, Blocks.LIGHT_GRAY_WOOL);
-        p_29841_.put(DyeColor.CYAN, Blocks.CYAN_WOOL);
-        p_29841_.put(DyeColor.PURPLE, Blocks.PURPLE_WOOL);
-        p_29841_.put(DyeColor.BLUE, Blocks.BLUE_WOOL);
-        p_29841_.put(DyeColor.BROWN, Blocks.BROWN_WOOL);
-        p_29841_.put(DyeColor.GREEN, Blocks.GREEN_WOOL);
-        p_29841_.put(DyeColor.RED, Blocks.RED_WOOL);
-        p_29841_.put(DyeColor.BLACK, Blocks.BLACK_WOOL);
-    });
 
     private int eatAnimationTick;
     private EatBlockGoal eatBlockGoal;
@@ -143,30 +120,6 @@ public class TCSheepCreeper extends AbstractTCCreeper {
     protected void defineSynchedData() {
         super.defineSynchedData();
         this.entityData.define(DATA_WOOL_ID, (byte) 0);
-    }
-
-    @Override
-    public ResourceLocation getDefaultLootTable() {
-        ResourceLocation resourcelocation = switch (this.getColor()) {
-            case WHITE -> BuiltInLootTables.SHEEP_WHITE;
-            case ORANGE -> BuiltInLootTables.SHEEP_ORANGE;
-            case MAGENTA -> BuiltInLootTables.SHEEP_MAGENTA;
-            case LIGHT_BLUE -> BuiltInLootTables.SHEEP_LIGHT_BLUE;
-            case YELLOW -> BuiltInLootTables.SHEEP_YELLOW;
-            case LIME -> BuiltInLootTables.SHEEP_LIME;
-            case PINK -> BuiltInLootTables.SHEEP_PINK;
-            case GRAY -> BuiltInLootTables.SHEEP_GRAY;
-            case LIGHT_GRAY -> BuiltInLootTables.SHEEP_LIGHT_GRAY;
-            case CYAN -> BuiltInLootTables.SHEEP_CYAN;
-            case PURPLE -> BuiltInLootTables.SHEEP_PURPLE;
-            case BLUE -> BuiltInLootTables.SHEEP_BLUE;
-            case BROWN -> BuiltInLootTables.SHEEP_BROWN;
-            case GREEN -> BuiltInLootTables.SHEEP_GREEN;
-            case RED -> BuiltInLootTables.SHEEP_RED;
-            case BLACK -> BuiltInLootTables.SHEEP_BLACK;
-        };
-
-        return resourcelocation;
     }
 
     @Override
@@ -258,6 +211,12 @@ public class TCSheepCreeper extends AbstractTCCreeper {
             this.setPowered(true);
         }
         return super.finalizeSpawn(p_29835_, p_29836_, p_29837_, p_29838_, p_29839_);
+    }
+
+    @Override
+    protected void dropCustomDeathLoot(DamageSource p_32292_, int p_32293_, boolean p_32294_) {
+        super.dropCustomDeathLoot(p_32292_, p_32293_, p_32294_);
+        this.spawnAtLocation(TCBlockCore.CREEPER_WOOL_MAP.get(this.getColor()));
     }
 
     @Override
@@ -372,7 +331,7 @@ public class TCSheepCreeper extends AbstractTCCreeper {
 
         @Override
         public ItemLike getMainDropItem() {
-            return Items.COOKED_PORKCHOP;
+            return Items.COOKED_MUTTON;
         }
     }
 }

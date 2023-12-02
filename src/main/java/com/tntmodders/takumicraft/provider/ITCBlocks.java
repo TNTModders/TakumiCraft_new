@@ -59,6 +59,7 @@ public interface ITCBlocks extends ITCTranslator {
         PANE_STAINED_GLASS("translucent"),
         LADDER("cutout"),
         SCCAFOLDING("cutout"),
+        CARPET("cutout"),
         NONE("solid");
 
         private final String type;

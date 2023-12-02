@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "creepercarpet",
+  "key": {
+    "#": {
+      "item": "takumicraft:creeperwool_lime"
+    }
+  },
+  "pattern": [
+    "##"
+  ],
+  "result": {
+    "count": 3,
+    "item": "takumicraft:creepercarpet_lime"
+  },
+  "show_notification": true
+}
