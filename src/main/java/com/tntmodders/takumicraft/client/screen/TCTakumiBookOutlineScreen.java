@@ -537,7 +537,7 @@ public class TCTakumiBookOutlineScreen extends EffectRenderingInventoryScreen<TC
     public void renderSlot(GuiGraphics graphics, Slot slot) {
 
         if (slot.getItem().getItem() instanceof TCSpawnEggItem item) {
-            TCEntityUtils.renderEntity(slot.x + this.leftPos + (double) this.imageWidth / 25, slot.y + this.topPos + (double) this.imageHeight / 9, 7, this.tick / 100f, 0f, item.getContext().entityType());
+            TCEntityUtils.renderEntity(slot.x + this.leftPos + (double) this.imageWidth / 25, slot.y + this.topPos + (double) this.imageHeight / 9, 7, this.tick / 100f, 0f, item.getContext().entityType(),true);
         } else {
             super.renderSlot(graphics, slot);
         }

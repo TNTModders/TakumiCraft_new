@@ -214,7 +214,7 @@ public class TCTakumiBookScreen extends Screen {
 
         AbstractTCCreeper.TCCreeperContext<? extends AbstractTCCreeper> context = TCEntityCore.ENTITY_CONTEXTS.get(currentPage);
         this.tick++;
-        TCEntityUtils.renderEntity(i + 51, j + 80, 30, this.tick / 100f, 0, context.entityType());
+        TCEntityUtils.renderEntity(i + 51, j + 80, 30, this.tick / 100f, 0, context.entityType(), false);
         boolean flg = TCEntityUtils.checkSlayAdv(context.entityType());
         if (this.cachedPage != currentPage) {
             FormattedText formattedtext = Component.translatable(flg ? context.entityType().getDescriptionId() + ".desc" : "???");
