@@ -27,7 +27,6 @@ colorcreeper
 
 musiccreeper
 
-wolfcreeper
 snowcreeper
 voidcreeper
 lapiscreeper
@@ -57,7 +56,7 @@ annivcreeper
 leadcreeper
 catcreeper
 rushcreeper
-birdcreeper
+
 callcreeper
 chestcreeper
 uppercreeper
@@ -216,14 +215,13 @@ fish
 strider
 sniffer
 snowgolem
-bird
+
 cat
 pufferfish
 mooshroom
 camel
 
 dolphin
-wolf
 polarbear
 panda
 bee

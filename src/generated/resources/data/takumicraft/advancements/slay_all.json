@@ -561,6 +561,20 @@
       },
       "trigger": "minecraft:player_killed_entity"
     },
+    "slay_wolfcreeper": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "takumicraft:wolfcreeper"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
     "slay_woodcreeper": {
       "conditions": {
         "entity": [
@@ -715,6 +729,9 @@
     ],
     [
       "slay_birdcreeper"
+    ],
+    [
+      "slay_wolfcreeper"
     ],
     [
       "slay_phantomcreeper"
