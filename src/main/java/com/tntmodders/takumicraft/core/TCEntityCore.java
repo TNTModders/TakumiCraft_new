@@ -8,7 +8,9 @@ import com.tntmodders.takumicraft.entity.projectile.TCBirdBomb;
 import com.tntmodders.takumicraft.entity.projectile.TCCreeperArrow;
 import com.tntmodders.takumicraft.utils.TCLoggingUtils;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -69,6 +71,9 @@ public class TCEntityCore {
     public static final TCCreeperContext<TCSheepCreeper> SHEEP = new TCSheepCreeper.TCSheepCreeperContext();
     public static final TCCreeperContext<TCBirdCreeper> BIRD = new TCBirdCreeper.TCBirdCreeperContext();
     public static final TCCreeperContext<TCWolfCreeper> WOLF = new TCWolfCreeper.TCWolfCreeperContext();
+    public static final TCCreeperContext<TCPowderSnowCreeper> POWDER_SNOW = new TCPowderSnowCreeper.TCPowderSnowCreeperContext();
+
+    public static final TagKey<EntityType<?>> TAKUMIS = TagKey.create(Registries.ENTITY_TYPE, new ResourceLocation(TakumiCraftCore.MODID, "takumi"));
 
     public static void registerEntityType(RegisterEvent event) {
         TCLoggingUtils.startRegistry("Entity");

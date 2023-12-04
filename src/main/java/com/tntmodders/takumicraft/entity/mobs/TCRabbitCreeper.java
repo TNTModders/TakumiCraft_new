@@ -7,6 +7,8 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.EntityTypeTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.damagesource.DamageSource;
@@ -32,6 +34,8 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
 import net.minecraftforge.event.level.ExplosionEvent;
+
+import java.util.List;
 
 public class TCRabbitCreeper extends AbstractTCCreeper {
     public static final int EVIL_ATTACK_POWER = 8;
@@ -437,6 +441,13 @@ public class TCRabbitCreeper extends AbstractTCCreeper {
         @Override
         public ItemLike getMainDropItem() {
             return Items.COOKED_PORKCHOP;
+        }
+
+        @Override
+        public List<TagKey<EntityType<?>>> getEntityTypeTags() {
+            List list = TCCreeperContext.super.getEntityTypeTags();
+            list.add(EntityTypeTags.POWDER_SNOW_WALKABLE_MOBS);
+            return list;
         }
     }
 }

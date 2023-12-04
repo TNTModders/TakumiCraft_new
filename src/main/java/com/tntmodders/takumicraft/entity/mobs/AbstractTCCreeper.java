@@ -21,6 +21,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobSpawnType;
@@ -55,6 +56,8 @@ import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
 import net.minecraftforge.event.level.ExplosionEvent;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
@@ -248,6 +251,12 @@ public abstract class AbstractTCCreeper extends Creeper implements ITCEntities, 
         @OnlyIn(Dist.CLIENT)
         default void registerRenderer(EntityRenderersEvent.RegisterRenderers event, EntityType<?> type) {
             event.registerEntityRenderer((EntityType<Creeper>) type, TCCreeperRenderer::new);
+        }
+
+        default List<TagKey<EntityType<?>>> getEntityTypeTags() {
+            ArrayList list = new ArrayList();
+            list.add(TCEntityCore.TAKUMIS);
+            return list;
         }
 
         EnumTakumiElement getElement();
