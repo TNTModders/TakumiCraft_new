@@ -5,7 +5,6 @@ import com.tntmodders.takumicraft.core.TCEntityCore;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobCategory;
-import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.event.level.ExplosionEvent;
@@ -45,6 +44,11 @@ public class TCHappinessCreeper extends AbstractTCCreeper {
         }
 
         @Override
+        public boolean showRead() {
+            return true;
+        }
+
+        @Override
         public String getJaJPRead() {
             return "ほほえみ";
         }
@@ -56,7 +60,7 @@ public class TCHappinessCreeper extends AbstractTCCreeper {
 
         @Override
         public String getJaJPDesc() {
-            return "「ほほえみ」と読む。回復効果のある大爆発を起こす。";
+            return "回復効果のある大爆発を起こす。読みはどうしてこうなった。";
         }
 
         @Override
@@ -82,11 +86,6 @@ public class TCHappinessCreeper extends AbstractTCCreeper {
         @Override
         public int getSecondaryColor() {
             return 16711935;
-        }
-
-        @Override
-        public AttributeSupplier.Builder entityAttribute() {
-            return Creeper.createAttributes();
         }
 
         @Override
