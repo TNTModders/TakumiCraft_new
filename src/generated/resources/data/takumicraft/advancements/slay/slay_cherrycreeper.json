@@ -1,0 +1,40 @@
+{
+  "parent": "takumicraft:slay/root",
+  "criteria": {
+    "killed_cherrycreeper": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "takumicraft:cherrycreeper"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "takumicraft.message.slay"
+    },
+    "frame": "task",
+    "hidden": true,
+    "icon": {
+      "item": "takumicraft:takumibook"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "entity.takumicraft.cherrycreeper"
+    }
+  },
+  "requirements": [
+    [
+      "killed_cherrycreeper"
+    ]
+  ],
+  "sends_telemetry_event": true
+}
