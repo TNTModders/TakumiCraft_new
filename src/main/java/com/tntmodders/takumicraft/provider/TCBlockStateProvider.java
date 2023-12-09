@@ -39,6 +39,7 @@ public class TCBlockStateProvider extends BlockStateProvider {
                     case DOOR -> this.doorBlockWithItem(block);
                     case TRAP_DOOR -> this.trapdoorBlockWithItem(block);
                     case CARPET -> this.carpetBlockWithItem(block);
+                    case BED -> this.bedBlockWithItem(block);
                 }
                 TCLoggingUtils.entryRegistry("BlockStateModel_" + ((ITCBlocks) block).getBlockStateModelType().name(), ((ITCBlocks) block).getRegistryName());
             }
@@ -47,11 +48,19 @@ public class TCBlockStateProvider extends BlockStateProvider {
         TCLoggingUtils.completeRegistry("BlockStateModel");
     }
 
+    private void bedBlockWithItem(Block block) {
+        if (block instanceof TCCreeperBedBlock bed) {
+            ModelFile blockModel = this.models().getBuilder("takumicraft:block/creeperbed").texture("particle", "takumicraft:block/creeperplanks");
+            this.getVariantBuilder(bed).partialState().addModels(new ConfiguredModel(blockModel));
+            this.itemModels().withExistingParent(bed.getRegistryName(), "takumicraft:item/template_creeperbed").texture("particle", blockTexture(TCBlockCore.CREEPER_WOOL_MAP.get(bed.getColor())));
+        }
+    }
+
     private void carpetBlockWithItem(Block block) {
-        if(block instanceof TCCarpetBlock carpet){
+        if (block instanceof TCCarpetBlock carpet) {
             ModelFile model = models().withExistingParent(carpet.getRegistryName(), "block/carpet").texture("wool", blockTexture(TCBlockCore.CREEPER_WOOL_MAP.get(carpet.getColor())));
-            this.simpleBlock(carpet,model);
-            this.simpleBlockItem(carpet,model);
+            this.simpleBlock(carpet, model);
+            this.simpleBlockItem(carpet, model);
         }
     }
 

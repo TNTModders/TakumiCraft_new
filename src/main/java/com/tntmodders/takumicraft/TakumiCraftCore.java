@@ -111,8 +111,12 @@ public class TakumiCraftCore {
             }
             if (ForgeRegistries.RECIPE_SERIALIZERS.equals(event.getForgeRegistry())) {
                 TCRecipeSerializerCore.register(event);
-            }if(ForgeRegistries.PARTICLE_TYPES.equals(event.getForgeRegistry())){
+            }
+            if (ForgeRegistries.PARTICLE_TYPES.equals(event.getForgeRegistry())) {
                 TCParticleTypeCore.register(event);
+            }
+            if (ForgeRegistries.BLOCK_ENTITY_TYPES.equals(event.getForgeRegistry())) {
+                TCBlockEntityCore.register(event);
             }
         }
 
@@ -158,7 +162,7 @@ public class TakumiCraftCore {
         }
 
         @SubscribeEvent
-        public static void RegisterParticleEngine(RegisterParticleProvidersEvent event){
+        public static void RegisterParticleEngine(RegisterParticleProvidersEvent event) {
             TCParticleTypeCore.registerParticleEngine(event);
         }
     }

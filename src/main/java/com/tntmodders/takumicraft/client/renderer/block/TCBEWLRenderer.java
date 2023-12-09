@@ -4,6 +4,8 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.datafixers.util.Pair;
 import com.tntmodders.takumicraft.TakumiCraftCore;
+import com.tntmodders.takumicraft.block.TCCreeperBedBlock;
+import com.tntmodders.takumicraft.block.entity.TCCreeperBedBlockEntity;
 import com.tntmodders.takumicraft.client.renderer.block.model.TCSaberModel;
 import com.tntmodders.takumicraft.client.renderer.block.model.TCShieldModel;
 import com.tntmodders.takumicraft.core.client.TCRenderCore;
@@ -18,9 +20,11 @@ import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.resources.model.Material;
 import net.minecraft.client.resources.model.ModelBakery;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.*;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BannerBlockEntity;
 import net.minecraft.world.level.block.entity.BannerPattern;
 
@@ -29,6 +33,8 @@ import java.util.List;
 public class TCBEWLRenderer extends BlockEntityWithoutLevelRenderer {
     private final TCSaberModel saberModel;
     private final TCShieldModel shieldModel;
+
+    private final TCCreeperBedBlockEntity bed = new TCCreeperBedBlockEntity(BlockPos.ZERO, Blocks.RED_BED.defaultBlockState());
 
     public TCBEWLRenderer() {
         super(Minecraft.getInstance().getBlockEntityRenderDispatcher(), Minecraft.getInstance().getEntityModels());
@@ -76,6 +82,9 @@ public class TCBEWLRenderer extends BlockEntityWithoutLevelRenderer {
             }
 
             poseStack.popPose();
+        } else if (stack.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof TCCreeperBedBlock bedBlock) {
+            this.bed.setColor(bedBlock.getColor());
+            Minecraft.getInstance().getBlockEntityRenderDispatcher().renderItem(this.bed, poseStack, bufferSource, p_108834_, p_108835_);
         } else {
             super.renderByItem(stack, p_108831_, poseStack, bufferSource, p_108834_, p_108835_);
         }

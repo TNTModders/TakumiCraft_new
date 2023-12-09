@@ -50,6 +50,7 @@ public class TCItemCore {
             "can_shield_explosion"));
     public static final TagKey<Item> CREEPER_ARROWS = TagKey.create(Registries.ITEM, new ResourceLocation(TakumiCraftCore.MODID, "creeper_arrow"));
     public static final TagKey<Item> MINESWEEPER_TOOLS = TagKey.create(Registries.ITEM, new ResourceLocation(TakumiCraftCore.MODID, "minesweeper_tool"));
+    public static final TagKey<Item> CREEPER_BED = TagKey.create(Registries.ITEM, new ResourceLocation(TakumiCraftCore.MODID, "creeperbed"));
 
     public static void register(final RegisterEvent event) {
         TCLoggingUtils.startRegistry("Item");
