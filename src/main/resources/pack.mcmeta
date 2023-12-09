@@ -1,8 +1,8 @@
 {
     "pack": {
         "description": {
-            "text": "${mod_id} resources"
+            "text": "Takumi Craft Resources"
         },
-        "pack_format": 18
+        "pack_format": 22
     }
 }
