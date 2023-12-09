@@ -47,7 +47,7 @@ public class TCElementCoreItem extends Item implements ITCItems, ITCTranslator {
         if (this.element == EnumTakumiElement.NORMAL) {
             return "匠素結晶";
         }
-        return "匠素結晶" + "[" + TCLanguageProvider.TCJaJPLanguageProvider.TC_JAJP_LANGMAP.get("takumicraft.elem." + element.getElementID()) + "]";
+        return "匠素結晶" + "[" + TCLanguageProvider.TCJaJPLanguageProvider.TC_JAJP_LANGMAP.get("takumicraft.elem." + element.getElementID()).replace("属性", "") + "]";
     }
 
     @Override

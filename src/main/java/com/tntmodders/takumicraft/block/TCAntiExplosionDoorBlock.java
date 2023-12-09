@@ -25,7 +25,7 @@ public class TCAntiExplosionDoorBlock extends DoorBlock implements ITCBlocks, IT
     private final Block baseBlock;
 
     public TCAntiExplosionDoorBlock(Supplier<BlockState> state, BlockSetType type) {
-        super(type, Properties.ofFullCopy(state.get().getBlock()));
+        super(type, Properties.ofFullCopy(state.get().getBlock()).noOcclusion());
         this.baseBlock = state.get().getBlock();
     }
 
@@ -82,5 +82,10 @@ public class TCAntiExplosionDoorBlock extends DoorBlock implements ITCBlocks, IT
     @Override
     public Supplier<LootTableSubProvider> getBlockLootSubProvider(Block block) {
         return () -> new TCBlockLoot(block, true);
+    }
+
+    @Override
+    public void drop(Block block, TCBlockLoot loot) {
+        loot.add(block, loot::createDoorTable);
     }
 }

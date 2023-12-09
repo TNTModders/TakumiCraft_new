@@ -88,6 +88,11 @@ public class TCBlockLoot extends BlockLootSubProvider {
         return super.createOreDrop(p_250450_, p_249745_);
     }
 
+    @Override
+    public LootTable.Builder createDoorTable(Block p_252166_) {
+        return super.createDoorTable(p_252166_);
+    }
+
     public LootTable.Builder createOreDropWithMinesweeper(Block block, Item item, UniformGenerator generator) {
         return LootTable.lootTable().withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1f)).add(LootItem.lootTableItem(block)).when(HAS_SILK_TOUCH)).withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1f)).add(LootItem.lootTableItem(item)).apply(SetItemCountFunction.setCount(generator)).apply(ApplyBonusCount.addUniformBonusCount(Enchantments.BLOCK_FORTUNE)).when(HAS_MINESWEEPER.and(HAS_SILK_TOUCH.invert())));
     }

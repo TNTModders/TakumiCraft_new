@@ -30,7 +30,7 @@ public class TCAntiExplosionTrapDoorBlock extends TrapDoorBlock implements ITCBl
     }
 
     public TCAntiExplosionTrapDoorBlock(Supplier<BlockState> state, BlockSetType type, boolean orientable) {
-        super(type, Properties.ofFullCopy(state.get().getBlock()));
+        super(type, Properties.ofFullCopy(state.get().getBlock()).noOcclusion());
         this.baseBlock = state.get().getBlock();
         this.orientable = orientable;
     }

@@ -54,6 +54,11 @@ public abstract class TCLanguageProvider extends LanguageProvider {
         protected void addTranslations() {
             TCLoggingUtils.startRegistry("En-US_Translations");
             super.addTranslations();
+            TCEntityCore.ENTITY_CONTEXTS.forEach(context -> {
+                if (context.getJaJPRead() != null) {
+                    this.add(TCEntityUtils.getEntityLangCode(context.entityType(), ".read"), context.getEnUSName());
+                }
+            });
             TCLoggingUtils.completeRegistry("En-US_Translations");
         }
 
