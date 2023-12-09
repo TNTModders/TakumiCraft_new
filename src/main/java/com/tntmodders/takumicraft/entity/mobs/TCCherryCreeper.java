@@ -11,7 +11,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.grower.CherryTreeGrower;
+import net.minecraft.world.level.block.grower.TreeGrower;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraftforge.client.event.EntityRenderersEvent;
@@ -50,7 +50,7 @@ public class TCCherryCreeper extends AbstractTCCreeper {
         if (!this.level().isClientSide && this.level() instanceof ServerLevel serverLevel) {
             BlockState state = this.level().getBlockState(this.getOnPos().above());
             this.level().setBlock(this.getOnPos().above(), Blocks.DIRT.defaultBlockState(), 3);
-            boolean flg = new CherryTreeGrower().growTree(serverLevel, serverLevel.getChunkSource().getGenerator(), this.getOnPos().above().above(), serverLevel.getBlockState(this.getOnPos().above().above()), this.getRandom());
+            boolean flg = TreeGrower.CHERRY.growTree(serverLevel, serverLevel.getChunkSource().getGenerator(), this.getOnPos().above().above(), serverLevel.getBlockState(this.getOnPos().above().above()), this.getRandom());
             if (flg) {
                 this.level().setBlock(this.getOnPos().above(), Blocks.CHERRY_LOG.defaultBlockState(), 3);
             } else {

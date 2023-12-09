@@ -6,17 +6,13 @@
     }
   },
   "display": {
-    "announce_to_chat": true,
     "description": {
       "translate": "advancement.takumicraft.disarmament.desc"
     },
-    "frame": "task",
-    "hidden": false,
     "icon": {
       "item": "takumicraft:creepersword",
       "nbt": "{Damage:0}"
     },
-    "show_toast": true,
     "title": {
       "translate": "advancement.takumicraft.disarmament.title"
     }

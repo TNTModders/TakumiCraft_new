@@ -43,6 +43,5 @@
     "recipes": [
       "takumicraft:creeperbrick_wall"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

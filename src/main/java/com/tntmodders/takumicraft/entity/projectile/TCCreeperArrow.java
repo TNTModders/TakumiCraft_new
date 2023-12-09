@@ -7,6 +7,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.projectile.Arrow;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
@@ -23,12 +24,12 @@ public class TCCreeperArrow extends Arrow {
         super(p_36858_, p_36859_);
     }
 
-    public TCCreeperArrow(Level p_36861_, double p_36862_, double p_36863_, double p_36864_) {
-        super(p_36861_, p_36862_, p_36863_, p_36864_);
+    public TCCreeperArrow(Level p_36861_, double p_36862_, double p_36863_, double p_36864_, ItemStack stack) {
+        super(p_36861_, p_36862_, p_36863_, p_36864_, stack);
     }
 
-    public TCCreeperArrow(Level p_36866_, LivingEntity p_36867_) {
-        super(p_36866_, p_36867_);
+    public TCCreeperArrow(Level p_36866_, LivingEntity p_36867_, ItemStack stack) {
+        super(p_36866_, p_36867_, stack);
     }
 
     @Override

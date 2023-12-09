@@ -15,16 +15,12 @@
     }
   },
   "display": {
-    "announce_to_chat": true,
     "description": {
       "translate": "advancement.takumicraft.creeperbomb.desc"
     },
-    "frame": "task",
-    "hidden": false,
     "icon": {
       "item": "takumicraft:creeperbomb"
     },
-    "show_toast": true,
     "title": {
       "translate": "advancement.takumicraft.creeperbomb.title"
     }

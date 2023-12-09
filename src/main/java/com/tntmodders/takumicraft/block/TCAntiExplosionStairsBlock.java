@@ -26,7 +26,7 @@ public class TCAntiExplosionStairsBlock extends StairBlock implements ITCBlocks,
     private final boolean addStoneCutterRecipe;
 
     public TCAntiExplosionStairsBlock(Supplier<BlockState> state, boolean stoneCutter) {
-        super(state, Properties.copy(state.get().getBlock()));
+        super(state.get(), Properties.ofFullCopy(state.get().getBlock()));
         this.baseBlock = state.get().getBlock();
         this.addStoneCutterRecipe = stoneCutter;
     }

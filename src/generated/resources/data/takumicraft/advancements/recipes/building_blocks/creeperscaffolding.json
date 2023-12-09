@@ -43,6 +43,5 @@
     "recipes": [
       "takumicraft:creeperscaffolding"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

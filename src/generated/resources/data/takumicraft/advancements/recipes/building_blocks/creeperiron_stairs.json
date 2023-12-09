@@ -43,6 +43,5 @@
     "recipes": [
       "takumicraft:creeperiron_stairs"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

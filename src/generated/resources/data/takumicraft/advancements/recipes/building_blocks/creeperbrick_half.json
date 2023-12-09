@@ -43,6 +43,5 @@
     "recipes": [
       "takumicraft:creeperbrick_half"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

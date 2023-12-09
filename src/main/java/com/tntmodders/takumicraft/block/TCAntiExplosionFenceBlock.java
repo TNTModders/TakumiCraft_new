@@ -24,7 +24,7 @@ public class TCAntiExplosionFenceBlock extends FenceBlock implements ITCBlocks, 
     private final Block baseBlock;
 
     public TCAntiExplosionFenceBlock(Supplier<BlockState> state) {
-        super(Properties.copy(state.get().getBlock()));
+        super(Properties.ofFullCopy(state.get().getBlock()));
         this.baseBlock = state.get().getBlock();
     }
 

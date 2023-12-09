@@ -54,7 +54,7 @@ public class TCArrowCreeper extends AbstractTCCreeper {
             double y = this.getRandom().nextDouble() - 0.5;
             double z = this.getRandom().nextDouble() - 0.5;
 
-            Arrow arrow = new Arrow(this.level(), this.getX() + x, this.getY() + y, this.getZ() + z);
+            Arrow arrow = new Arrow(this.level(), this.getX() + x, this.getY() + y, this.getZ() + z, Items.ARROW.getDefaultInstance());
             arrow.setBaseDamage(this.level().getDifficulty().getId() * 5);
             arrow.setCritArrow(true);
             arrow.setKnockback(10);

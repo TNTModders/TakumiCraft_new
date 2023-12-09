@@ -28,7 +28,6 @@ minecraft {
     runs {
         client {
             workingDirectory project.file('run')
-            jvmArgs '-XX:+AllowRedefinitionToAddDeleteMethods'
             property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
             property 'forge.enabledGameTestNamespaces', 'takumicraft'
@@ -42,7 +41,6 @@ minecraft {
 
         server {
             workingDirectory project.file('run')
-            jvmArgs '-XX:+AllowRedefinitionToAddDeleteMethods'
             property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
             property 'forge.enabledGameTestNamespaces', 'takumicraft'
@@ -56,11 +54,9 @@ minecraft {
 
         data {
             workingDirectory project.file('run')
-            jvmArgs '-XX:+AllowRedefinitionToAddDeleteMethods'
             property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
             property 'forge.enabledGameTestNamespaces', 'takumicraft'
-            // Specify the modid for data generation, where to output the resulting resource, and where to look for existing resources.
             args '--mod', 'takumicraft', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
             mods {
                 takumicraft {

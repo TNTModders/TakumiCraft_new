@@ -647,16 +647,13 @@
     }
   },
   "display": {
-    "announce_to_chat": true,
     "description": {
       "translate": "advancement.takumicraft.slay_all.desc"
     },
     "frame": "goal",
-    "hidden": false,
     "icon": {
       "item": "takumicraft:takumibook"
     },
-    "show_toast": true,
     "title": {
       "translate": "advancement.takumicraft.slay_all.title"
     }

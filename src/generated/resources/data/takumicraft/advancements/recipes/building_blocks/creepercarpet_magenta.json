@@ -43,6 +43,5 @@
     "recipes": [
       "takumicraft:creepercarpet_magenta"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

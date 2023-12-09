@@ -8,7 +8,6 @@ import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.ItemLike;
 
 import static net.minecraft.data.recipes.RecipeBuilder.getDefaultRecipeId;
@@ -42,19 +41,19 @@ public class TCRecipeProvider extends RecipeProvider {
     }
 
     public void saveRecipe(ItemLike itemLike, RecipeOutput output, RecipeBuilder recipe) {
-        if (recipe instanceof SimpleCookingRecipeBuilder) {
-            if (((SimpleCookingRecipeBuilder) recipe).serializer == RecipeSerializer.BLASTING_RECIPE) {
-                recipe.unlockedBy("has_" + itemLike.asItem(), has(itemLike)).save(output, RecipeProvider.getBlastingRecipeName(itemLike));
-            } else if (((SimpleCookingRecipeBuilder) recipe).serializer == RecipeSerializer.SMELTING_RECIPE) {
-                recipe.unlockedBy("has_" + itemLike.asItem(), has(itemLike)).save(output, RecipeProvider.getSmeltingRecipeName(itemLike));
-            }
-        } else {
-            recipe.unlockedBy("has_" + itemLike.asItem(), has(itemLike)).save(output);
-        }
+        recipe.unlockedBy("has_" + itemLike.asItem(), has(itemLike)).save(output);
     }
 
     public void saveRecipe(ItemLike itemLike, RecipeOutput output, RecipeBuilder recipe, String suffix) {
         recipe.unlockedBy("has_" + itemLike.asItem(), has(itemLike)).save(output, getDefaultRecipeId(itemLike) + "_" + suffix);
+    }
+
+    public void saveBlastingRecipe(ItemLike itemLike, RecipeOutput output, RecipeBuilder recipe) {
+        recipe.unlockedBy("has_" + itemLike.asItem(), has(itemLike)).save(output, RecipeProvider.getBlastingRecipeName(itemLike));
+    }
+
+    public void saveSmeltingRecipe(ItemLike itemLike, RecipeOutput output, RecipeBuilder recipe) {
+        recipe.unlockedBy("has_" + itemLike.asItem(), has(itemLike)).save(output, RecipeProvider.getSmeltingRecipeName(itemLike));
     }
 
     private void additionalRecipes(RecipeOutput consumer) {

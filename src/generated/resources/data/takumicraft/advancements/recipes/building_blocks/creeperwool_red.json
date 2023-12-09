@@ -43,6 +43,5 @@
     "recipes": [
       "takumicraft:creeperwool_red"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

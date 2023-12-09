@@ -60,7 +60,7 @@ public class TCAntiExplosionHalfBlock extends Block implements ITCBlocks, ITCRec
     private final boolean addStoneCutterRecipe;
 
     public TCAntiExplosionHalfBlock(Supplier<BlockState> state, boolean stoneCutter) {
-        super(Properties.copy(state.get().getBlock()));
+        super(Properties.ofFullCopy(state.get().getBlock()));
         this.baseBlock = state.get().getBlock();
         this.addStoneCutterRecipe = stoneCutter;
     }

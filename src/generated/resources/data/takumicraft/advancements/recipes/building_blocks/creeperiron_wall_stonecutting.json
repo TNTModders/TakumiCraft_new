@@ -30,6 +30,5 @@
     "recipes": [
       "takumicraft:creeperiron_wall_stonecutting"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

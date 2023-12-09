@@ -43,6 +43,5 @@
     "recipes": [
       "takumicraft:creepertintedglass"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

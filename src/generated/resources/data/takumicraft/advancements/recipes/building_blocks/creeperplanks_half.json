@@ -43,6 +43,5 @@
     "recipes": [
       "takumicraft:creeperplanks_half"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

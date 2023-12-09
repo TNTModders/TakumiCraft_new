@@ -27,11 +27,6 @@ public abstract class AbstractTCWaterAnimalCreeper extends AbstractTCCreeper {
     }
 
     @Override
-    public boolean canBreatheUnderwater() {
-        return true;
-    }
-
-    @Override
     public boolean checkSpawnObstruction(LevelReader p_30348_) {
         return p_30348_.isUnobstructed(this);
     }

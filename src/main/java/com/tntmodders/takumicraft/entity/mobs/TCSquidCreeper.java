@@ -10,7 +10,9 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.tags.FluidTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffects;
@@ -31,6 +33,8 @@ import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
+
+import java.util.List;
 
 public class TCSquidCreeper extends AbstractTCWaterAnimalCreeper {
     public float xBodyRot;
@@ -360,6 +364,13 @@ public class TCSquidCreeper extends AbstractTCWaterAnimalCreeper {
         @Override
         public UniformGenerator getDropRange() {
             return UniformGenerator.between(1f, 16f);
+        }
+
+        @Override
+        public List<TagKey<EntityType<?>>> getEntityTypeTags() {
+            List list = TCCreeperContext.super.getEntityTypeTags();
+            list.add(EntityTypeTags.CAN_BREATHE_UNDER_WATER);
+            return list;
         }
     }
 

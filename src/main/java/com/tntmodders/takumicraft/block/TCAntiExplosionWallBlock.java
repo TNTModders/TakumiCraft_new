@@ -25,7 +25,7 @@ public class TCAntiExplosionWallBlock extends WallBlock implements ITCBlocks, IT
     private final Block baseBlock;
 
     public TCAntiExplosionWallBlock(Supplier<BlockState> state) {
-        super(Properties.copy(state.get().getBlock()));
+        super(Properties.ofFullCopy(state.get().getBlock()));
         this.baseBlock = state.get().getBlock();
     }
 

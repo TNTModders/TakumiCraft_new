@@ -43,6 +43,5 @@
     "recipes": [
       "takumicraft:creepercarpet_orange_from_creeperwool"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

@@ -30,6 +30,5 @@
     "recipes": [
       "takumicraft:creeperbrick_stairs_stonecutting"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

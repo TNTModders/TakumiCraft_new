@@ -43,6 +43,5 @@
     "recipes": [
       "takumicraft:creeperarrow"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

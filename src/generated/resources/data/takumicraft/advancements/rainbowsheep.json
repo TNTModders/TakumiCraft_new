@@ -6,7 +6,6 @@
     }
   },
   "display": {
-    "announce_to_chat": true,
     "description": {
       "translate": "advancement.takumicraft.rainbowsheep.desc"
     },
@@ -15,7 +14,6 @@
     "icon": {
       "item": "takumicraft:creeperwool_white"
     },
-    "show_toast": true,
     "title": {
       "translate": "advancement.takumicraft.rainbowsheep.title"
     }

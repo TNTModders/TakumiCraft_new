@@ -30,6 +30,5 @@
     "recipes": [
       "minecraft:deepslate_gunore_from_smelting"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

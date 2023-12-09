@@ -13,6 +13,8 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.tags.EntityTypeTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -31,6 +33,8 @@ import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
 import net.minecraftforge.event.level.ExplosionEvent;
+
+import java.util.List;
 
 public class TCGlowingSquidCreeper extends TCSquidCreeper {
     private static final EntityDataAccessor<Integer> DATA_DARK_TICKS_REMAINING = SynchedEntityData.defineId(TCGlowingSquidCreeper.class, EntityDataSerializers.INT);
@@ -221,6 +225,13 @@ public class TCGlowingSquidCreeper extends TCSquidCreeper {
         @Override
         public UniformGenerator getDropRange() {
             return UniformGenerator.between(1f, 16f);
+        }
+
+        @Override
+        public List<TagKey<EntityType<?>>> getEntityTypeTags() {
+            List list = TCCreeperContext.super.getEntityTypeTags();
+            list.add(EntityTypeTags.CAN_BREATHE_UNDER_WATER);
+            return list;
         }
     }
 }

@@ -43,6 +43,5 @@
     "recipes": [
       "takumicraft:creepercarpet_black_from_creeperwool"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

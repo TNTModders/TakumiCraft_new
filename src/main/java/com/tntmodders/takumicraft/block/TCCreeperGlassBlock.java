@@ -11,16 +11,16 @@ import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.ItemLike;
-import net.minecraft.world.level.block.AbstractGlassBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.TransparentBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 
 import java.util.List;
 import java.util.function.Supplier;
 
-public class TCCreeperGlassBlock extends AbstractGlassBlock implements ITCBlocks, ITCRecipe {
+public class TCCreeperGlassBlock extends TransparentBlock implements ITCBlocks, ITCRecipe {
     public TCCreeperGlassBlock() {
         super(BlockBehaviour.Properties.of()
                 .strength(6f)

@@ -25,7 +25,7 @@ public class TCAntiExplosionDoorBlock extends DoorBlock implements ITCBlocks, IT
     private final Block baseBlock;
 
     public TCAntiExplosionDoorBlock(Supplier<BlockState> state, BlockSetType type) {
-        super(Properties.copy(state.get().getBlock()), type);
+        super(type, Properties.ofFullCopy(state.get().getBlock()));
         this.baseBlock = state.get().getBlock();
     }
 
