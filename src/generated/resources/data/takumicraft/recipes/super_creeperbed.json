@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "creeperbed",
+  "key": {
+    "#": {
+      "tag": "takumicraft:creeperbed"
+    }
+  },
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "result": {
+    "item": "takumicraft:super_creeperbed"
+  }
+}

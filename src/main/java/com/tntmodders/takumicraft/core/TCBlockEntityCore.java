@@ -12,12 +12,23 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegisterEvent;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class TCBlockEntityCore {
-    public static final BlockEntityType<TCCreeperBedBlockEntity> CREEPER_BED = BlockEntityType.Builder.of((pos, state) -> state.getBlock() instanceof TCCreeperBedBlock ? new TCCreeperBedBlockEntity(pos, state, ((TCCreeperBedBlock) state.getBlock()).getColor()) : new TCCreeperBedBlockEntity(pos, state), TCBlockCore.CREEPER_BED_MAP.values().toArray(new Block[0])).build(Util.fetchChoiceType(References.BLOCK_ENTITY, "creeperbed"));
+    private static final List<Block> CREEPER_BEDS = new ArrayList<>();
+    public static BlockEntityType<TCCreeperBedBlockEntity> CREEPER_BED;
+
+    static {
+        CREEPER_BEDS.addAll(TCBlockCore.CREEPER_BED_MAP.values());
+        CREEPER_BEDS.add(TCBlockCore.SUPER_CREEPER_BED);
+    }
 
     public static void register(final RegisterEvent event) {
         TCLoggingUtils.startRegistry("BlockEntity");
+        CREEPER_BED = BlockEntityType.Builder.of((pos, state) ->
+                state.getBlock() instanceof TCCreeperBedBlock ? new TCCreeperBedBlockEntity(pos, state, ((TCCreeperBedBlock) state.getBlock()).getColor(), state.getBlock() == TCBlockCore.SUPER_CREEPER_BED) : new TCCreeperBedBlockEntity(pos, state), CREEPER_BEDS.toArray(new Block[0])).build(Util.fetchChoiceType(References.BLOCK_ENTITY, "creeperbed"));
         event.register(ForgeRegistries.BLOCK_ENTITY_TYPES.getRegistryKey(), new ResourceLocation(TakumiCraftCore.MODID, "creeperbed"), () -> CREEPER_BED);
         TCLoggingUtils.completeRegistry("BlockEntity");
     }

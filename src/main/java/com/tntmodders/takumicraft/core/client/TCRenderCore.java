@@ -27,6 +27,8 @@ public class TCRenderCore {
     public static final ModelLayerLocation CHILD = new ModelLayerLocation(new ResourceLocation(TakumiCraftCore.MODID, TCEntityCore.CHILD.getRegistryName()), TCEntityCore.CHILD.getRegistryName());
     public static final ModelLayerLocation SABER = new ModelLayerLocation(new ResourceLocation(TakumiCraftCore.MODID, "typesword_normal"), "typesword_normal");
     public static final ModelLayerLocation SHIELD = new ModelLayerLocation(new ResourceLocation(TakumiCraftCore.MODID, "creepershield"), "creepershield");
+    public static final ModelLayerLocation SUPERBED_HEAD = new ModelLayerLocation(new ResourceLocation(TakumiCraftCore.MODID, "super_creeperbed_head"), "super_creeperbed_head");
+    public static final ModelLayerLocation SUPERBED_FOOT = new ModelLayerLocation(new ResourceLocation(TakumiCraftCore.MODID, "super_creeperbed_foot"), "super_creeperbed_foot");
 
     public static void registerEntityRender(EntityRenderersEvent.RegisterRenderers event) {
         TCLoggingUtils.startRegistry("EntityRenderer");
@@ -52,5 +54,7 @@ public class TCRenderCore {
         event.registerLayerDefinition(CHILD, () -> TCChildCreeperModel.createBodyLayer(CubeDeformation.NONE));
         event.registerLayerDefinition(SABER, TCSaberModel::createLayer);
         event.registerLayerDefinition(SHIELD, TCShieldModel::createLayer);
+        event.registerLayerDefinition(SUPERBED_HEAD, TCCreeperBedRenderer::createSuperHeadLayer);
+        event.registerLayerDefinition(SUPERBED_FOOT, TCCreeperBedRenderer::createSuperFootLayer);
     }
 }

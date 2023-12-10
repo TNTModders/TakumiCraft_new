@@ -8,6 +8,7 @@ import com.tntmodders.takumicraft.block.TCCreeperBedBlock;
 import com.tntmodders.takumicraft.block.entity.TCCreeperBedBlockEntity;
 import com.tntmodders.takumicraft.client.renderer.block.model.TCSaberModel;
 import com.tntmodders.takumicraft.client.renderer.block.model.TCShieldModel;
+import com.tntmodders.takumicraft.core.TCBlockCore;
 import com.tntmodders.takumicraft.core.client.TCRenderCore;
 import com.tntmodders.takumicraft.item.TCCreeperShieldItem;
 import com.tntmodders.takumicraft.item.TCSaberItem;
@@ -84,6 +85,7 @@ public class TCBEWLRenderer extends BlockEntityWithoutLevelRenderer {
             poseStack.popPose();
         } else if (stack.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof TCCreeperBedBlock bedBlock) {
             this.bed.setColor(bedBlock.getColor());
+            this.bed.setSuper(bedBlock == TCBlockCore.SUPER_CREEPER_BED);
             Minecraft.getInstance().getBlockEntityRenderDispatcher().renderItem(this.bed, poseStack, bufferSource, p_108834_, p_108835_);
         } else {
             super.renderByItem(stack, p_108831_, poseStack, bufferSource, p_108834_, p_108835_);

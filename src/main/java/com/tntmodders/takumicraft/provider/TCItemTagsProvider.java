@@ -16,6 +16,7 @@ import net.minecraftforge.common.data.ExistingFileHelper;
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 public class TCItemTagsProvider extends ItemTagsProvider {
@@ -58,6 +59,18 @@ public class TCItemTagsProvider extends ItemTagsProvider {
                             }
                         });
                     }
+                } else if (obj instanceof Map map) {
+                    map.values().forEach(value -> {
+                        if (value instanceof ITCBlocks block) {
+                            block.getItemTags().forEach(pair -> {
+                                if (!blockTagCopyList.contains(pair.second)) {
+                                    this.copy(pair.first, pair.second);
+                                    blockTagCopyList.add(pair.second);
+                                    TCLoggingUtils.entryRegistry("Item Tag", block.getRegistryName() + " as " + pair.second);
+                                }
+                            });
+                        }
+                    });
                 }
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
