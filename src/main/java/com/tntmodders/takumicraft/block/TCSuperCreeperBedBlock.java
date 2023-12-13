@@ -1,20 +1,23 @@
 package com.tntmodders.takumicraft.block;
 
 import com.tntmodders.takumicraft.block.entity.TCCreeperBedBlockEntity;
+import com.tntmodders.takumicraft.client.renderer.block.TCBEWLRenderer;
 import com.tntmodders.takumicraft.core.TCBlockCore;
 import com.tntmodders.takumicraft.core.TCItemCore;
+import com.tntmodders.takumicraft.item.TCBlockItem;
 import com.tntmodders.takumicraft.provider.TCRecipeProvider;
+import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.*;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -22,7 +25,12 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import net.minecraftforge.registries.ForgeRegistries;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
+import java.util.function.Consumer;
 
 public class TCSuperCreeperBedBlock extends TCCreeperBedBlock {
     public TCSuperCreeperBedBlock() {
@@ -95,5 +103,29 @@ public class TCSuperCreeperBedBlock extends TCCreeperBedBlock {
         return new TCCreeperBedBlockEntity(p_152175_, p_152176_, DyeColor.GREEN, true);
     }
 
+    @Override
+    public TCBlockItem getCustomBlockItem(Block block) {
+        return new TCBlockItem(block) {
+            @Override
+            public void initializeClient(Consumer<IClientItemExtensions> consumer) {
+                consumer.accept(new IClientItemExtensions() {
+                    @Override
+                    public BlockEntityWithoutLevelRenderer getCustomRenderer() {
+                        return new TCBEWLRenderer();
+                    }
+                });
+            }
 
+            @Override
+            public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> components, TooltipFlag tooltipFlag) {
+                super.appendHoverText(stack, level, components, tooltipFlag);
+                components.add(Component.translatable("item.takumicraft.super_creeperbed.desc"));
+            }
+
+            @Override
+            public Rarity getRarity(ItemStack p_41461_) {
+                return Rarity.EPIC;
+            }
+        };
+    }
 }

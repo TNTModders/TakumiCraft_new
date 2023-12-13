@@ -5,9 +5,15 @@ import com.tntmodders.takumicraft.entity.mobs.AbstractTCCreeper.TCCreeperContext
 import com.tntmodders.takumicraft.provider.ITCItems;
 import com.tntmodders.takumicraft.provider.ITCTranslator;
 import com.tntmodders.takumicraft.provider.TCLanguageProvider;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 public class TCElementCoreItem extends Item implements ITCItems, ITCTranslator {
 
@@ -32,6 +38,12 @@ public class TCElementCoreItem extends Item implements ITCItems, ITCTranslator {
     @Override
     public boolean isFoil(ItemStack p_41172_) {
         return true;
+    }
+
+    @Override
+    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> components, TooltipFlag tooltipFlag) {
+        super.appendHoverText(stack, level, components, tooltipFlag);
+        components.add(Component.translatable("item.takumicraft.elementcore.desc"));
     }
 
     @Override
