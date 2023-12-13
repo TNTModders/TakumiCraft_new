@@ -8,6 +8,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.block.BedBlock;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -74,7 +75,11 @@ public class TCCreeperBedBlockEntity extends BlockEntity {
 
     public Block getBlock() {
         if (this.block == null) {
-            this.block = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(this.textureNamespace, this.texturePath));
+            try {
+                this.block = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(this.textureNamespace, this.texturePath));
+            } catch (Exception e) {
+                this.block = Blocks.AIR;
+            }
         }
         return block;
     }

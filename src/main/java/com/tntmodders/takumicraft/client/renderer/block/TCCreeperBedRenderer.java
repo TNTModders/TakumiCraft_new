@@ -37,9 +37,7 @@ import net.minecraft.world.level.block.DoubleBlockCombiner;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BedPart;
 
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 public class TCCreeperBedRenderer implements BlockEntityRenderer<TCCreeperBedBlockEntity> {
     public static final Material[] BED_TEXTURES = Arrays.stream(DyeColor.values()).sorted(Comparator.comparingInt(DyeColor::getId)).map(p_110766_ -> new Material(Sheets.BED_SHEET, new ResourceLocation(TakumiCraftCore.MODID, "entity/bed/" + p_110766_.getName()))).toArray(Material[]::new);
@@ -65,19 +63,23 @@ public class TCCreeperBedRenderer implements BlockEntityRenderer<TCCreeperBedBlo
     public static LayerDefinition createSuperHeadLayer() {
         MeshDefinition meshdefinition = new MeshDefinition();
         PartDefinition partdefinition = meshdefinition.getRoot();
-        partdefinition.addOrReplaceChild("super_top", CubeListBuilder.create().texOffs(0, 8).addBox(0F, 8F, -0.002F, 16.0F, 8.0F, 0.001F), PartPose.ZERO);
-        partdefinition.addOrReplaceChild("super_right", CubeListBuilder.create().texOffs(8, -8).addBox(-16.002F, 0F, 8F, 0.001F, 4F, 8F), PartPose.rotation((float) Math.PI / -2f, (float) Math.PI, 0));
-        partdefinition.addOrReplaceChild("super_left", CubeListBuilder.create().texOffs(8, -8).addBox(-0.002F, 0F, -16F, 0.001F, 4F, 8F), PartPose.rotation((float) Math.PI / 2f, 0, 0));
+        partdefinition.addOrReplaceChild("super_up", CubeListBuilder.create().texOffs(0, 8).addBox(0F, 8F, -0.002F, 16.0F, 8.0F, 0.001F), PartPose.ZERO);
+        partdefinition.addOrReplaceChild("super_east", CubeListBuilder.create().texOffs(8, -8).addBox(-16.002F, 0F, 8F, 0.001F, 4F, 8F), PartPose.rotation((float) Math.PI / -2f, (float) Math.PI, 0));
+        partdefinition.addOrReplaceChild("super_west", CubeListBuilder.create().texOffs(8, -8).addBox(-0.002F, 0F, -16F, 0.001F, 4F, 8F), PartPose.rotation((float) Math.PI / 2f, 0, 0));
         return LayerDefinition.create(meshdefinition, 16, 16);
     }
 
     public static LayerDefinition createSuperFootLayer() {
         MeshDefinition meshdefinition = new MeshDefinition();
         PartDefinition partdefinition = meshdefinition.getRoot();
-        partdefinition.addOrReplaceChild("super_top", CubeListBuilder.create().texOffs(0, 0).addBox(0F, 0F, -0.002F, 16.0F, 16.0F, 0.001F), PartPose.ZERO);
-        partdefinition.addOrReplaceChild("super_right", CubeListBuilder.create().texOffs(0, -16).addBox(-16.002F, 0F, -0F, 0.001F, 4F, 16F), PartPose.rotation((float) Math.PI / -2f, (float) Math.PI, 0));
-        partdefinition.addOrReplaceChild("super_left", CubeListBuilder.create().texOffs(0, -16).addBox(-0.002F, 0F, -16F, 0.001F, 4F, 16F), PartPose.rotation((float) Math.PI / 2f, 0, 0));
-        partdefinition.addOrReplaceChild("super_foot", CubeListBuilder.create().texOffs(-4, 0).addBox(0F, -16.002F, -4F, 16F, 0.001F, 4F), PartPose.rotation((float) Math.PI, 0, 0));
+        //top
+        partdefinition.addOrReplaceChild("super_up", CubeListBuilder.create().texOffs(0, 0).addBox(0F, 0F, -0.002F, 16.0F, 16.0F, 0.001F), PartPose.ZERO);
+        //left
+        partdefinition.addOrReplaceChild("super_east", CubeListBuilder.create().texOffs(0, -16).addBox(-16.002F, 0F, -0F, 0.001F, 4F, 16F), PartPose.rotation((float) Math.PI / -2f, (float) Math.PI, 0));
+        //right
+        partdefinition.addOrReplaceChild("super_west", CubeListBuilder.create().texOffs(0, -16).addBox(-0.002F, 0F, -16F, 0.001F, 4F, 16F), PartPose.rotation((float) Math.PI / 2f, 0, 0));
+        //foot
+        partdefinition.addOrReplaceChild("super_south", CubeListBuilder.create().texOffs(-4, 0).addBox(0F, -16.002F, -4F, 16F, 0.001F, 4F), PartPose.rotation((float) Math.PI, 0, 0));
         return LayerDefinition.create(meshdefinition, 16, 16);
     }
 
@@ -144,35 +146,26 @@ public class TCCreeperBedRenderer implements BlockEntityRenderer<TCCreeperBedBlo
             float f1 = (float) (i >> 8 & 255) / 255.0F;
             float f2 = (float) (i & 255) / 255.0F;
             BakedModel model = Minecraft.getInstance().getBlockRenderer().getBlockModel(blockState);
-            List<BakedQuad> quadList = model.getQuads(blockState, Direction.UP, entity.getLevel().getRandom());
-            if (!quadList.isEmpty()) {
-                TextureAtlasSprite sprite = quadList.get(0).getSprite();
-                Material material1 = new Material(sprite.atlasLocation(), sprite.contents().name());
-                VertexConsumer vertexconsumer = material1.buffer(source, RenderType::entityTranslucentCull);
-                modelPart.getChild("super_top").render(poseStack, vertexconsumer, p_173547_, p_173548_, f0, f1, f2, 1f);
-            }
-            quadList = model.getQuads(blockState, Direction.WEST, entity.getLevel().getRandom());
-            if (!quadList.isEmpty()) {
-                TextureAtlasSprite sprite = quadList.get(0).getSprite();
-                Material material1 = new Material(sprite.atlasLocation(), sprite.contents().name());
-                VertexConsumer vertexconsumer = material1.buffer(source, RenderType::entityTranslucentCull);
-                modelPart.getChild("super_left").render(poseStack, vertexconsumer, p_173547_, p_173548_, f0, f1, f2, 1f);
-            }
-            quadList = model.getQuads(blockState, Direction.EAST, entity.getLevel().getRandom());
-            if (!quadList.isEmpty()) {
-                TextureAtlasSprite sprite = quadList.get(0).getSprite();
-                Material material1 = new Material(sprite.atlasLocation(), sprite.contents().name());
-                VertexConsumer vertexconsumer = material1.buffer(source, RenderType::entityTranslucentCull);
-                modelPart.getChild("super_right").render(poseStack, vertexconsumer, p_173547_, p_173548_, f0, f1, f2, 1f);
-            }
-            if (modelPart == this.superFootRoot) {
-                quadList = model.getQuads(blockState, Direction.SOUTH, entity.getLevel().getRandom());
-                if (!quadList.isEmpty()) {
-                    TextureAtlasSprite sprite = quadList.get(0).getSprite();
-                    Material material1 = new Material(sprite.atlasLocation(), sprite.contents().name());
-                    VertexConsumer vertexconsumer = material1.buffer(source, RenderType::entityTranslucentCull);
-                    modelPart.getChild("super_foot").render(poseStack, vertexconsumer, p_173547_, p_173548_, f0, f1, f2, 1f);
+            Map<Direction, TextureAtlasSprite> textureMap = new HashMap<>();
+            Direction.stream().forEach(side -> {
+                if (side != Direction.DOWN && side != Direction.NORTH) {
+                    List<BakedQuad> list = model.getQuads(blockState, side, entity.getLevel().getRandom());
+                    if (!list.isEmpty()) {
+                        textureMap.put(side, list.get(0).getSprite());
+                    }
                 }
+            });
+            if (textureMap.size() == 4) {
+                textureMap.forEach((side, texture) -> {
+                    Material material = new Material(texture.atlasLocation(), texture.contents().name());
+                    if (modelPart != this.superHeadRoot || side != Direction.SOUTH) {
+                        modelPart.getChild("super_" + side.getName()).render(poseStack, material.buffer(source, RenderType::entityTranslucentCull), p_173547_, p_173548_, f0, f1, f2, 1f);
+                    }
+                });
+            } else {
+                float f = Minecraft.getInstance().player.tickCount * 0.025f;
+                VertexConsumer vertexconsumer = source.getBuffer(RenderType.energySwirl(POWERED_TEXTURE, f % 1.0F, f % 1.0F));
+                modelPart.render(poseStack, vertexconsumer, p_173547_, p_173548_);
             }
         }
         poseStack.popPose();

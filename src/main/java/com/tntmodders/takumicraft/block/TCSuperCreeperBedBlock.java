@@ -41,8 +41,10 @@ public class TCSuperCreeperBedBlock extends TCCreeperBedBlock {
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult result) {
         if (level.getBlockEntity(pos) instanceof TCCreeperBedBlockEntity bed) {
             if (player.getItemInHand(hand).isEmpty() && player.isShiftKeyDown()) {
-                this.setBlockToBed(bed, player, state, pos, Blocks.AIR);
-                return InteractionResult.PASS;
+                if (bed.getBlock() != null && bed.getBlock() != Blocks.AIR) {
+                    this.setBlockToBed(bed, player, state, pos, Blocks.AIR);
+                    return InteractionResult.SUCCESS;
+                }
             }
             if (player.getItemInHand(hand).getItem() instanceof BlockItem blockItem) {
                 if (Block.isShapeFullBlock(blockItem.getBlock().defaultBlockState().getOcclusionShape(level, pos))) {
