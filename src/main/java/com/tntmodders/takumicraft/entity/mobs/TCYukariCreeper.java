@@ -56,12 +56,10 @@ public class TCYukariCreeper extends AbstractTCCreeper {
     @Override
     public void explodeCreeperEvent(ExplosionEvent.Detonate event) {
         event.getExplosion().getToBlow().forEach(pos -> {
-            if (!event.getLevel().getBlockState(pos).isAir()) {
-                if (pos.getY() >= this.getY()) {
-                    event.getLevel().setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
-                } else {
-                    event.getLevel().setBlock(pos, TCBlockCore.YUKARI_DUMMY.defaultBlockState(), 3);
-                }
+            if (pos.getY() >= this.getY()) {
+                event.getLevel().setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
+            } else {
+                event.getLevel().setBlock(pos, TCBlockCore.YUKARI_DUMMY.defaultBlockState(), 3);
             }
         });
         event.getExplosion().clearToBlow();

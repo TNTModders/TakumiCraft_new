@@ -27,7 +27,7 @@ public class TCAcidBlock extends AbstractTCBombBlock implements EntityBlock {
     protected static final VoxelShape SHAPE = Block.box(0.0D, 0.0D, 0.0D, 16.0D, 14.0D, 16.0D);
 
     public TCAcidBlock() {
-        super(Properties.of().requiresCorrectToolForDrops().strength(0.2f, 0f).mapColor(MapColor.COLOR_GREEN).speedFactor(0.3F).noOcclusion(), "acidblock");
+        super(Properties.of().requiresCorrectToolForDrops().strength(0.2f, 0f).mapColor(MapColor.COLOR_GREEN).speedFactor(0.3F).noOcclusion().lightLevel(value -> Math.max(0, 15 - value.getValue(STAGE))), "acidblock");
         this.registerDefaultState(this.getStateDefinition().any().setValue(STAGE, 0));
     }
 
