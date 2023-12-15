@@ -151,6 +151,7 @@ public abstract class TCLanguageProvider extends LanguageProvider {
             this.add("item.takumicraft.creeperbow.desc", "A Compound Bow of Creeper. One Shot, One Blast.");
             this.add("item.takumicraft.creepershield.desc", "A Great Shield of Creeper. Made from Bomb, it is safe.");
             this.add("item.takumicraft.yukaridummy.desc", "Dummy");
+            this.add("item.takumicraft.monsterbomb_yukari.desc", "Bomb");
         }
 
         @Override
@@ -268,6 +269,7 @@ public abstract class TCLanguageProvider extends LanguageProvider {
             this.add("item.takumicraft.creeperbow.desc", "爆ぜる矢を撃つ匠の名弓。その一穿ちは混沌を齎す。");
             this.add("item.takumicraft.creepershield.desc", "爆発を防ぐ匠印の大盾。爆弾から作ったけど大丈夫。");
             this.add("item.takumicraft.yukaridummy.desc", "非爆発性ゆかりさん");
+            this.add("item.takumicraft.monsterbomb_yukari.desc", "爆発性ゆかりさん");
         }
 
         @Override

@@ -4,6 +4,7 @@ import com.tntmodders.takumicraft.item.TCBlockItem;
 import com.tntmodders.takumicraft.provider.ITCBlocks;
 import net.minecraft.data.loot.LootTableSubProvider;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
@@ -15,7 +16,7 @@ import java.util.function.Supplier;
 
 public class TCYukariDummyBlock extends Block implements ITCBlocks {
     public TCYukariDummyBlock() {
-        super(Properties.of().strength(0f, 0f).lightLevel(state -> 7));
+        super(Properties.of().mapColor(DyeColor.PINK).strength(0f, 0f).lightLevel(state -> 7));
     }
 
     @Override

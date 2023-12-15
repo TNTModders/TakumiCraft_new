@@ -50,14 +50,17 @@ public class TCBlockStateProvider extends BlockStateProvider {
     }
 
     private void animatedBlockWithItem(Block block) {
-        ModelFile blockModel = this.models().getBuilder(key(block).toString())
-                .texture("particle", blockTexture(block).toString());
         if (block instanceof TCAcidBlock acid) {
+            ModelFile blockModel = this.models().getBuilder(key(block).toString())
+                    .texture("particle", blockTexture(block).toString());
             this.getVariantBuilder(acid).partialState().addModels(new ConfiguredModel(blockModel));
+            this.itemModels().cubeAll(name(block), blockTexture(block));
         } else {
+            ModelFile blockModel = this.models().getBuilder(key(block).toString())
+                    .texture("particle", blockTexture(TCBlockCore.CREEPER_BOMB).toString());
             this.getVariantBuilder(block).partialState().setModels(new ConfiguredModel(blockModel));
+            this.itemModels().withExistingParent(key(block).getPath(), new ResourceLocation("takumicraft:item/template_monsterbomb"));
         }
-        this.itemModels().cubeAll(name(block), blockTexture(block));
     }
 
     private void bedBlockWithItem(Block block) {

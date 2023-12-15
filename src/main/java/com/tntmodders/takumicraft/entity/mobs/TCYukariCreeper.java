@@ -14,6 +14,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.monster.Creeper;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.ItemLike;
@@ -59,7 +60,7 @@ public class TCYukariCreeper extends AbstractTCCreeper {
             if (pos.getY() >= this.getY()) {
                 event.getLevel().setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
             } else {
-                event.getLevel().setBlock(pos, TCBlockCore.YUKARI_DUMMY.defaultBlockState(), 3);
+                event.getLevel().setBlock(pos, TCBlockCore.CREEPER_WOOL_MAP.get(DyeColor.PINK).defaultBlockState(), 3);
             }
         });
         event.getExplosion().clearToBlow();
@@ -143,7 +144,7 @@ public class TCYukariCreeper extends AbstractTCCreeper {
 
         @Override
         public ItemLike getMainDropItem() {
-            return TCBlockCore.YUKARI_DUMMY;
+            return TCBlockCore.YUKARI_BOMB;
         }
 
         @Override
