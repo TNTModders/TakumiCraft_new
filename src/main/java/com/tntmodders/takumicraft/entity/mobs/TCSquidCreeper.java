@@ -337,8 +337,9 @@ public class TCSquidCreeper extends AbstractTCWaterAnimalCreeper {
         }
 
         @Override
-        public void registerSpawn(SpawnPlacementRegisterEvent event, EntityType<AbstractTCCreeper> type) {
+        public boolean registerSpawn(SpawnPlacementRegisterEvent event, EntityType<AbstractTCCreeper> type) {
             SpawnPlacements.register(type, SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, TCSquidCreeper::checkSurfaceWaterAnimalSpawnRules);
+            return true;
         }
 
         @Override

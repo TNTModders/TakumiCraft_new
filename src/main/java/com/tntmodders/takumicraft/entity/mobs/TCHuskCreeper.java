@@ -142,8 +142,9 @@ public class TCHuskCreeper extends TCZombieCreeper {
         }
 
         @Override
-        public void registerSpawn(SpawnPlacementRegisterEvent event, EntityType<AbstractTCCreeper> type) {
+        public boolean registerSpawn(SpawnPlacementRegisterEvent event, EntityType<AbstractTCCreeper> type) {
             SpawnPlacements.register(type, SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, TCHuskCreeper::checkHuskCreeperSpawnRules);
+            return true;
         }
 
         @Nullable

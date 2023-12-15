@@ -336,8 +336,9 @@ public class TCWolfCreeper extends AbstractTCCreeper {
         }
 
         @Override
-        public void registerSpawn(SpawnPlacementRegisterEvent event, EntityType<AbstractTCCreeper> type) {
+        public boolean registerSpawn(SpawnPlacementRegisterEvent event, EntityType<AbstractTCCreeper> type) {
             SpawnPlacements.register(type, SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, TCWolfCreeper::checkWolfSpawnRules);
+            return true;
         }
 
         @Override

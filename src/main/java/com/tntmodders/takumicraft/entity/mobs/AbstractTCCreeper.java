@@ -150,8 +150,9 @@ public abstract class AbstractTCCreeper extends Creeper implements ITCEntities, 
             return false;
         }
 
-        default void registerSpawn(SpawnPlacementRegisterEvent event, EntityType<AbstractTCCreeper> type) {
+        default boolean registerSpawn(SpawnPlacementRegisterEvent event, EntityType<AbstractTCCreeper> type) {
             event.register(type, SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AbstractTCCreeper::checkTakumiSpawnRules, SpawnPlacementRegisterEvent.Operation.OR);
+            return true;
         }
 
         default void registerModifierSpawn(Holder<Biome> biome, ModifiableBiomeInfo.BiomeInfo.Builder builder) {

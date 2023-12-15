@@ -71,6 +71,20 @@
       },
       "trigger": "minecraft:player_killed_entity"
     },
+    "slay_boltcreeper": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "takumicraft:boltcreeper"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
     "slay_cherrycreeper": {
       "conditions": {
         "entity": [
@@ -813,6 +827,9 @@
     ],
     [
       "slay_acidcreeper"
+    ],
+    [
+      "slay_boltcreeper"
     ]
   ],
   "sends_telemetry_event": true

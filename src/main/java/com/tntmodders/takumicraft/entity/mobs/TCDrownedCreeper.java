@@ -576,8 +576,9 @@ public class TCDrownedCreeper extends TCZombieCreeper implements RangedAttackMob
         }
 
         @Override
-        public void registerSpawn(SpawnPlacementRegisterEvent event, EntityType<AbstractTCCreeper> type) {
+        public boolean registerSpawn(SpawnPlacementRegisterEvent event, EntityType<AbstractTCCreeper> type) {
             SpawnPlacements.register(type, SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, TCDrownedCreeper::checkDrownedSpawnRules);
+            return true;
         }
     }
 }

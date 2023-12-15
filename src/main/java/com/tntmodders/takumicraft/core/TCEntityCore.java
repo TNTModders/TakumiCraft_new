@@ -73,7 +73,8 @@ public class TCEntityCore {
     public static final TCCreeperContext<TCWolfCreeper> WOLF = new TCWolfCreeper.TCWolfCreeperContext();
     public static final TCCreeperContext<TCPowderSnowCreeper> POWDER_SNOW = new TCPowderSnowCreeper.TCPowderSnowCreeperContext();
     public static final TCCreeperContext<TCCherryCreeper> CHERRY = new TCCherryCreeper.TCCherryCreeperContext();
-    public static final TCCreeperContext<TCAcidCreeper> ACID = new TCAcidCreeper.TCFireCreeperContext();
+    public static final TCCreeperContext<TCAcidCreeper> ACID = new TCAcidCreeper.TCAcidCreeperContext();
+    public static final TCCreeperContext<TCBoltCreeper> BOLT = new TCBoltCreeper.TCBoltCreeperContext();
 
     public static final TagKey<EntityType<?>> TAKUMIS = TagKey.create(Registries.ENTITY_TYPE, new ResourceLocation(TakumiCraftCore.MODID, "takumi"));
 
@@ -137,8 +138,9 @@ public class TCEntityCore {
                 Object obj = field.get(null);
                 if (obj instanceof TCCreeperContext<?> context) {
                     EntityType<? extends LivingEntity> type = (EntityType<? extends LivingEntity>) context.entityType();
-                    context.registerSpawn(event, (EntityType<AbstractTCCreeper>) type);
-                    TCLoggingUtils.logMessage("EntitySpawn", context.getEnUSName());
+                    if (context.registerSpawn(event, (EntityType<AbstractTCCreeper>) type)) {
+                        TCLoggingUtils.logMessage("EntitySpawn", context.getEnUSName());
+                    }
                 }
             } catch (IllegalAccessException e) {
                 e.printStackTrace();

@@ -56,7 +56,7 @@ public class TCAcidCreeper extends AbstractTCCreeper {
         return super.getBlockExplosionResistance(p_19992_, p_19993_, p_19994_, p_19995_, p_19996_, p_19997_) / 25f;
     }
 
-    public static class TCFireCreeperContext implements TCCreeperContext<TCAcidCreeper> {
+    public static class TCAcidCreeperContext implements TCCreeperContext<TCAcidCreeper> {
         private static final String NAME = "acidcreeper";
         public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder
                 .of(TCAcidCreeper::new, MobCategory.MONSTER).sized(0.6F, 1.7F).clientTrackingRange(8)
