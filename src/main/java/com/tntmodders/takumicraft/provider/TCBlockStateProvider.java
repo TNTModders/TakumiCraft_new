@@ -25,6 +25,7 @@ public class TCBlockStateProvider extends BlockStateProvider {
             if (block instanceof ITCBlocks) {
                 switch (((ITCBlocks) block).getBlockStateModelType()) {
                     case SIMPLE -> this.simpleBlockWithItem(block);
+                    case ANIMATED -> this.animatedBlockWithItem(block);
                     case STAIRS -> this.stairsBlockWithItem(block);
                     case SLAB -> this.halfBlockWithItem(block);
                     case WALL -> this.wallBlockWithItem(block);
@@ -46,6 +47,17 @@ public class TCBlockStateProvider extends BlockStateProvider {
         });
 
         TCLoggingUtils.completeRegistry("BlockStateModel");
+    }
+
+    private void animatedBlockWithItem(Block block) {
+        ModelFile blockModel = this.models().getBuilder(key(block).toString())
+                .texture("particle", blockTexture(block).toString());
+        if (block instanceof TCAcidBlock acid) {
+            this.getVariantBuilder(acid).partialState().addModels(new ConfiguredModel(blockModel));
+        } else {
+            this.getVariantBuilder(block).partialState().setModels(new ConfiguredModel(blockModel));
+        }
+        this.itemModels().cubeAll(name(block), blockTexture(block));
     }
 
     private void bedBlockWithItem(Block block) {

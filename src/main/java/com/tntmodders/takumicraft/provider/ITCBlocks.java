@@ -61,6 +61,7 @@ public interface ITCBlocks extends ITCTranslator {
         SCCAFOLDING("cutout"),
         CARPET("cutout"),
         BED("cutout"),
+        ANIMATED("solid"),
         NONE("solid");
 
         private final String type;

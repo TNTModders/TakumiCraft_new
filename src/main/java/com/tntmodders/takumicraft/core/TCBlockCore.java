@@ -59,6 +59,7 @@ public class TCBlockCore {
     public static final Map<DyeColor, TCCarpetBlock> CREEPER_CARPET_MAP = new HashMap<>();
     public static final Map<DyeColor, TCCreeperBedBlock> CREEPER_BED_MAP = new HashMap<>();
     public static final Block SUPER_CREEPER_BED = new TCSuperCreeperBedBlock();
+    public static final Block ACID = new TCAcidBlock();
 
     public static final TagKey<Block> GUNORES = TagKey.create(Registries.BLOCK, new ResourceLocation(TakumiCraftCore.MODID, "gunores"));
     public static final TagKey<Block> ANTI_EXPLOSION = TagKey.create(Registries.BLOCK, new ResourceLocation(TakumiCraftCore.MODID, "anti_explosion"));

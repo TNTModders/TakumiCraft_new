@@ -1,6 +1,20 @@
 {
   "parent": "takumicraft:root",
   "criteria": {
+    "slay_acidcreeper": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "takumicraft:acidcreeper"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
     "slay_amethystcreeper": {
       "conditions": {
         "entity": [
@@ -796,6 +810,9 @@
     ],
     [
       "slay_powdersnowcreeper"
+    ],
+    [
+      "slay_acidcreeper"
     ]
   ],
   "sends_telemetry_event": true
