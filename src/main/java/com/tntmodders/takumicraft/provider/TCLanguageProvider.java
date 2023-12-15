@@ -154,6 +154,8 @@ public abstract class TCLanguageProvider extends LanguageProvider {
             this.add("item.takumicraft.creepershield.desc", "A Great Shield of Creeper. Made from Bomb, it is safe.");
             this.add("item.takumicraft.yukaridummy.desc", "Dummy");
             this.add("item.takumicraft.monsterbomb_yukari.desc", "Bomb");
+            this.add("item.takumicraft.creeperaltar.desc.1", "Right Click to Summon Elder Creepers.");
+            this.add("item.takumicraft.creeperaltar.desc.2", "----");
         }
 
         @Override
@@ -274,6 +276,8 @@ public abstract class TCLanguageProvider extends LanguageProvider {
             this.add("item.takumicraft.creepershield.desc", "爆発を防ぐ匠印の大盾。爆弾から作ったけど大丈夫。");
             this.add("item.takumicraft.yukaridummy.desc", "非爆発性ゆかりさん");
             this.add("item.takumicraft.monsterbomb_yukari.desc", "爆発性ゆかりさん");
+            this.add("item.takumicraft.creeperaltar.desc.1", "王者と召人を喚ぶ祭壇。");
+            this.add("item.takumicraft.creeperaltar.desc.2", "右クリックで上位匠を召喚できる。");
         }
 
         @Override

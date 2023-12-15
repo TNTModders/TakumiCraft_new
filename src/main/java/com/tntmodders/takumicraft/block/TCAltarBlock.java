@@ -3,6 +3,7 @@ package com.tntmodders.takumicraft.block;
 import com.tntmodders.takumicraft.core.TCBlockCore;
 import com.tntmodders.takumicraft.core.TCEntityCore;
 import com.tntmodders.takumicraft.entity.mobs.AbstractTCCreeper;
+import com.tntmodders.takumicraft.item.TCBlockItem;
 import com.tntmodders.takumicraft.provider.ITCRecipe;
 import com.tntmodders.takumicraft.provider.TCRecipeProvider;
 import com.tntmodders.takumicraft.utils.TCExplosionUtils;
@@ -10,14 +11,21 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 public class TCAltarBlock extends AbstractTCAntiExplosionBlock implements ITCRecipe {
 
@@ -81,5 +89,17 @@ public class TCAltarBlock extends AbstractTCAntiExplosionBlock implements ITCRec
                 .pattern("D#D")
                 .pattern("###")
                 .unlockedBy("has_creeperbomb", TCRecipeProvider.hasItem(TCBlockCore.CREEPER_BOMB)));
+    }
+
+    @Override
+    public TCBlockItem getCustomBlockItem(Block block) {
+        return new TCBlockItem(block) {
+            @Override
+            public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> components, TooltipFlag tooltipFlag) {
+                super.appendHoverText(stack, level, components, tooltipFlag);
+                components.add(Component.translatable("item.takumicraft.creeperaltar.desc.1"));
+                components.add(Component.translatable("item.takumicraft.creeperaltar.desc.2"));
+            }
+        };
     }
 }
