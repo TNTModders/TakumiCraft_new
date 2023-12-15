@@ -14,7 +14,6 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.monster.Creeper;
-import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.ItemLike;
@@ -56,11 +55,14 @@ public class TCYukariCreeper extends AbstractTCCreeper {
 
     @Override
     public void explodeCreeperEvent(ExplosionEvent.Detonate event) {
+        BlockState state = this.level().getBlockState(this.blockPosition().below());
         event.getExplosion().getToBlow().forEach(pos -> {
             if (pos.getY() >= this.getY()) {
                 event.getLevel().setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
+            } else if (state.getDestroySpeed(this.level(), this.blockPosition().below()) >= 0f) {
+                event.getLevel().setBlock(pos, state, 3);
             } else {
-                event.getLevel().setBlock(pos, TCBlockCore.CREEPER_WOOL_MAP.get(DyeColor.PINK).defaultBlockState(), 3);
+                event.getLevel().setBlock(pos, TCBlockCore.YUKARI_DUMMY.defaultBlockState(), 3);
             }
         });
         event.getExplosion().clearToBlow();
@@ -70,7 +72,7 @@ public class TCYukariCreeper extends AbstractTCCreeper {
                 entity.hurt(source, living.getHealth() - 1f);
             }
         });
-        event.getAffectedEntities().clear();
+        event.getAffectedEntities().removeIf(entity -> entity instanceof LivingEntity);
     }
 
     @Override

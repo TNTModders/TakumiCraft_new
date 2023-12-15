@@ -2,9 +2,11 @@ package com.tntmodders.takumicraft.block;
 
 import com.tntmodders.takumicraft.block.entity.TCMonsterBombBlockEntity;
 import com.tntmodders.takumicraft.client.renderer.block.TCBEWLRenderer;
+import com.tntmodders.takumicraft.core.TCBlockCore;
 import com.tntmodders.takumicraft.data.loot.TCBlockLoot;
 import com.tntmodders.takumicraft.entity.mobs.AbstractTCCreeper;
 import com.tntmodders.takumicraft.entity.mobs.AbstractTCCreeper.TCCreeperContext;
+import com.tntmodders.takumicraft.entity.mobs.TCYukariCreeper;
 import com.tntmodders.takumicraft.item.TCBlockItem;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.core.BlockPos;
@@ -73,6 +75,9 @@ public class TCMonsterBombBlock extends AbstractTCBombBlock implements EntityBlo
                 creeper.setInvulnerable(true);
                 creeper.setInvisible(true);
                 level.addFreshEntity(creeper);
+                if (creeper instanceof TCYukariCreeper && level.getBlockState(pos.below()).getDestroySpeed(level, pos.below()) >= 0f) {
+                    level.setBlock(pos.below(), TCBlockCore.YUKARI_DUMMY.defaultBlockState(), 3);
+                }
                 creeper.explodeCreeper();
             }
         }

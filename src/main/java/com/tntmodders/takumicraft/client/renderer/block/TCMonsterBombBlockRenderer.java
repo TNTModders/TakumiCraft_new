@@ -22,10 +22,14 @@ public class TCMonsterBombBlockRenderer implements BlockEntityRenderer<TCMonster
     }
 
     public static void renderBomb(TCMonsterBombBlock bomb, PoseStack poseStack, MultiBufferSource source, int p_112311_, int p_112312_) {
-        if (Minecraft.getInstance().getEntityRenderDispatcher().getRenderer(bomb.getContext().entityType().create(Minecraft.getInstance().level)) instanceof LivingEntityRenderer renderer) {
+        var creeper = bomb.getContext().entityType().create(Minecraft.getInstance().level);
+        if (Minecraft.getInstance().getEntityRenderDispatcher().getRenderer(creeper) instanceof LivingEntityRenderer renderer) {
             if (renderer.getModel() instanceof HierarchicalModel<?> model) {
                 try {
                     ModelPart part = model.root().getChild("head");
+                    part.xRot = 0f;
+                    part.yRot = 0f;
+                    part.zRot = 0f;
                     poseStack.pushPose();
                     poseStack.translate(0.5, 0.75, 0.5);
                     poseStack.rotateAround(Axis.XN.rotationDegrees(180), 1, 0, 0);
