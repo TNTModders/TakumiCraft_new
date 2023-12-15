@@ -1,7 +1,7 @@
 package com.tntmodders.takumicraft.entity.mobs;
 
 import com.tntmodders.takumicraft.TakumiCraftCore;
-import com.tntmodders.takumicraft.client.renderer.entity.TCCreeperRenderer;
+import com.tntmodders.takumicraft.client.renderer.entity.TCYukariCreeperRenderer;
 import com.tntmodders.takumicraft.core.TCBlockCore;
 import com.tntmodders.takumicraft.core.TCEntityCore;
 import com.tntmodders.takumicraft.utils.TCBlockUtils;
@@ -29,7 +29,7 @@ import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
 import net.minecraftforge.event.level.ExplosionEvent;
 
 public class TCYukariCreeper extends AbstractTCCreeper {
-    public static final ResourceLocation YUKARI_LOCATION = new ResourceLocation("textures/entity/creeper/yukaricreeper_armor.png");
+    public static final ResourceLocation YUKARI_LOCATION = new ResourceLocation(TakumiCraftCore.MODID, "textures/entity/creeper/yukaricreeper_armor.png");
 
     public TCYukariCreeper(EntityType<? extends Creeper> entityType, Level level) {
         super(entityType, level);
@@ -130,7 +130,7 @@ public class TCYukariCreeper extends AbstractTCCreeper {
 
         @Override
         public void registerRenderer(EntityRenderersEvent.RegisterRenderers event, EntityType<?> type) {
-            event.registerEntityRenderer((EntityType<Creeper>) type, TCCreeperRenderer::new);
+            event.registerEntityRenderer((EntityType<TCYukariCreeper>) type, TCYukariCreeperRenderer::new);
         }
 
         @Override
