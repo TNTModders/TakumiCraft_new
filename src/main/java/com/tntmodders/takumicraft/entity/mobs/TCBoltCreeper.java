@@ -25,6 +25,7 @@ public class TCBoltCreeper extends AbstractTCCreeper {
 
     public TCBoltCreeper(EntityType<? extends Creeper> entityType, Level level) {
         super(entityType, level);
+        this.explosionRadius = 7;
     }
 
     @Override

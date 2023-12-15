@@ -43,6 +43,7 @@ public class TCItemCore {
     public static final Item MINESWEEPER_PICKAXE = new TCMinesweeperPickaxeItem();
     public static final Item MINESWEEPER_AXE = new TCMinesweeperAxeItem();
     public static final Item MINESWEEPER_SHOVEL = new TCMinesweeperShovelItem();
+    public static final Item OFALEN = new TCOfalenItem();
 
     public static final TagKey<Item> GUNORES = TagKey.create(Registries.ITEM, new ResourceLocation(TakumiCraftCore.MODID,
             "gunores"));

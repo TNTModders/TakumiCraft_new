@@ -25,7 +25,7 @@
               "function": "minecraft:looting_enchant"
             }
           ],
-          "name": "takumicraft:boltstone"
+          "name": "takumicraft:takumi_ofalen"
         }
       ],
       "rolls": 1.0
@@ -83,7 +83,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "takumicraft:elementcore_wind"
+          "name": "takumicraft:elementcore_ground"
         }
       ],
       "functions": [
@@ -100,5 +100,5 @@
       "rolls": 1.0
     }
   ],
-  "random_sequence": "takumicraft:entities/boltcreeper"
+  "random_sequence": "takumicraft:entities/ofalencreeper"
 }

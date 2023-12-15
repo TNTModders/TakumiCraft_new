@@ -435,6 +435,20 @@
       },
       "trigger": "minecraft:player_killed_entity"
     },
+    "slay_ofalencreeper": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "takumicraft:ofalencreeper"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
     "slay_patinacreeper": {
       "conditions": {
         "entity": [
@@ -830,6 +844,9 @@
     ],
     [
       "slay_boltcreeper"
+    ],
+    [
+      "slay_ofalencreeper"
     ]
   ],
   "sends_telemetry_event": true
