@@ -1,5 +1,6 @@
 package com.tntmodders.takumicraft.block.entity;
 
+import com.tntmodders.takumicraft.core.TCBlockCore;
 import com.tntmodders.takumicraft.core.TCBlockEntityCore;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -25,6 +26,7 @@ public class TCCreeperBedBlockEntity extends BlockEntity {
     public TCCreeperBedBlockEntity(BlockPos p_155115_, BlockState p_155116_) {
         super(TCBlockEntityCore.CREEPER_BED, p_155115_, p_155116_);
         this.color = ((BedBlock) p_155116_.getBlock()).getColor();
+        this.isSuper = p_155116_.is(TCBlockCore.SUPER_CREEPER_BED);
     }
 
     public TCCreeperBedBlockEntity(BlockPos p_155118_, BlockState p_155119_, DyeColor p_155120_, boolean isSuper) {
