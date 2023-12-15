@@ -94,11 +94,18 @@ public class TCAdvancementProvider extends ForgeAdvancementProvider {
                     .parent(creeperbomb).save(consumer, new ResourceLocation(TakumiCraftCore.MODID, "rainbowsheep"));
 
             AdvancementHolder creepershield = Advancement.Builder.advancement()
-                    .display(new ItemStack(TCItemCore.CREEPER_SHIELD), Component.translatable("advancement.takumicraft.disarmament.title"),
+                    .display(new ItemStack(TCItemCore.CREEPER_SHIELD), Component.translatable("advancement.takumicraft.creepershield.title"),
                             Component.translatable("advancement.takumicraft.creepershield.desc"), null,
                             AdvancementType.TASK, true, true, false)
                     .addCriterion("creepershield", InventoryChangeTrigger.TriggerInstance.hasItems(TCItemCore.CREEPER_SHIELD))
                     .parent(creeperbomb).save(consumer, new ResourceLocation(TakumiCraftCore.MODID, "creepershield"));
+
+            AdvancementHolder takumialtar = Advancement.Builder.advancement()
+                    .display(new ItemStack(TCBlockCore.TAKUMI_ALTAR), Component.translatable("advancement.takumicraft.takumialtar.title"),
+                            Component.translatable("advancement.takumicraft.takumialtar.desc"), null,
+                            AdvancementType.TASK, true, true, false)
+                    .addCriterion("takumialtar", InventoryChangeTrigger.TriggerInstance.hasItems(TCBlockCore.TAKUMI_ALTAR))
+                    .parent(creepershield).save(consumer, new ResourceLocation(TakumiCraftCore.MODID, "takumialtar"));
         }
     }
 }

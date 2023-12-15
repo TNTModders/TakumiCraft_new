@@ -112,6 +112,10 @@ public class TCBoltCreeper extends AbstractTCCreeper {
             return 0x8888ff;
         }
 
+        @Override
+        public boolean alterSpawn() {
+            return true;
+        }
 
         @Override
         public void registerRenderer(EntityRenderersEvent.RegisterRenderers event, EntityType<?> type) {

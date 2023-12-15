@@ -27,6 +27,9 @@ import java.util.List;
 public class TCEntityCore {
     public static final NonNullList<EntityType<?>> ENTITY_TYPES = NonNullList.create();
     public static final NonNullList<TCCreeperContext<?>> ENTITY_CONTEXTS = NonNullList.create();
+
+    public static final NonNullList<TCCreeperContext<?>> ALTAR_LIST = NonNullList.create();
+
     public static final TCCreeperContext<TCSilentCreeper> SILENT = new TCSilentCreeper.TCSilentCreeperContext();
     public static final TCCreeperContext<TCLavaCreeper> LAVA = new TCLavaCreeper.TCLavaCreeperContext();
     public static final TCCreeperContext<TCSandCreeper> SAND = new TCSandCreeper.TCSandCreeperContext();
@@ -91,6 +94,9 @@ public class TCEntityCore {
                     event.register(ForgeRegistries.ENTITY_TYPES.getRegistryKey(), entityTypeRegisterHelper -> entityTypeRegisterHelper.register(new ResourceLocation(TakumiCraftCore.MODID, context.getRegistryName()), type));
                     ENTITY_TYPES.add(type);
                     ENTITY_CONTEXTS.add(context);
+                    if (context.alterSpawn()) {
+                        ALTAR_LIST.add(context);
+                    }
                     TCLoggingUtils.entryRegistry("Entity", context.getRegistryName());
                 }
             } catch (IllegalAccessException e) {

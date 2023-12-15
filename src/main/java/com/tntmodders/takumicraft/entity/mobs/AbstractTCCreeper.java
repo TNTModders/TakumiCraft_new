@@ -164,6 +164,10 @@ public abstract class AbstractTCCreeper extends Creeper implements ITCEntities, 
                     .add(new MobSpawnSettings.SpawnerData(this.entityType(), (int) weight, 1, this.getMaxSpawn()));
         }
 
+        default boolean alterSpawn() {
+            return false;
+        }
+
         default int getSpawnWeight() {
             return this.getRank().getSpawnWeight();
         }

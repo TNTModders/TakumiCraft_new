@@ -25,6 +25,7 @@ public class TCBlockStateProvider extends BlockStateProvider {
             if (block instanceof ITCBlocks) {
                 switch (((ITCBlocks) block).getBlockStateModelType()) {
                     case SIMPLE -> this.simpleBlockWithItem(block);
+                    case SIDE -> this.sideBlockWithItem(block);
                     case ANIMATED -> this.animatedBlockWithItem(block);
                     case STAIRS -> this.stairsBlockWithItem(block);
                     case SLAB -> this.halfBlockWithItem(block);
@@ -106,6 +107,13 @@ public class TCBlockStateProvider extends BlockStateProvider {
             ModelFile model = models().withExistingParent(fence.getRegistryName(), "block/fence_inventory").texture("texture", blockTexture(fence.getBaseBlock()));
             this.simpleBlockItem(block, model);
         }
+    }
+
+    private void sideBlockWithItem(Block block) {
+        String name = name(block);
+        ModelFile model = this.models().cubeBottomTop(name, blockFolder(new ResourceLocation(TakumiCraftCore.MODID, name + "_side")), blockFolder(new ResourceLocation(TakumiCraftCore.MODID, name + "_bottom")), blockFolder(new ResourceLocation(TakumiCraftCore.MODID, name + "_top")));
+        this.simpleBlock(block, model);
+        this.simpleBlockItem(block, model);
     }
 
     private void simpleBlockWithItem(Block block) {

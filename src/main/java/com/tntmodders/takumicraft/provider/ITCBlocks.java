@@ -46,6 +46,7 @@ public interface ITCBlocks extends ITCTranslator {
      */
     enum EnumTCBlockStateModelType {
         SIMPLE("solid"),
+        SIDE("solid"),
         SLAB("solid"),
         STAIRS("solid"),
         WALL("solid"),

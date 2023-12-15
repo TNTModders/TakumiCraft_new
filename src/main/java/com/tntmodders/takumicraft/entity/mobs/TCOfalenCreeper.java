@@ -159,6 +159,11 @@ public class TCOfalenCreeper extends AbstractTCCreeper {
         }
 
         @Override
+        public boolean alterSpawn() {
+            return true;
+        }
+
+        @Override
         public UniformGenerator getDropRange() {
             return UniformGenerator.between(1f, 1f);
         }

@@ -1,12 +1,12 @@
 {
-  "parent": "takumicraft:creeperbomb",
+  "parent": "takumicraft:creepershield",
   "criteria": {
-    "creepershield": {
+    "takumialtar": {
       "conditions": {
         "items": [
           {
             "items": [
-              "takumicraft:creepershield"
+              "takumicraft:takumialtar"
             ]
           }
         ]
@@ -16,19 +16,18 @@
   },
   "display": {
     "description": {
-      "translate": "advancement.takumicraft.creepershield.desc"
+      "translate": "advancement.takumicraft.takumialtar.desc"
     },
     "icon": {
-      "item": "takumicraft:creepershield",
-      "nbt": "{Damage:0}"
+      "item": "takumicraft:takumialtar"
     },
     "title": {
-      "translate": "advancement.takumicraft.creepershield.title"
+      "translate": "advancement.takumicraft.takumialtar.title"
     }
   },
   "requirements": [
     [
-      "creepershield"
+      "takumialtar"
     ]
   ],
   "sends_telemetry_event": true

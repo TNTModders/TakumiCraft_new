@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "bottom": "takumicraft:block/takumialtar_bottom",
+    "side": "takumicraft:block/takumialtar_side",
+    "top": "takumicraft:block/takumialtar_top"
+  }
+}
