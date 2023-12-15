@@ -659,6 +659,20 @@
       },
       "trigger": "minecraft:player_killed_entity"
     },
+    "slay_yukaricreeper": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "takumicraft:yukaricreeper"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
     "slay_zombiecreeper": {
       "conditions": {
         "entity": [
@@ -847,6 +861,9 @@
     ],
     [
       "slay_ofalencreeper"
+    ],
+    [
+      "slay_yukaricreeper"
     ]
   ],
   "sends_telemetry_event": true

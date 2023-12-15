@@ -76,6 +76,7 @@ public class TCEntityCore {
     public static final TCCreeperContext<TCAcidCreeper> ACID = new TCAcidCreeper.TCAcidCreeperContext();
     public static final TCCreeperContext<TCBoltCreeper> BOLT = new TCBoltCreeper.TCBoltCreeperContext();
     public static final TCCreeperContext<TCOfalenCreeper> OFALEN = new TCOfalenCreeper.TCOfalenCreeperContext();
+    public static final TCCreeperContext<TCYukariCreeper> YUKARI = new TCYukariCreeper.TCYukariCreeperContext();
 
     public static final TagKey<EntityType<?>> TAKUMIS = TagKey.create(Registries.ENTITY_TYPE, new ResourceLocation(TakumiCraftCore.MODID, "takumi"));
 
