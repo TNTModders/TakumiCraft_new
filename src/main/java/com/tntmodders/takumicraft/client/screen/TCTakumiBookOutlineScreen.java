@@ -310,12 +310,9 @@ public class TCTakumiBookOutlineScreen extends EffectRenderingInventoryScreen<TC
 
     @Override
     protected void renderLabels(GuiGraphics graphics, int p_98617_, int p_98618_) {
-        if (selectedTab.showTitle()) {
-            RenderSystem.disableBlend();
-
-            graphics.drawString(this.font, Component.translatable("takumicraft.takumibook.search"), 8, 6, 0, false);
-        }
-
+        RenderSystem.disableBlend();
+        Pair<Integer, Integer> slayall = TCEntityUtils.checkSlayAllAdv();
+        graphics.drawString(this.font, Component.translatable("takumicraft.takumibook.search"), 8, 6, 0, false);
     }
 
     @Override

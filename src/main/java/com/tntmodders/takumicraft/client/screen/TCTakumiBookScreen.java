@@ -265,6 +265,7 @@ public class TCTakumiBookScreen extends Screen {
             Component read = Component.translatable(flg ? TCEntityUtils.getEntityLangCode(context.entityType(), ".read") : "???");
             graphics.drawString(this.font, read, i + 70, 25, 0, false);
         }
+        graphics.drawString(this.font, Component.literal(currentPage + "/" + this.getNumPages()), i + 120, 15, 0, false);
     }
 
     @Override
