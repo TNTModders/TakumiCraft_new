@@ -2,7 +2,6 @@ package com.tntmodders.takumicraft.entity.mobs;
 
 import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.block.TCAcidBlock;
-import com.tntmodders.takumicraft.client.renderer.entity.TCCreeperRenderer;
 import com.tntmodders.takumicraft.core.TCBlockCore;
 import com.tntmodders.takumicraft.core.TCEntityCore;
 import net.minecraft.core.BlockPos;
@@ -16,7 +15,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FluidState;
-import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.event.level.ExplosionEvent;
 
 public class TCAcidCreeper extends AbstractTCCreeper {
@@ -110,11 +108,6 @@ public class TCAcidCreeper extends AbstractTCCreeper {
         @Override
         public int getSecondaryColor() {
             return 0x006600;
-        }
-
-        @Override
-        public void registerRenderer(EntityRenderersEvent.RegisterRenderers event, EntityType<?> type) {
-            event.registerEntityRenderer((EntityType<Creeper>) type, TCCreeperRenderer::new);
         }
 
         @Override

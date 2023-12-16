@@ -2,6 +2,7 @@ package com.tntmodders.takumicraft.client.renderer.entity.layer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.tntmodders.takumicraft.entity.mobs.AbstractTCCreeper;
+import com.tntmodders.takumicraft.utils.client.TCClientUtils;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -33,7 +34,7 @@ public class TCCreeperPowerLayer<T extends AbstractTCCreeper, M extends EntityMo
 
     @Override
     protected ResourceLocation getTextureLocation() {
-        return context.getArmor();
+        return this.context == null ? TCClientUtils.POWER_LOCATION : this.context.getArmor();
     }
 
     @Override

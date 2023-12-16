@@ -1,7 +1,7 @@
 package com.tntmodders.takumicraft.entity.mobs;
 
 import com.tntmodders.takumicraft.TakumiCraftCore;
-import com.tntmodders.takumicraft.client.renderer.entity.TCYukariCreeperRenderer;
+import com.tntmodders.takumicraft.client.renderer.entity.TCCreeperRenderer;
 import com.tntmodders.takumicraft.core.TCBlockCore;
 import com.tntmodders.takumicraft.core.TCEntityCore;
 import com.tntmodders.takumicraft.utils.TCBlockUtils;
@@ -38,13 +38,12 @@ public class TCYukariCreeper extends AbstractTCCreeper {
     @Override
     public void explodeCreeper() {
         if (!this.level().isClientSide) {
-            float f = this.isPowered() ? 2.0F : 1.0F;
             this.dead = true;
             int i = this.isPowered() ? 40 : 25;
             for (int x = -i; x <= i; x++) {
                 for (int z = -i; z <= i; z++) {
                     if (x * x + z * z < i * i) {
-                        TCExplosionUtils.createExplosion(this.level(), this, this.getX() + x, this.getY(), this.getZ() + z, (float) Math.sqrt(i - Math.sqrt(x * x + z * z) + 1) * 1.75f, true);
+                        TCExplosionUtils.createExplosion(this.level(), this, this.getX() + x, this.getY(), this.getZ() + z, (float) Math.sqrt(i - Math.sqrt(x * x + z * z) + 1) * 1.75f, false);
                     }
                 }
             }
@@ -131,7 +130,7 @@ public class TCYukariCreeper extends AbstractTCCreeper {
 
         @Override
         public void registerRenderer(EntityRenderersEvent.RegisterRenderers event, EntityType<?> type) {
-            event.registerEntityRenderer((EntityType<TCYukariCreeper>) type, TCYukariCreeperRenderer::new);
+            event.registerEntityRenderer((EntityType<TCYukariCreeper>) type, p_173958_ -> new TCCreeperRenderer<>(p_173958_, true, TCEntityCore.YUKARI));
         }
 
         @Override
