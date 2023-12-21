@@ -76,6 +76,10 @@ public class TCItemTagsProvider extends ItemTagsProvider {
                 e.printStackTrace();
             }
         });
+        this.additionalTag();
         TCLoggingUtils.completeRegistry("Item Tag");
+    }
+
+    private void additionalTag() {
     }
 }

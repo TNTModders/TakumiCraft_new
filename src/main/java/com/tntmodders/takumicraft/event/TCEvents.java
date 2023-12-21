@@ -7,6 +7,7 @@ import com.tntmodders.takumicraft.core.TCEntityCore;
 import com.tntmodders.takumicraft.core.TCItemCore;
 import com.tntmodders.takumicraft.entity.mobs.AbstractTCCreeper;
 import com.tntmodders.takumicraft.entity.mobs.TCPhantomCreeper;
+import com.tntmodders.takumicraft.item.TCTakumiSpecialMeatItem;
 import com.tntmodders.takumicraft.utils.TCExplosionUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
@@ -15,6 +16,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.Phantom;
 import net.minecraft.world.entity.player.Player;
@@ -50,10 +52,22 @@ public class TCEvents {
         });
         event.getAffectedBlocks().removeAll(removePosList);
 
+        event.getAffectedEntities().removeIf(entity -> {
+            if (entity instanceof ItemEntity item) {
+                if (TCTakumiSpecialMeatItem.canConvertToSpecialMeat(item.getItem())) {
+                    item.setItem(TCTakumiSpecialMeatItem.getSpecialMeat(item.getItem()));
+                    return true;
+                } else {
+                    return item.getItem().is(TCItemCore.SPECIAL_MEATS);
+                }
+            }
+            return false;
+        });
+
         List<? extends Player> playerList = event.getLevel().players();
         if (!playerList.isEmpty()) {
             playerList.forEach(player -> {
-                if (player instanceof ServerPlayer && player.distanceToSqr(event.getExplosion().getPosition()) < 100) {
+                if (player instanceof ServerPlayer && player.distanceToSqr(event.getExplosion().center()) < 100) {
                     ((ServerPlayer) player).getAdvancements()
                             .award(Objects.requireNonNull(((ServerPlayer) player).server.getAdvancements().get(new ResourceLocation(TakumiCraftCore.MODID, "root"))), "impossible");
                 }

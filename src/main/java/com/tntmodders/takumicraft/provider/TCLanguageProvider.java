@@ -144,6 +144,8 @@ public abstract class TCLanguageProvider extends LanguageProvider {
             this.add("advancement.takumicraft.rainbowsheep.desc", "Slay rainbow Sheep Creeper.");
             this.add("advancement.takumicraft.takumialtar.title", "Altar of Creeper");
             this.add("advancement.takumicraft.takumialtar.desc", "Get Altar.");
+            this.add("advancement.takumicraft.spmeat.title", "Super Duper Meat");
+            this.add("advancement.takumicraft.spmeat.desc", "Get Exploded Meat");
 
             this.add("item.takumicraft.elementcore.desc", "Available as a smithing template for upgrades.");
             this.add("item.takumicraft.creeperbomb.desc", "Available as a smithing material for upgrades.");
@@ -253,19 +255,21 @@ public abstract class TCLanguageProvider extends LanguageProvider {
             this.add("item.takumicraft.creepershield.black", "匠式防盾[黒]");
 
             this.add("advancement.takumicraft.root.title", "匠Craft");
-            this.add("advancement.takumicraft.root.desc", "この匠だらけの世界へ! \n 爆発の洗礼を受ける。");
+            this.add("advancement.takumicraft.root.desc", "この匠だらけの世界へ!\n\n爆発の洗礼を受ける。");
             this.add("advancement.takumicraft.creeperbomb.title", "爆発物注意");
-            this.add("advancement.takumicraft.creeperbomb.desc", "匠式高性能爆弾を入手する \n 全ては爆弾から。");
+            this.add("advancement.takumicraft.creeperbomb.desc", "匠式高性能爆弾を入手する\n\n全ては爆弾から。");
             this.add("advancement.takumicraft.slay_all.title", "完全覇者");
-            this.add("advancement.takumicraft.slay_all.desc", "匠の書の制覇\n 王の創る次なる匠を待たれよ。");
+            this.add("advancement.takumicraft.slay_all.desc", "匠の書の制覇\n\n王の創る次なる匠を待たれよ。");
             this.add("advancement.takumicraft.disarmament.title", "武装解除");
-            this.add("advancement.takumicraft.disarmament.desc", "巨匠化状態を解除する\n怖いものなし、匠の狩人。");
+            this.add("advancement.takumicraft.disarmament.desc", "巨匠化状態を解除する\n\n怖いものなし、匠の狩人。");
             this.add("advancement.takumicraft.creepershield.title", "爆風もへっちゃら");
-            this.add("advancement.takumicraft.creepershield.desc", "匠式防盾を入手する\n(見た目以外は)完璧な盾だ。");
+            this.add("advancement.takumicraft.creepershield.desc", "匠式防盾を入手する\n\n(見た目以外は)完璧な盾だ。");
             this.add("advancement.takumicraft.rainbowsheep.title", "幻の虹色");
-            this.add("advancement.takumicraft.rainbowsheep.desc", "虹の羊匠を倒す\n見つけたら幸せになれるかも?");
+            this.add("advancement.takumicraft.rainbowsheep.desc", "虹の羊匠を倒す\n\n見つけたら幸せになれるかも?");
             this.add("advancement.takumicraft.takumialtar.title", "祭壇と篝火");
-            this.add("advancement.takumicraft.takumialtar.desc", "王匠の祭壇を入手する\n強者を召喚せよ。");
+            this.add("advancement.takumicraft.takumialtar.desc", "王匠の祭壇を入手する\n\n強者を召喚せよ。");
+            this.add("advancement.takumicraft.spmeat.title", "匠印の特上肉");
+            this.add("advancement.takumicraft.spmeat.desc", "全ての匠式特上肉を食べる\n\n肉!!\n美味すぎるだろ!!\n反省しろ!!");
 
             this.add("item.takumicraft.elementcore.desc", "鍛冶型として鍛冶台でのアップグレードに利用可能");
             this.add("item.takumicraft.creeperbomb.desc", "材料として鍛冶台でのアップグレードに利用可能");

@@ -1,0 +1,123 @@
+{
+  "parent": "takumicraft:creepershield",
+  "criteria": {
+    "takumispecialmeat_cooked_beef": {
+      "conditions": {
+        "item": {
+          "items": [
+            "takumicraft:takumispecialmeat_cooked_beef"
+          ]
+        }
+      },
+      "trigger": "minecraft:consume_item"
+    },
+    "takumispecialmeat_cooked_chicken": {
+      "conditions": {
+        "item": {
+          "items": [
+            "takumicraft:takumispecialmeat_cooked_chicken"
+          ]
+        }
+      },
+      "trigger": "minecraft:consume_item"
+    },
+    "takumispecialmeat_cooked_cod": {
+      "conditions": {
+        "item": {
+          "items": [
+            "takumicraft:takumispecialmeat_cooked_cod"
+          ]
+        }
+      },
+      "trigger": "minecraft:consume_item"
+    },
+    "takumispecialmeat_cooked_mutton": {
+      "conditions": {
+        "item": {
+          "items": [
+            "takumicraft:takumispecialmeat_cooked_mutton"
+          ]
+        }
+      },
+      "trigger": "minecraft:consume_item"
+    },
+    "takumispecialmeat_cooked_porkchop": {
+      "conditions": {
+        "item": {
+          "items": [
+            "takumicraft:takumispecialmeat_cooked_porkchop"
+          ]
+        }
+      },
+      "trigger": "minecraft:consume_item"
+    },
+    "takumispecialmeat_cooked_rabbit": {
+      "conditions": {
+        "item": {
+          "items": [
+            "takumicraft:takumispecialmeat_cooked_rabbit"
+          ]
+        }
+      },
+      "trigger": "minecraft:consume_item"
+    },
+    "takumispecialmeat_cooked_salmon": {
+      "conditions": {
+        "item": {
+          "items": [
+            "takumicraft:takumispecialmeat_cooked_salmon"
+          ]
+        }
+      },
+      "trigger": "minecraft:consume_item"
+    },
+    "takumispecialmeat_rotten_flesh": {
+      "conditions": {
+        "item": {
+          "items": [
+            "takumicraft:takumispecialmeat_rotten_flesh"
+          ]
+        }
+      },
+      "trigger": "minecraft:consume_item"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancement.takumicraft.spmeat.desc"
+    },
+    "icon": {
+      "item": "takumicraft:takumispecialmeat_cooked_beef"
+    },
+    "title": {
+      "translate": "advancement.takumicraft.spmeat.title"
+    }
+  },
+  "requirements": [
+    [
+      "takumispecialmeat_cooked_beef"
+    ],
+    [
+      "takumispecialmeat_cooked_porkchop"
+    ],
+    [
+      "takumispecialmeat_cooked_mutton"
+    ],
+    [
+      "takumispecialmeat_cooked_chicken"
+    ],
+    [
+      "takumispecialmeat_cooked_rabbit"
+    ],
+    [
+      "takumispecialmeat_cooked_cod"
+    ],
+    [
+      "takumispecialmeat_cooked_salmon"
+    ],
+    [
+      "takumispecialmeat_rotten_flesh"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

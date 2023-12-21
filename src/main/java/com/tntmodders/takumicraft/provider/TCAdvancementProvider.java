@@ -4,15 +4,13 @@ import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.core.TCBlockCore;
 import com.tntmodders.takumicraft.core.TCEntityCore;
 import com.tntmodders.takumicraft.core.TCItemCore;
+import com.tntmodders.takumicraft.item.TCTakumiSpecialMeatItem;
 import com.tntmodders.takumicraft.utils.TCLoggingUtils;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementHolder;
 import net.minecraft.advancements.AdvancementType;
 import net.minecraft.advancements.CriteriaTriggers;
-import net.minecraft.advancements.critereon.EntityPredicate;
-import net.minecraft.advancements.critereon.ImpossibleTrigger;
-import net.minecraft.advancements.critereon.InventoryChangeTrigger;
-import net.minecraft.advancements.critereon.KilledTrigger;
+import net.minecraft.advancements.critereon.*;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.network.chat.Component;
@@ -106,6 +104,13 @@ public class TCAdvancementProvider extends ForgeAdvancementProvider {
                             AdvancementType.TASK, true, true, false)
                     .addCriterion("takumialtar", InventoryChangeTrigger.TriggerInstance.hasItems(TCBlockCore.TAKUMI_ALTAR))
                     .parent(creepershield).save(consumer, new ResourceLocation(TakumiCraftCore.MODID, "takumialtar"));
+
+            Advancement.Builder specialmeat_builder = Advancement.Builder.advancement()
+                    .display(new ItemStack(TCItemCore.SPMEAT_BEEF), Component.translatable("advancement.takumicraft.spmeat.title"),
+                            Component.translatable("advancement.takumicraft.spmeat.desc"), null,
+                            AdvancementType.TASK, true, true, false).parent(creepershield);
+            TCTakumiSpecialMeatItem.MEAT_LIST.forEach(meatItem -> specialmeat_builder.addCriterion(meatItem.getRegistryName(), ConsumeItemTrigger.TriggerInstance.usedItem(meatItem)));
+            AdvancementHolder specialmeat = specialmeat_builder.save(consumer, new ResourceLocation(TakumiCraftCore.MODID, "spmeat"));
         }
     }
 }

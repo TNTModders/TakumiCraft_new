@@ -28,6 +28,7 @@ public interface ITCItems extends ITCTranslator {
         SPAWN_EGG,
         HANDHELD,
         BOW,
+        SPECIAL_MEAT,
         NONE
     }
 }
