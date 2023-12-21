@@ -6,6 +6,7 @@ import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.core.TCEntityCore;
 import com.tntmodders.takumicraft.entity.mobs.AbstractTCCreeper;
 import com.tntmodders.takumicraft.utils.TCEntityUtils;
+import com.tntmodders.takumicraft.utils.client.TCClientUtils;
 import net.minecraft.client.GameNarrator;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -214,8 +215,8 @@ public class TCTakumiBookScreen extends Screen {
 
         AbstractTCCreeper.TCCreeperContext<? extends AbstractTCCreeper> context = TCEntityCore.ENTITY_CONTEXTS.get(currentPage);
         this.tick++;
-        TCEntityUtils.renderEntity(i + 51, j + 80, 30, this.tick / 100f, 0, context.entityType(), false);
-        boolean flg = TCEntityUtils.checkSlayAdv(context.entityType());
+        TCClientUtils.renderEntity(i + 51, j + 80, 30, this.tick / 100f, 0, context.entityType(), false);
+        boolean flg = TCClientUtils.checkSlayAdv(context.entityType());
         if (this.cachedPage != currentPage) {
             FormattedText formattedtext = Component.translatable(flg ? context.entityType().getDescriptionId() + ".desc" : "???");
             this.cachedPageComponents = this.font.split(formattedtext, 114);

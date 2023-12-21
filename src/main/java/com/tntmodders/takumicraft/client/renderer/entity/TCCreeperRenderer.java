@@ -2,8 +2,10 @@ package com.tntmodders.takumicraft.client.renderer.entity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.tntmodders.takumicraft.TakumiCraftCore;
+import com.tntmodders.takumicraft.client.renderer.entity.layer.TCCreeperOutfitLayer;
 import com.tntmodders.takumicraft.client.renderer.entity.layer.TCCreeperPowerLayer;
 import com.tntmodders.takumicraft.entity.mobs.AbstractTCCreeper;
+import com.tntmodders.takumicraft.utils.TCEntityUtils;
 import net.minecraft.client.model.CreeperModel;
 import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -26,6 +28,9 @@ public class TCCreeperRenderer<T extends AbstractTCCreeper> extends MobRenderer<
     public TCCreeperRenderer(EntityRendererProvider.Context p_173958_, boolean isBright, AbstractTCCreeper.TCCreeperContext creeperContext) {
         super(p_173958_, new CreeperModel<>(p_173958_.bakeLayer(ModelLayers.CREEPER)), 0.5F);
         this.addLayer(new TCCreeperPowerLayer<>(this, p_173958_.getModelSet(), new CreeperModel<>(p_173958_.bakeLayer(ModelLayers.CREEPER_ARMOR)), creeperContext));
+        if (TCEntityUtils.isXmas() || TCEntityUtils.isNewYear()) {
+            this.addLayer(new TCCreeperOutfitLayer<>(this, p_173958_.getModelSet(), new CreeperModel<>(p_173958_.bakeLayer(ModelLayers.CREEPER))));
+        }
         this.isBright = isBright;
     }
 

@@ -128,6 +128,12 @@ public class TCSuperCreeperBedBlock extends TCCreeperBedBlock {
             public Rarity getRarity(ItemStack p_41461_) {
                 return Rarity.EPIC;
             }
+
+
+            @Override
+            public int getMaxStackSize(ItemStack stack) {
+                return 1;
+            }
         };
     }
 }

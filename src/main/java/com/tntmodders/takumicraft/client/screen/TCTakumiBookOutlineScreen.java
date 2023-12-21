@@ -11,6 +11,7 @@ import com.tntmodders.takumicraft.core.client.TCSearchTreeCore;
 import com.tntmodders.takumicraft.entity.mobs.AbstractTCCreeper;
 import com.tntmodders.takumicraft.item.TCSpawnEggItem;
 import com.tntmodders.takumicraft.utils.TCEntityUtils;
+import com.tntmodders.takumicraft.utils.client.TCClientUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.HotbarManager;
 import net.minecraft.client.Minecraft;
@@ -311,7 +312,7 @@ public class TCTakumiBookOutlineScreen extends EffectRenderingInventoryScreen<TC
     @Override
     protected void renderLabels(GuiGraphics graphics, int p_98617_, int p_98618_) {
         RenderSystem.disableBlend();
-        Pair<Integer, Integer> slayall = TCEntityUtils.checkSlayAllAdv();
+        Pair<Integer, Integer> slayall = TCClientUtils.checkSlayAllAdv();
         graphics.drawString(this.font, Component.translatable("takumicraft.takumibook.search"), 8, 6, 0, false);
     }
 
@@ -527,7 +528,7 @@ public class TCTakumiBookOutlineScreen extends EffectRenderingInventoryScreen<TC
     public void renderSlot(GuiGraphics graphics, Slot slot) {
 
         if (slot.getItem().getItem() instanceof TCSpawnEggItem item) {
-            TCEntityUtils.renderEntity(slot.x + this.leftPos + (double) this.imageWidth / 25, slot.y + this.topPos + (double) this.imageHeight / 9, 7, this.tick / 100f, 0f, item.getContext().entityType(), true);
+            TCClientUtils.renderEntity(slot.x + this.leftPos + (double) this.imageWidth / 25, slot.y + this.topPos + (double) this.imageHeight / 9, 7, this.tick / 100f, 0f, item.getContext().entityType(), true);
         } else {
             super.renderSlot(graphics, slot);
         }
@@ -540,7 +541,7 @@ public class TCTakumiBookOutlineScreen extends EffectRenderingInventoryScreen<TC
             ItemStack itemStack = this.hoveredSlot.getItem();
             if (!itemStack.isEmpty() && itemStack.getItem() instanceof TCSpawnEggItem egg) {
                 AbstractTCCreeper.TCCreeperContext context = egg.getContext();
-                boolean flg = TCEntityUtils.checkSlayAdv(context.entityType());
+                boolean flg = TCClientUtils.checkSlayAdv(context.entityType());
                 Component name = flg ? TCEntityUtils.getEntityName(context.entityType()) : TCEntityUtils.getUnknown();
                 components.add(name);
                 if (flg) {
