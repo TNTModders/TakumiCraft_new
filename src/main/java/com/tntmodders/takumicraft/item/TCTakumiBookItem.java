@@ -12,6 +12,11 @@ public class TCTakumiBookItem extends Item implements ITCItems, ITCTranslator {
     }
 
     @Override
+    public boolean hideOnCreativeTab() {
+        return true;
+    }
+
+    @Override
     public boolean isFoil(ItemStack p_41453_) {
         return true;
     }

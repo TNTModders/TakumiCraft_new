@@ -58,14 +58,14 @@ public class TCCreeperGlassPaneBlock extends IronBarsBlock implements ITCBlocks,
 
     @Override
     public void addRecipes(TCRecipeProvider provider, ItemLike itemLike, RecipeOutput consumer) {
-        provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS,
-                        TCBlockCore.CREEPER_GLASS_PANE, 8)
+        provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, TCBlockCore.CREEPER_GLASS_PANE, 8)
                 .define('#', TCBlockCore.CREEPER_BOMB)
                 .define('B', Blocks.GLASS_PANE)
                 .pattern("BBB")
                 .pattern("B#B")
                 .pattern("BBB")
-                .unlockedBy("has_creeperbomb", TCRecipeProvider.hasItem(TCBlockCore.CREEPER_BOMB)).group("creeperglasspane"));
+                .unlockedBy("has_creeperbomb", TCRecipeProvider.hasItem(TCBlockCore.CREEPER_BOMB))
+                .group("creeperglasspane"));
 
         provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, TCBlockCore.CREEPER_GLASS_PANE, 16)
                 .define('#', TCBlockCore.CREEPER_GLASS)

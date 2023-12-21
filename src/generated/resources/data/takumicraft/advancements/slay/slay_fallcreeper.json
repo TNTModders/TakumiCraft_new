@@ -17,16 +17,13 @@
     }
   },
   "display": {
-    "announce_to_chat": true,
     "description": {
       "translate": "takumicraft.message.slay"
     },
-    "frame": "task",
     "hidden": true,
     "icon": {
       "item": "takumicraft:takumibook"
     },
-    "show_toast": true,
     "title": {
       "translate": "entity.takumicraft.fallcreeper"
     }

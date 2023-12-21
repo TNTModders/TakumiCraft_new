@@ -9,6 +9,7 @@ import com.tntmodders.takumicraft.provider.TCRecipeProvider;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.SmithingTransformRecipeBuilder;
+import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
@@ -22,7 +23,9 @@ import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
 import java.util.function.Predicate;
 
 public class TCCreeperBowItem extends BowItem implements ITCItems, ITCTranslator, ITCRecipe {
@@ -163,6 +166,12 @@ public class TCCreeperBowItem extends BowItem implements ITCItems, ITCTranslator
     @Override
     public Predicate<ItemStack> getAllSupportedProjectiles() {
         return ARROW_AND_CARROW;
+    }
+
+    @Override
+    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> components, TooltipFlag tooltipFlag) {
+        super.appendHoverText(stack, level, components, tooltipFlag);
+        components.add(Component.translatable("item.takumicraft.creeperbow.desc"));
     }
 
     @Override

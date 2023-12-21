@@ -1,0 +1,47 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_creeperbomb": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "takumicraft:creeperbomb"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_creepercarpet_red": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "takumicraft:creepercarpet_red"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "takumicraft:creepercarpet_red"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_creeperbomb",
+      "has_creepercarpet_red"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "takumicraft:creepercarpet_red"
+    ]
+  }
+}

@@ -6,11 +6,13 @@ import net.minecraft.advancements.critereon.EnchantmentPredicate;
 import net.minecraft.advancements.critereon.ItemPredicate;
 import net.minecraft.advancements.critereon.MinMaxBounds;
 import net.minecraft.data.loot.BlockLootSubProvider;
+import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
@@ -86,6 +88,17 @@ public class TCBlockLoot extends BlockLootSubProvider {
     @Override
     public LootTable.Builder createOreDrop(Block p_250450_, Item p_249745_) {
         return super.createOreDrop(p_250450_, p_249745_);
+    }
+
+
+    @Override
+    public <T extends Comparable<T> & StringRepresentable> LootTable.Builder createSinglePropConditionTable(Block p_252154_, Property<T> p_250272_, T p_250292_) {
+        return super.createSinglePropConditionTable(p_252154_, p_250272_, p_250292_);
+    }
+
+    @Override
+    public LootTable.Builder createDoorTable(Block p_252166_) {
+        return super.createDoorTable(p_252166_);
     }
 
     public LootTable.Builder createOreDropWithMinesweeper(Block block, Item item, UniformGenerator generator) {

@@ -1,0 +1,47 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_creeperbomb": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "takumicraft:creeperbomb"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_creeperwool_cyan": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "takumicraft:creeperwool_cyan"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "takumicraft:creeperwool_cyan"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_creeperbomb",
+      "has_creeperwool_cyan"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "takumicraft:creeperwool_cyan"
+    ]
+  }
+}

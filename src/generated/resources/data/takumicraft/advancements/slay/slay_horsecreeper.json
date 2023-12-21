@@ -1,0 +1,37 @@
+{
+  "parent": "takumicraft:slay/root",
+  "criteria": {
+    "killed_horsecreeper": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "takumicraft:horsecreeper"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "takumicraft.message.slay"
+    },
+    "hidden": true,
+    "icon": {
+      "item": "takumicraft:takumibook"
+    },
+    "title": {
+      "translate": "entity.takumicraft.horsecreeper"
+    }
+  },
+  "requirements": [
+    [
+      "killed_horsecreeper"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

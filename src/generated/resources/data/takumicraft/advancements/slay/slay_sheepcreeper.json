@@ -1,0 +1,37 @@
+{
+  "parent": "takumicraft:slay/root",
+  "criteria": {
+    "killed_sheepcreeper": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "takumicraft:sheepcreeper"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "takumicraft.message.slay"
+    },
+    "hidden": true,
+    "icon": {
+      "item": "takumicraft:takumibook"
+    },
+    "title": {
+      "translate": "entity.takumicraft.sheepcreeper"
+    }
+  },
+  "requirements": [
+    [
+      "killed_sheepcreeper"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

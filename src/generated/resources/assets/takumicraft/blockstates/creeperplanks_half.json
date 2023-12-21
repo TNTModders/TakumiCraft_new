@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "facing=down": {
+      "model": "takumicraft:block/creeperplanks_half_down"
+    },
+    "facing=east": {
+      "model": "takumicraft:block/creeperplanks_half_east"
+    },
+    "facing=north": {
+      "model": "takumicraft:block/creeperplanks_half_north"
+    },
+    "facing=south": {
+      "model": "takumicraft:block/creeperplanks_half_south"
+    },
+    "facing=up": {
+      "model": "takumicraft:block/creeperplanks_half_up"
+    },
+    "facing=west": {
+      "model": "takumicraft:block/creeperplanks_half_west"
+    }
+  }
+}

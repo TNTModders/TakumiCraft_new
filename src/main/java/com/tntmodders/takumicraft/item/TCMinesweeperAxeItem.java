@@ -10,6 +10,7 @@ import com.tntmodders.takumicraft.provider.TCRecipeProvider;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.SmithingTransformRecipeBuilder;
+import net.minecraft.network.chat.Component;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.Entity;
@@ -18,6 +19,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
@@ -37,6 +39,12 @@ public class TCMinesweeperAxeItem extends AxeItem implements ITCItems, ITCTransl
         if (!p_41404_.isEnchanted()) {
             p_41404_.enchant(TCEnchantmentCore.MINESWEEPER, 1);
         }
+    }
+
+    @Override
+    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> components, TooltipFlag tooltipFlag) {
+        super.appendHoverText(stack, level, components, tooltipFlag);
+        components.add(Component.translatable("item.takumicraft.minesweeper_tool.desc"));
     }
 
     @Override

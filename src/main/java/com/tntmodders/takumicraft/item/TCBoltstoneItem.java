@@ -2,6 +2,7 @@ package com.tntmodders.takumicraft.item;
 
 import com.tntmodders.takumicraft.provider.ITCItems;
 import com.tntmodders.takumicraft.provider.ITCTranslator;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
@@ -48,11 +49,15 @@ public class TCBoltstoneItem extends Item implements ITCItems, ITCTranslator {
 
     @Override
     public boolean hurtEnemy(ItemStack itemStack, LivingEntity entity, LivingEntity attacker) {
-        if (!attacker.level().isClientSide) {
+        if (attacker.level() instanceof ServerLevel serverLevel) {
             LightningBolt bolt = new LightningBolt(EntityType.LIGHTNING_BOLT, attacker.level());
             bolt.moveTo(entity.position());
             bolt.setCause(attacker instanceof ServerPlayer ? (ServerPlayer) attacker : null);
+            bolt.setVisualOnly(true);
+            bolt.setDamage(0f);
             attacker.level().addFreshEntity(bolt);
+            entity.thunderHit(serverLevel, bolt);
+            entity.extinguishFire();
         }
         if (attacker instanceof Player player) {
             player.awardStat(Stats.ITEM_USED.get(this));

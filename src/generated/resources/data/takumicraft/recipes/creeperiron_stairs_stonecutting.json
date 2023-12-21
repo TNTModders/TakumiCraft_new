@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "count": 1,
+  "ingredient": {
+    "item": "takumicraft:creeperiron"
+  },
+  "result": "takumicraft:creeperiron_stairs"
+}

@@ -1,0 +1,45 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_creeperbed": {
+      "conditions": {
+        "items": [
+          {
+            "tag": "takumicraft:creeperbed"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_super_creeperbed": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "takumicraft:super_creeperbed"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "takumicraft:super_creeperbed"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_creeperbed",
+      "has_super_creeperbed"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "takumicraft:super_creeperbed"
+    ]
+  }
+}

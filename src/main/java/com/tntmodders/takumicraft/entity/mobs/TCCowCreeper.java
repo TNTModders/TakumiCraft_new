@@ -94,7 +94,7 @@ public class TCCowCreeper extends AbstractTCCreeper {
 
     public static class TCCowCreeperContext implements TCCreeperContext<TCCowCreeper> {
         private static final String NAME = "cowcreeper";
-        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCCowCreeper::new, MobCategory.CREATURE).sized(0.9F, 1.4F).clientTrackingRange(10).build(TakumiCraftCore.MODID + ":" + NAME);
+        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCCowCreeper::new, MobCategory.MONSTER).sized(0.9F, 1.4F).clientTrackingRange(10).build(TakumiCraftCore.MODID + ":" + NAME);
 
         @Override
         public String getRegistryName() {
@@ -152,8 +152,9 @@ public class TCCowCreeper extends AbstractTCCreeper {
         }
 
         @Override
-        public void registerSpawn(SpawnPlacementRegisterEvent event, EntityType<AbstractTCCreeper> type) {
+        public boolean registerSpawn(SpawnPlacementRegisterEvent event, EntityType<AbstractTCCreeper> type) {
             SpawnPlacements.register(type, SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AbstractTCCreeper::checkAnimalSpawnRules);
+            return true;
         }
 
         @Override

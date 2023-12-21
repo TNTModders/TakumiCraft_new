@@ -21,6 +21,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobSpawnType;
@@ -55,6 +56,8 @@ import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
 import net.minecraftforge.event.level.ExplosionEvent;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
@@ -81,6 +84,10 @@ public abstract class AbstractTCCreeper extends Creeper implements ITCEntities, 
 
     protected static boolean isBrightEnoughToSpawn(BlockAndTintGetter p_186210_, BlockPos p_186211_) {
         return p_186210_.getRawBrightness(p_186211_, 0) > 8;
+    }
+
+    public double getRandomY(double dy) {
+        return this.getY((2.0D * this.random.nextDouble() - 1.0D) * dy);
     }
 
     public boolean isOnBook() {
@@ -143,8 +150,9 @@ public abstract class AbstractTCCreeper extends Creeper implements ITCEntities, 
             return false;
         }
 
-        default void registerSpawn(SpawnPlacementRegisterEvent event, EntityType<AbstractTCCreeper> type) {
+        default boolean registerSpawn(SpawnPlacementRegisterEvent event, EntityType<AbstractTCCreeper> type) {
             event.register(type, SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AbstractTCCreeper::checkTakumiSpawnRules, SpawnPlacementRegisterEvent.Operation.OR);
+            return true;
         }
 
         default void registerModifierSpawn(Holder<Biome> biome, ModifiableBiomeInfo.BiomeInfo.Builder builder) {
@@ -154,6 +162,10 @@ public abstract class AbstractTCCreeper extends Creeper implements ITCEntities, 
             }
             builder.getMobSpawnSettings().getSpawner(this.entityType().getCategory())
                     .add(new MobSpawnSettings.SpawnerData(this.entityType(), (int) weight, 1, this.getMaxSpawn()));
+        }
+
+        default boolean alterSpawn() {
+            return false;
         }
 
         default int getSpawnWeight() {
@@ -243,7 +255,13 @@ public abstract class AbstractTCCreeper extends Creeper implements ITCEntities, 
 
         @OnlyIn(Dist.CLIENT)
         default void registerRenderer(EntityRenderersEvent.RegisterRenderers event, EntityType<?> type) {
-            event.registerEntityRenderer((EntityType<Creeper>) type, TCCreeperRenderer::new);
+            event.registerEntityRenderer((EntityType<AbstractTCCreeper>) type, TCCreeperRenderer::new);
+        }
+
+        default List<TagKey<EntityType<?>>> getEntityTypeTags() {
+            ArrayList list = new ArrayList();
+            list.add(TCEntityCore.TAKUMIS);
+            return list;
         }
 
         EnumTakumiElement getElement();

@@ -3,10 +3,14 @@ package com.tntmodders.takumicraft.core;
 import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.entity.mobs.*;
 import com.tntmodders.takumicraft.entity.mobs.AbstractTCCreeper.TCCreeperContext;
+import com.tntmodders.takumicraft.entity.projectile.TCAmethystBomb;
+import com.tntmodders.takumicraft.entity.projectile.TCBirdBomb;
 import com.tntmodders.takumicraft.entity.projectile.TCCreeperArrow;
 import com.tntmodders.takumicraft.utils.TCLoggingUtils;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -23,6 +27,9 @@ import java.util.List;
 public class TCEntityCore {
     public static final NonNullList<EntityType<?>> ENTITY_TYPES = NonNullList.create();
     public static final NonNullList<TCCreeperContext<?>> ENTITY_CONTEXTS = NonNullList.create();
+
+    public static final NonNullList<TCCreeperContext<?>> ALTAR_LIST = NonNullList.create();
+
     public static final TCCreeperContext<TCSilentCreeper> SILENT = new TCSilentCreeper.TCSilentCreeperContext();
     public static final TCCreeperContext<TCLavaCreeper> LAVA = new TCLavaCreeper.TCLavaCreeperContext();
     public static final TCCreeperContext<TCSandCreeper> SAND = new TCSandCreeper.TCSandCreeperContext();
@@ -55,6 +62,26 @@ public class TCEntityCore {
     public static final TCCreeperContext<TCDirtCreeper> DIRT = new TCDirtCreeper.TCDirtCreeperContext();
     public static final TCCreeperContext<TCObjetCreeper> OBJET = new TCObjetCreeper.TCObjetCreeperContext();
     public static final TCCreeperContext<TCGlassCreeper> GLASS = new TCGlassCreeper.TCGlassCreeperContext();
+    public static final TCCreeperContext<TCDripstoneCreeper> DRIPSTONE = new TCDripstoneCreeper.TCDripstoneCreeperContext();
+    public static final TCCreeperContext<TCAmethystCreeper> AMETHYST = new TCAmethystCreeper.TCAmethystCreeperContext();
+    public static final TCCreeperContext<TCFireworksCreeper> FIREWORKS = new TCFireworksCreeper.TCFireworksCreeperContext();
+    public static final TCCreeperContext<TCGlowstoneCreeper> GLOWSTONE = new TCGlowstoneCreeper.TCGlowstoneCreeperContext();
+    public static final TCCreeperContext<TCPigCreeper> PIG = new TCPigCreeper.TCPigCreeperContext();
+    public static final TCCreeperContext<TCHorseCreeper> HORSE = new TCHorseCreeper.TCHorseCreeperContext();
+    public static final TCCreeperContext<TCRabbitCreeper> RABBIT = new TCRabbitCreeper.TCRabbitCreeperContext();
+    public static final TCCreeperContext<TCSquidCreeper> SQUID = new TCSquidCreeper.TCSquidCreeperContext();
+    public static final TCCreeperContext<TCGlowingSquidCreeper> GLOWING_SQUID = new TCGlowingSquidCreeper.TCSquidCreeperContext();
+    public static final TCCreeperContext<TCSheepCreeper> SHEEP = new TCSheepCreeper.TCSheepCreeperContext();
+    public static final TCCreeperContext<TCBirdCreeper> BIRD = new TCBirdCreeper.TCBirdCreeperContext();
+    public static final TCCreeperContext<TCWolfCreeper> WOLF = new TCWolfCreeper.TCWolfCreeperContext();
+    public static final TCCreeperContext<TCPowderSnowCreeper> POWDER_SNOW = new TCPowderSnowCreeper.TCPowderSnowCreeperContext();
+    public static final TCCreeperContext<TCCherryCreeper> CHERRY = new TCCherryCreeper.TCCherryCreeperContext();
+    public static final TCCreeperContext<TCAcidCreeper> ACID = new TCAcidCreeper.TCAcidCreeperContext();
+    public static final TCCreeperContext<TCBoltCreeper> BOLT = new TCBoltCreeper.TCBoltCreeperContext();
+    public static final TCCreeperContext<TCOfalenCreeper> OFALEN = new TCOfalenCreeper.TCOfalenCreeperContext();
+    public static final TCCreeperContext<TCYukariCreeper> YUKARI = new TCYukariCreeper.TCYukariCreeperContext();
+
+    public static final TagKey<EntityType<?>> TAKUMIS = TagKey.create(Registries.ENTITY_TYPE, new ResourceLocation(TakumiCraftCore.MODID, "takumi"));
 
     public static void registerEntityType(RegisterEvent event) {
         TCLoggingUtils.startRegistry("Entity");
@@ -67,6 +94,9 @@ public class TCEntityCore {
                     event.register(ForgeRegistries.ENTITY_TYPES.getRegistryKey(), entityTypeRegisterHelper -> entityTypeRegisterHelper.register(new ResourceLocation(TakumiCraftCore.MODID, context.getRegistryName()), type));
                     ENTITY_TYPES.add(type);
                     ENTITY_CONTEXTS.add(context);
+                    if (context.alterSpawn()) {
+                        ALTAR_LIST.add(context);
+                    }
                     TCLoggingUtils.entryRegistry("Entity", context.getRegistryName());
                 }
             } catch (IllegalAccessException e) {
@@ -83,6 +113,10 @@ public class TCEntityCore {
     private static void registerAdditionalEntityType(RegisterEvent event) {
         event.register(ForgeRegistries.ENTITY_TYPES.getRegistryKey(), entityTypeRegisterHelper ->
                 entityTypeRegisterHelper.register(new ResourceLocation(TakumiCraftCore.MODID, "creeperarrow"), TCCreeperArrow.ARROW));
+        event.register(ForgeRegistries.ENTITY_TYPES.getRegistryKey(), entityTypeRegisterHelper ->
+                entityTypeRegisterHelper.register(new ResourceLocation(TakumiCraftCore.MODID, "amethystbomb"), TCAmethystBomb.AMETHYST_BOMB));
+        event.register(ForgeRegistries.ENTITY_TYPES.getRegistryKey(), entityTypeRegisterHelper ->
+                entityTypeRegisterHelper.register(new ResourceLocation(TakumiCraftCore.MODID, "birdbomb"), TCBirdBomb.BIRD_BOMB));
     }
 
     public static void registerAttribute(EntityAttributeCreationEvent event) {
@@ -112,8 +146,9 @@ public class TCEntityCore {
                 Object obj = field.get(null);
                 if (obj instanceof TCCreeperContext<?> context) {
                     EntityType<? extends LivingEntity> type = (EntityType<? extends LivingEntity>) context.entityType();
-                    context.registerSpawn(event, (EntityType<AbstractTCCreeper>) type);
-                    TCLoggingUtils.logMessage("EntitySpawn", context.getEnUSName());
+                    if (context.registerSpawn(event, (EntityType<AbstractTCCreeper>) type)) {
+                        TCLoggingUtils.logMessage("EntitySpawn", context.getEnUSName());
+                    }
                 }
             } catch (IllegalAccessException e) {
                 e.printStackTrace();

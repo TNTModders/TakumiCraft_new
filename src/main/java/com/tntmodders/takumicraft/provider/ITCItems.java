@@ -10,6 +10,10 @@ public interface ITCItems extends ITCTranslator {
 
     String getRegistryName();
 
+    default boolean hideOnCreativeTab() {
+        return false;
+    }
+
     default List<TagKey<Item>> getItemTags() {
         return new ArrayList<>();
     }
@@ -24,6 +28,7 @@ public interface ITCItems extends ITCTranslator {
         SPAWN_EGG,
         HANDHELD,
         BOW,
+        SPECIAL_MEAT,
         NONE
     }
 }

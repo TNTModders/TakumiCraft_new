@@ -24,6 +24,6 @@ public class TCBlockUtils {
     }
 
     public static boolean TCAntiExplosiveBlock(Level level, BlockPos pos, BlockState state) {
-        return !state.is(Blocks.AIR) && state.is(TCBlockCore.ANTI_EXPLOSION) || state.getBlock().defaultDestroyTime() < 0f;
+        return state.getExplosionResistance(level, pos, null) >= Blocks.OBSIDIAN.getExplosionResistance(state, level, pos, null) || !state.is(Blocks.AIR) && state.is(TCBlockCore.ANTI_EXPLOSION) || state.getBlock().defaultDestroyTime() < 0f;
     }
 }

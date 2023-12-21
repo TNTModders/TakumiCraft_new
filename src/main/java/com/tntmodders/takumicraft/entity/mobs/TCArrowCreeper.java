@@ -1,13 +1,11 @@
 package com.tntmodders.takumicraft.entity.mobs;
 
 import com.tntmodders.takumicraft.TakumiCraftCore;
-import com.tntmodders.takumicraft.client.renderer.entity.TCCreeperRenderer;
 import com.tntmodders.takumicraft.core.TCEntityCore;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.MoverType;
-import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.entity.projectile.Arrow;
@@ -16,7 +14,6 @@ import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.event.level.ExplosionEvent;
 
 public class TCArrowCreeper extends AbstractTCCreeper {
@@ -54,7 +51,7 @@ public class TCArrowCreeper extends AbstractTCCreeper {
             double y = this.getRandom().nextDouble() - 0.5;
             double z = this.getRandom().nextDouble() - 0.5;
 
-            Arrow arrow = new Arrow(this.level(), this.getX() + x, this.getY() + y, this.getZ() + z);
+            Arrow arrow = new Arrow(this.level(), this.getX() + x, this.getY() + y, this.getZ() + z, Items.ARROW.getDefaultInstance());
             arrow.setBaseDamage(this.level().getDifficulty().getId() * 5);
             arrow.setCritArrow(true);
             arrow.setKnockback(10);
@@ -111,23 +108,8 @@ public class TCArrowCreeper extends AbstractTCCreeper {
         }
 
         @Override
-        public int getPrimaryColor() {
-            return 894731;
-        }
-
-        @Override
         public int getSecondaryColor() {
             return 0xf5d0a9;
-        }
-
-        @Override
-        public AttributeSupplier.Builder entityAttribute() {
-            return Creeper.createAttributes();
-        }
-
-        @Override
-        public void registerRenderer(EntityRenderersEvent.RegisterRenderers event, EntityType<?> type) {
-            event.registerEntityRenderer((EntityType<Creeper>) type, TCCreeperRenderer::new);
         }
 
         @Override

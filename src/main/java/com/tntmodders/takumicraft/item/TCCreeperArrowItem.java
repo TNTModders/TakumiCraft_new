@@ -28,7 +28,7 @@ public class TCCreeperArrowItem extends ArrowItem implements ITCItems, ITCTransl
 
     @Override
     public AbstractArrow createArrow(Level p_40513_, ItemStack p_40514_, LivingEntity p_40515_) {
-        return new TCCreeperArrow(p_40513_, p_40515_);
+        return new TCCreeperArrow(p_40513_, p_40515_, p_40514_);
     }
 
     @Override

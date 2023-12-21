@@ -16,6 +16,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
+import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.data.event.GatherDataEvent;
@@ -77,6 +78,7 @@ public class TakumiCraftCore {
         TCBlockTagsProvider blockTagsProvider = new TCBlockTagsProvider(packOutput, lookupProvider, fileHelper);
         gen.addProvider(event.includeServer(), blockTagsProvider);
         gen.addProvider(event.includeServer(), new TCItemTagsProvider(packOutput, lookupProvider, blockTagsProvider.contentsGetter(), fileHelper));
+        gen.addProvider(event.includeServer(), new TCEntityTypeTagsProvider(packOutput, lookupProvider, fileHelper));
         gen.addProvider(event.includeServer(), new TCRecipeProvider(packOutput));
         gen.addProvider(event.includeServer(), new TCLootTableProvider(packOutput));
         gen.addProvider(event.includeServer(), new TCAdvancementProvider(packOutput, lookupProvider,
@@ -109,6 +111,12 @@ public class TakumiCraftCore {
             }
             if (ForgeRegistries.RECIPE_SERIALIZERS.equals(event.getForgeRegistry())) {
                 TCRecipeSerializerCore.register(event);
+            }
+            if (ForgeRegistries.PARTICLE_TYPES.equals(event.getForgeRegistry())) {
+                TCParticleTypeCore.register(event);
+            }
+            if (ForgeRegistries.BLOCK_ENTITY_TYPES.equals(event.getForgeRegistry())) {
+                TCBlockEntityCore.register(event);
             }
         }
 
@@ -151,6 +159,11 @@ public class TakumiCraftCore {
         @SubscribeEvent
         public static void RegisterKeyBinding(RegisterKeyMappingsEvent event) {
             TCKeyBindingCore.register(event);
+        }
+
+        @SubscribeEvent
+        public static void RegisterParticleEngine(RegisterParticleProvidersEvent event) {
+            TCParticleTypeCore.registerParticleEngine(event);
         }
     }
 }

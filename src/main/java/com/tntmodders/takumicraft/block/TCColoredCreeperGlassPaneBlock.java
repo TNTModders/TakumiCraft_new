@@ -25,7 +25,7 @@ public class TCColoredCreeperGlassPaneBlock extends TCCreeperGlassPaneBlock {
     @Override
     public void addRecipes(TCRecipeProvider provider, ItemLike itemLike, RecipeOutput consumer) {
         provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS,
-                        TCBlockCore.CREEPER_COLORED_GLASS_PANE_MAP.get(this.color), 8)
+                        TCBlockCore.CREEPER_COLORED_GLASS_PANE_MAP.get(this.color),8)
                 .define('#', TCBlockCore.CREEPER_BOMB)
                 .define('B', this.baseBlock)
                 .pattern("BBB")
@@ -35,7 +35,7 @@ public class TCColoredCreeperGlassPaneBlock extends TCCreeperGlassPaneBlock {
                 .group("creeperglasspane"));
 
         provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS,
-                        TCBlockCore.CREEPER_COLORED_GLASS_PANE_MAP.get(this.color), 16)
+                        TCBlockCore.CREEPER_COLORED_GLASS_PANE_MAP.get(this.color),16)
                 .define('#', TCBlockCore.CREEPER_COLORED_GLASS_MAP.get(this.color))
                 .pattern("###")
                 .pattern("###")

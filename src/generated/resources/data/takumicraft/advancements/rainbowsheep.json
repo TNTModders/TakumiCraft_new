@@ -1,0 +1,27 @@
+{
+  "parent": "takumicraft:creeperbomb",
+  "criteria": {
+    "impossible": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancement.takumicraft.rainbowsheep.desc"
+    },
+    "frame": "goal",
+    "hidden": true,
+    "icon": {
+      "item": "takumicraft:creeperwool_white"
+    },
+    "title": {
+      "translate": "advancement.takumicraft.rainbowsheep.title"
+    }
+  },
+  "requirements": [
+    [
+      "impossible"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

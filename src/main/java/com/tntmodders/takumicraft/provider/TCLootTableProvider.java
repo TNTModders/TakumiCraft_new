@@ -29,9 +29,10 @@ public class TCLootTableProvider extends LootTableProvider {
         List<LootTableProvider.SubProviderEntry> tableList = new ArrayList<>();
         TCBlockCore.BLOCKS.forEach(block -> {
             if (block instanceof ITCBlocks itcBlocks) {
-                TCLoggingUtils.entryRegistry("LootTable", ((ITCBlocks) block).getRegistryName());
-                tableList.add(new SubProviderEntry(itcBlocks.getBlockLootSubProvider(block),
-                        LootContextParamSets.BLOCK));
+                if (itcBlocks.getBlockLootSubProvider(block) != null) {
+                    TCLoggingUtils.entryRegistry("LootTable", ((ITCBlocks) block).getRegistryName());
+                    tableList.add(new SubProviderEntry(itcBlocks.getBlockLootSubProvider(block), LootContextParamSets.BLOCK));
+                }
             }
         });
 

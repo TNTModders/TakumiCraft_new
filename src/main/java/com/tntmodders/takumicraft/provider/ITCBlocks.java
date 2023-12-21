@@ -2,6 +2,7 @@ package com.tntmodders.takumicraft.provider;
 
 import com.ibm.icu.impl.Pair;
 import com.tntmodders.takumicraft.data.loot.TCBlockLoot;
+import com.tntmodders.takumicraft.item.TCBlockItem;
 import net.minecraft.data.loot.LootTableSubProvider;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
@@ -13,6 +14,14 @@ import java.util.function.Supplier;
 
 public interface ITCBlocks extends ITCTranslator {
     String getRegistryName();
+
+    default TCBlockItem getCustomBlockItem(Block block) {
+        return new TCBlockItem(block);
+    }
+
+    default boolean hideOnCreativeTab() {
+        return false;
+    }
 
     default EnumTCBlockStateModelType getBlockStateModelType() {
         return EnumTCBlockStateModelType.SIMPLE;
@@ -32,14 +41,28 @@ public interface ITCBlocks extends ITCTranslator {
         return new ArrayList<>();
     }
 
+    /**
+     * If you need vanilla rendertype,see {@link net.minecraft.client.renderer.ItemBlockRenderTypes }.
+     */
     enum EnumTCBlockStateModelType {
         SIMPLE("solid"),
-        HALF("solid"),
+        SIDE("solid"),
+        SLAB("solid"),
         STAIRS("solid"),
+        WALL("solid"),
+        FENCE("solid"),
+        FENCE_GATE("solid"),
+        DOOR("cutout"),
+        TRAP_DOOR("cutout"),
         GLASS("cutout"),
         STAINED_GLASS("translucent"),
         PANE_GLASS("cutout"),
         PANE_STAINED_GLASS("translucent"),
+        LADDER("cutout"),
+        SCCAFOLDING("cutout"),
+        CARPET("cutout"),
+        BED("cutout"),
+        ANIMATED("solid"),
         NONE("solid");
 
         private final String type;

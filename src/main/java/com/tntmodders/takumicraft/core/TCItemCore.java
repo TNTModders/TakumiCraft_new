@@ -3,6 +3,7 @@ package com.tntmodders.takumicraft.core;
 import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.entity.mobs.AbstractTCCreeper;
 import com.tntmodders.takumicraft.item.*;
+import com.tntmodders.takumicraft.provider.ITCBlocks;
 import com.tntmodders.takumicraft.provider.ITCItems;
 import com.tntmodders.takumicraft.utils.TCLoggingUtils;
 import net.minecraft.core.NonNullList;
@@ -12,6 +13,7 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegisterEvent;
@@ -23,7 +25,7 @@ import java.util.List;
 
 public class TCItemCore {
     public static final NonNullList<Item> ITEMS = NonNullList.create();
-    public static final HashMap<Block, Item> BLOCKITEMS = new HashMap<>();
+    public static final HashMap<Block, TCBlockItem> BLOCKITEMS = new HashMap<>();
 
     public static final Item CREEPER_ROD = new TCTesterItem();
     public static final Item TAKUMIBOOK = new TCTakumiBookItem();
@@ -42,6 +44,15 @@ public class TCItemCore {
     public static final Item MINESWEEPER_PICKAXE = new TCMinesweeperPickaxeItem();
     public static final Item MINESWEEPER_AXE = new TCMinesweeperAxeItem();
     public static final Item MINESWEEPER_SHOVEL = new TCMinesweeperShovelItem();
+    public static final Item OFALEN = new TCOfalenItem();
+    public static final Item SPMEAT_BEEF = new TCTakumiSpecialMeatItem(Items.COOKED_BEEF, Items.BEEF, false);
+    public static final Item SPMEAT_PORK = new TCTakumiSpecialMeatItem(Items.COOKED_PORKCHOP, Items.PORKCHOP, false);
+    public static final Item SPMEAT_MUTTON = new TCTakumiSpecialMeatItem(Items.COOKED_MUTTON, Items.MUTTON, false);
+    public static final Item SPMEAT_CHICKEN = new TCTakumiSpecialMeatItem(Items.COOKED_CHICKEN, Items.CHICKEN, false);
+    public static final Item SPMEAT_RABBIT = new TCTakumiSpecialMeatItem(Items.COOKED_RABBIT, Items.RABBIT, false);
+    public static final Item SPMEAT_COD = new TCTakumiSpecialMeatItem(Items.COOKED_COD, Items.COD, true);
+    public static final Item SPMEAT_SALMON = new TCTakumiSpecialMeatItem(Items.COOKED_SALMON, Items.SALMON, true);
+    public static final Item SPMEAT_ZOMBIE = new TCTakumiSpecialMeatItem(Items.ROTTEN_FLESH, Items.ROTTEN_FLESH, false);
 
     public static final TagKey<Item> GUNORES = TagKey.create(Registries.ITEM, new ResourceLocation(TakumiCraftCore.MODID,
             "gunores"));
@@ -49,6 +60,8 @@ public class TCItemCore {
             "can_shield_explosion"));
     public static final TagKey<Item> CREEPER_ARROWS = TagKey.create(Registries.ITEM, new ResourceLocation(TakumiCraftCore.MODID, "creeper_arrow"));
     public static final TagKey<Item> MINESWEEPER_TOOLS = TagKey.create(Registries.ITEM, new ResourceLocation(TakumiCraftCore.MODID, "minesweeper_tool"));
+    public static final TagKey<Item> CREEPER_BED = TagKey.create(Registries.ITEM, new ResourceLocation(TakumiCraftCore.MODID, "creeperbed"));
+    public static final TagKey<Item> SPECIAL_MEATS = TagKey.create(Registries.ITEM, new ResourceLocation(TakumiCraftCore.MODID, "takumispecialmeat"));
 
     public static void register(final RegisterEvent event) {
         TCLoggingUtils.startRegistry("Item");
@@ -67,7 +80,7 @@ public class TCItemCore {
         });
 
         TCBlockCore.BLOCKS.forEach(block -> {
-            TCBlockItem blockItem = new TCBlockItem(block);
+            TCBlockItem blockItem = block instanceof ITCBlocks ? ((ITCBlocks) block).getCustomBlockItem(block) : new TCBlockItem(block);
             event.register(ForgeRegistries.ITEMS.getRegistryKey(), itemRegisterHelper -> itemRegisterHelper.register(new ResourceLocation(TakumiCraftCore.MODID, blockItem.getRegistryName()), blockItem));
             BLOCKITEMS.put(block, blockItem);
             TCLoggingUtils.entryRegistry("BlockItem", blockItem.getRegistryName());

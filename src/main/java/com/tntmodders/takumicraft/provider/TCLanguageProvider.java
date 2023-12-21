@@ -54,6 +54,11 @@ public abstract class TCLanguageProvider extends LanguageProvider {
         protected void addTranslations() {
             TCLoggingUtils.startRegistry("En-US_Translations");
             super.addTranslations();
+            TCEntityCore.ENTITY_CONTEXTS.forEach(context -> {
+                if (context.getJaJPRead() != null) {
+                    this.add(TCEntityUtils.getEntityLangCode(context.entityType(), ".read"), context.getEnUSName());
+                }
+            });
             TCLoggingUtils.completeRegistry("En-US_Translations");
         }
 
@@ -133,8 +138,26 @@ public abstract class TCLanguageProvider extends LanguageProvider {
             this.add("advancement.takumicraft.slay_all.desc", "Complete the Creeper Book.");
             this.add("advancement.takumicraft.disarmament.title", "Disarmament");
             this.add("advancement.takumicraft.disarmament.desc", "Disarmament creeper's lighting armor.");
-            this.add("advancement.takumicraft.creepershield.title","Super Shield");
-            this.add("advancement.takumicraft.creepershield.desc","Don't care about explosion.");
+            this.add("advancement.takumicraft.creepershield.title", "Super Shield");
+            this.add("advancement.takumicraft.creepershield.desc", "Don't care about explosion.");
+            this.add("advancement.takumicraft.rainbowsheep.title", "Rainbow Sheep");
+            this.add("advancement.takumicraft.rainbowsheep.desc", "Slay rainbow Sheep Creeper.");
+            this.add("advancement.takumicraft.takumialtar.title", "Altar of Creeper");
+            this.add("advancement.takumicraft.takumialtar.desc", "Get Altar.");
+            this.add("advancement.takumicraft.spmeat.title", "Super Duper Meat");
+            this.add("advancement.takumicraft.spmeat.desc", "Get Exploded Meat");
+
+            this.add("item.takumicraft.elementcore.desc", "Available as a smithing template for upgrades.");
+            this.add("item.takumicraft.creeperbomb.desc", "Available as a smithing material for upgrades.");
+            this.add("item.takumicraft.super_creeperbed.desc", "Texture Change: Use full-cube block.\nChange Reset: Sneaking right-click without item.");
+            this.add("item.takumicraft.creepersword.desc", "A Great Sword of Creeper. One Slash, One Discharge.");
+            this.add("item.takumicraft.minesweeper_tool.desc", "A Tool of Minesweeper. Made from Bomb, is it Safe?");
+            this.add("item.takumicraft.creeperbow.desc", "A Compound Bow of Creeper. One Shot, One Blast.");
+            this.add("item.takumicraft.creepershield.desc", "A Great Shield of Creeper. Made from Bomb, it is safe.");
+            this.add("item.takumicraft.yukaridummy.desc", "Dummy");
+            this.add("item.takumicraft.monsterbomb_yukari.desc", "Bomb");
+            this.add("item.takumicraft.creeperaltar.desc.1", "Right Click to Summon Elder Creepers.");
+            this.add("item.takumicraft.creeperaltar.desc.2", "----");
         }
 
         @Override
@@ -232,15 +255,33 @@ public abstract class TCLanguageProvider extends LanguageProvider {
             this.add("item.takumicraft.creepershield.black", "匠式防盾[黒]");
 
             this.add("advancement.takumicraft.root.title", "匠Craft");
-            this.add("advancement.takumicraft.root.desc", "この匠だらけの世界へ! \n 爆発の洗礼を受ける。");
+            this.add("advancement.takumicraft.root.desc", "この匠だらけの世界へ!\n\n爆発の洗礼を受ける。");
             this.add("advancement.takumicraft.creeperbomb.title", "爆発物注意");
-            this.add("advancement.takumicraft.creeperbomb.desc", "匠式高性能爆弾を入手する \n 全ては爆弾から。");
+            this.add("advancement.takumicraft.creeperbomb.desc", "匠式高性能爆弾を入手する\n\n全ては爆弾から。");
             this.add("advancement.takumicraft.slay_all.title", "完全覇者");
-            this.add("advancement.takumicraft.slay_all.desc", "匠の書の制覇\n 王の創る次なる匠を待たれよ。");
+            this.add("advancement.takumicraft.slay_all.desc", "匠の書の制覇\n\n王の創る次なる匠を待たれよ。");
             this.add("advancement.takumicraft.disarmament.title", "武装解除");
-            this.add("advancement.takumicraft.disarmament.desc", "巨匠化状態を解除する\n怖いものなし、匠の狩人。");
-            this.add("advancement.takumicraft.creepershield.title","爆風もへっちゃら");
-            this.add("advancement.takumicraft.creepershield.desc","匠式防盾を入手する\n(見た目以外は)完璧な盾だ。");
+            this.add("advancement.takumicraft.disarmament.desc", "巨匠化状態を解除する\n\n怖いものなし、匠の狩人。");
+            this.add("advancement.takumicraft.creepershield.title", "爆風もへっちゃら");
+            this.add("advancement.takumicraft.creepershield.desc", "匠式防盾を入手する\n\n(見た目以外は)完璧な盾だ。");
+            this.add("advancement.takumicraft.rainbowsheep.title", "幻の虹色");
+            this.add("advancement.takumicraft.rainbowsheep.desc", "虹の羊匠を倒す\n\n見つけたら幸せになれるかも?");
+            this.add("advancement.takumicraft.takumialtar.title", "祭壇と篝火");
+            this.add("advancement.takumicraft.takumialtar.desc", "王匠の祭壇を入手する\n\n強者を召喚せよ。");
+            this.add("advancement.takumicraft.spmeat.title", "匠印の特上肉");
+            this.add("advancement.takumicraft.spmeat.desc", "全ての匠式特上肉を食べる\n\n肉!!\n美味すぎるだろ!!\n反省しろ!!");
+
+            this.add("item.takumicraft.elementcore.desc", "鍛冶型として鍛冶台でのアップグレードに利用可能");
+            this.add("item.takumicraft.creeperbomb.desc", "材料として鍛冶台でのアップグレードに利用可能");
+            this.add("item.takumicraft.super_creeperbed.desc", "テクスチャ変更: 立方体ブロックで右クリック\n変更解除: 手になにも持たずにスニーク右クリック");
+            this.add("item.takumicraft.creepersword.desc", "漲る力を与える匠の銘剣。その一振りは秩序を薙ぐ。");
+            this.add("item.takumicraft.minesweeper_tool.desc", "爆発物を安全に破壊できるツール。爆弾から作ったけど大丈夫……?");
+            this.add("item.takumicraft.creeperbow.desc", "爆ぜる矢を撃つ匠の名弓。その一穿ちは混沌を齎す。");
+            this.add("item.takumicraft.creepershield.desc", "爆発を防ぐ匠印の大盾。爆弾から作ったけど大丈夫。");
+            this.add("item.takumicraft.yukaridummy.desc", "非爆発性ゆかりさん");
+            this.add("item.takumicraft.monsterbomb_yukari.desc", "爆発性ゆかりさん");
+            this.add("item.takumicraft.creeperaltar.desc.1", "王者と召人を喚ぶ祭壇。");
+            this.add("item.takumicraft.creeperaltar.desc.2", "右クリックで上位匠を召喚できる。");
         }
 
         @Override

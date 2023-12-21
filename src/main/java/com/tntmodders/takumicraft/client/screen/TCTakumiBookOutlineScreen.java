@@ -6,11 +6,12 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.datafixers.util.Pair;
 import com.tntmodders.takumicraft.TakumiCraftCore;
-import com.tntmodders.takumicraft.core.TCCreativeModeTabCore;
+import com.tntmodders.takumicraft.core.TCEntityCore;
 import com.tntmodders.takumicraft.core.client.TCSearchTreeCore;
 import com.tntmodders.takumicraft.entity.mobs.AbstractTCCreeper;
 import com.tntmodders.takumicraft.item.TCSpawnEggItem;
 import com.tntmodders.takumicraft.utils.TCEntityUtils;
+import com.tntmodders.takumicraft.utils.client.TCClientUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.HotbarManager;
 import net.minecraft.client.Minecraft;
@@ -42,7 +43,7 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.*;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.common.ForgeSpawnEggItem;
 
 import javax.annotation.Nullable;
 import java.util.*;
@@ -51,6 +52,8 @@ import java.util.function.Predicate;
 @OnlyIn(Dist.CLIENT)
 public class TCTakumiBookOutlineScreen extends EffectRenderingInventoryScreen<TCTakumiBookOutlineScreen.TakumiPickerMenu> {
     static final SimpleContainer CONTAINER = new SimpleContainer(45);
+    private static final ResourceLocation SCROLLER_SPRITE = new ResourceLocation("container/creative_inventory/scroller");
+    private static final ResourceLocation SCROLLER_DISABLED_SPRITE = new ResourceLocation("container/creative_inventory/scroller_disabled");
     private static final ResourceLocation SEARCH_GUI_TEXTURES = new ResourceLocation(TakumiCraftCore.MODID, "textures/book/book_search.png");
     private static final String GUI_CREATIVE_TAB_PREFIX = "textures/gui/container/creative_inventory/tab_";
     private static final String CUSTOM_SLOT_LOCK = "CustomCreativeLock";
@@ -123,12 +126,6 @@ public class TCTakumiBookOutlineScreen extends EffectRenderingInventoryScreen<TC
 
         this.scrollOffs = this.menu.getScrollForRowIndex(i);
         this.menu.scrollTo(this.scrollOffs);
-    }
-
-    @Override
-    public void renderBackground(GuiGraphics p_301081_, int p_297765_, int p_300192_, float p_297977_) {
-        super.renderBackground(p_301081_, p_297765_, p_300192_, p_297977_);
-        p_301081_.blit(SEARCH_GUI_TEXTURES, this.leftPos, this.topPos, 0, 0, 192, 192);
     }
 
     @Override
@@ -287,11 +284,7 @@ public class TCTakumiBookOutlineScreen extends EffectRenderingInventoryScreen<TC
         this.visibleTags.clear();
         String s = this.searchBox.getValue();
         if (s.isEmpty()) {
-            for (Item item : ForgeRegistries.ITEMS) {
-                if (TCCreativeModeTabCore.TAB_EGGS.contains(item.getDefaultInstance())) {
-                    this.menu.items.add(item.getDefaultInstance());
-                }
-            }
+            TCEntityCore.ENTITY_CONTEXTS.forEach(context -> this.menu.items.add(new ItemStack(ForgeSpawnEggItem.fromEntityType(context.entityType()))));
         } else {
             SearchTree<ItemStack> searchtree = this.minecraft.getSearchTree(TCSearchTreeCore.CREEPER_NAMES);
             List<ItemStack> stacks = searchtree.search(s.toLowerCase(Locale.ROOT));
@@ -318,12 +311,9 @@ public class TCTakumiBookOutlineScreen extends EffectRenderingInventoryScreen<TC
 
     @Override
     protected void renderLabels(GuiGraphics graphics, int p_98617_, int p_98618_) {
-        if (selectedTab.showTitle()) {
-            RenderSystem.disableBlend();
-
-            graphics.drawString(this.font, Component.translatable("takumicraft.takumibook.search"), 8, 6, 0, false);
-        }
-
+        RenderSystem.disableBlend();
+        Pair<Integer, Integer> slayall = TCClientUtils.checkSlayAllAdv();
+        graphics.drawString(this.font, Component.translatable("takumicraft.takumibook.search"), 8, 6, 0, false);
     }
 
     @Override
@@ -473,11 +463,12 @@ public class TCTakumiBookOutlineScreen extends EffectRenderingInventoryScreen<TC
         this.menu.scrollTo(0.0F);
     }
 
-    public boolean mouseScrolled(double p_98527_, double p_98528_, double p_98529_) {
+    @Override
+    public boolean mouseScrolled(double p_94686_, double p_94687_, double p_94688_, double p_299502_) {
         if (!this.canScroll()) {
             return false;
         } else {
-            this.scrollOffs = this.menu.subtractInputFromScroll(this.scrollOffs, p_98529_);
+            this.scrollOffs = this.menu.subtractInputFromScroll(this.scrollOffs, p_299502_);
             this.menu.scrollTo(this.scrollOffs);
             return true;
         }
@@ -537,7 +528,7 @@ public class TCTakumiBookOutlineScreen extends EffectRenderingInventoryScreen<TC
     public void renderSlot(GuiGraphics graphics, Slot slot) {
 
         if (slot.getItem().getItem() instanceof TCSpawnEggItem item) {
-            TCEntityUtils.renderEntity(slot.x + this.leftPos + (double) this.imageWidth / 25, slot.y + this.topPos + (double) this.imageHeight / 9, 7, this.tick / 100f, 0f, item.getContext().entityType());
+            TCClientUtils.renderEntity(slot.x + this.leftPos + (double) this.imageWidth / 25, slot.y + this.topPos + (double) this.imageHeight / 9, 7, this.tick / 100f, 0f, item.getContext().entityType(), true);
         } else {
             super.renderSlot(graphics, slot);
         }
@@ -550,7 +541,7 @@ public class TCTakumiBookOutlineScreen extends EffectRenderingInventoryScreen<TC
             ItemStack itemStack = this.hoveredSlot.getItem();
             if (!itemStack.isEmpty() && itemStack.getItem() instanceof TCSpawnEggItem egg) {
                 AbstractTCCreeper.TCCreeperContext context = egg.getContext();
-                boolean flg = TCEntityUtils.checkSlayAdv(context.entityType());
+                boolean flg = TCClientUtils.checkSlayAdv(context.entityType());
                 Component name = flg ? TCEntityUtils.getEntityName(context.entityType()) : TCEntityUtils.getUnknown();
                 components.add(name);
                 if (flg) {
@@ -577,7 +568,8 @@ public class TCTakumiBookOutlineScreen extends EffectRenderingInventoryScreen<TC
         int i = k + 112;
         RenderSystem.setShaderTexture(0, SEARCH_GUI_TEXTURES);
         if (selectedTab.canScroll()) {
-            graphics.blit(SEARCH_GUI_TEXTURES, j, k + (int) ((float) (i - k - 17) * this.scrollOffs), 232 + (this.canScroll() ? 0 : 12), 0, 12, 15);
+            ResourceLocation resourcelocation = this.canScroll() ? SCROLLER_SPRITE : SCROLLER_DISABLED_SPRITE;
+            graphics.blitSprite(resourcelocation, j, k + (int) ((float) (i - k - 17) * this.scrollOffs), 12, 15);
         }
     }
 

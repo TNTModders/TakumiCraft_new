@@ -14,6 +14,7 @@ import org.jetbrains.annotations.Nullable;
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 public class TCBlockTagsProvider extends BlockTagsProvider {
@@ -37,6 +38,15 @@ public class TCBlockTagsProvider extends BlockTagsProvider {
                             TCLoggingUtils.entryRegistry("Block Tag", block.getRegistryName() + " as " + blockTagKey);
                         });
                     }
+                } else if (obj instanceof Map map) {
+                    map.values().forEach(value -> {
+                        if (value instanceof ITCBlocks block) {
+                            block.getBlockTags().forEach(blockTagKey -> {
+                                this.tag(blockTagKey).add((Block) block);
+                                TCLoggingUtils.entryRegistry("Block Tag", block.getRegistryName() + " as " + blockTagKey);
+                            });
+                        }
+                    });
                 }
             } catch (IllegalAccessException e) {
                 e.printStackTrace();

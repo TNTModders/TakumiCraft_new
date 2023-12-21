@@ -2,6 +2,7 @@ package com.tntmodders.takumicraft.provider;
 
 import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.core.TCItemCore;
+import com.tntmodders.takumicraft.item.TCTakumiSpecialMeatItem;
 import com.tntmodders.takumicraft.utils.TCLoggingUtils;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
@@ -9,6 +10,7 @@ import net.minecraft.world.item.Item;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
+import net.minecraftforge.registries.ForgeRegistries;
 
 public class TCItemModelProvider extends ItemModelProvider {
     public TCItemModelProvider(PackOutput output, ExistingFileHelper existingFileHelper) {
@@ -28,6 +30,7 @@ public class TCItemModelProvider extends ItemModelProvider {
                     case SPAWN_EGG -> this.eggItem(item);
                     case HANDHELD -> this.handheldItem(item);
                     case BOW -> this.bowItem(item);
+                    case SPECIAL_MEAT -> this.meatItem(item);
                 }
                 TCLoggingUtils.entryRegistry("ItemModel_" + ((ITCItems) item).getItemModelType().name(), ((ITCItems) item).getRegistryName());
             }
@@ -38,6 +41,12 @@ public class TCItemModelProvider extends ItemModelProvider {
     private void simpleItem(Item item) {
         ResourceLocation name = new ResourceLocation(modid, ((ITCItems) item).getRegistryName());
         singleTexture(name.getPath(), mcLoc(folder + "/generated"), "layer0", new ResourceLocation(name.getNamespace(), folder + "/" + name.getPath()));
+    }
+
+    private void meatItem(Item item) {
+        if (item instanceof TCTakumiSpecialMeatItem meatItem) {
+            withExistingParent(meatItem.getRegistryName(), mcLoc(ForgeRegistries.ITEMS.getKey(meatItem.getBase()).getPath()));
+        }
     }
 
     private void bowItem(Item item) {

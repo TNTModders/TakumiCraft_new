@@ -1,0 +1,6 @@
+{
+  "parent": "takumicraft:item/template_creeperbed",
+  "textures": {
+    "particle": "takumicraft:block/creeperwool_light_gray"
+  }
+}

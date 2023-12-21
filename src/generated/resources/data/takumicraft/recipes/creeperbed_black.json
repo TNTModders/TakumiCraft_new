@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "creeperbed",
+  "key": {
+    "#": {
+      "item": "takumicraft:creeperplanks"
+    },
+    "B": {
+      "item": "takumicraft:creeperwool_black"
+    }
+  },
+  "pattern": [
+    "BBB",
+    "###"
+  ],
+  "result": {
+    "item": "takumicraft:creeperbed_black"
+  }
+}

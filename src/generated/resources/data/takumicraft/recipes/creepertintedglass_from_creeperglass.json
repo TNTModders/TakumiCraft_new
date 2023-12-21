@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "creeperglass",
+  "key": {
+    "#": {
+      "item": "takumicraft:creeperglass"
+    },
+    "A": {
+      "item": "minecraft:amethyst_shard"
+    }
+  },
+  "pattern": [
+    " A ",
+    "A#A",
+    " A "
+  ],
+  "result": {
+    "count": 2,
+    "item": "takumicraft:creepertintedglass"
+  }
+}

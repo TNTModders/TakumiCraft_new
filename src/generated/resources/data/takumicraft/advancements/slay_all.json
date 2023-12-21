@@ -1,6 +1,34 @@
 {
   "parent": "takumicraft:root",
   "criteria": {
+    "slay_acidcreeper": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "takumicraft:acidcreeper"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
+    "slay_amethystcreeper": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "takumicraft:amethystcreeper"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
     "slay_arrowcreeper": {
       "conditions": {
         "entity": [
@@ -23,6 +51,48 @@
             "entity": "this",
             "predicate": {
               "type": "takumicraft:bangcreeper"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
+    "slay_birdcreeper": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "takumicraft:birdcreeper"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
+    "slay_boltcreeper": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "takumicraft:boltcreeper"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
+    "slay_cherrycreeper": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "takumicraft:cherrycreeper"
             }
           }
         ]
@@ -99,6 +169,20 @@
       },
       "trigger": "minecraft:player_killed_entity"
     },
+    "slay_dripstonecreeper": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "takumicraft:dripstonecreeper"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
     "slay_drownedcreeper": {
       "conditions": {
         "entity": [
@@ -169,6 +253,20 @@
       },
       "trigger": "minecraft:player_killed_entity"
     },
+    "slay_fireworkscreeper": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "takumicraft:fireworkscreeper"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
     "slay_glasscreeper": {
       "conditions": {
         "entity": [
@@ -183,6 +281,34 @@
       },
       "trigger": "minecraft:player_killed_entity"
     },
+    "slay_glowingsquidcreeper": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "takumicraft:glowingsquidcreeper"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
+    "slay_glowstonecreeper": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "takumicraft:glowstonecreeper"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
     "slay_happinesscreeper": {
       "conditions": {
         "entity": [
@@ -191,6 +317,20 @@
             "entity": "this",
             "predicate": {
               "type": "takumicraft:happinesscreeper"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
+    "slay_horsecreeper": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "takumicraft:horsecreeper"
             }
           }
         ]
@@ -295,6 +435,20 @@
       },
       "trigger": "minecraft:player_killed_entity"
     },
+    "slay_ofalencreeper": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "takumicraft:ofalencreeper"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
     "slay_patinacreeper": {
       "conditions": {
         "entity": [
@@ -317,6 +471,48 @@
             "entity": "this",
             "predicate": {
               "type": "takumicraft:phantomcreeper"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
+    "slay_pigcreeper": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "takumicraft:pigcreeper"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
+    "slay_powdersnowcreeper": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "takumicraft:powdersnowcreeper"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
+    "slay_rabbitcreeper": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "takumicraft:rabbitcreeper"
             }
           }
         ]
@@ -351,6 +547,20 @@
       },
       "trigger": "minecraft:player_killed_entity"
     },
+    "slay_sheepcreeper": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "takumicraft:sheepcreeper"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
     "slay_silentcreeper": {
       "conditions": {
         "entity": [
@@ -373,6 +583,20 @@
             "entity": "this",
             "predicate": {
               "type": "takumicraft:slimecreeper"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
+    "slay_squidcreeper": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "takumicraft:squidcreeper"
             }
           }
         ]
@@ -407,6 +631,20 @@
       },
       "trigger": "minecraft:player_killed_entity"
     },
+    "slay_wolfcreeper": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "takumicraft:wolfcreeper"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
     "slay_woodcreeper": {
       "conditions": {
         "entity": [
@@ -415,6 +653,20 @@
             "entity": "this",
             "predicate": {
               "type": "takumicraft:woodcreeper"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
+    "slay_yukaricreeper": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "takumicraft:yukaricreeper"
             }
           }
         ]
@@ -451,16 +703,13 @@
     }
   },
   "display": {
-    "announce_to_chat": true,
     "description": {
       "translate": "advancement.takumicraft.slay_all.desc"
     },
     "frame": "goal",
-    "hidden": false,
     "icon": {
       "item": "takumicraft:takumibook"
     },
-    "show_toast": true,
     "title": {
       "translate": "advancement.takumicraft.slay_all.title"
     }
@@ -536,6 +785,39 @@
       "slay_glasscreeper"
     ],
     [
+      "slay_fireworkscreeper"
+    ],
+    [
+      "slay_glowstonecreeper"
+    ],
+    [
+      "slay_pigcreeper"
+    ],
+    [
+      "slay_horsecreeper"
+    ],
+    [
+      "slay_rabbitcreeper"
+    ],
+    [
+      "slay_squidcreeper"
+    ],
+    [
+      "slay_glowingsquidcreeper"
+    ],
+    [
+      "slay_sheepcreeper"
+    ],
+    [
+      "slay_birdcreeper"
+    ],
+    [
+      "slay_wolfcreeper"
+    ],
+    [
+      "slay_cherrycreeper"
+    ],
+    [
       "slay_phantomcreeper"
     ],
     [
@@ -561,6 +843,27 @@
     ],
     [
       "slay_fallcreeper"
+    ],
+    [
+      "slay_dripstonecreeper"
+    ],
+    [
+      "slay_amethystcreeper"
+    ],
+    [
+      "slay_powdersnowcreeper"
+    ],
+    [
+      "slay_acidcreeper"
+    ],
+    [
+      "slay_boltcreeper"
+    ],
+    [
+      "slay_ofalencreeper"
+    ],
+    [
+      "slay_yukaricreeper"
     ]
   ],
   "sends_telemetry_event": true

@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/inner_stairs",
+  "textures": {
+    "bottom": "takumicraft:block/creeperbrick",
+    "side": "takumicraft:block/creeperbrick",
+    "top": "takumicraft:block/creeperbrick"
+  }
+}

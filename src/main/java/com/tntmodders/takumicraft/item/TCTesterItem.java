@@ -6,9 +6,10 @@ import com.tntmodders.takumicraft.core.TCEnchantmentCore;
 import com.tntmodders.takumicraft.provider.ITCItems;
 import com.tntmodders.takumicraft.provider.ITCTranslator;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -31,14 +32,22 @@ public class TCTesterItem extends Item implements ITCItems, ITCTranslator {
     }
 
     @Override
+    public boolean hideOnCreativeTab() {
+        return true;
+    }
+
+    @Override
     public Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(EquipmentSlot p_43274_) {
         return p_43274_ == EquipmentSlot.MAINHAND ? this.defaultModifiers : super.getDefaultAttributeModifiers(p_43274_);
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
-        level.getEntities(player, player.getBoundingBox().inflate(50), entity -> entity instanceof Creeper).forEach(entity -> ((Creeper) entity).ignite());
-        return super.use(level, player, hand);
+    public InteractionResult interactLivingEntity(ItemStack p_41398_, Player p_41399_, LivingEntity p_41400_, InteractionHand p_41401_) {
+        if (!p_41399_.level().isClientSide() && p_41400_ instanceof Creeper creeper) {
+            creeper.ignite();
+            return InteractionResult.SUCCESS;
+        }
+        return super.interactLivingEntity(p_41398_, p_41399_, p_41400_, p_41401_);
     }
 
     @Override

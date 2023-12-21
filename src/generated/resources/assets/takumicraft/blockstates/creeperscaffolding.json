@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "bottom=false": {
+      "model": "takumicraft:block/creeperscaffolding_stable"
+    },
+    "bottom=true": {
+      "model": "takumicraft:block/creeperscaffolding_unstable"
+    }
+  }
+}

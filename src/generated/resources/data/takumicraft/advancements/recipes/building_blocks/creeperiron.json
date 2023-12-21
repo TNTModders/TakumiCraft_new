@@ -43,6 +43,5 @@
     "recipes": [
       "takumicraft:creeperiron"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

@@ -1,0 +1,34 @@
+{
+  "parent": "takumicraft:creepershield",
+  "criteria": {
+    "takumialtar": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "takumicraft:takumialtar"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancement.takumicraft.takumialtar.desc"
+    },
+    "icon": {
+      "item": "takumicraft:takumialtar"
+    },
+    "title": {
+      "translate": "advancement.takumicraft.takumialtar.title"
+    }
+  },
+  "requirements": [
+    [
+      "takumialtar"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

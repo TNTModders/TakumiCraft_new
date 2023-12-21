@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "facing=down": {
+      "model": "takumicraft:block/creeperbrick_half_down"
+    },
+    "facing=east": {
+      "model": "takumicraft:block/creeperbrick_half_east"
+    },
+    "facing=north": {
+      "model": "takumicraft:block/creeperbrick_half_north"
+    },
+    "facing=south": {
+      "model": "takumicraft:block/creeperbrick_half_south"
+    },
+    "facing=up": {
+      "model": "takumicraft:block/creeperbrick_half_up"
+    },
+    "facing=west": {
+      "model": "takumicraft:block/creeperbrick_half_west"
+    }
+  }
+}

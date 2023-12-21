@@ -19,7 +19,7 @@ public class TCBiomeModifierCore {
     public static final DeferredRegister<Codec<? extends BiomeModifier>> BIOME_MODIFIER_SERIALIZERS = DeferredRegister.create(ForgeRegistries.Keys.BIOME_MODIFIER_SERIALIZERS, TakumiCraftCore.MODID);
 
     public static final RegistryObject<Codec<TCSpawnModifier>> TC_SPAWN_MODIFIER_TYPE = BIOME_MODIFIER_SERIALIZERS.register("tc_spawn_modifier", () -> Codec.unit(TCSpawnModifier.INSTANCE));
-    public static final RegistryObject<Codec<TCOreGenModifier>> TC_OREGEN_MODIFIER_TYPE = BIOME_MODIFIER_SERIALIZERS.register("tc_gunore_modifier", TCOreGenModifier::makeCodec);
+    public static final RegistryObject<Codec<? extends BiomeModifier>> TC_OREGEN_MODIFIER_TYPE = BIOME_MODIFIER_SERIALIZERS.register("tc_gunore_modifier", TCOreGenModifier::makeCodec);
 
 
     public static final ResourceKey<ConfiguredFeature<?, ?>> GUNORE_CONFIGURED_FEATURE = ResourceKey.create(Registries.CONFIGURED_FEATURE, new ResourceLocation(TakumiCraftCore.MODID, "tc_ore_gunore"));

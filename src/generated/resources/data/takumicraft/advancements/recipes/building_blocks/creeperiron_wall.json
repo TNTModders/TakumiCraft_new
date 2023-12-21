@@ -1,0 +1,47 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_baseblock": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "takumicraft:creeperiron"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_creeperiron_wall": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "takumicraft:creeperiron_wall"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "takumicraft:creeperiron_wall"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_baseblock",
+      "has_creeperiron_wall"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "takumicraft:creeperiron_wall"
+    ]
+  }
+}

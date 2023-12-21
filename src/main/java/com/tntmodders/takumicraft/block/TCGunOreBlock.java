@@ -82,9 +82,9 @@ public class TCGunOreBlock extends AbstractTCBombBlock implements ITCRecipe {
 
     @Override
     public void addRecipes(TCRecipeProvider provider, ItemLike itemLike, RecipeOutput output) {
-        provider.saveRecipe(itemLike, output, SimpleCookingRecipeBuilder.smelting(Ingredient.of(itemLike),
+        provider.saveSmeltingRecipe(itemLike, output, SimpleCookingRecipeBuilder.smelting(Ingredient.of(itemLike),
                 RecipeCategory.BUILDING_BLOCKS, Items.GUNPOWDER, 0.5f, 100));
-        provider.saveRecipe(itemLike, output, SimpleCookingRecipeBuilder.blasting(Ingredient.of(itemLike),
+        provider.saveBlastingRecipe(itemLike, output, SimpleCookingRecipeBuilder.blasting(Ingredient.of(itemLike),
                 RecipeCategory.BUILDING_BLOCKS, Items.GUNPOWDER, 0.5f, 50));
     }
 
