@@ -62,10 +62,6 @@ public class TCRecipeProvider extends RecipeProvider {
         recipe.unlockedBy("has_" + itemLike.asItem(), has(itemLike)).save(output, RecipeProvider.getSmeltingRecipeName(itemLike));
     }
 
-    public void saveRecipe(ItemLike itemLike, RecipeOutput output, RecipeBuilder recipe, String suffix) {
-        recipe.unlockedBy("has_" + itemLike.asItem(), has(itemLike)).save(output, getDefaultRecipeId(itemLike) + "_" + suffix);
-    }
-
     private void additionalRecipes(RecipeOutput consumer) {
         ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, Items.CREEPER_HEAD).define('#', Items.GUNPOWDER).pattern(" # ").pattern("###").pattern(" # ").unlockedBy("has_gunpowder", hasItem(Items.GUNPOWDER)).save(consumer);
     }
