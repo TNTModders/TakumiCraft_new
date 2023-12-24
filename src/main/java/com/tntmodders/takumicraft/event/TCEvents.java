@@ -76,8 +76,8 @@ public class TCEvents {
 
         //onExplosion
         if (!event.getLevel().isClientSide) {
-            if (event.getExplosion().getExploder() instanceof AbstractTCCreeper) {
-                ((AbstractTCCreeper) event.getExplosion().getExploder()).explodeCreeperEvent(event);
+            if (event.getExplosion().getDirectSourceEntity() instanceof AbstractTCCreeper creeper) {
+                creeper.explodeCreeperEvent(event);
             }
         }
     }
