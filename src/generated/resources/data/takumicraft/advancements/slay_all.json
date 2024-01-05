@@ -43,6 +43,20 @@
       },
       "trigger": "minecraft:player_killed_entity"
     },
+    "slay_artcreeper": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "takumicraft:artcreeper"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
     "slay_bangcreeper": {
       "conditions": {
         "entity": [
@@ -533,6 +547,20 @@
       },
       "trigger": "minecraft:player_killed_entity"
     },
+    "slay_rewritecreeper": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "takumicraft:rewritecreeper"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
     "slay_sandcreeper": {
       "conditions": {
         "entity": [
@@ -855,6 +883,12 @@
     ],
     [
       "slay_acidcreeper"
+    ],
+    [
+      "slay_artcreeper"
+    ],
+    [
+      "slay_rewritecreeper"
     ],
     [
       "slay_boltcreeper"

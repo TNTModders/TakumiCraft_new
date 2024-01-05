@@ -80,6 +80,8 @@ public class TCEntityCore {
     public static final TCCreeperContext<TCBoltCreeper> BOLT = new TCBoltCreeper.TCBoltCreeperContext();
     public static final TCCreeperContext<TCOfalenCreeper> OFALEN = new TCOfalenCreeper.TCOfalenCreeperContext();
     public static final TCCreeperContext<TCYukariCreeper> YUKARI = new TCYukariCreeper.TCYukariCreeperContext();
+    public static final TCCreeperContext<TCArtCreeper> ART = new TCArtCreeper.TCArtCreeperContext();
+    public static final TCCreeperContext<TCRewriteCreeper> REWRITE = new TCRewriteCreeper.TCRewriteCreeperContext();
 
     public static final TagKey<EntityType<?>> TAKUMIS = TagKey.create(Registries.ENTITY_TYPE, new ResourceLocation(TakumiCraftCore.MODID, "takumi"));
 
