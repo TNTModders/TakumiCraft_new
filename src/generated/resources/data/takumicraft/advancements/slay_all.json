@@ -71,6 +71,20 @@
       },
       "trigger": "minecraft:player_killed_entity"
     },
+    "slay_bedcreeper": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "takumicraft:bedcreeper"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
     "slay_birdcreeper": {
       "conditions": {
         "entity": [
@@ -889,6 +903,9 @@
     ],
     [
       "slay_rewritecreeper"
+    ],
+    [
+      "slay_bedcreeper"
     ],
     [
       "slay_boltcreeper"

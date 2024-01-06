@@ -158,6 +158,8 @@ public abstract class TCLanguageProvider extends LanguageProvider {
             this.add("item.takumicraft.monsterbomb_yukari.desc", "Bomb");
             this.add("item.takumicraft.creeperaltar.desc.1", "Right Click to Summon Elder Creepers.");
             this.add("item.takumicraft.creeperaltar.desc.2", "----");
+
+            this.add("entity.takumicraft.bedcreeper.message", "%s 's bed was blasted!");
         }
 
         @Override
@@ -282,6 +284,8 @@ public abstract class TCLanguageProvider extends LanguageProvider {
             this.add("item.takumicraft.monsterbomb_yukari.desc", "爆発性ゆかりさん");
             this.add("item.takumicraft.creeperaltar.desc.1", "王者と召人を喚ぶ祭壇。");
             this.add("item.takumicraft.creeperaltar.desc.2", "右クリックで上位匠を召喚できる。");
+
+            this.add("entity.takumicraft.bedcreeper.message", "%sのベッドが爆破された!");
         }
 
         @Override
