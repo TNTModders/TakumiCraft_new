@@ -1,0 +1,37 @@
+{
+  "parent": "takumicraft:slay/root",
+  "criteria": {
+    "killed_restcreeper": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "takumicraft:restcreeper"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "takumicraft.message.slay"
+    },
+    "hidden": true,
+    "icon": {
+      "item": "takumicraft:takumibook"
+    },
+    "title": {
+      "translate": "entity.takumicraft.restcreeper"
+    }
+  },
+  "requirements": [
+    [
+      "killed_restcreeper"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

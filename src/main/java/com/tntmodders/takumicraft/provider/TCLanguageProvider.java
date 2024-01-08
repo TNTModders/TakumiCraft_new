@@ -159,7 +159,9 @@ public abstract class TCLanguageProvider extends LanguageProvider {
             this.add("item.takumicraft.creeperaltar.desc.1", "Right Click to Summon Elder Creepers.");
             this.add("item.takumicraft.creeperaltar.desc.2", "----");
 
-            this.add("entity.takumicraft.bedcreeper.message", "%s 's bed was blasted!");
+            this.add("entity.takumicraft.bedcreeper.message", "%s was blasted your respawn-point by bed creeper!");
+            this.add("entity.takumicraft.returncreeper.message", "%s was teleported to your respawn-point by return creeper!");
+            this.add("entity.takumicraft.sleepercreeper.message", "%s's respawn-point was borked by sleeper creeper!");
         }
 
         @Override
@@ -285,7 +287,9 @@ public abstract class TCLanguageProvider extends LanguageProvider {
             this.add("item.takumicraft.creeperaltar.desc.1", "王者と召人を喚ぶ祭壇。");
             this.add("item.takumicraft.creeperaltar.desc.2", "右クリックで上位匠を召喚できる。");
 
-            this.add("entity.takumicraft.bedcreeper.message", "%sのベッドが爆破された!");
+            this.add("entity.takumicraft.bedcreeper.message", "%sのリスポーン地点が寝台匠に爆破された!");
+            this.add("entity.takumicraft.returncreeper.message", "%sは帰匠によってリスポーン地点へ転移した!");
+            this.add("entity.takumicraft.sleepercreeper.message", "%sのリスポーン地点は閨匠の悪戯を受けた!");
         }
 
         @Override

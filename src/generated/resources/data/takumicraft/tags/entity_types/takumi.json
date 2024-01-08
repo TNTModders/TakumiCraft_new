@@ -52,6 +52,9 @@
     "takumicraft:yukaricreeper",
     "takumicraft:artcreeper",
     "takumicraft:rewritecreeper",
-    "takumicraft:bedcreeper"
+    "takumicraft:bedcreeper",
+    "takumicraft:returncreeper",
+    "takumicraft:sleepercreeper",
+    "takumicraft:restcreeper"
   ]
 }

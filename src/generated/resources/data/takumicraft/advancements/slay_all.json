@@ -561,6 +561,34 @@
       },
       "trigger": "minecraft:player_killed_entity"
     },
+    "slay_restcreeper": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "takumicraft:restcreeper"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
+    "slay_returncreeper": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "takumicraft:returncreeper"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
     "slay_rewritecreeper": {
       "conditions": {
         "entity": [
@@ -611,6 +639,20 @@
             "entity": "this",
             "predicate": {
               "type": "takumicraft:silentcreeper"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
+    "slay_sleepercreeper": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "takumicraft:sleepercreeper"
             }
           }
         ]
@@ -906,6 +948,15 @@
     ],
     [
       "slay_bedcreeper"
+    ],
+    [
+      "slay_returncreeper"
+    ],
+    [
+      "slay_sleepercreeper"
+    ],
+    [
+      "slay_restcreeper"
     ],
     [
       "slay_boltcreeper"

@@ -83,6 +83,9 @@ public class TCEntityCore {
     public static final TCCreeperContext<TCArtCreeper> ART = new TCArtCreeper.TCArtCreeperContext();
     public static final TCCreeperContext<TCRewriteCreeper> REWRITE = new TCRewriteCreeper.TCRewriteCreeperContext();
     public static final TCCreeperContext<TCBedCreeper> BED = new TCBedCreeper.TCBedCreeperContext();
+    public static final TCCreeperContext<TCReturnCreeper> RETURN = new TCReturnCreeper.TCReturnCreeperContext();
+    public static final TCCreeperContext<TCSleeperCreeper> SLEEPER = new TCSleeperCreeper.TCSleeperCreeperContext();
+    public static final TCCreeperContext<TCRestCreeper> REST = new TCRestCreeper.TCRestCreeperContext();
 
     public static final TagKey<EntityType<?>> TAKUMIS = TagKey.create(Registries.ENTITY_TYPE, new ResourceLocation(TakumiCraftCore.MODID, "takumi"));
 

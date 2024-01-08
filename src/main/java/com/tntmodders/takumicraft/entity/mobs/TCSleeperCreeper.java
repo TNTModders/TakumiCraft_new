@@ -2,7 +2,6 @@ package com.tntmodders.takumicraft.entity.mobs;
 
 import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.core.TCEntityCore;
-import com.tntmodders.takumicraft.utils.TCExplosionUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
@@ -11,12 +10,8 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.level.ExplosionEvent;
 
@@ -24,16 +19,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class TCBedCreeper extends AbstractTCCreeper {
+public class TCSleeperCreeper extends AbstractTCCreeper {
 
-    public TCBedCreeper(EntityType<? extends Creeper> entityType, Level level) {
+    public TCSleeperCreeper(EntityType<? extends Creeper> entityType, Level level) {
         super(entityType, level);
         this.explosionRadius = 5;
     }
 
     @Override
     public TCCreeperContext<? extends AbstractTCCreeper> getContext() {
-        return TCEntityCore.BED;
+        return TCEntityCore.SLEEPER;
     }
 
     @Override
@@ -48,9 +43,18 @@ public class TCBedCreeper extends AbstractTCCreeper {
                     float res = state.getExplosionResistance(this.level(), pos, event.getExplosion());
                     Optional<Vec3> optional = Player.findRespawnPositionAndUseSpawnBlock(serverPlayer.serverLevel(), pos, serverPlayer.getRespawnAngle(), false, true);
                     if (optional != null && optional.isPresent() && res <= 2000) {
-                        this.level().setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
-                        TCExplosionUtils.createExplosion(this.level(), null, pos, this.isPowered() ? 20 : 12);
-                        serverPlayer.sendSystemMessage(Component.translatable("entity.takumicraft.bedcreeper.message", serverPlayer.getName()));
+                        for (int i = 0; i < (this.isPowered() ? 10 : 5); i++) {
+                            TCCreeperContext context = TCEntityCore.ENTITY_CONTEXTS.get(this.level().getRandom().nextInt(TCEntityCore.ENTITY_CONTEXTS.size()));
+                            if (context.getRank().getLevel() < TCCreeperContext.EnumTakumiRank.HIGH.getLevel()) {
+                                Entity creeper = context.entityType().create(this.level());
+                                creeper.setPos(pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5);
+                                if (creeper instanceof AbstractTCCreeper) {
+                                    ((AbstractTCCreeper) creeper).setPowered(true);
+                                    this.level().addFreshEntity(creeper);
+                                }
+                            }
+                        }
+                        serverPlayer.sendSystemMessage(Component.translatable("entity.takumicraft.sleepercreeper.message", serverPlayer.getName()));
                         entityList.add(entity);
                     }
                 }
@@ -58,9 +62,9 @@ public class TCBedCreeper extends AbstractTCCreeper {
         });
     }
 
-    public static class TCBedCreeperContext implements TCCreeperContext<TCBedCreeper> {
-        private static final String NAME = "bedcreeper";
-        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCBedCreeper::new, MobCategory.MONSTER).sized(0.6F, 1.7F).clientTrackingRange(8).build(TakumiCraftCore.MODID + ":" + NAME);
+    public static class TCSleeperCreeperContext implements TCCreeperContext<TCSleeperCreeper> {
+        private static final String NAME = "sleepercreeper";
+        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCSleeperCreeper::new, MobCategory.MONSTER).sized(0.6F, 1.7F).clientTrackingRange(8).build(TakumiCraftCore.MODID + ":" + NAME);
 
         @Override
         public String getRegistryName() {
@@ -69,27 +73,32 @@ public class TCBedCreeper extends AbstractTCCreeper {
 
         @Override
         public String getJaJPRead() {
-            return "しんだいたくみ";
+            return "ねやたくみ";
+        }
+
+        @Override
+        public boolean showRead() {
+            return true;
         }
 
         @Override
         public String getEnUSDesc() {
-            return "Bed always detonates, doesn't it?";
+            return "Does your bed safe?";
         }
 
         @Override
         public String getJaJPDesc() {
-            return "ベッドって爆発物だろ?ネザーみたいにさ!";
+            return "君のベッドは安全ですか……?";
         }
 
         @Override
         public String getEnUSName() {
-            return "Bed Creeper";
+            return "Sleeper Creeper";
         }
 
         @Override
         public String getJaJPName() {
-            return "寝台匠";
+            return "閨匠";
         }
 
         @Override
@@ -98,33 +107,23 @@ public class TCBedCreeper extends AbstractTCCreeper {
         }
 
         @Override
-        public int getPrimaryColor() {
-            return 0x33ff33;
+        public int getSecondaryColor() {
+            return 0x88ff88;
         }
 
         @Override
-        public int getSecondaryColor() {
-            return 0xff8888;
+        public int getPrimaryColor() {
+            return 0x006600;
         }
 
         @Override
         public EnumTakumiElement getElement() {
-            return EnumTakumiElement.NORMAL_D;
+            return EnumTakumiElement.NORMAL_M;
         }
 
         @Override
         public EnumTakumiRank getRank() {
             return EnumTakumiRank.MID;
-        }
-
-        @Override
-        public ItemLike getMainDropItem() {
-            return Items.RED_BED;
-        }
-
-        @Override
-        public UniformGenerator getDropRange() {
-            return UniformGenerator.between(1, 1);
         }
     }
 }

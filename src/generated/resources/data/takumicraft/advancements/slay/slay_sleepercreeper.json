@@ -1,0 +1,37 @@
+{
+  "parent": "takumicraft:slay/root",
+  "criteria": {
+    "killed_sleepercreeper": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "takumicraft:sleepercreeper"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "takumicraft.message.slay"
+    },
+    "hidden": true,
+    "icon": {
+      "item": "takumicraft:takumibook"
+    },
+    "title": {
+      "translate": "entity.takumicraft.sleepercreeper"
+    }
+  },
+  "requirements": [
+    [
+      "killed_sleepercreeper"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

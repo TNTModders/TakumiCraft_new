@@ -14,9 +14,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.level.ExplosionEvent;
 
@@ -24,43 +21,41 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class TCBedCreeper extends AbstractTCCreeper {
+public class TCReturnCreeper extends AbstractTCCreeper {
 
-    public TCBedCreeper(EntityType<? extends Creeper> entityType, Level level) {
+    public TCReturnCreeper(EntityType<? extends Creeper> entityType, Level level) {
         super(entityType, level);
         this.explosionRadius = 5;
     }
 
     @Override
     public TCCreeperContext<? extends AbstractTCCreeper> getContext() {
-        return TCEntityCore.BED;
+        return TCEntityCore.RETURN;
     }
 
     @Override
     public void explodeCreeperEvent(ExplosionEvent.Detonate event) {
-        event.getExplosion().clearToBlow();
         List<Entity> entityList = new ArrayList<>();
         event.getAffectedEntities().forEach(entity -> {
             if (entity instanceof ServerPlayer serverPlayer) {
                 BlockPos pos = serverPlayer.getRespawnPosition();
                 if (pos != null && pos != BlockPos.ZERO) {
-                    BlockState state = this.level().getBlockState(pos);
-                    float res = state.getExplosionResistance(this.level(), pos, event.getExplosion());
                     Optional<Vec3> optional = Player.findRespawnPositionAndUseSpawnBlock(serverPlayer.serverLevel(), pos, serverPlayer.getRespawnAngle(), false, true);
-                    if (optional != null && optional.isPresent() && res <= 2000) {
-                        this.level().setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
-                        TCExplosionUtils.createExplosion(this.level(), null, pos, this.isPowered() ? 20 : 12);
-                        serverPlayer.sendSystemMessage(Component.translatable("entity.takumicraft.bedcreeper.message", serverPlayer.getName()));
-                        entityList.add(entity);
+                    if (optional != null && optional.isPresent()) {
+                        serverPlayer.teleportTo(pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5);
+                        serverPlayer.sendSystemMessage(Component.translatable("entity.takumicraft.returncreeper.message", serverPlayer.getName()));
+                        TCExplosionUtils.createExplosion(this.level(), null, pos, 0f);
+                        entityList.add(serverPlayer);
                     }
                 }
             }
         });
+        event.getAffectedEntities().removeAll(entityList);
     }
 
-    public static class TCBedCreeperContext implements TCCreeperContext<TCBedCreeper> {
-        private static final String NAME = "bedcreeper";
-        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCBedCreeper::new, MobCategory.MONSTER).sized(0.6F, 1.7F).clientTrackingRange(8).build(TakumiCraftCore.MODID + ":" + NAME);
+    public static class TCReturnCreeperContext implements TCCreeperContext<TCReturnCreeper> {
+        private static final String NAME = "returncreeper";
+        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCReturnCreeper::new, MobCategory.MONSTER).sized(0.6F, 1.7F).clientTrackingRange(8).build(TakumiCraftCore.MODID + ":" + NAME);
 
         @Override
         public String getRegistryName() {
@@ -69,27 +64,27 @@ public class TCBedCreeper extends AbstractTCCreeper {
 
         @Override
         public String getJaJPRead() {
-            return "しんだいたくみ";
+            return "きしょう";
         }
 
         @Override
         public String getEnUSDesc() {
-            return "Bed always detonates, doesn't it?";
+            return "This is the turn when you return your town.";
         }
 
         @Override
         public String getJaJPDesc() {
-            return "ベッドって爆発物だろ?ネザーみたいにさ!";
+            return "害悪な匠。ベッドを持って行く先々で眠れば地獄を見ずに済む。とにかく面倒くさい。";
         }
 
         @Override
         public String getEnUSName() {
-            return "Bed Creeper";
+            return "Return Creeper";
         }
 
         @Override
         public String getJaJPName() {
-            return "寝台匠";
+            return "帰匠";
         }
 
         @Override
@@ -99,7 +94,7 @@ public class TCBedCreeper extends AbstractTCCreeper {
 
         @Override
         public int getPrimaryColor() {
-            return 0x33ff33;
+            return 0x003300;
         }
 
         @Override
@@ -109,7 +104,7 @@ public class TCBedCreeper extends AbstractTCCreeper {
 
         @Override
         public EnumTakumiElement getElement() {
-            return EnumTakumiElement.NORMAL_D;
+            return EnumTakumiElement.NORMAL_M;
         }
 
         @Override
@@ -119,12 +114,7 @@ public class TCBedCreeper extends AbstractTCCreeper {
 
         @Override
         public ItemLike getMainDropItem() {
-            return Items.RED_BED;
-        }
-
-        @Override
-        public UniformGenerator getDropRange() {
-            return UniformGenerator.between(1, 1);
+            return Items.ENDER_PEARL;
         }
     }
 }
