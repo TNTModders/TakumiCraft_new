@@ -55,6 +55,8 @@
     "takumicraft:bedcreeper",
     "takumicraft:returncreeper",
     "takumicraft:sleepercreeper",
-    "takumicraft:restcreeper"
+    "takumicraft:restcreeper",
+    "takumicraft:musiccreeper",
+    "takumicraft:musclecreeper"
   ]
 }

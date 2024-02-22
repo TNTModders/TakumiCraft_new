@@ -435,6 +435,34 @@
       },
       "trigger": "minecraft:player_killed_entity"
     },
+    "slay_musclecreeper": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "takumicraft:musclecreeper"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
+    "slay_musiccreeper": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "takumicraft:musiccreeper"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
     "slay_naturalcreeper": {
       "conditions": {
         "entity": [
@@ -902,6 +930,9 @@
       "slay_cherrycreeper"
     ],
     [
+      "slay_musiccreeper"
+    ],
+    [
       "slay_phantomcreeper"
     ],
     [
@@ -957,6 +988,9 @@
     ],
     [
       "slay_restcreeper"
+    ],
+    [
+      "slay_musclecreeper"
     ],
     [
       "slay_boltcreeper"

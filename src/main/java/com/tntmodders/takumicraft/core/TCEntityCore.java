@@ -86,6 +86,8 @@ public class TCEntityCore {
     public static final TCCreeperContext<TCReturnCreeper> RETURN = new TCReturnCreeper.TCReturnCreeperContext();
     public static final TCCreeperContext<TCSleeperCreeper> SLEEPER = new TCSleeperCreeper.TCSleeperCreeperContext();
     public static final TCCreeperContext<TCRestCreeper> REST = new TCRestCreeper.TCRestCreeperContext();
+    public static final TCCreeperContext<TCMusicCreeper> MUSIC = new TCMusicCreeper.TCMusicCreeperContext();
+    public static final TCCreeperContext<TCMuscleCreeper> MUSCLE = new TCMuscleCreeper.TCMuscleCreeperContext();
 
     public static final TagKey<EntityType<?>> TAKUMIS = TagKey.create(Registries.ENTITY_TYPE, new ResourceLocation(TakumiCraftCore.MODID, "takumi"));
 
