@@ -212,7 +212,6 @@ public class TCTakumiBookScreen extends Screen {
         int i = (this.width - 192) / 2;
         int j = 2;
 
-
         AbstractTCCreeper.TCCreeperContext<? extends AbstractTCCreeper> context = TCEntityCore.ENTITY_CONTEXTS.get(currentPage);
         this.tick++;
         TCClientUtils.renderEntity(i + 51, j + 80, 30, this.tick / 100f, 0, context.entityType(), false);
@@ -220,7 +219,8 @@ public class TCTakumiBookScreen extends Screen {
         if (this.cachedPage != currentPage) {
             FormattedText formattedtext = Component.translatable(flg ? context.entityType().getDescriptionId() + ".desc" : "???");
             this.cachedPageComponents = this.font.split(formattedtext, 114);
-            this.pageMsg = Component.translatable("book.pageIndicator", currentPage + 1, Math.max(this.getNumPages(), 1));
+            int pageNum = currentPage + 1;
+            this.pageMsg = Component.translatable("book.pageIndicator", pageNum, Math.max(this.getNumPages(), 1));
         }
 
         this.cachedPage = currentPage;
@@ -243,13 +243,11 @@ public class TCTakumiBookScreen extends Screen {
         ResourceLocation location;
         if (flg) {
             location = context.getElement().getIcon();
-            RenderSystem.setShaderTexture(0, location);
-            graphics.blit(location, i, 2, 0, 0, 192, 192);
         } else {
             location = new ResourceLocation(TakumiCraftCore.MODID, "textures/book/underfound.png");
-            RenderSystem.setShaderTexture(0, location);
-            graphics.blit(location, i, 2, 0, 0, 192, 192);
         }
+        RenderSystem.setShaderTexture(0, location);
+        graphics.blit(location, i, 2, 0, 0, 192, 192);
         if (flg) {
             if (context.getElement().isDest()) {
                 location = new ResourceLocation(TakumiCraftCore.MODID, "textures/book/dest.png");
@@ -266,7 +264,7 @@ public class TCTakumiBookScreen extends Screen {
             Component read = Component.translatable(flg ? TCEntityUtils.getEntityLangCode(context.entityType(), ".read") : "???");
             graphics.drawString(this.font, read, i + 70, 25, 0, false);
         }
-        graphics.drawString(this.font, Component.literal(currentPage + "/" + this.getNumPages()), i + 120, 15, 0, false);
+        graphics.drawString(this.font, Component.literal(currentPage + 1 + "/" + this.getNumPages()), i + 120, 15, 0, false);
     }
 
     @Override

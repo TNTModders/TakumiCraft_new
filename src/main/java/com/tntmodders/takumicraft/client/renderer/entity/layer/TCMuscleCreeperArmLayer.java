@@ -17,7 +17,6 @@ import net.minecraft.client.renderer.entity.layers.ElytraLayer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 
 public class TCMuscleCreeperArmLayer<T extends TCMuscleCreeper, M extends EntityModel<T>> extends ElytraLayer<T, M> {
@@ -72,7 +71,7 @@ public class TCMuscleCreeperArmLayer<T extends TCMuscleCreeper, M extends Entity
         return WINGS_LOCATION;
     }
 
-    protected static class MuscleCreeperArmModel extends ElytraModel {
+    protected static class MuscleCreeperArmModel<T extends TCMuscleCreeper> extends ElytraModel<T> {
 
         private final ModelPart rightWing;
         private final ModelPart leftWing;
@@ -84,8 +83,9 @@ public class TCMuscleCreeperArmLayer<T extends TCMuscleCreeper, M extends Entity
         }
 
         @Override
-        public void setupAnim(LivingEntity p_102544_, float p_102545_, float p_102546_, float p_102547_, float p_102548_, float p_102549_) {
-            if (p_102544_.tickCount / 10 % 2 == 0) {
+        public void setupAnim(T creeper, float p_102545_, float p_102546_, float p_102547_, float p_102548_, float p_102549_) {
+            int i = creeper.isOnBook() ? (int) System.currentTimeMillis() / 500 : creeper.tickCount / 10;
+            if (i % 2 == 0) {
                 this.leftWing.y = 8f;
                 this.leftWing.x = 14f;
                 this.leftWing.z = 0f;

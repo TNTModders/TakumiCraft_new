@@ -535,6 +535,11 @@ public class TCTakumiBookOutlineScreen extends EffectRenderingInventoryScreen<TC
     }
 
     @Override
+    public boolean isPauseScreen() {
+        return true;
+    }
+
+    @Override
     protected void renderTooltip(GuiGraphics p_98590_, int p_98592_, int p_98593_) {
         List<Component> components = new ArrayList<>();
         if (this.hoveredSlot != null) {
