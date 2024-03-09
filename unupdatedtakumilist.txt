@@ -7,7 +7,7 @@ gunorecreeper
 treecreeper
 fishcreeper
 subsidencecreeper
-straycreeper
+
 parrotcreeper
 
 frostcreeper
@@ -235,7 +235,6 @@ ghast
 shulker
 silverfish
 
-stray
 hogrin
 pigrin
 pilligar

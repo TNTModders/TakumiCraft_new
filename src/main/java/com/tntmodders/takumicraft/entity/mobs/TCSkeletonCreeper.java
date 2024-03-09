@@ -3,6 +3,7 @@ package com.tntmodders.takumicraft.entity.mobs;
 import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.client.renderer.entity.TCSkeletonCreeperRenderer;
 import com.tntmodders.takumicraft.core.TCEntityCore;
+import com.tntmodders.takumicraft.core.TCItemCore;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -11,9 +12,11 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.monster.Creeper;
+import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 
@@ -92,9 +95,10 @@ public class TCSkeletonCreeper extends AbstractTCSkeletonCreeper {
     }
 
     protected void doFreezeConversion() {
-        if (!net.minecraftforge.event.ForgeEventFactory.canLivingConvert(this, EntityType.STRAY, timer -> this.conversionTime = timer))
+        EntityType<Mob> type = (EntityType<Mob>) TCEntityCore.STRAY.entityType();
+        if (!net.minecraftforge.event.ForgeEventFactory.canLivingConvert(this, type, timer -> this.conversionTime = timer))
             return;
-        var result = this.convertTo(EntityType.STRAY, true);
+        var result = this.convertTo(type, true);
         if (!this.isSilent()) {
             this.level().levelEvent(null, 1048, this.blockPosition(), 0);
         }
@@ -196,6 +200,11 @@ public class TCSkeletonCreeper extends AbstractTCSkeletonCreeper {
         @Override
         public void registerRenderer(EntityRenderersEvent.RegisterRenderers event, EntityType<?> type) {
             event.registerEntityRenderer((EntityType<AbstractTCCreeper>) type, p_174010_ -> new TCSkeletonCreeperRenderer(p_174010_, this));
+        }
+
+        @Override
+        public ItemLike getMainDropItem() {
+            return TCItemCore.CREEPER_ARROW;
         }
     }
 }
