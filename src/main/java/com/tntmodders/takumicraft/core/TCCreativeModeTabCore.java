@@ -8,7 +8,10 @@ import com.tntmodders.takumicraft.provider.ITCItems;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.*;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -28,8 +31,12 @@ public class TCCreativeModeTabCore {
             List<Item> itemList = TCItemCore.ITEMS;
             itemList.sort(Comparator.comparing(Item::getDescriptionId));
             itemList.forEach(item -> {
-                if (!(item instanceof SpawnEggItem) && !(item instanceof ITCItems && ((ITCItems) item).hideOnCreativeTab())) {
-                    output.accept(item);
+                if (!(item instanceof ITCItems) || !((ITCItems) item).hideOnCreativeTab()) {
+                    if (((ITCItems) item).isSPOnCreativeTab()) {
+                        ((ITCItems) item).performSPOnCreativeTab(output);
+                    } else {
+                        output.accept(item);
+                    }
                 }
             });
             Collection<TCBlockItem> itemCollection = TCItemCore.BLOCKITEMS.values();

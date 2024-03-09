@@ -23,7 +23,6 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.monster.RangedAttackMob;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
-import net.minecraft.world.entity.projectile.Arrow;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.item.ArrowItem;
 import net.minecraft.world.item.ItemStack;
@@ -223,11 +222,10 @@ public abstract class AbstractTCSkeletonCreeper extends AbstractTCCreeper implem
         ArrowItem arrowitem = (ArrowItem) (p_33846_.getItem() instanceof ArrowItem ? p_33846_.getItem() : TCItemCore.CREEPER_ARROW);
         AbstractArrow abstractarrow = arrowitem.createArrow(this.level(), p_33846_, this);
         abstractarrow.setEnchantmentEffectsFromEntity(this, p_33847_);
-        //@TODO TIPPED_CREEPER_ARROW
-        if (p_33846_.is(Items.TIPPED_ARROW) && abstractarrow instanceof Arrow arrow) {
-            arrow.setEffectsFromItem(p_33846_);
-        }
         if (abstractarrow instanceof TCCreeperArrow creeperArrow) {
+            if (p_33846_.is(TCItemCore.TIPPED_CREEPER_ARROW)) {
+                creeperArrow.setEffectsFromItem(p_33846_);
+            }
             creeperArrow.setDest(true);
             if (this.isPowered()) {
                 creeperArrow.setPower(3f);

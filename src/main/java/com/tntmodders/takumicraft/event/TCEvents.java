@@ -7,6 +7,7 @@ import com.tntmodders.takumicraft.core.TCEntityCore;
 import com.tntmodders.takumicraft.core.TCItemCore;
 import com.tntmodders.takumicraft.entity.mobs.AbstractTCCreeper;
 import com.tntmodders.takumicraft.entity.mobs.TCPhantomCreeper;
+import com.tntmodders.takumicraft.entity.projectile.TCCreeperArrow;
 import com.tntmodders.takumicraft.item.TCTakumiSpecialMeatItem;
 import com.tntmodders.takumicraft.utils.TCExplosionUtils;
 import net.minecraft.core.BlockPos;
@@ -78,6 +79,8 @@ public class TCEvents {
         if (!event.getLevel().isClientSide) {
             if (event.getExplosion().getDirectSourceEntity() instanceof AbstractTCCreeper creeper) {
                 creeper.explodeCreeperEvent(event);
+            } else if (event.getExplosion().getDirectSourceEntity() instanceof TCCreeperArrow arrow) {
+                arrow.arrowExplosionEvent(event);
             }
         }
     }

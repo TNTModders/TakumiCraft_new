@@ -234,7 +234,7 @@ guardian
 ghast
 shulker
 silverfish
-skeleton
+
 stray
 hogrin
 pigrin

@@ -1,6 +1,7 @@
 package com.tntmodders.takumicraft.provider;
 
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 
 import java.util.ArrayList;
@@ -12,6 +13,13 @@ public interface ITCItems extends ITCTranslator {
 
     default boolean hideOnCreativeTab() {
         return false;
+    }
+
+    default boolean isSPOnCreativeTab() {
+        return false;
+    }
+
+    default void performSPOnCreativeTab(CreativeModeTab.Output output) {
     }
 
     default List<TagKey<Item>> getItemTags() {

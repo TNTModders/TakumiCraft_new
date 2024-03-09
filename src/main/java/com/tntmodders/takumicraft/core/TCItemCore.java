@@ -22,6 +22,7 @@ import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class TCItemCore {
     public static final NonNullList<Item> ITEMS = NonNullList.create();
@@ -41,6 +42,7 @@ public class TCItemCore {
     public static final Item CREEPER_SHIELD = new TCCreeperShieldItem();
     public static final Item CREEPER_BOW = new TCCreeperBowItem();
     public static final Item CREEPER_ARROW = new TCCreeperArrowItem();
+    public static final Item TIPPED_CREEPER_ARROW = new TCTippedCreeperArrowItem();
     public static final Item MINESWEEPER_PICKAXE = new TCMinesweeperPickaxeItem();
     public static final Item MINESWEEPER_AXE = new TCMinesweeperAxeItem();
     public static final Item MINESWEEPER_SHOVEL = new TCMinesweeperShovelItem();
@@ -73,6 +75,14 @@ public class TCItemCore {
                     event.register(ForgeRegistries.ITEMS.getRegistryKey(), itemRegisterHelper -> itemRegisterHelper.register(new ResourceLocation(TakumiCraftCore.MODID, ((ITCItems) item).getRegistryName()), item));
                     ITEMS.add((Item) obj);
                     TCLoggingUtils.entryRegistry("Item", ((ITCItems) item).getRegistryName());
+                } else if (obj instanceof Map map) {
+                    map.values().forEach(value -> {
+                        if (value instanceof ITCItems && value instanceof Item item) {
+                            event.register(ForgeRegistries.ITEMS.getRegistryKey(), itemRegisterHelper -> itemRegisterHelper.register(new ResourceLocation(TakumiCraftCore.MODID, ((ITCItems) item).getRegistryName()), item));
+                            ITEMS.add((Item) obj);
+                            TCLoggingUtils.entryRegistry("Item", ((ITCItems) item).getRegistryName());
+                        }
+                    });
                 }
             } catch (IllegalAccessException e) {
                 e.printStackTrace();

@@ -1,10 +1,7 @@
 package com.tntmodders.takumicraft;
 
 import com.tntmodders.takumicraft.core.*;
-import com.tntmodders.takumicraft.core.client.TCItemPropertyCore;
-import com.tntmodders.takumicraft.core.client.TCKeyBindingCore;
-import com.tntmodders.takumicraft.core.client.TCRenderCore;
-import com.tntmodders.takumicraft.core.client.TCSearchTreeCore;
+import com.tntmodders.takumicraft.core.client.*;
 import com.tntmodders.takumicraft.event.TCEvents;
 import com.tntmodders.takumicraft.event.client.TCClientEvents;
 import com.tntmodders.takumicraft.provider.*;
@@ -15,6 +12,7 @@ import net.minecraft.data.PackOutput;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.EntityRenderersEvent;
+import net.minecraftforge.client.event.RegisterColorHandlersEvent;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
 import net.minecraftforge.common.MinecraftForge;
@@ -151,19 +149,24 @@ public class TakumiCraftCore {
         }
 
         @SubscribeEvent
-        public static void ClientInit(FMLClientSetupEvent event) {
+        public static void clientInit(FMLClientSetupEvent event) {
             TCSearchTreeCore.register();
             TCItemPropertyCore.register();
         }
 
         @SubscribeEvent
-        public static void RegisterKeyBinding(RegisterKeyMappingsEvent event) {
+        public static void registerKeyBinding(RegisterKeyMappingsEvent event) {
             TCKeyBindingCore.register(event);
         }
 
         @SubscribeEvent
-        public static void RegisterParticleEngine(RegisterParticleProvidersEvent event) {
+        public static void registerParticleEngine(RegisterParticleProvidersEvent event) {
             TCParticleTypeCore.registerParticleEngine(event);
+        }
+
+        @SubscribeEvent
+        public static void registerItemColors(RegisterColorHandlersEvent.Item event) {
+            TCColorsCore.registerItemColors(event);
         }
     }
 }

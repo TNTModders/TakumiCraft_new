@@ -1,19 +1,26 @@
 package com.tntmodders.takumicraft.entity.projectile;
 
 import com.tntmodders.takumicraft.TakumiCraftCore;
+import com.tntmodders.takumicraft.core.TCItemCore;
 import com.tntmodders.takumicraft.utils.TCExplosionUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.projectile.Arrow;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.alchemy.Potion;
+import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.HitResult;
+import net.minecraftforge.event.level.ExplosionEvent;
+
+import java.util.Collection;
 
 public class TCCreeperArrow extends Arrow {
     private float power = 1.5f;
@@ -46,8 +53,27 @@ public class TCCreeperArrow extends Arrow {
     }
 
     @Override
+    public boolean ignoreExplosion(Explosion p_309517_) {
+        return true;
+    }
+
+    @Override
     public boolean shouldBlockExplode(Explosion p_19987_, BlockGetter p_19988_, BlockPos p_19989_, BlockState p_19990_, float p_19991_) {
         return this.dest;
+    }
+
+    @Override
+    public void setEffectsFromItem(ItemStack p_36879_) {
+        if (p_36879_.is(TCItemCore.TIPPED_CREEPER_ARROW)) {
+            Potion potion = PotionUtils.getPotion(p_36879_);
+            Collection<MobEffectInstance> collection = PotionUtils.getCustomEffects(p_36879_);
+            collection.addAll(potion.getEffects());
+            if (!collection.isEmpty()) {
+                for (MobEffectInstance mobeffectinstance : collection) {
+                    this.effects.add(new MobEffectInstance(mobeffectinstance));
+                }
+            }
+        }
     }
 
     @Override
@@ -71,4 +97,16 @@ public class TCCreeperArrow extends Arrow {
     public void setDest(boolean dest) {
         this.dest = dest;
     }
+
+    public void arrowExplosionEvent(ExplosionEvent.Detonate event) {
+        event.getAffectedEntities().removeIf(entity -> entity.equals(this.getOwner()));
+        if (!this.effects.isEmpty()) {
+            event.getAffectedEntities().forEach(entity -> {
+                if (entity instanceof LivingEntity living) {
+                    this.effects.forEach(living::addEffect);
+                }
+            });
+        }
+    }
+
 }
