@@ -90,6 +90,7 @@ public class TCEntityCore {
     public static final TCCreeperContext<TCMuscleCreeper> MUSCLE = new TCMuscleCreeper.TCMuscleCreeperContext();
     public static final TCCreeperContext<TCSpiderCreeper> SPIDER = new TCSpiderCreeper.TCSpiderCreeperContext();
     public static final TCCreeperContext<TCMiniSpiderCreeper> MINI_SPIDER = new TCMiniSpiderCreeper.TCMiniSpiderCreeperContext();
+    public static final TCCreeperContext<TCSkeletonCreeper> SKELETON = new TCSkeletonCreeper.TCSkeletonCreeperContext();
 
     public static final TagKey<EntityType<?>> TAKUMIS = TagKey.create(Registries.ENTITY_TYPE, new ResourceLocation(TakumiCraftCore.MODID, "takumi"));
 

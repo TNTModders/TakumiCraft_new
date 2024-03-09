@@ -29,7 +29,6 @@ import net.minecraft.world.entity.animal.Cat;
 import net.minecraft.world.entity.animal.IronGolem;
 import net.minecraft.world.entity.animal.Ocelot;
 import net.minecraft.world.entity.monster.Creeper;
-import net.minecraft.world.entity.monster.Skeleton;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
@@ -171,9 +170,8 @@ public class TCSpiderCreeper extends AbstractTCCreeper {
         p_33793_ = super.finalizeSpawn(p_33790_, p_33791_, p_33792_, p_33793_, p_33794_);
         RandomSource randomsource = p_33790_.getRandom();
         if (this.getContext() == TCEntityCore.SPIDER && randomsource.nextInt(100) == 0) {
-            //@TODO change Skeleton to TCSkeletonCreeper
-            Skeleton skeleton = EntityType.SKELETON.create(this.level());
-            if (skeleton != null) {
+            var entity = TCEntityCore.SKELETON.entityType().create(this.level());
+            if (entity instanceof TCSkeletonCreeper skeleton) {
                 skeleton.moveTo(this.getX(), this.getY(), this.getZ(), this.getYRot(), 0.0F);
                 skeleton.finalizeSpawn(p_33790_, p_33791_, p_33792_, null, null);
                 skeleton.startRiding(this);

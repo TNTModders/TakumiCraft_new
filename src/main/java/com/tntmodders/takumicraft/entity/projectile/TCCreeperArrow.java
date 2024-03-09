@@ -3,6 +3,7 @@ package com.tntmodders.takumicraft.entity.projectile;
 import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.utils.TCExplosionUtils;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobCategory;
@@ -15,6 +16,9 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.HitResult;
 
 public class TCCreeperArrow extends Arrow {
+    private float power = 1.5f;
+    private boolean dest = false;
+
     public static final EntityType<Arrow> ARROW = EntityType.Builder.<Arrow>of(TCCreeperArrow::new, MobCategory.MISC)
             .sized(0.5F, 0.5F)
             .clientTrackingRange(4)
@@ -36,13 +40,35 @@ public class TCCreeperArrow extends Arrow {
     protected void onHit(HitResult p_37260_) {
         super.onHit(p_37260_);
         if (!this.level().isClientSide) {
-            TCExplosionUtils.createExplosion(this.level(), this, this.getX(), this.getY(), this.getZ(), 1.5f, false);
+            TCExplosionUtils.createExplosion(this.level(), this, this.getX(), this.getY(), this.getZ(), this.power, false);
         }
         this.discard();
     }
 
     @Override
     public boolean shouldBlockExplode(Explosion p_19987_, BlockGetter p_19988_, BlockPos p_19989_, BlockState p_19990_, float p_19991_) {
-        return false;
+        return this.dest;
+    }
+
+    @Override
+    public void addAdditionalSaveData(CompoundTag tag) {
+        super.addAdditionalSaveData(tag);
+        tag.putFloat("Power", this.power);
+        tag.putBoolean("Dest", this.dest);
+    }
+
+    @Override
+    public void readAdditionalSaveData(CompoundTag tag) {
+        super.readAdditionalSaveData(tag);
+        this.power = tag.getFloat("Power");
+        this.dest = tag.getBoolean("Dest");
+    }
+
+    public void setPower(float power) {
+        this.power = power;
+    }
+
+    public void setDest(boolean dest) {
+        this.dest = dest;
     }
 }
