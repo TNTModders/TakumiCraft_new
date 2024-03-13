@@ -5,6 +5,7 @@ import com.tntmodders.takumicraft.core.TCEntityCore;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.monster.Creeper;
@@ -96,6 +97,13 @@ public class TCDripstoneCreeper extends AbstractTCCreeper {
         @Override
         public EnumTakumiRank getRank() {
             return EnumTakumiRank.MID;
+        }
+
+        @Override
+        public List<TagKey<EntityType<?>>> getEntityTypeTags() {
+            List list = TCCreeperContext.super.getEntityTypeTags();
+            list.add(TCEntityCore.NETHER_TAKUMIS);
+            return list;
         }
     }
 }

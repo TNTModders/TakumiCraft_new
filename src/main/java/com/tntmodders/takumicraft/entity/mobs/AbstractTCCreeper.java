@@ -158,7 +158,7 @@ public abstract class AbstractTCCreeper extends Creeper implements ITCEntities, 
                 if (TCConfigCore.TCSpawnConfig.SPAWN.creeperSpawnFactors.containsKey(this.entityType())) {
                     weight = weight * TCConfigCore.TCSpawnConfig.SPAWN.creeperSpawnFactors.get(this.entityType()).get();
                 }
-                if (biome.is(BiomeTags.IS_NETHER) && this.getElement().getMainElement() != EnumTakumiElement.FIRE && this.getEntityTypeTags().contains(TCEntityCore.NETHER_TAKUMIS)) {
+                if (biome.is(BiomeTags.IS_NETHER) && this.getElement().getMainElement() != EnumTakumiElement.FIRE && !this.getEntityTypeTags().contains(TCEntityCore.NETHER_TAKUMIS)) {
                     weight = weight / 10;
                 }
                 builder.getMobSpawnSettings().getSpawner(this.entityType().getCategory())

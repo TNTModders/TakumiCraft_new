@@ -2,6 +2,7 @@ package com.tntmodders.takumicraft.entity.mobs;
 
 import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.core.TCEntityCore;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.monster.Creeper;
@@ -11,6 +12,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import net.minecraftforge.event.level.ExplosionEvent;
+
+import java.util.List;
 
 public class TCGlowstoneCreeper extends AbstractTCCreeper {
 
@@ -101,6 +104,13 @@ public class TCGlowstoneCreeper extends AbstractTCCreeper {
         @Override
         public UniformGenerator getDropRange() {
             return UniformGenerator.between(1, 8);
+        }
+
+        @Override
+        public List<TagKey<EntityType<?>>> getEntityTypeTags() {
+            List list = TCCreeperContext.super.getEntityTypeTags();
+            list.add(TCEntityCore.NETHER_TAKUMIS);
+            return list;
         }
     }
 }
