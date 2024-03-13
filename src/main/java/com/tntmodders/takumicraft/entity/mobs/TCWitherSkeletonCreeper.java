@@ -5,11 +5,10 @@ import com.tntmodders.takumicraft.client.renderer.entity.TCWitherSkeletonCreeper
 import com.tntmodders.takumicraft.core.TCEnchantmentCore;
 import com.tntmodders.takumicraft.core.TCEntityCore;
 import com.tntmodders.takumicraft.core.TCItemCore;
-import net.minecraft.core.Holder;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.tags.BiomeTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
@@ -26,7 +25,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
-import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
@@ -37,10 +35,10 @@ import net.minecraft.world.level.storage.loot.predicates.LootItemKilledByPlayerC
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import net.minecraftforge.client.event.EntityRenderersEvent;
-import net.minecraftforge.common.world.ModifiableBiomeInfo;
 import net.minecraftforge.event.level.ExplosionEvent;
 
 import javax.annotation.Nullable;
+import java.util.List;
 
 public class TCWitherSkeletonCreeper extends AbstractTCSkeletonCreeper {
     public TCWitherSkeletonCreeper(EntityType<? extends Creeper> entityType, Level level) {
@@ -233,10 +231,10 @@ public class TCWitherSkeletonCreeper extends AbstractTCSkeletonCreeper {
         }
 
         @Override
-        public void registerModifierSpawn(Holder<Biome> biome, ModifiableBiomeInfo.BiomeInfo.Builder builder) {
-            if (biome.is(BiomeTags.IS_NETHER)) {
-                TCCreeperContext.super.registerModifierSpawn(biome, builder);
-            }
+        public List<TagKey<EntityType<?>>> getEntityTypeTags() {
+            List list = TCCreeperContext.super.getEntityTypeTags();
+            list.add(TCEntityCore.NETHER_TAKUMIS);
+            return list;
         }
     }
 }

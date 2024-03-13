@@ -6,6 +6,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.FluidTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobCategory;
@@ -13,6 +14,8 @@ import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.event.level.ExplosionEvent;
+
+import java.util.List;
 
 public class TCEnderCreeper extends AbstractTCCreeper {
 
@@ -138,6 +141,13 @@ public class TCEnderCreeper extends AbstractTCCreeper {
         @Override
         public EnumTakumiRank getRank() {
             return EnumTakumiRank.LOW;
+        }
+
+        @Override
+        public List<TagKey<EntityType<?>>> getEntityTypeTags() {
+            List list = TCCreeperContext.super.getEntityTypeTags();
+            list.add(TCEntityCore.END_TAKUMIS);
+            return list;
         }
     }
 }

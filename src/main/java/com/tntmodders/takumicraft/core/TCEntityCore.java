@@ -95,6 +95,8 @@ public class TCEntityCore {
     public static final TCCreeperContext<TCWitherSkeletonCreeper> WITHER_SKELETON = new TCWitherSkeletonCreeper.TCWitherSkeletonCreeperContext();
 
     public static final TagKey<EntityType<?>> TAKUMIS = TagKey.create(Registries.ENTITY_TYPE, new ResourceLocation(TakumiCraftCore.MODID, "takumi"));
+    public static final TagKey<EntityType<?>> NETHER_TAKUMIS = TagKey.create(Registries.ENTITY_TYPE, new ResourceLocation(TakumiCraftCore.MODID, "nether_takumi"));
+    public static final TagKey<EntityType<?>> END_TAKUMIS = TagKey.create(Registries.ENTITY_TYPE, new ResourceLocation(TakumiCraftCore.MODID, "end_takumi"));
 
     public static void registerEntityType(RegisterEvent event) {
         TCLoggingUtils.startRegistry("Entity");

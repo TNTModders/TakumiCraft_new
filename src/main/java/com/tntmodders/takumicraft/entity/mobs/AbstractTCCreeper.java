@@ -18,10 +18,7 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.EntityTypeTags;
-import net.minecraft.tags.ItemTags;
-import net.minecraft.tags.TagKey;
+import net.minecraft.tags.*;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobSpawnType;
@@ -156,12 +153,17 @@ public abstract class AbstractTCCreeper extends Creeper implements ITCEntities, 
         }
 
         default void registerModifierSpawn(Holder<Biome> biome, ModifiableBiomeInfo.BiomeInfo.Builder builder) {
-            double weight = this.getSpawnWeight() * TCConfigCore.TCSpawnConfig.SPAWN.generalSpawnFactor.get();
-            if (TCConfigCore.TCSpawnConfig.SPAWN.creeperSpawnFactors.containsKey(this.entityType())) {
-                weight = weight * TCConfigCore.TCSpawnConfig.SPAWN.creeperSpawnFactors.get(this.entityType()).get();
+            if (!biome.is(BiomeTags.IS_END) || this.getEntityTypeTags().contains(TCEntityCore.END_TAKUMIS)) {
+                double weight = this.getSpawnWeight() * TCConfigCore.TCSpawnConfig.SPAWN.generalSpawnFactor.get();
+                if (TCConfigCore.TCSpawnConfig.SPAWN.creeperSpawnFactors.containsKey(this.entityType())) {
+                    weight = weight * TCConfigCore.TCSpawnConfig.SPAWN.creeperSpawnFactors.get(this.entityType()).get();
+                }
+                if (biome.is(BiomeTags.IS_NETHER) && this.getElement().getMainElement() != EnumTakumiElement.FIRE && this.getEntityTypeTags().contains(TCEntityCore.NETHER_TAKUMIS)) {
+                    weight = weight / 10;
+                }
+                builder.getMobSpawnSettings().getSpawner(this.entityType().getCategory())
+                        .add(new MobSpawnSettings.SpawnerData(this.entityType(), (int) weight, 1, this.getMaxSpawn()));
             }
-            builder.getMobSpawnSettings().getSpawner(this.entityType().getCategory())
-                    .add(new MobSpawnSettings.SpawnerData(this.entityType(), (int) weight, 1, this.getMaxSpawn()));
         }
 
         default boolean alterSpawn() {
