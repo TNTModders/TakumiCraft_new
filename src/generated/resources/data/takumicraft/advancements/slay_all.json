@@ -799,6 +799,20 @@
       },
       "trigger": "minecraft:player_killed_entity"
     },
+    "slay_witherskeletoncreeper": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "takumicraft:witherskeletoncreeper"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
     "slay_wolfcreeper": {
       "conditions": {
         "entity": [
@@ -1059,6 +1073,9 @@
     ],
     [
       "slay_straycreeper"
+    ],
+    [
+      "slay_witherskeletoncreeper"
     ],
     [
       "slay_boltcreeper"

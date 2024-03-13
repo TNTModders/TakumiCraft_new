@@ -134,6 +134,11 @@ public class TCStrayCreeper extends AbstractTCSkeletonCreeper {
         }
 
         @Override
+        public int getPrimaryColor() {
+            return 0xaaffaa;
+        }
+
+        @Override
         public AttributeSupplier.Builder entityAttribute() {
             return AbstractTCSkeletonCreeper.createAttributes();
         }
