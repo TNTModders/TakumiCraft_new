@@ -6,6 +6,7 @@ import com.tntmodders.takumicraft.provider.ITCItems;
 import com.tntmodders.takumicraft.provider.ITCTranslator;
 import com.tntmodders.takumicraft.provider.TCLanguageProvider;
 import net.minecraft.network.chat.Component;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
@@ -65,5 +66,10 @@ public class TCElementCoreItem extends Item implements ITCItems, ITCTranslator {
     @Override
     public String getRegistryName() {
         return "elementcore_" + element.getElementID();
+    }
+
+    @Override
+    public List<TagKey<Item>> getItemTags() {
+        return List.of(TCItemCore.ELEMENT_CORE);
     }
 }
