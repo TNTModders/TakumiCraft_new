@@ -561,6 +561,20 @@
       },
       "trigger": "minecraft:player_killed_entity"
     },
+    "slay_potatocreeper": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "takumicraft:potatocreeper"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
     "slay_powdersnowcreeper": {
       "conditions": {
         "entity": [
@@ -1010,6 +1024,9 @@
     ],
     [
       "slay_skeletoncreeper"
+    ],
+    [
+      "slay_potatocreeper"
     ],
     [
       "slay_phantomcreeper"
