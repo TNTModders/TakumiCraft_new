@@ -2,9 +2,7 @@ package com.tntmodders.takumicraft.data.loot;
 
 import com.tntmodders.takumicraft.core.TCEnchantmentCore;
 import com.tntmodders.takumicraft.provider.ITCBlocks;
-import net.minecraft.advancements.critereon.EnchantmentPredicate;
-import net.minecraft.advancements.critereon.ItemPredicate;
-import net.minecraft.advancements.critereon.MinMaxBounds;
+import net.minecraft.advancements.critereon.*;
 import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.flag.FeatureFlags;
@@ -31,8 +29,8 @@ import java.util.stream.Stream;
 
 public class TCBlockLoot extends BlockLootSubProvider {
 
-    public static final LootItemCondition.Builder HAS_MINESWEEPER = MatchTool.toolMatches(ItemPredicate.Builder.item().hasEnchantment(new EnchantmentPredicate(TCEnchantmentCore.MINESWEEPER, MinMaxBounds.Ints.atLeast(1))));
-    public static final LootItemCondition.Builder HAS_SILK_TOUCH = MatchTool.toolMatches(ItemPredicate.Builder.item().hasEnchantment(new EnchantmentPredicate(Enchantments.SILK_TOUCH, MinMaxBounds.Ints.atLeast(1))));
+    public static final LootItemCondition.Builder HAS_MINESWEEPER = MatchTool.toolMatches(ItemPredicate.Builder.item().withSubPredicate(ItemSubPredicates.ENCHANTMENTS, ItemEnchantmentsPredicate.enchantments(List.of(new EnchantmentPredicate(TCEnchantmentCore.MINESWEEPER, MinMaxBounds.Ints.atLeast(1))))));
+    public static final LootItemCondition.Builder HAS_SILK_TOUCH = MatchTool.toolMatches(ItemPredicate.Builder.item().withSubPredicate(ItemSubPredicates.ENCHANTMENTS, ItemEnchantmentsPredicate.enchantments(List.of(new EnchantmentPredicate(Enchantments.SILK_TOUCH, MinMaxBounds.Ints.atLeast(1))))));
 
     private final Block block;
 
@@ -102,6 +100,6 @@ public class TCBlockLoot extends BlockLootSubProvider {
     }
 
     public LootTable.Builder createOreDropWithMinesweeper(Block block, Item item, UniformGenerator generator) {
-        return LootTable.lootTable().withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1f)).add(LootItem.lootTableItem(block)).when(HAS_SILK_TOUCH)).withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1f)).add(LootItem.lootTableItem(item)).apply(SetItemCountFunction.setCount(generator)).apply(ApplyBonusCount.addUniformBonusCount(Enchantments.BLOCK_FORTUNE)).when(HAS_MINESWEEPER.and(HAS_SILK_TOUCH.invert())));
+        return LootTable.lootTable().withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1f)).add(LootItem.lootTableItem(block)).when(HAS_SILK_TOUCH)).withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1f)).add(LootItem.lootTableItem(item)).apply(SetItemCountFunction.setCount(generator)).apply(ApplyBonusCount.addUniformBonusCount(Enchantments.FORTUNE)).when(HAS_MINESWEEPER.and(HAS_SILK_TOUCH.invert())));
     }
 }

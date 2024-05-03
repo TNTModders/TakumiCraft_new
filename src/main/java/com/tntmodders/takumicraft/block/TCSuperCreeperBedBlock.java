@@ -15,9 +15,12 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.*;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -27,7 +30,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import net.minecraftforge.registries.ForgeRegistries;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.function.Consumer;
@@ -37,23 +39,24 @@ public class TCSuperCreeperBedBlock extends TCCreeperBedBlock {
         super(DyeColor.GREEN);
     }
 
+
     @Override
-    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult result) {
+    protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult result) {
         if (level.getBlockEntity(pos) instanceof TCCreeperBedBlockEntity bed) {
             if (player.getItemInHand(hand).isEmpty() && player.isShiftKeyDown()) {
                 if (bed.getBlock() != null && bed.getBlock() != Blocks.AIR) {
                     this.setBlockToBed(bed, player, state, pos, Blocks.AIR);
-                    return InteractionResult.SUCCESS;
+                    return ItemInteractionResult.CONSUME_PARTIAL;
                 }
             }
             if (player.getItemInHand(hand).getItem() instanceof BlockItem blockItem) {
                 if (Block.isShapeFullBlock(blockItem.getBlock().defaultBlockState().getOcclusionShape(level, pos))) {
                     this.setBlockToBed(bed, player, state, pos, blockItem.getBlock());
-                    return InteractionResult.SUCCESS;
+                    return ItemInteractionResult.CONSUME_PARTIAL;
                 }
             }
         }
-        return super.use(state, level, pos, player, hand, result);
+        return super.useItemOn(stack, state, level, pos, player, hand, result);
     }
 
     private void setBlockToBed(TCCreeperBedBlockEntity bed, Player player, BlockState state, BlockPos pos, Block block) {
@@ -119,19 +122,13 @@ public class TCSuperCreeperBedBlock extends TCCreeperBedBlock {
             }
 
             @Override
-            public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> components, TooltipFlag tooltipFlag) {
-                super.appendHoverText(stack, level, components, tooltipFlag);
+            public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> components, TooltipFlag tooltipFlag) {
+                super.appendHoverText(stack, context, components, tooltipFlag);
                 components.add(Component.translatable("item.takumicraft.super_creeperbed.desc"));
             }
 
             @Override
-            public Rarity getRarity(ItemStack p_41461_) {
-                return Rarity.EPIC;
-            }
-
-
-            @Override
-            public int getMaxStackSize(ItemStack stack) {
+            public int getDefaultMaxStackSize() {
                 return 1;
             }
         };

@@ -45,7 +45,10 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.level.*;
+import net.minecraft.world.level.GameRules;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.LootContext;
@@ -77,7 +80,7 @@ public class TCZombieCreeper extends AbstractTCCreeper {
     public static final int REINFORCEMENT_RANGE_MAX = 40;
     public static final int REINFORCEMENT_RANGE_MIN = 7;
     private static final UUID SPEED_MODIFIER_BABY_UUID = UUID.fromString("B9766B59-9566-4402-BC1F-2EE2A276D838");
-    private static final AttributeModifier SPEED_MODIFIER_BABY = new AttributeModifier(SPEED_MODIFIER_BABY_UUID, "Baby speed boost", 0.5D, AttributeModifier.Operation.MULTIPLY_BASE);
+    private static final AttributeModifier SPEED_MODIFIER_BABY = new AttributeModifier(SPEED_MODIFIER_BABY_UUID, "Baby speed boost", 0.5D, AttributeModifier.Operation.ADD_MULTIPLIED_BASE);
     private static final EntityDataAccessor<Boolean> DATA_BABY_ID = SynchedEntityData.defineId(TCZombieCreeper.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Integer> DATA_SPECIAL_TYPE_ID = SynchedEntityData.defineId(TCZombieCreeper.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Boolean> DATA_DROWNED_CONVERSION_ID = SynchedEntityData.defineId(TCZombieCreeper.class, EntityDataSerializers.BOOLEAN);
@@ -92,8 +95,8 @@ public class TCZombieCreeper extends AbstractTCCreeper {
         super(entityType, level);
     }
 
-    public static boolean getSpawnAsBabyOdds(RandomSource p_34303_) {
-        return p_34303_.nextFloat() < net.minecraftforge.common.ForgeConfig.SERVER.zombieBabyChance.get();
+    public static boolean getSpawnAsBabyOdds(RandomSource p_219163_) {
+        return p_219163_.nextFloat() < 0.05F;
     }
 
     @Override
@@ -131,11 +134,11 @@ public class TCZombieCreeper extends AbstractTCCreeper {
     }
 
     @Override
-    protected void defineSynchedData() {
-        super.defineSynchedData();
-        this.getEntityData().define(DATA_BABY_ID, false);
-        this.getEntityData().define(DATA_SPECIAL_TYPE_ID, 0);
-        this.getEntityData().define(DATA_DROWNED_CONVERSION_ID, false);
+    protected void defineSynchedData(SynchedEntityData.Builder p_336115_) {
+        super.defineSynchedData(p_336115_);
+        p_336115_.define(DATA_BABY_ID, false);
+        p_336115_.define(DATA_SPECIAL_TYPE_ID, 0);
+        p_336115_.define(DATA_DROWNED_CONVERSION_ID, false);
     }
 
     public boolean isUnderWaterConverting() {
@@ -178,7 +181,7 @@ public class TCZombieCreeper extends AbstractTCCreeper {
         this.getEntityData().set(DATA_BABY_ID, p_34309_);
         if (this.level() != null && !this.level().isClientSide) {
             AttributeInstance attributeinstance = this.getAttribute(Attributes.MOVEMENT_SPEED);
-            attributeinstance.removeModifier(SPEED_MODIFIER_BABY.getId());
+            attributeinstance.removeModifier(SPEED_MODIFIER_BABY.id());
             if (p_34309_) {
                 attributeinstance.addTransientModifier(SPEED_MODIFIER_BABY);
             }
@@ -251,7 +254,7 @@ public class TCZombieCreeper extends AbstractTCCreeper {
                 }
 
                 if (flag) {
-                    this.setSecondsOnFire(8);
+                    this.igniteForSeconds(8);
                 }
             }
         }
@@ -309,16 +312,16 @@ public class TCZombieCreeper extends AbstractTCCreeper {
                     int k1 = k + Mth.nextInt(this.random, 7, 40) * Mth.nextInt(this.random, -1, 1);
                     BlockPos blockpos = new BlockPos(i1, j1, k1);
                     EntityType<?> entitytype = zombie.getType();
-                    SpawnPlacements.Type spawnplacements$type = SpawnPlacements.getPlacementType(entitytype);
-                    if (NaturalSpawner.isSpawnPositionOk(spawnplacements$type, this.level(), blockpos, entitytype) && SpawnPlacements.checkSpawnRules(entitytype, serverLevel, MobSpawnType.REINFORCEMENT, blockpos, this.level().random)) {
+                    SpawnPlacementType spawnplacements$type = SpawnPlacements.getPlacementType(entitytype);
+                    if (SpawnPlacements.isSpawnPositionOk(entitytype, this.level(), blockpos) && SpawnPlacements.checkSpawnRules(entitytype, serverLevel, MobSpawnType.REINFORCEMENT, blockpos, this.level().random)) {
                         zombie.setPos(i1, j1, k1);
                         if (!this.level().hasNearbyAlivePlayer(i1, j1, k1, 7.0D) && this.level().isUnobstructed(zombie) && this.level().noCollision(zombie) && !this.level().containsAnyLiquid(zombie.getBoundingBox())) {
                             if (livingentity != null)
                                 zombie.setTarget(livingentity);
-                            zombie.finalizeSpawn(serverLevel, this.level().getCurrentDifficultyAt(zombie.blockPosition()), MobSpawnType.REINFORCEMENT, null, null);
+                            zombie.finalizeSpawn(serverLevel, this.level().getCurrentDifficultyAt(zombie.blockPosition()), MobSpawnType.REINFORCEMENT, null);
                             serverLevel.addFreshEntityWithPassengers(zombie);
-                            this.getAttribute(Attributes.SPAWN_REINFORCEMENTS_CHANCE).addPermanentModifier(new AttributeModifier("Zombie reinforcement caller charge", -0.05F, AttributeModifier.Operation.ADDITION));
-                            zombie.getAttribute(Attributes.SPAWN_REINFORCEMENTS_CHANCE).addPermanentModifier(new AttributeModifier("Zombie reinforcement callee charge", -0.05F, AttributeModifier.Operation.ADDITION));
+                            this.getAttribute(Attributes.SPAWN_REINFORCEMENTS_CHANCE).addPermanentModifier(new AttributeModifier("Zombie reinforcement caller charge", -0.05F, AttributeModifier.Operation.ADD_VALUE));
+                            zombie.getAttribute(Attributes.SPAWN_REINFORCEMENTS_CHANCE).addPermanentModifier(new AttributeModifier("Zombie reinforcement callee charge", -0.05F, AttributeModifier.Operation.ADD_VALUE));
                             break;
                         }
                     }
@@ -335,7 +338,7 @@ public class TCZombieCreeper extends AbstractTCCreeper {
         if (flag) {
             float f = this.level().getCurrentDifficultyAt(this.blockPosition()).getEffectiveDifficulty();
             if (this.getMainHandItem().isEmpty() && this.isOnFire() && this.random.nextFloat() < f * 0.3F) {
-                entity.setSecondsOnFire(2 * (int) f);
+                entity.igniteForSeconds(2 * (int) f);
             }
         }
 
@@ -364,11 +367,6 @@ public class TCZombieCreeper extends AbstractTCCreeper {
     @Override
     protected void playStepSound(BlockPos p_34316_, BlockState p_34317_) {
         this.playSound(this.getStepSound(), 0.15F, 1.0F);
-    }
-
-    @Override
-    public MobType getMobType() {
-        return MobType.UNDEAD;
     }
 
     @Override
@@ -416,10 +414,10 @@ public class TCZombieCreeper extends AbstractTCCreeper {
                 return flg;
             }
             TCZombieVillagerCreeper zombievillager = villager.convertTo((EntityType<TCZombieVillagerCreeper>) TCEntityCore.ZOMBIE_VILLAGER.entityType(), false);
-            zombievillager.finalizeSpawn(p_34281_, p_34281_.getCurrentDifficultyAt(zombievillager.blockPosition()), MobSpawnType.CONVERSION, new Zombie.ZombieGroupData(false, true), null);
+            zombievillager.finalizeSpawn(p_34281_, p_34281_.getCurrentDifficultyAt(zombievillager.blockPosition()), MobSpawnType.CONVERSION, new Zombie.ZombieGroupData(false, true));
             zombievillager.setVillagerData(villager.getVillagerData());
             zombievillager.setGossips(villager.getGossips().store(NbtOps.INSTANCE));
-            zombievillager.setTradeOffers(villager.getOffers().createTag());
+            zombievillager.setTradeOffers(villager.getOffers().copy());
             zombievillager.setVillagerXp(villager.getVillagerXp());
             net.minecraftforge.event.ForgeEventFactory.onLivingConvert(p_34282_, zombievillager);
             if (!this.isSilent()) {
@@ -428,11 +426,6 @@ public class TCZombieCreeper extends AbstractTCCreeper {
             flg = false;
         }
         return flg;
-    }
-
-    @Override
-    protected float getStandingEyeHeight(Pose p_34313_, EntityDimensions p_34314_) {
-        return this.isBaby() ? 0.93F : 1.74F;
     }
 
     @Override
@@ -447,8 +440,8 @@ public class TCZombieCreeper extends AbstractTCCreeper {
 
     @Override
     @Nullable
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_34297_, DifficultyInstance p_34298_, MobSpawnType p_34299_, @Nullable SpawnGroupData p_34300_, @Nullable CompoundTag p_34301_) {
-        p_34300_ = super.finalizeSpawn(p_34297_, p_34298_, p_34299_, p_34300_, p_34301_);
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_34297_, DifficultyInstance p_34298_, MobSpawnType p_34299_, @Nullable SpawnGroupData p_34300_) {
+        p_34300_ = super.finalizeSpawn(p_34297_, p_34298_, p_34299_, p_34300_);
         float f = p_34298_.getSpecialMultiplier();
         this.setCanPickUpLoot(this.random.nextFloat() < 0.55F * f);
         if (p_34300_ == null) {
@@ -469,7 +462,7 @@ public class TCZombieCreeper extends AbstractTCCreeper {
                     } else if ((double) p_34297_.getRandom().nextFloat() < 0.05D) {
                         Chicken chicken1 = EntityType.CHICKEN.create(this.level());
                         chicken1.moveTo(this.getX(), this.getY(), this.getZ(), this.getYRot(), 0.0F);
-                        chicken1.finalizeSpawn(p_34297_, p_34298_, MobSpawnType.JOCKEY, null, null);
+                        chicken1.finalizeSpawn(p_34297_, p_34298_, MobSpawnType.JOCKEY, null);
                         chicken1.setChickenJockey(true);
                         this.startRiding(chicken1);
                         p_34297_.addFreshEntity(chicken1);
@@ -498,28 +491,22 @@ public class TCZombieCreeper extends AbstractTCCreeper {
 
     protected void handleAttributes(float p_34340_) {
         this.randomizeReinforcementsChance();
-        this.getAttribute(Attributes.KNOCKBACK_RESISTANCE).addPermanentModifier(new AttributeModifier("Random spawn bonus", this.random.nextDouble() * (double) 0.05F, AttributeModifier.Operation.ADDITION));
+        this.getAttribute(Attributes.KNOCKBACK_RESISTANCE).addPermanentModifier(new AttributeModifier("Random spawn bonus", this.random.nextDouble() * (double) 0.05F, AttributeModifier.Operation.ADD_VALUE));
         double d0 = this.random.nextDouble() * 1.5D * (double) p_34340_;
         if (d0 > 1.0D) {
-            this.getAttribute(Attributes.FOLLOW_RANGE).addPermanentModifier(new AttributeModifier("Random zombie-spawn bonus", d0, AttributeModifier.Operation.MULTIPLY_TOTAL));
+            this.getAttribute(Attributes.FOLLOW_RANGE).addPermanentModifier(new AttributeModifier("Random zombie-spawn bonus", d0, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
         }
 
         if (this.random.nextFloat() < p_34340_ * 0.05F) {
-            this.getAttribute(Attributes.SPAWN_REINFORCEMENTS_CHANCE).addPermanentModifier(new AttributeModifier("Leader zombie bonus", this.random.nextDouble() * 0.25D + 0.5D, AttributeModifier.Operation.ADDITION));
-            this.getAttribute(Attributes.MAX_HEALTH).addPermanentModifier(new AttributeModifier("Leader zombie bonus", this.random.nextDouble() * 3.0D + 1.0D, AttributeModifier.Operation.MULTIPLY_TOTAL));
+            this.getAttribute(Attributes.SPAWN_REINFORCEMENTS_CHANCE).addPermanentModifier(new AttributeModifier("Leader zombie bonus", this.random.nextDouble() * 0.25D + 0.5D, AttributeModifier.Operation.ADD_VALUE));
+            this.getAttribute(Attributes.MAX_HEALTH).addPermanentModifier(new AttributeModifier("Leader zombie bonus", this.random.nextDouble() * 3.0D + 1.0D, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
             this.setCanBreakDoors(this.supportsBreakDoorGoal());
         }
 
     }
 
     protected void randomizeReinforcementsChance() {
-        this.getAttribute(Attributes.SPAWN_REINFORCEMENTS_CHANCE).setBaseValue(this.random.nextDouble() * net.minecraftforge.common.ForgeConfig.SERVER.zombieBaseSummonChance.get());
-    }
-
-
-    @Override
-    public float getMyRidingOffset(Entity riding) {
-        return this.isBaby() ? 0.0f : -0.45f;
+        this.getAttribute(Attributes.SPAWN_REINFORCEMENTS_CHANCE).setBaseValue(this.random.nextDouble() * 0.1F);
     }
 
     @Override

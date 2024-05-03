@@ -91,7 +91,7 @@ public class TCEvents {
             BlockPos pos = new BlockPos((int) event.getX(), (int) event.getY(), (int) event.getZ());
             TCPhantomCreeper creeper = (TCPhantomCreeper) TCEntityCore.PHANTOM.entityType().create(level);
             creeper.moveTo(pos, 0f, 0f);
-            creeper.finalizeSpawn(level, level.getCurrentDifficultyAt(pos), MobSpawnType.NATURAL, null, null);
+            creeper.finalizeSpawn(level, level.getCurrentDifficultyAt(pos), MobSpawnType.NATURAL, null);
             if (level.tryAddFreshEntityWithPassengers(creeper)) {
                 event.setResult(Event.Result.DENY);
             }
@@ -120,7 +120,7 @@ public class TCEvents {
         if (event.getDamageSource().is(DamageTypes.EXPLOSION) || event.getDamageSource().is(DamageTypes.PLAYER_EXPLOSION)) {
             ItemStack stack = event.getEntity().getUseItem();
             if (event.getEntity().isBlocking() && !stack.isEmpty() && !stack.is(TCItemCore.EXPLOSIVE_SHIELDS)) {
-                stack.hurt(10, event.getEntity().getRandom(), null);
+                stack.hurtAndBreak(10, event.getEntity(), null);
                 event.getEntity().stopUsingItem();
                 event.setCanceled(true);
             }

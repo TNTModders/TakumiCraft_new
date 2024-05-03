@@ -7,7 +7,8 @@
     "item": "minecraft:iron_shovel"
   },
   "result": {
-    "item": "takumicraft:minesweeper_shovel"
+    "count": 1,
+    "id": "takumicraft:minesweeper_shovel"
   },
   "template": [
     {

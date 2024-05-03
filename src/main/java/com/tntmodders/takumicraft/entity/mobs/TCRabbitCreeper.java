@@ -420,7 +420,7 @@ public class TCRabbitCreeper extends AbstractTCCreeper {
 
         @Override
         public boolean registerSpawn(SpawnPlacementRegisterEvent event, EntityType<AbstractTCCreeper> type) {
-            SpawnPlacements.register(type, SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, TCRabbitCreeper::checkRabbitSpawnRules);
+            event.register(type, SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, TCRabbitCreeper::checkRabbitSpawnRules, SpawnPlacementRegisterEvent.Operation.OR);
             return true;
         }
 

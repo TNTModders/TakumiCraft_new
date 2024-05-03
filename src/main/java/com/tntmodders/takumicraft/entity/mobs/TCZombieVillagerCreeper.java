@@ -6,6 +6,7 @@ import com.mojang.serialization.Dynamic;
 import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.client.renderer.entity.TCZombieVillagerCreeperRenderer;
 import com.tntmodders.takumicraft.core.TCEntityCore;
+import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.loot.EntityLootSubProvider;
@@ -77,8 +78,7 @@ public class TCZombieVillagerCreeper extends TCZombieCreeper implements Villager
     private UUID conversionStarter;
     @Nullable
     private Tag gossips;
-    @Nullable
-    private CompoundTag tradeOffers;
+    private MerchantOffers tradeOffers;
     private int villagerXp;
 
     public TCZombieVillagerCreeper(EntityType<? extends Creeper> entityType, Level level) {
@@ -92,10 +92,10 @@ public class TCZombieVillagerCreeper extends TCZombieCreeper implements Villager
     }
 
     @Override
-    protected void defineSynchedData() {
-        super.defineSynchedData();
-        this.entityData.define(DATA_CONVERTING_ID, false);
-        this.entityData.define(DATA_VILLAGER_DATA, new VillagerData(VillagerType.PLAINS, VillagerProfession.NONE, 1));
+    protected void defineSynchedData(SynchedEntityData.Builder p_335784_) {
+        super.defineSynchedData(p_335784_);
+        p_335784_.define(DATA_CONVERTING_ID, false);
+        p_335784_.define(DATA_VILLAGER_DATA, new VillagerData(VillagerType.PLAINS, VillagerProfession.NONE, 1));
     }
 
     @Override
@@ -103,7 +103,7 @@ public class TCZombieVillagerCreeper extends TCZombieCreeper implements Villager
         super.addAdditionalSaveData(p_34397_);
         VillagerData.CODEC.encodeStart(NbtOps.INSTANCE, this.getVillagerData()).resultOrPartial(LOGGER::error).ifPresent(p_34390_ -> p_34397_.put("VillagerData", p_34390_));
         if (this.tradeOffers != null) {
-            p_34397_.put("Offers", this.tradeOffers);
+            p_34397_.put("Offers", MerchantOffers.CODEC.encodeStart(this.registryAccess().createSerializationContext(NbtOps.INSTANCE), this.tradeOffers).getOrThrow());
         }
 
         if (this.gossips != null) {
@@ -127,7 +127,10 @@ public class TCZombieVillagerCreeper extends TCZombieCreeper implements Villager
         }
 
         if (p_34387_.contains("Offers", 10)) {
-            this.tradeOffers = p_34387_.getCompound("Offers");
+            MerchantOffers.CODEC
+                    .parse(this.registryAccess().createSerializationContext(NbtOps.INSTANCE), p_34387_.get("Offers"))
+                    .resultOrPartial(Util.prefix("Failed to load offers: ", LOGGER::warn))
+                    .ifPresent(p_327013_ -> this.tradeOffers = p_327013_);
         }
 
         if (p_34387_.contains("Gossips", 10)) {
@@ -237,11 +240,11 @@ public class TCZombieVillagerCreeper extends TCZombieCreeper implements Villager
         }
 
         if (this.tradeOffers != null) {
-            villager.setOffers(new MerchantOffers(this.tradeOffers));
+            villager.setOffers(this.tradeOffers.copy());
         }
 
         villager.setVillagerXp(this.villagerXp);
-        villager.finalizeSpawn(p_34399_, p_34399_.getCurrentDifficultyAt(villager.blockPosition()), MobSpawnType.CONVERSION, null, null);
+        villager.finalizeSpawn(p_34399_, p_34399_.getCurrentDifficultyAt(villager.blockPosition()), MobSpawnType.CONVERSION, null);
         if (this.conversionStarter != null) {
             Player player = p_34399_.getPlayerByUUID(this.conversionStarter);
             if (player instanceof ServerPlayer) {
@@ -312,8 +315,8 @@ public class TCZombieVillagerCreeper extends TCZombieCreeper implements Villager
         return ItemStack.EMPTY;
     }
 
-    public void setTradeOffers(CompoundTag p_34412_) {
-        this.tradeOffers = p_34412_;
+    public void setTradeOffers(MerchantOffers p_330397_) {
+        this.tradeOffers = p_330397_;
     }
 
     public void setGossips(Tag p_34392_) {
@@ -322,9 +325,9 @@ public class TCZombieVillagerCreeper extends TCZombieCreeper implements Villager
 
     @Override
     @Nullable
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_34378_, DifficultyInstance p_34379_, MobSpawnType p_34380_, @Nullable SpawnGroupData p_34381_, @Nullable CompoundTag p_34382_) {
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_34378_, DifficultyInstance p_34379_, MobSpawnType p_34380_, @Nullable SpawnGroupData p_34381_) {
         this.setVillagerData(this.getVillagerData().setType(VillagerType.byBiome(p_34378_.getBiome(this.blockPosition()))));
-        return super.finalizeSpawn(p_34378_, p_34379_, p_34380_, p_34381_, p_34382_);
+        return super.finalizeSpawn(p_34378_, p_34379_, p_34380_, p_34381_);
     }
 
     @Override

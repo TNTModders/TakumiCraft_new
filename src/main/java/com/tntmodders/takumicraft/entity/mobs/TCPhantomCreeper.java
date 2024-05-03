@@ -129,9 +129,9 @@ public class TCPhantomCreeper extends AbstractTCCreeper {
     }
 
     @Override
-    protected void defineSynchedData() {
-        super.defineSynchedData();
-        this.entityData.define(ID_SIZE, 0);
+    protected void defineSynchedData(SynchedEntityData.Builder p_331815_) {
+        super.defineSynchedData(p_331815_);
+        p_331815_.define(ID_SIZE, 0);
     }
 
     private void updatePhantomSizeInfo() {
@@ -145,11 +145,6 @@ public class TCPhantomCreeper extends AbstractTCCreeper {
 
     public void setPhantomSize(int p_33109_) {
         this.entityData.set(ID_SIZE, Mth.clamp(p_33109_, 0, 64));
-    }
-
-    @Override
-    protected float getStandingEyeHeight(Pose p_33136_, EntityDimensions p_33137_) {
-        return p_33137_.height * 0.35F;
     }
 
     @Override
@@ -168,7 +163,7 @@ public class TCPhantomCreeper extends AbstractTCCreeper {
     @Override
     public void aiStep() {
         if (this.isAlive() && this.isSunBurnTick()) {
-            this.setSecondsOnFire(8);
+            this.igniteForSeconds(8);
         }
 
         super.aiStep();
@@ -180,10 +175,10 @@ public class TCPhantomCreeper extends AbstractTCCreeper {
     }
 
     @Override
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_33126_, DifficultyInstance p_33127_, MobSpawnType p_33128_, @Nullable SpawnGroupData p_33129_, @Nullable CompoundTag p_33130_) {
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_33126_, DifficultyInstance p_33127_, MobSpawnType p_33128_, @Nullable SpawnGroupData p_33129_) {
         this.anchorPoint = this.blockPosition().above(5);
         this.setPhantomSize(0);
-        return super.finalizeSpawn(p_33126_, p_33127_, p_33128_, p_33129_, p_33130_);
+        return super.finalizeSpawn(p_33126_, p_33127_, p_33128_, p_33129_);
     }
 
     @Override
@@ -226,21 +221,15 @@ public class TCPhantomCreeper extends AbstractTCCreeper {
     }
 
     @Override
-    public MobType getMobType() {
-        return MobType.UNDEAD;
-    }
-
-    @Override
     public boolean canAttackType(EntityType<?> p_33111_) {
         return true;
     }
 
     @Override
-    public EntityDimensions getDimensions(Pose p_33113_) {
+    public EntityDimensions getDefaultDimensions(Pose p_333771_) {
         int i = this.getPhantomSize();
-        EntityDimensions entitydimensions = super.getDimensions(p_33113_);
-        float f = (entitydimensions.width + 0.2F * (float) i) / entitydimensions.width;
-        return entitydimensions.scale(f);
+        EntityDimensions entitydimensions = super.getDefaultDimensions(p_333771_);
+        return entitydimensions.scale(1.0F + 0.15F * (float) i);
     }
 
     @Override
@@ -259,7 +248,7 @@ public class TCPhantomCreeper extends AbstractTCCreeper {
                 && !this.hasEffect(MobEffects.MOVEMENT_SPEED) && this.level() instanceof ServerLevel) {
             TCZombieCreeper creeper = (TCZombieCreeper) TCEntityCore.ZOMBIE.entityType().create(this.level());
             creeper.copyPosition(this);
-            creeper.finalizeSpawn((ServerLevel) this.level(), this.level().getCurrentDifficultyAt(this.blockPosition()), MobSpawnType.MOB_SUMMONED, null, null);
+            creeper.finalizeSpawn((ServerLevel) this.level(), this.level().getCurrentDifficultyAt(this.blockPosition()), MobSpawnType.MOB_SUMMONED, null);
             creeper.setItemSlot(EquipmentSlot.CHEST, new ItemStack(Items.ELYTRA));
             ((ServerLevel) this.level()).addFreshEntityWithPassengers(creeper);
             this.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 60));

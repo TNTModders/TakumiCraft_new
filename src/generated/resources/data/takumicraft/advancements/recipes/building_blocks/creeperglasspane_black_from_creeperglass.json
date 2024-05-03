@@ -5,9 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "takumicraft:creeperglass_black"
-            ]
+            "items": "takumicraft:creeperglass_black"
           }
         ]
       },
@@ -17,9 +15,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "takumicraft:creeperglasspane_black"
-            ]
+            "items": "takumicraft:creeperglasspane_black"
           }
         ]
       },

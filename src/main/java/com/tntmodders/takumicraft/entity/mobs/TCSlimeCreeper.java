@@ -14,7 +14,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
@@ -25,7 +25,6 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
-import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.MoveControl;
 import net.minecraft.world.entity.ai.goal.Goal;
@@ -105,9 +104,9 @@ public class TCSlimeCreeper extends AbstractTCCreeper {
     }
 
     @Override
-    protected void defineSynchedData() {
-        super.defineSynchedData();
-        this.entityData.define(ID_SIZE, 1);
+    protected void defineSynchedData(SynchedEntityData.Builder p_330760_) {
+        super.defineSynchedData(p_330760_);
+        p_330760_.define(ID_SIZE, 1);
     }
 
     protected void setSize(int p_33594_, boolean p_33595_) {
@@ -316,11 +315,6 @@ public class TCSlimeCreeper extends AbstractTCCreeper {
 
     }
 
-    @Override
-    protected float getStandingEyeHeight(Pose p_33614_, EntityDimensions p_33615_) {
-        return 0.625F * p_33615_.height;
-    }
-
     protected boolean isDealsDamage() {
         return !this.isTiny() && this.isEffectiveAi();
     }
@@ -344,7 +338,7 @@ public class TCSlimeCreeper extends AbstractTCCreeper {
     }
 
     @Override
-    protected ResourceLocation getDefaultLootTable() {
+    protected ResourceKey<LootTable> getDefaultLootTable() {
         return this.getSize() == 1 ? this.getType().getDefaultLootTable() : BuiltInLootTables.EMPTY;
     }
 
@@ -371,7 +365,7 @@ public class TCSlimeCreeper extends AbstractTCCreeper {
 
     @Override
     @Nullable
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_33601_, DifficultyInstance p_33602_, MobSpawnType p_33603_, @Nullable SpawnGroupData p_33604_, @Nullable CompoundTag p_33605_) {
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_33601_, DifficultyInstance p_33602_, MobSpawnType p_33603_, @Nullable SpawnGroupData p_33604_) {
         int i = this.random.nextInt(4);
         if (i < 2 && this.random.nextFloat() < 0.5F * p_33602_.getSpecialMultiplier()) {
             ++i;
@@ -379,7 +373,7 @@ public class TCSlimeCreeper extends AbstractTCCreeper {
 
         int j = 1 << i;
         this.setSize(j, true);
-        return super.finalizeSpawn(p_33601_, p_33602_, p_33603_, p_33604_, p_33605_);
+        return super.finalizeSpawn(p_33601_, p_33602_, p_33603_, p_33604_);
     }
 
     float getSoundPitch() {
@@ -392,8 +386,8 @@ public class TCSlimeCreeper extends AbstractTCCreeper {
     }
 
     @Override
-    public EntityDimensions getDimensions(Pose p_33597_) {
-        return super.getDimensions(p_33597_).scale(0.255F * (float) this.getSize());
+    protected EntityDimensions getDefaultDimensions(Pose p_334284_) {
+        return super.getDefaultDimensions(p_334284_).scale(0.255F * (float) this.getSize());
     }
 
     protected boolean spawnCustomParticles() {
@@ -660,11 +654,6 @@ public class TCSlimeCreeper extends AbstractTCCreeper {
         }
 
         @Override
-        public AttributeSupplier.Builder entityAttribute() {
-            return Creeper.createAttributes();
-        }
-
-        @Override
         public void registerRenderer(EntityRenderersEvent.RegisterRenderers event, EntityType<?> type) {
             event.registerEntityRenderer((EntityType<TCSlimeCreeper>) type, TCSlimeCreeperRenderer::new);
         }
@@ -681,7 +670,7 @@ public class TCSlimeCreeper extends AbstractTCCreeper {
 
         @Override
         public boolean registerSpawn(SpawnPlacementRegisterEvent event, EntityType<AbstractTCCreeper> type) {
-            SpawnPlacements.register(type, SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, TCSlimeCreeper::checkSlimeSpawnRules);
+            event.register(type, SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, TCSlimeCreeper::checkSlimeSpawnRules, SpawnPlacementRegisterEvent.Operation.OR);
             return true;
         }
 

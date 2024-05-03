@@ -5,9 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "takumicraft:creeperbed_red"
-            ]
+            "items": "takumicraft:creeperbed_red"
           }
         ]
       },
@@ -17,9 +15,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "takumicraft:creeperplanks"
-            ]
+            "items": "takumicraft:creeperplanks"
           }
         ]
       },

@@ -26,7 +26,7 @@ public class TCSquidCreeperRenderer<T extends TCSquidCreeper> extends MobRendere
     }
 
     @Override
-    protected void setupRotations(T p_116035_, PoseStack p_116036_, float p_116037_, float p_116038_, float p_116039_) {
+    protected void setupRotations(T p_116035_, PoseStack p_116036_, float p_116037_, float p_116038_, float p_116039_, float p_334101_) {
         float f = Mth.lerp(p_116039_, p_116035_.xBodyRotO, p_116035_.xBodyRot);
         float f1 = Mth.lerp(p_116039_, p_116035_.zBodyRotO, p_116035_.zBodyRot);
         p_116036_.translate(0.0F, 0.5F, 0.0F);

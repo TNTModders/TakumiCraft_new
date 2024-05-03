@@ -5,9 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "takumicraft:creepershield"
-            ]
+            "items": "takumicraft:creepershield"
           }
         ]
       },
@@ -19,8 +17,8 @@
       "translate": "advancement.takumicraft.creepershield.desc"
     },
     "icon": {
-      "item": "takumicraft:creepershield",
-      "nbt": "{Damage:0}"
+      "count": 1,
+      "id": "takumicraft:creepershield"
     },
     "title": {
       "translate": "advancement.takumicraft.creepershield.title"

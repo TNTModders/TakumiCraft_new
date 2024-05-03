@@ -67,9 +67,9 @@ public class TCGlowingSquidCreeper extends TCSquidCreeper {
     }
 
     @Override
-    protected void defineSynchedData() {
-        super.defineSynchedData();
-        this.entityData.define(DATA_DARK_TICKS_REMAINING, 0);
+    protected void defineSynchedData(SynchedEntityData.Builder p_332968_) {
+        super.defineSynchedData(p_332968_);
+        p_332968_.define(DATA_DARK_TICKS_REMAINING, 0);
     }
 
     @Override
@@ -199,7 +199,7 @@ public class TCGlowingSquidCreeper extends TCSquidCreeper {
 
         @Override
         public boolean registerSpawn(SpawnPlacementRegisterEvent event, EntityType<AbstractTCCreeper> type) {
-            SpawnPlacements.register(type, SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, TCGlowingSquidCreeper::checkGlowSquidSpawnRules);
+            event.register(type, SpawnPlacementTypes.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, TCGlowingSquidCreeper::checkGlowSquidSpawnRules, SpawnPlacementRegisterEvent.Operation.OR);
             return true;
         }
 

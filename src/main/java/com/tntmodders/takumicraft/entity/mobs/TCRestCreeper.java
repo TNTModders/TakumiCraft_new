@@ -4,7 +4,6 @@ import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.core.TCEntityCore;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -48,7 +47,7 @@ public class TCRestCreeper extends AbstractTCCreeper {
                                 this.level().setBlock(target, Blocks.GRAY_BED.defaultBlockState().setValue(BedBlock.FACING, direction), 3);
                                 this.level().setBlock(target.relative(direction), Blocks.GRAY_BED.defaultBlockState().setValue(BedBlock.PART, BedPart.HEAD).setValue(BedBlock.FACING, direction), 3);
                                 player.teleportTo(target.getX() + 0.5, target.getY() + 1, target.getZ() + 0.5);
-                                InteractionResult result = this.level().getBlockState(target).use(this.level(), player, InteractionHand.MAIN_HAND, new BlockHitResult(Vec3.atCenterOf(target), direction, target, true));
+                                InteractionResult result = this.level().getBlockState(target).useWithoutItem(this.level(), player, new BlockHitResult(Vec3.atCenterOf(target), direction, target, true));
                                 flg = false;
                                 break;
                             }

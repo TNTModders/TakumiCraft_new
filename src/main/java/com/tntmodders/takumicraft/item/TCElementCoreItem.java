@@ -11,8 +11,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.level.Level;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
@@ -42,8 +40,8 @@ public class TCElementCoreItem extends Item implements ITCItems, ITCTranslator {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> components, TooltipFlag tooltipFlag) {
-        super.appendHoverText(stack, level, components, tooltipFlag);
+    public void appendHoverText(ItemStack p_41421_, TooltipContext p_333372_, List<Component> components, TooltipFlag p_41424_) {
+        super.appendHoverText(p_41421_, p_333372_, components, p_41424_);
         components.add(Component.translatable("item.takumicraft.elementcore.desc"));
     }
 

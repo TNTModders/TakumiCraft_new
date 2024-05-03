@@ -12,7 +12,6 @@ import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -23,7 +22,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
@@ -34,7 +32,7 @@ public class TCAltarBlock extends AbstractTCAntiExplosionBlock implements ITCRec
     }
 
     @Override
-    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult result) {
+    protected InteractionResult useWithoutItem(BlockState p_60503_, Level level, BlockPos pos, Player p_60506_, BlockHitResult p_60508_) {
         if (!level.isClientSide()) {
             if (level.getBlockState(pos.below()).is(TCBlockCore.CREEPER_BOMB)) {
 
@@ -46,7 +44,7 @@ public class TCAltarBlock extends AbstractTCAntiExplosionBlock implements ITCRec
                 }
             }
         }
-        return super.use(state, level, pos, player, hand, result);
+        return super.useWithoutItem(p_60503_, level, pos, p_60506_, p_60508_);
     }
 
     private boolean summonHigh(Level level, BlockPos pos) {
@@ -94,9 +92,10 @@ public class TCAltarBlock extends AbstractTCAntiExplosionBlock implements ITCRec
     @Override
     public TCBlockItem getCustomBlockItem(Block block) {
         return new TCBlockItem(block) {
+
             @Override
-            public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> components, TooltipFlag tooltipFlag) {
-                super.appendHoverText(stack, level, components, tooltipFlag);
+            public void appendHoverText(ItemStack p_40572_, TooltipContext p_327780_, List<Component> components, TooltipFlag p_40575_) {
+                super.appendHoverText(p_40572_, p_327780_, components, p_40575_);
                 components.add(Component.translatable("item.takumicraft.creeperaltar.desc.1"));
                 components.add(Component.translatable("item.takumicraft.creeperaltar.desc.2"));
             }

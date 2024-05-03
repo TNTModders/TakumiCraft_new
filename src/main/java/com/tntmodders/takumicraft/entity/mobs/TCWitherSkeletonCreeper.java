@@ -5,7 +5,6 @@ import com.tntmodders.takumicraft.client.renderer.entity.TCWitherSkeletonCreeper
 import com.tntmodders.takumicraft.core.TCEnchantmentCore;
 import com.tntmodders.takumicraft.core.TCEntityCore;
 import com.tntmodders.takumicraft.core.TCItemCore;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.TagKey;
@@ -107,21 +106,11 @@ public class TCWitherSkeletonCreeper extends AbstractTCSkeletonCreeper {
 
     @Override
     @Nullable
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_34178_, DifficultyInstance p_34179_, MobSpawnType p_34180_, @Nullable SpawnGroupData p_34181_, @Nullable CompoundTag p_34182_) {
-        SpawnGroupData spawngroupdata = super.finalizeSpawn(p_34178_, p_34179_, p_34180_, p_34181_, p_34182_);
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_34178_, DifficultyInstance p_34179_, MobSpawnType p_34180_, @Nullable SpawnGroupData p_34181_) {
+        SpawnGroupData spawngroupdata = super.finalizeSpawn(p_34178_, p_34179_, p_34180_, p_34181_);
         this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(4.0D);
         this.reassessWeaponGoal();
         return spawngroupdata;
-    }
-
-    @Override
-    protected float getStandingEyeHeight(Pose p_34186_, EntityDimensions p_34187_) {
-        return 2.1F;
-    }
-
-    @Override
-    protected float ridingOffset(Entity p_300720_) {
-        return -0.875F;
     }
 
     @Override
@@ -140,7 +129,7 @@ public class TCWitherSkeletonCreeper extends AbstractTCSkeletonCreeper {
     @Override
     protected AbstractArrow getArrow(ItemStack p_34189_, float p_34190_) {
         AbstractArrow abstractarrow = super.getArrow(p_34189_, p_34190_);
-        abstractarrow.setSecondsOnFire(100);
+        abstractarrow.igniteForSeconds(100);
         return abstractarrow;
     }
 

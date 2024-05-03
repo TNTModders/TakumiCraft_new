@@ -20,11 +20,10 @@ import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
-import net.minecraft.world.level.pathfinder.BlockPathTypes;
+import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
-import org.joml.Vector3f;
 
 public class TCBirdCreeper extends AbstractTCCreeper {
 
@@ -37,7 +36,7 @@ public class TCBirdCreeper extends AbstractTCCreeper {
 
     public TCBirdCreeper(EntityType<? extends Creeper> entityType, Level level) {
         super(entityType, level);
-        this.setPathfindingMalus(BlockPathTypes.WATER, 0.0F);
+        this.setPathfindingMalus(PathType.WATER, 0.0F);
     }
 
     @Override
@@ -48,11 +47,6 @@ public class TCBirdCreeper extends AbstractTCCreeper {
         this.goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 1.0D));
         this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 6.0F));
         this.goalSelector.addGoal(7, new RandomLookAroundGoal(this));
-    }
-
-    @Override
-    protected float getStandingEyeHeight(Pose p_28251_, EntityDimensions p_28252_) {
-        return this.isBaby() ? p_28252_.height * 0.85F : p_28252_.height * 0.92F;
     }
 
     @Override
@@ -113,8 +107,8 @@ public class TCBirdCreeper extends AbstractTCCreeper {
     }
 
     @Override
-    protected Vector3f getPassengerAttachmentPoint(Entity p_298807_, EntityDimensions p_298266_, float p_300701_) {
-        return new Vector3f(0.0F, p_298266_.height, -0.1F * p_300701_);
+    protected Vec3 getPassengerAttachmentPoint(Entity p_298807_, EntityDimensions p_298266_, float p_300701_) {
+        return new Vec3(0.0F, p_298266_.height(), -0.1F * p_300701_);
     }
 
     @Override
@@ -213,7 +207,7 @@ public class TCBirdCreeper extends AbstractTCCreeper {
 
         @Override
         public boolean registerSpawn(SpawnPlacementRegisterEvent event, EntityType<AbstractTCCreeper> type) {
-            SpawnPlacements.register(type, SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AbstractTCCreeper::checkAnimalSpawnRules);
+            event.register(type, SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AbstractTCCreeper::checkAnimalSpawnRules, SpawnPlacementRegisterEvent.Operation.OR);
             return true;
         }
 

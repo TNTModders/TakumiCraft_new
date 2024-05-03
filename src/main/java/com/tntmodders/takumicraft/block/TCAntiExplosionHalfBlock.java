@@ -119,11 +119,12 @@ public class TCAntiExplosionHalfBlock extends Block implements ITCBlocks, ITCRec
         return super.updateShape(p_56381_, p_56382_, p_56383_, p_56384_, p_56385_, p_56386_);
     }
 
+
     @Override
-    public boolean isPathfindable(BlockState p_56376_, BlockGetter p_56377_, BlockPos p_56378_, PathComputationType p_56379_) {
-        return switch (p_56379_) {
+    protected boolean isPathfindable(BlockState p_60475_, PathComputationType p_60478_) {
+        return switch (p_60478_) {
             case LAND, AIR -> false;
-            case WATER -> p_56377_.getFluidState(p_56378_).is(FluidTags.WATER);
+            case WATER -> p_60475_.getFluidState().is(FluidTags.WATER);
         };
     }
 

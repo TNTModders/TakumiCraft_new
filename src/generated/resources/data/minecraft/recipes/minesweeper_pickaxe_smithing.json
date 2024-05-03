@@ -7,7 +7,8 @@
     "item": "minecraft:iron_pickaxe"
   },
   "result": {
-    "item": "takumicraft:minesweeper_pickaxe"
+    "count": 1,
+    "id": "takumicraft:minesweeper_pickaxe"
   },
   "template": [
     {

@@ -33,3 +33,4 @@ old
 forge*changelog.txt
 mcmodsrepo
 /src/generated/resources/.cache/
+/run-data/

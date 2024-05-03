@@ -40,7 +40,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
-import org.joml.Vector3f;
 
 import javax.annotation.Nullable;
 import java.util.Objects;
@@ -121,9 +120,9 @@ public class TCSheepCreeper extends AbstractTCCreeper {
     }
 
     @Override
-    protected void defineSynchedData() {
-        super.defineSynchedData();
-        this.entityData.define(DATA_WOOL_ID, (byte) 0);
+    protected void defineSynchedData(SynchedEntityData.Builder p_330760_) {
+        super.defineSynchedData(p_330760_);
+        p_330760_.define(DATA_WOOL_ID, (byte) 0);
     }
 
     @Override
@@ -197,24 +196,14 @@ public class TCSheepCreeper extends AbstractTCCreeper {
     }
 
     @Override
-    protected float getStandingEyeHeight(Pose p_29850_, EntityDimensions p_29851_) {
-        return 0.95F * p_29851_.height;
-    }
-
-    @Override
-    protected Vector3f getPassengerAttachmentPoint(Entity p_297780_, EntityDimensions p_298437_, float p_300315_) {
-        return new Vector3f(0.0F, p_298437_.height - 0.0625F * p_300315_, 0.0F);
-    }
-
-    @Override
     @Nullable
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_29835_, DifficultyInstance p_29836_, MobSpawnType p_29837_, @Nullable SpawnGroupData p_29838_, @Nullable CompoundTag p_29839_) {
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_29835_, DifficultyInstance p_29836_, MobSpawnType p_29837_, @Nullable SpawnGroupData p_29838_) {
         this.setColor(getRandomSheepColor(p_29835_.getRandom()));
         if (this.random.nextInt(10000) == 0) {
             this.setCustomName(Component.literal(RAINBOW_NAME));
             this.setPowered(true);
         }
-        return super.finalizeSpawn(p_29835_, p_29836_, p_29837_, p_29838_, p_29839_);
+        return super.finalizeSpawn(p_29835_, p_29836_, p_29837_, p_29838_);
     }
 
     @Override
@@ -326,7 +315,7 @@ public class TCSheepCreeper extends AbstractTCCreeper {
 
         @Override
         public boolean registerSpawn(SpawnPlacementRegisterEvent event, EntityType<AbstractTCCreeper> type) {
-            SpawnPlacements.register(type, SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AbstractTCCreeper::checkAnimalSpawnRules);
+            event.register(type, SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AbstractTCCreeper::checkAnimalSpawnRules, SpawnPlacementRegisterEvent.Operation.OR);
             return true;
         }
 

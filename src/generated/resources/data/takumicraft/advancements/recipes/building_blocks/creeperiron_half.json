@@ -5,9 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "takumicraft:creeperiron"
-            ]
+            "items": "takumicraft:creeperiron"
           }
         ]
       },
@@ -17,9 +15,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "takumicraft:creeperiron_half"
-            ]
+            "items": "takumicraft:creeperiron_half"
           }
         ]
       },

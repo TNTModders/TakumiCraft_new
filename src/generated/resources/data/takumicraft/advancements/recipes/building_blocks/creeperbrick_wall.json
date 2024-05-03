@@ -5,9 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "takumicraft:creeperbrick"
-            ]
+            "items": "takumicraft:creeperbrick"
           }
         ]
       },
@@ -17,9 +15,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "takumicraft:creeperbrick_wall"
-            ]
+            "items": "takumicraft:creeperbrick_wall"
           }
         ]
       },

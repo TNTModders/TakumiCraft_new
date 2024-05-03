@@ -24,6 +24,7 @@ import net.minecraft.client.player.inventory.Hotbar;
 import net.minecraft.client.searchtree.SearchTree;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
@@ -32,6 +33,7 @@ import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
+import net.minecraft.util.Unit;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
@@ -168,11 +170,11 @@ public class TCTakumiBookOutlineScreen extends EffectRenderingInventoryScreen<TC
         List<CreativeModeTab> currentPage = new java.util.ArrayList<>();
         currentPage.add(CreativeModeTabs.searchTab());
         this.pages.add(new net.minecraftforge.client.gui.CreativeTabsScreenPage(currentPage));
-        this.currentPage = this.pages.get(0);
+        this.currentPage = this.pages.getFirst();
 
         this.currentPage = this.pages.stream().filter(page -> page.getVisibleTabs().contains(selectedTab)).findFirst().orElse(this.currentPage);
         if (!this.currentPage.getVisibleTabs().contains(selectedTab)) {
-            selectedTab = this.currentPage.getVisibleTabs().get(0);
+            selectedTab = this.currentPage.getVisibleTabs().getFirst();
         }
         this.searchBox = new EditBox(this.font, this.leftPos + 82, this.topPos + 6, 80, 9,
                 Component.translatable("itemGroup.search"));
@@ -376,17 +378,17 @@ public class TCTakumiBookOutlineScreen extends EffectRenderingInventoryScreen<TC
                     for (int j = 0; j < 9; ++j) {
                         if (j == i) {
                             ItemStack itemstack = new ItemStack(Items.PAPER);
-                            itemstack.getOrCreateTagElement("CustomCreativeLock");
+                            itemstack.set(DataComponents.CREATIVE_SLOT_LOCK, Unit.INSTANCE);
                             Component component = this.minecraft.options.keyHotbarSlots[i].getTranslatedKeyMessage();
                             Component component1 = this.minecraft.options.keySaveHotbarActivator.getTranslatedKeyMessage();
-                            itemstack.setHoverName(Component.translatable("inventory.hotbarInfo", component1, component));
+                            itemstack.set(DataComponents.ITEM_NAME, Component.translatable("inventory.hotbarInfo", component1, component));
                             this.menu.items.add(itemstack);
                         } else {
                             this.menu.items.add(ItemStack.EMPTY);
                         }
                     }
                 } else {
-                    this.menu.items.addAll(hotbar);
+                    this.menu.items.addAll(hotbar.load(this.minecraft.level.registryAccess()));
                 }
             }
         } else if (selectedTab.getType() == CreativeModeTab.Type.CATEGORY) {
@@ -632,11 +634,9 @@ public class TCTakumiBookOutlineScreen extends EffectRenderingInventoryScreen<TC
         @Override
         public boolean mayPickup(Player p_98638_) {
             ItemStack itemstack = this.getItem();
-            if (super.mayPickup(p_98638_) && !itemstack.isEmpty()) {
-                return itemstack.isItemEnabled(p_98638_.level().enabledFeatures()) && itemstack.getTagElement("CustomCreativeLock") == null;
-            } else {
-                return itemstack.isEmpty();
-            }
+            return super.mayPickup(p_98638_) && !itemstack.isEmpty()
+                    ? itemstack.isItemEnabled(p_98638_.level().enabledFeatures()) && !itemstack.has(DataComponents.CREATIVE_SLOT_LOCK)
+                    : itemstack.isEmpty();
         }
     }
 

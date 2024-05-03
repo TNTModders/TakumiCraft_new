@@ -11,18 +11,18 @@ import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.SmithingTransformRecipeBuilder;
 import net.minecraft.network.chat.Component;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
 public class TCCreeperSwordItem extends SwordItem implements ITCItems, ITCTranslator, ITCRecipe {
     public TCCreeperSwordItem() {
-        super(Tiers.IRON, 3, -2.4f, new Item.Properties());
+        super(Tiers.IRON, new Item.Properties().attributes(SwordItem.createAttributes(Tiers.IRON, 3, -2.4f)));
     }
 
     @Override
@@ -34,8 +34,8 @@ public class TCCreeperSwordItem extends SwordItem implements ITCItems, ITCTransl
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> components, TooltipFlag tooltipFlag) {
-        super.appendHoverText(stack, level, components, tooltipFlag);
+    public void appendHoverText(ItemStack p_41421_, TooltipContext p_333372_, List<Component> components, TooltipFlag p_41424_) {
+        super.appendHoverText(p_41421_, p_333372_, components, p_41424_);
         components.add(Component.translatable("item.takumicraft.creepersword.desc"));
     }
 
@@ -66,5 +66,10 @@ public class TCCreeperSwordItem extends SwordItem implements ITCItems, ITCTransl
                         Ingredient.of(Items.IRON_SWORD), Ingredient.of(TCBlockCore.CREEPER_BOMB)
                         , RecipeCategory.COMBAT, TCItemCore.CREEPER_SWORD).unlocks("has_creeperbomb", TCRecipeProvider.hasItem(TCBlockCore.CREEPER_BOMB))
                 .save(consumer, "creepersword_smithing");
+    }
+
+    @Override
+    public List<TagKey<Item>> getItemTags() {
+        return List.of(TCItemCore.ANTI_POWERED);
     }
 }

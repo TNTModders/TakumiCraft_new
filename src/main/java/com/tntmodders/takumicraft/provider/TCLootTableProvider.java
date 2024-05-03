@@ -3,24 +3,25 @@ package com.tntmodders.takumicraft.provider;
 import com.tntmodders.takumicraft.core.TCBlockCore;
 import com.tntmodders.takumicraft.core.TCEntityCore;
 import com.tntmodders.takumicraft.utils.TCLoggingUtils;
+import net.minecraft.core.Registry;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.data.loot.LootTableSubProvider;
 import net.minecraft.data.loot.packs.VanillaLootTableProvider;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.ProblemReporter;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.ValidationContext;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.CompletableFuture;
 import java.util.function.Supplier;
 
 public class TCLootTableProvider extends LootTableProvider {
-    public TCLootTableProvider(PackOutput packOutput) {
-        super(packOutput, Set.of(), VanillaLootTableProvider.create(packOutput).getTables());
+    public TCLootTableProvider(PackOutput packOutput, CompletableFuture lookup) {
+        super(packOutput, Set.of(), VanillaLootTableProvider.create(packOutput, lookup).getTables(), lookup);
     }
 
     @Override
@@ -48,6 +49,6 @@ public class TCLootTableProvider extends LootTableProvider {
     }
 
     @Override
-    protected void validate(Map<ResourceLocation, LootTable> map, ValidationContext validationtracker) {
+    protected void validate(Registry<LootTable> map, ValidationContext validationcontext, ProblemReporter report) {
     }
 }

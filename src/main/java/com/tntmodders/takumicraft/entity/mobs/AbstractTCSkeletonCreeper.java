@@ -85,11 +85,6 @@ public abstract class AbstractTCSkeletonCreeper extends AbstractTCCreeper implem
     protected abstract SoundEvent getStepSound();
 
     @Override
-    public MobType getMobType() {
-        return MobType.UNDEAD;
-    }
-
-    @Override
     public void aiStep() {
         boolean flag = this.isSunBurnTick();
         if (flag) {
@@ -107,7 +102,7 @@ public abstract class AbstractTCSkeletonCreeper extends AbstractTCCreeper implem
             }
 
             if (flag) {
-                this.setSecondsOnFire(8);
+                this.igniteForSeconds(8);
             }
         }
 
@@ -132,8 +127,8 @@ public abstract class AbstractTCSkeletonCreeper extends AbstractTCCreeper implem
 
     @Override
     @Nullable
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_32146_, DifficultyInstance p_32147_, MobSpawnType p_32148_, @Nullable SpawnGroupData p_32149_, @Nullable CompoundTag p_32150_) {
-        p_32149_ = super.finalizeSpawn(p_32146_, p_32147_, p_32148_, p_32149_, p_32150_);
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_32146_, DifficultyInstance p_32147_, MobSpawnType p_32148_, @Nullable SpawnGroupData p_32149_) {
+        p_32149_ = super.finalizeSpawn(p_32146_, p_32147_, p_32148_, p_32149_);
         RandomSource randomsource = p_32146_.getRandom();
         this.populateDefaultEquipmentSlots(randomsource, p_32147_);
         this.populateDefaultEquipmentEnchantments(randomsource, p_32147_);
@@ -224,7 +219,7 @@ public abstract class AbstractTCSkeletonCreeper extends AbstractTCCreeper implem
         abstractarrow.setEnchantmentEffectsFromEntity(this, p_33847_);
         if (abstractarrow instanceof TCCreeperArrow creeperArrow) {
             if (p_33846_.is(TCItemCore.TIPPED_CREEPER_ARROW)) {
-                creeperArrow.setEffectsFromItem(p_33846_);
+                //creeperArrow.setEffectsFromItem(p_33846_);
             }
             creeperArrow.setDest(true);
             if (this.isPowered()) {
@@ -232,16 +227,6 @@ public abstract class AbstractTCSkeletonCreeper extends AbstractTCCreeper implem
             }
         }
         return abstractarrow;
-    }
-
-    @Override
-    protected float getStandingEyeHeight(Pose p_32154_, EntityDimensions p_32155_) {
-        return 1.74F;
-    }
-
-    @Override
-    protected float ridingOffset(Entity p_297913_) {
-        return -0.7F;
     }
 
     public boolean isShaking() {

@@ -2,17 +2,16 @@ package com.tntmodders.takumicraft.item.crafting;
 
 import com.tntmodders.takumicraft.core.TCItemCore;
 import com.tntmodders.takumicraft.core.TCRecipeSerializerCore;
-import net.minecraft.core.RegistryAccess;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.BannerItem;
-import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.entity.BannerPatternLayers;
 
 public class CreeperShieldDecorationRecipe extends CustomRecipe {
     public CreeperShieldDecorationRecipe(CraftingBookCategory p_251065_) {
@@ -42,7 +41,8 @@ public class CreeperShieldDecorationRecipe extends CustomRecipe {
                         return false;
                     }
 
-                    if (BlockItem.getBlockEntityData(itemstack2) != null) {
+                    BannerPatternLayers bannerpatternlayers = itemstack2.getOrDefault(DataComponents.BANNER_PATTERNS, BannerPatternLayers.EMPTY);
+                    if (!bannerpatternlayers.layers().isEmpty()) {
                         return false;
                     }
 
@@ -55,7 +55,7 @@ public class CreeperShieldDecorationRecipe extends CustomRecipe {
     }
 
     @Override
-    public ItemStack assemble(CraftingContainer p_44306_, RegistryAccess p_267112_) {
+    public ItemStack assemble(CraftingContainer p_44306_, HolderLookup.Provider p_332698_) {
         ItemStack itemstack = ItemStack.EMPTY;
         ItemStack itemstack1 = ItemStack.EMPTY;
 
@@ -71,10 +71,8 @@ public class CreeperShieldDecorationRecipe extends CustomRecipe {
         }
 
         if (!itemstack1.isEmpty()) {
-            CompoundTag compoundtag = BlockItem.getBlockEntityData(itemstack);
-            CompoundTag compoundtag1 = compoundtag == null ? new CompoundTag() : compoundtag.copy();
-            compoundtag1.putInt("Base", ((BannerItem) itemstack.getItem()).getColor().getId());
-            BlockItem.setBlockEntityData(itemstack1, BlockEntityType.BANNER, compoundtag1);
+            itemstack1.set(DataComponents.BANNER_PATTERNS, itemstack.get(DataComponents.BANNER_PATTERNS));
+            itemstack1.set(DataComponents.BASE_COLOR, ((BannerItem) itemstack.getItem()).getColor());
         }
         return itemstack1;
     }

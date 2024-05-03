@@ -8,6 +8,7 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.damagesource.DamageSource;
@@ -23,7 +24,6 @@ import net.minecraft.world.entity.animal.horse.Llama;
 import net.minecraft.world.entity.monster.AbstractSkeleton;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
@@ -32,12 +32,11 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.levelgen.Heightmap;
-import net.minecraft.world.level.pathfinder.BlockPathTypes;
+import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
 import net.minecraftforge.event.level.ExplosionEvent;
-import org.joml.Vector3f;
 
 import java.util.function.Predicate;
 
@@ -55,8 +54,8 @@ public class TCWolfCreeper extends AbstractTCCreeper {
 
     public TCWolfCreeper(EntityType<? extends Creeper> entityType, Level level) {
         super(entityType, level);
-        this.setPathfindingMalus(BlockPathTypes.POWDER_SNOW, -1.0F);
-        this.setPathfindingMalus(BlockPathTypes.DANGER_POWDER_SNOW, -1.0F);
+        this.setPathfindingMalus(PathType.POWDER_SNOW, -1.0F);
+        this.setPathfindingMalus(PathType.DANGER_POWDER_SNOW, -1.0F);
     }
 
     public static boolean checkWolfSpawnRules(EntityType<? extends AbstractTCCreeper> p_218292_, LevelAccessor p_218293_, MobSpawnType p_218294_, BlockPos p_218295_, RandomSource p_218296_) {
@@ -198,11 +197,6 @@ public class TCWolfCreeper extends AbstractTCCreeper {
     }
 
     @Override
-    protected float getStandingEyeHeight(Pose p_30409_, EntityDimensions p_30410_) {
-        return p_30410_.height * 0.8F;
-    }
-
-    @Override
     public boolean doHurtTarget(Entity p_30372_) {
         boolean flag = p_30372_.hurt(this.damageSources().mobAttack(this), (float) (int) this.getAttributeValue(Attributes.ATTACK_DAMAGE));
         if (flag) {
@@ -231,8 +225,7 @@ public class TCWolfCreeper extends AbstractTCCreeper {
     }
 
     public boolean isFood(ItemStack p_30440_) {
-        Item item = p_30440_.getItem();
-        return item.isEdible() && p_30440_.getFoodProperties(this).isMeat();
+        return p_30440_.is(ItemTags.WOLF_FOOD);
     }
 
     @Override
@@ -243,11 +236,6 @@ public class TCWolfCreeper extends AbstractTCCreeper {
     @Override
     public Vec3 getLeashOffset() {
         return new Vec3(0.0D, 0.6F * this.getEyeHeight(), this.getBbWidth() * 0.4F);
-    }
-
-    @Override
-    protected Vector3f getPassengerAttachmentPoint(Entity p_299035_, EntityDimensions p_300829_, float p_299151_) {
-        return new Vector3f(0.0F, p_300829_.height - 0.03125F * p_299151_, -0.0625F * p_299151_);
     }
 
     @Override
@@ -337,7 +325,7 @@ public class TCWolfCreeper extends AbstractTCCreeper {
 
         @Override
         public boolean registerSpawn(SpawnPlacementRegisterEvent event, EntityType<AbstractTCCreeper> type) {
-            SpawnPlacements.register(type, SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, TCWolfCreeper::checkWolfSpawnRules);
+            event.register(type, SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, TCWolfCreeper::checkWolfSpawnRules, SpawnPlacementRegisterEvent.Operation.OR);
             return true;
         }
 

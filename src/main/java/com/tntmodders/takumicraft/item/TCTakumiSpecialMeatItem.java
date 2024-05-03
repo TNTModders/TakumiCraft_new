@@ -3,13 +3,15 @@ package com.tntmodders.takumicraft.item;
 import com.tntmodders.takumicraft.core.TCItemCore;
 import com.tntmodders.takumicraft.provider.ITCItems;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.food.FoodProperties;
-import net.minecraft.world.item.*;
-import net.minecraft.world.level.Level;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraftforge.registries.ForgeRegistries;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
@@ -22,7 +24,7 @@ public class TCTakumiSpecialMeatItem extends Item implements ITCItems {
     public static final NonNullList<TCTakumiSpecialMeatItem> MEAT_LIST = NonNullList.create();
 
     public TCTakumiSpecialMeatItem(Item item, Item rawItem, boolean isFish) {
-        super(new Properties().food(new FoodProperties.Builder().nutrition(item.getFoodProperties().getNutrition() * 3).saturationMod(item.getFoodProperties().getSaturationModifier() * 3).meat().fast().build()));
+        super(new Properties().food(new FoodProperties.Builder().nutrition(item.components().get(DataComponents.FOOD).nutrition() * 3).saturationModifier(item.components().get(DataComponents.FOOD).saturation() * 3).fast().build()));
         this.base = item;
         this.rawBase = rawItem;
         this.isFish = isFish;
@@ -78,18 +80,13 @@ public class TCTakumiSpecialMeatItem extends Item implements ITCItems {
     }
 
     @Override
-    public Rarity getRarity(ItemStack p_41461_) {
-        return Rarity.EPIC;
-    }
-
-    @Override
     public boolean isFoil(ItemStack p_41453_) {
         return true;
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> components, TooltipFlag tooltipFlag) {
-        super.appendHoverText(stack, level, components, tooltipFlag);
+    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> components, TooltipFlag tooltipFlag) {
+        super.appendHoverText(stack, context, components, tooltipFlag);
         components.add(Component.translatable("item.takumicraft.takumispecialmeat_cooked_beef").append(":").append(Component.translatable(this.base.getDescriptionId())));
     }
 }

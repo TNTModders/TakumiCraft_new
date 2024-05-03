@@ -5,9 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "takumicraft:creeperbomb"
-            ]
+            "items": "takumicraft:creeperbomb"
           }
         ]
       },
@@ -19,7 +17,8 @@
       "translate": "advancement.takumicraft.creeperbomb.desc"
     },
     "icon": {
-      "item": "takumicraft:creeperbomb"
+      "count": 1,
+      "id": "takumicraft:creeperbomb"
     },
     "title": {
       "translate": "advancement.takumicraft.creeperbomb.title"

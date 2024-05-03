@@ -19,13 +19,12 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
 public class TCMinesweeperPickaxeItem extends PickaxeItem implements ITCItems, ITCTranslator, ITCRecipe {
     public TCMinesweeperPickaxeItem() {
-        super(Tiers.IRON, 1, -2.8F, new Item.Properties());
+        super(Tiers.IRON, new Item.Properties().attributes(PickaxeItem.createAttributes(Tiers.IRON, 1, -2.8f)));
     }
 
     @Override
@@ -42,8 +41,8 @@ public class TCMinesweeperPickaxeItem extends PickaxeItem implements ITCItems, I
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> components, TooltipFlag tooltipFlag) {
-        super.appendHoverText(stack, level, components, tooltipFlag);
+    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> components, TooltipFlag tooltipFlag) {
+        super.appendHoverText(stack, context, components, tooltipFlag);
         components.add(Component.translatable("item.takumicraft.minesweeper_tool.desc"));
     }
 

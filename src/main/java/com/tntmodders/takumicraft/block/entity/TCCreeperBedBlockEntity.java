@@ -3,6 +3,7 @@ package com.tntmodders.takumicraft.block.entity;
 import com.tntmodders.takumicraft.core.TCBlockCore;
 import com.tntmodders.takumicraft.core.TCBlockEntityCore;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.resources.ResourceLocation;
@@ -41,8 +42,8 @@ public class TCCreeperBedBlockEntity extends BlockEntity {
     }
 
     @Override
-    public CompoundTag getUpdateTag() {
-        CompoundTag tag = this.saveWithoutMetadata();
+    public CompoundTag getUpdateTag(HolderLookup.Provider compoundTag) {
+        CompoundTag tag = this.saveWithoutMetadata(compoundTag);
         return tag;
     }
 
@@ -87,16 +88,16 @@ public class TCCreeperBedBlockEntity extends BlockEntity {
     }
 
     @Override
-    public void load(CompoundTag tag) {
-        super.load(tag);
+    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider provider) {
+        super.loadAdditional(tag, provider);
         if (tag.contains("namespace") && tag.contains("path")) {
             this.setTexture(new ResourceLocation(tag.getString("namespace"), tag.getString("path")));
         }
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag) {
-        super.saveAdditional(tag);
+    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider provider) {
+        super.saveAdditional(tag, provider);
         if (this.textureNamespace != null && !this.textureNamespace.isEmpty()) {
             tag.putString("namespace", this.textureNamespace);
         }

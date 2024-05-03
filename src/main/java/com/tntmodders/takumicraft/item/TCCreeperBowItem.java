@@ -23,7 +23,6 @@ import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.function.Predicate;
@@ -42,21 +41,21 @@ public class TCCreeperBowItem extends BowItem implements ITCItems, ITCTranslator
             abstractarrow.setCritArrow(true);
         }
 
-        int j = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.POWER_ARROWS, bow);
+        int j = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.POWER, bow);
         if (j > 0) {
             abstractarrow.setBaseDamage(abstractarrow.getBaseDamage() + (double) j * 0.5D + 0.5D);
         }
 
-        int k = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.PUNCH_ARROWS, bow);
+        int k = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.PUNCH, bow);
         if (k > 0) {
             abstractarrow.setKnockback(k);
         }
 
-        if (EnchantmentHelper.getItemEnchantmentLevel(Enchantments.FLAMING_ARROWS, bow) > 0) {
-            abstractarrow.setSecondsOnFire(100);
+        if (EnchantmentHelper.getItemEnchantmentLevel(Enchantments.FLAME, bow) > 0) {
+            abstractarrow.igniteForSeconds(100);
         }
 
-        bow.hurtAndBreak(1, player, p_296888_ -> p_296888_.broadcastBreakEvent(player.getUsedItemHand()));
+        bow.hurtAndBreak(1, player, player.getUseItem().getEquipmentSlot());
         abstractarrow.pickup = AbstractArrow.Pickup.DISALLOWED;
 
         level.addFreshEntity(abstractarrow);
@@ -65,7 +64,7 @@ public class TCCreeperBowItem extends BowItem implements ITCItems, ITCTranslator
     @Override
     public void releaseUsing(ItemStack stack, Level level, LivingEntity livingEntity, int p_40670_) {
         if (livingEntity instanceof Player player) {
-            boolean flag = player.getAbilities().instabuild || EnchantmentHelper.getItemEnchantmentLevel(Enchantments.INFINITY_ARROWS, stack) > 0;
+            boolean flag = player.getAbilities().instabuild || EnchantmentHelper.getItemEnchantmentLevel(Enchantments.INFINITY, stack) > 0;
             ItemStack itemstack = this.getProjectile(player, stack, CREEPER_ARROW_ONLY);
             if (!flag && (itemstack.isEmpty() || !(itemstack.getItem() instanceof TCCreeperArrowItem))) {
                 this.releaseUsingNormal(stack, level, livingEntity, p_40670_);
@@ -106,7 +105,7 @@ public class TCCreeperBowItem extends BowItem implements ITCItems, ITCTranslator
 
     private void releaseUsingNormal(ItemStack p_40667_, Level p_40668_, LivingEntity p_40669_, int p_40670_) {
         if (p_40669_ instanceof Player player) {
-            boolean flag = player.getAbilities().instabuild || EnchantmentHelper.getItemEnchantmentLevel(Enchantments.INFINITY_ARROWS, p_40667_) > 0;
+            boolean flag = player.getAbilities().instabuild || EnchantmentHelper.getItemEnchantmentLevel(Enchantments.INFINITY, p_40667_) > 0;
             ItemStack itemstack = this.getProjectile(player, p_40667_, super.getAllSupportedProjectiles());
 
             int i = this.getUseDuration(p_40667_) - p_40670_;
@@ -169,8 +168,8 @@ public class TCCreeperBowItem extends BowItem implements ITCItems, ITCTranslator
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> components, TooltipFlag tooltipFlag) {
-        super.appendHoverText(stack, level, components, tooltipFlag);
+    public void appendHoverText(ItemStack p_41421_, TooltipContext p_333372_, List<Component> components, TooltipFlag p_41424_) {
+        super.appendHoverText(p_41421_, p_333372_, components, p_41424_);
         components.add(Component.translatable("item.takumicraft.creeperbow.desc"));
     }
 

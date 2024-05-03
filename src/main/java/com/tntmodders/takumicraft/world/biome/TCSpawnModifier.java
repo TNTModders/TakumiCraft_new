@@ -1,6 +1,6 @@
 package com.tntmodders.takumicraft.world.biome;
 
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.tntmodders.takumicraft.core.TCBiomeModifierCore;
 import com.tntmodders.takumicraft.core.TCEntityCore;
 import net.minecraft.core.Holder;
@@ -24,7 +24,7 @@ public class TCSpawnModifier implements BiomeModifier {
     }
 
     @Override
-    public Codec<? extends BiomeModifier> codec() {
+    public MapCodec<? extends BiomeModifier> codec() {
         return TCBiomeModifierCore.TC_SPAWN_MODIFIER_TYPE.get();
     }
 }

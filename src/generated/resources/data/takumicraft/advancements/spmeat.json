@@ -4,9 +4,7 @@
     "takumispecialmeat_cooked_beef": {
       "conditions": {
         "item": {
-          "items": [
-            "takumicraft:takumispecialmeat_cooked_beef"
-          ]
+          "items": "takumicraft:takumispecialmeat_cooked_beef"
         }
       },
       "trigger": "minecraft:consume_item"
@@ -14,9 +12,7 @@
     "takumispecialmeat_cooked_chicken": {
       "conditions": {
         "item": {
-          "items": [
-            "takumicraft:takumispecialmeat_cooked_chicken"
-          ]
+          "items": "takumicraft:takumispecialmeat_cooked_chicken"
         }
       },
       "trigger": "minecraft:consume_item"
@@ -24,9 +20,7 @@
     "takumispecialmeat_cooked_cod": {
       "conditions": {
         "item": {
-          "items": [
-            "takumicraft:takumispecialmeat_cooked_cod"
-          ]
+          "items": "takumicraft:takumispecialmeat_cooked_cod"
         }
       },
       "trigger": "minecraft:consume_item"
@@ -34,9 +28,7 @@
     "takumispecialmeat_cooked_mutton": {
       "conditions": {
         "item": {
-          "items": [
-            "takumicraft:takumispecialmeat_cooked_mutton"
-          ]
+          "items": "takumicraft:takumispecialmeat_cooked_mutton"
         }
       },
       "trigger": "minecraft:consume_item"
@@ -44,9 +36,7 @@
     "takumispecialmeat_cooked_porkchop": {
       "conditions": {
         "item": {
-          "items": [
-            "takumicraft:takumispecialmeat_cooked_porkchop"
-          ]
+          "items": "takumicraft:takumispecialmeat_cooked_porkchop"
         }
       },
       "trigger": "minecraft:consume_item"
@@ -54,9 +44,7 @@
     "takumispecialmeat_cooked_rabbit": {
       "conditions": {
         "item": {
-          "items": [
-            "takumicraft:takumispecialmeat_cooked_rabbit"
-          ]
+          "items": "takumicraft:takumispecialmeat_cooked_rabbit"
         }
       },
       "trigger": "minecraft:consume_item"
@@ -64,9 +52,7 @@
     "takumispecialmeat_cooked_salmon": {
       "conditions": {
         "item": {
-          "items": [
-            "takumicraft:takumispecialmeat_cooked_salmon"
-          ]
+          "items": "takumicraft:takumispecialmeat_cooked_salmon"
         }
       },
       "trigger": "minecraft:consume_item"
@@ -74,9 +60,7 @@
     "takumispecialmeat_rotten_flesh": {
       "conditions": {
         "item": {
-          "items": [
-            "takumicraft:takumispecialmeat_rotten_flesh"
-          ]
+          "items": "takumicraft:takumispecialmeat_rotten_flesh"
         }
       },
       "trigger": "minecraft:consume_item"
@@ -87,7 +71,8 @@
       "translate": "advancement.takumicraft.spmeat.desc"
     },
     "icon": {
-      "item": "takumicraft:takumispecialmeat_cooked_beef"
+      "count": 1,
+      "id": "takumicraft:takumispecialmeat_cooked_beef"
     },
     "title": {
       "translate": "advancement.takumicraft.spmeat.title"

@@ -6,9 +6,9 @@ import com.tntmodders.takumicraft.core.TCEntityCore;
 import com.tntmodders.takumicraft.core.TCItemCore;
 import com.tntmodders.takumicraft.utils.TCBlockUtils;
 import com.tntmodders.takumicraft.utils.TCEntityUtils;
+import it.unimi.dsi.fastutil.ints.IntList;
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.TagParser;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
@@ -16,6 +16,8 @@ import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.projectile.FireworkRocketEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.component.FireworkExplosion;
+import net.minecraft.world.item.component.Fireworks;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
@@ -24,11 +26,13 @@ import net.minecraft.world.level.block.entity.ChestBlockEntity;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
+import net.minecraft.world.level.storage.loot.functions.SetComponentsFunction;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
-import net.minecraft.world.level.storage.loot.functions.SetNbtFunction;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import net.minecraftforge.event.level.ExplosionEvent;
+
+import java.util.List;
 
 public class TCFireworksCreeper extends AbstractTCCreeper {
 
@@ -37,12 +41,8 @@ public class TCFireworksCreeper extends AbstractTCCreeper {
         this.explosionRadius = 4;
     }
 
-    public static CompoundTag getFireworks() {
-        try {
-            return TagParser.parseTag("{Fireworks:{Flight:1,Explosions:[{Type:3,Flicker:1,Trail:1,Colors:[I;65280],FadeColors:[I;65280]}]}}");
-        } catch (Exception ignored) {
-        }
-        return CompoundTag.builder().build();
+    public static Fireworks getFireworks() {
+        return new Fireworks(1, List.of(new FireworkExplosion(FireworkExplosion.Shape.CREEPER, IntList.of(65280), IntList.of(65280), true, true)));
     }
 
     @Override
@@ -56,7 +56,7 @@ public class TCFireworksCreeper extends AbstractTCCreeper {
     public void explodeCreeper() {
         super.explodeCreeper();
         ItemStack stack = new ItemStack(Items.FIREWORK_ROCKET);
-        stack.setTag(getFireworks());
+        stack.set(DataComponents.FIREWORKS, getFireworks());
         for (int i = 0; i < 5 * (this.isPowered() ? 2 : 1); i++) {
             FireworkRocketEntity entity = new FireworkRocketEntity(this.level(), this.getRandomX(5), this.getRandomY(), this.getRandomZ(5), stack);
             this.level().addFreshEntity(entity);
@@ -101,7 +101,7 @@ public class TCFireworksCreeper extends AbstractTCCreeper {
                             ItemLike[] item = {Items.DIAMOND, Items.GUNPOWDER, TCBlockCore.SUPER_CREEPER_BED, Items.EMERALD, TCItemCore.CREEPER_ARROW, TCItemCore.CREEPER_SHIELD, TCItemCore.CREEPER_SWORD, Items.ELYTRA, Items.NETHERITE_INGOT, TCBlockCore.CREEPER_BOMB, TCBlockCore.TAKUMI_ALTAR};
                             for (int p = 0; p <= point; p++) {
                                 ItemLike returner = item[entity.level().getRandom().nextInt(item.length)];
-                                int max = returner == Items.NETHERITE_INGOT || returner == TCBlockCore.TAKUMI_ALTAR ? 1 : returner.asItem().getMaxStackSize(new ItemStack(returner));
+                                int max = returner == Items.NETHERITE_INGOT || returner == TCBlockCore.TAKUMI_ALTAR ? 1 : returner.asItem().getDefaultMaxStackSize();
                                 ItemStack stack = new ItemStack(returner, entity.level().getRandom().nextInt(max / 4 + 1) + 1);
                                 stack.inventoryTick(entity.level(), entity, 0, false);
                                 chest.setItem(p, stack);
@@ -167,7 +167,7 @@ public class TCFireworksCreeper extends AbstractTCCreeper {
                     ItemLike[] item = {Items.DIAMOND, Items.GUNPOWDER, TCBlockCore.SUPER_CREEPER_BED, Items.EMERALD, TCItemCore.CREEPER_ARROW, TCItemCore.CREEPER_SHIELD, TCItemCore.CREEPER_SWORD, Items.ELYTRA, Items.NETHERITE_INGOT, TCBlockCore.CREEPER_BOMB, TCBlockCore.TAKUMI_ALTAR};
                     for (int p = 0; p <= point; p++) {
                         ItemLike returner = item[entity.level().getRandom().nextInt(item.length)];
-                        int max = returner == Items.NETHERITE_INGOT || returner == TCBlockCore.TAKUMI_ALTAR ? 1 : returner.asItem().getMaxStackSize(new ItemStack(returner));
+                        int max = returner == Items.NETHERITE_INGOT || returner == TCBlockCore.TAKUMI_ALTAR ? 1 : returner.asItem().getDefaultMaxStackSize();
                         ItemStack stack = new ItemStack(returner, entity.level().getRandom().nextInt(max / 4 + 1) + 1);
                         stack.inventoryTick(entity.level(), entity, 0, false);
                         chest.setItem(p, stack);
@@ -239,7 +239,7 @@ public class TCFireworksCreeper extends AbstractTCCreeper {
 
         @Override
         public LootTable.Builder additionalBuilder(LootTable.Builder lootTable) {
-            return TCCreeperContext.super.additionalBuilder(lootTable).withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F)).add(LootItem.lootTableItem(Items.FIREWORK_ROCKET).apply(SetNbtFunction.setTag(TCFireworksCreeper.getFireworks())))).apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 1)));
+            return TCCreeperContext.super.additionalBuilder(lootTable).withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F)).add(LootItem.lootTableItem(Items.FIREWORK_ROCKET).apply(SetComponentsFunction.setComponent(DataComponents.FIREWORKS, getFireworks())).apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 1)))));
         }
     }
 }

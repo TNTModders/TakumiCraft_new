@@ -5,9 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "takumicraft:creeperbrick_half"
-            ]
+            "items": "takumicraft:creeperbrick_half"
           }
         ]
       },

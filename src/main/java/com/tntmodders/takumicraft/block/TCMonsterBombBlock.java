@@ -103,8 +103,8 @@ public class TCMonsterBombBlock extends AbstractTCBombBlock implements EntityBlo
             }
 
             @Override
-            public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> components, TooltipFlag tooltipFlag) {
-                super.appendHoverText(stack, level, components, tooltipFlag);
+            public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> components, TooltipFlag tooltipFlag) {
+                super.appendHoverText(stack, context, components, tooltipFlag);
                 components.add(Component.translatable("item.takumicraft.monsterbomb_yukari.desc"));
             }
         };

@@ -5,9 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "takumicraft:takumialtar"
-            ]
+            "items": "takumicraft:takumialtar"
           }
         ]
       },
@@ -19,7 +17,8 @@
       "translate": "advancement.takumicraft.takumialtar.desc"
     },
     "icon": {
-      "item": "takumicraft:takumialtar"
+      "count": 1,
+      "id": "takumicraft:takumialtar"
     },
     "title": {
       "translate": "advancement.takumicraft.takumialtar.title"

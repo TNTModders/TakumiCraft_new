@@ -5,9 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "takumicraft:creeperbomb"
-            ]
+            "items": "takumicraft:creeperbomb"
           }
         ]
       },
@@ -17,9 +15,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "minecraft:creeper_head"
-            ]
+            "items": "minecraft:creeper_head"
           }
         ]
       },

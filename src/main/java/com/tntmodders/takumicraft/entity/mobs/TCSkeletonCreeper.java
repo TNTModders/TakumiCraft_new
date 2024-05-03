@@ -32,9 +32,9 @@ public class TCSkeletonCreeper extends AbstractTCSkeletonCreeper {
     }
 
     @Override
-    protected void defineSynchedData() {
-        super.defineSynchedData();
-        this.getEntityData().define(DATA_STRAY_CONVERSION_ID, false);
+    protected void defineSynchedData(SynchedEntityData.Builder p_330760_) {
+        super.defineSynchedData(p_330760_);
+        p_330760_.define(DATA_STRAY_CONVERSION_ID, false);
     }
 
     public boolean isFreezeConverting() {

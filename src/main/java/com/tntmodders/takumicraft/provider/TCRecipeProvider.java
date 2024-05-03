@@ -5,6 +5,7 @@ import com.tntmodders.takumicraft.core.TCItemCore;
 import com.tntmodders.takumicraft.utils.TCLoggingUtils;
 import net.minecraft.advancements.Criterion;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
 import net.minecraft.tags.TagKey;
@@ -12,11 +13,13 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
 
+import java.util.concurrent.CompletableFuture;
+
 import static net.minecraft.data.recipes.RecipeBuilder.getDefaultRecipeId;
 
 public class TCRecipeProvider extends RecipeProvider {
-    public TCRecipeProvider(PackOutput output) {
-        super(output);
+    public TCRecipeProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookup) {
+        super(output, lookup);
     }
 
     public static Criterion<InventoryChangeTrigger.TriggerInstance> hasItem(ItemLike itemLike) {

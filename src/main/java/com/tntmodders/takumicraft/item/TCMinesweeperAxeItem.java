@@ -19,13 +19,12 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
 public class TCMinesweeperAxeItem extends AxeItem implements ITCItems, ITCTranslator, ITCRecipe {
     public TCMinesweeperAxeItem() {
-        super(Tiers.IRON, 6.0F, -3.1F, new Item.Properties());
+        super(Tiers.IRON, new Item.Properties().attributes(AxeItem.createAttributes(Tiers.IRON, 6f, -3.1f)));
     }
 
     @Override
@@ -42,8 +41,8 @@ public class TCMinesweeperAxeItem extends AxeItem implements ITCItems, ITCTransl
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> components, TooltipFlag tooltipFlag) {
-        super.appendHoverText(stack, level, components, tooltipFlag);
+    public void appendHoverText(ItemStack p_41421_, TooltipContext p_333372_, List<Component> components, TooltipFlag p_41424_) {
+        super.appendHoverText(p_41421_, p_333372_, components, p_41424_);
         components.add(Component.translatable("item.takumicraft.minesweeper_tool.desc"));
     }
 

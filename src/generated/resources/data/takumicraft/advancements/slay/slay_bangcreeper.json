@@ -22,7 +22,8 @@
     },
     "hidden": true,
     "icon": {
-      "item": "takumicraft:takumibook"
+      "count": 1,
+      "id": "takumicraft:takumibook"
     },
     "title": {
       "translate": "entity.takumicraft.bangcreeper"

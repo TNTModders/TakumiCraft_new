@@ -4,7 +4,7 @@ import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.client.renderer.entity.TCSpiderCreeperRenderer;
 import com.tntmodders.takumicraft.core.TCEntityCore;
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.core.Holder;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -38,7 +38,6 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.client.event.EntityRenderersEvent;
-import org.joml.Vector3f;
 
 import javax.annotation.Nullable;
 
@@ -66,19 +65,14 @@ public class TCSpiderCreeper extends AbstractTCCreeper {
     }
 
     @Override
-    protected Vector3f getPassengerAttachmentPoint(Entity p_300920_, EntityDimensions p_300182_, float p_299859_) {
-        return new Vector3f(0.0F, p_300182_.height * 0.85F, 0.0F);
-    }
-
-    @Override
     protected PathNavigation createNavigation(Level p_33802_) {
         return new WallClimberNavigation(this, p_33802_);
     }
 
     @Override
-    protected void defineSynchedData() {
-        super.defineSynchedData();
-        this.entityData.define(DATA_FLAGS_ID, (byte) 0);
+    protected void defineSynchedData(SynchedEntityData.Builder p_334759_) {
+        super.defineSynchedData(p_334759_);
+        p_334759_.define(DATA_FLAGS_ID, (byte) 0);
     }
 
     @Override
@@ -135,11 +129,6 @@ public class TCSpiderCreeper extends AbstractTCCreeper {
     }
 
     @Override
-    public MobType getMobType() {
-        return MobType.ARTHROPOD;
-    }
-
-    @Override
     public boolean canBeAffected(MobEffectInstance p_33809_) {
         if (p_33809_.getEffect() == MobEffects.POISON) {
             net.minecraftforge.event.entity.living.MobEffectEvent.Applicable event = new net.minecraftforge.event.entity.living.MobEffectEvent.Applicable(this, p_33809_);
@@ -166,14 +155,14 @@ public class TCSpiderCreeper extends AbstractTCCreeper {
 
     @Override
     @Nullable
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_33790_, DifficultyInstance p_33791_, MobSpawnType p_33792_, @Nullable SpawnGroupData p_33793_, @Nullable CompoundTag p_33794_) {
-        p_33793_ = super.finalizeSpawn(p_33790_, p_33791_, p_33792_, p_33793_, p_33794_);
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_33790_, DifficultyInstance p_33791_, MobSpawnType p_33792_, @Nullable SpawnGroupData p_33793_) {
+        p_33793_ = super.finalizeSpawn(p_33790_, p_33791_, p_33792_, p_33793_);
         RandomSource randomsource = p_33790_.getRandom();
         if (this.getContext() == TCEntityCore.SPIDER && randomsource.nextInt(100) == 0) {
             var entity = TCEntityCore.SKELETON.entityType().create(this.level());
             if (entity instanceof TCSkeletonCreeper skeleton) {
                 skeleton.moveTo(this.getX(), this.getY(), this.getZ(), this.getYRot(), 0.0F);
-                skeleton.finalizeSpawn(p_33790_, p_33791_, p_33792_, null, null);
+                skeleton.finalizeSpawn(p_33790_, p_33791_, p_33792_, null);
                 skeleton.startRiding(this);
             }
         }
@@ -186,23 +175,13 @@ public class TCSpiderCreeper extends AbstractTCCreeper {
         }
 
         if (p_33793_ instanceof TCSpiderCreeper.SpiderEffectsGroupData spider$spidereffectsgroupdata) {
-            MobEffect mobeffect = spider$spidereffectsgroupdata.effect;
-            if (mobeffect != null) {
-                this.addEffect(new MobEffectInstance(mobeffect, -1));
+            Holder<MobEffect> holder = spider$spidereffectsgroupdata.effect;
+            if (holder != null) {
+                this.addEffect(new MobEffectInstance(holder, -1));
             }
         }
 
         return p_33793_;
-    }
-
-    @Override
-    protected float getStandingEyeHeight(Pose p_33799_, EntityDimensions p_33800_) {
-        return 0.65F;
-    }
-
-    @Override
-    protected float ridingOffset(Entity p_297592_) {
-        return p_297592_.getBbWidth() <= this.getBbWidth() ? -0.3125F : 0.0F;
     }
 
     static class SpiderAttackGoal extends MeleeAttackGoal {
@@ -229,20 +208,19 @@ public class TCSpiderCreeper extends AbstractTCCreeper {
 
     public static class SpiderEffectsGroupData implements SpawnGroupData {
         @Nullable
-        public MobEffect effect;
+        public Holder<MobEffect> effect;
 
         public void setRandomEffect(RandomSource p_219119_) {
             int i = p_219119_.nextInt(5);
             if (i <= 1) {
                 this.effect = MobEffects.MOVEMENT_SPEED;
-            } else if (i == 2) {
+            } else if (i <= 2) {
                 this.effect = MobEffects.DAMAGE_BOOST;
-            } else if (i == 3) {
+            } else if (i <= 3) {
                 this.effect = MobEffects.REGENERATION;
-            } else if (i == 4) {
+            } else if (i <= 4) {
                 this.effect = MobEffects.INVISIBILITY;
             }
-
         }
     }
 

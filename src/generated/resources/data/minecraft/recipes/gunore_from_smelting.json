@@ -6,5 +6,7 @@
   "ingredient": {
     "item": "takumicraft:gunore"
   },
-  "result": "minecraft:gunpowder"
+  "result": {
+    "id": "minecraft:gunpowder"
+  }
 }

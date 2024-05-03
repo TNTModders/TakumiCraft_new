@@ -56,7 +56,7 @@ public class TCArrowCreeper extends AbstractTCCreeper {
             arrow.setCritArrow(true);
             arrow.setKnockback(10);
             if (this.isPowered()) {
-                arrow.setSecondsOnFire(100);
+                arrow.igniteForSeconds(100);
             }
             arrow.pickup = AbstractArrow.Pickup.DISALLOWED;
             arrow.setDeltaMovement(x * (0.5 + this.getRandom().nextGaussian() * 3), -7, z * (0.5 + this.getRandom().nextGaussian() * 3));

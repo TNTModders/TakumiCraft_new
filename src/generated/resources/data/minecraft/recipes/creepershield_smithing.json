@@ -7,7 +7,8 @@
     "item": "minecraft:shield"
   },
   "result": {
-    "item": "takumicraft:creepershield"
+    "count": 1,
+    "id": "takumicraft:creepershield"
   },
   "template": [
     {

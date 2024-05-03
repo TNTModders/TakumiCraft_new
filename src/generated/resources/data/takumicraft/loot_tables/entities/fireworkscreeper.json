@@ -1,16 +1,5 @@
 {
   "type": "minecraft:entity",
-  "functions": [
-    {
-      "add": false,
-      "count": {
-        "type": "minecraft:uniform",
-        "max": 1.0,
-        "min": 1.0
-      },
-      "function": "minecraft:set_count"
-    }
-  ],
   "pools": [
     {
       "bonus_rolls": 0.0,
@@ -117,8 +106,34 @@
           "type": "minecraft:item",
           "functions": [
             {
-              "function": "minecraft:set_nbt",
-              "tag": "{Fireworks:{Explosions:[{Colors:[I;65280],FadeColors:[I;65280],Flicker:1,Trail:1,Type:3}],Flight:1}}"
+              "components": {
+                "minecraft:fireworks": {
+                  "explosions": [
+                    {
+                      "colors": [
+                        65280
+                      ],
+                      "fade_colors": [
+                        65280
+                      ],
+                      "has_trail": true,
+                      "has_twinkle": true,
+                      "shape": "creeper"
+                    }
+                  ],
+                  "flight_duration": 1
+                }
+              },
+              "function": "minecraft:set_components"
+            },
+            {
+              "add": false,
+              "count": {
+                "type": "minecraft:uniform",
+                "max": 1.0,
+                "min": 1.0
+              },
+              "function": "minecraft:set_count"
             }
           ],
           "name": "minecraft:firework_rocket"

@@ -14,12 +14,10 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.ItemLike;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.MapColor;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.function.Supplier;
@@ -35,9 +33,10 @@ public class TCCreeperBombBlock extends AbstractTCBombBlock implements ITCRecipe
     @Override
     public TCBlockItem getCustomBlockItem(Block block) {
         return new TCBlockItem(block) {
+
             @Override
-            public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> components, TooltipFlag tooltipFlag) {
-                super.appendHoverText(stack, level, components, tooltipFlag);
+            public void appendHoverText(ItemStack p_40572_, TooltipContext p_327780_, List<Component> components, TooltipFlag p_40575_) {
+                super.appendHoverText(p_40572_, p_327780_, components, p_40575_);
                 components.add(Component.translatable("item.takumicraft.creeperbomb.desc"));
             }
         };

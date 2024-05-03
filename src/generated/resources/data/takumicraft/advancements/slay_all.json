@@ -904,7 +904,8 @@
     },
     "frame": "goal",
     "icon": {
-      "item": "takumicraft:takumibook"
+      "count": 1,
+      "id": "takumicraft:takumibook"
     },
     "title": {
       "translate": "advancement.takumicraft.slay_all.title"

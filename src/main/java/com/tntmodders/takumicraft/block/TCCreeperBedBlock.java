@@ -21,7 +21,6 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.BedBlock;
@@ -124,7 +123,7 @@ public class TCCreeperBedBlock extends BedBlock implements ITCBlocks, ITCRecipe 
             }
 
             @Override
-            public int getMaxStackSize(ItemStack stack) {
+            public int getDefaultMaxStackSize() {
                 return 1;
             }
         };

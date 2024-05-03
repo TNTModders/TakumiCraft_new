@@ -16,10 +16,8 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
-import net.minecraft.world.level.Level;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import net.minecraftforge.common.Tags;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.function.Consumer;
@@ -46,8 +44,8 @@ public class TCCreeperShieldItem extends ShieldItem implements ITCItems, ITCTran
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> components, TooltipFlag tooltipFlag) {
-        super.appendHoverText(stack, level, components, tooltipFlag);
+    public void appendHoverText(ItemStack p_43094_, TooltipContext p_333547_, List<Component> components, TooltipFlag p_43097_) {
+        super.appendHoverText(p_43094_, p_333547_, components, p_43097_);
         components.add(Component.translatable("item.takumicraft.creepershield.desc"));
     }
 

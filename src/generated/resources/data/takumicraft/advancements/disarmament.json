@@ -10,8 +10,8 @@
       "translate": "advancement.takumicraft.disarmament.desc"
     },
     "icon": {
-      "item": "takumicraft:creepersword",
-      "nbt": "{Damage:0}"
+      "count": 1,
+      "id": "takumicraft:creepersword"
     },
     "title": {
       "translate": "advancement.takumicraft.disarmament.title"

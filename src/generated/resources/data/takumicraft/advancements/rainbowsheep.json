@@ -12,7 +12,8 @@
     "frame": "goal",
     "hidden": true,
     "icon": {
-      "item": "takumicraft:creeperwool_white"
+      "count": 1,
+      "id": "takumicraft:creeperwool_white"
     },
     "title": {
       "translate": "advancement.takumicraft.rainbowsheep.title"

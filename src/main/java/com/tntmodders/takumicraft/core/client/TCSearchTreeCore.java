@@ -36,7 +36,7 @@ public class TCSearchTreeCore {
             if (itemStack.getItem() instanceof TCSpawnEggItem item) {
                 return Stream.of(item.getContext().getEnUSName(), item.getContext().getJaJPName(), item.getContext().getJaJPRead()).filter(s -> s != null && !s.isEmpty());
             }
-            return itemStack.getTooltipLines(null, TooltipFlag.Default.NORMAL).stream().map(component -> ChatFormatting.stripFormatting(component.getString()).trim()).filter(s -> !s.isEmpty());
+            return itemStack.getTooltipLines(null, null, TooltipFlag.Default.NORMAL).stream().map(component -> ChatFormatting.stripFormatting(component.getString()).trim()).filter(s -> !s.isEmpty());
         }, itemStack -> Stream.of(ForgeRegistries.ITEMS.getKey(itemStack.getItem())), nonnulllist));
 
         REGISTRY.populate(CREEPER_NAMES, nonnulllist);

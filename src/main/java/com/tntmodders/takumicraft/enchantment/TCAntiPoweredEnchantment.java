@@ -2,6 +2,7 @@ package com.tntmodders.takumicraft.enchantment;
 
 import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.core.TCEnchantmentCore;
+import com.tntmodders.takumicraft.core.TCItemCore;
 import com.tntmodders.takumicraft.utils.TCExplosionUtils;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -10,12 +11,12 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.monster.Creeper;
-import net.minecraft.world.item.enchantment.EnchantmentCategory;
+import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
 
 public class TCAntiPoweredEnchantment extends AbstractTCEnchantment {
     public TCAntiPoweredEnchantment() {
-        super(Rarity.RARE, EnchantmentCategory.WEAPON, new EquipmentSlot[]{EquipmentSlot.MAINHAND});
+        super(definition(TCItemCore.ANTI_POWERED, 2, 3, Enchantment.dynamicCost(5, 9), Enchantment.dynamicCost(20, 9), 4, EquipmentSlot.MAINHAND));
     }
 
     @Override

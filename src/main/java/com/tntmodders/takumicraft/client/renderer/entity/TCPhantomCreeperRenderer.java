@@ -51,8 +51,8 @@ public class TCPhantomCreeperRenderer extends MobRenderer<TCPhantomCreeper, TCPh
     }
 
     @Override
-    protected void setupRotations(TCPhantomCreeper p_115685_, PoseStack p_115686_, float p_115687_, float p_115688_, float p_115689_) {
-        super.setupRotations(p_115685_, p_115686_, p_115687_, p_115688_, p_115689_);
+    protected void setupRotations(TCPhantomCreeper p_115685_, PoseStack p_115686_, float p_115687_, float p_115688_, float p_115689_, float f) {
+        super.setupRotations(p_115685_, p_115686_, p_115687_, p_115688_, p_115689_, f);
         p_115686_.mulPose(Axis.XP.rotationDegrees(p_115685_.getXRot()));
     }
 

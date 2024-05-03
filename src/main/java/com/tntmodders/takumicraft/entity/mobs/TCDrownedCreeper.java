@@ -5,7 +5,6 @@ import com.tntmodders.takumicraft.client.renderer.entity.TCDrownedCreeperRendere
 import com.tntmodders.takumicraft.entity.ai.TCZombieCreeperAttackGoal;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.FluidTags;
@@ -45,8 +44,8 @@ import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.levelgen.Heightmap;
-import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.level.pathfinder.Path;
+import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
@@ -61,9 +60,8 @@ public class TCDrownedCreeper extends TCZombieCreeper implements RangedAttackMob
 
     public TCDrownedCreeper(EntityType<? extends Creeper> entityType, Level level) {
         super(entityType, level);
-        this.setMaxUpStep(1.0f);
         this.moveControl = new TCDrownedCreeper.DrownedMoveControl(this);
-        this.setPathfindingMalus(BlockPathTypes.WATER, 0.0F);
+        this.setPathfindingMalus(PathType.WATER, 0.0F);
         this.waterNavigation = new WaterBoundPathNavigation(this, level);
         this.groundNavigation = new GroundPathNavigation(this, level);
     }
@@ -109,8 +107,8 @@ public class TCDrownedCreeper extends TCZombieCreeper implements RangedAttackMob
     }
 
     @Override
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_32372_, DifficultyInstance p_32373_, MobSpawnType p_32374_, @Nullable SpawnGroupData p_32375_, @Nullable CompoundTag p_32376_) {
-        p_32375_ = super.finalizeSpawn(p_32372_, p_32373_, p_32374_, p_32375_, p_32376_);
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_32372_, DifficultyInstance p_32373_, MobSpawnType p_32374_, @Nullable SpawnGroupData p_32375_) {
+        p_32375_ = super.finalizeSpawn(p_32372_, p_32373_, p_32374_, p_32375_);
         if (this.getItemBySlot(EquipmentSlot.OFFHAND).isEmpty() && this.random.nextFloat() < 0.03F) {
             this.setItemSlot(EquipmentSlot.OFFHAND, new ItemStack(Items.NAUTILUS_SHELL));
             this.handDropChances[EquipmentSlot.OFFHAND.getIndex()] = 2.0F;
@@ -577,7 +575,7 @@ public class TCDrownedCreeper extends TCZombieCreeper implements RangedAttackMob
 
         @Override
         public boolean registerSpawn(SpawnPlacementRegisterEvent event, EntityType<AbstractTCCreeper> type) {
-            SpawnPlacements.register(type, SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, TCDrownedCreeper::checkDrownedSpawnRules);
+            event.register(type, SpawnPlacementTypes.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, TCDrownedCreeper::checkDrownedSpawnRules, SpawnPlacementRegisterEvent.Operation.OR);
             return true;
         }
     }

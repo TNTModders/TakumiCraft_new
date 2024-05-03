@@ -1,7 +1,5 @@
 package com.tntmodders.takumicraft.item;
 
-import com.google.common.collect.ImmutableMultimap;
-import com.google.common.collect.Multimap;
 import com.tntmodders.takumicraft.core.TCEnchantmentCore;
 import com.tntmodders.takumicraft.provider.ITCItems;
 import com.tntmodders.takumicraft.provider.ITCTranslator;
@@ -9,8 +7,8 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.Creeper;
@@ -18,17 +16,17 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.level.Level;
 
 public class TCTesterItem extends Item implements ITCItems, ITCTranslator {
 
-    private final Multimap<Attribute, AttributeModifier> defaultModifiers;
+    private final AttributeModifier defaultModifier;
 
     public TCTesterItem() {
         super(new Properties().rarity(Rarity.EPIC).stacksTo(1));
-        ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
-        builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Weapon modifier", 99, AttributeModifier.Operation.ADDITION));
-        this.defaultModifiers = builder.build();
+
+        this.defaultModifier = new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Weapon modifier", 99, AttributeModifier.Operation.ADD_VALUE);
     }
 
     @Override
@@ -37,8 +35,8 @@ public class TCTesterItem extends Item implements ITCItems, ITCTranslator {
     }
 
     @Override
-    public Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(EquipmentSlot p_43274_) {
-        return p_43274_ == EquipmentSlot.MAINHAND ? this.defaultModifiers : super.getDefaultAttributeModifiers(p_43274_);
+    public ItemAttributeModifiers getAttributeModifiers(EquipmentSlot slot, ItemStack stack) {
+        return slot == EquipmentSlot.MAINHAND ? ItemAttributeModifiers.EMPTY.withModifierAdded(Attributes.ATTACK_DAMAGE, this.defaultModifier, EquipmentSlotGroup.MAINHAND) : super.getDefaultAttributeModifiers();
     }
 
     @Override

@@ -5,9 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "takumicraft:deepslate_gunore"
-            ]
+            "items": "takumicraft:deepslate_gunore"
           }
         ]
       },

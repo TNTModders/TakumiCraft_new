@@ -7,6 +7,7 @@ import com.tntmodders.takumicraft.client.model.TCDrownedModel;
 import com.tntmodders.takumicraft.client.renderer.entity.layer.TCCreeperPowerLayer;
 import com.tntmodders.takumicraft.core.TCEntityCore;
 import com.tntmodders.takumicraft.entity.mobs.TCDrownedCreeper;
+import com.tntmodders.takumicraft.utils.client.TCClientUtils;
 import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -38,14 +39,7 @@ public class TCDrownedCreeperRenderer<T extends TCDrownedCreeper, M extends TCDr
 
     @Override
     protected void scale(T p_114046_, PoseStack p_114047_, float p_114048_) {
-        float f = p_114046_.getSwelling(p_114048_);
-        float f1 = 1.0F + Mth.sin(f * 100.0F) * f * 0.01F;
-        f = Mth.clamp(f, 0.0F, 1.0F);
-        f *= f;
-        f *= f;
-        float f2 = (1.0F + f * 0.4F) * f1;
-        float f3 = (1.0F + f * 0.1F) / f1;
-        p_114047_.scale(f2, f3, f2);
+        TCClientUtils.scaleSwelling(p_114046_, p_114047_, p_114048_);
     }
 
     @Override
@@ -56,8 +50,8 @@ public class TCDrownedCreeperRenderer<T extends TCDrownedCreeper, M extends TCDr
 
     @Override
     protected void setupRotations(T p_114109_, PoseStack p_114110_, float p_114111_, float p_114112_,
-                                  float p_114113_) {
-        super.setupRotations(p_114109_, p_114110_, p_114111_, p_114112_, p_114113_);
+                                  float p_114113_, float p_114114_) {
+        super.setupRotations(p_114109_, p_114110_, p_114111_, p_114112_, p_114113_, p_114114_);
         float f = p_114109_.getSwimAmount(p_114113_);
         if (f > 0.0F) {
             float f1 = -10.0F - p_114109_.getXRot();

@@ -1,11 +1,12 @@
 package com.tntmodders.takumicraft.enchantment;
 
+import com.tntmodders.takumicraft.core.TCItemCore;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.item.enchantment.EnchantmentCategory;
+import net.minecraft.world.item.enchantment.Enchantment;
 
 public class TCMinesweeperEnchantment extends AbstractTCEnchantment {
     public TCMinesweeperEnchantment() {
-        super(Rarity.RARE, EnchantmentCategory.DIGGER, new EquipmentSlot[]{EquipmentSlot.MAINHAND});
+        super(definition(TCItemCore.MINESWEEPER_TOOLS, 2, 3, Enchantment.dynamicCost(5, 9), Enchantment.dynamicCost(20, 9), 4, EquipmentSlot.MAINHAND));
     }
 
     @Override

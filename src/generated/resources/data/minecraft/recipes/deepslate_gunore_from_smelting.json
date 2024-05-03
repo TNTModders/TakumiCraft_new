@@ -6,5 +6,7 @@
   "ingredient": {
     "item": "takumicraft:deepslate_gunore"
   },
-  "result": "minecraft:gunpowder"
+  "result": {
+    "id": "minecraft:gunpowder"
+  }
 }

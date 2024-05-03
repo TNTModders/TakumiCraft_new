@@ -11,13 +11,13 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.pathfinder.BlockPathTypes;
+import net.minecraft.world.level.pathfinder.PathType;
 
 public abstract class AbstractTCWaterAnimalCreeper extends AbstractTCCreeper {
 
     protected AbstractTCWaterAnimalCreeper(EntityType<? extends Creeper> p_30341_, Level p_30342_) {
         super(p_30341_, p_30342_);
-        this.setPathfindingMalus(BlockPathTypes.WATER, 0.0F);
+        this.setPathfindingMalus(PathType.WATER, 0.0F);
     }
 
     public static boolean checkSurfaceWaterAnimalSpawnRules(EntityType<? extends AbstractTCCreeper> p_218283_, LevelAccessor p_218284_, MobSpawnType p_218285_, BlockPos p_218286_, RandomSource p_218287_) {

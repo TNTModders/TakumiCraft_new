@@ -5,9 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "takumicraft:creepercarpet_blue"
-            ]
+            "items": "takumicraft:creepercarpet_blue"
           }
         ]
       },
@@ -17,9 +15,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "takumicraft:creeperwool_blue"
-            ]
+            "items": "takumicraft:creeperwool_blue"
           }
         ]
       },

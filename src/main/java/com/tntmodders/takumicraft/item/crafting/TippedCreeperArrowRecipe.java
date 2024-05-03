@@ -3,17 +3,16 @@ package com.tntmodders.takumicraft.item.crafting;
 import com.tntmodders.takumicraft.core.TCItemCore;
 import com.tntmodders.takumicraft.core.TCRecipeSerializerCore;
 import com.tntmodders.takumicraft.item.TCTippedCreeperArrowItem;
-import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.alchemy.PotionUtils;
+import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
-
-import java.util.List;
 
 public class TippedCreeperArrowRecipe extends CustomRecipe {
     public TippedCreeperArrowRecipe(CraftingBookCategory p_249010_) {
@@ -47,19 +46,18 @@ public class TippedCreeperArrowRecipe extends CustomRecipe {
     }
 
     @Override
-    public ItemStack assemble(CraftingContainer p_44513_, RegistryAccess p_267186_) {
-        ItemStack itemstack = p_44513_.getItem(1 + p_44513_.getWidth());
+    public ItemStack assemble(CraftingContainer craftingContainer, HolderLookup.Provider provider) {
+        ItemStack itemstack = craftingContainer.getItem(1 + craftingContainer.getWidth());
         if (!itemstack.is(Items.LINGERING_POTION)) {
             if (itemstack.is(Items.WITHER_ROSE)) {
                 ItemStack itemstack1 = new ItemStack(TCItemCore.TIPPED_CREEPER_ARROW, 8);
-                PotionUtils.setCustomEffects(itemstack1, List.of(TCTippedCreeperArrowItem.WITHER));
+                itemstack.set(DataComponents.POTION_CONTENTS, PotionContents.EMPTY.withEffectAdded(TCTippedCreeperArrowItem.WITHER));
                 return itemstack1;
             }
             return ItemStack.EMPTY;
         } else {
             ItemStack itemstack1 = new ItemStack(TCItemCore.TIPPED_CREEPER_ARROW, 8);
-            PotionUtils.setPotion(itemstack1, PotionUtils.getPotion(itemstack));
-            PotionUtils.setCustomEffects(itemstack1, PotionUtils.getCustomEffects(itemstack));
+            itemstack1.set(DataComponents.POTION_CONTENTS, itemstack.get(DataComponents.POTION_CONTENTS));
             return itemstack1;
         }
     }

@@ -67,11 +67,6 @@ public class TCSquidCreeper extends AbstractTCWaterAnimalCreeper {
     }
 
     @Override
-    protected float getStandingEyeHeight(Pose p_29975_, EntityDimensions p_29976_) {
-        return p_29976_.height * 0.5F;
-    }
-
-    @Override
     protected SoundEvent getAmbientSound() {
         return SoundEvents.SQUID_AMBIENT;
     }
@@ -338,7 +333,7 @@ public class TCSquidCreeper extends AbstractTCWaterAnimalCreeper {
 
         @Override
         public boolean registerSpawn(SpawnPlacementRegisterEvent event, EntityType<AbstractTCCreeper> type) {
-            SpawnPlacements.register(type, SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, TCSquidCreeper::checkSurfaceWaterAnimalSpawnRules);
+            event.register(type, SpawnPlacementTypes.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, TCSquidCreeper::checkSurfaceWaterAnimalSpawnRules, SpawnPlacementRegisterEvent.Operation.OR);
             return true;
         }
 
