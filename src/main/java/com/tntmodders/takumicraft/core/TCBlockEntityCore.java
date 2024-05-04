@@ -25,9 +25,6 @@ public class TCBlockEntityCore {
         TCLoggingUtils.completeRegistry("BlockEntity");
     }
 
-    public static final BlockEntityType<TCCreeperBedBlockEntity> CREEPER_BED = BlockEntityType.Builder.of(TCCreeperBedBlockEntity::new, createBedList().toArray(new Block[0]))
-            .build(Util.fetchChoiceType(References.BLOCK_ENTITY, "creeperbed"));
-
     public static List<Block> createBedList() {
         List<Block> list = new ArrayList();
         list.add(TCBlockCore.SUPER_CREEPER_BED);
@@ -35,14 +32,16 @@ public class TCBlockEntityCore {
         return list;
     }
 
+    public static final BlockEntityType<TCCreeperBedBlockEntity> CREEPER_BED = BlockEntityType.Builder.of(TCCreeperBedBlockEntity::new, createBedList().toArray(new Block[0]))
+            .build(Util.fetchChoiceType(References.BLOCK_ENTITY, "creeperbed"));
+
+
+
     public static final BlockEntityType<TCMonsterBombBlockEntity> MONSTER_BOMB = BlockEntityType.Builder.of(TCMonsterBombBlockEntity::new, TCBlockCore.YUKARI_BOMB)
             .build(Util.fetchChoiceType(References.BLOCK_ENTITY, "monsterbomb"));
 
     public static final BlockEntityType<TCAcidBlockEntity> ACID = BlockEntityType.Builder.of(TCAcidBlockEntity::new, TCBlockCore.ACID)
             .build(Util.fetchChoiceType(References.BLOCK_ENTITY, "acidblock"));
-
-
-
 
 
 }
