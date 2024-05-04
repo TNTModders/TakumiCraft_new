@@ -22,7 +22,7 @@ public class TCCreeperTintedGlassBlock extends TCCreeperGlassBlock {
     @Override
     public void addRecipes(TCRecipeProvider provider, ItemLike itemLike, RecipeOutput consumer) {
         provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS,
-                        TCBlockCore.CREEPER_TINTED_GLASS,8)
+                        TCBlockCore.CREEPER_TINTED_GLASS, 8)
                 .define('#', TCBlockCore.CREEPER_BOMB)
                 .define('B', Blocks.TINTED_GLASS)
                 .pattern("BBB")
@@ -32,14 +32,14 @@ public class TCCreeperTintedGlassBlock extends TCCreeperGlassBlock {
                 .group("creeperglass"));
 
         provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS,
-                        TCBlockCore.CREEPER_TINTED_GLASS,2)
+                        TCBlockCore.CREEPER_TINTED_GLASS, 2)
                 .define('#', TCBlockCore.CREEPER_GLASS)
                 .define('A', Items.AMETHYST_SHARD)
                 .pattern(" A ")
                 .pattern("A#A")
                 .pattern(" A ")
                 .unlockedBy("has_creeperglass", TCRecipeProvider.hasItem(TCBlockCore.CREEPER_GLASS))
-                .group("creeperglass"),"from_creeperglass");
+                .group("creeperglass"), "from_creeperglass");
     }
 
     @Override

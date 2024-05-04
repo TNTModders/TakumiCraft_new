@@ -13,12 +13,12 @@ import net.minecraftforge.registries.ForgeRegistries;
 import java.util.List;
 
 public class TCTakumiSpecialMeatItem extends Item implements ITCItems {
-    private final Item base;
-    private final Item rawBase;
-    private final boolean isFish;
     public static final NonNullList<Item> BASE_LIST = NonNullList.create();
     public static final NonNullList<Item> RAW_BASE_LIST = NonNullList.create();
     public static final NonNullList<TCTakumiSpecialMeatItem> MEAT_LIST = NonNullList.create();
+    private final Item base;
+    private final Item rawBase;
+    private final boolean isFish;
 
     public TCTakumiSpecialMeatItem(Item item, Item rawItem, boolean isFish) {
         super(new Properties().food(new FoodProperties.Builder().nutrition(item.components().get(DataComponents.FOOD).nutrition() * 3).saturationModifier(item.components().get(DataComponents.FOOD).saturation() * 3).fast().build()).rarity(Rarity.EPIC));

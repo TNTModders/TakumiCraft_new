@@ -184,6 +184,11 @@ public class TCSpiderCreeper extends AbstractTCCreeper {
         return p_33793_;
     }
 
+    @Override
+    public TCCreeperContext<? extends AbstractTCCreeper> getContext() {
+        return TCEntityCore.SPIDER;
+    }
+
     static class SpiderAttackGoal extends MeleeAttackGoal {
         public SpiderAttackGoal(TCSpiderCreeper p_33822_) {
             super(p_33822_, 1.0D, true);
@@ -234,11 +239,6 @@ public class TCSpiderCreeper extends AbstractTCCreeper {
             float f = this.mob.getLightLevelDependentMagicValue();
             return !(f >= 0.5F) && super.canUse();
         }
-    }
-
-    @Override
-    public TCCreeperContext<? extends AbstractTCCreeper> getContext() {
-        return TCEntityCore.SPIDER;
     }
 
     public static class TCSpiderCreeperContext implements TCCreeperContext<TCSpiderCreeper> {

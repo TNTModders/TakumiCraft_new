@@ -20,7 +20,7 @@ public class TCCowCreeperRenderer extends MobRenderer<TCCowCreeper, TCCowCreeper
 
     public TCCowCreeperRenderer(EntityRendererProvider.Context p_173956_) {
         super(p_173956_, new TCCowCreeperModel<>(p_173956_.bakeLayer(ModelLayers.COW)), 0.7F);
-        this.addLayer(new TCCreeperPowerLayer<>(this, p_173956_.getModelSet(), new TCCowCreeperModel<>(p_173956_.bakeLayer(ModelLayers.COW)), TCEntityCore.COW,true));
+        this.addLayer(new TCCreeperPowerLayer<>(this, p_173956_.getModelSet(), new TCCowCreeperModel<>(p_173956_.bakeLayer(ModelLayers.COW)), TCEntityCore.COW, true));
     }
 
     @Override

@@ -19,13 +19,12 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.event.level.ExplosionEvent;
 
 public class TCCreeperArrow extends Arrow {
-    private float power = 1.5f;
-    private boolean dest = false;
-
     public static final EntityType<Arrow> ARROW = EntityType.Builder.<Arrow>of(TCCreeperArrow::new, MobCategory.MISC)
             .sized(0.5F, 0.5F)
             .clientTrackingRange(4)
             .updateInterval(20).build(TakumiCraftCore.MODID + ":creeperarrow");
+    private float power = 1.5f;
+    private boolean dest = false;
 
     public TCCreeperArrow(EntityType<? extends Arrow> p_36858_, Level p_36859_) {
         super(p_36858_, p_36859_);

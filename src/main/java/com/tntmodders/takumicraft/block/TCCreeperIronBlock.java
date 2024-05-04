@@ -44,7 +44,7 @@ public class TCCreeperIronBlock extends AbstractTCAntiExplosionBlock implements 
     @Override
     public void addRecipes(TCRecipeProvider provider, ItemLike itemLike, RecipeOutput consumer) {
         provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS,
-                        TCBlockCore.CREEPER_IRON,8)
+                        TCBlockCore.CREEPER_IRON, 8)
                 .define('#', TCBlockCore.CREEPER_BOMB)
                 .define('B', Blocks.IRON_BLOCK)
                 .pattern("BBB")

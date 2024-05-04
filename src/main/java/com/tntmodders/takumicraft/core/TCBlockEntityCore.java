@@ -17,16 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TCBlockEntityCore {
-    public static final BlockEntityType<TCCreeperBedBlockEntity> CREEPER_BED = BlockEntityType.Builder.of(TCCreeperBedBlockEntity::new, createBedList().toArray(new Block[0]))
-            .build(Util.fetchChoiceType(References.BLOCK_ENTITY, "creeperbed"));
-
-    public static final BlockEntityType<TCMonsterBombBlockEntity> MONSTER_BOMB = BlockEntityType.Builder.of(TCMonsterBombBlockEntity::new, TCBlockCore.YUKARI_BOMB)
-            .build(Util.fetchChoiceType(References.BLOCK_ENTITY, "monsterbomb"));
-
-    public static final BlockEntityType<TCAcidBlockEntity> ACID = BlockEntityType.Builder.of(TCAcidBlockEntity::new, TCBlockCore.ACID)
-            .build(Util.fetchChoiceType(References.BLOCK_ENTITY, "acidblock"));
-
-
     public static void register(final RegisterEvent event) {
         TCLoggingUtils.startRegistry("BlockEntity");
         event.register(ForgeRegistries.BLOCK_ENTITY_TYPES.getRegistryKey(), new ResourceLocation(TakumiCraftCore.MODID, "creeperbed"), () -> CREEPER_BED);
@@ -35,10 +25,24 @@ public class TCBlockEntityCore {
         TCLoggingUtils.completeRegistry("BlockEntity");
     }
 
+    public static final BlockEntityType<TCCreeperBedBlockEntity> CREEPER_BED = BlockEntityType.Builder.of(TCCreeperBedBlockEntity::new, createBedList().toArray(new Block[0]))
+            .build(Util.fetchChoiceType(References.BLOCK_ENTITY, "creeperbed"));
+
     public static List<Block> createBedList() {
         List<Block> list = new ArrayList();
         list.add(TCBlockCore.SUPER_CREEPER_BED);
         list.addAll(TCBlockCore.CREEPER_BED_MAP.values());
         return list;
     }
+
+    public static final BlockEntityType<TCMonsterBombBlockEntity> MONSTER_BOMB = BlockEntityType.Builder.of(TCMonsterBombBlockEntity::new, TCBlockCore.YUKARI_BOMB)
+            .build(Util.fetchChoiceType(References.BLOCK_ENTITY, "monsterbomb"));
+
+    public static final BlockEntityType<TCAcidBlockEntity> ACID = BlockEntityType.Builder.of(TCAcidBlockEntity::new, TCBlockCore.ACID)
+            .build(Util.fetchChoiceType(References.BLOCK_ENTITY, "acidblock"));
+
+
+
+
+
 }

@@ -31,7 +31,7 @@ public class TCCopperCreeper extends AbstractTCCreeper {
                 BlockState state = WeatheringCopper.getFirst(previous);
                 if (!previous.getProperties().isEmpty()) {
                     for (Property property : previous.getProperties()) {
-                        state=state.setValue(property, previous.getValue(property));
+                        state = state.setValue(property, previous.getValue(property));
                     }
                 }
                 this.level().setBlock(pos, state, 3);

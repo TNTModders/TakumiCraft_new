@@ -21,9 +21,9 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 
 public class TCSkeletonCreeper extends AbstractTCSkeletonCreeper {
+    public static final String CONVERSION_TAG = "StrayConversionTime";
     private static final int TOTAL_CONVERSION_TIME = 300;
     private static final EntityDataAccessor<Boolean> DATA_STRAY_CONVERSION_ID = SynchedEntityData.defineId(TCSkeletonCreeper.class, EntityDataSerializers.BOOLEAN);
-    public static final String CONVERSION_TAG = "StrayConversionTime";
     private int inPowderSnowTime;
     private int conversionTime;
 

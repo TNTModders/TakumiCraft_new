@@ -32,7 +32,7 @@ public class TCStoneCreeper extends AbstractTCCreeper {
 
     @Override
     public float getBlockExplosionResistance(Explosion explosion, BlockGetter wolrdIn, BlockPos pos, BlockState blockStateIn, FluidState p_19996_, float p_19997_) {
-        return blockStateIn.isAir()  || blockStateIn.is(BlockTags.MINEABLE_WITH_PICKAXE) ? 0.05f : super.getBlockExplosionResistance(explosion, wolrdIn, pos, blockStateIn, p_19996_, p_19997_) * 10f;
+        return blockStateIn.isAir() || blockStateIn.is(BlockTags.MINEABLE_WITH_PICKAXE) ? 0.05f : super.getBlockExplosionResistance(explosion, wolrdIn, pos, blockStateIn, p_19996_, p_19997_) * 10f;
     }
 
     @Override

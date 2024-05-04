@@ -45,45 +45,6 @@ public class TCFireworksCreeper extends AbstractTCCreeper {
         return new Fireworks(1, List.of(new FireworkExplosion(FireworkExplosion.Shape.CREEPER, IntList.of(65280), IntList.of(65280), true, true)));
     }
 
-    @Override
-    public void explodeCreeperEvent(ExplosionEvent.Detonate event) {
-        if (TCEntityUtils.isNewYear() || TCEntityUtils.isXmas()) {
-            event.getExplosion().clearToBlow();
-        }
-    }
-
-    @Override
-    public void explodeCreeper() {
-        super.explodeCreeper();
-        ItemStack stack = new ItemStack(Items.FIREWORK_ROCKET);
-        stack.set(DataComponents.FIREWORKS, getFireworks());
-        for (int i = 0; i < 5 * (this.isPowered() ? 2 : 1); i++) {
-            FireworkRocketEntity entity = new FireworkRocketEntity(this.level(), this.getRandomX(5), this.getRandomY(), this.getRandomZ(5), stack);
-            this.level().addFreshEntity(entity);
-        }
-
-        if (TCEntityUtils.isXmas()) {
-            createTree(this, this.getOnPos().above());
-            this.spawn();
-        } else if (TCEntityUtils.isNewYear()) {
-            createKagamimochi(this);
-            this.spawn();
-        }
-    }
-
-    public void spawn() {
-        for (int i = 0; i < (this.isPowered() ? 20 : 10); i++) {
-            TCCreeperContext context = TCEntityCore.ENTITY_CONTEXTS.get(this.level().getRandom().nextInt(TCEntityCore.ENTITY_CONTEXTS.size()));
-            if (context.getRank().getLevel() < TCCreeperContext.EnumTakumiRank.HIGH.getLevel()) {
-                Entity entity = context.entityType().create(this.level());
-                entity.setPos(this.getRandomX(10), this.getRandomY(3), this.getRandomZ(10));
-                if (entity instanceof AbstractTCCreeper creeper && creeper.checkSpawnObstruction(this.level())) {
-                    this.level().addFreshEntity(entity);
-                }
-            }
-        }
-    }
-
     public static void createTree(Entity entity, BlockPos pos) {
         for (int y = 0; y < 7; y++) {
             switch (y) {
@@ -174,6 +135,45 @@ public class TCFireworksCreeper extends AbstractTCCreeper {
                     }
                 }
                 TCBlockUtils.TCSetBlock(entity.level(), pos.below(2), Blocks.TNT.defaultBlockState());
+            }
+        }
+    }
+
+    @Override
+    public void explodeCreeperEvent(ExplosionEvent.Detonate event) {
+        if (TCEntityUtils.isNewYear() || TCEntityUtils.isXmas()) {
+            event.getExplosion().clearToBlow();
+        }
+    }
+
+    @Override
+    public void explodeCreeper() {
+        super.explodeCreeper();
+        ItemStack stack = new ItemStack(Items.FIREWORK_ROCKET);
+        stack.set(DataComponents.FIREWORKS, getFireworks());
+        for (int i = 0; i < 5 * (this.isPowered() ? 2 : 1); i++) {
+            FireworkRocketEntity entity = new FireworkRocketEntity(this.level(), this.getRandomX(5), this.getRandomY(), this.getRandomZ(5), stack);
+            this.level().addFreshEntity(entity);
+        }
+
+        if (TCEntityUtils.isXmas()) {
+            createTree(this, this.getOnPos().above());
+            this.spawn();
+        } else if (TCEntityUtils.isNewYear()) {
+            createKagamimochi(this);
+            this.spawn();
+        }
+    }
+
+    public void spawn() {
+        for (int i = 0; i < (this.isPowered() ? 20 : 10); i++) {
+            TCCreeperContext context = TCEntityCore.ENTITY_CONTEXTS.get(this.level().getRandom().nextInt(TCEntityCore.ENTITY_CONTEXTS.size()));
+            if (context.getRank().getLevel() < TCCreeperContext.EnumTakumiRank.HIGH.getLevel()) {
+                Entity entity = context.entityType().create(this.level());
+                entity.setPos(this.getRandomX(10), this.getRandomY(3), this.getRandomZ(10));
+                if (entity instanceof AbstractTCCreeper creeper && creeper.checkSpawnObstruction(this.level())) {
+                    this.level().addFreshEntity(entity);
+                }
             }
         }
     }
