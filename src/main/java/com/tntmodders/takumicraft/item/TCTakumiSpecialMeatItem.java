@@ -71,7 +71,7 @@ public class TCTakumiSpecialMeatItem extends Item implements ITCItems {
 
     @Override
     public String getJaJPName() {
-        return this.isFish ? "匠式特上 肉?" : this.getRawBase() == Items.ROTTEN_FLESH ? "匠式特上? 肉" : "匠式特上肉";
+        return this.isFish ? "匠式特上肉?" : this.getRawBase() == Items.ROTTEN_FLESH ? "匠式特上?肉" : "匠式特上肉";
     }
 
     @Override
