@@ -7,10 +7,7 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.food.FoodProperties;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.*;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.List;
@@ -24,7 +21,7 @@ public class TCTakumiSpecialMeatItem extends Item implements ITCItems {
     public static final NonNullList<TCTakumiSpecialMeatItem> MEAT_LIST = NonNullList.create();
 
     public TCTakumiSpecialMeatItem(Item item, Item rawItem, boolean isFish) {
-        super(new Properties().food(new FoodProperties.Builder().nutrition(item.components().get(DataComponents.FOOD).nutrition() * 3).saturationModifier(item.components().get(DataComponents.FOOD).saturation() * 3).fast().build()));
+        super(new Properties().food(new FoodProperties.Builder().nutrition(item.components().get(DataComponents.FOOD).nutrition() * 3).saturationModifier(item.components().get(DataComponents.FOOD).saturation() * 3).fast().build()).rarity(Rarity.EPIC));
         this.base = item;
         this.rawBase = rawItem;
         this.isFish = isFish;

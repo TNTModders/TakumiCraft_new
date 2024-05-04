@@ -17,10 +17,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.DyeColor;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.*;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -110,7 +107,7 @@ public class TCSuperCreeperBedBlock extends TCCreeperBedBlock {
 
     @Override
     public TCBlockItem getCustomBlockItem(Block block) {
-        return new TCBlockItem(block) {
+        return new TCBlockItem(block, new Item.Properties().rarity(Rarity.EPIC)) {
             @Override
             public void initializeClient(Consumer<IClientItemExtensions> consumer) {
                 consumer.accept(new IClientItemExtensions() {

@@ -14,7 +14,9 @@ import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
@@ -91,7 +93,7 @@ public class TCAltarBlock extends AbstractTCAntiExplosionBlock implements ITCRec
 
     @Override
     public TCBlockItem getCustomBlockItem(Block block) {
-        return new TCBlockItem(block) {
+        return new TCBlockItem(block, new Item.Properties().rarity(Rarity.RARE)) {
 
             @Override
             public void appendHoverText(ItemStack p_40572_, TooltipContext p_327780_, List<Component> components, TooltipFlag p_40575_) {
