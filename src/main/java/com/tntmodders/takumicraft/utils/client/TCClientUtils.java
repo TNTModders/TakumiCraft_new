@@ -45,15 +45,14 @@ public class TCClientUtils {
     }
 
     @OnlyIn(Dist.CLIENT)
-    public static void renderEntity(double x, double y, int size, float yrot, float xrot, EntityType<?> entityType, boolean isOutline) {
+    public static void renderEntity(PoseStack posestack, double x, double y, int size, float yrot, float xrot, EntityType<?> entityType, boolean isOutline) {
         if (entityType.create(Minecraft.getInstance().level) instanceof AbstractTCCreeper creeper) {
             creeper.setOnBook(true);
-            PoseStack posestack = new PoseStack();
             posestack.pushPose();
             posestack.translate(x, y, 1050.0D);
             posestack.scale(1.0F, 1.0F, -1.0F);
             RenderSystem.applyModelViewMatrix();
-            PoseStack posestack1 = new PoseStack();
+            PoseStack posestack1 = posestack;
             posestack1.translate(0.0D, 0.0D, 1000.0D);
             posestack1.scale((float) size, (float) size, (float) size);
             float invscale = 1 / creeper.getContext().getSizeFactor();

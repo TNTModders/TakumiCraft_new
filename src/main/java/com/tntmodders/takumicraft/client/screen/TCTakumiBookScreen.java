@@ -58,7 +58,6 @@ public class TCTakumiBookScreen extends Screen {
     private TCTakumiBookScreen.BookAccess bookAccess;
     private List<FormattedCharSequence> cachedPageComponents = Collections.emptyList();
     private int cachedPage = -1;
-    private Component pageMsg = CommonComponents.EMPTY;
     private PageButton forwardButton;
     private PageButton backButton;
 
@@ -206,34 +205,26 @@ public class TCTakumiBookScreen extends Screen {
     @Override
     public void render(GuiGraphics graphics, int mouseX, int mouseY, float p_98285_) {
         this.renderBackground(graphics, mouseX, mouseY, p_98285_);
+        super.render(graphics, mouseX, mouseY, p_98285_);
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.setShaderTexture(0, BOOK_GUI_TEXTURES);
         int i = (this.width - 192) / 2;
         int j = 2;
-
         AbstractTCCreeper.TCCreeperContext<? extends AbstractTCCreeper> context = TCEntityCore.ENTITY_CONTEXTS.get(currentPage);
         this.tick++;
-        TCClientUtils.renderEntity(i + 51, j + 80, 30, this.tick / 100f, 0, context.entityType(), false);
+        TCClientUtils.renderEntity(graphics.pose(), i + 51, j + 80, 30, this.tick / 100f, 0, context.entityType(), false);
         boolean flg = TCClientUtils.checkSlayAdv(context.entityType());
         if (this.cachedPage != currentPage) {
             FormattedText formattedtext = Component.translatable(flg ? context.entityType().getDescriptionId() + ".desc" : "???");
             this.cachedPageComponents = this.font.split(formattedtext, 114);
-            int pageNum = currentPage + 1;
-            this.pageMsg = Component.translatable("book.pageIndicator", pageNum, Math.max(this.getNumPages(), 1));
         }
-
         this.cachedPage = currentPage;
-        int i1 = this.font.width(this.pageMsg);
-        graphics.drawString(this.font, this.pageMsg, i - i1 + 192 - 44, 18, 0, false);
         int k = Math.min(128 / 9, this.cachedPageComponents.size());
-
         for (int l = 0; l < k; ++l) {
             FormattedCharSequence formattedcharsequence = this.cachedPageComponents.get(l);
-            graphics.drawString(this.font, formattedcharsequence, i + 40, 100 + l * 9, 0);
+            graphics.drawString(this.font, formattedcharsequence, i + 40, 100 + l * 9, 0, false);
         }
-
-        super.render(graphics, mouseX, mouseY, p_98285_);
 
         Component name = flg ? TCEntityUtils.getEntityName(context.entityType()) : TCEntityUtils.getUnknown();
         graphics.drawString(this.font, name, i + 80, 34, 0, false);
