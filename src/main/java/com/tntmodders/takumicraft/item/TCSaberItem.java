@@ -6,7 +6,6 @@ import com.tntmodders.takumicraft.entity.mobs.AbstractTCCreeper;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.Level;
@@ -16,12 +15,7 @@ import java.util.function.Consumer;
 
 public class TCSaberItem extends AbstractTCWeaponItem {
     public TCSaberItem() {
-        super(AbstractTCCreeper.TCCreeperContext.EnumTakumiElement.NORMAL, 3, -2.4f, new Properties().fireResistant().rarity(Rarity.EPIC));
-    }
-
-    @Override
-    public float getAttackDamageBonus(Player p_330411_, float p_327880_) {
-        return 20f;
+        super(AbstractTCCreeper.TCCreeperContext.EnumTakumiElement.NORMAL, 15, -1.6f, new Properties().fireResistant().rarity(Rarity.EPIC));
     }
 
     @Override

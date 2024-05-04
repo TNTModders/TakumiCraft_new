@@ -24,7 +24,7 @@ public class TCTesterItem extends Item implements ITCItems, ITCTranslator {
     private final AttributeModifier defaultModifier;
 
     public TCTesterItem() {
-        super(new Properties().rarity(Rarity.EPIC).stacksTo(1));
+        super(new Properties().rarity(Rarity.EPIC).stacksTo(1).attributes(ItemAttributeModifiers.builder().add(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Weapon modifier", 19f, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND).build()));
 
         this.defaultModifier = new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Weapon modifier", 99, AttributeModifier.Operation.ADD_VALUE);
     }
