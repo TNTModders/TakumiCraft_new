@@ -26,6 +26,7 @@ import java.util.Map;
 
 public class TCItemCore {
     public static final NonNullList<Item> ITEMS = NonNullList.create();
+    public static final HashMap<AbstractTCCreeper.TCCreeperContext, Item> EGGITEMS = new HashMap<>();
     public static final HashMap<Block, TCBlockItem> BLOCKITEMS = new HashMap<>();
 
     public static final Item CREEPER_ROD = new TCTesterItem();
@@ -107,6 +108,7 @@ public class TCItemCore {
                     TCSpawnEggItem eggItem = new TCSpawnEggItem(() -> (EntityType<? extends Mob>) context.entityType(), context);
                     event.register(ForgeRegistries.ITEMS.getRegistryKey(), itemRegisterHelper -> itemRegisterHelper.register(new ResourceLocation(TakumiCraftCore.MODID, eggItem.getRegistryName()), eggItem));
                     ITEMS.add(eggItem);
+                    EGGITEMS.put(context, eggItem);
                     TCLoggingUtils.entryRegistry("SpawnEggItem", context.getRegistryName());
                 }
             } catch (IllegalAccessException e) {
