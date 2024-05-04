@@ -5,13 +5,17 @@ import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.item.TCBlockItem;
 import com.tntmodders.takumicraft.item.TCSpawnEggItem;
 import com.tntmodders.takumicraft.provider.ITCItems;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.flag.FeatureFlagSet;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.alchemy.Potion;
+import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -33,7 +37,7 @@ public class TCCreativeModeTabCore {
             itemList.forEach(item -> {
                 if (!(item instanceof ITCItems) || !((ITCItems) item).hideOnCreativeTab()) {
                     if (((ITCItems) item).isSPOnCreativeTab()) {
-                        ((ITCItems) item).performSPOnCreativeTab(output);
+                        ((ITCItems) item).performSPOnCreativeTab(params, output);
                     } else {
                         output.accept(item);
                     }
@@ -59,5 +63,14 @@ public class TCCreativeModeTabCore {
     }
 
     public static void registerItems(BuildCreativeModeTabContentsEvent event) {
+    }
+
+    public static void generatePotionEffectTypes(
+            CreativeModeTab.Output p_270129_, HolderLookup<Potion> p_270334_, Item p_270968_, CreativeModeTab.TabVisibility p_270778_, FeatureFlagSet p_331502_
+    ) {
+        p_270334_.listElements()
+                .filter(p_327145_ -> p_327145_.value().isEnabled(p_331502_))
+                .map(p_327116_ -> PotionContents.createItemStack(p_270968_, p_327116_))
+                .forEach(p_270000_ -> p_270129_.accept(p_270000_, p_270778_));
     }
 }

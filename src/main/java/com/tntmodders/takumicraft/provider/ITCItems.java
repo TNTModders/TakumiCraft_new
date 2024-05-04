@@ -19,7 +19,7 @@ public interface ITCItems extends ITCTranslator {
         return false;
     }
 
-    default void performSPOnCreativeTab(CreativeModeTab.Output output) {
+    default void performSPOnCreativeTab(CreativeModeTab.ItemDisplayParameters params, CreativeModeTab.Output output) {
     }
 
     default List<TagKey<Item>> getItemTags() {

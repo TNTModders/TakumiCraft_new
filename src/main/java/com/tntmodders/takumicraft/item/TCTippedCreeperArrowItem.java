@@ -1,8 +1,10 @@
 package com.tntmodders.takumicraft.item;
 
+import com.tntmodders.takumicraft.core.TCCreativeModeTabCore;
+import com.tntmodders.takumicraft.core.TCItemCore;
 import com.tntmodders.takumicraft.provider.TCRecipeProvider;
-import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -15,7 +17,6 @@ import net.minecraft.world.item.alchemy.Potion;
 import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.level.ItemLike;
-import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.List;
 
@@ -47,14 +48,8 @@ public class TCTippedCreeperArrowItem extends TCCreeperArrowItem {
     }
 
     @Override
-    public void performSPOnCreativeTab(CreativeModeTab.Output output) {
-        ForgeRegistries.POTIONS.forEach(potion -> {
-            if (potion != Potions.WATER) {
-                ItemStack itemstack = super.getDefaultInstance();
-                itemstack.set(DataComponents.POTION_CONTENTS, new PotionContents(Holder.direct(potion)));
-                output.accept(itemstack);
-            }
-        });
+    public void performSPOnCreativeTab(CreativeModeTab.ItemDisplayParameters params, CreativeModeTab.Output output) {
+        params.holders().lookup(Registries.POTION).ifPresent(lookup -> TCCreativeModeTabCore.generatePotionEffectTypes(output, lookup, TCItemCore.TIPPED_CREEPER_ARROW, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS, params.enabledFeatures()));
         ItemStack stack = super.getDefaultInstance();
         stack.set(DataComponents.POTION_CONTENTS, PotionContents.EMPTY.withEffectAdded(WITHER));
         output.accept(stack);
