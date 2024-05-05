@@ -6,7 +6,7 @@ import net.minecraft.world.item.enchantment.Enchantment;
 
 public class TCMinesweeperEnchantment extends AbstractTCEnchantment {
     public TCMinesweeperEnchantment() {
-        super(definition(TCItemCore.MINESWEEPER_TOOLS, 2, 3, Enchantment.dynamicCost(5, 9), Enchantment.dynamicCost(20, 9), 4, EquipmentSlot.MAINHAND));
+        super(definition(TCItemCore.MINESWEEPER_TOOLS, 6, 1, Enchantment.dynamicCost(5, 9), Enchantment.dynamicCost(20, 9), 4, EquipmentSlot.MAINHAND));
     }
 
     @Override

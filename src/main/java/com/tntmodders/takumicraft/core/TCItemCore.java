@@ -56,6 +56,7 @@ public class TCItemCore {
     public static final Item SPMEAT_COD = new TCTakumiSpecialMeatItem(Items.COOKED_COD, Items.COD, true);
     public static final Item SPMEAT_SALMON = new TCTakumiSpecialMeatItem(Items.COOKED_SALMON, Items.SALMON, true);
     public static final Item SPMEAT_ZOMBIE = new TCTakumiSpecialMeatItem(Items.ROTTEN_FLESH, Items.ROTTEN_FLESH, false);
+    public static final Item CREEPER_MACE = new TCCreeperMaceItem();
 
     public static final TagKey<Item> GUNORES = TagKey.create(Registries.ITEM, new ResourceLocation(TakumiCraftCore.MODID,
             "gunores"));
@@ -68,6 +69,7 @@ public class TCItemCore {
     public static final TagKey<Item> ELEMENT_CORE = TagKey.create(Registries.ITEM, new ResourceLocation(TakumiCraftCore.MODID, "elementcore"));
 
     public static final TagKey<Item> ANTI_POWERED = TagKey.create(Registries.ITEM, new ResourceLocation(TakumiCraftCore.MODID, "anti_powered"));
+    public static final TagKey<Item> BLAST_POWERED = TagKey.create(Registries.ITEM, new ResourceLocation(TakumiCraftCore.MODID, "blast_powered"));
 
     public static void register(final RegisterEvent event) {
         TCLoggingUtils.startRegistry("Item");

@@ -16,7 +16,7 @@ import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
 
 public class TCAntiPoweredEnchantment extends AbstractTCEnchantment {
     public TCAntiPoweredEnchantment() {
-        super(definition(TCItemCore.ANTI_POWERED, 2, 3, Enchantment.dynamicCost(5, 9), Enchantment.dynamicCost(20, 9), 4, EquipmentSlot.MAINHAND));
+        super(definition(TCItemCore.ANTI_POWERED, 8, 1, Enchantment.dynamicCost(5, 9), Enchantment.dynamicCost(20, 9), 4, EquipmentSlot.MAINHAND));
     }
 
     @Override

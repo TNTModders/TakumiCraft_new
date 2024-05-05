@@ -5,12 +5,12 @@ import com.tntmodders.takumicraft.core.TCEnchantmentCore;
 import com.tntmodders.takumicraft.core.TCItemCore;
 import com.tntmodders.takumicraft.provider.ITCItems;
 import com.tntmodders.takumicraft.provider.ITCRecipe;
-import com.tntmodders.takumicraft.provider.ITCTranslator;
 import com.tntmodders.takumicraft.provider.TCRecipeProvider;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.SmithingTransformRecipeBuilder;
 import net.minecraft.network.chat.Component;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.*;
@@ -20,7 +20,7 @@ import net.minecraft.world.level.Level;
 
 import java.util.List;
 
-public class TCCreeperSwordItem extends SwordItem implements ITCItems, ITCTranslator, ITCRecipe {
+public class TCCreeperSwordItem extends SwordItem implements ITCItems, ITCRecipe {
     public TCCreeperSwordItem() {
         super(Tiers.IRON, new Item.Properties().attributes(SwordItem.createAttributes(Tiers.IRON, 3, -2.4f)));
     }
@@ -70,6 +70,6 @@ public class TCCreeperSwordItem extends SwordItem implements ITCItems, ITCTransl
 
     @Override
     public List<TagKey<Item>> getItemTags() {
-        return List.of(TCItemCore.ANTI_POWERED);
+        return List.of(TCItemCore.ANTI_POWERED, ItemTags.SWORDS);
     }
 }
