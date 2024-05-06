@@ -4,7 +4,9 @@ import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.client.renderer.entity.TCWolfCreeperRenderer;
 import com.tntmodders.takumicraft.core.TCEntityCore;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.BlockTags;
@@ -20,6 +22,7 @@ import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.Wolf;
+import net.minecraft.world.entity.animal.WolfVariant;
 import net.minecraft.world.entity.animal.horse.Llama;
 import net.minecraft.world.entity.monster.AbstractSkeleton;
 import net.minecraft.world.entity.monster.Creeper;
@@ -38,6 +41,7 @@ import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
 import net.minecraftforge.event.level.ExplosionEvent;
 
+import java.util.List;
 import java.util.function.Predicate;
 
 public class TCWolfCreeper extends AbstractTCCreeper {
@@ -52,10 +56,13 @@ public class TCWolfCreeper extends AbstractTCCreeper {
     private float shakeAnim;
     private float shakeAnimO;
 
+    private final List<Holder.Reference<WolfVariant>> wolves;
+
     public TCWolfCreeper(EntityType<? extends Creeper> entityType, Level level) {
         super(entityType, level);
         this.setPathfindingMalus(PathType.POWDER_SNOW, -1.0F);
         this.setPathfindingMalus(PathType.DANGER_POWDER_SNOW, -1.0F);
+        this.wolves = this.registryAccess().registryOrThrow(Registries.WOLF_VARIANT).holders().toList();
     }
 
     public static boolean checkWolfSpawnRules(EntityType<? extends AbstractTCCreeper> p_218292_, LevelAccessor p_218293_, MobSpawnType p_218294_, BlockPos p_218295_, RandomSource p_218296_) {
@@ -254,6 +261,7 @@ public class TCWolfCreeper extends AbstractTCCreeper {
                 wolf.setTarget(this.getTarget());
                 wolf.setRemainingPersistentAngerTime(1000000);
                 wolf.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.65);
+                wolf.setVariant(this.wolves.get(this.getRandom().nextInt(this.wolves.size())));
                 this.level().addFreshEntity(wolf);
             }
         }
