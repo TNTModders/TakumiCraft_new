@@ -407,6 +407,20 @@
       },
       "trigger": "minecraft:player_killed_entity"
     },
+    "slay_kingcreeper": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "takumicraft:kingcreeper"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
     "slay_lavacreeper": {
       "conditions": {
         "entity": [
@@ -1103,6 +1117,9 @@
     ],
     [
       "slay_yukaricreeper"
+    ],
+    [
+      "slay_kingcreeper"
     ]
   ],
   "sends_telemetry_event": true

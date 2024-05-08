@@ -3,6 +3,7 @@ package com.tntmodders.takumicraft.core;
 import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.entity.mobs.*;
 import com.tntmodders.takumicraft.entity.mobs.AbstractTCCreeper.TCCreeperContext;
+import com.tntmodders.takumicraft.entity.mobs.boss.TCKingCreeper;
 import com.tntmodders.takumicraft.entity.projectile.TCAmethystBomb;
 import com.tntmodders.takumicraft.entity.projectile.TCBirdBomb;
 import com.tntmodders.takumicraft.entity.projectile.TCCreeperArrow;
@@ -94,6 +95,7 @@ public class TCEntityCore {
     public static final TCCreeperContext<TCStrayCreeper> STRAY = new TCStrayCreeper.TCStrayCreeperContext();
     public static final TCCreeperContext<TCWitherSkeletonCreeper> WITHER_SKELETON = new TCWitherSkeletonCreeper.TCWitherSkeletonCreeperContext();
     public static final TCCreeperContext<TCPotatoCreeper> POTATO = new TCPotatoCreeper.TCPotatoCreeperContext();
+    public static final TCCreeperContext<TCKingCreeper> KING = new TCKingCreeper.TCKingCreeperContext();
 
     public static final TagKey<EntityType<?>> TAKUMIS = TagKey.create(Registries.ENTITY_TYPE, new ResourceLocation(TakumiCraftCore.MODID, "takumi"));
     public static final TagKey<EntityType<?>> NETHER_TAKUMIS = TagKey.create(Registries.ENTITY_TYPE, new ResourceLocation(TakumiCraftCore.MODID, "nether_takumi"));
