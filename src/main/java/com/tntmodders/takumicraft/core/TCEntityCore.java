@@ -1,6 +1,7 @@
 package com.tntmodders.takumicraft.core;
 
 import com.tntmodders.takumicraft.TakumiCraftCore;
+import com.tntmodders.takumicraft.entity.misc.TCKingStorm;
 import com.tntmodders.takumicraft.entity.mobs.*;
 import com.tntmodders.takumicraft.entity.mobs.AbstractTCCreeper.TCCreeperContext;
 import com.tntmodders.takumicraft.entity.mobs.boss.TCKingCreeper;
@@ -135,6 +136,8 @@ public class TCEntityCore {
                 entityTypeRegisterHelper.register(new ResourceLocation(TakumiCraftCore.MODID, "amethystbomb"), TCAmethystBomb.AMETHYST_BOMB));
         event.register(ForgeRegistries.ENTITY_TYPES.getRegistryKey(), entityTypeRegisterHelper ->
                 entityTypeRegisterHelper.register(new ResourceLocation(TakumiCraftCore.MODID, "birdbomb"), TCBirdBomb.BIRD_BOMB));
+        event.register(ForgeRegistries.ENTITY_TYPES.getRegistryKey(), entityTypeRegisterHelper ->
+                entityTypeRegisterHelper.register(new ResourceLocation(TakumiCraftCore.MODID, "king_storm"), TCKingStorm.KING_STORM));
     }
 
     public static void registerAttribute(EntityAttributeCreationEvent event) {
@@ -153,7 +156,12 @@ public class TCEntityCore {
                 e.printStackTrace();
             }
         });
+        registerAdditionalAttribute(event);
         TCLoggingUtils.completeRegistry("EntityAttribute");
+    }
+
+    private static void registerAdditionalAttribute(EntityAttributeCreationEvent event) {
+        event.put(TCKingStorm.KING_STORM, TCKingStorm.createAttributes().build());
     }
 
     public static void registerSpawn(SpawnPlacementRegisterEvent event) {

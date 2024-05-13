@@ -85,4 +85,8 @@ public class TCCreeperMaceItem extends MaceItem implements ITCItems, ITCRecipe {
         return List.of(TCItemCore.BLAST_POWERED);
     }
 
+    @Override
+    public boolean isFoil(ItemStack p_41453_) {
+        return true;
+    }
 }

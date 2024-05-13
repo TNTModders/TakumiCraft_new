@@ -72,4 +72,9 @@ public class TCCreeperSwordItem extends SwordItem implements ITCItems, ITCRecipe
     public List<TagKey<Item>> getItemTags() {
         return List.of(TCItemCore.ANTI_POWERED, ItemTags.SWORDS);
     }
+
+    @Override
+    public boolean isFoil(ItemStack p_41453_) {
+        return true;
+    }
 }

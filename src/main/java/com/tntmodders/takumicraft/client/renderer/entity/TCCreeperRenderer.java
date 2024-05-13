@@ -6,6 +6,7 @@ import com.tntmodders.takumicraft.client.renderer.entity.layer.TCCreeperOutfitLa
 import com.tntmodders.takumicraft.client.renderer.entity.layer.TCCreeperPowerLayer;
 import com.tntmodders.takumicraft.entity.mobs.AbstractTCCreeper;
 import com.tntmodders.takumicraft.utils.TCEntityUtils;
+import com.tntmodders.takumicraft.utils.client.TCClientUtils;
 import net.minecraft.client.model.CreeperModel;
 import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -36,18 +37,9 @@ public class TCCreeperRenderer<T extends AbstractTCCreeper> extends MobRenderer<
 
     @Override
     protected void scale(T creeper, PoseStack poseStack, float size) {
-
         float sizeFactor = creeper.getContext().getSizeFactor();
         poseStack.scale(sizeFactor, sizeFactor, sizeFactor);
-
-        float f = creeper.getSwelling(size);
-        float f1 = 1.0F + Mth.sin(f * 100.0F) * f * 0.01F;
-        f = Mth.clamp(f, 0.0F, 1.0F);
-        f *= f;
-        f *= f;
-        float f2 = (1.0F + f * 0.4F) * f1;
-        float f3 = (1.0F + f * 0.1F) / f1;
-        poseStack.scale(f2, f3, f2);
+        TCClientUtils.scaleSwelling(creeper, poseStack, size);
     }
 
     @Override

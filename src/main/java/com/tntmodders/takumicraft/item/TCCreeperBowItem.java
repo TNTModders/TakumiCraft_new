@@ -200,4 +200,9 @@ public class TCCreeperBowItem extends BowItem implements ITCItems, ITCTranslator
                         , RecipeCategory.COMBAT, TCItemCore.CREEPER_BOW).unlocks("has_creeperbomb", TCRecipeProvider.hasItem(TCBlockCore.CREEPER_BOMB))
                 .save(consumer, "creeperbow_smithing");
     }
+
+    @Override
+    public boolean isFoil(ItemStack p_41453_) {
+        return true;
+    }
 }
