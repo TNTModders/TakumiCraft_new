@@ -35,6 +35,7 @@ import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.entity.projectile.ProjectileDeflection;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.ItemLike;
@@ -118,7 +119,11 @@ public class TCKingCreeper extends AbstractTCCreeper {
 
     public void setRandomAttackID() {
         //this.setAttackID(EnumTCKingCreeperAttackID.getRandomID(this.getRandom()));
-        this.setAttackID(EnumTCKingCreeperAttackID.SWORD);
+        this.setAttackID(EnumTCKingCreeperAttackID.ARROWRAIN);
+    }
+
+    public void setUseItem(ItemStack stack) {
+        this.useItem = stack;
     }
 
     @Override

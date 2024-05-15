@@ -55,7 +55,7 @@ public class TCItemModelProvider extends ItemModelProvider {
         for (int i = 0; i < 3; i++) {
             name = ((ITCItems) item).getRegistryName() + "_pulling_" + i;
             loc[i] = new ResourceLocation(TakumiCraftCore.MODID, folder + "/" + name);
-            withExistingParent(name, mcLoc("bow_pulling_" + i)).texture("layer0", loc[0]);
+            withExistingParent(name, mcLoc("bow_pulling_" + i)).texture("layer0", loc[i]);
         }
         name = ((ITCItems) item).getRegistryName();
         withExistingParent(name, mcLoc("bow")).texture("layer0", new ResourceLocation(TakumiCraftCore.MODID, folder + "/" + name))

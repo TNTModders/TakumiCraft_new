@@ -8,18 +8,18 @@ public class TCLoggingUtils {
     }
 
     public static void logMessage(String type, String msg) {
-        TC_LOGGER.info("TakumiCraft_" + type + ": " + msg);
+        TC_LOGGER.info("TakumiCraft_{}: {}", type, msg);
     }
 
     public static void startRegistry(String type) {
-        TC_LOGGER.info("TakumiCraft_" + type + "Registry ::");
+        TC_LOGGER.info("TakumiCraft_{}Registry ::", type);
     }
 
     public static void completeRegistry(String type) {
-        TC_LOGGER.info(":: TakumiCraft_" + type + "Registry Complete");
+        TC_LOGGER.info(":: TakumiCraft_{}Registry Complete", type);
     }
 
     public static void entryRegistry(String type, String entryName) {
-        TC_LOGGER.info("TC Registered " + type + ": " + entryName);
+        TC_LOGGER.info("TC Registered {}: {}", type, entryName);
     }
 }
