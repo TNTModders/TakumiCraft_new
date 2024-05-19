@@ -8,8 +8,10 @@ import com.tntmodders.takumicraft.client.renderer.block.TCMonsterBombBlockRender
 import com.tntmodders.takumicraft.client.renderer.block.model.TCSaberModel;
 import com.tntmodders.takumicraft.client.renderer.block.model.TCShieldModel;
 import com.tntmodders.takumicraft.client.renderer.entity.TCAmethystBombRenderer;
+import com.tntmodders.takumicraft.client.renderer.entity.TCKingBlockRenderer;
 import com.tntmodders.takumicraft.core.TCBlockEntityCore;
 import com.tntmodders.takumicraft.core.TCEntityCore;
+import com.tntmodders.takumicraft.entity.misc.TCKingBlock;
 import com.tntmodders.takumicraft.entity.misc.TCKingStorm;
 import com.tntmodders.takumicraft.entity.projectile.TCAmethystBomb;
 import com.tntmodders.takumicraft.entity.projectile.TCBirdBomb;
@@ -61,6 +63,7 @@ public class TCRenderCore {
                 return null;
             }
         });
+        event.registerEntityRenderer(TCKingBlock.KING_BLOCK, TCKingBlockRenderer::new);
     }
 
     public static void registerLayerDefinition(EntityRenderersEvent.RegisterLayerDefinitions event) {

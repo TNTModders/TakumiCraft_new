@@ -1,6 +1,7 @@
 package com.tntmodders.takumicraft.core;
 
 import com.tntmodders.takumicraft.TakumiCraftCore;
+import com.tntmodders.takumicraft.entity.misc.TCKingBlock;
 import com.tntmodders.takumicraft.entity.misc.TCKingStorm;
 import com.tntmodders.takumicraft.entity.mobs.*;
 import com.tntmodders.takumicraft.entity.mobs.AbstractTCCreeper.TCCreeperContext;
@@ -138,6 +139,8 @@ public class TCEntityCore {
                 entityTypeRegisterHelper.register(new ResourceLocation(TakumiCraftCore.MODID, "birdbomb"), TCBirdBomb.BIRD_BOMB));
         event.register(ForgeRegistries.ENTITY_TYPES.getRegistryKey(), entityTypeRegisterHelper ->
                 entityTypeRegisterHelper.register(new ResourceLocation(TakumiCraftCore.MODID, "king_storm"), TCKingStorm.KING_STORM));
+        event.register(ForgeRegistries.ENTITY_TYPES.getRegistryKey(), entityTypeRegisterHelper ->
+                entityTypeRegisterHelper.register(new ResourceLocation(TakumiCraftCore.MODID, "king_block"), TCKingBlock.KING_BLOCK));
     }
 
     public static void registerAttribute(EntityAttributeCreationEvent event) {

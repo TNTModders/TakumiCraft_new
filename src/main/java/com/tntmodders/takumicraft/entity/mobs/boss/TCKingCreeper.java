@@ -11,6 +11,7 @@ import com.tntmodders.takumicraft.utils.TCExplosionUtils;
 import com.tntmodders.takumicraft.utils.TCLoggingUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -26,6 +27,8 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
@@ -59,6 +62,7 @@ public class TCKingCreeper extends AbstractTCCreeper {
     private static final EntityDataAccessor<Integer> ATTACK_ID = SynchedEntityData.defineId(TCKingCreeper.class, EntityDataSerializers.INT);
     public static final ResourceLocation KING_LOCATION = new ResourceLocation(TakumiCraftCore.MODID, "textures/entity/creeper/kingcreeper_armor.png");
     private int lastAttackID;
+    private boolean ULTCasted;
 
     private static final ProjectileDeflection PROJECTILE_DEFLECTION = (projectile, entity, randomSource) -> {
         entity.level().playLocalSound(entity, SoundEvents.BREEZE_DEFLECT, entity.getSoundSource(), 1.0F, 1.0F);
@@ -118,8 +122,28 @@ public class TCKingCreeper extends AbstractTCCreeper {
     }
 
     public void setRandomAttackID() {
-        //this.setAttackID(EnumTCKingCreeperAttackID.getRandomID(this.getRandom()));
-        this.setAttackID(EnumTCKingCreeperAttackID.ARROWRAIN);
+        if (!this.getAttackID().isULTATK()) {
+            //this.setAttackID(EnumTCKingCreeperAttackID.getRandomID(this.getRandom()));
+        }
+        this.setAttackID(EnumTCKingCreeperAttackID.ULT_EXP);
+    }
+
+    @Override
+    public void readAdditionalSaveData(CompoundTag tag) {
+        super.readAdditionalSaveData(tag);
+        this.setAttackID(EnumTCKingCreeperAttackID.getID(tag.getInt("AttackID")));
+        if (tag.getBoolean("ULTCasted")) {
+            this.ULTCasted = true;
+        }
+    }
+
+    @Override
+    public void addAdditionalSaveData(CompoundTag tag) {
+        super.addAdditionalSaveData(tag);
+        tag.putInt("AttackID", this.getAttackID().getID());
+        if (this.ULTCasted) {
+            tag.putBoolean("ULTCasted", true);
+        }
     }
 
     public void setUseItem(ItemStack stack) {
@@ -139,6 +163,9 @@ public class TCKingCreeper extends AbstractTCCreeper {
         TCLoggingUtils.info(this.getAttackID());
         if (!this.level().isClientSide) {
             this.getAttackID().getAttack().serverExp(this);
+            if (this.getAttackID().isULTATK()) {
+                this.ULTCasted = true;
+            }
             if (this.isIgnited()) {
                 this.ignite();
             }
@@ -146,6 +173,13 @@ public class TCKingCreeper extends AbstractTCCreeper {
         this.setSwellDir(-2);
         this.setAttackID(EnumTCKingCreeperAttackID.NONE);
         this.swell = this.maxSwell / 2;
+        if (this.getHealth() < this.getMaxHealth() / 2) {
+            if (!this.ULTCasted) {
+                this.setAttackID(EnumTCKingCreeperAttackID.ULT_EXP);
+            }
+            this.setPowered(true);
+        }
+        this.setHealth(10);
     }
 
     @Override
@@ -267,7 +301,7 @@ public class TCKingCreeper extends AbstractTCCreeper {
 
         @Override
         public int getSecondaryColor() {
-            return 0x8888ff;
+            return 0x88ff00;
         }
 
         @Override
@@ -293,6 +327,11 @@ public class TCKingCreeper extends AbstractTCCreeper {
         @Override
         public ResourceLocation getArmor() {
             return KING_LOCATION;
+        }
+
+        @Override
+        public AttributeSupplier.Builder entityAttribute() {
+            return Creeper.createAttributes().add(Attributes.MAX_HEALTH, 250).add(Attributes.KNOCKBACK_RESISTANCE, 1000000).add(Attributes.FOLLOW_RANGE, 100).add(Attributes.MOVEMENT_SPEED, 0.3).add(Attributes.ARMOR, 4);
         }
 
         @Override
@@ -330,19 +369,19 @@ public class TCKingCreeper extends AbstractTCCreeper {
         MACE(11, new MaceKingCreeperAttack()),
         ARROWRAIN(12, new ArrowrainKingCreeperAttack()),
         KINGBLOCK(13, new KingblockKingCreeperAttack()),
-        SP_EXP(90, true, new SPExplosionKingCreeperAttack());
+        ULT_EXP(90, true, new SPExplosionKingCreeperAttack());
 
         private final int id;
-        private final boolean isSPAtk;
+        private final boolean isULT;
         private final AbstractKingCreeperAttack attack;
 
         EnumTCKingCreeperAttackID(int id, AbstractKingCreeperAttack atk) {
             this(id, false, atk);
         }
 
-        EnumTCKingCreeperAttackID(int id, boolean isSPAtk, AbstractKingCreeperAttack atk) {
+        EnumTCKingCreeperAttackID(int id, boolean ult, AbstractKingCreeperAttack atk) {
             this.id = id;
-            this.isSPAtk = isSPAtk;
+            this.isULT = ult;
             this.attack = atk;
         }
 
@@ -354,8 +393,8 @@ public class TCKingCreeper extends AbstractTCCreeper {
             return id;
         }
 
-        public boolean isSPAtk() {
-            return isSPAtk;
+        public boolean isULTATK() {
+            return isULT && this != NONE;
         }
 
         public static Stream<EnumTCKingCreeperAttackID> getIDs() {
@@ -368,7 +407,7 @@ public class TCKingCreeper extends AbstractTCCreeper {
         }
 
         public static EnumTCKingCreeperAttackID getRandomID(RandomSource random) {
-            List<EnumTCKingCreeperAttackID> list = Arrays.stream(EnumTCKingCreeperAttackID.values()).filter(id -> !id.isSPAtk).toList();
+            List<EnumTCKingCreeperAttackID> list = Arrays.stream(EnumTCKingCreeperAttackID.values()).filter(id -> !id.isULT).toList();
             return list.get(random.nextInt(list.size()));
         }
     }
