@@ -18,6 +18,8 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 
 public class TCSkeletonCreeper extends AbstractTCSkeletonCreeper {
@@ -198,6 +200,7 @@ public class TCSkeletonCreeper extends AbstractTCSkeletonCreeper {
         }
 
         @Override
+        @OnlyIn(Dist.CLIENT)
         public void registerRenderer(EntityRenderersEvent.RegisterRenderers event, EntityType<?> type) {
             event.registerEntityRenderer((EntityType<AbstractTCCreeper>) type, p_174010_ -> new TCSkeletonCreeperRenderer(p_174010_, this));
         }

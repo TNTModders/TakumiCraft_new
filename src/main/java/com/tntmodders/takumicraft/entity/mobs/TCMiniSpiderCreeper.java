@@ -11,6 +11,8 @@ import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 
 public class TCMiniSpiderCreeper extends TCSpiderCreeper {
@@ -76,6 +78,7 @@ public class TCMiniSpiderCreeper extends TCSpiderCreeper {
         }
 
         @Override
+        @OnlyIn(Dist.CLIENT)
         public void registerRenderer(EntityRenderersEvent.RegisterRenderers event, EntityType<?> type) {
             event.registerEntityRenderer((EntityType<TCSpiderCreeper>) type, TCSpiderCreeperRenderer::new);
         }

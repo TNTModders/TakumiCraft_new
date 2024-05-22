@@ -23,6 +23,8 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.common.world.ModifiableBiomeInfo;
 import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
@@ -129,6 +131,7 @@ public class TCYukariCreeper extends AbstractTCCreeper {
         }
 
         @Override
+        @OnlyIn(Dist.CLIENT)
         public void registerRenderer(EntityRenderersEvent.RegisterRenderers event, EntityType<?> type) {
             event.registerEntityRenderer((EntityType<TCYukariCreeper>) type, p_173958_ -> new TCCreeperRenderer<>(p_173958_, true, TCEntityCore.YUKARI));
         }

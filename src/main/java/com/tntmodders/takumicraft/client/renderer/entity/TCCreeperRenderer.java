@@ -14,7 +14,10 @@ import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
+@OnlyIn(Dist.CLIENT)
 public class TCCreeperRenderer<T extends AbstractTCCreeper> extends MobRenderer<T, CreeperModel<T>> {
     private final boolean isBright;
 

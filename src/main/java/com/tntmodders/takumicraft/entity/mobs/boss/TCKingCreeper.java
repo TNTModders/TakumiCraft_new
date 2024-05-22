@@ -47,6 +47,8 @@ import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.common.world.ModifiableBiomeInfo;
 import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
@@ -335,6 +337,7 @@ public class TCKingCreeper extends AbstractTCCreeper {
         }
 
         @Override
+        @OnlyIn(Dist.CLIENT)
         public void registerRenderer(EntityRenderersEvent.RegisterRenderers event, EntityType<?> type) {
             event.registerEntityRenderer((EntityType<TCKingCreeper>) type, p_173958_ -> new TCKingCreeperRenderer<>(p_173958_, TCEntityCore.KING));
         }
