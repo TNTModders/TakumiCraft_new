@@ -125,9 +125,9 @@ public class TCKingCreeper extends AbstractTCCreeper {
 
     public void setRandomAttackID() {
         if (!this.getAttackID().isULTATK()) {
-            //this.setAttackID(EnumTCKingCreeperAttackID.getRandomID(this.getRandom()));
+            this.setAttackID(EnumTCKingCreeperAttackID.getRandomID(this.getRandom()));
         }
-        this.setAttackID(EnumTCKingCreeperAttackID.ULT_EXP);
+        //this.setAttackID(EnumTCKingCreeperAttackID.ULT_EXP);
     }
 
     @Override
