@@ -14,5 +14,6 @@ public class TCWitherSkeletonCreeperRenderer extends TCSkeletonCreeperRenderer {
     @Override
     protected void scale(AbstractTCSkeletonCreeper p_114046_, PoseStack p_114047_, float p_114048_) {
         p_114047_.scale(1.2F, 1.2F, 1.2F);
+        super.scale(p_114046_, p_114047_, p_114048_);
     }
 }

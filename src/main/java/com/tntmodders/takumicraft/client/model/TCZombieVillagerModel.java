@@ -1,6 +1,6 @@
 package com.tntmodders.takumicraft.client.model;
 
-import com.tntmodders.takumicraft.entity.mobs.TCZombieVillagerCreeper;
+import com.tntmodders.takumicraft.entity.mobs.TCZombieCreeper;
 import net.minecraft.client.model.AnimationUtils;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.VillagerHeadModel;
@@ -11,7 +11,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class TCZombieVillagerModel<T extends TCZombieVillagerCreeper> extends HumanoidModel<T> implements VillagerHeadModel {
+public class TCZombieVillagerModel<T extends TCZombieCreeper> extends HumanoidModel<T> implements VillagerHeadModel {
     private final ModelPart hatRim = this.hat.getChild("hat_rim");
 
     public TCZombieVillagerModel(ModelPart p_171092_) {

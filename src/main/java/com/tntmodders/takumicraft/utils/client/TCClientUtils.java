@@ -6,10 +6,8 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.math.Axis;
 import com.tntmodders.takumicraft.TakumiCraftCore;
-import com.tntmodders.takumicraft.entity.mobs.AbstractTCCreeper;
-import com.tntmodders.takumicraft.entity.mobs.TCHorseCreeper;
-import com.tntmodders.takumicraft.entity.mobs.TCSquidCreeper;
-import com.tntmodders.takumicraft.entity.mobs.TCZombieVillagerCreeper;
+import com.tntmodders.takumicraft.core.TCItemCore;
+import com.tntmodders.takumicraft.entity.mobs.*;
 import net.minecraft.advancements.AdvancementProgress;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientAdvancements;
@@ -20,9 +18,11 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.npc.VillagerData;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.entity.npc.VillagerType;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.joml.Quaternionf;
@@ -103,6 +103,12 @@ public class TCClientUtils {
         } else if (!isOutline && entity instanceof TCHorseCreeper creeper) {
             posestack.scale(0.85f, 0.85f, 0.85f);
             posestack.translate(-0.3, 0, 0);
+        } else if (entity instanceof TCWitherSkeletonCreeper creeper) {
+            creeper.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(TCItemCore.CREEPER_SWORD));
+        } else if (entity instanceof TCSkeletonCreeper creeper) {
+            creeper.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(TCItemCore.CREEPER_BOW));
+        } else if (entity instanceof TCMaceCreeper creeper) {
+            creeper.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(TCItemCore.CREEPER_MACE));
         }
     }
 

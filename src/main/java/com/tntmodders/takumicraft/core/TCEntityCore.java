@@ -98,6 +98,7 @@ public class TCEntityCore {
     public static final TCCreeperContext<TCWitherSkeletonCreeper> WITHER_SKELETON = new TCWitherSkeletonCreeper.TCWitherSkeletonCreeperContext();
     public static final TCCreeperContext<TCPotatoCreeper> POTATO = new TCPotatoCreeper.TCPotatoCreeperContext();
     public static final TCCreeperContext<TCKingCreeper> KING = new TCKingCreeper.TCKingCreeperContext();
+    public static final TCCreeperContext<TCMaceCreeper> MACE = new TCMaceCreeper.TCMaceCreeperContext();
 
     public static final TagKey<EntityType<?>> TAKUMIS = TagKey.create(Registries.ENTITY_TYPE, new ResourceLocation(TakumiCraftCore.MODID, "takumi"));
     public static final TagKey<EntityType<?>> NETHER_TAKUMIS = TagKey.create(Registries.ENTITY_TYPE, new ResourceLocation(TakumiCraftCore.MODID, "nether_takumi"));

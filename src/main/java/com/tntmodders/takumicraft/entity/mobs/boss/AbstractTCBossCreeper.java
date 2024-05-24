@@ -1,5 +1,6 @@
-package com.tntmodders.takumicraft.entity.mobs;
+package com.tntmodders.takumicraft.entity.mobs.boss;
 
+import com.tntmodders.takumicraft.entity.mobs.AbstractTCCreeper;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerBossEvent;

@@ -5,6 +5,7 @@ import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.client.renderer.entity.layer.TCCreeperPowerLayer;
 import com.tntmodders.takumicraft.entity.mobs.AbstractTCCreeper;
 import com.tntmodders.takumicraft.entity.mobs.AbstractTCSkeletonCreeper;
+import com.tntmodders.takumicraft.utils.client.TCClientUtils;
 import net.minecraft.client.model.SkeletonModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelLayers;
@@ -34,14 +35,7 @@ public class TCSkeletonCreeperRenderer<T extends AbstractTCSkeletonCreeper, M ex
 
     @Override
     protected void scale(T p_114046_, PoseStack p_114047_, float p_114048_) {
-        float f = p_114046_.getSwelling(p_114048_);
-        float f1 = 1.0F + Mth.sin(f * 100.0F) * f * 0.01F;
-        f = Mth.clamp(f, 0.0F, 1.0F);
-        f *= f;
-        f *= f;
-        float f2 = (1.0F + f * 0.4F) * f1;
-        float f3 = (1.0F + f * 0.1F) / f1;
-        p_114047_.scale(f2, f3, f2);
+        TCClientUtils.scaleSwelling(p_114046_, p_114047_, p_114048_);
     }
 
     @Override

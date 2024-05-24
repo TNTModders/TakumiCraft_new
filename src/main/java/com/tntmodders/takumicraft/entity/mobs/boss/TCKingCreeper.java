@@ -7,7 +7,6 @@ import com.tntmodders.takumicraft.core.TCEntityCore;
 import com.tntmodders.takumicraft.core.TCItemCore;
 import com.tntmodders.takumicraft.entity.ai.TCKingCreeperSwellGoal;
 import com.tntmodders.takumicraft.entity.ai.boss.king.*;
-import com.tntmodders.takumicraft.entity.mobs.AbstractTCBossCreeper;
 import com.tntmodders.takumicraft.entity.mobs.AbstractTCCreeper;
 import com.tntmodders.takumicraft.utils.TCExplosionUtils;
 import com.tntmodders.takumicraft.utils.TCLoggingUtils;
