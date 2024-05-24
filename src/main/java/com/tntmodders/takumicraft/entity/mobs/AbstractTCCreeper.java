@@ -225,7 +225,7 @@ public abstract class AbstractTCCreeper extends Creeper implements ITCEntities, 
         default LootTable.Builder additionalBuilder(LootTable.Builder lootTable) {
             lootTable = lootTable.withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1f))
                     .add(LootItem.lootTableItem(TCBlockCore.CREEPER_BOMB))
-                    .apply(SetItemCountFunction.setCount(UniformGenerator.between(0f, TCCreeperContext.this.getRank().getLevel() > 1 ? 2f : 0f))));
+                    .apply(SetItemCountFunction.setCount(UniformGenerator.between(0f, TCCreeperContext.this.getRank() != EnumTakumiRank.BOSS && TCCreeperContext.this.getRank().getLevel() > 1 ? 2f : 0f))));
             EnumTakumiElement element = TCCreeperContext.this.getElement();
             if (!element.isSPElement()) {
                 Item item = TCElementCoreItem.getElementCoreFormElement(element.getMainElement());

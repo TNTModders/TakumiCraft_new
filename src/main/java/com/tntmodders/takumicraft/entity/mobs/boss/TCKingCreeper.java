@@ -245,14 +245,13 @@ public class TCKingCreeper extends AbstractTCBossCreeper {
         if (source.getEntity() == this) {
             return super.hurt(source, damage);
         }
-        boolean flg = source.getEntity() instanceof Player || source.getDirectEntity() instanceof Player;
-        if (flg && this.getTarget() == null) {
-            Entity entity = source.getEntity();
-            if (entity instanceof Player player) {
-                this.setTarget(player);
-            } else {
-                this.setTarget((Player) source.getDirectEntity());
-            }
+        boolean flg1 = source.getEntity() instanceof Player;
+        boolean flg2 = source.getDirectEntity() instanceof Player;
+        boolean flg = flg1 || flg2;
+        if (flg1 && !((Player) source.getEntity()).isCreative()) {
+            this.setTarget((Player) source.getEntity());
+        } else if (flg2 && !((Player) source.getDirectEntity()).isCreative()) {
+            this.setTarget((Player) source.getDirectEntity());
         }
         boolean damageImmune = false;
         if (damage > 20) {
@@ -361,7 +360,7 @@ public class TCKingCreeper extends AbstractTCBossCreeper {
 
         @Override
         public ItemLike getMainDropItem() {
-            return TCItemCore.BOLTSTONE;
+            return TCItemCore.KING_CORE;
         }
 
         @Override
@@ -391,7 +390,7 @@ public class TCKingCreeper extends AbstractTCBossCreeper {
 
         @Override
         public UniformGenerator getDropRange() {
-            return UniformGenerator.between(1f, 1f);
+            return UniformGenerator.between(4f, 4f);
         }
     }
 

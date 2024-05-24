@@ -1,7 +1,6 @@
 package com.tntmodders.takumicraft.item;
 
 import com.tntmodders.takumicraft.core.TCEnchantmentCore;
-import com.tntmodders.takumicraft.core.TCItemCore;
 import com.tntmodders.takumicraft.provider.ITCItems;
 import com.tntmodders.takumicraft.provider.ITCTranslator;
 import net.minecraft.world.InteractionHand;
@@ -17,7 +16,6 @@ import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.item.enchantment.Enchantments;
@@ -40,12 +38,12 @@ public class TCTesterItem extends Item implements ITCItems, ITCTranslator {
 
     @Override
     public InteractionResultHolder<ItemStack> use(Level p_41432_, Player p_41433_, InteractionHand p_41434_) {
-        p_41433_.setItemSlot(EquipmentSlot.HEAD, getSuperArmor(Items.NETHERITE_HELMET));
+/*        p_41433_.setItemSlot(EquipmentSlot.HEAD, getSuperArmor(Items.NETHERITE_HELMET));
         p_41433_.setItemSlot(EquipmentSlot.CHEST, getSuperArmor(Items.NETHERITE_CHESTPLATE));
         p_41433_.setItemSlot(EquipmentSlot.LEGS, getSuperArmor(Items.NETHERITE_LEGGINGS));
         p_41433_.setItemSlot(EquipmentSlot.FEET, getSuperArmor(Items.NETHERITE_BOOTS));
         p_41433_.addItem(getSuperWeapon(TCItemCore.CREEPER_SWORD));
-        p_41433_.addItem(getSuperWeapon(TCItemCore.CREEPER_SHIELD));
+        p_41433_.addItem(getSuperWeapon(TCItemCore.CREEPER_SHIELD));*/
         return super.use(p_41432_, p_41433_, p_41434_);
     }
 

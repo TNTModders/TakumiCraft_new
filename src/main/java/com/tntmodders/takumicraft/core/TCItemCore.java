@@ -57,6 +57,7 @@ public class TCItemCore {
     public static final Item SPMEAT_SALMON = new TCTakumiSpecialMeatItem(Items.COOKED_SALMON, Items.SALMON, true);
     public static final Item SPMEAT_ZOMBIE = new TCTakumiSpecialMeatItem(Items.ROTTEN_FLESH, Items.ROTTEN_FLESH, false);
     public static final Item CREEPER_MACE = new TCCreeperMaceItem();
+    public static final Item KING_CORE = new TCKingCore();
 
     public static final TagKey<Item> GUNORES = TagKey.create(Registries.ITEM, new ResourceLocation(TakumiCraftCore.MODID,
             "gunores"));

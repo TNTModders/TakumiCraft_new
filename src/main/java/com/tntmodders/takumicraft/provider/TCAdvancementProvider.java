@@ -111,6 +111,12 @@ public class TCAdvancementProvider extends ForgeAdvancementProvider {
                             AdvancementType.TASK, true, true, false).parent(creepershield);
             TCTakumiSpecialMeatItem.MEAT_LIST.forEach(meatItem -> specialmeat_builder.addCriterion(meatItem.getRegistryName(), ConsumeItemTrigger.TriggerInstance.usedItem(meatItem)));
             AdvancementHolder specialmeat = specialmeat_builder.save(consumer, new ResourceLocation(TakumiCraftCore.MODID, "spmeat"));
+
+            AdvancementHolder kingslayer = Advancement.Builder.advancement()
+                    .display(new ItemStack(TCItemCore.KING_CORE), Component.translatable("advancement.takumicraft.kingslayer.title"),
+                            Component.translatable("advancement.takumicraft.kingslayer.desc"), null,
+                            AdvancementType.CHALLENGE, true, true, false)
+                    .addCriterion("kingslayer", KilledTrigger.TriggerInstance.playerKilledEntity(new EntityPredicate.Builder().of(TCEntityCore.KING.entityType()))).parent(takumialtar).save(consumer, new ResourceLocation(TakumiCraftCore.MODID, "kingslayer"));
         }
     }
 }

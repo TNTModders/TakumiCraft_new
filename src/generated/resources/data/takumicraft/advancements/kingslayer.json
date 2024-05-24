@@ -1,0 +1,38 @@
+{
+  "parent": "takumicraft:takumialtar",
+  "criteria": {
+    "kingslayer": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "takumicraft:kingcreeper"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancement.takumicraft.kingslayer.desc"
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "takumicraft:kingcore"
+    },
+    "title": {
+      "translate": "advancement.takumicraft.kingslayer.title"
+    }
+  },
+  "requirements": [
+    [
+      "kingslayer"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

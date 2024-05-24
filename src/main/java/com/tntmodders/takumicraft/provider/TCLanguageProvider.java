@@ -145,7 +145,9 @@ public abstract class TCLanguageProvider extends LanguageProvider {
             this.add("advancement.takumicraft.takumialtar.title", "Altar of Creeper");
             this.add("advancement.takumicraft.takumialtar.desc", "Get Altar.");
             this.add("advancement.takumicraft.spmeat.title", "Super Duper Meat");
-            this.add("advancement.takumicraft.spmeat.desc", "Get Exploded Meat");
+            this.add("advancement.takumicraft.spmeat.desc", "Get Exploded Meat.");
+            this.add("advancement.takumicraft.kingslayer.title", "King Slayer");
+            this.add("advancement.takumicraft.kingslayer.desc", "Slay King Creeper.");
 
             this.add("item.takumicraft.elementcore.desc", "Available as a smithing template for upgrades.");
             this.add("item.takumicraft.creeperbomb.desc", "Available as a smithing material for upgrades.");
@@ -274,6 +276,8 @@ public abstract class TCLanguageProvider extends LanguageProvider {
             this.add("advancement.takumicraft.takumialtar.desc", "王匠の祭壇を入手する\n\n強者を召喚せよ。");
             this.add("advancement.takumicraft.spmeat.title", "匠印の特上肉");
             this.add("advancement.takumicraft.spmeat.desc", "全ての匠式特上肉を食べる\n\n肉!!\n美味すぎるだろ!!\n反省しろ!!");
+            this.add("advancement.takumicraft.kingslayer.title", "キング=スレイヤー");
+            this.add("advancement.takumicraft.kingslayer.desc", "王匠を倒す\n\n物語は、ほんの始まり。\n次の世界の扉が開かれる刻を待て。");
 
             this.add("item.takumicraft.elementcore.desc", "鍛冶型として鍛冶台でのアップグレードに利用可能");
             this.add("item.takumicraft.creeperbomb.desc", "材料として鍛冶台でのアップグレードに利用可能");
