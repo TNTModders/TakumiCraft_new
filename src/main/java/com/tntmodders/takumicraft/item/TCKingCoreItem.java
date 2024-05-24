@@ -6,10 +6,10 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 
-public class TCKingCore extends Item implements ITCItems, ITCTranslator {
+public class TCKingCoreItem extends Item implements ITCItems, ITCTranslator {
 
-    public TCKingCore() {
-        super(new Properties().rarity(Rarity.EPIC));
+    public TCKingCoreItem() {
+        super(new Properties().rarity(Rarity.EPIC).fireResistant());
     }
 
     @Override
