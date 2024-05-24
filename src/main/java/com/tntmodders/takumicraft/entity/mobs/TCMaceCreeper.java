@@ -79,6 +79,7 @@ public class TCMaceCreeper extends TCZombieCreeper {
             TCExplosionUtils.createExplosion(this.level(), this, this.getOnPos(), 0f);
             this.move(MoverType.SELF, new Vec3(0, 40, 0));
             this.setDeltaMovement(0, -4, 0);
+            this.ignite();
         }
     }
 
