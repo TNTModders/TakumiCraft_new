@@ -103,6 +103,10 @@ public abstract class AbstractTCCreeper extends Creeper implements ITCEntities, 
         super.tick();
     }
 
+    public void weatherSetPowered() {
+        this.setPowered(true);
+    }
+
     public void setPowered(boolean flg) {
         this.entityData.set(Creeper.DATA_IS_POWERED, flg);
     }

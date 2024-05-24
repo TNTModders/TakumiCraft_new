@@ -9,6 +9,8 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.entity.player.Player;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class ThunderKingCreeperAttack extends AbstractKingCreeperAttack {
     private final boolean isRandom;
@@ -39,6 +41,7 @@ public class ThunderKingCreeperAttack extends AbstractKingCreeperAttack {
     }
 
     @Override
+    @OnlyIn(Dist.CLIENT)
     public void clientTick(TCKingCreeper creeper, int swell, PoseStack pose, MultiBufferSource bufferSource, float renderTick) {
         if (this.isRandom) {
             for (double x = -5; x <= 5; x += 0.5) {

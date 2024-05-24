@@ -2,10 +2,12 @@ package com.tntmodders.takumicraft.entity.mobs.boss;
 
 import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.client.renderer.entity.TCKingCreeperRenderer;
+import com.tntmodders.takumicraft.core.TCBlockCore;
 import com.tntmodders.takumicraft.core.TCEntityCore;
 import com.tntmodders.takumicraft.core.TCItemCore;
 import com.tntmodders.takumicraft.entity.ai.TCKingCreeperSwellGoal;
 import com.tntmodders.takumicraft.entity.ai.boss.king.*;
+import com.tntmodders.takumicraft.entity.mobs.AbstractTCBossCreeper;
 import com.tntmodders.takumicraft.entity.mobs.AbstractTCCreeper;
 import com.tntmodders.takumicraft.utils.TCExplosionUtils;
 import com.tntmodders.takumicraft.utils.TCLoggingUtils;
@@ -44,6 +46,7 @@ import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
@@ -52,6 +55,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.common.world.ModifiableBiomeInfo;
 import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
+import net.minecraftforge.event.level.ExplosionEvent;
 
 import java.util.Arrays;
 import java.util.Comparator;
@@ -59,7 +63,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-public class TCKingCreeper extends AbstractTCCreeper {
+public class TCKingCreeper extends AbstractTCBossCreeper {
 
     private static final EntityDataAccessor<Integer> ATTACK_ID = SynchedEntityData.defineId(TCKingCreeper.class, EntityDataSerializers.INT);
     public static final ResourceLocation KING_LOCATION = new ResourceLocation(TakumiCraftCore.MODID, "textures/entity/creeper/kingcreeper_armor.png");
@@ -88,7 +92,6 @@ public class TCKingCreeper extends AbstractTCCreeper {
         this.goalSelector.addGoal(3, new AvoidEntityGoal<>(this, Ocelot.class, 6.0F, 1.0, 1.2));
         this.goalSelector.addGoal(3, new AvoidEntityGoal<>(this, Cat.class, 6.0F, 1.0, 1.2));
         this.goalSelector.addGoal(4, new MeleeAttackGoal(this, 1.1, false));
-        this.goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 0.8));
         this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 32.0F));
         this.goalSelector.addGoal(6, new RandomLookAroundGoal(this));
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, true));
@@ -106,7 +109,11 @@ public class TCKingCreeper extends AbstractTCCreeper {
         if (!this.isIgnited()) {
             this.setRandomAttackID();
         }
-        this.entityData.set(DATA_IS_IGNITED, !isIgnited());
+        this.entityData.set(DATA_IS_IGNITED, true);
+    }
+
+    public void extinguish() {
+        this.entityData.set(DATA_IS_IGNITED, false);
     }
 
     public int getSwell() {
@@ -158,6 +165,9 @@ public class TCKingCreeper extends AbstractTCCreeper {
         if (this.getSwell() > 0 && (this.getSwellDir() > 0 || this.isIgnited()) && !this.level().isClientSide()) {
             this.getAttackID().getAttack().serverTick(this, this.getSwell());
         }
+        if (this.getTarget() != null && this.getSwell() <= 0 && this.getAttackID() == EnumTCKingCreeperAttackID.NONE) {
+            this.setRandomAttackID();
+        }
     }
 
     @Override
@@ -169,19 +179,24 @@ public class TCKingCreeper extends AbstractTCCreeper {
                 this.ULTCasted = true;
             }
             if (this.isIgnited()) {
-                this.ignite();
+                this.extinguish();
             }
+            this.setAttackID(EnumTCKingCreeperAttackID.NONE);
+            this.setTarget(null);
         }
-        this.setSwellDir(-2);
-        this.setAttackID(EnumTCKingCreeperAttackID.NONE);
-        this.swell = this.maxSwell / 2;
-        if (this.getHealth() < this.getMaxHealth() / 2) {
+        this.swell = 0;
+        this.setSwellDir(0);
+        if (!this.level().isClientSide() && this.getHealth() < this.getMaxHealth() / 2) {
             if (!this.ULTCasted) {
                 this.setAttackID(EnumTCKingCreeperAttackID.ULT_EXP);
             }
             this.setPowered(true);
         }
-        this.setHealth(10);
+    }
+
+    @Override
+    public void explodeCreeperEvent(ExplosionEvent.Detonate event) {
+        this.getAttackID().getAttack().serverExpEvent(this, event);
     }
 
     @Override
@@ -195,8 +210,19 @@ public class TCKingCreeper extends AbstractTCCreeper {
     }
 
     @Override
-    public float getBlockExplosionResistance(Explosion p_19992_, BlockGetter p_19993_, BlockPos p_19994_, BlockState p_19995_, FluidState p_19996_, float p_19997_) {
-        return super.getBlockExplosionResistance(p_19992_, p_19993_, p_19994_, p_19995_, p_19996_, p_19997_) / 10f;
+    public float getBlockExplosionResistance(Explosion explosion, BlockGetter level, BlockPos pos, BlockState state, FluidState fluidState, float f) {
+        if (pos.getY() > this.level().getMinBuildHeight() && pos.getY() < this.level().getMinBuildHeight() + 5 && state.getBlock() == Blocks.BEDROCK) {
+            this.level().destroyBlock(pos, false);
+            return 10f;
+        }
+        if (this.getAttackID().isULTATK()) {
+            return 1000000f;
+        }
+        float resistance = super.getBlockExplosionResistance(explosion, level, pos, state, fluidState, f);
+        if (state.is(TCBlockCore.ANTI_EXPLOSION)) {
+            return resistance;
+        }
+        return this.getAttackID() == EnumTCKingCreeperAttackID.BALL_EXP || this.getAttackID() == EnumTCKingCreeperAttackID.RANDOM_EXP || this.getAttackID().isULTATK() ? resistance / 2000f : resistance / 10f;
     }
 
     @Override
@@ -216,6 +242,18 @@ public class TCKingCreeper extends AbstractTCCreeper {
 
     @Override
     public boolean hurt(DamageSource source, float damage) {
+        if (source.getEntity() == this) {
+            return super.hurt(source, damage);
+        }
+        boolean flg = source.getEntity() instanceof Player || source.getDirectEntity() instanceof Player;
+        if (flg && this.getTarget() == null) {
+            Entity entity = source.getEntity();
+            if (entity instanceof Player player) {
+                this.setTarget(player);
+            } else {
+                this.setTarget((Player) source.getDirectEntity());
+            }
+        }
         boolean damageImmune = false;
         if (damage > 20) {
             damage = 20;
@@ -245,11 +283,11 @@ public class TCKingCreeper extends AbstractTCCreeper {
                 return false;
             }
         }
-        if (damageImmune || !(source.getEntity() instanceof Player || source.getDirectEntity() instanceof Player)) {
+        if (damageImmune || !flg) {
             damage = damage / 10;
         }
 
-        return !source.is(DamageTypes.LIGHTNING_BOLT) && !source.is(DamageTypes.IN_FIRE) && !source.is(DamageTypes.EXPLOSION) && (source.is(DamageTypes.PLAYER_ATTACK) || source.getDirectEntity() instanceof Player || source.getEntity() instanceof Player) && super.hurt(source, damage);
+        return !source.is(DamageTypes.LIGHTNING_BOLT) && !source.is(DamageTypes.IN_FIRE) && !source.is(DamageTypes.EXPLOSION) && flg && super.hurt(source, damage);
     }
 
     @Override

@@ -14,6 +14,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class KingblockKingCreeperAttack extends AbstractKingCreeperAttack {
     @Override
@@ -27,6 +29,7 @@ public class KingblockKingCreeperAttack extends AbstractKingCreeperAttack {
     }
 
     @Override
+    @OnlyIn(Dist.CLIENT)
     public void clientTick(TCKingCreeper creeper, int swell, PoseStack pose, MultiBufferSource bufferSource, float renderTick) {
         for (double x = -5; x <= 5; x += 0.5) {
             for (double z = -5; z <= 5; z += 0.5) {

@@ -37,7 +37,7 @@ public class TCKingStorm extends PathfinderMob {
     }
 
     public static AttributeSupplier.Builder createAttributes() {
-        return Mob.createMobAttributes().add(Attributes.MOVEMENT_SPEED, 1).add(Attributes.FOLLOW_RANGE, 100).add(Attributes.KNOCKBACK_RESISTANCE, 1000).add(Attributes.MAX_HEALTH, 1);
+        return Mob.createMobAttributes().add(Attributes.MOVEMENT_SPEED, 1).add(Attributes.FOLLOW_RANGE, 100).add(Attributes.KNOCKBACK_RESISTANCE, 1000).add(Attributes.MAX_HEALTH, 1).add(Attributes.ATTACK_DAMAGE, 0);
     }
 
     @Override

@@ -5,6 +5,8 @@ import com.tntmodders.takumicraft.entity.misc.TCKingStorm;
 import com.tntmodders.takumicraft.entity.mobs.boss.TCKingCreeper;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class StormKingCreeperAttack extends AbstractKingCreeperAttack {
     @Override
@@ -16,6 +18,7 @@ public class StormKingCreeperAttack extends AbstractKingCreeperAttack {
     }
 
     @Override
+    @OnlyIn(Dist.CLIENT)
     public void clientTick(TCKingCreeper creeper, int swell, PoseStack pose, MultiBufferSource bufferSource, float renderTick) {
         for (double x = -2; x <= 2; x += 0.25) {
             for (double z = -2; z <= 2; z += 0.25) {

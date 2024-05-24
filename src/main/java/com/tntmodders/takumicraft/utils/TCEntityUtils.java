@@ -1,7 +1,9 @@
 package com.tntmodders.takumicraft.utils;
 
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Calendar;
@@ -29,5 +31,11 @@ public class TCEntityUtils {
         Calendar calendar = Calendar.getInstance();
         return calendar.get(Calendar.MONTH) + 1 == 1 && calendar.get(Calendar.DATE) <= 8 || calendar.get(Calendar.MONTH) + 1 == 12 && calendar.get(Calendar.DATE) == 31;
         //return true;
+    }
+
+    public static void setThunder(Level level) {
+        if (level instanceof ServerLevel serverLevel) {
+            serverLevel.setWeatherParameters(0, ServerLevel.THUNDER_DURATION.sample(serverLevel.getRandom()), true, true);
+        }
     }
 }

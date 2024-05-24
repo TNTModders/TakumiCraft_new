@@ -13,6 +13,8 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.AABB;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 import java.util.List;
 
@@ -31,8 +33,8 @@ public class SwordKingCreeperAttack extends AbstractKingCreeperAttack {
             List<Entity> list = creeper.level().getEntities(creeper, aabb);
             if (!list.isEmpty()) {
                 list.forEach(entity -> {
-                    if (entity instanceof LivingEntity) {
-                        entity.hurt(creeper.damageSources().mobAttack(creeper), 15);
+                    if (entity instanceof LivingEntity && !entity.isInvulnerable()) {
+                        entity.hurt(creeper.damageSources().mobAttack(creeper), 18);
                     }
                 });
             }
@@ -46,6 +48,7 @@ public class SwordKingCreeperAttack extends AbstractKingCreeperAttack {
     }
 
     @Override
+    @OnlyIn(Dist.CLIENT)
     public void clientTick(TCKingCreeper creeper, int swell, PoseStack pose, MultiBufferSource bufferSource, float renderTick) {
         pose.pushPose();
         float f = creeper.getSwelling(renderTick);

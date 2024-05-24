@@ -12,6 +12,8 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class ArrowrainKingCreeperAttack extends AbstractKingCreeperAttack {
 
@@ -30,6 +32,7 @@ public class ArrowrainKingCreeperAttack extends AbstractKingCreeperAttack {
     }
 
     @Override
+    @OnlyIn(Dist.CLIENT)
     public void clientTick(TCKingCreeper creeper, int swell, PoseStack pose, MultiBufferSource bufferSource, float renderTick) {
         commonTick(creeper, swell);
         creeper.setUseItem(bow);
@@ -71,6 +74,7 @@ public class ArrowrainKingCreeperAttack extends AbstractKingCreeperAttack {
     }
 
     @Override
+    @OnlyIn(Dist.CLIENT)
     public void clientExp(TCKingCreeper creeper, int swell, PoseStack pose, float renderTick) {
         super.clientExp(creeper, swell, pose, renderTick);
         creeper.setUseItem(ItemStack.EMPTY);

@@ -100,10 +100,11 @@ public class TCEvents {
 
     @SubscribeEvent
     public void onEntityTick(LivingEvent.LivingTickEvent event) {
-        if (!event.getEntity().level().isClientSide && event.getEntity() instanceof Creeper creeper && event.getEntity().level().isThundering()) {
-            try {
+        if (!event.getEntity().level().isClientSide() && event.getEntity() instanceof Creeper creeper && event.getEntity().level().isThundering()) {
+            if (creeper instanceof AbstractTCCreeper tcCreeper) {
+                tcCreeper.weatherSetPowered();
+            } else {
                 creeper.getEntityData().set(Creeper.DATA_IS_POWERED, true);
-            } catch (Exception ignored) {
             }
         }
     }

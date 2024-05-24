@@ -19,7 +19,7 @@ public class TCKingCreeperSwellGoal extends SwellGoal {
     @Override
     public boolean canUse() {
         LivingEntity livingentity = this.creeper.getTarget();
-        return !(this.creeper.getSwellDir() < -1 && this.creeper.getSwell() > 0) && this.creeper.getSwellDir() > 0 || livingentity != null && this.creeper.distanceToSqr(livingentity) < 128;
+        return !(this.creeper.getSwellDir() < -1 && this.creeper.getSwell() > 0) && this.creeper.getSwellDir() > 0 || livingentity != null && this.creeper.distanceToSqr(livingentity) < 36;
     }
 
     @Override

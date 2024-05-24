@@ -12,6 +12,8 @@ import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class MaceKingCreeperAttack extends AbstractKingCreeperAttack {
     private static final int tick = 20;
@@ -33,6 +35,7 @@ public class MaceKingCreeperAttack extends AbstractKingCreeperAttack {
     }
 
     @Override
+    @OnlyIn(Dist.CLIENT)
     public void clientTick(TCKingCreeper creeper, int swell, PoseStack pose, MultiBufferSource bufferSource, float renderTick) {
         pose.pushPose();
         float f = creeper.getSwelling(renderTick);

@@ -8,6 +8,8 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.projectile.LargeFireball;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class FireballKingCreeperAttack extends AbstractKingCreeperAttack {
     @Override
@@ -19,6 +21,7 @@ public class FireballKingCreeperAttack extends AbstractKingCreeperAttack {
     }
 
     @Override
+    @OnlyIn(Dist.CLIENT)
     public void clientTick(TCKingCreeper creeper, int swell, PoseStack pose, MultiBufferSource bufferSource, float renderTick) {
         for (double x = -5; x <= 5; x += 0.5) {
             for (double z = -5; z <= 5; z += 0.5) {
