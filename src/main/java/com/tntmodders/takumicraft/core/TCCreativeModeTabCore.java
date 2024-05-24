@@ -21,6 +21,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegisterEvent;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
@@ -54,11 +55,23 @@ public class TCCreativeModeTabCore {
 
         }).build();
         event.register(BuiltInRegistries.CREATIVE_MODE_TAB.key(), tabRegistryHelper -> tabRegistryHelper.register(new ResourceLocation(TakumiCraftCore.MODID, "takumicraft"), TAB_TC));
-        TAB_EGGS = CreativeModeTab.builder().title(Component.translatable("item_group.takumicraft.egg")).icon(() -> new ItemStack(Items.CREEPER_SPAWN_EGG)).displayItems((params, output) -> ForgeRegistries.ITEMS.forEach(item -> {
-            if (item instanceof TCSpawnEggItem) {
-                output.accept(item);
-            }
-        })).build();
+        TAB_EGGS = CreativeModeTab.builder().title(Component.translatable("item_group.takumicraft.egg")).icon(() -> new ItemStack(Items.CREEPER_SPAWN_EGG)).displayItems((params, output) -> {
+            List<ItemStack> eggItems = new ArrayList<>();
+            ForgeRegistries.ITEMS.forEach(item -> {
+                if (item instanceof TCSpawnEggItem egg) {
+                    eggItems.add(new ItemStack(egg));
+                }
+            });
+            eggItems.sort((o1, o2) -> {
+                if (o1.getItem() instanceof TCSpawnEggItem egg1 && o2.getItem() instanceof TCSpawnEggItem egg2) {
+                    int i1 = egg1.getContext().getRank().getLevel();
+                    int i2 = egg2.getContext().getRank().getLevel();
+                    return Integer.compare(i1, i2);
+                }
+                return 0;
+            });
+            output.acceptAll(eggItems);
+        }).build();
         event.register(BuiltInRegistries.CREATIVE_MODE_TAB.key(), tabRegistryHelper -> tabRegistryHelper.register(new ResourceLocation(TakumiCraftCore.MODID, "takumicraft.egg"), TAB_EGGS));
     }
 

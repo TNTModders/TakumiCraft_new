@@ -143,18 +143,25 @@ public class TCTakumiBookOutlineScreen extends EffectRenderingInventoryScreen<TC
     }
 
     @Override
-    protected void slotClicked(@Nullable Slot slot, int p_98557_, int p_98558_, ClickType p_98559_) {
-        if (slot != null && slot.getItem().getItem() instanceof TCSpawnEggItem eggItem) {
-            TCTakumiBookScreen screen = new TCTakumiBookScreen();
-            AbstractTCCreeper.TCCreeperContext context = eggItem.getContext();
-            int index = 0;
-            for (AbstractTCCreeper creeper : screen.creepers) {
-                if (Objects.equals(creeper.getContext().getRegistryName(), eggItem.getContext().getRegistryName())) {
-                    index = screen.creepers.indexOf(creeper);
-                }
+    protected void slotClicked(@Nullable Slot slot, int p_98557_, int p_98558_, ClickType type) {
+        if (type == ClickType.CLONE && this.minecraft.player.isCreative()) {
+            if (this.menu.getCarried().isEmpty() && slot.hasItem()) {
+                ItemStack itemstack9 = slot.getItem();
+                this.minecraft.player.addItem(itemstack9.copyWithCount(itemstack9.getMaxStackSize()));
             }
-            this.minecraft.setScreen(screen);
-            screen.setPage(index);
+        } else {
+            if (slot != null && slot.getItem().getItem() instanceof TCSpawnEggItem eggItem) {
+                TCTakumiBookScreen screen = new TCTakumiBookScreen();
+                AbstractTCCreeper.TCCreeperContext context = eggItem.getContext();
+                int index = 0;
+                for (AbstractTCCreeper creeper : screen.creepers) {
+                    if (Objects.equals(creeper.getContext().getRegistryName(), eggItem.getContext().getRegistryName())) {
+                        index = screen.creepers.indexOf(creeper);
+                    }
+                }
+                this.minecraft.setScreen(screen);
+                screen.setPage(index);
+            }
         }
     }
 
@@ -196,7 +203,7 @@ public class TCTakumiBookOutlineScreen extends EffectRenderingInventoryScreen<TC
                         p_98299_ -> this.minecraft.setScreen(new TCTakumiBookScreen(this.lastPage)))
                 .bounds(this.width / 2 - 85, this.topPos + 110, 150, 20).build());
         this.addRenderableWidget(Button.builder(CommonComponents.GUI_DONE,
-                p_98299_ -> this.minecraft.setScreen(null)).bounds(this.width / 2 - 100, 196, 200, 20).build());
+                p_98299_ -> this.minecraft.setScreen(null)).bounds(this.width / 2 - 100, 206, 200, 20).build());
     }
 
     @Override

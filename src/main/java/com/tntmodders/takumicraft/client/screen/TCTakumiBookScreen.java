@@ -139,7 +139,7 @@ public class TCTakumiBookScreen extends Screen {
                         p_98299_ -> this.minecraft.setScreen(new TCTakumiBookOutlineScreen(Minecraft.getInstance().player, currentPage)))
                 .bounds((this.width - IMAGE_WIDTH) / 2 + 40, 140, 105, 20).build());
         this.addRenderableWidget(Button.builder(CommonComponents.GUI_DONE,
-                p_98299_ -> this.minecraft.setScreen(null)).bounds(this.width / 2 - 100, 196, 200, 20).build());
+                p_98299_ -> this.minecraft.setScreen(null)).bounds(this.width / 2 - 100, 206, 200, 20).build());
     }
 
     protected void createPageControlButtons() {
