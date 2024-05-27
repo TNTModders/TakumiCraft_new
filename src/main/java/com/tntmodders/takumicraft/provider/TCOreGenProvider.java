@@ -30,15 +30,15 @@ public class TCOreGenProvider extends RegistriesDatapackGenerator {
                     bootstrap -> {
                         RuleTest ruletest1 = new TagMatchTest(BlockTags.STONE_ORE_REPLACEABLES);
                         RuleTest ruletest2 = new TagMatchTest(BlockTags.DEEPSLATE_ORE_REPLACEABLES);
-                        List<OreConfiguration.TargetBlockState> list = List.of(OreConfiguration.target(ruletest1, TCBlockCore.GUNORE.defaultBlockState()),
-                                OreConfiguration.target(ruletest2, TCBlockCore.DEEPSLATE_GUNORE.defaultBlockState()));
+                        List<OreConfiguration.TargetBlockState> list = List.of(OreConfiguration.target(ruletest1, TCBlockCore.CREEPER_BOMB.defaultBlockState()),
+                                OreConfiguration.target(ruletest2, TCBlockCore.CREEPER_BOMB.defaultBlockState()));
 
                         bootstrap.register(TCBiomeModifierCore.GUNORE_CONFIGURED_FEATURE, new ConfiguredFeature<>(Feature.ORE, new OreConfiguration(list, 13)));
                     })
             .add(Registries.PLACED_FEATURE,
                     bootstrap -> {
                         HolderGetter<ConfiguredFeature<?, ?>> configured = bootstrap.lookup(Registries.CONFIGURED_FEATURE);
-                        bootstrap.register(TCBiomeModifierCore.GUNORE_PLACED_FEATURE, new PlacedFeature(configured.getOrThrow(TCBiomeModifierCore.GUNORE_CONFIGURED_FEATURE), commonOrePlacement(30, HeightRangePlacement.uniform(VerticalAnchor.bottom(), VerticalAnchor.top()))));
+                        bootstrap.register(TCBiomeModifierCore.GUNORE_PLACED_FEATURE, new PlacedFeature(configured.getOrThrow(TCBiomeModifierCore.GUNORE_CONFIGURED_FEATURE), commonOrePlacement(33, HeightRangePlacement.uniform(VerticalAnchor.absolute(-56), VerticalAnchor.absolute(192)))));
                     });
 
     public TCOreGenProvider(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> lookupProvider) {
