@@ -173,7 +173,9 @@ public class TCKingCreeper extends AbstractTCBossCreeper {
     public void explodeCreeper() {
         TCLoggingUtils.info(this.getAttackID());
         if (!this.level().isClientSide) {
+            this.level().getProfiler().push("takumicraft_kingcreeper_explode");
             this.getAttackID().getAttack().serverExp(this);
+            this.level().getProfiler().pop();
             if (this.getAttackID().isULTATK()) {
                 this.ULTCasted = true;
             }

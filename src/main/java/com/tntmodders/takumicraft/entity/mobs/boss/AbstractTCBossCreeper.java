@@ -54,4 +54,8 @@ public abstract class AbstractTCBossCreeper extends AbstractTCCreeper {
     @Override
     public void weatherSetPowered() {
     }
+
+    @Override
+    public void checkDespawn() {
+    }
 }

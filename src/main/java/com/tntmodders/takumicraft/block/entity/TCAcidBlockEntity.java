@@ -32,6 +32,7 @@ public class TCAcidBlockEntity extends BlockEntity {
             if (acid.tick == 1 && (acid.stage == 0 || level.getRandom().nextInt(10) == 0)) {
                 level.playSound(null, pos, SoundEvents.CREEPER_PRIMED, SoundSource.BLOCKS, 0.1f, 0.1f);
             } else if (acid.tick > 60 + level.getRandom().nextInt(120)) {
+                level.getProfiler().push("acidblock");
                 TCAcidCreeper acidCreeper = new TCAcidCreeper((EntityType<? extends Creeper>) TCEntityCore.ACID.entityType(), level);
                 acidCreeper.setInvulnerable(true);
                 acidCreeper.setInvisible(true);
@@ -39,6 +40,7 @@ public class TCAcidBlockEntity extends BlockEntity {
                 level.addFreshEntity(acidCreeper);
                 TCExplosionUtils.createExplosion(level, acid.stage == 15 ? null : acidCreeper, pos, acid.stage == 15 ? 6f : 3f);
                 acidCreeper.discard();
+                level.getProfiler().pop();
             }
         }
     }
