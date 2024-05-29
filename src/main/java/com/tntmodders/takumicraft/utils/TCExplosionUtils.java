@@ -12,7 +12,10 @@ public class TCExplosionUtils {
 
     public static Explosion createExplosion(Level level, Entity source, double x, double y, double z, float power, boolean fire) {
         if (!level.isClientSide) {
-            return level.explode(source, x, y, z, power, fire, source == null ? Level.ExplosionInteraction.BLOCK : Level.ExplosionInteraction.MOB);
+            level.getProfiler().push("TC_Explosion");
+            Explosion explosion = level.explode(source, x, y, z, power, fire, source == null ? Level.ExplosionInteraction.BLOCK : Level.ExplosionInteraction.MOB);
+            level.getProfiler().pop();
+            return explosion;
         }
         return null;
     }

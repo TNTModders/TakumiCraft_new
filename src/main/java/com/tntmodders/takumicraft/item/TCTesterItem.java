@@ -37,14 +37,14 @@ public class TCTesterItem extends Item implements ITCItems, ITCTranslator {
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level p_41432_, Player p_41433_, InteractionHand p_41434_) {
-/*        p_41433_.setItemSlot(EquipmentSlot.HEAD, getSuperArmor(Items.NETHERITE_HELMET));
-        p_41433_.setItemSlot(EquipmentSlot.CHEST, getSuperArmor(Items.NETHERITE_CHESTPLATE));
-        p_41433_.setItemSlot(EquipmentSlot.LEGS, getSuperArmor(Items.NETHERITE_LEGGINGS));
-        p_41433_.setItemSlot(EquipmentSlot.FEET, getSuperArmor(Items.NETHERITE_BOOTS));
-        p_41433_.addItem(getSuperWeapon(TCItemCore.CREEPER_SWORD));
-        p_41433_.addItem(getSuperWeapon(TCItemCore.CREEPER_SHIELD));*/
-        return super.use(p_41432_, p_41433_, p_41434_);
+    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+/*        player.setItemSlot(EquipmentSlot.HEAD, getSuperArmor(Items.NETHERITE_HELMET));
+        player.setItemSlot(EquipmentSlot.CHEST, getSuperArmor(Items.NETHERITE_CHESTPLATE));
+        player.setItemSlot(EquipmentSlot.LEGS, getSuperArmor(Items.NETHERITE_LEGGINGS));
+        player.setItemSlot(EquipmentSlot.FEET, getSuperArmor(Items.NETHERITE_BOOTS));
+        player.addItem(getSuperWeapon(TCItemCore.CREEPER_SWORD));
+        player.addItem(getSuperWeapon(TCItemCore.CREEPER_SHIELD));*/
+        return super.use(level, player, hand);
     }
 
     private ItemStack getSuperArmor(Item item) {

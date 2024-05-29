@@ -41,16 +41,16 @@ public class TCYukariCreeper extends AbstractTCCreeper {
     public void explodeCreeper() {
         if (!this.level().isClientSide) {
             this.dead = true;
-            this.level().getProfiler().push("takumicraft_yukaricreeper_explode");
             int i = this.isPowered() ? 40 : 25;
             for (int x = -i; x <= i; x++) {
                 for (int z = -i; z <= i; z++) {
                     if (x * x + z * z < i * i) {
+                        this.level().getProfiler().push("takumicraft_yukaricreeper_explode");
                         TCExplosionUtils.createExplosion(this.level(), this, this.getX() + x, this.getY(), this.getZ() + z, (float) Math.sqrt(i - Math.sqrt(x * x + z * z) + 1) * 1.75f, false);
+                        this.level().getProfiler().pop();
                     }
                 }
             }
-            this.level().getProfiler().pop();
             this.discard();
             this.spawnLingeringCloud();
         }
