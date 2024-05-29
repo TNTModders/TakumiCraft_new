@@ -519,6 +519,20 @@
       },
       "trigger": "minecraft:player_killed_entity"
     },
+    "slay_netheritecreeper": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "takumicraft:netheritecreeper"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
     "slay_objetcreeper": {
       "conditions": {
         "entity": [
@@ -695,6 +709,20 @@
             "entity": "this",
             "predicate": {
               "type": "takumicraft:sandcreeper"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
+    "slay_sculkcreeper": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "takumicraft:sculkcreeper"
             }
           }
         ]
@@ -1125,6 +1153,12 @@
     ],
     [
       "slay_macecreeper"
+    ],
+    [
+      "slay_netheritecreeper"
+    ],
+    [
+      "slay_sculkcreeper"
     ],
     [
       "slay_boltcreeper"
