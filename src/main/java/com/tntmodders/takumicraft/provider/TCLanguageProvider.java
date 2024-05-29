@@ -154,6 +154,7 @@ public abstract class TCLanguageProvider extends LanguageProvider {
             this.add("item.takumicraft.super_creeperbed.desc", "Texture Change: Use full-cube block.\nChange Reset: Sneaking right-click without item.");
             this.add("item.takumicraft.creepersword.desc", "A Great Sword of Creeper. One Slash, then Discharge.");
             this.add("item.takumicraft.creepersword.canpowered", "Available to update at smithing with Element Core.");
+            this.add("item.takumicraft.creepersword.elemcount", "Append/ Fire:%1$s Grass:%2$s Water:%3$s Wind:%4$s Ground:%5$s Normal:%6$s");
             this.add("item.takumicraft.minesweeper_tool.desc", "A Tool of Minesweeper. Made from Bomb, is it Safe?");
             this.add("item.takumicraft.creeperbow.desc", "A Compound Bow of Creeper. One Shot, One Blast.");
             this.add("item.takumicraft.creepershield.desc", "A Great Shield of Creeper. Made from Bomb, it is safe.");
@@ -285,6 +286,7 @@ public abstract class TCLanguageProvider extends LanguageProvider {
             this.add("item.takumicraft.super_creeperbed.desc", "テクスチャ変更: 立方体ブロックで右クリック\n変更解除: 手になにも持たずにスニーク右クリック");
             this.add("item.takumicraft.creepersword.desc", "漲る力を与える匠の銘剣。その一振りは秩序を薙ぐ。");
             this.add("item.takumicraft.creepersword.canpowered", "鍛冶台で王将の証を使って派生可能");
+            this.add("item.takumicraft.creepersword.elemcount", "強化/ 火:%1$s 草:%2$s 水:%3$s 風:%4$s 地:%5$s 無:%6$s");
             this.add("item.takumicraft.minesweeper_tool.desc", "爆発物を安全に破壊できるツール。爆弾から作ったけど大丈夫……?");
             this.add("item.takumicraft.creeperbow.desc", "爆ぜる矢を撃つ匠の名弓。その一穿ちは混沌を齎す。");
             this.add("item.takumicraft.creepershield.desc", "爆発を防ぐ匠印の大盾。爆弾から作ったけど大丈夫。");

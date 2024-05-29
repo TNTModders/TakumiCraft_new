@@ -22,7 +22,6 @@ import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.*;
-import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
@@ -65,6 +64,12 @@ public class TCCreeperSwordItem extends SwordItem implements ITCItems, ITCRecipe
         components.add(Component.translatable("item.takumicraft.creepersword.desc"));
         if (p_41421_.has(DataComponents.CUSTOM_DATA)) {
             CompoundTag tag = p_41421_.get(DataComponents.CUSTOM_DATA).copyTag();
+            if (tag.contains("elemcount")) {
+                int[] ints = tag.getIntArray("elemcount");
+                Component component = Component.translatable("item.takumicraft.creepersword.elemcount", ints[0], ints[1], ints[2], ints[3], ints[4], ints[5]).withStyle(ChatFormatting.DARK_GRAY);
+                components.add(component);
+            }
+
             int count = 0;
             for (Holder<Attribute> holder : List.of(Attributes.ATTACK_DAMAGE, Attributes.ATTACK_SPEED, Attributes.ENTITY_INTERACTION_RANGE)) {
                 if (tag.contains("max_" + holder.getRegisteredName()) && tag.getBoolean("max_" + holder.getRegisteredName())) {
@@ -115,84 +120,5 @@ public class TCCreeperSwordItem extends SwordItem implements ITCItems, ITCRecipe
     @Override
     public boolean isFoil(ItemStack p_41453_) {
         return true;
-    }
-
-    public static ItemStack upgradeNewAttributes(ItemStack stack, TCElementCoreItem element) {
-        ItemAttributeModifiers modifiers = stack.getComponents().get(DataComponents.ATTRIBUTE_MODIFIERS);
-        CreeperSwordUpgrader damage = new CreeperSwordUpgrader(Attributes.ATTACK_DAMAGE, element.getAddAtk());
-        CreeperSwordUpgrader speed = new CreeperSwordUpgrader(Attributes.ATTACK_SPEED, element.getAddSpeed());
-        CreeperSwordUpgrader range = new CreeperSwordUpgrader(Attributes.ENTITY_INTERACTION_RANGE, element.getAddRange());
-        modifiers = modifiers
-                .withModifierAdded(damage.holder(), new AttributeModifier(damage.getUUID(), "CreeperSword Modifier", damage.getModifyAmount(modifiers, stack), AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND)
-                .withModifierAdded(speed.holder(), new AttributeModifier(speed.getUUID(), "CreeperSowrd Modifier", speed.getModifyAmount(modifiers, stack), AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND)
-                .withModifierAdded(range.holder(), new AttributeModifier(range.getUUID(), "CreeperSword Modifier", range.getModifyAmount(modifiers, stack), AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND);
-        stack.set(DataComponents.ATTRIBUTE_MODIFIERS, modifiers);
-        return stack;
-    }
-
-    record CreeperSwordUpgrader(Holder<Attribute> holder, double amount) {
-        public UUID getUUID() {
-            if (holder().equals(Attributes.ATTACK_SPEED)) {
-                return ATTACK_SPEED_UUID;
-            } else if (holder().equals(Attributes.ENTITY_INTERACTION_RANGE)) {
-                return ATTACK_RANGE_UUID;
-            }
-            return ATTACK_DAMAGE_UUID;
-        }
-
-        public double getSetAmount(ItemAttributeModifiers modifiers) {
-            double d = 0;
-            for (ItemAttributeModifiers.Entry entry : modifiers.modifiers()) {
-                if (entry.modifier().id().equals(this.getUUID())) {
-                    d += entry.modifier().amount();
-                }
-            }
-            return d == 0 ? getDefaultAmount(modifiers) : d;
-        }
-
-        public double getDefaultAmount(ItemAttributeModifiers modifiers) {
-            double def = 6;
-            if (holder().equals(Attributes.ATTACK_SPEED)) {
-                def = 1.6;
-            } else if (holder().equals(Attributes.ENTITY_INTERACTION_RANGE)) {
-                def = 0;
-            }
-            return def;
-        }
-
-        public double getModifyAmount(ItemAttributeModifiers modifiers, ItemStack stack) {
-            double def = getDefaultAmount(modifiers);
-            double ret = getSetAmount(modifiers) + amount();
-            double min = def * 0.5;
-            double max = def * 2;
-            if (holder().equals(Attributes.ENTITY_INTERACTION_RANGE)) {
-                min = -2;
-                max = 2;
-            }
-
-            if (ret < min) {
-                return min;
-            } else if (ret >= max) {
-                CustomData data;
-                if (stack.has(DataComponents.CUSTOM_DATA)) {
-                    CompoundTag tag = stack.get(DataComponents.CUSTOM_DATA).copyTag();
-                    tag.putBoolean("max_" + holder().getRegisteredName(), true);
-                    data = CustomData.of(tag);
-
-                } else {
-                    data = CustomData.of(CompoundTag.builder().put("max_" + holder().getRegisteredName(), true).build());
-                }
-                stack.set(DataComponents.CUSTOM_DATA, data);
-                return max;
-            }
-            if (stack.has(DataComponents.CUSTOM_DATA)) {
-                CompoundTag tag = stack.get(DataComponents.CUSTOM_DATA).copyTag();
-                if (tag.contains("max_" + holder().getRegisteredName())) {
-                    tag.putBoolean("max_" + holder().getRegisteredName(), false);
-                }
-                stack.set(DataComponents.CUSTOM_DATA, CustomData.of(tag));
-            }
-            return ret;
-        }
     }
 }

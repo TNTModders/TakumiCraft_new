@@ -374,6 +374,7 @@
   "item.takumicraft.creepersword": "Creeper Sword",
   "item.takumicraft.creepersword.canpowered": "Available to update at smithing with Element Core.",
   "item.takumicraft.creepersword.desc": "A Great Sword of Creeper. One Slash, then Discharge.",
+  "item.takumicraft.creepersword.elemcount": "Append/ Fire:%1$s Grass:%2$s Water:%3$s Wind:%4$s Ground:%5$s Normal:%6$s",
   "item.takumicraft.diamondcreeper_spawn_egg": "Spawn Diamond Creeper",
   "item.takumicraft.dirtcreeper_spawn_egg": "Spawn Dirt Creeper",
   "item.takumicraft.dripstonecreeper_spawn_egg": "Spawn Dripstone Creeper",

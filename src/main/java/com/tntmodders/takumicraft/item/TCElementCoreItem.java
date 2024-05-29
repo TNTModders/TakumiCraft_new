@@ -88,4 +88,8 @@ public class TCElementCoreItem extends Item implements ITCItems, ITCTranslator {
     public List<TagKey<Item>> getItemTags() {
         return List.of(TCItemCore.ELEMENT_CORE);
     }
+
+    public EnumTakumiElement getElement() {
+        return element;
+    }
 }

@@ -374,6 +374,7 @@
   "item.takumicraft.creepersword": "匠式宝剣",
   "item.takumicraft.creepersword.canpowered": "鍛冶台で王将の証を使って派生可能",
   "item.takumicraft.creepersword.desc": "漲る力を与える匠の銘剣。その一振りは秩序を薙ぐ。",
+  "item.takumicraft.creepersword.elemcount": "強化/ 火:%1$s 草:%2$s 水:%3$s 風:%4$s 地:%5$s 無:%6$s",
   "item.takumicraft.diamondcreeper_spawn_egg": "ダイヤモンド匠のスポーンエッグ",
   "item.takumicraft.dirtcreeper_spawn_egg": "土匠のスポーンエッグ",
   "item.takumicraft.dripstonecreeper_spawn_egg": "鍾乳石匠のスポーンエッグ",
