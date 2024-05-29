@@ -36,8 +36,11 @@ public class TCAltarBlock extends AbstractTCAntiExplosionBlock implements ITCRec
     @Override
     protected InteractionResult useWithoutItem(BlockState p_60503_, Level level, BlockPos pos, Player p_60506_, BlockHitResult p_60508_) {
         if (!level.isClientSide()) {
-            if (level.getBlockState(pos.below()).is(TCBlockCore.CREEPER_BOMB)) {
-
+            if (level.getBlockState(pos.below()).is(TCBlockCore.CREEPER_BOMB) && summonKing(level, pos)) {
+                TCExplosionUtils.createExplosion(level, null, pos, 0f);
+                level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
+                level.setBlock(pos.below(), Blocks.AIR.defaultBlockState(), 3);
+                return InteractionResult.SUCCESS;
             } else {
                 if (summonHigh(level, pos)) {
                     TCExplosionUtils.createExplosion(level, null, pos, 0f);
@@ -51,6 +54,16 @@ public class TCAltarBlock extends AbstractTCAntiExplosionBlock implements ITCRec
 
     private boolean summonHigh(Level level, BlockPos pos) {
         AbstractTCCreeper.TCCreeperContext context = TCEntityCore.ALTAR_LIST.get(level.getRandom().nextInt(TCEntityCore.ALTAR_LIST.size()));
+        var entity = context.entityType().create(level);
+        if (entity instanceof AbstractTCCreeper creeper) {
+            creeper.setPos(pos.getCenter());
+            return level.addFreshEntity(creeper);
+        }
+        return false;
+    }
+
+    private boolean summonKing(Level level, BlockPos pos) {
+        AbstractTCCreeper.TCCreeperContext context = TCEntityCore.KING;
         var entity = context.entityType().create(level);
         if (entity instanceof AbstractTCCreeper creeper) {
             creeper.setPos(pos.getCenter());
@@ -98,6 +111,7 @@ public class TCAltarBlock extends AbstractTCAntiExplosionBlock implements ITCRec
             @Override
             public void appendHoverText(ItemStack p_40572_, TooltipContext p_327780_, List<Component> components, TooltipFlag p_40575_) {
                 super.appendHoverText(p_40572_, p_327780_, components, p_40575_);
+                components.add(Component.translatable("item.takumicraft.creeperaltar.desc.0"));
                 components.add(Component.translatable("item.takumicraft.creeperaltar.desc.1"));
                 components.add(Component.translatable("item.takumicraft.creeperaltar.desc.2"));
             }

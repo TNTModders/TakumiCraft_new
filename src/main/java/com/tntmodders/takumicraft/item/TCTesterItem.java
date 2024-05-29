@@ -1,6 +1,9 @@
 package com.tntmodders.takumicraft.item;
 
 import com.tntmodders.takumicraft.core.TCEnchantmentCore;
+import com.tntmodders.takumicraft.core.TCEntityCore;
+import com.tntmodders.takumicraft.core.TCItemCore;
+import com.tntmodders.takumicraft.entity.mobs.TCZombieCreeper;
 import com.tntmodders.takumicraft.provider.ITCItems;
 import com.tntmodders.takumicraft.provider.ITCTranslator;
 import net.minecraft.world.InteractionHand;
@@ -16,6 +19,7 @@ import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.item.enchantment.Enchantments;
@@ -45,6 +49,20 @@ public class TCTesterItem extends Item implements ITCItems, ITCTranslator {
         player.addItem(getSuperWeapon(TCItemCore.CREEPER_SWORD));
         player.addItem(getSuperWeapon(TCItemCore.CREEPER_SHIELD));*/
         return super.use(level, player, hand);
+    }
+
+    private void summonCreeper(Player player) {
+        if (!player.level().isClientSide()) {
+            TCZombieCreeper creeper = (TCZombieCreeper) TCEntityCore.ZOMBIE.entityType().create(player.level());
+            creeper.copyPosition(player);
+            creeper.setItemSlot(EquipmentSlot.HEAD, getSuperArmor(Items.NETHERITE_HELMET));
+            creeper.setItemSlot(EquipmentSlot.CHEST, getSuperArmor(Items.NETHERITE_CHESTPLATE));
+            creeper.setItemSlot(EquipmentSlot.LEGS, getSuperArmor(Items.NETHERITE_LEGGINGS));
+            creeper.setItemSlot(EquipmentSlot.FEET, getSuperArmor(Items.NETHERITE_BOOTS));
+            creeper.setItemSlot(EquipmentSlot.MAINHAND, getSuperWeapon(TCItemCore.CREEPER_SWORD));
+            creeper.setItemSlot(EquipmentSlot.OFFHAND, getSuperWeapon(TCItemCore.CREEPER_SHIELD));
+            player.level().addFreshEntity(creeper);
+        }
     }
 
     private ItemStack getSuperArmor(Item item) {

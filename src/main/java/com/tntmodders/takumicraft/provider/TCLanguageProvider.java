@@ -161,7 +161,8 @@ public abstract class TCLanguageProvider extends LanguageProvider {
             this.add("item.takumicraft.yukaridummy.desc", "Dummy");
             this.add("item.takumicraft.monsterbomb_yukari.desc", "Bomb");
             this.add("item.takumicraft.creeperaltar.desc.1", "Right Click to Summon Elder Creepers.");
-            this.add("item.takumicraft.creeperaltar.desc.2", "----");
+            this.add("item.takumicraft.creeperaltar.desc.0", "----");
+            this.add("item.takumicraft.creeperaltar.desc.2", "Right Click with CreeperBomb below this to Summon King.");
 
             this.add("entity.takumicraft.bedcreeper.message", "%s was blasted your respawn-point by bed creeper!");
             this.add("entity.takumicraft.returncreeper.message", "%s was teleported to your respawn-point by return creeper!");
@@ -285,15 +286,16 @@ public abstract class TCLanguageProvider extends LanguageProvider {
             this.add("item.takumicraft.creeperbomb.desc", "材料として鍛冶台でのアップグレードに利用可能");
             this.add("item.takumicraft.super_creeperbed.desc", "テクスチャ変更: 立方体ブロックで右クリック\n変更解除: 手になにも持たずにスニーク右クリック");
             this.add("item.takumicraft.creepersword.desc", "漲る力を与える匠の銘剣。その一振りは秩序を薙ぐ。");
-            this.add("item.takumicraft.creepersword.canpowered", "鍛冶台で王将の証を使って派生可能");
+            this.add("item.takumicraft.creepersword.canpowered", "鍛冶台で王匠の証を使って派生可能");
             this.add("item.takumicraft.creepersword.elemcount", "強化/ 火:%1$s 草:%2$s 水:%3$s 風:%4$s 地:%5$s 無:%6$s");
             this.add("item.takumicraft.minesweeper_tool.desc", "爆発物を安全に破壊できるツール。爆弾から作ったけど大丈夫……?");
             this.add("item.takumicraft.creeperbow.desc", "爆ぜる矢を撃つ匠の名弓。その一穿ちは混沌を齎す。");
             this.add("item.takumicraft.creepershield.desc", "爆発を防ぐ匠印の大盾。爆弾から作ったけど大丈夫。");
             this.add("item.takumicraft.yukaridummy.desc", "非爆発性ゆかりさん");
             this.add("item.takumicraft.monsterbomb_yukari.desc", "爆発性ゆかりさん");
-            this.add("item.takumicraft.creeperaltar.desc.1", "王者と召人を喚ぶ祭壇。");
-            this.add("item.takumicraft.creeperaltar.desc.2", "右クリックで上位匠を召喚できる。");
+            this.add("item.takumicraft.creeperaltar.desc.0", "王者と召人を喚ぶ祭壇。");
+            this.add("item.takumicraft.creeperaltar.desc.1", "右クリックで上位匠を召喚できる。");
+            this.add("item.takumicraft.creeperaltar.desc.2", "下に匠式高性能爆弾を置いて右クリックで王匠を召喚できる。");
 
             this.add("entity.takumicraft.bedcreeper.message", "%sのリスポーン地点が寝台匠に爆破された!");
             this.add("entity.takumicraft.returncreeper.message", "%sは帰匠によってリスポーン地点へ転移した!");
