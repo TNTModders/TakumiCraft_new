@@ -17,10 +17,28 @@ import java.util.List;
 public class TCElementCoreItem extends Item implements ITCItems, ITCTranslator {
 
     private final EnumTakumiElement element;
+    private final double addAtk;
+    private final double addSpeed;
+    private final double addRange;
 
-    public TCElementCoreItem(EnumTakumiElement elem) {
+    public TCElementCoreItem(EnumTakumiElement elem, double atk, double speed, double range) {
         super(new Properties().rarity(Rarity.UNCOMMON));
         this.element = elem;
+        this.addAtk = atk * 1.2;
+        this.addSpeed = speed * 0.32;
+        this.addRange = range * 0.4;
+    }
+
+    public double getAddAtk() {
+        return addAtk;
+    }
+
+    public double getAddRange() {
+        return addRange;
+    }
+
+    public double getAddSpeed() {
+        return addSpeed;
     }
 
     public static Item getElementCoreFormElement(EnumTakumiElement element) {

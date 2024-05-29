@@ -14,8 +14,8 @@ import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
 
-public class TippedCreeperArrowRecipe extends CustomRecipe {
-    public TippedCreeperArrowRecipe(CraftingBookCategory p_249010_) {
+public class TCTippedCreeperArrowRecipe extends CustomRecipe {
+    public TCTippedCreeperArrowRecipe(CraftingBookCategory p_249010_) {
         super(p_249010_);
     }
 

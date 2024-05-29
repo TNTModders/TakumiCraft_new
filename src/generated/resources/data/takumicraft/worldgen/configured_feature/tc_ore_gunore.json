@@ -2,11 +2,11 @@
   "type": "minecraft:ore",
   "config": {
     "discard_chance_on_air_exposure": 0.0,
-    "size": 64,
+    "size": 16,
     "targets": [
       {
         "state": {
-          "Name": "takumicraft:creeperbomb"
+          "Name": "takumicraft:gunore"
         },
         "target": {
           "predicate_type": "minecraft:tag_match",
@@ -15,7 +15,7 @@
       },
       {
         "state": {
-          "Name": "takumicraft:creeperbomb"
+          "Name": "takumicraft:deepslate_gunore"
         },
         "target": {
           "predicate_type": "minecraft:tag_match",

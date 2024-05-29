@@ -1,8 +1,10 @@
 package com.tntmodders.takumicraft.core;
 
 import com.tntmodders.takumicraft.TakumiCraftCore;
-import com.tntmodders.takumicraft.item.crafting.CreeperShieldDecorationRecipe;
-import com.tntmodders.takumicraft.item.crafting.TippedCreeperArrowRecipe;
+import com.tntmodders.takumicraft.item.crafting.TCCreeperShieldDecorationRecipe;
+import com.tntmodders.takumicraft.item.crafting.TCCreeperSwordUpgradeRecipe;
+import com.tntmodders.takumicraft.item.crafting.TCSaberRecipe;
+import com.tntmodders.takumicraft.item.crafting.TCTippedCreeperArrowRecipe;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.SimpleCraftingRecipeSerializer;
@@ -10,11 +12,19 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegisterEvent;
 
 public class TCRecipeSerializerCore {
-    public static RecipeSerializer CREEPER_SHIELD_DECO = new SimpleCraftingRecipeSerializer<>(CreeperShieldDecorationRecipe::new);
-    public static RecipeSerializer CREEPER_ARROW_TIP = new SimpleCraftingRecipeSerializer<>(TippedCreeperArrowRecipe::new);
+    public static RecipeSerializer CREEPER_SHIELD_DECO = new SimpleCraftingRecipeSerializer<>(TCCreeperShieldDecorationRecipe::new);
+    public static RecipeSerializer CREEPER_ARROW_TIP = new SimpleCraftingRecipeSerializer<>(TCTippedCreeperArrowRecipe::new);
+    public static RecipeSerializer CREEPER_SWORD_UPGRADE = new TCCreeperSwordUpgradeRecipe.Serializer();
+    public static RecipeSerializer SABER = new TCSaberRecipe.Serializer();
 
     public static void register(final RegisterEvent event) {
-        event.register(ForgeRegistries.RECIPE_SERIALIZERS.getRegistryKey(), new ResourceLocation(TakumiCraftCore.MODID, "creepershield_decoration"), () -> CREEPER_SHIELD_DECO);
-        event.register(ForgeRegistries.RECIPE_SERIALIZERS.getRegistryKey(), new ResourceLocation(TakumiCraftCore.MODID, "creeperarrow_tipped"), () -> CREEPER_ARROW_TIP);
+        registerRecipes(event, "creepershield_decoration", CREEPER_SHIELD_DECO);
+        registerRecipes(event, "creeperarrow_tipped", CREEPER_ARROW_TIP);
+        registerRecipes(event, "creepersword_upgrade", CREEPER_SWORD_UPGRADE);
+        registerRecipes(event, "saber", SABER);
+    }
+
+    private static void registerRecipes(final RegisterEvent event, String name, RecipeSerializer<?> serializer) {
+        event.register(ForgeRegistries.RECIPE_SERIALIZERS.getRegistryKey(), new ResourceLocation(TakumiCraftCore.MODID, name), () -> serializer);
     }
 }

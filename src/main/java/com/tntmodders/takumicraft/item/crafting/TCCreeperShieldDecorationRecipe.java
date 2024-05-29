@@ -13,8 +13,8 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BannerPatternLayers;
 
-public class CreeperShieldDecorationRecipe extends CustomRecipe {
-    public CreeperShieldDecorationRecipe(CraftingBookCategory p_251065_) {
+public class TCCreeperShieldDecorationRecipe extends CustomRecipe {
+    public TCCreeperShieldDecorationRecipe(CraftingBookCategory p_251065_) {
         super(p_251065_);
     }
 
