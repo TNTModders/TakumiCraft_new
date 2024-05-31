@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#minecraft:is_overworld",
+  "features": "takumicraft:ore_gunore",
+  "step": "underground_ores"
+}
