@@ -4,6 +4,7 @@ import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.client.model.TCChildCreeperModel;
 import com.tntmodders.takumicraft.client.renderer.block.TCAcidBlockRenderer;
 import com.tntmodders.takumicraft.client.renderer.block.TCCreeperBedRenderer;
+import com.tntmodders.takumicraft.client.renderer.block.TCCreeperChestRenderer;
 import com.tntmodders.takumicraft.client.renderer.block.TCMonsterBombBlockRenderer;
 import com.tntmodders.takumicraft.client.renderer.block.model.TCSaberModel;
 import com.tntmodders.takumicraft.client.renderer.block.model.TCShieldModel;
@@ -66,6 +67,7 @@ public class TCRenderCore {
         event.registerBlockEntityRenderer(TCBlockEntityCore.CREEPER_BED, TCCreeperBedRenderer::new);
         event.registerBlockEntityRenderer(TCBlockEntityCore.ACID, TCAcidBlockRenderer::new);
         event.registerBlockEntityRenderer(TCBlockEntityCore.MONSTER_BOMB, TCMonsterBombBlockRenderer::new);
+        event.registerBlockEntityRenderer(TCBlockEntityCore.CHEST, TCCreeperChestRenderer::new);
     }
 
     public static void registerLayerDefinition(EntityRenderersEvent.RegisterLayerDefinitions event) {

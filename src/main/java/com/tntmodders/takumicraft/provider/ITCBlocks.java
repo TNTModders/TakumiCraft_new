@@ -3,9 +3,11 @@ package com.tntmodders.takumicraft.provider;
 import com.ibm.icu.impl.Pair;
 import com.tntmodders.takumicraft.data.loot.TCBlockLoot;
 import com.tntmodders.takumicraft.item.TCBlockItem;
+import net.minecraft.core.BlockPos;
 import net.minecraft.data.loot.LootTableSubProvider;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 
 import java.util.ArrayList;
@@ -41,6 +43,9 @@ public interface ITCBlocks extends ITCTranslator {
         return new ArrayList<>();
     }
 
+    default void onRemovedfromExplosionList(Level level, BlockPos pos) {
+    }
+
     /**
      * If you need vanilla rendertype,see {@link net.minecraft.client.renderer.ItemBlockRenderTypes }.
      */
@@ -62,6 +67,7 @@ public interface ITCBlocks extends ITCTranslator {
         SCCAFOLDING("cutout"),
         CARPET("cutout"),
         BED("cutout"),
+        BARREL("solid"),
         ANIMATED("solid"),
         NONE("solid");
 

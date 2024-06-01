@@ -1,12 +1,16 @@
 package com.tntmodders.takumicraft.block;
 
+import com.ibm.icu.impl.Pair;
+import com.tntmodders.takumicraft.core.TCBlockCore;
 import com.tntmodders.takumicraft.core.TCEnchantmentCore;
 import com.tntmodders.takumicraft.core.TCItemCore;
 import com.tntmodders.takumicraft.data.loot.TCBlockLoot;
 import com.tntmodders.takumicraft.provider.ITCBlocks;
 import com.tntmodders.takumicraft.utils.TCExplosionUtils;
 import net.minecraft.core.BlockPos;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.BlockGetter;
@@ -15,6 +19,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FluidState;
+
+import java.util.List;
 
 public abstract class AbstractTCBombBlock extends Block implements ITCBlocks {
     private final String registryName;
@@ -64,5 +70,15 @@ public abstract class AbstractTCBombBlock extends Block implements ITCBlocks {
     @Override
     public void drop(Block block, TCBlockLoot loot) {
         loot.add(block, loot.createSingleItemTableWithMinesweeper(block));
+    }
+
+    @Override
+    public List<TagKey<Block>> getBlockTags() {
+        return List.of(TCBlockCore.EXPLOSIVES);
+    }
+
+    @Override
+    public List<Pair<TagKey<Block>, TagKey<Item>>> getItemTags() {
+        return List.of(Pair.of(TCBlockCore.EXPLOSIVES, TCItemCore.EXPLOSIVES));
     }
 }

@@ -1,5 +1,5 @@
 {
-  "parent": "takumicraft:creeperbomb",
+  "parent": "takumicraft:creepershield",
   "criteria": {
     "impossible": {
       "trigger": "minecraft:impossible"

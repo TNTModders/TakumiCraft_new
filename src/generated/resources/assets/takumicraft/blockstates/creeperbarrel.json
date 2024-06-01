@@ -1,0 +1,108 @@
+{
+  "variants": {
+    "explosive=false,facing=down,open=false": {
+      "model": "takumicraft:block/creeperbarrel",
+      "x": 180
+    },
+    "explosive=false,facing=down,open=true": {
+      "model": "takumicraft:block/creeperbarrel_open",
+      "x": 180
+    },
+    "explosive=false,facing=east,open=false": {
+      "model": "takumicraft:block/creeperbarrel",
+      "x": 90,
+      "y": 90
+    },
+    "explosive=false,facing=east,open=true": {
+      "model": "takumicraft:block/creeperbarrel_open",
+      "x": 90,
+      "y": 90
+    },
+    "explosive=false,facing=north,open=false": {
+      "model": "takumicraft:block/creeperbarrel",
+      "x": 90
+    },
+    "explosive=false,facing=north,open=true": {
+      "model": "takumicraft:block/creeperbarrel_open",
+      "x": 90
+    },
+    "explosive=false,facing=south,open=false": {
+      "model": "takumicraft:block/creeperbarrel",
+      "x": 90,
+      "y": 180
+    },
+    "explosive=false,facing=south,open=true": {
+      "model": "takumicraft:block/creeperbarrel_open",
+      "x": 90,
+      "y": 180
+    },
+    "explosive=false,facing=up,open=false": {
+      "model": "takumicraft:block/creeperbarrel"
+    },
+    "explosive=false,facing=up,open=true": {
+      "model": "takumicraft:block/creeperbarrel_open"
+    },
+    "explosive=false,facing=west,open=false": {
+      "model": "takumicraft:block/creeperbarrel",
+      "x": 90,
+      "y": 270
+    },
+    "explosive=false,facing=west,open=true": {
+      "model": "takumicraft:block/creeperbarrel_open",
+      "x": 90,
+      "y": 270
+    },
+    "explosive=true,facing=down,open=false": {
+      "model": "takumicraft:block/creeperbarrel_explosive",
+      "x": 180
+    },
+    "explosive=true,facing=down,open=true": {
+      "model": "takumicraft:block/creeperbarrel_open_explosive",
+      "x": 180
+    },
+    "explosive=true,facing=east,open=false": {
+      "model": "takumicraft:block/creeperbarrel_explosive",
+      "x": 90,
+      "y": 90
+    },
+    "explosive=true,facing=east,open=true": {
+      "model": "takumicraft:block/creeperbarrel_open_explosive",
+      "x": 90,
+      "y": 90
+    },
+    "explosive=true,facing=north,open=false": {
+      "model": "takumicraft:block/creeperbarrel_explosive",
+      "x": 90
+    },
+    "explosive=true,facing=north,open=true": {
+      "model": "takumicraft:block/creeperbarrel_open_explosive",
+      "x": 90
+    },
+    "explosive=true,facing=south,open=false": {
+      "model": "takumicraft:block/creeperbarrel_explosive",
+      "x": 90,
+      "y": 180
+    },
+    "explosive=true,facing=south,open=true": {
+      "model": "takumicraft:block/creeperbarrel_open_explosive",
+      "x": 90,
+      "y": 180
+    },
+    "explosive=true,facing=up,open=false": {
+      "model": "takumicraft:block/creeperbarrel_explosive"
+    },
+    "explosive=true,facing=up,open=true": {
+      "model": "takumicraft:block/creeperbarrel_open_explosive"
+    },
+    "explosive=true,facing=west,open=false": {
+      "model": "takumicraft:block/creeperbarrel_explosive",
+      "x": 90,
+      "y": 270
+    },
+    "explosive=true,facing=west,open=true": {
+      "model": "takumicraft:block/creeperbarrel_open_explosive",
+      "x": 90,
+      "y": 270
+    }
+  }
+}

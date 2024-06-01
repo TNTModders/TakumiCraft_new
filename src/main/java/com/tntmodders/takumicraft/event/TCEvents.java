@@ -10,6 +10,7 @@ import com.tntmodders.takumicraft.entity.mobs.TCPhantomCreeper;
 import com.tntmodders.takumicraft.entity.projectile.TCCreeperArrow;
 import com.tntmodders.takumicraft.entity.projectile.TCCreeperGrenade;
 import com.tntmodders.takumicraft.item.TCTakumiSpecialMeatItem;
+import com.tntmodders.takumicraft.provider.ITCBlocks;
 import com.tntmodders.takumicraft.utils.TCExplosionUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
@@ -50,6 +51,9 @@ public class TCEvents {
         event.getAffectedBlocks().forEach(pos -> {
             if (event.getLevel().getBlockState(pos).is(TCBlockCore.ANTI_EXPLOSION)
                     || event.getLevel() instanceof ServerLevel level && this.isUnderProtection(level, pos)) {
+                if (event.getLevel().getBlockState(pos).getBlock() instanceof ITCBlocks block) {
+                    block.onRemovedfromExplosionList(event.getLevel(), pos);
+                }
                 removePosList.add(pos);
             }
         });

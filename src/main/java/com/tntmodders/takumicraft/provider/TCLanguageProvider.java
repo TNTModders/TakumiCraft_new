@@ -148,6 +148,8 @@ public abstract class TCLanguageProvider extends LanguageProvider {
             this.add("advancement.takumicraft.spmeat.desc", "Get Exploded Meat.");
             this.add("advancement.takumicraft.kingslayer.title", "King Slayer");
             this.add("advancement.takumicraft.kingslayer.desc", "Slay King Creeper.");
+            this.add("advancement.takumicraft.creeperbarrel.title", "Happy Bombing!");
+            this.add("advancement.takumicraft.creeperbarrel.desc", "Detonate Creeper Mega Barrel Bomb.");
 
             this.add("item.takumicraft.elementcore.desc", "Available as a smithing template for upgrades.");
             this.add("item.takumicraft.creeperbomb.desc", "Available as a smithing material for upgrades.");
@@ -163,10 +165,16 @@ public abstract class TCLanguageProvider extends LanguageProvider {
             this.add("item.takumicraft.creeperaltar.desc.1", "Right Click to Summon Elder Creepers.");
             this.add("item.takumicraft.creeperaltar.desc.0", "----");
             this.add("item.takumicraft.creeperaltar.desc.2", "Right Click with CreeperBomb below this to Summon King.");
+            this.add("item.takumicraft.creeperbarrel.desc", "Something occur when you fill the inventory full of explosives.");
 
             this.add("entity.takumicraft.bedcreeper.message", "%s was blasted your respawn-point by bed creeper!");
             this.add("entity.takumicraft.returncreeper.message", "%s was teleported to your respawn-point by return creeper!");
             this.add("entity.takumicraft.sleepercreeper.message", "%s's respawn-point was borked by sleeper creeper!");
+
+            this.add("takumicraft.container.creeperchest", "Creeper Chest");
+            this.add("takumicraft.container.creeperchestDouble", "Creeper Large Chest");
+            this.add("takumicraft.container.creeperbarrel", "Creeper Barrel");
+            this.add("takumicraft.container.creeperbarrel.explosive", "Creeper Mega Barrel Bomb");
         }
 
         @Override
@@ -264,7 +272,7 @@ public abstract class TCLanguageProvider extends LanguageProvider {
             this.add("item.takumicraft.creepershield.black", "匠式防盾[黒]");
 
             this.add("advancement.takumicraft.root.title", "匠Craft");
-            this.add("advancement.takumicraft.root.desc", "この匠だらけの世界へ!\n\n爆発の洗礼を受ける。");
+            this.add("advancement.takumicraft.root.desc", "爆発の洗礼を受ける\n\nこの匠だらけの世界へ!");
             this.add("advancement.takumicraft.creeperbomb.title", "爆発物注意");
             this.add("advancement.takumicraft.creeperbomb.desc", "匠式高性能爆弾を入手する\n\n全ては爆弾から。");
             this.add("advancement.takumicraft.slay_all.title", "完全覇者");
@@ -281,6 +289,8 @@ public abstract class TCLanguageProvider extends LanguageProvider {
             this.add("advancement.takumicraft.spmeat.desc", "全ての匠式特上肉を食べる\n\n肉!!\n美味すぎるだろ!!\n反省しろ!!");
             this.add("advancement.takumicraft.kingslayer.title", "キング=スレイヤー");
             this.add("advancement.takumicraft.kingslayer.desc", "王匠を倒す\n\n物語は、ほんの始まり。\n次の世界の扉が開かれる刻を待て。");
+            this.add("advancement.takumicraft.creeperbarrel.title", "Gの洗礼を受けよ");
+            this.add("advancement.takumicraft.creeperbarrel.desc", "匠式大樽爆弾[G]を起爆する\n\nあきらかにヤバい物\nかもしれないなぁ。\nたぶん爆弾物を入れ\nるとなにかあるぞ。\n爆発こそ芸術だ!");
 
             this.add("item.takumicraft.elementcore.desc", "鍛冶型として鍛冶台でのアップグレードに利用可能");
             this.add("item.takumicraft.creeperbomb.desc", "材料として鍛冶台でのアップグレードに利用可能");
@@ -296,10 +306,16 @@ public abstract class TCLanguageProvider extends LanguageProvider {
             this.add("item.takumicraft.creeperaltar.desc.0", "王者と召人を喚ぶ祭壇。");
             this.add("item.takumicraft.creeperaltar.desc.1", "右クリックで上位匠を召喚できる。");
             this.add("item.takumicraft.creeperaltar.desc.2", "下に匠式高性能爆弾を置いて右クリックで王匠を召喚できる。");
+            this.add("item.takumicraft.creeperbarrel.desc", "爆発物でインベントリを満たすと……");
 
             this.add("entity.takumicraft.bedcreeper.message", "%sのリスポーン地点が寝台匠に爆破された!");
             this.add("entity.takumicraft.returncreeper.message", "%sは帰匠によってリスポーン地点へ転移した!");
             this.add("entity.takumicraft.sleepercreeper.message", "%sのリスポーン地点は閨匠の悪戯を受けた!");
+
+            this.add("takumicraft.container.creeperchest", "匠式硬質チェスト");
+            this.add("takumicraft.container.creeperchestDouble", "匠式硬質拡張チェスト");
+            this.add("takumicraft.container.creeperbarrel", "匠式硬質樽");
+            this.add("takumicraft.container.creeperbarrel.explosive", "匠式大樽爆弾[G]");
         }
 
         @Override

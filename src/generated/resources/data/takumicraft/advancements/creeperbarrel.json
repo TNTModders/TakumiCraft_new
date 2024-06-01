@@ -1,0 +1,30 @@
+{
+  "parent": "takumicraft:creeperbomb",
+  "criteria": {
+    "impossible": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancement.takumicraft.creeperbarrel.desc"
+    },
+    "frame": "challenge",
+    "icon": {
+      "components": {
+        "minecraft:custom_model_data": 898
+      },
+      "count": 1,
+      "id": "takumicraft:creeperbarrel"
+    },
+    "title": {
+      "translate": "advancement.takumicraft.creeperbarrel.title"
+    }
+  },
+  "requirements": [
+    [
+      "impossible"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

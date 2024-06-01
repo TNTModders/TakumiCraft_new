@@ -12,12 +12,14 @@ import net.minecraft.advancements.AdvancementType;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.advancements.critereon.*;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.data.PackOutput;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.component.CustomModelData;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.common.data.ForgeAdvancementProvider;
 
@@ -77,26 +79,26 @@ public class TCAdvancementProvider extends ForgeAdvancementProvider {
                     slay_all_builder.addCriterion("slay_" + context.getRegistryName(), KilledTrigger.TriggerInstance.playerKilledEntity(new EntityPredicate.Builder().of(context.entityType()))));
             AdvancementHolder slay_all = slay_all_builder.save(consumer, new ResourceLocation(TakumiCraftCore.MODID, "slay_all"));
 
-            AdvancementHolder disarmament = Advancement.Builder.advancement()
-                    .display(new ItemStack(TCItemCore.CREEPER_SWORD), Component.translatable("advancement.takumicraft.disarmament.title"),
-                            Component.translatable("advancement.takumicraft.disarmament.desc"), null,
-                            AdvancementType.TASK, true, true, false)
-                    .addCriterion("impossible", CriteriaTriggers.IMPOSSIBLE.createCriterion(new ImpossibleTrigger.TriggerInstance()))
-                    .parent(creeperbomb).save(consumer, new ResourceLocation(TakumiCraftCore.MODID, "disarmament"));
-
-            AdvancementHolder rainbowsheep = Advancement.Builder.advancement()
-                    .display(new ItemStack(TCBlockCore.CREEPER_WOOL_MAP.get(DyeColor.WHITE)), Component.translatable("advancement.takumicraft.rainbowsheep.title"),
-                            Component.translatable("advancement.takumicraft.rainbowsheep.desc"), null,
-                            AdvancementType.GOAL, true, true, true)
-                    .addCriterion("impossible", CriteriaTriggers.IMPOSSIBLE.createCriterion(new ImpossibleTrigger.TriggerInstance()))
-                    .parent(creeperbomb).save(consumer, new ResourceLocation(TakumiCraftCore.MODID, "rainbowsheep"));
-
             AdvancementHolder creepershield = Advancement.Builder.advancement()
                     .display(new ItemStack(TCItemCore.CREEPER_SHIELD), Component.translatable("advancement.takumicraft.creepershield.title"),
                             Component.translatable("advancement.takumicraft.creepershield.desc"), null,
                             AdvancementType.TASK, true, true, false)
                     .addCriterion("creepershield", InventoryChangeTrigger.TriggerInstance.hasItems(TCItemCore.CREEPER_SHIELD))
                     .parent(creeperbomb).save(consumer, new ResourceLocation(TakumiCraftCore.MODID, "creepershield"));
+
+            AdvancementHolder disarmament = Advancement.Builder.advancement()
+                    .display(new ItemStack(TCItemCore.CREEPER_SWORD), Component.translatable("advancement.takumicraft.disarmament.title"),
+                            Component.translatable("advancement.takumicraft.disarmament.desc"), null,
+                            AdvancementType.TASK, true, true, false)
+                    .addCriterion("impossible", CriteriaTriggers.IMPOSSIBLE.createCriterion(new ImpossibleTrigger.TriggerInstance()))
+                    .parent(creepershield).save(consumer, new ResourceLocation(TakumiCraftCore.MODID, "disarmament"));
+
+            AdvancementHolder rainbowsheep = Advancement.Builder.advancement()
+                    .display(new ItemStack(TCBlockCore.CREEPER_WOOL_MAP.get(DyeColor.WHITE)), Component.translatable("advancement.takumicraft.rainbowsheep.title"),
+                            Component.translatable("advancement.takumicraft.rainbowsheep.desc"), null,
+                            AdvancementType.GOAL, true, true, true)
+                    .addCriterion("impossible", CriteriaTriggers.IMPOSSIBLE.createCriterion(new ImpossibleTrigger.TriggerInstance()))
+                    .parent(disarmament).save(consumer, new ResourceLocation(TakumiCraftCore.MODID, "rainbowsheep"));
 
             AdvancementHolder takumialtar = Advancement.Builder.advancement()
                     .display(new ItemStack(TCBlockCore.TAKUMI_ALTAR), Component.translatable("advancement.takumicraft.takumialtar.title"),
@@ -117,6 +119,14 @@ public class TCAdvancementProvider extends ForgeAdvancementProvider {
                             Component.translatable("advancement.takumicraft.kingslayer.desc"), null,
                             AdvancementType.CHALLENGE, true, true, false)
                     .addCriterion("kingslayer", KilledTrigger.TriggerInstance.playerKilledEntity(new EntityPredicate.Builder().of(TCEntityCore.KING.entityType()))).parent(takumialtar).save(consumer, new ResourceLocation(TakumiCraftCore.MODID, "kingslayer"));
+            ItemStack barrel = new ItemStack(TCBlockCore.CREEPER_BARREL);
+            barrel.set(DataComponents.CUSTOM_MODEL_DATA, new CustomModelData(898));
+            AdvancementHolder creeperbarrel = Advancement.Builder.advancement()
+                    .display(barrel, Component.translatable("advancement.takumicraft.creeperbarrel.title"),
+                            Component.translatable("advancement.takumicraft.creeperbarrel.desc"), null,
+                            AdvancementType.CHALLENGE, true, true, false)
+                    .addCriterion("impossible", CriteriaTriggers.IMPOSSIBLE.createCriterion(new ImpossibleTrigger.TriggerInstance()))
+                    .parent(creeperbomb).save(consumer, new ResourceLocation(TakumiCraftCore.MODID, "creeperbarrel"));
         }
     }
 }

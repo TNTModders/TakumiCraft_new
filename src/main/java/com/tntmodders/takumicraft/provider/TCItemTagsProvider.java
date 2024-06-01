@@ -10,7 +10,9 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.ItemTagsProvider;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
+import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.data.ExistingFileHelper;
 
 import java.lang.reflect.Field;
@@ -81,5 +83,6 @@ public class TCItemTagsProvider extends ItemTagsProvider {
     }
 
     private void additionalTag() {
+        this.tag(TCItemCore.EXPLOSIVES).addTags(Tags.Items.GUNPOWDER).add(Items.TNT, Items.TNT_MINECART);
     }
 }

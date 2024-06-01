@@ -50,9 +50,8 @@ public class TCCreeperArrowItem extends ArrowItem implements ITCItems, ITCTransl
 
     @Override
     public List<TagKey<Item>> getItemTags() {
-        return List.of(TCItemCore.CREEPER_ARROWS);
+        return List.of(TCItemCore.CREEPER_ARROWS, TCItemCore.EXPLOSIVES);
     }
-
 
     @Override
     public void addRecipes(TCRecipeProvider provider, ItemLike itemLike, RecipeOutput consumer) {

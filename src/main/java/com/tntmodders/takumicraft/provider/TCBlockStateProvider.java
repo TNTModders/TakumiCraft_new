@@ -7,6 +7,7 @@ import com.tntmodders.takumicraft.utils.TCLoggingUtils;
 import net.minecraft.core.Direction;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.BarrelBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.ScaffoldingBlock;
 import net.minecraftforge.client.model.generators.*;
@@ -42,6 +43,7 @@ public class TCBlockStateProvider extends BlockStateProvider {
                     case TRAP_DOOR -> this.trapdoorBlockWithItem(block);
                     case CARPET -> this.carpetBlockWithItem(block);
                     case BED -> this.bedBlockWithItem(block);
+                    case BARREL -> this.barrelBlockWithItem(block);
                 }
                 TCLoggingUtils.entryRegistry("BlockStateModel_" + ((ITCBlocks) block).getBlockStateModelType().name(), ((ITCBlocks) block).getRegistryName());
             }
@@ -51,7 +53,12 @@ public class TCBlockStateProvider extends BlockStateProvider {
     }
 
     private void animatedBlockWithItem(Block block) {
-        if (block instanceof TCAcidBlock acid) {
+        if (block instanceof TCCreeperChestBlock) {
+            ModelFile blockModel = this.models().getBuilder(key(block).toString())
+                    .texture("particle", "takumicraft:block/creeperplanks");
+            this.getVariantBuilder(block).partialState().setModels(new ConfiguredModel(blockModel));
+            this.itemModels().withExistingParent(key(block).getPath(), new ResourceLocation("takumicraft:item/template_creeperchest"));
+        } else if (block instanceof TCAcidBlock acid) {
             ModelFile blockModel = this.models().getBuilder(key(block).toString())
                     .texture("particle", blockTexture(block).toString());
             this.getVariantBuilder(acid).partialState().addModels(new ConfiguredModel(blockModel));
@@ -61,6 +68,31 @@ public class TCBlockStateProvider extends BlockStateProvider {
                     .texture("particle", blockTexture(TCBlockCore.CREEPER_BOMB).toString());
             this.getVariantBuilder(block).partialState().setModels(new ConfiguredModel(blockModel));
             this.itemModels().withExistingParent(key(block).getPath(), new ResourceLocation("takumicraft:item/template_monsterbomb"));
+        }
+    }
+
+    private void barrelBlockWithItem(Block block) {
+        if (block instanceof TCCreeperBarrelBlock barrel) {
+            ResourceLocation top = blockFolder(new ResourceLocation(TakumiCraftCore.MODID, name(block) + "_top"));
+            ResourceLocation side = blockFolder(new ResourceLocation(TakumiCraftCore.MODID, name(block) + "_side"));
+            ResourceLocation bottom = blockFolder(new ResourceLocation(TakumiCraftCore.MODID, name(block) + "_bottom"));
+            ResourceLocation top_open = blockFolder(new ResourceLocation(TakumiCraftCore.MODID, name(block) + "_top_open"));
+            ResourceLocation top_exp = blockFolder(new ResourceLocation(TakumiCraftCore.MODID, name(block) + "_top_explosive"));
+            ResourceLocation side_exp = blockFolder(new ResourceLocation(TakumiCraftCore.MODID, name(block) + "_side_explosive"));
+            ResourceLocation bottom_exp = blockFolder(new ResourceLocation(TakumiCraftCore.MODID, name(block) + "_bottom_explosive"));
+            ResourceLocation top_open_exp = blockFolder(new ResourceLocation(TakumiCraftCore.MODID, name(block) + "_top_open_explosive"));
+            ModelFile model = this.models().withExistingParent(name(block), "barrel").texture("particle", top)
+                    .texture("top", top).texture("side", side).texture("bottom", bottom);
+            ModelFile model_open = this.models().withExistingParent(name(block) + "_open", "barrel_open").texture("particle", top)
+                    .texture("top", top_open).texture("side", side).texture("bottom", bottom);
+            ModelFile model_explosive = this.models().withExistingParent(name(block) + "_explosive", "barrel").texture("particle", top_exp)
+                    .texture("top", top_exp).texture("side", side_exp).texture("bottom", bottom_exp);
+            ModelFile model_open_explosive = this.models().withExistingParent(name(block) + "_open_explosive", "barrel_open").texture("particle", top_exp)
+                    .texture("top", top_open_exp).texture("side", side_exp).texture("bottom", bottom_exp);
+            this.directionalBlock(block, state -> state.getValue(TCCreeperBarrelBlock.EXPLOSIVE) ? state.getValue(BarrelBlock.OPEN) ? new ConfiguredModel(model_open_explosive).model : new ConfiguredModel(model_explosive).model : state.getValue(BarrelBlock.OPEN) ? new ConfiguredModel(model_open).model : new ConfiguredModel(model).model);
+            itemModels().getBuilder(key(block).getPath())
+                    .override().predicate(new ResourceLocation("custom_model_data"), 0f).model(model).end()
+                    .override().predicate(new ResourceLocation("custom_model_data"), 898f).model(model_explosive).end();
         }
     }
 

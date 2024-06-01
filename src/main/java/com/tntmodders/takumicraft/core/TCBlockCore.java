@@ -63,10 +63,13 @@ public class TCBlockCore {
     public static final Block YUKARI_DUMMY = new TCYukariDummyBlock();
     public static final Block YUKARI_BOMB = new TCMonsterBombBlock(TCEntityCore.YUKARI);
     public static final Block TAKUMI_ALTAR = new TCAltarBlock();
+    public static final Block CREEPER_CHEST = new TCCreeperChestBlock();
+    public static final Block CREEPER_BARREL = new TCCreeperBarrelBlock();
 
     public static final TagKey<Block> GUNORES = TagKey.create(Registries.BLOCK, new ResourceLocation(TakumiCraftCore.MODID, "gunores"));
     public static final TagKey<Block> ANTI_EXPLOSION = TagKey.create(Registries.BLOCK, new ResourceLocation(TakumiCraftCore.MODID, "anti_explosion"));
     public static final TagKey<Block> CREEPER_BED = TagKey.create(Registries.BLOCK, new ResourceLocation(TakumiCraftCore.MODID, "creeperbed"));
+    public static final TagKey<Block> EXPLOSIVES = TagKey.create(Registries.BLOCK, new ResourceLocation(TakumiCraftCore.MODID, "explosives"));
 
     static {
         Arrays.stream(DyeColor.values()).forEach(dyeColor -> {

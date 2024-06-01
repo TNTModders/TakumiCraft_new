@@ -1,0 +1,16 @@
+{
+  "overrides": [
+    {
+      "model": "takumicraft:block/creeperbarrel",
+      "predicate": {
+        "minecraft:custom_model_data": 0.0
+      }
+    },
+    {
+      "model": "takumicraft:block/creeperbarrel_explosive",
+      "predicate": {
+        "minecraft:custom_model_data": 898.0
+      }
+    }
+  ]
+}

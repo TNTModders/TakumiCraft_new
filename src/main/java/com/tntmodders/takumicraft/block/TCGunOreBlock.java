@@ -90,7 +90,7 @@ public class TCGunOreBlock extends AbstractTCBombBlock implements ITCRecipe {
 
     @Override
     public List<TagKey<Block>> getBlockTags() {
-        return List.of(BlockTags.NEEDS_STONE_TOOL, TCBlockCore.GUNORES, BlockTags.MINEABLE_WITH_PICKAXE, Tags.Blocks.ORES, Tags.Blocks.ORE_RATES_SINGULAR, this.oreTag());
+        return List.of(BlockTags.NEEDS_STONE_TOOL, TCBlockCore.GUNORES, BlockTags.MINEABLE_WITH_PICKAXE, Tags.Blocks.ORES, Tags.Blocks.ORE_RATES_SINGULAR, this.oreTag(), TCBlockCore.EXPLOSIVES);
     }
 
     protected TagKey<Block> oreTag() {
@@ -99,7 +99,7 @@ public class TCGunOreBlock extends AbstractTCBombBlock implements ITCRecipe {
 
     @Override
     public List<Pair<TagKey<Block>, TagKey<Item>>> getItemTags() {
-        return List.of(Pair.of(TCBlockCore.GUNORES, TCItemCore.GUNORES));
+        return List.of(Pair.of(TCBlockCore.GUNORES, TCItemCore.GUNORES), Pair.of(TCBlockCore.EXPLOSIVES, TCItemCore.EXPLOSIVES));
     }
 
     @Override

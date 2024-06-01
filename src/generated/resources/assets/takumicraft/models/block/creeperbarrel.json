@@ -1,0 +1,9 @@
+{
+  "parent": "minecraft:block/barrel",
+  "textures": {
+    "bottom": "takumicraft:block/creeperbarrel_bottom",
+    "particle": "takumicraft:block/creeperbarrel_top",
+    "side": "takumicraft:block/creeperbarrel_side",
+    "top": "takumicraft:block/creeperbarrel_top"
+  }
+}
