@@ -1,21 +1,21 @@
 {
   "values": [
-    "takumicraft:creeperbed_blue",
-    "takumicraft:creeperbed_light_gray",
-    "takumicraft:creeperbed_white",
-    "takumicraft:creeperbed_green",
     "takumicraft:creeperbed_orange",
-    "takumicraft:creeperbed_yellow",
-    "takumicraft:creeperbed_cyan",
-    "takumicraft:creeperbed_red",
-    "takumicraft:creeperbed_pink",
-    "takumicraft:creeperbed_purple",
-    "takumicraft:creeperbed_brown",
-    "takumicraft:creeperbed_black",
     "takumicraft:creeperbed_lime",
-    "takumicraft:creeperbed_light_blue",
+    "takumicraft:creeperbed_blue",
+    "takumicraft:creeperbed_green",
+    "takumicraft:creeperbed_red",
+    "takumicraft:creeperbed_brown",
+    "takumicraft:creeperbed_light_gray",
+    "takumicraft:creeperbed_black",
     "takumicraft:creeperbed_magenta",
+    "takumicraft:creeperbed_purple",
+    "takumicraft:creeperbed_light_blue",
+    "takumicraft:creeperbed_white",
+    "takumicraft:creeperbed_pink",
+    "takumicraft:creeperbed_cyan",
     "takumicraft:creeperbed_gray",
+    "takumicraft:creeperbed_yellow",
     "takumicraft:super_creeperbed"
   ]
 }
