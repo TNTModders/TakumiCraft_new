@@ -9,6 +9,7 @@ import com.tntmodders.takumicraft.entity.mobs.boss.TCKingCreeper;
 import com.tntmodders.takumicraft.entity.projectile.TCAmethystBomb;
 import com.tntmodders.takumicraft.entity.projectile.TCBirdBomb;
 import com.tntmodders.takumicraft.entity.projectile.TCCreeperArrow;
+import com.tntmodders.takumicraft.entity.projectile.TCCreeperGrenade;
 import com.tntmodders.takumicraft.utils.TCLoggingUtils;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.registries.Registries;
@@ -144,6 +145,8 @@ public class TCEntityCore {
                 entityTypeRegisterHelper.register(new ResourceLocation(TakumiCraftCore.MODID, "king_storm"), TCKingStorm.KING_STORM));
         event.register(ForgeRegistries.ENTITY_TYPES.getRegistryKey(), entityTypeRegisterHelper ->
                 entityTypeRegisterHelper.register(new ResourceLocation(TakumiCraftCore.MODID, "king_block"), TCKingBlock.KING_BLOCK));
+        event.register(ForgeRegistries.ENTITY_TYPES.getRegistryKey(), entityTypeRegisterHelper ->
+                entityTypeRegisterHelper.register(new ResourceLocation(TakumiCraftCore.MODID, "takumithrowgrenade"), TCCreeperGrenade.GRENADE));
     }
 
     public static void registerAttribute(EntityAttributeCreationEvent event) {

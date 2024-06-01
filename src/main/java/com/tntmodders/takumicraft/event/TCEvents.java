@@ -8,6 +8,7 @@ import com.tntmodders.takumicraft.core.TCItemCore;
 import com.tntmodders.takumicraft.entity.mobs.AbstractTCCreeper;
 import com.tntmodders.takumicraft.entity.mobs.TCPhantomCreeper;
 import com.tntmodders.takumicraft.entity.projectile.TCCreeperArrow;
+import com.tntmodders.takumicraft.entity.projectile.TCCreeperGrenade;
 import com.tntmodders.takumicraft.item.TCTakumiSpecialMeatItem;
 import com.tntmodders.takumicraft.utils.TCExplosionUtils;
 import net.minecraft.core.BlockPos;
@@ -23,6 +24,7 @@ import net.minecraft.world.entity.monster.Phantom;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.entity.EntityMobGriefingEvent;
+import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.MobSpawnEvent;
 import net.minecraftforge.event.entity.living.ShieldBlockEvent;
@@ -132,6 +134,13 @@ public class TCEvents {
     public void onDestroyItem(PlayerDestroyItemEvent event) {
         if (!event.getEntity().level().isClientSide && event.getOriginal().is(TCItemCore.MINESWEEPER_TOOLS)) {
             TCExplosionUtils.createExplosion(event.getEntity().level(), null, event.getEntity().getOnPos().above(1), 3f);
+        }
+    }
+
+    @SubscribeEvent
+    public void onDamage(LivingDamageEvent event) {
+        if (event.getSource().is(DamageTypes.EXPLOSION) && event.getSource().getDirectEntity() instanceof TCCreeperGrenade) {
+            event.setCanceled(true);
         }
     }
 

@@ -16,6 +16,7 @@ import com.tntmodders.takumicraft.entity.misc.TCKingStorm;
 import com.tntmodders.takumicraft.entity.projectile.TCAmethystBomb;
 import com.tntmodders.takumicraft.entity.projectile.TCBirdBomb;
 import com.tntmodders.takumicraft.entity.projectile.TCCreeperArrow;
+import com.tntmodders.takumicraft.entity.projectile.TCCreeperGrenade;
 import com.tntmodders.takumicraft.utils.TCLoggingUtils;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
@@ -53,10 +54,6 @@ public class TCRenderCore {
         });
         event.registerEntityRenderer(TCAmethystBomb.AMETHYST_BOMB, TCAmethystBombRenderer::new);
         event.registerEntityRenderer(TCBirdBomb.BIRD_BOMB, ThrownItemRenderer::new);
-
-        event.registerBlockEntityRenderer(TCBlockEntityCore.CREEPER_BED, TCCreeperBedRenderer::new);
-        event.registerBlockEntityRenderer(TCBlockEntityCore.ACID, TCAcidBlockRenderer::new);
-        event.registerBlockEntityRenderer(TCBlockEntityCore.MONSTER_BOMB, TCMonsterBombBlockRenderer::new);
         event.registerEntityRenderer(TCKingStorm.KING_STORM, p_174010_ -> new EntityRenderer<>(p_174010_) {
             @Override
             public ResourceLocation getTextureLocation(TCKingStorm p_114482_) {
@@ -64,6 +61,11 @@ public class TCRenderCore {
             }
         });
         event.registerEntityRenderer(TCKingBlock.KING_BLOCK, TCKingBlockRenderer::new);
+        event.registerEntityRenderer(TCCreeperGrenade.GRENADE, ThrownItemRenderer::new);
+
+        event.registerBlockEntityRenderer(TCBlockEntityCore.CREEPER_BED, TCCreeperBedRenderer::new);
+        event.registerBlockEntityRenderer(TCBlockEntityCore.ACID, TCAcidBlockRenderer::new);
+        event.registerBlockEntityRenderer(TCBlockEntityCore.MONSTER_BOMB, TCMonsterBombBlockRenderer::new);
     }
 
     public static void registerLayerDefinition(EntityRenderersEvent.RegisterLayerDefinitions event) {

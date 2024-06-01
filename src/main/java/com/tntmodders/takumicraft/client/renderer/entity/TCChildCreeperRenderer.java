@@ -22,7 +22,7 @@ public class TCChildCreeperRenderer extends MobRenderer<TCChildCreeper, TCChildC
 
     public TCChildCreeperRenderer(EntityRendererProvider.Context p_173958_) {
         super(p_173958_, new TCChildCreeperModel(p_173958_.bakeLayer(TCRenderCore.CHILD)), 0.5F);
-        this.addLayer(new TCCreeperPowerLayer(this, p_173958_.getModelSet(), this.model, TCEntityCore.CHILD));
+        this.addLayer(new TCCreeperPowerLayer(this, p_173958_.getModelSet(), this.model, TCEntityCore.CHILD, true));
     }
 
     @Override
