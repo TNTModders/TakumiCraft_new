@@ -3,11 +3,13 @@ package com.tntmodders.takumicraft.entity.mobs;
 import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.client.renderer.entity.TCChildCreeperRenderer;
 import com.tntmodders.takumicraft.core.TCEntityCore;
-import com.tntmodders.takumicraft.utils.TCExplosionUtils;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
-import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Explosion;
@@ -17,12 +19,10 @@ import net.minecraft.world.level.material.FluidState;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.EntityRenderersEvent;
-import net.minecraftforge.event.level.ExplosionEvent;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class TCChildCreeper extends AbstractTCCreeper {
+    protected static final EntityDataAccessor<Boolean> DATA_IS_CHILD = SynchedEntityData.defineId(TCChildCreeper.class, EntityDataSerializers.BOOLEAN);
+
     public TCChildCreeper(EntityType<? extends Creeper> entityType, Level level) {
         super(entityType, level);
     }
@@ -33,25 +33,53 @@ public class TCChildCreeper extends AbstractTCCreeper {
     }
 
     @Override
-    public void explodeCreeperEvent(ExplosionEvent.Detonate event) {
-        List<BlockPos> posList = new ArrayList<>();
-        event.getAffectedBlocks().forEach(blockPos -> {
-            float f = this.level().getBlockState(blockPos).getExplosionResistance(this.level(), blockPos, event.getExplosion());
-            if (f > 0.2 && event.getExplosion().radius > 1) {
-                this.level().destroyBlock(blockPos, true, this);
-                TCExplosionUtils.createExplosion(this.level(), this, blockPos, Math.max(0, event.getExplosion().radius - 0.2f - 2 / f));
-                posList.add(blockPos);
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(DATA_IS_CHILD, false);
+    }
 
+    @Override
+    public void explodeCreeper() {
+        super.explodeCreeper();
+        if (!this.isChild() && !this.level().isClientSide()) {
+            TCChildCreeper creeper = new TCChildCreeper((EntityType<Creeper>) TCEntityCore.CHILD.entityType(), this.level());
+            creeper.copyPosition(this);
+            creeper.setHealth(this.getHealth());
+            if (this.isPowered()) {
+                creeper.setPowered(true);
             }
-        });
-        if (!posList.isEmpty()) {
-            event.getAffectedBlocks().removeAll(posList);
+            creeper.getEntityData().set(DATA_IS_CHILD, true);
+            creeper.explosionRadius = this.explosionRadius * 4;
+            this.level().addFreshEntity(creeper);
         }
+    }
+
+    @Override
+    protected float sanitizeScale(float p_330116_) {
+        return this.isChild() ? 0.5f : 1f;
     }
 
     @Override
     public float getBlockExplosionResistance(Explosion explosion, BlockGetter level, BlockPos pos, BlockState blockState, FluidState fluidState, float f) {
         return blockState.getDestroySpeed(level, pos) < 0 ? super.getBlockExplosionResistance(explosion, level, pos, blockState, fluidState, f) : 1f;
+    }
+
+    public boolean isChild() {
+        return this.getEntityData().get(DATA_IS_CHILD);
+    }
+
+    @Override
+    public void addAdditionalSaveData(CompoundTag p_32304_) {
+        super.addAdditionalSaveData(p_32304_);
+        if (this.isChild()) {
+            p_32304_.putBoolean("child", true);
+        }
+    }
+
+    @Override
+    public void readAdditionalSaveData(CompoundTag p_32296_) {
+        super.readAdditionalSaveData(p_32296_);
+        this.getEntityData().set(DATA_IS_CHILD, p_32296_.getBoolean("child"));
     }
 
     public static class TCChildCreeperContext implements TCCreeperContext<TCChildCreeper> {
@@ -104,14 +132,9 @@ public class TCChildCreeper extends AbstractTCCreeper {
         }
 
         @Override
-        public AttributeSupplier.Builder entityAttribute() {
-            return Creeper.createAttributes();
-        }
-
-        @Override
         @OnlyIn(Dist.CLIENT)
         public void registerRenderer(EntityRenderersEvent.RegisterRenderers event, EntityType<?> type) {
-            event.registerEntityRenderer((EntityType<Creeper>) type, TCChildCreeperRenderer::new);
+            event.registerEntityRenderer((EntityType<TCChildCreeper>) type, TCChildCreeperRenderer::new);
         }
 
         @Override

@@ -72,12 +72,17 @@ public class TCChildCreeperModel<T extends TCChildCreeper> extends CreeperModel<
 
     @Override
     public void setupAnim(T p_102463_, float p_102464_, float p_102465_, float p_102466_, float p_102467_, float p_102468_) {
-        this.head.yRot = p_102467_ * ((float) Math.PI / 180F);
-        this.head.xRot = p_102468_ * ((float) Math.PI / 180F);
-        this.rightHindLeg.xRot = Mth.cos(p_102464_ * 0.6662F) * 1.4F * p_102465_;
-        this.leftHindLeg.xRot = Mth.cos(p_102464_ * 0.6662F + (float) Math.PI) * 1.4F * p_102465_;
-        this.rightFrontLeg.xRot = Mth.cos(p_102464_ * 0.6662F + (float) Math.PI) * 1.4F * p_102465_;
-        this.leftFrontLeg.xRot = Mth.cos(p_102464_ * 0.6662F) * 1.4F * p_102465_;
+        if (p_102463_.isChild()) {
+            this.head.visible = false;
+        } else {
+            this.head.visible = true;
+            this.head.yRot = p_102467_ * ((float) Math.PI / 180F);
+            this.head.xRot = p_102468_ * ((float) Math.PI / 180F);
+            this.rightHindLeg.xRot = Mth.cos(p_102464_ * 0.6662F) * 1.4F * p_102465_;
+            this.leftHindLeg.xRot = Mth.cos(p_102464_ * 0.6662F + (float) Math.PI) * 1.4F * p_102465_;
+            this.rightFrontLeg.xRot = Mth.cos(p_102464_ * 0.6662F + (float) Math.PI) * 1.4F * p_102465_;
+            this.leftFrontLeg.xRot = Mth.cos(p_102464_ * 0.6662F) * 1.4F * p_102465_;
+        }
 
         this.parent_head.yRot = p_102467_ * ((float) Math.PI / 180F);
         this.parent_head.xRot = p_102468_ * ((float) Math.PI / 180F);
@@ -89,7 +94,7 @@ public class TCChildCreeperModel<T extends TCChildCreeper> extends CreeperModel<
 
     @Override
     public void renderToBuffer(PoseStack poseStack, VertexConsumer p_170626_, int p_170627_, int p_170628_, float p_170629_, float p_170630_, float p_170631_, float p_170632_) {
-        boolean flg = true;
+        boolean flg = this.head.visible;
         if (flg) {
             this.head.render(poseStack, p_170626_, p_170627_, p_170628_, p_170629_, p_170630_, p_170631_, p_170632_);
             this.root.render(poseStack, p_170626_, p_170627_, p_170628_, p_170629_, p_170630_, p_170631_, p_170632_);
@@ -104,7 +109,7 @@ public class TCChildCreeperModel<T extends TCChildCreeper> extends CreeperModel<
             poseStack.translate(0f, 0.375f, 0.05f);
             poseStack.rotateAround(Axis.XP.rotationDegrees(20), 0, 1, 0);
         } else {
-            poseStack.translate(0f, 1f, 0f);
+            poseStack.scale(2f, 2f, 2f);
         }
         poseStack.scale(0.5f, 0.5f, 0.5f);
         this.parent.render(poseStack, p_170626_, p_170627_, p_170628_, p_170629_, p_170630_, p_170631_, p_170632_);
