@@ -8,11 +8,16 @@ import com.tntmodders.takumicraft.core.TCBlockEntityCore;
 import com.tntmodders.takumicraft.data.loot.TCBlockLoot;
 import com.tntmodders.takumicraft.item.TCBlockItem;
 import com.tntmodders.takumicraft.provider.ITCBlocks;
+import com.tntmodders.takumicraft.provider.ITCRecipe;
+import com.tntmodders.takumicraft.provider.TCRecipeProvider;
 import it.unimi.dsi.fastutil.floats.Float2FloatFunction;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.data.loot.LootTableSubProvider;
+import net.minecraft.data.recipes.RecipeCategory;
+import net.minecraft.data.recipes.RecipeOutput;
+import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -29,6 +34,7 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ChestMenu;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.*;
@@ -57,7 +63,7 @@ import java.util.function.BiPredicate;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-public class TCCreeperChestBlock extends BaseEntityBlock implements ITCBlocks {
+public class TCCreeperChestBlock extends BaseEntityBlock implements ITCBlocks, ITCRecipe {
     protected final Supplier<BlockEntityType> blockEntityType;
 
     public TCCreeperChestBlock() {
@@ -434,5 +440,16 @@ public class TCCreeperChestBlock extends BaseEntityBlock implements ITCBlocks {
     @Override
     public List<TagKey<Block>> getBlockTags() {
         return List.of(TCBlockCore.ANTI_EXPLOSION);
+    }
+
+    @Override
+    public void addRecipes(TCRecipeProvider provider, ItemLike itemLike, RecipeOutput consumer) {
+        provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS,
+                        TCBlockCore.CREEPER_CHEST, 1)
+                .define('#', TCBlockCore.CREEPER_PLANKS)
+                .pattern("###")
+                .pattern("# #")
+                .pattern("###")
+                .unlockedBy("has_creeperplanks", TCRecipeProvider.hasItem(TCBlockCore.CREEPER_PLANKS)));
     }
 }

@@ -6,10 +6,15 @@ import com.tntmodders.takumicraft.core.TCBlockCore;
 import com.tntmodders.takumicraft.data.loot.TCBlockLoot;
 import com.tntmodders.takumicraft.item.TCBlockItem;
 import com.tntmodders.takumicraft.provider.ITCBlocks;
+import com.tntmodders.takumicraft.provider.ITCRecipe;
+import com.tntmodders.takumicraft.provider.TCRecipeProvider;
 import com.tntmodders.takumicraft.utils.TCExplosionUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.data.loot.LootTableSubProvider;
+import net.minecraft.data.recipes.RecipeCategory;
+import net.minecraft.data.recipes.RecipeOutput;
+import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -24,6 +29,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Explosion;
+import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BarrelBlock;
 import net.minecraft.world.level.block.Block;
@@ -42,7 +48,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.Supplier;
 
-public class TCCreeperBarrelBlock extends BarrelBlock implements ITCBlocks {
+public class TCCreeperBarrelBlock extends BarrelBlock implements ITCBlocks, ITCRecipe {
     public static final BooleanProperty EXPLOSIVE = BooleanProperty.create("explosive");
 
     public TCCreeperBarrelBlock() {
@@ -150,5 +156,17 @@ public class TCCreeperBarrelBlock extends BarrelBlock implements ITCBlocks {
                 components.add(Component.translatable("item.takumicraft.creeperbarrel.desc"));
             }
         };
+    }
+
+    @Override
+    public void addRecipes(TCRecipeProvider provider, ItemLike itemLike, RecipeOutput consumer) {
+        provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS,
+                        TCBlockCore.CREEPER_BARREL, 1)
+                .define('#', TCBlockCore.CREEPER_PLANKS)
+                .define('H', TCBlockCore.CREEPER_PLANKS_HALF)
+                .pattern("#H#")
+                .pattern("# #")
+                .pattern("#H#")
+                .unlockedBy("has_creeperplanks", TCRecipeProvider.hasItem(TCBlockCore.CREEPER_PLANKS)));
     }
 }

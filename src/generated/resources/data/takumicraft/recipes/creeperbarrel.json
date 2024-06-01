@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "item": "takumicraft:creeperplanks"
+    },
+    "H": {
+      "item": "takumicraft:creeperplanks_half"
+    }
+  },
+  "pattern": [
+    "#H#",
+    "# #",
+    "#H#"
+  ],
+  "result": {
+    "count": 1,
+    "id": "takumicraft:creeperbarrel"
+  }
+}

@@ -1,5 +1,8 @@
 {
   "values": [
+    "takumicraft:creeperarrow",
+    "takumicraft:tipped_creeperarrow",
+    "takumicraft:takumithrowgrenede",
     "#forge:gunpowder",
     "minecraft:tnt",
     "minecraft:tnt_minecart",
