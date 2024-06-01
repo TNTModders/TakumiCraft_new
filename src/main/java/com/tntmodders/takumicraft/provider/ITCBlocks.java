@@ -68,6 +68,7 @@ public interface ITCBlocks extends ITCTranslator {
         CARPET("cutout"),
         BED("cutout"),
         BARREL("solid"),
+        SLIME("translucent"),
         ANIMATED("solid"),
         NONE("solid");
 

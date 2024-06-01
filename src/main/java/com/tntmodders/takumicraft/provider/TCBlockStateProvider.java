@@ -44,12 +44,18 @@ public class TCBlockStateProvider extends BlockStateProvider {
                     case CARPET -> this.carpetBlockWithItem(block);
                     case BED -> this.bedBlockWithItem(block);
                     case BARREL -> this.barrelBlockWithItem(block);
+                    case SLIME -> this.slimeBlockWithItem(block);
                 }
                 TCLoggingUtils.entryRegistry("BlockStateModel_" + ((ITCBlocks) block).getBlockStateModelType().name(), ((ITCBlocks) block).getRegistryName());
             }
         });
-
         TCLoggingUtils.completeRegistry("BlockStateModel");
+    }
+
+    private void slimeBlockWithItem(Block block) {
+        ModelFile blockModel = this.models().withExistingParent(name(block), "takumicraft:block/template_creeperslimeblock").texture("texture", blockTexture(block)).texture("inside", blockFolder(new ResourceLocation(TakumiCraftCore.MODID, name(block) + "_inside")));
+        this.getVariantBuilder(block).partialState().addModels(new ConfiguredModel(blockModel));
+        this.itemModels().withExistingParent(name(block), blockTexture(block));
     }
 
     private void animatedBlockWithItem(Block block) {

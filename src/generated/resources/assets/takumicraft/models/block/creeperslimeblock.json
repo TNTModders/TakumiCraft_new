@@ -1,0 +1,7 @@
+{
+  "parent": "takumicraft:block/template_creeperslimeblock",
+  "textures": {
+    "inside": "takumicraft:block/creeperslimeblock_inside",
+    "texture": "takumicraft:block/creeperslimeblock"
+  }
+}
