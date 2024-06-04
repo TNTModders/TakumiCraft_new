@@ -1,11 +1,13 @@
 package com.tntmodders.takumicraft.block;
 
+import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.core.TCBlockCore;
 import com.tntmodders.takumicraft.data.loot.TCBlockLoot;
 import com.tntmodders.takumicraft.item.TCBlockItem;
 import com.tntmodders.takumicraft.item.TCScaffoldingBlockItem;
 import com.tntmodders.takumicraft.provider.ITCBlocks;
 import com.tntmodders.takumicraft.provider.ITCRecipe;
+import com.tntmodders.takumicraft.provider.TCBlockStateProvider;
 import com.tntmodders.takumicraft.provider.TCRecipeProvider;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -13,6 +15,7 @@ import net.minecraft.data.loot.LootTableSubProvider;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
@@ -33,6 +36,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
+import net.minecraftforge.client.model.generators.ConfiguredModel;
+import net.minecraftforge.client.model.generators.ModelFile;
 
 import java.util.List;
 import java.util.function.Supplier;
@@ -126,20 +131,21 @@ public class TCScaffoldingBlock extends ScaffoldingBlock implements ITCBlocks, I
     }
 
     @Override
-    public EnumTCBlockStateModelType getBlockStateModelType() {
-        return EnumTCBlockStateModelType.SCCAFOLDING;
+    public void registerStateAndModel(TCBlockStateProvider provider) {
+        ResourceLocation top = provider.blockFolder(new ResourceLocation(TakumiCraftCore.MODID, provider.name(this) + "_top"));
+        ResourceLocation side = provider.blockFolder(new ResourceLocation(TakumiCraftCore.MODID, provider.name(this) + "_side"));
+        ResourceLocation bottom = provider.blockFolder(new ResourceLocation(TakumiCraftCore.MODID, provider.name(this) + "_bottom"));
+
+        ModelFile model_stable = provider.models().withExistingParent(provider.name(this) + "_stable", "scaffolding_stable").texture("particle", top).texture("top", top).texture("side", side).texture("bottom", bottom).renderType("cutout");
+        ModelFile model_unstable = provider.models().withExistingParent(provider.name(this) + "_unstable", "scaffolding_unstable").texture("particle", top).texture("top", top).texture("side", side).texture("bottom", bottom).renderType("cutout");
+
+        provider.getVariantBuilder(this).partialState().with(ScaffoldingBlock.BOTTOM, false).addModels(new ConfiguredModel(model_stable)).partialState().with(ScaffoldingBlock.BOTTOM, true).addModels(new ConfiguredModel(model_unstable));
+        provider.simpleBlockItem(this, model_stable);
     }
 
     @Override
     public void addRecipes(TCRecipeProvider provider, ItemLike itemLike, RecipeOutput consumer) {
-        provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS,
-                        TCBlockCore.CREEPER_SCAFFOLDING, 8)
-                .define('#', TCBlockCore.CREEPER_BOMB)
-                .define('B', Blocks.SCAFFOLDING)
-                .pattern("BBB")
-                .pattern("B#B")
-                .pattern("BBB")
-                .unlockedBy("has_creeperbomb", TCRecipeProvider.hasItem(TCBlockCore.CREEPER_BOMB)));
+        provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, TCBlockCore.CREEPER_SCAFFOLDING, 8).define('#', TCBlockCore.CREEPER_BOMB).define('B', Blocks.SCAFFOLDING).pattern("BBB").pattern("B#B").pattern("BBB").unlockedBy("has_creeperbomb", TCRecipeProvider.hasItem(TCBlockCore.CREEPER_BOMB)));
     }
 
 

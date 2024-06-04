@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.tntmodders.takumicraft.data.loot.TCBlockLoot;
 import com.tntmodders.takumicraft.provider.ITCBlocks;
 import com.tntmodders.takumicraft.provider.ITCRecipe;
+import com.tntmodders.takumicraft.provider.TCBlockStateProvider;
 import com.tntmodders.takumicraft.provider.TCRecipeProvider;
 import net.minecraft.data.loot.LootTableSubProvider;
 import net.minecraft.data.recipes.RecipeCategory;
@@ -61,19 +62,14 @@ public class TCAntiExplosionFenceGateBlock extends FenceGateBlock implements ITC
     }
 
     @Override
-    public EnumTCBlockStateModelType getBlockStateModelType() {
-        return EnumTCBlockStateModelType.FENCE_GATE;
+    public void registerStateAndModel(TCBlockStateProvider provider) {
+        provider.fenceGateBlock(this, provider.blockTexture(this.getBaseBlock()));
+        provider.itemModels().withExistingParent(this.getRegistryName(), provider.blockFolder(provider.key(this)));
     }
 
     @Override
     public void addRecipes(TCRecipeProvider provider, ItemLike itemLike, RecipeOutput consumer) {
-        provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS,
-                        itemLike, 3)
-                .define('#', this.baseBlock)
-                .define('S', Items.STICK)
-                .pattern("S#S")
-                .pattern("S#S")
-                .unlockedBy("has_baseblock", TCRecipeProvider.hasItem(this.baseBlock)));
+        provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, itemLike, 3).define('#', this.baseBlock).define('S', Items.STICK).pattern("S#S").pattern("S#S").unlockedBy("has_baseblock", TCRecipeProvider.hasItem(this.baseBlock)));
     }
 
 

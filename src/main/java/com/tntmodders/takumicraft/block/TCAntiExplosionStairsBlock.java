@@ -1,15 +1,18 @@
 package com.tntmodders.takumicraft.block;
 
 import com.google.common.collect.Lists;
+import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.data.loot.TCBlockLoot;
 import com.tntmodders.takumicraft.provider.ITCBlocks;
 import com.tntmodders.takumicraft.provider.ITCRecipe;
+import com.tntmodders.takumicraft.provider.TCBlockStateProvider;
 import com.tntmodders.takumicraft.provider.TCRecipeProvider;
 import net.minecraft.data.loot.LootTableSubProvider;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.SingleItemRecipeBuilder;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -62,19 +65,15 @@ public class TCAntiExplosionStairsBlock extends StairBlock implements ITCBlocks,
     }
 
     @Override
-    public EnumTCBlockStateModelType getBlockStateModelType() {
-        return EnumTCBlockStateModelType.STAIRS;
+    public void registerStateAndModel(TCBlockStateProvider provider) {
+        provider.stairsBlock(this, provider.blockTexture(this.getBaseBlock()));
+        String location = this.getRegistryName();
+        provider.itemModels().withExistingParent(location, provider.blockFolder(new ResourceLocation(TakumiCraftCore.MODID, location)));
     }
 
     @Override
     public void addRecipes(TCRecipeProvider provider, ItemLike itemLike, RecipeOutput consumer) {
-        provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS,
-                        itemLike, 4)
-                .define('#', this.baseBlock)
-                .pattern("#  ")
-                .pattern("## ")
-                .pattern("###")
-                .unlockedBy("has_baseblock", TCRecipeProvider.hasItem(this.baseBlock)));
+        provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, itemLike, 4).define('#', this.baseBlock).pattern("#  ").pattern("## ").pattern("###").unlockedBy("has_baseblock", TCRecipeProvider.hasItem(this.baseBlock)));
         if (this.addStoneCutterRecipe) {
             provider.saveRecipe(itemLike, consumer, SingleItemRecipeBuilder.stonecutting(Ingredient.of(this.baseBlock), RecipeCategory.BUILDING_BLOCKS, itemLike), "stonecutting");
         }

@@ -1,6 +1,7 @@
 package com.tntmodders.takumicraft.block;
 
 import com.tntmodders.takumicraft.core.TCBlockCore;
+import com.tntmodders.takumicraft.provider.TCBlockStateProvider;
 import com.tntmodders.takumicraft.provider.TCLanguageProvider;
 import com.tntmodders.takumicraft.provider.TCRecipeProvider;
 import net.minecraft.data.recipes.RecipeCategory;
@@ -24,28 +25,16 @@ public class TCColoredCreeperGlassPaneBlock extends TCCreeperGlassPaneBlock {
 
     @Override
     public void addRecipes(TCRecipeProvider provider, ItemLike itemLike, RecipeOutput consumer) {
-        provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS,
-                        TCBlockCore.CREEPER_COLORED_GLASS_PANE_MAP.get(this.color), 8)
-                .define('#', TCBlockCore.CREEPER_BOMB)
-                .define('B', this.baseBlock)
-                .pattern("BBB")
-                .pattern("B#B")
-                .pattern("BBB")
-                .unlockedBy("has_creeperbomb", TCRecipeProvider.hasItem(TCBlockCore.CREEPER_BOMB))
-                .group("creeperglasspane"));
+        provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, TCBlockCore.CREEPER_COLORED_GLASS_PANE_MAP.get(this.color), 8).define('#', TCBlockCore.CREEPER_BOMB).define('B', this.baseBlock).pattern("BBB").pattern("B#B").pattern("BBB").unlockedBy("has_creeperbomb", TCRecipeProvider.hasItem(TCBlockCore.CREEPER_BOMB)).group("creeperglasspane"));
 
-        provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS,
-                        TCBlockCore.CREEPER_COLORED_GLASS_PANE_MAP.get(this.color), 16)
-                .define('#', TCBlockCore.CREEPER_COLORED_GLASS_MAP.get(this.color))
-                .pattern("###")
-                .pattern("###")
-                .unlockedBy("has_creeperglass", TCRecipeProvider.hasItem(TCBlockCore.CREEPER_COLORED_GLASS_MAP.get(this.color)))
-                .group("creeperglasspane_from_creeperglass"), "from_creeperglass");
+        provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, TCBlockCore.CREEPER_COLORED_GLASS_PANE_MAP.get(this.color), 16).define('#', TCBlockCore.CREEPER_COLORED_GLASS_MAP.get(this.color)).pattern("###").pattern("###").unlockedBy("has_creeperglass", TCRecipeProvider.hasItem(TCBlockCore.CREEPER_COLORED_GLASS_MAP.get(this.color))).group("creeperglasspane_from_creeperglass"), "from_creeperglass");
     }
 
     @Override
-    public EnumTCBlockStateModelType getBlockStateModelType() {
-        return EnumTCBlockStateModelType.PANE_STAINED_GLASS;
+    public void registerStateAndModel(TCBlockStateProvider provider) {
+        ResourceLocation sourceName = provider.blockTexture(this.getBaseTakumiBlock());
+        provider.paneBlockWithRenderType(this, sourceName, sourceName, "translucent");
+        provider.singleBlockItem(this, sourceName);
     }
 
     @Override

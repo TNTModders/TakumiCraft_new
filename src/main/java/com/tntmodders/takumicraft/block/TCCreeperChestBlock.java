@@ -9,6 +9,7 @@ import com.tntmodders.takumicraft.data.loot.TCBlockLoot;
 import com.tntmodders.takumicraft.item.TCBlockItem;
 import com.tntmodders.takumicraft.provider.ITCBlocks;
 import com.tntmodders.takumicraft.provider.ITCRecipe;
+import com.tntmodders.takumicraft.provider.TCBlockStateProvider;
 import com.tntmodders.takumicraft.provider.TCRecipeProvider;
 import it.unimi.dsi.fastutil.floats.Float2FloatFunction;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
@@ -55,6 +56,8 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
+import net.minecraftforge.client.model.generators.ConfiguredModel;
+import net.minecraftforge.client.model.generators.ModelFile;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -69,9 +72,7 @@ public class TCCreeperChestBlock extends BaseEntityBlock implements ITCBlocks, I
     public TCCreeperChestBlock() {
         super(BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).instrument(NoteBlockInstrument.BASS).strength(2.5F).sound(SoundType.WOOD).explosionResistance(1000000f));
         this.blockEntityType = () -> TCBlockEntityCore.CHEST;
-        this.registerDefaultState(
-                this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(TYPE, ChestType.SINGLE).setValue(WATERLOGGED, Boolean.FALSE)
-        );
+        this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(TYPE, ChestType.SINGLE).setValue(WATERLOGGED, Boolean.FALSE));
     }
 
     public static final MapCodec<ChestBlock> CODEC = simpleCodec(p_309280_ -> new ChestBlock(p_309280_, () -> BlockEntityType.CHEST));
@@ -163,10 +164,7 @@ public class TCCreeperChestBlock extends BaseEntityBlock implements ITCBlocks, I
 
         if (p_51557_.is(this) && p_51556_.getAxis().isHorizontal()) {
             ChestType chesttype = p_51557_.getValue(TYPE);
-            if (p_51555_.getValue(TYPE) == ChestType.SINGLE
-                    && chesttype != ChestType.SINGLE
-                    && p_51555_.getValue(FACING) == p_51557_.getValue(FACING)
-                    && getConnectedDirection(p_51557_) == p_51556_.getOpposite()) {
+            if (p_51555_.getValue(TYPE) == ChestType.SINGLE && chesttype != ChestType.SINGLE && p_51555_.getValue(FACING) == p_51557_.getValue(FACING) && getConnectedDirection(p_51557_) == p_51556_.getOpposite()) {
                 return p_51555_.setValue(TYPE, chesttype.getOpposite());
             }
         } else if (getConnectedDirection(p_51555_) == p_51556_) {
@@ -218,10 +216,7 @@ public class TCCreeperChestBlock extends BaseEntityBlock implements ITCBlocks, I
             }
         }
 
-        return this.defaultBlockState()
-                .setValue(FACING, direction)
-                .setValue(TYPE, chesttype)
-                .setValue(WATERLOGGED, fluidstate.getType() == Fluids.WATER);
+        return this.defaultBlockState().setValue(FACING, direction).setValue(TYPE, chesttype).setValue(WATERLOGGED, fluidstate.getType() == Fluids.WATER);
     }
 
     @Override
@@ -270,9 +265,7 @@ public class TCCreeperChestBlock extends BaseEntityBlock implements ITCBlocks, I
         return p_51512_.combine(p_51513_, p_51514_, p_51515_, p_51516_).apply(CHEST_COMBINER).orElse(null);
     }
 
-    public DoubleBlockCombiner.NeighborCombineResult<? extends TCCreeperChestBlockEntity> combine(
-            BlockState p_51544_, Level p_51545_, BlockPos p_51546_, boolean p_51547_
-    ) {
+    public DoubleBlockCombiner.NeighborCombineResult<? extends TCCreeperChestBlockEntity> combine(BlockState p_51544_, Level p_51545_, BlockPos p_51546_, boolean p_51547_) {
         BiPredicate<LevelAccessor, BlockPos> bipredicate;
         if (p_51547_) {
             bipredicate = (p_51578_, p_51579_) -> false;
@@ -280,9 +273,7 @@ public class TCCreeperChestBlock extends BaseEntityBlock implements ITCBlocks, I
             bipredicate = ChestBlock::isChestBlockedAt;
         }
 
-        return DoubleBlockCombiner.combineWithNeigbour(
-                this.blockEntityType.get(), ChestBlock::getBlockType, ChestBlock::getConnectedDirection, FACING, p_51544_, p_51545_, p_51546_, bipredicate
-        );
+        return DoubleBlockCombiner.combineWithNeigbour(this.blockEntityType.get(), ChestBlock::getBlockType, ChestBlock::getConnectedDirection, FACING, p_51544_, p_51545_, p_51546_, bipredicate);
     }
 
     @Nullable
@@ -326,17 +317,7 @@ public class TCCreeperChestBlock extends BaseEntityBlock implements ITCBlocks, I
     }
 
     private static boolean isCatSittingOnChest(LevelAccessor p_51564_, BlockPos p_51565_) {
-        List<Cat> list = p_51564_.getEntitiesOfClass(
-                Cat.class,
-                new AABB(
-                        p_51565_.getX(),
-                        p_51565_.getY() + 1,
-                        p_51565_.getZ(),
-                        p_51565_.getX() + 1,
-                        p_51565_.getY() + 2,
-                        p_51565_.getZ() + 1
-                )
-        );
+        List<Cat> list = p_51564_.getEntitiesOfClass(Cat.class, new AABB(p_51565_.getX(), p_51565_.getY() + 1, p_51565_.getZ(), p_51565_.getX() + 1, p_51565_.getY() + 2, p_51565_.getZ() + 1));
         if (!list.isEmpty()) {
             for (Cat cat : list) {
                 if (cat.isInSittingPose()) {
@@ -418,8 +399,10 @@ public class TCCreeperChestBlock extends BaseEntityBlock implements ITCBlocks, I
     }
 
     @Override
-    public EnumTCBlockStateModelType getBlockStateModelType() {
-        return EnumTCBlockStateModelType.ANIMATED;
+    public void registerStateAndModel(TCBlockStateProvider provider) {
+        ModelFile blockModel = provider.models().getBuilder(provider.key(this).toString()).texture("particle", "takumicraft:block/creeperplanks");
+        provider.getVariantBuilder(this).partialState().setModels(new ConfiguredModel(blockModel));
+        provider.itemModels().withExistingParent(provider.key(this).getPath(), new ResourceLocation("takumicraft:item/template_creeperchest"));
     }
 
     @Override
@@ -444,12 +427,6 @@ public class TCCreeperChestBlock extends BaseEntityBlock implements ITCBlocks, I
 
     @Override
     public void addRecipes(TCRecipeProvider provider, ItemLike itemLike, RecipeOutput consumer) {
-        provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS,
-                        TCBlockCore.CREEPER_CHEST, 1)
-                .define('#', TCBlockCore.CREEPER_PLANKS)
-                .pattern("###")
-                .pattern("# #")
-                .pattern("###")
-                .unlockedBy("has_creeperplanks", TCRecipeProvider.hasItem(TCBlockCore.CREEPER_PLANKS)));
+        provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, TCBlockCore.CREEPER_CHEST, 1).define('#', TCBlockCore.CREEPER_PLANKS).pattern("###").pattern("# #").pattern("###").unlockedBy("has_creeperplanks", TCRecipeProvider.hasItem(TCBlockCore.CREEPER_PLANKS)));
     }
 }

@@ -1,6 +1,7 @@
 package com.tntmodders.takumicraft.block;
 
 import com.tntmodders.takumicraft.core.TCBlockCore;
+import com.tntmodders.takumicraft.provider.TCBlockStateProvider;
 import com.tntmodders.takumicraft.provider.TCLanguageProvider;
 import com.tntmodders.takumicraft.provider.TCRecipeProvider;
 import net.minecraft.data.recipes.RecipeCategory;
@@ -10,6 +11,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
+import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.registries.ForgeRegistries;
 
 public class TCColoredCreeperGlassBlock extends TCCreeperGlassBlock {
@@ -24,20 +26,14 @@ public class TCColoredCreeperGlassBlock extends TCCreeperGlassBlock {
 
     @Override
     public void addRecipes(TCRecipeProvider provider, ItemLike itemLike, RecipeOutput consumer) {
-        provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS,
-                        TCBlockCore.CREEPER_COLORED_GLASS_MAP.get(this.color), 8)
-                .define('#', TCBlockCore.CREEPER_BOMB)
-                .define('B', this.baseBlock)
-                .pattern("BBB")
-                .pattern("B#B")
-                .pattern("BBB")
-                .unlockedBy("has_creeperbomb", TCRecipeProvider.hasItem(TCBlockCore.CREEPER_BOMB))
-                .group("creeperglass"));
+        provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, TCBlockCore.CREEPER_COLORED_GLASS_MAP.get(this.color), 8).define('#', TCBlockCore.CREEPER_BOMB).define('B', this.baseBlock).pattern("BBB").pattern("B#B").pattern("BBB").unlockedBy("has_creeperbomb", TCRecipeProvider.hasItem(TCBlockCore.CREEPER_BOMB)).group("creeperglass"));
     }
 
     @Override
-    public EnumTCBlockStateModelType getBlockStateModelType() {
-        return EnumTCBlockStateModelType.STAINED_GLASS;
+    public void registerStateAndModel(TCBlockStateProvider provider) {
+        ModelFile model = provider.stainedGlassCubeAll(this);
+        provider.simpleBlock(this, model);
+        provider.simpleBlockItem(this, model);
     }
 
     @Override

@@ -7,10 +7,7 @@ import com.tntmodders.takumicraft.core.TCBlockCore;
 import com.tntmodders.takumicraft.core.TCItemCore;
 import com.tntmodders.takumicraft.data.loot.TCBlockLoot;
 import com.tntmodders.takumicraft.item.TCBlockItem;
-import com.tntmodders.takumicraft.provider.ITCBlocks;
-import com.tntmodders.takumicraft.provider.ITCRecipe;
-import com.tntmodders.takumicraft.provider.TCLanguageProvider;
-import com.tntmodders.takumicraft.provider.TCRecipeProvider;
+import com.tntmodders.takumicraft.provider.*;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.data.loot.LootTableSubProvider;
@@ -33,6 +30,8 @@ import net.minecraft.world.level.block.state.properties.BedPart;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
+import net.minecraftforge.client.model.generators.ConfiguredModel;
+import net.minecraftforge.client.model.generators.ModelFile;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -49,19 +48,14 @@ public class TCCreeperBedBlock extends BedBlock implements ITCBlocks, ITCRecipe 
 
     @Override
     public void addRecipes(TCRecipeProvider provider, ItemLike itemLike, RecipeOutput consumer) {
-        provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS,
-                        TCBlockCore.CREEPER_BED_MAP.get(this.color))
-                .define('#', TCBlockCore.CREEPER_PLANKS)
-                .define('B', TCBlockCore.CREEPER_WOOL_MAP.get(this.color))
-                .pattern("BBB")
-                .pattern("###")
-                .unlockedBy("has_creeperplanks", TCRecipeProvider.hasItem(TCBlockCore.CREEPER_PLANKS))
-                .group("creeperbed"));
+        provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, TCBlockCore.CREEPER_BED_MAP.get(this.color)).define('#', TCBlockCore.CREEPER_PLANKS).define('B', TCBlockCore.CREEPER_WOOL_MAP.get(this.color)).pattern("BBB").pattern("###").unlockedBy("has_creeperplanks", TCRecipeProvider.hasItem(TCBlockCore.CREEPER_PLANKS)).group("creeperbed"));
     }
 
     @Override
-    public EnumTCBlockStateModelType getBlockStateModelType() {
-        return EnumTCBlockStateModelType.BED;
+    public void registerStateAndModel(TCBlockStateProvider provider) {
+        ModelFile blockModel = provider.models().getBuilder("takumicraft:block/creeperbed").texture("particle", "takumicraft:block/creeperplanks");
+        provider.getVariantBuilder(this).partialState().addModels(new ConfiguredModel(blockModel));
+        provider.itemModels().withExistingParent(this.getRegistryName(), "takumicraft:item/template_creeperbed").texture("particle", provider.blockTexture(TCBlockCore.CREEPER_WOOL_MAP.get(this.getColor())));
     }
 
     @Override

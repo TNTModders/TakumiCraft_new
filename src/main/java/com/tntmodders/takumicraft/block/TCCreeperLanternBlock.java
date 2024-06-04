@@ -4,6 +4,7 @@ import com.tntmodders.takumicraft.core.TCBlockCore;
 import com.tntmodders.takumicraft.data.loot.TCBlockLoot;
 import com.tntmodders.takumicraft.provider.ITCBlocks;
 import com.tntmodders.takumicraft.provider.ITCRecipe;
+import com.tntmodders.takumicraft.provider.TCBlockStateProvider;
 import com.tntmodders.takumicraft.provider.TCRecipeProvider;
 import net.minecraft.data.loot.LootTableSubProvider;
 import net.minecraft.data.recipes.RecipeCategory;
@@ -18,6 +19,8 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
+import net.minecraftforge.client.model.generators.ConfiguredModel;
+import net.minecraftforge.client.model.generators.ModelFile;
 
 import java.util.List;
 import java.util.function.Supplier;
@@ -60,8 +63,13 @@ public class TCCreeperLanternBlock extends LanternBlock implements ITCBlocks, IT
     }
 
     @Override
-    public EnumTCBlockStateModelType getBlockStateModelType() {
-        return EnumTCBlockStateModelType.LANTERN;
+    public void registerStateAndModel(TCBlockStateProvider provider) {
+        ModelFile model = provider.models().withExistingParent(provider.key(this).toString(), "block/lantern").texture("lantern", provider.blockTexture(this)).renderType("cutout");
+        ModelFile model_hanging = provider.models().withExistingParent(provider.key(this).toString() + "_hanging", "block/lantern_hanging").texture("lantern", provider.blockTexture(this)).renderType("cutout");
+        provider.getVariantBuilder(this)
+                .partialState().with(TCCreeperLanternBlock.HANGING, false).setModels(new ConfiguredModel(model))
+                .partialState().with(TCCreeperLanternBlock.HANGING, true).setModels(new ConfiguredModel(model_hanging));
+        provider.itemModels().basicItem(this.asItem());
     }
 
     @Override

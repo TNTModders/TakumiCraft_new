@@ -7,6 +7,7 @@ import com.tntmodders.takumicraft.data.loot.TCBlockLoot;
 import com.tntmodders.takumicraft.item.TCBlockItem;
 import com.tntmodders.takumicraft.provider.ITCBlocks;
 import com.tntmodders.takumicraft.provider.ITCRecipe;
+import com.tntmodders.takumicraft.provider.TCBlockStateProvider;
 import com.tntmodders.takumicraft.provider.TCRecipeProvider;
 import com.tntmodders.takumicraft.utils.TCExplosionUtils;
 import net.minecraft.core.BlockPos;
@@ -42,6 +43,8 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraftforge.client.model.generators.ConfiguredModel;
+import net.minecraftforge.client.model.generators.ModelFile;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -138,8 +141,21 @@ public class TCCreeperBarrelBlock extends BarrelBlock implements ITCBlocks, ITCR
     }
 
     @Override
-    public EnumTCBlockStateModelType getBlockStateModelType() {
-        return EnumTCBlockStateModelType.BARREL;
+    public void registerStateAndModel(TCBlockStateProvider provider) {
+        ResourceLocation top = provider.blockFolder(new ResourceLocation(TakumiCraftCore.MODID, provider.name(this) + "_top"));
+        ResourceLocation side = provider.blockFolder(new ResourceLocation(TakumiCraftCore.MODID, provider.name(this) + "_side"));
+        ResourceLocation bottom = provider.blockFolder(new ResourceLocation(TakumiCraftCore.MODID, provider.name(this) + "_bottom"));
+        ResourceLocation top_open = provider.blockFolder(new ResourceLocation(TakumiCraftCore.MODID, provider.name(this) + "_top_open"));
+        ResourceLocation top_exp = provider.blockFolder(new ResourceLocation(TakumiCraftCore.MODID, provider.name(this) + "_top_explosive"));
+        ResourceLocation side_exp = provider.blockFolder(new ResourceLocation(TakumiCraftCore.MODID, provider.name(this) + "_side_explosive"));
+        ResourceLocation bottom_exp = provider.blockFolder(new ResourceLocation(TakumiCraftCore.MODID, provider.name(this) + "_bottom_explosive"));
+        ResourceLocation top_open_exp = provider.blockFolder(new ResourceLocation(TakumiCraftCore.MODID, provider.name(this) + "_top_open_explosive"));
+        ModelFile model = provider.models().withExistingParent(provider.name(this), "barrel").texture("particle", top).texture("top", top).texture("side", side).texture("bottom", bottom);
+        ModelFile model_open = provider.models().withExistingParent(provider.name(this) + "_open", "barrel_open").texture("particle", top).texture("top", top_open).texture("side", side).texture("bottom", bottom);
+        ModelFile model_explosive = provider.models().withExistingParent(provider.name(this) + "_explosive", "barrel").texture("particle", top_exp).texture("top", top_exp).texture("side", side_exp).texture("bottom", bottom_exp);
+        ModelFile model_open_explosive = provider.models().withExistingParent(provider.name(this) + "_open_explosive", "barrel_open").texture("particle", top_exp).texture("top", top_open_exp).texture("side", side_exp).texture("bottom", bottom_exp);
+        provider.directionalBlock(this, state -> state.getValue(TCCreeperBarrelBlock.EXPLOSIVE) ? state.getValue(BarrelBlock.OPEN) ? new ConfiguredModel(model_open_explosive).model : new ConfiguredModel(model_explosive).model : state.getValue(BarrelBlock.OPEN) ? new ConfiguredModel(model_open).model : new ConfiguredModel(model).model);
+        provider.itemModels().getBuilder(provider.key(this).getPath()).override().predicate(new ResourceLocation("custom_model_data"), 0f).model(model).end().override().predicate(new ResourceLocation("custom_model_data"), 898f).model(model_explosive).end();
     }
 
     @Override
@@ -160,13 +176,6 @@ public class TCCreeperBarrelBlock extends BarrelBlock implements ITCBlocks, ITCR
 
     @Override
     public void addRecipes(TCRecipeProvider provider, ItemLike itemLike, RecipeOutput consumer) {
-        provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS,
-                        TCBlockCore.CREEPER_BARREL, 1)
-                .define('#', TCBlockCore.CREEPER_PLANKS)
-                .define('H', TCBlockCore.CREEPER_PLANKS_HALF)
-                .pattern("#H#")
-                .pattern("# #")
-                .pattern("#H#")
-                .unlockedBy("has_creeperplanks", TCRecipeProvider.hasItem(TCBlockCore.CREEPER_PLANKS)));
+        provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, TCBlockCore.CREEPER_BARREL, 1).define('#', TCBlockCore.CREEPER_PLANKS).define('H', TCBlockCore.CREEPER_PLANKS_HALF).pattern("#H#").pattern("# #").pattern("#H#").unlockedBy("has_creeperplanks", TCRecipeProvider.hasItem(TCBlockCore.CREEPER_PLANKS)));
     }
 }

@@ -1,14 +1,17 @@
 package com.tntmodders.takumicraft.block;
 
 import com.google.common.collect.Lists;
+import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.data.loot.TCBlockLoot;
 import com.tntmodders.takumicraft.provider.ITCBlocks;
 import com.tntmodders.takumicraft.provider.ITCRecipe;
+import com.tntmodders.takumicraft.provider.TCBlockStateProvider;
 import com.tntmodders.takumicraft.provider.TCRecipeProvider;
 import net.minecraft.data.loot.LootTableSubProvider;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.ItemLike;
@@ -63,8 +66,9 @@ public class TCAntiExplosionDoorBlock extends DoorBlock implements ITCBlocks, IT
     }
 
     @Override
-    public EnumTCBlockStateModelType getBlockStateModelType() {
-        return EnumTCBlockStateModelType.DOOR;
+    public void registerStateAndModel(TCBlockStateProvider provider) {
+        provider.doorBlockWithRenderType(this, provider.blockFolder(new ResourceLocation(TakumiCraftCore.MODID, provider.key(this.getBaseBlock()).getPath() + "_door_bottom")), provider.blockFolder(new ResourceLocation(TakumiCraftCore.MODID, provider.key(this.getBaseBlock()).getPath() + "_door_top")), "cutout");
+        provider.singleBlockItem(this, provider.blockTexture(this));
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.tntmodders.takumicraft.block;
 
 import com.tntmodders.takumicraft.core.TCBlockCore;
 import com.tntmodders.takumicraft.provider.ITCRecipe;
+import com.tntmodders.takumicraft.provider.TCBlockStateProvider;
 import com.tntmodders.takumicraft.provider.TCLanguageProvider;
 import com.tntmodders.takumicraft.provider.TCRecipeProvider;
 import net.minecraft.core.BlockPos;
@@ -22,6 +23,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.registries.ForgeRegistries;
 
 public class TCCarpetBlock extends AbstractTCAntiExplosionBlock implements ITCRecipe {
@@ -56,22 +58,9 @@ public class TCCarpetBlock extends AbstractTCAntiExplosionBlock implements ITCRe
 
     @Override
     public void addRecipes(TCRecipeProvider provider, ItemLike itemLike, RecipeOutput consumer) {
-        provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS,
-                        TCBlockCore.CREEPER_CARPET_MAP.get(this.color), 8)
-                .define('#', TCBlockCore.CREEPER_BOMB)
-                .define('B', this.baseBlock)
-                .pattern("BBB")
-                .pattern("B#B")
-                .pattern("BBB")
-                .unlockedBy("has_creeperbomb", TCRecipeProvider.hasItem(TCBlockCore.CREEPER_BOMB))
-                .group("creepercarpet"));
+        provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, TCBlockCore.CREEPER_CARPET_MAP.get(this.color), 8).define('#', TCBlockCore.CREEPER_BOMB).define('B', this.baseBlock).pattern("BBB").pattern("B#B").pattern("BBB").unlockedBy("has_creeperbomb", TCRecipeProvider.hasItem(TCBlockCore.CREEPER_BOMB)).group("creepercarpet"));
 
-        provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS,
-                        TCBlockCore.CREEPER_CARPET_MAP.get(this.color), 3)
-                .define('#', TCBlockCore.CREEPER_WOOL_MAP.get(this.color))
-                .pattern("##")
-                .unlockedBy("has_creeperwool", TCRecipeProvider.hasItem(TCBlockCore.CREEPER_WOOL_MAP.get(this.color)))
-                .group("creepercarpet"), "from_creeperwool");
+        provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, TCBlockCore.CREEPER_CARPET_MAP.get(this.color), 3).define('#', TCBlockCore.CREEPER_WOOL_MAP.get(this.color)).pattern("##").unlockedBy("has_creeperwool", TCRecipeProvider.hasItem(TCBlockCore.CREEPER_WOOL_MAP.get(this.color))).group("creepercarpet"), "from_creeperwool");
     }
 
     @Override
@@ -90,7 +79,9 @@ public class TCCarpetBlock extends AbstractTCAntiExplosionBlock implements ITCRe
     }
 
     @Override
-    public EnumTCBlockStateModelType getBlockStateModelType() {
-        return EnumTCBlockStateModelType.CARPET;
+    public void registerStateAndModel(TCBlockStateProvider provider) {
+        ModelFile model = provider.models().withExistingParent(this.getRegistryName(), "block/carpet").texture("wool", provider.blockTexture(TCBlockCore.CREEPER_WOOL_MAP.get(this.getColor())));
+        provider.simpleBlock(this, model);
+        provider.simpleBlockItem(this, model);
     }
 }

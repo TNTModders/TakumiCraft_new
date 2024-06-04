@@ -1,10 +1,12 @@
 package com.tntmodders.takumicraft.block;
 
+import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.core.TCBlockCore;
 import com.tntmodders.takumicraft.core.TCEntityCore;
 import com.tntmodders.takumicraft.entity.mobs.AbstractTCCreeper;
 import com.tntmodders.takumicraft.item.TCBlockItem;
 import com.tntmodders.takumicraft.provider.ITCRecipe;
+import com.tntmodders.takumicraft.provider.TCBlockStateProvider;
 import com.tntmodders.takumicraft.provider.TCRecipeProvider;
 import com.tntmodders.takumicraft.utils.TCExplosionUtils;
 import net.minecraft.core.BlockPos;
@@ -12,6 +14,7 @@ import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -24,6 +27,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraftforge.client.model.generators.ModelFile;
 
 import java.util.List;
 
@@ -73,8 +77,11 @@ public class TCAltarBlock extends AbstractTCAntiExplosionBlock implements ITCRec
     }
 
     @Override
-    public EnumTCBlockStateModelType getBlockStateModelType() {
-        return EnumTCBlockStateModelType.SIDE;
+    public void registerStateAndModel(TCBlockStateProvider provider) {
+        String name = provider.name(this);
+        ModelFile model = provider.models().cubeBottomTop(name, provider.blockFolder(new ResourceLocation(TakumiCraftCore.MODID, name + "_side")), provider.blockFolder(new ResourceLocation(TakumiCraftCore.MODID, name + "_bottom")), provider.blockFolder(new ResourceLocation(TakumiCraftCore.MODID, name + "_top")));
+        provider.simpleBlock(this, model);
+        provider.simpleBlockItem(this, model);
     }
 
     @Override
@@ -94,14 +101,7 @@ public class TCAltarBlock extends AbstractTCAntiExplosionBlock implements ITCRec
 
     @Override
     public void addRecipes(TCRecipeProvider provider, ItemLike itemLike, RecipeOutput consumer) {
-        provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, itemLike)
-                .define('#', TCBlockCore.CREEPER_BOMB)
-                .define('D', Blocks.DIAMOND_BLOCK)
-                .define('E', Blocks.EMERALD_BLOCK)
-                .pattern("EEE")
-                .pattern("D#D")
-                .pattern("###")
-                .unlockedBy("has_creeperbomb", TCRecipeProvider.hasItem(TCBlockCore.CREEPER_BOMB)));
+        provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, itemLike).define('#', TCBlockCore.CREEPER_BOMB).define('D', Blocks.DIAMOND_BLOCK).define('E', Blocks.EMERALD_BLOCK).pattern("EEE").pattern("D#D").pattern("###").unlockedBy("has_creeperbomb", TCRecipeProvider.hasItem(TCBlockCore.CREEPER_BOMB)));
     }
 
     @Override

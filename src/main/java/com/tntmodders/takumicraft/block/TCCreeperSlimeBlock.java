@@ -1,15 +1,18 @@
 package com.tntmodders.takumicraft.block;
 
+import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.core.TCBlockCore;
 import com.tntmodders.takumicraft.data.loot.TCBlockLoot;
 import com.tntmodders.takumicraft.provider.ITCBlocks;
 import com.tntmodders.takumicraft.provider.ITCRecipe;
+import com.tntmodders.takumicraft.provider.TCBlockStateProvider;
 import com.tntmodders.takumicraft.provider.TCRecipeProvider;
 import com.tntmodders.takumicraft.utils.TCExplosionUtils;
 import net.minecraft.data.loot.LootTableSubProvider;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.BlockGetter;
@@ -22,6 +25,8 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.client.model.generators.ConfiguredModel;
+import net.minecraftforge.client.model.generators.ModelFile;
 
 import java.util.function.Supplier;
 
@@ -68,14 +73,7 @@ public class TCCreeperSlimeBlock extends SlimeBlock implements ITCBlocks, ITCRec
 
     @Override
     public void addRecipes(TCRecipeProvider provider, ItemLike itemLike, RecipeOutput consumer) {
-        provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS,
-                        TCBlockCore.CREEPER_SLIME)
-                .define('#', TCBlockCore.CREEPER_BOMB)
-                .define('B', Blocks.SLIME_BLOCK)
-                .pattern("BBB")
-                .pattern("B#B")
-                .pattern("BBB")
-                .unlockedBy("has_creeperbomb", TCRecipeProvider.hasItem(TCBlockCore.CREEPER_BOMB)));
+        provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, TCBlockCore.CREEPER_SLIME).define('#', TCBlockCore.CREEPER_BOMB).define('B', Blocks.SLIME_BLOCK).pattern("BBB").pattern("B#B").pattern("BBB").unlockedBy("has_creeperbomb", TCRecipeProvider.hasItem(TCBlockCore.CREEPER_BOMB)));
     }
 
     @Override
@@ -89,7 +87,9 @@ public class TCCreeperSlimeBlock extends SlimeBlock implements ITCBlocks, ITCRec
     }
 
     @Override
-    public EnumTCBlockStateModelType getBlockStateModelType() {
-        return EnumTCBlockStateModelType.SLIME;
+    public void registerStateAndModel(TCBlockStateProvider provider) {
+        ModelFile blockModel = provider.models().withExistingParent(provider.name(this), "takumicraft:block/template_creeperslimeblock").texture("texture", provider.blockTexture(this)).texture("inside", provider.blockFolder(new ResourceLocation(TakumiCraftCore.MODID, provider.name(this) + "_inside")));
+        provider.getVariantBuilder(this).partialState().addModels(new ConfiguredModel(blockModel));
+        provider.itemModels().withExistingParent(provider.name(this), provider.blockTexture(this));
     }
 }

@@ -9,6 +9,7 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraftforge.client.model.generators.ModelFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,10 +24,6 @@ public interface ITCBlocks extends ITCTranslator {
 
     default boolean hideOnCreativeTab() {
         return false;
-    }
-
-    default EnumTCBlockStateModelType getBlockStateModelType() {
-        return EnumTCBlockStateModelType.SIMPLE;
     }
 
     default void drop(Block block, TCBlockLoot loot) {
@@ -49,39 +46,11 @@ public interface ITCBlocks extends ITCTranslator {
     /**
      * If you need vanilla rendertype,see {@link net.minecraft.client.renderer.ItemBlockRenderTypes }.
      */
-    enum EnumTCBlockStateModelType {
-        SIMPLE("solid"),
-        SIDE("solid"),
-        SLAB("solid"),
-        STAIRS("solid"),
-        WALL("solid"),
-        FENCE("solid"),
-        FENCE_GATE("solid"),
-        DOOR("cutout"),
-        TRAP_DOOR("cutout"),
-        GLASS("cutout"),
-        STAINED_GLASS("translucent"),
-        PANE_GLASS("cutout"),
-        PANE_STAINED_GLASS("translucent"),
-        LADDER("cutout"),
-        SCCAFOLDING("cutout"),
-        CARPET("cutout"),
-        BED("cutout"),
-        BARREL("solid"),
-        SLIME("translucent"),
-        CHAIN("cutout"),
-        LANTERN("cutout"),
-        ANIMATED("solid"),
-        NONE("solid");
-
-        private final String type;
-
-        EnumTCBlockStateModelType(String renderType) {
-            this.type = renderType;
-        }
-
-        public String getType() {
-            return type;
+    default void registerStateAndModel(TCBlockStateProvider provider) {
+        if (this instanceof Block block) {
+            ModelFile model = provider.cubeAll(block);
+            provider.simpleBlock(block, model);
+            provider.simpleBlockItem(block, model);
         }
     }
 }

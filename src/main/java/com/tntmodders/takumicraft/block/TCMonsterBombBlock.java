@@ -8,10 +8,12 @@ import com.tntmodders.takumicraft.entity.mobs.AbstractTCCreeper;
 import com.tntmodders.takumicraft.entity.mobs.AbstractTCCreeper.TCCreeperContext;
 import com.tntmodders.takumicraft.entity.mobs.TCYukariCreeper;
 import com.tntmodders.takumicraft.item.TCBlockItem;
+import com.tntmodders.takumicraft.provider.TCBlockStateProvider;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.data.loot.LootTableSubProvider;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
@@ -21,6 +23,8 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
+import net.minecraftforge.client.model.generators.ConfiguredModel;
+import net.minecraftforge.client.model.generators.ModelFile;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -62,8 +66,11 @@ public class TCMonsterBombBlock extends AbstractTCBombBlock implements EntityBlo
     }
 
     @Override
-    public EnumTCBlockStateModelType getBlockStateModelType() {
-        return EnumTCBlockStateModelType.ANIMATED;
+    public void registerStateAndModel(TCBlockStateProvider provider) {
+        ModelFile blockModel = provider.models().getBuilder(provider.key(this).toString()).texture("particle", provider.blockTexture(TCBlockCore.CREEPER_BOMB).toString());
+        provider.getVariantBuilder(this).partialState().setModels(new ConfiguredModel(blockModel));
+        provider.itemModels().withExistingParent(provider.key(this).getPath(), new ResourceLocation("takumicraft:item/template_monsterbomb"));
+
     }
 
     @Override

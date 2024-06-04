@@ -1,6 +1,7 @@
 package com.tntmodders.takumicraft.block;
 
 import com.tntmodders.takumicraft.block.entity.TCAcidBlockEntity;
+import com.tntmodders.takumicraft.provider.TCBlockStateProvider;
 import net.minecraft.core.BlockPos;
 import net.minecraft.data.loot.LootTableSubProvider;
 import net.minecraft.world.level.BlockGetter;
@@ -17,6 +18,8 @@ import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraftforge.client.model.generators.ConfiguredModel;
+import net.minecraftforge.client.model.generators.ModelFile;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Supplier;
@@ -69,8 +72,10 @@ public class TCAcidBlock extends AbstractTCBombBlock implements EntityBlock {
     }
 
     @Override
-    public EnumTCBlockStateModelType getBlockStateModelType() {
-        return EnumTCBlockStateModelType.ANIMATED;
+    public void registerStateAndModel(TCBlockStateProvider provider) {
+        ModelFile blockModel = provider.models().getBuilder(provider.key(this).toString()).texture("particle", provider.blockTexture(this).toString());
+        provider.getVariantBuilder(this).partialState().addModels(new ConfiguredModel(blockModel));
+        provider.itemModels().cubeAll(provider.name(this), provider.blockTexture(this));
     }
 
     @Nullable

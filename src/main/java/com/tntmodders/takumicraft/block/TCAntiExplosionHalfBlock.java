@@ -1,9 +1,11 @@
 package com.tntmodders.takumicraft.block;
 
 import com.google.common.collect.Lists;
+import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.data.loot.TCBlockLoot;
 import com.tntmodders.takumicraft.provider.ITCBlocks;
 import com.tntmodders.takumicraft.provider.ITCRecipe;
+import com.tntmodders.takumicraft.provider.TCBlockStateProvider;
 import com.tntmodders.takumicraft.provider.TCRecipeProvider;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -12,6 +14,7 @@ import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.SingleItemRecipeBuilder;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.TagKey;
@@ -32,6 +35,8 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraftforge.client.model.generators.ConfiguredModel;
+import net.minecraftforge.client.model.generators.VariantBlockStateBuilder;
 
 import java.util.List;
 import java.util.function.Supplier;
@@ -171,8 +176,10 @@ public class TCAntiExplosionHalfBlock extends Block implements ITCBlocks, ITCRec
     }
 
     @Override
-    public EnumTCBlockStateModelType getBlockStateModelType() {
-        return EnumTCBlockStateModelType.SLAB;
+    public void registerStateAndModel(TCBlockStateProvider provider) {
+        VariantBlockStateBuilder builder = provider.getVariantBuilder(this);
+        Direction.stream().forEach(direction -> builder.partialState().with(TCAntiExplosionHalfBlock.FACING, direction).addModels(new ConfiguredModel(provider.models().withExistingParent(provider.name(this) + "_" + direction.getName(), new ResourceLocation(TakumiCraftCore.MODID, "half_" + direction.getName())).texture("top", provider.blockFolder(new ResourceLocation(TakumiCraftCore.MODID, this.getTopTextureName()))).texture("side", provider.blockFolder(new ResourceLocation(TakumiCraftCore.MODID, this.getTextureName()))).texture("bottom", provider.blockFolder(new ResourceLocation(TakumiCraftCore.MODID, this.getBottomTextureName()))).renderType("cutout"))));
+        provider.itemModels().withExistingParent(this.getRegistryName(), provider.blockFolder(new ResourceLocation(TakumiCraftCore.MODID, this.getRegistryName() + "_east")));
     }
 
     @Override
