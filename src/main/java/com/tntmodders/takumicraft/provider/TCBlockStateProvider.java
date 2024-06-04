@@ -45,17 +45,13 @@ public class TCBlockStateProvider extends BlockStateProvider {
                     case BED -> this.bedBlockWithItem(block);
                     case BARREL -> this.barrelBlockWithItem(block);
                     case SLIME -> this.slimeBlockWithItem(block);
+                    case CHAIN -> this.chainBlockWithItem(block);
+                    case LANTERN -> this.lanternBlockWithItem(block);
                 }
                 TCLoggingUtils.entryRegistry("BlockStateModel_" + ((ITCBlocks) block).getBlockStateModelType().name(), ((ITCBlocks) block).getRegistryName());
             }
         });
         TCLoggingUtils.completeRegistry("BlockStateModel");
-    }
-
-    private void slimeBlockWithItem(Block block) {
-        ModelFile blockModel = this.models().withExistingParent(name(block), "takumicraft:block/template_creeperslimeblock").texture("texture", blockTexture(block)).texture("inside", blockFolder(new ResourceLocation(TakumiCraftCore.MODID, name(block) + "_inside")));
-        this.getVariantBuilder(block).partialState().addModels(new ConfiguredModel(blockModel));
-        this.itemModels().withExistingParent(name(block), blockTexture(block));
     }
 
     private void animatedBlockWithItem(Block block) {
@@ -75,6 +71,34 @@ public class TCBlockStateProvider extends BlockStateProvider {
             this.getVariantBuilder(block).partialState().setModels(new ConfiguredModel(blockModel));
             this.itemModels().withExistingParent(key(block).getPath(), new ResourceLocation("takumicraft:item/template_monsterbomb"));
         }
+    }
+
+    private void lanternBlockWithItem(Block block) {
+        if (block instanceof TCCreeperLanternBlock lantern) {
+            ModelFile model = models().withExistingParent(key(block).toString(), "block/lantern").texture("lantern", blockTexture(lantern)).renderType("cutout");
+            ModelFile model_hanging = models().withExistingParent(key(block).toString() + "_hanging", "block/lantern_hanging").texture("lantern", blockTexture(lantern)).renderType("cutout");
+            this.getVariantBuilder(block)
+                    .partialState().with(TCCreeperLanternBlock.HANGING, false).setModels(new ConfiguredModel(model))
+                    .partialState().with(TCCreeperLanternBlock.HANGING, true).setModels(new ConfiguredModel(model_hanging));
+            this.itemModels().basicItem(block.asItem());
+        }
+    }
+
+    private void chainBlockWithItem(Block block) {
+        if (block instanceof TCCreeperChainBlock chain) {
+            ModelFile model = models().withExistingParent(key(block).toString(), "block/chain").texture("all", blockTexture(TCBlockCore.CREEPER_CHAIN)).texture("particle", blockTexture(TCBlockCore.CREEPER_CHAIN)).renderType("cutout");
+            this.getVariantBuilder(block)
+                    .partialState().with(TCCreeperChainBlock.AXIS, Direction.Axis.X).setModels(ConfiguredModel.builder().modelFile(model).rotationX(90).rotationY(90).build())
+                    .partialState().with(TCCreeperChainBlock.AXIS, Direction.Axis.Y).setModels(ConfiguredModel.builder().modelFile(model).build())
+                    .partialState().with(TCCreeperChainBlock.AXIS, Direction.Axis.Z).setModels(ConfiguredModel.builder().modelFile(model).rotationX(90).build());
+            this.itemModels().basicItem(TCBlockCore.CREEPER_CHAIN.asItem());
+        }
+    }
+
+    private void slimeBlockWithItem(Block block) {
+        ModelFile blockModel = this.models().withExistingParent(name(block), "takumicraft:block/template_creeperslimeblock").texture("texture", blockTexture(block)).texture("inside", blockFolder(new ResourceLocation(TakumiCraftCore.MODID, name(block) + "_inside")));
+        this.getVariantBuilder(block).partialState().addModels(new ConfiguredModel(blockModel));
+        this.itemModels().withExistingParent(name(block), blockTexture(block));
     }
 
     private void barrelBlockWithItem(Block block) {

@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/lantern",
+  "render_type": "minecraft:cutout",
+  "textures": {
+    "lantern": "takumicraft:block/creeperlantern"
+  }
+}

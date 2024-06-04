@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "takumicraft:block/creeperchain",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y": {
+      "model": "takumicraft:block/creeperchain"
+    },
+    "axis=z": {
+      "model": "takumicraft:block/creeperchain",
+      "x": 90
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "hanging=false": {
+      "model": "takumicraft:block/creeperlantern"
+    },
+    "hanging=true": {
+      "model": "takumicraft:block/creeperlantern_hanging"
+    }
+  }
+}
