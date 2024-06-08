@@ -1,0 +1,9 @@
+{
+  "parent": "minecraft:block/beacon",
+  "render_type": "minecraft:cutout",
+  "textures": {
+    "beacon": "takumicraft:block/creeperbeacon",
+    "glass": "takumicraft:block/creeperglass",
+    "particle": "takumicraft:block/creeperglass"
+  }
+}
