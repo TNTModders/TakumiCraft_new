@@ -2,6 +2,10 @@
   "values": [
     "takumicraft:creeperiron_door",
     "takumicraft:creeperbrick_door",
-    "takumicraft:creeperplanks_door"
+    "takumicraft:creeperplanks_door",
+    "takumicraft:creepercopper_door",
+    "takumicraft:creepercopper_exposed_door",
+    "takumicraft:creepercopper_weathered_door",
+    "takumicraft:creepercopper_oxidized_door"
   ]
 }

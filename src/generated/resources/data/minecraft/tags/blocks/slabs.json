@@ -2,6 +2,10 @@
   "values": [
     "takumicraft:creeperiron_half",
     "takumicraft:creeperbrick_half",
-    "takumicraft:creeperplanks_half"
+    "takumicraft:creeperplanks_half",
+    "takumicraft:creepercopper_cut_half",
+    "takumicraft:creepercopper_cut_exposed_half",
+    "takumicraft:creepercopper_cut_weathered_half",
+    "takumicraft:creepercopper_cut_oxidized_half"
   ]
 }

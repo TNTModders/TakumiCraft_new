@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_creepercopper_grate_oxidized": {
+      "conditions": {
+        "items": [
+          {
+            "items": "takumicraft:creepercopper_grate_oxidized"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "takumicraft:creepercopper_grate_oxidized_stonecutting"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_creepercopper_grate_oxidized"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "takumicraft:creepercopper_grate_oxidized_stonecutting"
+    ]
+  }
+}

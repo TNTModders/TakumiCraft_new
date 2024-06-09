@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "takumicraft:block/creepercopper_chiseled_exposed"
+  }
+}

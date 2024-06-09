@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "conditions": [
+            {
+              "block": "takumicraft:creepercopper_weathered_door",
+              "condition": "minecraft:block_state_property",
+              "properties": {
+                "half": "lower"
+              }
+            }
+          ],
+          "name": "takumicraft:creepercopper_weathered_door"
+        }
+      ],
+      "rolls": 1.0
+    }
+  ],
+  "random_sequence": "takumicraft:blocks/creepercopper_weathered_door"
+}

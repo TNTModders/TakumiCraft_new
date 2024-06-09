@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_creepercopper_cut_weathered_stairs": {
+      "conditions": {
+        "items": [
+          {
+            "items": "takumicraft:creepercopper_cut_weathered_stairs"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "takumicraft:creepercopper_cut_weathered_stairs_stonecutting"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_creepercopper_cut_weathered_stairs"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "takumicraft:creepercopper_cut_weathered_stairs_stonecutting"
+    ]
+  }
+}

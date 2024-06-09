@@ -1,0 +1,43 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_baseblock": {
+      "conditions": {
+        "items": [
+          {
+            "items": "takumicraft:creepercopper_exposed"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_creepercopper_exposed_door": {
+      "conditions": {
+        "items": [
+          {
+            "items": "takumicraft:creepercopper_exposed_door"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "takumicraft:creepercopper_exposed_door"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_baseblock",
+      "has_creepercopper_exposed_door"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "takumicraft:creepercopper_exposed_door"
+    ]
+  }
+}

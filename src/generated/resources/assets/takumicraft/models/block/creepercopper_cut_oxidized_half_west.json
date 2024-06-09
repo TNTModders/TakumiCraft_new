@@ -1,0 +1,9 @@
+{
+  "parent": "takumicraft:block/half_west",
+  "render_type": "minecraft:cutout",
+  "textures": {
+    "bottom": "takumicraft:block/creepercopper_cut_oxidized",
+    "side": "takumicraft:block/creepercopper_cut_oxidized",
+    "top": "takumicraft:block/creepercopper_cut_oxidized"
+  }
+}

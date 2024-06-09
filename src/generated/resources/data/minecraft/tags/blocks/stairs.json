@@ -2,6 +2,10 @@
   "values": [
     "takumicraft:creeperiron_stairs",
     "takumicraft:creeperbrick_stairs",
-    "takumicraft:creeperplanks_stairs"
+    "takumicraft:creeperplanks_stairs",
+    "takumicraft:creepercopper_cut_stairs",
+    "takumicraft:creepercopper_cut_exposed_stairs",
+    "takumicraft:creepercopper_cut_weathered_stairs",
+    "takumicraft:creepercopper_cut_oxidized_stairs"
   ]
 }

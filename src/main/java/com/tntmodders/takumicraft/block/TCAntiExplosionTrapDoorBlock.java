@@ -7,6 +7,7 @@ import com.tntmodders.takumicraft.provider.ITCBlocks;
 import com.tntmodders.takumicraft.provider.ITCRecipe;
 import com.tntmodders.takumicraft.provider.TCBlockStateProvider;
 import com.tntmodders.takumicraft.provider.TCRecipeProvider;
+import com.tntmodders.takumicraft.utils.TCBlockUtils;
 import net.minecraft.data.loot.LootTableSubProvider;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
@@ -27,15 +28,21 @@ import java.util.function.Supplier;
 public class TCAntiExplosionTrapDoorBlock extends TrapDoorBlock implements ITCBlocks, ITCRecipe {
     private final Block baseBlock;
     private final boolean orientable;
+    private final String group;
 
     public TCAntiExplosionTrapDoorBlock(Supplier<BlockState> state, BlockSetType type) {
         this(state, type, true);
     }
 
     public TCAntiExplosionTrapDoorBlock(Supplier<BlockState> state, BlockSetType type, boolean orientable) {
+        this(state, type, orientable, "");
+    }
+
+    public TCAntiExplosionTrapDoorBlock(Supplier<BlockState> state, BlockSetType type, boolean orientable, String group) {
         super(type, Properties.ofFullCopy(state.get().getBlock()).noOcclusion());
         this.baseBlock = state.get().getBlock();
         this.orientable = orientable;
+        this.group = group;
     }
 
     public boolean isOrientable() {
@@ -57,12 +64,12 @@ public class TCAntiExplosionTrapDoorBlock extends TrapDoorBlock implements ITCBl
 
     @Override
     public String getEnUSName() {
-        return this.getITCBlock().getEnUSName() + " Trap Door";
+        return TCBlockUtils.getNamewithSuffix(this.getITCBlock().getEnUSName(), " Trap Door");
     }
 
     @Override
     public String getJaJPName() {
-        return this.getITCBlock().getJaJPName() + "天扉";
+        return TCBlockUtils.getNamewithSuffix(this.getITCBlock().getJaJPName(), "天扉");
     }
 
     @Override
@@ -83,7 +90,11 @@ public class TCAntiExplosionTrapDoorBlock extends TrapDoorBlock implements ITCBl
 
     @Override
     public void addRecipes(TCRecipeProvider provider, ItemLike itemLike, RecipeOutput consumer) {
-        provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, itemLike).define('#', this.baseBlock).pattern("##").pattern("##").unlockedBy("has_baseblock", TCRecipeProvider.hasItem(this.baseBlock)));
+        ShapedRecipeBuilder builder = ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, itemLike).define('#', this.baseBlock).pattern("##").pattern("##").unlockedBy("has_baseblock", TCRecipeProvider.hasItem(this.baseBlock));
+        if (!this.group.isEmpty()) {
+            builder.group(this.group);
+        }
+        provider.saveRecipe(itemLike, consumer, builder);
     }
 
 

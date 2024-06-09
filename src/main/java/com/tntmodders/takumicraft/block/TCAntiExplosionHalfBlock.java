@@ -7,6 +7,7 @@ import com.tntmodders.takumicraft.provider.ITCBlocks;
 import com.tntmodders.takumicraft.provider.ITCRecipe;
 import com.tntmodders.takumicraft.provider.TCBlockStateProvider;
 import com.tntmodders.takumicraft.provider.TCRecipeProvider;
+import com.tntmodders.takumicraft.utils.TCBlockUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.data.loot.LootTableSubProvider;
@@ -63,11 +64,17 @@ public class TCAntiExplosionHalfBlock extends Block implements ITCBlocks, ITCRec
 
     private final Block baseBlock;
     private final boolean addStoneCutterRecipe;
+    private final String group;
 
     public TCAntiExplosionHalfBlock(Supplier<BlockState> state, boolean stoneCutter) {
+        this(state, stoneCutter, "");
+    }
+
+    public TCAntiExplosionHalfBlock(Supplier<BlockState> state, boolean stoneCutter, String group) {
         super(Properties.ofFullCopy(state.get().getBlock()));
         this.baseBlock = state.get().getBlock();
         this.addStoneCutterRecipe = stoneCutter;
+        this.group = group;
     }
 
     @Override
@@ -160,12 +167,12 @@ public class TCAntiExplosionHalfBlock extends Block implements ITCBlocks, ITCRec
 
     @Override
     public String getEnUSName() {
-        return this.getITCBlock().getEnUSName() + " Half Block";
+        return TCBlockUtils.getNamewithSuffix(this.getITCBlock().getEnUSName(), " Half Block");
     }
 
     @Override
     public String getJaJPName() {
-        return this.getITCBlock().getJaJPName() + "半材";
+        return TCBlockUtils.getNamewithSuffix(this.getITCBlock().getJaJPName(), "半材");
     }
 
     @Override
@@ -184,7 +191,11 @@ public class TCAntiExplosionHalfBlock extends Block implements ITCBlocks, ITCRec
 
     @Override
     public void addRecipes(TCRecipeProvider provider, ItemLike itemLike, RecipeOutput consumer) {
-        provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, itemLike, 6).define('#', this.baseBlock).pattern("###").unlockedBy("has_baseblock", TCRecipeProvider.hasItem(this.baseBlock)));
+        ShapedRecipeBuilder builder = ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, itemLike, 6).define('#', this.baseBlock).pattern("###").unlockedBy("has_baseblock", TCRecipeProvider.hasItem(this.baseBlock));
+        if (!this.group.isEmpty()) {
+            builder.group(this.group);
+        }
+        provider.saveRecipe(itemLike, consumer, builder);
         if (this.addStoneCutterRecipe) {
             provider.saveRecipe(itemLike, consumer, SingleItemRecipeBuilder.stonecutting(Ingredient.of(this.baseBlock), RecipeCategory.BUILDING_BLOCKS, itemLike, 2), "stonecutting");
         }

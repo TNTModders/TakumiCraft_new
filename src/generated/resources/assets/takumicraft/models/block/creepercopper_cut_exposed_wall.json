@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/wall_inventory",
+  "textures": {
+    "wall": "takumicraft:block/creepercopper_cut_exposed"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "creepercopper_cut_half",
+  "key": {
+    "#": {
+      "item": "takumicraft:creepercopper_cut_oxidized"
+    }
+  },
+  "pattern": [
+    "###"
+  ],
+  "result": {
+    "count": 6,
+    "id": "takumicraft:creepercopper_cut_oxidized_half"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "creepercopper_trapdoor",
+  "key": {
+    "#": {
+      "item": "takumicraft:creepercopper_weathered"
+    }
+  },
+  "pattern": [
+    "##",
+    "##"
+  ],
+  "result": {
+    "count": 1,
+    "id": "takumicraft:creepercopper_weathered_trapdoor"
+  }
+}

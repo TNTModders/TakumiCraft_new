@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "facing=down": {
+      "model": "takumicraft:block/creepercopper_cut_weathered_half_down"
+    },
+    "facing=east": {
+      "model": "takumicraft:block/creepercopper_cut_weathered_half_east"
+    },
+    "facing=north": {
+      "model": "takumicraft:block/creepercopper_cut_weathered_half_north"
+    },
+    "facing=south": {
+      "model": "takumicraft:block/creepercopper_cut_weathered_half_south"
+    },
+    "facing=up": {
+      "model": "takumicraft:block/creepercopper_cut_weathered_half_up"
+    },
+    "facing=west": {
+      "model": "takumicraft:block/creepercopper_cut_weathered_half_west"
+    }
+  }
+}

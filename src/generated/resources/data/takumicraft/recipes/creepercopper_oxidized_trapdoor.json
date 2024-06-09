@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "creepercopper_trapdoor",
+  "key": {
+    "#": {
+      "item": "takumicraft:creepercopper_oxidized"
+    }
+  },
+  "pattern": [
+    "##",
+    "##"
+  ],
+  "result": {
+    "count": 1,
+    "id": "takumicraft:creepercopper_oxidized_trapdoor"
+  }
+}

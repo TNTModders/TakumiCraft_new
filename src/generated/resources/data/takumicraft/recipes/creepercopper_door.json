@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "creepercopper_door",
+  "key": {
+    "#": {
+      "item": "takumicraft:creepercopper"
+    }
+  },
+  "pattern": [
+    "##",
+    "##",
+    "##"
+  ],
+  "result": {
+    "count": 3,
+    "id": "takumicraft:creepercopper_door"
+  }
+}

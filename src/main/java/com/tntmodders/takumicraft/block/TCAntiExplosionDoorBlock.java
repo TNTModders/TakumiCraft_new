@@ -7,6 +7,7 @@ import com.tntmodders.takumicraft.provider.ITCBlocks;
 import com.tntmodders.takumicraft.provider.ITCRecipe;
 import com.tntmodders.takumicraft.provider.TCBlockStateProvider;
 import com.tntmodders.takumicraft.provider.TCRecipeProvider;
+import com.tntmodders.takumicraft.utils.TCBlockUtils;
 import net.minecraft.data.loot.LootTableSubProvider;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
@@ -26,10 +27,16 @@ import java.util.function.Supplier;
 
 public class TCAntiExplosionDoorBlock extends DoorBlock implements ITCBlocks, ITCRecipe {
     private final Block baseBlock;
+    private final String group;
 
     public TCAntiExplosionDoorBlock(Supplier<BlockState> state, BlockSetType type) {
+        this(state, type, "");
+    }
+
+    public TCAntiExplosionDoorBlock(Supplier<BlockState> state, BlockSetType type, String group) {
         super(type, Properties.ofFullCopy(state.get().getBlock()).noOcclusion());
         this.baseBlock = state.get().getBlock();
+        this.group = group;
     }
 
     public Block getBaseBlock() {
@@ -47,12 +54,12 @@ public class TCAntiExplosionDoorBlock extends DoorBlock implements ITCBlocks, IT
 
     @Override
     public String getEnUSName() {
-        return this.getITCBlock().getEnUSName() + " Door";
+        return TCBlockUtils.getNamewithSuffix(this.getITCBlock().getEnUSName(), " Door");
     }
 
     @Override
     public String getJaJPName() {
-        return this.getITCBlock().getJaJPName() + "扉";
+        return TCBlockUtils.getNamewithSuffix(this.getITCBlock().getJaJPName(), "扉");
     }
 
     @Override
@@ -73,13 +80,17 @@ public class TCAntiExplosionDoorBlock extends DoorBlock implements ITCBlocks, IT
 
     @Override
     public void addRecipes(TCRecipeProvider provider, ItemLike itemLike, RecipeOutput consumer) {
-        provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS,
+        ShapedRecipeBuilder builder = ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS,
                         itemLike, 3)
                 .define('#', this.baseBlock)
                 .pattern("##")
                 .pattern("##")
                 .pattern("##")
-                .unlockedBy("has_baseblock", TCRecipeProvider.hasItem(this.baseBlock)));
+                .unlockedBy("has_baseblock", TCRecipeProvider.hasItem(this.baseBlock));
+        if (!this.group.isEmpty()) {
+            builder.group(this.group);
+        }
+        provider.saveRecipe(itemLike, consumer, builder);
     }
 
 

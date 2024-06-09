@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "takumicraft:creepercopper_cut_weathered"
+  },
+  "result": {
+    "count": 1,
+    "id": "takumicraft:creepercopper_cut_weathered_stairs"
+  }
+}

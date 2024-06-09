@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/door_top_right_open",
+  "render_type": "minecraft:cutout",
+  "textures": {
+    "bottom": "takumicraft:block/creepercopper_exposed_door_bottom",
+    "top": "takumicraft:block/creepercopper_exposed_door_top"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/inner_stairs",
+  "textures": {
+    "bottom": "takumicraft:block/creepercopper_cut_exposed",
+    "side": "takumicraft:block/creepercopper_cut_exposed",
+    "top": "takumicraft:block/creepercopper_cut_exposed"
+  }
+}

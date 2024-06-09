@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/template_wall_side",
+  "textures": {
+    "wall": "takumicraft:block/creepercopper_cut_exposed"
+  }
+}

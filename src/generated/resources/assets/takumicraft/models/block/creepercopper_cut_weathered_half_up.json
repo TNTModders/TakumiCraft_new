@@ -1,0 +1,9 @@
+{
+  "parent": "takumicraft:block/half_up",
+  "render_type": "minecraft:cutout",
+  "textures": {
+    "bottom": "takumicraft:block/creepercopper_cut_weathered",
+    "side": "takumicraft:block/creepercopper_cut_weathered",
+    "top": "takumicraft:block/creepercopper_cut_weathered"
+  }
+}

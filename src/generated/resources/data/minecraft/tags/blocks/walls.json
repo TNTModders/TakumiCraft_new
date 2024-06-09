@@ -1,6 +1,10 @@
 {
   "values": [
     "takumicraft:creeperiron_wall",
-    "takumicraft:creeperbrick_wall"
+    "takumicraft:creeperbrick_wall",
+    "takumicraft:creepercopper_cut_wall",
+    "takumicraft:creepercopper_cut_exposed_wall",
+    "takumicraft:creepercopper_cut_weathered_wall",
+    "takumicraft:creepercopper_cut_oxidized_wall"
   ]
 }
