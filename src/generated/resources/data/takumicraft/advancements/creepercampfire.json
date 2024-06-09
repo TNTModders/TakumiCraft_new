@@ -1,0 +1,26 @@
+{
+  "parent": "takumicraft:creeperbomb",
+  "criteria": {
+    "impossible": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancement.takumicraft.creepercampfire.desc"
+    },
+    "icon": {
+      "count": 1,
+      "id": "takumicraft:creeper_campfire"
+    },
+    "title": {
+      "translate": "advancement.takumicraft.creepercampfire.title"
+    }
+  },
+  "requirements": [
+    [
+      "impossible"
+    ]
+  ],
+  "sends_telemetry_event": true
+}
