@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "#": {
+      "item": "takumicraft:creeperbomb"
+    },
+    "B": {
+      "item": "takumicraft:creeperplanks"
+    },
+    "S": {
+      "item": "minecraft:stick"
+    }
+  },
+  "pattern": [
+    " S ",
+    "S#S",
+    "BBB"
+  ],
+  "result": {
+    "count": 1,
+    "id": "takumicraft:creeper_campfire"
+  }
+}

@@ -2,10 +2,7 @@ package com.tntmodders.takumicraft.core.client;
 
 import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.client.model.TCChildCreeperModel;
-import com.tntmodders.takumicraft.client.renderer.block.TCAcidBlockRenderer;
-import com.tntmodders.takumicraft.client.renderer.block.TCCreeperBedRenderer;
-import com.tntmodders.takumicraft.client.renderer.block.TCCreeperChestRenderer;
-import com.tntmodders.takumicraft.client.renderer.block.TCMonsterBombBlockRenderer;
+import com.tntmodders.takumicraft.client.renderer.block.*;
 import com.tntmodders.takumicraft.client.renderer.block.model.TCSaberModel;
 import com.tntmodders.takumicraft.client.renderer.block.model.TCShieldModel;
 import com.tntmodders.takumicraft.client.renderer.entity.TCAmethystBombRenderer;
@@ -44,6 +41,10 @@ public class TCRenderCore {
         TCEntityCore.ENTITY_CONTEXTS.forEach(context -> context.registerRenderer(event, context.entityType()));
         additionalEntityRender(event);
         TCLoggingUtils.completeRegistry("EntityRenderer");
+
+        TCLoggingUtils.startRegistry("BlockEntityRenderer");
+        blockEntityRender(event);
+        TCLoggingUtils.completeRegistry("BlockEntityRenderer");
     }
 
     private static void additionalEntityRender(EntityRenderersEvent.RegisterRenderers event) {
@@ -63,11 +64,14 @@ public class TCRenderCore {
         });
         event.registerEntityRenderer(TCKingBlock.KING_BLOCK, TCKingBlockRenderer::new);
         event.registerEntityRenderer(TCCreeperGrenade.GRENADE, ThrownItemRenderer::new);
+    }
 
+    private static void blockEntityRender(EntityRenderersEvent.RegisterRenderers event) {
         event.registerBlockEntityRenderer(TCBlockEntityCore.CREEPER_BED, TCCreeperBedRenderer::new);
         event.registerBlockEntityRenderer(TCBlockEntityCore.ACID, TCAcidBlockRenderer::new);
         event.registerBlockEntityRenderer(TCBlockEntityCore.MONSTER_BOMB, TCMonsterBombBlockRenderer::new);
         event.registerBlockEntityRenderer(TCBlockEntityCore.CHEST, TCCreeperChestRenderer::new);
+        event.registerBlockEntityRenderer(TCBlockEntityCore.CAMPFIRE, TCCreeperCampFireRenderer::new);
     }
 
     public static void registerLayerDefinition(EntityRenderersEvent.RegisterLayerDefinitions event) {

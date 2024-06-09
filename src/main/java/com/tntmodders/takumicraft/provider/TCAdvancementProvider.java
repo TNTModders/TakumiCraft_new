@@ -127,6 +127,12 @@ public class TCAdvancementProvider extends ForgeAdvancementProvider {
                             AdvancementType.CHALLENGE, true, true, false)
                     .addCriterion("impossible", CriteriaTriggers.IMPOSSIBLE.createCriterion(new ImpossibleTrigger.TriggerInstance()))
                     .parent(creeperbomb).save(consumer, new ResourceLocation(TakumiCraftCore.MODID, "creeperbarrel"));
+            AdvancementHolder creepercampfire = Advancement.Builder.advancement()
+                    .display(new ItemStack(TCBlockCore.CREEPER_CAMPFIRE), Component.translatable("advancement.takumicraft.creepercampfire.title"),
+                            Component.translatable("advancement.takumicraft.creepercampfire.desc"), null,
+                            AdvancementType.TASK, true, true, false)
+                    .addCriterion("impossible", CriteriaTriggers.IMPOSSIBLE.createCriterion(new ImpossibleTrigger.TriggerInstance()))
+                    .parent(creeperbomb).save(consumer, new ResourceLocation(TakumiCraftCore.MODID, "creepercampfire"));
         }
     }
 }

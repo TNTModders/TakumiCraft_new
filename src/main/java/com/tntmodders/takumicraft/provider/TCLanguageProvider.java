@@ -150,6 +150,8 @@ public abstract class TCLanguageProvider extends LanguageProvider {
             this.add("advancement.takumicraft.kingslayer.desc", "Slay King Creeper.");
             this.add("advancement.takumicraft.creeperbarrel.title", "Happy Bombing!");
             this.add("advancement.takumicraft.creeperbarrel.desc", "Detonate Creeper Mega Barrel Bomb.");
+            this.add("advancement.takumicraft.creepercampfire.title", "CAMPFIRE LIT");
+            this.add("advancement.takumicraft.creepercampfire.desc", "Lit and rest at Creeper Campfire.");
 
             this.add("item.takumicraft.elementcore.desc", "Available as a smithing template for upgrades.");
             this.add("item.takumicraft.creeperbomb.desc", "Available as a smithing material for upgrades.");
@@ -166,6 +168,8 @@ public abstract class TCLanguageProvider extends LanguageProvider {
             this.add("item.takumicraft.creeperaltar.desc.0", "----");
             this.add("item.takumicraft.creeperaltar.desc.2", "Right Click with CreeperBomb below this to Summon King.");
             this.add("item.takumicraft.creeperbarrel.desc", "Something occur when you fill the inventory full of explosives.");
+            this.add("item.takumicraft.creeper_campfire.desc", "Right Click without any item to set spawn position here.");
+            this.add("item.takumicraft.creeper_campfire.set_spawn", "Rest at campfire.");
 
             this.add("entity.takumicraft.bedcreeper.message", "%s was blasted your respawn-point by bed creeper!");
             this.add("entity.takumicraft.returncreeper.message", "%s was teleported to your respawn-point by return creeper!");
@@ -291,6 +295,8 @@ public abstract class TCLanguageProvider extends LanguageProvider {
             this.add("advancement.takumicraft.kingslayer.desc", "王匠を倒す\n\n物語は、ほんの始まり。\n次の世界の扉が開かれる刻を待て。");
             this.add("advancement.takumicraft.creeperbarrel.title", "Gの洗礼を受けよ");
             this.add("advancement.takumicraft.creeperbarrel.desc", "匠式大樽爆弾[G]を起爆する\n\nあきらかにヤバい物\nかもしれないなぁ。\nたぶん爆弾物を入れ\nるとなにかあるぞ。\n爆発こそ芸術だ!");
+            this.add("advancement.takumicraft.creepercampfire.title", "CAMPFIRE LIT");
+            this.add("advancement.takumicraft.creepercampfire.desc", "匠式硬質篝火で休息する\n\n爆発を捧げよ。帰る場所がある限り。");
 
             this.add("item.takumicraft.elementcore.desc", "鍛冶型として鍛冶台でのアップグレードに利用可能");
             this.add("item.takumicraft.creeperbomb.desc", "材料として鍛冶台でのアップグレードに利用可能");
@@ -307,6 +313,8 @@ public abstract class TCLanguageProvider extends LanguageProvider {
             this.add("item.takumicraft.creeperaltar.desc.1", "右クリックで上位匠を召喚できる。");
             this.add("item.takumicraft.creeperaltar.desc.2", "下に匠式高性能爆弾を置いて右クリックで王匠を召喚できる。");
             this.add("item.takumicraft.creeperbarrel.desc", "爆発物でインベントリを満たすと……");
+            this.add("item.takumicraft.creeper_campfire.desc", "手に何も持たずに右クリックで休息可能");
+            this.add("item.takumicraft.creeper_campfire.set_spawn", "篝火で休息した。");
 
             this.add("entity.takumicraft.bedcreeper.message", "%sのリスポーン地点が寝台匠に爆破された!");
             this.add("entity.takumicraft.returncreeper.message", "%sは帰匠によってリスポーン地点へ転移した!");

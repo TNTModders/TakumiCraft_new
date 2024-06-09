@@ -73,6 +73,7 @@ public class TCBlockCore {
     public static final Block CREEPER_LANTERN = new TCCreeperLanternBlock();
     public static final Block CREEPER_ILLUMINATION = new TCCreeperIlluminationBlock();
     public static final Block CREEPER_IRON_BARS = new TCCreeperIronBarsBlock();
+
     public static final TCCreeperCopperBlock CREEPER_COPPER = new TCCreeperCopperBlock(WeatheringCopper.WeatherState.UNAFFECTED, Blocks.WAXED_COPPER_BLOCK);
     public static final TCCreeperCopperBlock CREEPER_COPPER_EXPOSED = new TCCreeperCopperBlock(WeatheringCopper.WeatherState.EXPOSED, Blocks.WAXED_EXPOSED_COPPER);
     public static final TCCreeperCopperBlock CREEPER_COPPER_WEATHERED = new TCCreeperCopperBlock(WeatheringCopper.WeatherState.WEATHERED, Blocks.WAXED_WEATHERED_COPPER);
@@ -109,6 +110,8 @@ public class TCBlockCore {
     public static final Block CREEPER_COPPER_EXPOSED_DOOR = new TCAntiExplosionDoorBlock(CREEPER_COPPER_EXPOSED::defaultBlockState, BlockSetType.COPPER, "creepercopper_door");
     public static final Block CREEPER_COPPER_WEATHERED_DOOR = new TCAntiExplosionDoorBlock(CREEPER_COPPER_WEATHERED::defaultBlockState, BlockSetType.COPPER, "creepercopper_door");
     public static final Block CREEPER_COPPER_OXIDIZED_DOOR = new TCAntiExplosionDoorBlock(CREEPER_COPPER_OXIDIZED::defaultBlockState, BlockSetType.COPPER, "creepercopper_door");
+
+    public static final Block CREEPER_CAMPFIRE = new TCCreeperCampFireBlock();
 
     public static final TagKey<Block> GUNORES = TagKey.create(Registries.BLOCK, new ResourceLocation(TakumiCraftCore.MODID, "gunores"));
     public static final TagKey<Block> ANTI_EXPLOSION = TagKey.create(Registries.BLOCK, new ResourceLocation(TakumiCraftCore.MODID, "anti_explosion"));
