@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "takumicraft:block/creepertorch_wall"
+    },
+    "facing=north": {
+      "model": "takumicraft:block/creepertorch_wall",
+      "y": 270
+    },
+    "facing=south": {
+      "model": "takumicraft:block/creepertorch_wall",
+      "y": 90
+    },
+    "facing=west": {
+      "model": "takumicraft:block/creepertorch_wall",
+      "y": 180
+    }
+  }
+}

@@ -99,9 +99,11 @@ public class TCItemCore {
 
         TCBlockCore.BLOCKS.forEach(block -> {
             TCBlockItem blockItem = block instanceof ITCBlocks ? ((ITCBlocks) block).getCustomBlockItem(block) : new TCBlockItem(block);
-            event.register(ForgeRegistries.ITEMS.getRegistryKey(), itemRegisterHelper -> itemRegisterHelper.register(new ResourceLocation(TakumiCraftCore.MODID, blockItem.getRegistryName()), blockItem));
-            BLOCKITEMS.put(block, blockItem);
-            TCLoggingUtils.entryRegistry("BlockItem", blockItem.getRegistryName());
+            if (blockItem != null) {
+                event.register(ForgeRegistries.ITEMS.getRegistryKey(), itemRegisterHelper -> itemRegisterHelper.register(new ResourceLocation(TakumiCraftCore.MODID, blockItem.getRegistryName()), blockItem));
+                BLOCKITEMS.put(block, blockItem);
+                TCLoggingUtils.entryRegistry("BlockItem", blockItem.getRegistryName());
+            }
         });
 
         List<Field> entityFieldList = Arrays.asList(TCEntityCore.class.getDeclaredFields());

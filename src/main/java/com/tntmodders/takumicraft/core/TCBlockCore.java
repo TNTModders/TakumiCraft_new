@@ -58,7 +58,7 @@ public class TCBlockCore {
     public static final Block CREEPER_PLANKS_DOOR = new TCAntiExplosionDoorBlock(CREEPER_PLANKS::defaultBlockState, BlockSetType.OAK);
     public static final Block CREEPER_PLANKS_TRAPDOOR = new TCAntiExplosionTrapDoorBlock(CREEPER_PLANKS::defaultBlockState, BlockSetType.OAK);
     public static final Map<DyeColor, TCWoolBlock> CREEPER_WOOL_MAP = new HashMap<>();
-    public static final Map<DyeColor, TCCarpetBlock> CREEPER_CARPET_MAP = new HashMap<>();
+    public static final Map<DyeColor, TCCreeperCarpetBlock> CREEPER_CARPET_MAP = new HashMap<>();
     public static final Map<DyeColor, TCCreeperBedBlock> CREEPER_BED_MAP = new HashMap<>();
     public static final Block SUPER_CREEPER_BED = new TCSuperCreeperBedBlock();
     public static final Block ACID = new TCAcidBlock();
@@ -112,6 +112,8 @@ public class TCBlockCore {
     public static final Block CREEPER_COPPER_OXIDIZED_DOOR = new TCAntiExplosionDoorBlock(CREEPER_COPPER_OXIDIZED::defaultBlockState, BlockSetType.COPPER, "creepercopper_door");
 
     public static final Block CREEPER_CAMPFIRE = new TCCreeperCampFireBlock();
+    public static final Block CREEPER_TORCH = new TCCreeperTorchBlock();
+    public static final Block CREEPER_TORCH_WALL = new TCCreeperTorchBlock_Wall();
 
     public static final TagKey<Block> GUNORES = TagKey.create(Registries.BLOCK, new ResourceLocation(TakumiCraftCore.MODID, "gunores"));
     public static final TagKey<Block> ANTI_EXPLOSION = TagKey.create(Registries.BLOCK, new ResourceLocation(TakumiCraftCore.MODID, "anti_explosion"));
@@ -123,7 +125,7 @@ public class TCBlockCore {
             CREEPER_COLORED_GLASS_MAP.put(dyeColor, new TCColoredCreeperGlassBlock(dyeColor));
             CREEPER_COLORED_GLASS_PANE_MAP.put(dyeColor, new TCColoredCreeperGlassPaneBlock(dyeColor));
             CREEPER_WOOL_MAP.put(dyeColor, new TCWoolBlock(dyeColor));
-            CREEPER_CARPET_MAP.put(dyeColor, new TCCarpetBlock(dyeColor));
+            CREEPER_CARPET_MAP.put(dyeColor, new TCCreeperCarpetBlock(dyeColor));
             CREEPER_BED_MAP.put(dyeColor, new TCCreeperBedBlock(dyeColor));
         });
     }
