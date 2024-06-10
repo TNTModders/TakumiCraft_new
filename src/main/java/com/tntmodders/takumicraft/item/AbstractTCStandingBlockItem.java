@@ -1,5 +1,6 @@
 package com.tntmodders.takumicraft.item;
 
+import com.tntmodders.takumicraft.provider.ITCBlocks;
 import com.tntmodders.takumicraft.provider.ITCItems;
 import com.tntmodders.takumicraft.provider.TCItemModelProvider;
 import net.minecraft.core.BlockPos;
@@ -17,11 +18,13 @@ import java.util.Map;
 public abstract class AbstractTCStandingBlockItem extends TCBlockItem implements ITCItems {
     protected final Block wallBlock;
     private final Direction attachmentDirection;
+    private final Block base;
 
     public AbstractTCStandingBlockItem(Block block, Block wallBlock, Direction direction) {
         super(block, new Item.Properties());
         this.wallBlock = wallBlock;
         this.attachmentDirection = direction;
+        this.base = block;
     }
 
     protected boolean canPlace(LevelReader level, BlockState state, BlockPos pos) {
@@ -63,5 +66,20 @@ public abstract class AbstractTCStandingBlockItem extends TCBlockItem implements
 
     @Override
     public void registerItemModel(TCItemModelProvider provider) {
+    }
+
+    @Override
+    public String getRegistryName() {
+        return ((ITCBlocks) this.base).getRegistryName();
+    }
+
+    @Override
+    public String getEnUSName() {
+        return ((ITCBlocks) this.base).getEnUSName();
+    }
+
+    @Override
+    public String getJaJPName() {
+        return ((ITCBlocks) this.base).getJaJPName();
     }
 }

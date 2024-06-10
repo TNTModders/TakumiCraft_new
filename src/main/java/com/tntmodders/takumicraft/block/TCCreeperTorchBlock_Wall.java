@@ -20,7 +20,7 @@ import java.util.function.Supplier;
 
 public class TCCreeperTorchBlock_Wall extends WallTorchBlock implements ITCBlocks {
     public TCCreeperTorchBlock_Wall() {
-        super(ParticleTypes.SMOKE, BlockBehaviour.Properties.of().noCollission().instabreak().lightLevel(p_50886_ -> 15).sound(SoundType.WOOD).pushReaction(PushReaction.DESTROY).explosionResistance(10000000f));
+        super(ParticleTypes.SMOKE, BlockBehaviour.Properties.of().noCollission().instabreak().lightLevel(p_50886_ -> 15).sound(SoundType.WOOD).pushReaction(PushReaction.DESTROY).lootFrom(() -> TCBlockCore.CREEPER_TORCH).explosionResistance(10000000f));
     }
 
     @Override

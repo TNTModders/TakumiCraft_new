@@ -6,11 +6,11 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "takumicraft:creepertorch"
+          "name": "takumicraft:creepersign"
         }
       ],
       "rolls": 1.0
     }
   ],
-  "random_sequence": "takumicraft:blocks/creepertorch_wall"
+  "random_sequence": "minecraft:blocks/air"
 }

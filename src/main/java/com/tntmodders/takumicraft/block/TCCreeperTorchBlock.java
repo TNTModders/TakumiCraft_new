@@ -6,12 +6,19 @@ import com.tntmodders.takumicraft.data.loot.TCBlockLoot;
 import com.tntmodders.takumicraft.item.TCBlockItem;
 import com.tntmodders.takumicraft.item.TCCreeperTorchBlockItem;
 import com.tntmodders.takumicraft.provider.ITCBlocks;
+import com.tntmodders.takumicraft.provider.ITCRecipe;
 import com.tntmodders.takumicraft.provider.TCBlockStateProvider;
+import com.tntmodders.takumicraft.provider.TCRecipeProvider;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.data.loot.LootTableSubProvider;
+import net.minecraft.data.recipes.RecipeCategory;
+import net.minecraft.data.recipes.RecipeOutput;
+import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.TorchBlock;
@@ -21,7 +28,7 @@ import net.minecraft.world.level.material.PushReaction;
 import java.util.List;
 import java.util.function.Supplier;
 
-public class TCCreeperTorchBlock extends TorchBlock implements ITCBlocks {
+public class TCCreeperTorchBlock extends TorchBlock implements ITCBlocks, ITCRecipe {
     public TCCreeperTorchBlock() {
         super(ParticleTypes.SMOKE, BlockBehaviour.Properties.of().noCollission().instabreak().lightLevel(p_50886_ -> 15).sound(SoundType.WOOD).pushReaction(PushReaction.DESTROY).explosionResistance(10000000f));
     }
@@ -61,5 +68,10 @@ public class TCCreeperTorchBlock extends TorchBlock implements ITCBlocks {
     @Override
     public List<TagKey<Block>> getBlockTags() {
         return List.of(TCBlockCore.ANTI_EXPLOSION, BlockTags.WALL_POST_OVERRIDE);
+    }
+
+    @Override
+    public void addRecipes(TCRecipeProvider provider, ItemLike itemLike, RecipeOutput consumer) {
+        provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, itemLike, 2).define('#', TCBlockCore.CREEPER_BOMB).define('S', Items.STICK).pattern("#").pattern("S").unlockedBy("has_creeperbomb", TCRecipeProvider.hasItem(TCBlockCore.CREEPER_BOMB)));
     }
 }

@@ -30,6 +30,8 @@ public class TCBlockEntityCore {
             .build(Util.fetchChoiceType(References.BLOCK_ENTITY, "creeperbarrel"));
     public static final BlockEntityType<TCCreeperCampFireBlockEntity> CAMPFIRE = BlockEntityType.Builder.of(TCCreeperCampFireBlockEntity::new, TCBlockCore.CREEPER_CAMPFIRE)
             .build(Util.fetchChoiceType(References.BLOCK_ENTITY, "creepercampfire"));
+    public static final BlockEntityType<TCCreeperSignBlockEntity> SIGN = BlockEntityType.Builder.of(TCCreeperSignBlockEntity::new, TCBlockCore.CREEPER_SIGN, TCBlockCore.CREEPER_SIGN_WALL)
+            .build(Util.fetchChoiceType(References.BLOCK_ENTITY, "creepersign"));
 
     public static void register(final RegisterEvent event) {
         TCLoggingUtils.startRegistry("BlockEntity");
@@ -39,6 +41,7 @@ public class TCBlockEntityCore {
         event.register(ForgeRegistries.BLOCK_ENTITY_TYPES.getRegistryKey(), new ResourceLocation(TakumiCraftCore.MODID, "creeperchest"), () -> CHEST);
         event.register(ForgeRegistries.BLOCK_ENTITY_TYPES.getRegistryKey(), new ResourceLocation(TakumiCraftCore.MODID, "creeperbarrel"), () -> BARREL);
         event.register(ForgeRegistries.BLOCK_ENTITY_TYPES.getRegistryKey(), new ResourceLocation(TakumiCraftCore.MODID, "creepercampfire"), () -> CAMPFIRE);
+        event.register(ForgeRegistries.BLOCK_ENTITY_TYPES.getRegistryKey(), new ResourceLocation(TakumiCraftCore.MODID, "creepersign"), () -> SIGN);
         TCLoggingUtils.completeRegistry("BlockEntity");
     }
 

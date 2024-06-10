@@ -130,9 +130,6 @@ public class TCCreeperCampFireBlock extends CampfireBlock implements ITCBlocks, 
         if (p_220918_.getValue(LIT)) {
             if (p_220921_.nextInt(5) == 0) {
                 SoundEvent sound = SoundEvents.CAMPFIRE_CRACKLE;
-                if (p_220921_.nextInt(20) == 0) {
-                    sound = SoundEvents.PARROT_IMITATE_CREEPER;
-                }
                 p_220919_.playLocalSound((double) p_220920_.getX() + 0.5, (double) p_220920_.getY() + 0.5, (double) p_220920_.getZ() + 0.5, sound, SoundSource.BLOCKS, 0.5F + p_220921_.nextFloat(), p_220921_.nextFloat() * 0.7F + 0.6F, false);
             }
         }
