@@ -1,15 +1,14 @@
 package com.tntmodders.takumicraft.item;
 
+import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.core.TCBlockCore;
 import com.tntmodders.takumicraft.core.TCItemCore;
-import com.tntmodders.takumicraft.provider.ITCItems;
-import com.tntmodders.takumicraft.provider.ITCRecipe;
-import com.tntmodders.takumicraft.provider.ITCTranslator;
-import com.tntmodders.takumicraft.provider.TCRecipeProvider;
+import com.tntmodders.takumicraft.provider.*;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.SmithingTransformRecipeBuilder;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
@@ -23,6 +22,7 @@ import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.client.model.generators.ModelFile;
 
 import java.util.List;
 import java.util.function.Predicate;
@@ -189,8 +189,19 @@ public class TCCreeperBowItem extends BowItem implements ITCItems, ITCTranslator
     }
 
     @Override
-    public EnumTCItemModelType getItemModelType() {
-        return EnumTCItemModelType.BOW;
+    public void registerItemModel(TCItemModelProvider provider) {
+        ResourceLocation[] loc = new ResourceLocation[3];
+        String name;
+        for (int i = 0; i < 3; i++) {
+            name = this.getRegistryName() + "_pulling_" + i;
+            loc[i] = new ResourceLocation(TakumiCraftCore.MODID, provider.getFolder() + "/" + name);
+            provider.withExistingParent(name, provider.mcLoc("bow_pulling_" + i)).texture("layer0", loc[i]);
+        }
+        name = this.getRegistryName();
+        provider.withExistingParent(name, provider.mcLoc("bow")).texture("layer0", new ResourceLocation(TakumiCraftCore.MODID, provider.getFolder() + "/" + name))
+                .override().predicate(new ResourceLocation("pulling"), 1f).model(new ModelFile.ExistingModelFile(loc[0], provider.existingFileHelper)).end()
+                .override().predicate(new ResourceLocation("pulling"), 1f).predicate(new ResourceLocation("pull"), 0.65f).model(new ModelFile.ExistingModelFile(loc[1], provider.existingFileHelper)).end()
+                .override().predicate(new ResourceLocation("pulling"), 1f).predicate(new ResourceLocation("pull"), 0.9f).model(new ModelFile.ExistingModelFile(loc[2], provider.existingFileHelper));
     }
 
     @Override

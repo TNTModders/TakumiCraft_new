@@ -5,6 +5,7 @@ import com.tntmodders.takumicraft.core.TCEnchantmentCore;
 import com.tntmodders.takumicraft.core.TCItemCore;
 import com.tntmodders.takumicraft.provider.ITCItems;
 import com.tntmodders.takumicraft.provider.ITCRecipe;
+import com.tntmodders.takumicraft.provider.TCItemModelProvider;
 import com.tntmodders.takumicraft.provider.TCRecipeProvider;
 import com.tntmodders.takumicraft.utils.TCExplosionUtils;
 import net.minecraft.data.recipes.RecipeCategory;
@@ -76,8 +77,8 @@ public class TCCreeperMaceItem extends MaceItem implements ITCItems, ITCRecipe {
     }
 
     @Override
-    public EnumTCItemModelType getItemModelType() {
-        return EnumTCItemModelType.HANDHELD;
+    public void registerItemModel(TCItemModelProvider provider) {
+        provider.singleItem(this, "handheld");
     }
 
     @Override

@@ -183,8 +183,10 @@ public abstract class TCLanguageProvider extends LanguageProvider {
 
         @Override
         public void add(String key, String value) {
-            TC_ENUS_LANGMAP.put(key, value);
-            super.add(key, value);
+            if (!TC_ENUS_LANGMAP.containsKey(key)) {
+                TC_ENUS_LANGMAP.put(key, value);
+                super.add(key, value);
+            }
         }
     }
 
@@ -328,8 +330,10 @@ public abstract class TCLanguageProvider extends LanguageProvider {
 
         @Override
         public void add(String key, String value) {
-            TC_JAJP_LANGMAP.put(key, value);
-            super.add(key, value);
+            if (!TC_JAJP_LANGMAP.containsKey(key)) {
+                TC_JAJP_LANGMAP.put(key, value);
+                super.add(key, value);
+            }
         }
     }
 }

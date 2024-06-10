@@ -3,10 +3,7 @@ package com.tntmodders.takumicraft.item;
 import com.tntmodders.takumicraft.core.TCBlockCore;
 import com.tntmodders.takumicraft.core.TCEnchantmentCore;
 import com.tntmodders.takumicraft.core.TCItemCore;
-import com.tntmodders.takumicraft.provider.ITCItems;
-import com.tntmodders.takumicraft.provider.ITCRecipe;
-import com.tntmodders.takumicraft.provider.ITCTranslator;
-import com.tntmodders.takumicraft.provider.TCRecipeProvider;
+import com.tntmodders.takumicraft.provider.*;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.SmithingTransformRecipeBuilder;
@@ -62,8 +59,8 @@ public class TCMinesweeperAxeItem extends AxeItem implements ITCItems, ITCTransl
     }
 
     @Override
-    public ITCItems.EnumTCItemModelType getItemModelType() {
-        return ITCItems.EnumTCItemModelType.HANDHELD;
+    public void registerItemModel(TCItemModelProvider provider) {
+        provider.singleItem(this, "handheld");
     }
 
     @Override
@@ -76,7 +73,7 @@ public class TCMinesweeperAxeItem extends AxeItem implements ITCItems, ITCTransl
     public void addRecipes(TCRecipeProvider provider, ItemLike itemLike, RecipeOutput consumer) {
         SmithingTransformRecipeBuilder.smithing(Ingredient.of(TCItemCore.ELEMENTCORE_FIRE, TCItemCore.ELEMENTCORE_NORMAL, TCItemCore.ELEMENTCORE_WATER, TCItemCore.ELEMENTCORE_GRASS, TCItemCore.ELEMENTCORE_WIND, TCItemCore.ELEMENTCORE_GROUND),
                         Ingredient.of(Items.IRON_AXE), Ingredient.of(TCBlockCore.CREEPER_BOMB)
-                        , RecipeCategory.COMBAT, TCItemCore.MINESWEEPER_AXE).unlocks("has_creeperbomb", TCRecipeProvider.hasItem(TCBlockCore.CREEPER_BOMB))
+                        , RecipeCategory.TOOLS, TCItemCore.MINESWEEPER_AXE).unlocks("has_creeperbomb", TCRecipeProvider.hasItem(TCBlockCore.CREEPER_BOMB))
                 .save(consumer, this.getRegistryName() + "_smithing");
     }
 }

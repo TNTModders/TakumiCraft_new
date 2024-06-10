@@ -2,6 +2,7 @@ package com.tntmodders.takumicraft.item;
 
 import com.tntmodders.takumicraft.core.TCCreativeModeTabCore;
 import com.tntmodders.takumicraft.core.TCItemCore;
+import com.tntmodders.takumicraft.provider.TCItemModelProvider;
 import com.tntmodders.takumicraft.provider.TCRecipeProvider;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
@@ -78,8 +79,7 @@ public class TCTippedCreeperArrowItem extends TCCreeperArrowItem {
     }
 
     @Override
-    public EnumTCItemModelType getItemModelType() {
-        return EnumTCItemModelType.SP;
+    public void registerItemModel(TCItemModelProvider provider) {
     }
 
     @Override

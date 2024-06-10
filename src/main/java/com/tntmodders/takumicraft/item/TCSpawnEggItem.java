@@ -2,6 +2,7 @@ package com.tntmodders.takumicraft.item;
 
 import com.tntmodders.takumicraft.entity.mobs.AbstractTCCreeper;
 import com.tntmodders.takumicraft.provider.ITCItems;
+import com.tntmodders.takumicraft.provider.TCItemModelProvider;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraftforge.common.ForgeSpawnEggItem;
@@ -33,8 +34,8 @@ public class TCSpawnEggItem extends ForgeSpawnEggItem implements ITCItems {
     }
 
     @Override
-    public EnumTCItemModelType getItemModelType() {
-        return EnumTCItemModelType.SPAWN_EGG;
+    public void registerItemModel(TCItemModelProvider provider) {
+        provider.withExistingParent(this.getRegistryName(), provider.mcLoc("item/template_spawn_egg"));
     }
 
     @Override

@@ -26,17 +26,9 @@ public interface ITCItems extends ITCTranslator {
         return new ArrayList<>();
     }
 
-    default EnumTCItemModelType getItemModelType() {
-        return EnumTCItemModelType.SIMPLE;
-    }
-
-    enum EnumTCItemModelType {
-        SIMPLE,
-        SP,
-        SPAWN_EGG,
-        HANDHELD,
-        BOW,
-        SPECIAL_MEAT,
-        NONE
+    default void registerItemModel(TCItemModelProvider provider) {
+        if (this instanceof Item item) {
+            provider.singleItem(item, "generated");
+        }
     }
 }

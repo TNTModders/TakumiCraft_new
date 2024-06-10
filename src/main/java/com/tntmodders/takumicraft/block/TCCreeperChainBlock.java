@@ -41,7 +41,7 @@ public class TCCreeperChainBlock extends ChainBlock implements ITCBlocks, ITCRec
 
     @Override
     public void addRecipes(TCRecipeProvider provider, ItemLike itemLike, RecipeOutput consumer) {
-        provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, TCBlockCore.CREEPER_CHAIN, 8).define('#', TCBlockCore.CREEPER_BOMB).define('B', Blocks.CHAIN).pattern("BBB").pattern("B#B").pattern("BBB").unlockedBy("has_creeperbomb", TCRecipeProvider.hasItem(TCBlockCore.CREEPER_BOMB)));
+        provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, TCBlockCore.CREEPER_CHAIN, 8).define('#', TCBlockCore.CREEPER_BOMB).define('B', Blocks.CHAIN).pattern("BBB").pattern("B#B").pattern("BBB").unlockedBy("has_creeperbomb", TCRecipeProvider.hasItem(TCBlockCore.CREEPER_BOMB)));
     }
 
     @Override

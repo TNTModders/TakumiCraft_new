@@ -48,7 +48,7 @@ public class TCCreeperBedBlock extends BedBlock implements ITCBlocks, ITCRecipe 
 
     @Override
     public void addRecipes(TCRecipeProvider provider, ItemLike itemLike, RecipeOutput consumer) {
-        provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, TCBlockCore.CREEPER_BED_MAP.get(this.color)).define('#', TCBlockCore.CREEPER_PLANKS).define('B', TCBlockCore.CREEPER_WOOL_MAP.get(this.color)).pattern("BBB").pattern("###").unlockedBy("has_creeperplanks", TCRecipeProvider.hasItem(TCBlockCore.CREEPER_PLANKS)).group("creeperbed"));
+        provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, TCBlockCore.CREEPER_BED_MAP.get(this.color)).define('#', TCBlockCore.CREEPER_PLANKS).define('B', TCBlockCore.CREEPER_WOOL_MAP.get(this.color)).pattern("BBB").pattern("###").unlockedBy("has_creeperplanks", TCRecipeProvider.hasItem(TCBlockCore.CREEPER_PLANKS)).group("creeperbed"));
     }
 
     @Override

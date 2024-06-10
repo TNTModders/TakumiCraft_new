@@ -427,6 +427,6 @@ public class TCCreeperChestBlock extends BaseEntityBlock implements ITCBlocks, I
 
     @Override
     public void addRecipes(TCRecipeProvider provider, ItemLike itemLike, RecipeOutput consumer) {
-        provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, TCBlockCore.CREEPER_CHEST, 1).define('#', TCBlockCore.CREEPER_PLANKS).pattern("###").pattern("# #").pattern("###").unlockedBy("has_creeperplanks", TCRecipeProvider.hasItem(TCBlockCore.CREEPER_PLANKS)));
+        provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, TCBlockCore.CREEPER_CHEST, 1).define('#', TCBlockCore.CREEPER_PLANKS).pattern("###").pattern("# #").pattern("###").unlockedBy("has_creeperplanks", TCRecipeProvider.hasItem(TCBlockCore.CREEPER_PLANKS)));
     }
 }

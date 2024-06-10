@@ -176,6 +176,6 @@ public class TCCreeperBarrelBlock extends BarrelBlock implements ITCBlocks, ITCR
 
     @Override
     public void addRecipes(TCRecipeProvider provider, ItemLike itemLike, RecipeOutput consumer) {
-        provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, TCBlockCore.CREEPER_BARREL, 1).define('#', TCBlockCore.CREEPER_PLANKS).define('H', TCBlockCore.CREEPER_PLANKS_HALF).pattern("#H#").pattern("# #").pattern("#H#").unlockedBy("has_creeperplanks", TCRecipeProvider.hasItem(TCBlockCore.CREEPER_PLANKS)));
+        provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, TCBlockCore.CREEPER_BARREL, 1).define('#', TCBlockCore.CREEPER_PLANKS).define('H', TCBlockCore.CREEPER_PLANKS_HALF).pattern("#H#").pattern("# #").pattern("#H#").unlockedBy("has_creeperplanks", TCRecipeProvider.hasItem(TCBlockCore.CREEPER_PLANKS)));
     }
 }

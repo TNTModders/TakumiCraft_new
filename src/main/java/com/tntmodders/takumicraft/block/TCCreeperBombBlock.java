@@ -64,7 +64,7 @@ public class TCCreeperBombBlock extends AbstractTCBombBlock implements ITCRecipe
 
     @Override
     public void addRecipes(TCRecipeProvider provider, ItemLike itemLike, RecipeOutput consumer) {
-        provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS,
+        provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS,
                         TCBlockCore.CREEPER_BOMB)
                 .define('#', Items.CREEPER_HEAD)
                 .pattern(" # ")

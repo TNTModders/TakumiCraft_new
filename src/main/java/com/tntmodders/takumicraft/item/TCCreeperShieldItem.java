@@ -3,10 +3,7 @@ package com.tntmodders.takumicraft.item;
 import com.tntmodders.takumicraft.client.renderer.block.TCBEWLRenderer;
 import com.tntmodders.takumicraft.core.TCBlockCore;
 import com.tntmodders.takumicraft.core.TCItemCore;
-import com.tntmodders.takumicraft.provider.ITCItems;
-import com.tntmodders.takumicraft.provider.ITCRecipe;
-import com.tntmodders.takumicraft.provider.ITCTranslator;
-import com.tntmodders.takumicraft.provider.TCRecipeProvider;
+import com.tntmodders.takumicraft.provider.*;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
@@ -50,8 +47,7 @@ public class TCCreeperShieldItem extends ShieldItem implements ITCItems, ITCTran
     }
 
     @Override
-    public EnumTCItemModelType getItemModelType() {
-        return EnumTCItemModelType.SP;
+    public void registerItemModel(TCItemModelProvider provider) {
     }
 
     @Override

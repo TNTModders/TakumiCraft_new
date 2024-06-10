@@ -3,6 +3,7 @@ package com.tntmodders.takumicraft.item;
 import com.tntmodders.takumicraft.client.renderer.block.TCBEWLRenderer;
 import com.tntmodders.takumicraft.core.TCEnchantmentCore;
 import com.tntmodders.takumicraft.entity.mobs.AbstractTCCreeper;
+import com.tntmodders.takumicraft.provider.TCItemModelProvider;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlotGroup;
@@ -73,7 +74,6 @@ public class TCSaberItem extends AbstractTCWeaponItem {
     }
 
     @Override
-    public EnumTCItemModelType getItemModelType() {
-        return EnumTCItemModelType.SP;
+    public void registerItemModel(TCItemModelProvider provider) {
     }
 }

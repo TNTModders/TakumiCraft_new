@@ -2,6 +2,7 @@ package com.tntmodders.takumicraft.item;
 
 import com.tntmodders.takumicraft.core.TCItemCore;
 import com.tntmodders.takumicraft.provider.ITCItems;
+import com.tntmodders.takumicraft.provider.TCItemModelProvider;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
@@ -52,8 +53,8 @@ public class TCTakumiSpecialMeatItem extends Item implements ITCItems {
     }
 
     @Override
-    public EnumTCItemModelType getItemModelType() {
-        return EnumTCItemModelType.SPECIAL_MEAT;
+    public void registerItemModel(TCItemModelProvider provider) {
+        provider.withExistingParent(this.getRegistryName(), provider.mcLoc(ForgeRegistries.ITEMS.getKey(this.getBase()).getPath()));
     }
 
     @Override

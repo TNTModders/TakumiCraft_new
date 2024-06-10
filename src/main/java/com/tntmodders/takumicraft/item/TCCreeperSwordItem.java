@@ -5,6 +5,7 @@ import com.tntmodders.takumicraft.core.TCEnchantmentCore;
 import com.tntmodders.takumicraft.core.TCItemCore;
 import com.tntmodders.takumicraft.provider.ITCItems;
 import com.tntmodders.takumicraft.provider.ITCRecipe;
+import com.tntmodders.takumicraft.provider.TCItemModelProvider;
 import com.tntmodders.takumicraft.provider.TCRecipeProvider;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
@@ -99,10 +100,9 @@ public class TCCreeperSwordItem extends SwordItem implements ITCItems, ITCRecipe
     }
 
     @Override
-    public EnumTCItemModelType getItemModelType() {
-        return EnumTCItemModelType.HANDHELD;
+    public void registerItemModel(TCItemModelProvider provider) {
+        provider.singleItem(this, "handheld");
     }
-
 
     @Override
     public void addRecipes(TCRecipeProvider provider, ItemLike itemLike, RecipeOutput consumer) {

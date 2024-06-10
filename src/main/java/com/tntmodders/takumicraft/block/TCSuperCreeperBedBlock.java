@@ -75,7 +75,7 @@ public class TCSuperCreeperBedBlock extends TCCreeperBedBlock {
 
     @Override
     public void addRecipes(TCRecipeProvider provider, ItemLike itemLike, RecipeOutput consumer) {
-        provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS,
+        provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS,
                         TCBlockCore.SUPER_CREEPER_BED)
                 .define('#', TCItemCore.CREEPER_BED)
                 .pattern("###")
