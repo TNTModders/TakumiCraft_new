@@ -1,7 +1,7 @@
 package com.tntmodders.takumicraft.block;
 
 import com.tntmodders.takumicraft.TakumiCraftCore;
-import com.tntmodders.takumicraft.block.entity.TCCreeperSignBlockEntity;
+import com.tntmodders.takumicraft.block.entity.TCCreeperHangingSignBlockEntity;
 import com.tntmodders.takumicraft.core.TCBlockCore;
 import com.tntmodders.takumicraft.data.loot.TCBlockLoot;
 import com.tntmodders.takumicraft.item.TCBlockItem;
@@ -20,13 +20,10 @@ import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.StandingSignBlock;
+import net.minecraft.world.level.block.CeilingHangingSignBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.SignBlockEntity;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
@@ -35,19 +32,14 @@ import net.minecraft.world.level.material.MapColor;
 import java.util.List;
 import java.util.function.Supplier;
 
-public class TCCreeperSignBlock extends StandingSignBlock implements ITCBlocks, ITCRecipe {
-    public TCCreeperSignBlock() {
+public class TCCreeperHangingSignBlock extends CeilingHangingSignBlock implements ITCBlocks, ITCRecipe {
+    public TCCreeperHangingSignBlock() {
         super(TCWoodType.CREEPER_WOOD, BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).forceSolidOn().instrument(NoteBlockInstrument.BASS).noCollission().strength(1.0F, 1000000F).ignitedByLava());
     }
 
     @Override
-    public void openTextEdit(Player p_277738_, SignBlockEntity p_277467_, boolean p_277771_) {
-        super.openTextEdit(p_277738_, p_277467_, p_277771_);
-    }
-
-    @Override
     public String getRegistryName() {
-        return "creepersign";
+        return "creeperhangingsign";
     }
 
     @Override
@@ -57,22 +49,22 @@ public class TCCreeperSignBlock extends StandingSignBlock implements ITCBlocks, 
 
     @Override
     public String getEnUSName() {
-        return "Creeper Sign";
+        return "Creeper Hanging Sign";
     }
 
     @Override
     public String getJaJPName() {
-        return "匠式硬質看板";
+        return "匠式硬質吊看板";
     }
 
     @Override
     public TCBlockItem getCustomBlockItem(Block block) {
-        return new TCCreeperSignBlockItem(TCBlockCore.CREEPER_SIGN, TCBlockCore.CREEPER_SIGN_WALL, Direction.DOWN);
+        return new TCCreeperSignBlockItem(TCBlockCore.CREEPER_HANGING_SIGN, TCBlockCore.CREEPER_HANGING_SIGN_WALL, Direction.UP);
     }
 
     @Override
     public BlockEntity newBlockEntity(BlockPos p_154556_, BlockState p_154557_) {
-        return new TCCreeperSignBlockEntity(p_154556_, p_154557_);
+        return new TCCreeperHangingSignBlockEntity(p_154556_, p_154557_);
     }
 
     @Override
@@ -84,12 +76,11 @@ public class TCCreeperSignBlock extends StandingSignBlock implements ITCBlocks, 
 
     @Override
     public List<TagKey<Block>> getBlockTags() {
-        return List.of(TCBlockCore.ANTI_EXPLOSION, BlockTags.STANDING_SIGNS);
+        return List.of(TCBlockCore.ANTI_EXPLOSION, BlockTags.CEILING_HANGING_SIGNS);
     }
 
     @Override
     public void addRecipes(TCRecipeProvider provider, ItemLike itemLike, RecipeOutput consumer) {
-        provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, itemLike, 3).define('#', TCBlockCore.CREEPER_PLANKS).define('S', Items.STICK).pattern("###").pattern("###").pattern(" S ").unlockedBy("has_creeperplanks", TCRecipeProvider.hasItem(TCBlockCore.CREEPER_PLANKS)));
+        provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, itemLike, 3).define('#', TCBlockCore.CREEPER_PLANKS).define('C', TCBlockCore.CREEPER_CHAIN).pattern("C C").pattern("###").pattern("###").unlockedBy("has_creeperplanks", TCRecipeProvider.hasItem(TCBlockCore.CREEPER_PLANKS)));
     }
 }
-

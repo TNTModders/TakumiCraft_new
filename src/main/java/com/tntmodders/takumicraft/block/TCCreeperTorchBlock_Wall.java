@@ -1,7 +1,6 @@
 package com.tntmodders.takumicraft.block;
 
 import com.tntmodders.takumicraft.core.TCBlockCore;
-import com.tntmodders.takumicraft.data.loot.TCBlockLoot;
 import com.tntmodders.takumicraft.item.TCBlockItem;
 import com.tntmodders.takumicraft.provider.ITCBlocks;
 import com.tntmodders.takumicraft.provider.TCBlockStateProvider;
@@ -30,7 +29,7 @@ public class TCCreeperTorchBlock_Wall extends WallTorchBlock implements ITCBlock
 
     @Override
     public Supplier<LootTableSubProvider> getBlockLootSubProvider(Block block) {
-        return () -> new TCBlockLoot(block, true);
+        return null;
     }
 
     @Override

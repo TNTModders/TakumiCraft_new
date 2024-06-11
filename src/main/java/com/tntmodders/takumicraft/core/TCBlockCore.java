@@ -116,7 +116,8 @@ public class TCBlockCore {
     public static final Block CREEPER_TORCH_WALL = new TCCreeperTorchBlock_Wall();
     public static final Block CREEPER_SIGN = new TCCreeperSignBlock();
     public static final Block CREEPER_SIGN_WALL = new TCCreeperSignBlock_Wall();
-
+    public static final Block CREEPER_HANGING_SIGN = new TCCreeperHangingSignBlock();
+    public static final Block CREEPER_HANGING_SIGN_WALL = new TCCreeperHangingSignBlock_Wall();
     public static final Block CREEPER_SHULKER = new TCCreeperShulkerBoxBlock();
 
     public static final TagKey<Block> GUNORES = TagKey.create(Registries.BLOCK, new ResourceLocation(TakumiCraftCore.MODID, "gunores"));

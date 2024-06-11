@@ -1,7 +1,7 @@
 package com.tntmodders.takumicraft.block;
 
 import com.tntmodders.takumicraft.TakumiCraftCore;
-import com.tntmodders.takumicraft.block.entity.TCCreeperSignBlockEntity;
+import com.tntmodders.takumicraft.block.entity.TCCreeperHangingSignBlockEntity;
 import com.tntmodders.takumicraft.core.TCBlockCore;
 import com.tntmodders.takumicraft.item.TCBlockItem;
 import com.tntmodders.takumicraft.provider.ITCBlocks;
@@ -13,7 +13,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.WallSignBlock;
+import net.minecraft.world.level.block.WallHangingSignBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
@@ -23,16 +23,14 @@ import net.minecraft.world.level.material.MapColor;
 import java.util.List;
 import java.util.function.Supplier;
 
-public class TCCreeperSignBlock_Wall extends WallSignBlock implements ITCBlocks {
-
-
-    public TCCreeperSignBlock_Wall() {
-        super(TCWoodType.CREEPER_WOOD, BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).forceSolidOn().instrument(NoteBlockInstrument.BASS).noCollission().strength(1.0F, 1000000F).lootFrom(() -> TCBlockCore.CREEPER_SIGN).ignitedByLava());
+public class TCCreeperHangingSignBlock_Wall extends WallHangingSignBlock implements ITCBlocks {
+    public TCCreeperHangingSignBlock_Wall() {
+        super(TCWoodType.CREEPER_WOOD, BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).forceSolidOn().instrument(NoteBlockInstrument.BASS).noCollission().strength(1.0F, 1000000F).lootFrom(() -> TCBlockCore.CREEPER_HANGING_SIGN).ignitedByLava());
     }
 
     @Override
     public String getRegistryName() {
-        return "creepersign_wall";
+        return "creeperhangingsign_wall";
     }
 
     @Override
@@ -42,19 +40,19 @@ public class TCCreeperSignBlock_Wall extends WallSignBlock implements ITCBlocks 
 
     @Override
     public String getEnUSName() {
-        return "Creeper Sign";
+        return "Creeper Hanging Sign";
     }
 
     @Override
     public String getJaJPName() {
-        return "匠式硬質看板";
+        return "匠式硬質吊看板";
     }
 
     @Override
     public void registerStateAndModel(TCBlockStateProvider provider) {
-        provider.simpleBlock(this, provider.models().sign(this.getRegistryName(), provider.blockTexture(TCBlockCore.CREEPER_SIGN)));
+        provider.simpleBlock(this, provider.models().sign(this.getRegistryName(), provider.blockTexture(TCBlockCore.CREEPER_HANGING_SIGN)));
         ResourceLocation name = new ResourceLocation(TakumiCraftCore.MODID, this.getRegistryName());
-        provider.itemModels().singleTexture(name.getPath(), provider.mcLoc("item/generated"), "layer0", new ResourceLocation(name.getNamespace(), "block/creepersign"));
+        provider.itemModels().singleTexture(name.getPath(), provider.mcLoc("item/generated"), "layer0", new ResourceLocation(name.getNamespace(), "block/creeperhangingsign"));
     }
 
     @Override
@@ -69,7 +67,7 @@ public class TCCreeperSignBlock_Wall extends WallSignBlock implements ITCBlocks 
 
     @Override
     public BlockEntity newBlockEntity(BlockPos p_154556_, BlockState p_154557_) {
-        return new TCCreeperSignBlockEntity(p_154556_, p_154557_);
+        return new TCCreeperHangingSignBlockEntity(p_154556_, p_154557_);
     }
 
     @Override

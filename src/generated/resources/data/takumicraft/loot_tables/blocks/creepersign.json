@@ -12,5 +12,5 @@
       "rolls": 1.0
     }
   ],
-  "random_sequence": "minecraft:blocks/air"
+  "random_sequence": "takumicraft:blocks/creepersign"
 }

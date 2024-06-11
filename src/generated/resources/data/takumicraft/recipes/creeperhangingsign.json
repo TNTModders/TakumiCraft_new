@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "item": "takumicraft:creeperplanks"
+    },
+    "C": {
+      "item": "takumicraft:creeperchain"
+    }
+  },
+  "pattern": [
+    "C C",
+    "###",
+    "###"
+  ],
+  "result": {
+    "count": 3,
+    "id": "takumicraft:creeperhangingsign"
+  }
+}
