@@ -179,6 +179,7 @@ public abstract class TCLanguageProvider extends LanguageProvider {
             this.add("takumicraft.container.creeperchestDouble", "Creeper Large Chest");
             this.add("takumicraft.container.creeperbarrel", "Creeper Barrel");
             this.add("takumicraft.container.creeperbarrel.explosive", "Creeper Mega Barrel Bomb");
+            this.add("takumicraft.container.creepershulkerBox", "Creeper Shulker Box");
         }
 
         @Override
@@ -326,6 +327,7 @@ public abstract class TCLanguageProvider extends LanguageProvider {
             this.add("takumicraft.container.creeperchestDouble", "匠式硬質拡張チェスト");
             this.add("takumicraft.container.creeperbarrel", "匠式硬質樽");
             this.add("takumicraft.container.creeperbarrel.explosive", "匠式大樽爆弾[G]");
+            this.add("takumicraft.container.creepershulkerBox", "匠式硬質シュルカーボックス");
         }
 
         @Override

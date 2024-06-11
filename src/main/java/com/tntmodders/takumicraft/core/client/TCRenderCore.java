@@ -73,6 +73,7 @@ public class TCRenderCore {
         event.registerBlockEntityRenderer(TCBlockEntityCore.CHEST, TCCreeperChestRenderer::new);
         event.registerBlockEntityRenderer(TCBlockEntityCore.CAMPFIRE, TCCreeperCampFireRenderer::new);
         event.registerBlockEntityRenderer(TCBlockEntityCore.SIGN, TCCreeperSignRenderer::new);
+        event.registerBlockEntityRenderer(TCBlockEntityCore.SHULKER, TCCreeperShulkerBoxRenderer::new);
     }
 
     public static void registerLayerDefinition(EntityRenderersEvent.RegisterLayerDefinitions event) {
