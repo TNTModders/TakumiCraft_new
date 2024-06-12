@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "map=false": {
+      "model": "takumicraft:block/creeperplanks"
+    },
+    "map=true": {
+      "model": "takumicraft:block/creeperframe_map"
+    }
+  }
+}

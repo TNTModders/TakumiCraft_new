@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/template_item_frame_map",
+  "textures": {
+    "particle": "takumicraft:block/creeperplanks",
+    "wood": "takumicraft:block/creeperplanks",
+    "back": "takumicraft:block/creeperframe"
+  }
+}

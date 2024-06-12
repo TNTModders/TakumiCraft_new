@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "map=false": {
+      "model": "takumicraft:block/creeperframe_glowing"
+    },
+    "map=true": {
+      "model": "takumicraft:block/creeperframe_glowing_map"
+    }
+  }
+}

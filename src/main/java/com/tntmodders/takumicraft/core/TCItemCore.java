@@ -1,6 +1,8 @@
 package com.tntmodders.takumicraft.core;
 
 import com.tntmodders.takumicraft.TakumiCraftCore;
+import com.tntmodders.takumicraft.entity.decoration.TCCreeperFrame;
+import com.tntmodders.takumicraft.entity.decoration.TCCreeperGlowingFrame;
 import com.tntmodders.takumicraft.entity.mobs.AbstractTCCreeper;
 import com.tntmodders.takumicraft.item.*;
 import com.tntmodders.takumicraft.provider.ITCBlocks;
@@ -59,6 +61,8 @@ public class TCItemCore {
     public static final Item CREEPER_MACE = new TCCreeperMaceItem();
     public static final Item KING_CORE = new TCKingCoreItem();
     public static final Item TAKUMI_GRENADE = new TCCreeperGrenadeItem();
+    public static final Item CREEPER_FRAME = new TCCreeperFrameItem(TCCreeperFrame.ITEM_FRAME, Items.ITEM_FRAME, "", "Creeper Frame", "匠式硬質額縁");
+    public static final Item CREEPER_FRAME_GLOWING = new TCCreeperFrameItem(TCCreeperGlowingFrame.GLOWING_FRAME, Items.GLOW_ITEM_FRAME, "_glowing", "Creeper Glowing Frame", "匠式硬質額縁[輝]");
 
     public static final TagKey<Item> GUNORES = TagKey.create(Registries.ITEM, new ResourceLocation(TakumiCraftCore.MODID,
             "gunores"));

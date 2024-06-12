@@ -10,10 +10,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.EntityRenderersEvent;
-import net.minecraftforge.client.event.RegisterColorHandlersEvent;
-import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
-import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
+import net.minecraftforge.client.event.*;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.data.event.GatherDataEvent;
@@ -144,6 +141,11 @@ public class TakumiCraftCore {
         @SubscribeEvent
         public static void registerEntityRender(EntityRenderersEvent.RegisterRenderers rendererRegister) {
             TCRenderCore.registerEntityRender(rendererRegister);
+        }
+
+        @SubscribeEvent
+        public static void registerAdditionalModels(ModelEvent.RegisterAdditional modelRegister) {
+            TCRenderCore.registerAdditionalModels(modelRegister);
         }
 
         @SubscribeEvent

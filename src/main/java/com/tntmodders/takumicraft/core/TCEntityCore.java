@@ -1,6 +1,8 @@
 package com.tntmodders.takumicraft.core;
 
 import com.tntmodders.takumicraft.TakumiCraftCore;
+import com.tntmodders.takumicraft.entity.decoration.TCCreeperFrame;
+import com.tntmodders.takumicraft.entity.decoration.TCCreeperGlowingFrame;
 import com.tntmodders.takumicraft.entity.misc.TCKingBlock;
 import com.tntmodders.takumicraft.entity.misc.TCKingStorm;
 import com.tntmodders.takumicraft.entity.mobs.*;
@@ -147,6 +149,10 @@ public class TCEntityCore {
                 entityTypeRegisterHelper.register(new ResourceLocation(TakumiCraftCore.MODID, "king_block"), TCKingBlock.KING_BLOCK));
         event.register(ForgeRegistries.ENTITY_TYPES.getRegistryKey(), entityTypeRegisterHelper ->
                 entityTypeRegisterHelper.register(new ResourceLocation(TakumiCraftCore.MODID, "takumithrowgrenade"), TCCreeperGrenade.GRENADE));
+        event.register(ForgeRegistries.ENTITY_TYPES.getRegistryKey(), entityTypeRegisterHelper ->
+                entityTypeRegisterHelper.register(new ResourceLocation(TakumiCraftCore.MODID, "creeperframe"), TCCreeperFrame.ITEM_FRAME));
+        event.register(ForgeRegistries.ENTITY_TYPES.getRegistryKey(), entityTypeRegisterHelper ->
+                entityTypeRegisterHelper.register(new ResourceLocation(TakumiCraftCore.MODID, "creeperframe_glowing"), TCCreeperGlowingFrame.GLOWING_FRAME));
     }
 
     public static void registerAttribute(EntityAttributeCreationEvent event) {

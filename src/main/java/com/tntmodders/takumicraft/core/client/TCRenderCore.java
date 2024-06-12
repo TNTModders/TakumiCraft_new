@@ -1,14 +1,18 @@
 package com.tntmodders.takumicraft.core.client;
 
+import com.google.common.collect.ImmutableMap;
 import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.client.model.TCChildCreeperModel;
 import com.tntmodders.takumicraft.client.renderer.block.*;
 import com.tntmodders.takumicraft.client.renderer.block.model.TCSaberModel;
 import com.tntmodders.takumicraft.client.renderer.block.model.TCShieldModel;
 import com.tntmodders.takumicraft.client.renderer.entity.TCAmethystBombRenderer;
+import com.tntmodders.takumicraft.client.renderer.entity.TCCreeperFrameRenderer;
 import com.tntmodders.takumicraft.client.renderer.entity.TCKingBlockRenderer;
 import com.tntmodders.takumicraft.core.TCBlockEntityCore;
 import com.tntmodders.takumicraft.core.TCEntityCore;
+import com.tntmodders.takumicraft.entity.decoration.TCCreeperFrame;
+import com.tntmodders.takumicraft.entity.decoration.TCCreeperGlowingFrame;
 import com.tntmodders.takumicraft.entity.misc.TCKingBlock;
 import com.tntmodders.takumicraft.entity.misc.TCKingStorm;
 import com.tntmodders.takumicraft.entity.projectile.TCAmethystBomb;
@@ -18,14 +22,23 @@ import com.tntmodders.takumicraft.entity.projectile.TCCreeperGrenade;
 import com.tntmodders.takumicraft.utils.TCLoggingUtils;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
+import net.minecraft.client.renderer.block.BlockModelShaper;
 import net.minecraft.client.renderer.entity.ArrowRenderer;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.projectile.Arrow;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.EntityRenderersEvent;
+import net.minecraftforge.client.event.ModelEvent;
+
+import java.util.Map;
 
 @OnlyIn(Dist.CLIENT)
 public class TCRenderCore {
@@ -35,6 +48,7 @@ public class TCRenderCore {
     public static final ModelLayerLocation SUPERBED_HEAD = new ModelLayerLocation(new ResourceLocation(TakumiCraftCore.MODID, "super_creeperbed_head"), "super_creeperbed_head");
     public static final ModelLayerLocation SUPERBED_FOOT = new ModelLayerLocation(new ResourceLocation(TakumiCraftCore.MODID, "super_creeperbed_foot"), "super_creeperbed_foot");
     public static final ModelLayerLocation ACID = new ModelLayerLocation(new ResourceLocation(TakumiCraftCore.MODID, "acidblock"), "acidblock");
+    public static final ModelLayerLocation FRAME = new ModelLayerLocation(new ResourceLocation(TakumiCraftCore.MODID, "creeperframe"), "creeperframe");
 
     public static void registerEntityRender(EntityRenderersEvent.RegisterRenderers event) {
         TCLoggingUtils.startRegistry("EntityRenderer");
@@ -64,6 +78,8 @@ public class TCRenderCore {
         });
         event.registerEntityRenderer(TCKingBlock.KING_BLOCK, TCKingBlockRenderer::new);
         event.registerEntityRenderer(TCCreeperGrenade.GRENADE, ThrownItemRenderer::new);
+        event.registerEntityRenderer(TCCreeperFrame.ITEM_FRAME, TCCreeperFrameRenderer::new);
+        event.registerEntityRenderer(TCCreeperGlowingFrame.GLOWING_FRAME, TCCreeperFrameRenderer::new);
     }
 
     private static void blockEntityRender(EntityRenderersEvent.RegisterRenderers event) {
@@ -84,5 +100,13 @@ public class TCRenderCore {
         event.registerLayerDefinition(SUPERBED_HEAD, TCCreeperBedRenderer::createSuperHeadLayer);
         event.registerLayerDefinition(SUPERBED_FOOT, TCCreeperBedRenderer::createSuperFootLayer);
         event.registerLayerDefinition(ACID, TCAcidBlockRenderer::createLayer);
+        event.registerLayerDefinition(FRAME, TCCreeperFrameRenderer::createLayer);
+    }
+
+    public static void registerAdditionalModels(ModelEvent.RegisterAdditional event) {
+        StateDefinition<Block, BlockState> fake_def = new StateDefinition.Builder<Block, BlockState>(Blocks.AIR).add(BooleanProperty.create("map")).create(Block::defaultBlockState, BlockState::new);
+        Map<ResourceLocation, StateDefinition<Block, BlockState>> static_def = ImmutableMap.of(new ResourceLocation(TakumiCraftCore.MODID, "creeperframe"), fake_def, new ResourceLocation(TakumiCraftCore.MODID, "creeperframe_glowing"), fake_def);
+
+        static_def.forEach((location, statedef) -> statedef.getPossibleStates().forEach(state -> event.register(BlockModelShaper.stateToModelLocation(location, state))));
     }
 }
