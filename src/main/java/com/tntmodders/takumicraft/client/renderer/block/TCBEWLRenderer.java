@@ -3,13 +3,11 @@ package com.tntmodders.takumicraft.client.renderer.block;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.tntmodders.takumicraft.TakumiCraftCore;
-import com.tntmodders.takumicraft.block.TCCreeperBedBlock;
-import com.tntmodders.takumicraft.block.TCCreeperChestBlock;
-import com.tntmodders.takumicraft.block.TCCreeperShulkerBoxBlock;
-import com.tntmodders.takumicraft.block.TCMonsterBombBlock;
+import com.tntmodders.takumicraft.block.*;
 import com.tntmodders.takumicraft.block.entity.TCCreeperBedBlockEntity;
 import com.tntmodders.takumicraft.block.entity.TCCreeperChestBlockEntity;
 import com.tntmodders.takumicraft.block.entity.TCCreeperShulkerBoxBlockEntity;
+import com.tntmodders.takumicraft.block.entity.TCCreeperSuperBlockEntity;
 import com.tntmodders.takumicraft.client.renderer.block.model.TCSaberModel;
 import com.tntmodders.takumicraft.client.renderer.block.model.TCShieldModel;
 import com.tntmodders.takumicraft.core.TCBlockCore;
@@ -44,6 +42,7 @@ public class TCBEWLRenderer extends BlockEntityWithoutLevelRenderer {
     private final TCCreeperBedBlockEntity bed = new TCCreeperBedBlockEntity(BlockPos.ZERO, Blocks.RED_BED.defaultBlockState());
     private final TCCreeperChestBlockEntity chest = new TCCreeperChestBlockEntity(BlockPos.ZERO, TCBlockCore.CREEPER_CHEST.defaultBlockState());
     private final TCCreeperShulkerBoxBlockEntity shulker = new TCCreeperShulkerBoxBlockEntity(BlockPos.ZERO, TCBlockCore.CREEPER_SHULKER.defaultBlockState());
+    private final TCCreeperSuperBlockEntity superBlock = new TCCreeperSuperBlockEntity(BlockPos.ZERO, TCBlockCore.SUPER_BLOCK.defaultBlockState());
 
     public TCBEWLRenderer() {
         super(Minecraft.getInstance().getBlockEntityRenderDispatcher(), Minecraft.getInstance().getEntityModels());
@@ -108,9 +107,10 @@ public class TCBEWLRenderer extends BlockEntityWithoutLevelRenderer {
                     TCMonsterBombBlockRenderer.renderBomb(bombBlock, poseStack, bufferSource, p_108834_, p_108835_);
             case BlockItem blockItem when blockItem.getBlock() instanceof TCCreeperChestBlock chestBlock ->
                     Minecraft.getInstance().getBlockEntityRenderDispatcher().renderItem(this.chest, poseStack, bufferSource, p_108834_, p_108835_);
-            case BlockItem blockItem when blockItem.getBlock() instanceof TCCreeperShulkerBoxBlock shulkerBoxBlock -> {
-                Minecraft.getInstance().getBlockEntityRenderDispatcher().renderItem(this.shulker, poseStack, bufferSource, p_108834_, p_108835_);
-            }
+            case BlockItem blockItem when blockItem.getBlock() instanceof TCCreeperShulkerBoxBlock shulkerBoxBlock ->
+                    Minecraft.getInstance().getBlockEntityRenderDispatcher().renderItem(this.shulker, poseStack, bufferSource, p_108834_, p_108835_);
+            case BlockItem blockItem when blockItem.getBlock() instanceof TCCreeperSuperBlock creeperSuperBlock ->
+                    Minecraft.getInstance().getBlockEntityRenderDispatcher().renderItem(this.superBlock, poseStack, bufferSource, p_108834_, p_108835_);
             default -> super.renderByItem(stack, p_108831_, poseStack, bufferSource, p_108834_, p_108835_);
         }
     }

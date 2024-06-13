@@ -91,6 +91,7 @@ public class TCRenderCore {
         event.registerBlockEntityRenderer(TCBlockEntityCore.SIGN, TCCreeperSignRenderer::new);
         event.registerBlockEntityRenderer(TCBlockEntityCore.HANGING_SIGN, TCCreeperHangingSignRenderer::new);
         event.registerBlockEntityRenderer(TCBlockEntityCore.SHULKER, TCCreeperShulkerBoxRenderer::new);
+        event.registerBlockEntityRenderer(TCBlockEntityCore.SUPER_BLOCK, TCSuperBlockRenderer::new);
     }
 
     public static void registerLayerDefinition(EntityRenderersEvent.RegisterLayerDefinitions event) {

@@ -45,7 +45,7 @@ public class TCCreeperBedRenderer implements BlockEntityRenderer<TCCreeperBedBlo
     public static final Material SUPER_TEXTURE = new Material(Sheets.BED_SHEET, new ResourceLocation(TakumiCraftCore.MODID, "entity/bed/super"));
     public static final Material OVERLAY_TEXTURE = new Material(InventoryMenu.BLOCK_ATLAS, new ResourceLocation(TakumiCraftCore.MODID, "block/creeperbomb"));
 
-    public static final ResourceLocation POWERED_TEXTURE = new ResourceLocation(TakumiCraftCore.MODID, "textures/block/super_block.png");
+    public static final ResourceLocation POWERED_TEXTURE = new ResourceLocation(TakumiCraftCore.MODID, "textures/block/takumiblock.png");
 
     private final ModelPart headRoot;
     private final ModelPart footRoot;
@@ -151,7 +151,7 @@ public class TCCreeperBedRenderer implements BlockEntityRenderer<TCCreeperBedBlo
                 if (side != Direction.DOWN && side != Direction.NORTH) {
                     List<BakedQuad> list = model.getQuads(blockState, side, entity.getLevel().getRandom());
                     if (!list.isEmpty()) {
-                        textureMap.put(side, list.get(0).getSprite());
+                        textureMap.put(side, list.getFirst().getSprite());
                     }
                 }
             });

@@ -36,6 +36,8 @@ public class TCBlockEntityCore {
             .build(Util.fetchChoiceType(References.BLOCK_ENTITY, "creeperhangingsign"));
     public static final BlockEntityType<TCCreeperShulkerBoxBlockEntity> SHULKER = BlockEntityType.Builder.of(TCCreeperShulkerBoxBlockEntity::new, TCBlockCore.CREEPER_SHULKER)
             .build(Util.fetchChoiceType(References.BLOCK_ENTITY, "creepershulkerbox"));
+    public static final BlockEntityType<TCCreeperSuperBlockEntity> SUPER_BLOCK = BlockEntityType.Builder.of(TCCreeperSuperBlockEntity::new, TCBlockCore.SUPER_BLOCK)
+            .build(Util.fetchChoiceType(References.BLOCK_ENTITY, "takumiblock"));
 
     public static void register(final RegisterEvent event) {
         TCLoggingUtils.startRegistry("BlockEntity");
@@ -48,6 +50,7 @@ public class TCBlockEntityCore {
         event.register(ForgeRegistries.BLOCK_ENTITY_TYPES.getRegistryKey(), new ResourceLocation(TakumiCraftCore.MODID, "creepersign"), () -> SIGN);
         event.register(ForgeRegistries.BLOCK_ENTITY_TYPES.getRegistryKey(), new ResourceLocation(TakumiCraftCore.MODID, "creeperhangingsign"), () -> HANGING_SIGN);
         event.register(ForgeRegistries.BLOCK_ENTITY_TYPES.getRegistryKey(), new ResourceLocation(TakumiCraftCore.MODID, "creepershulkerbox"), () -> SHULKER);
+        event.register(ForgeRegistries.BLOCK_ENTITY_TYPES.getRegistryKey(), new ResourceLocation(TakumiCraftCore.MODID, "takumiblock"), () -> SUPER_BLOCK);
         TCLoggingUtils.completeRegistry("BlockEntity");
     }
 

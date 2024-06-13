@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/shulker_box",
+  "textures": {
+    "particle": "takumicraft:block/takumiblock"
+  }
+}
