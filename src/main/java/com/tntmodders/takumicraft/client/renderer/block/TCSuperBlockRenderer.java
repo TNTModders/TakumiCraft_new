@@ -8,6 +8,7 @@ import com.tntmodders.takumicraft.core.TCBlockCore;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.block.BlockRenderDispatcher;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
@@ -15,6 +16,7 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.ModelManager;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.Blocks;
 
 public class TCSuperBlockRenderer<T extends TCCreeperSuperBlockEntity> implements BlockEntityRenderer<T> {
     public static final ResourceLocation POWERED_TEXTURE = new ResourceLocation(TakumiCraftCore.MODID, "textures/block/takumiblock_r.png");
@@ -28,12 +30,23 @@ public class TCSuperBlockRenderer<T extends TCCreeperSuperBlockEntity> implement
 
     @Override
     public void render(T blockentity, float partialTicks, PoseStack poseStack, MultiBufferSource bufferSource, int p_112311_, int p_112312_) {
-        ModelManager modelmanager = this.blockRenderer.getBlockModelShaper().getModelManager();
-        BakedModel model = this.blockRenderer.getBlockModel(TCBlockCore.CREEPER_BOMB.defaultBlockState());
-        poseStack.pushPose();
-        float f = Minecraft.getInstance().player.tickCount * 0.0005f;
-        VertexConsumer consumer = bufferSource.getBuffer(RenderType.energySwirl(POWERED_TEXTURE, f % 1f, f % 1f));
-        this.blockRenderer.getModelRenderer().renderModel(poseStack.last(), consumer, null, model, 1f, 1f, 1f, p_112311_, OverlayTexture.NO_OVERLAY);
-        poseStack.popPose();
+        try {
+            ModelManager modelmanager = this.blockRenderer.getBlockModelShaper().getModelManager();
+            BakedModel model = this.blockRenderer.getBlockModel(Blocks.LANTERN.defaultBlockState());
+            if (model == null || model.equals(this.blockRenderer.getBlockModelShaper().getModelManager().getMissingModel())) {
+                model = this.blockRenderer.getBlockModel(TCBlockCore.SUPER_BLOCK.defaultBlockState());
+            }
+            poseStack.pushPose();
+            this.blockRenderer.getModelRenderer().renderModel(poseStack.last(), bufferSource.getBuffer(Sheets.cutoutBlockSheet()), null, model, 1f, 1f, 1f, p_112311_, OverlayTexture.NO_OVERLAY);
+            poseStack.popPose();
+
+            poseStack.pushPose();
+            float f = Minecraft.getInstance().player.tickCount * 0.0005f;
+            VertexConsumer consumer = bufferSource.getBuffer(RenderType.energySwirl(POWERED_TEXTURE, f % 1f, f % 1f));
+            this.blockRenderer.getModelRenderer().renderModel(poseStack.last(), consumer, null, model, 1f, 1f, 1f, p_112311_, OverlayTexture.NO_OVERLAY);
+            poseStack.popPose();
+
+        } catch (Exception ignored) {
+        }
     }
 }
