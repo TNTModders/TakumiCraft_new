@@ -32,7 +32,7 @@ public class TCSuperBlockRenderer<T extends TCCreeperSuperBlockEntity> implement
     public void render(T blockentity, float partialTicks, PoseStack poseStack, MultiBufferSource bufferSource, int p_112311_, int p_112312_) {
         try {
             ModelManager modelmanager = this.blockRenderer.getBlockModelShaper().getModelManager();
-            BakedModel model = this.blockRenderer.getBlockModel(Blocks.LANTERN.defaultBlockState());
+            BakedModel model = this.blockRenderer.getBlockModel(Blocks.TNT.defaultBlockState());
             if (model == null || model.equals(this.blockRenderer.getBlockModelShaper().getModelManager().getMissingModel())) {
                 model = this.blockRenderer.getBlockModel(TCBlockCore.SUPER_BLOCK.defaultBlockState());
             }
