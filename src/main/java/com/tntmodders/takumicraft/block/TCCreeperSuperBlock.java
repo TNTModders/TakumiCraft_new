@@ -10,19 +10,31 @@ import com.tntmodders.takumicraft.provider.TCBlockStateProvider;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.data.loot.LootTableSubProvider;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.MapColor;
+import net.minecraft.world.level.material.PushReaction;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
-import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import net.minecraftforge.client.model.generators.ModelFile;
@@ -37,12 +49,56 @@ public class TCCreeperSuperBlock extends BaseEntityBlock implements EntityBlock,
     public static final MapCodec<TCCreeperSuperBlock> CODEC = simpleCodec(p_309280_ -> new TCCreeperSuperBlock());
 
     public TCCreeperSuperBlock() {
-        super(BlockBehaviour.Properties.of().mapColor(MapColor.STONE).instrument(NoteBlockInstrument.BASEDRUM).strength(-1.0F, 1000000.0F).noLootTable().noOcclusion().isViewBlocking(TCBlockCore::never).isValidSpawn(TCBlockCore::never).lightLevel(p_50886_ -> 15));
+        super(BlockBehaviour.Properties.of().mapColor(MapColor.STONE).instrument(NoteBlockInstrument.BASEDRUM).strength(-1.0F, 1000000.0F).noLootTable().noOcclusion().isViewBlocking(TCBlockCore::never).isValidSpawn(TCBlockCore::never).lightLevel(p_50886_ -> 15).pushReaction(PushReaction.BLOCK).dynamicShape());
     }
 
     @Override
-    protected VoxelShape getVisualShape(BlockState p_312193_, BlockGetter p_310654_, BlockPos p_310658_, CollisionContext p_311129_) {
-        return Shapes.empty();
+    protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult result) {
+        if (level.getBlockEntity(pos) instanceof TCCreeperSuperBlockEntity superBlock) {
+            if (stack.getItem() instanceof BlockItem blockItem) {
+                if (blockItem.getBlock() == this) {
+
+                } else {
+                    this.setBlocktoSuperBlock(superBlock, player, hand, result, blockItem.getBlock());
+                }
+            } else if (player.getItemInHand(hand).isEmpty() && player.isShiftKeyDown()) {
+                this.setBlocktoSuperBlock(superBlock, player, hand, result, Blocks.AIR);
+            }
+
+        }
+        return ItemInteractionResult.CONSUME_PARTIAL;
+    }
+
+    private void setBlocktoSuperBlock(TCCreeperSuperBlockEntity superBlock, Player player, InteractionHand hand, BlockHitResult result, Block block) {
+        if (player instanceof ServerPlayer serverPlayer) {
+            BlockState insideState = block.getStateForPlacement(new BlockPlaceContext(new UseOnContext(player, hand, result)));
+            superBlock.setState(insideState);
+            Packet<?> pkt = superBlock.getUpdatePacket();
+            if (pkt != null) {
+                serverPlayer.connection.send(pkt);
+            }
+        }
+    }
+
+    @Override
+    protected VoxelShape getCollisionShape(BlockState p_60572_, BlockGetter p_60573_, BlockPos p_60574_, CollisionContext p_60575_) {
+        if (p_60573_.getBlockEntity(p_60574_) instanceof TCCreeperSuperBlockEntity superBlock) {
+            if (superBlock.getState() != null) {
+                return superBlock.getState().getCollisionShape(p_60573_, p_60574_, p_60575_);
+            }
+        }
+        return super.getCollisionShape(p_60572_, p_60573_, p_60574_, p_60575_);
+    }
+
+    @Override
+    protected VoxelShape getShape(BlockState p_60555_, BlockGetter p_60556_, BlockPos p_60557_, CollisionContext p_60558_) {
+        if (p_60556_.getBlockEntity(p_60557_) instanceof TCCreeperSuperBlockEntity superBlock) {
+            if (superBlock.getState() != null) {
+                VoxelShape shape = superBlock.getState().getShape(p_60556_, p_60557_, p_60558_);
+                return shape.isEmpty() ? super.getShape(p_60555_, p_60556_, p_60557_, p_60558_) : shape;
+            }
+        }
+        return super.getShape(p_60555_, p_60556_, p_60557_, p_60558_);
     }
 
     @Override

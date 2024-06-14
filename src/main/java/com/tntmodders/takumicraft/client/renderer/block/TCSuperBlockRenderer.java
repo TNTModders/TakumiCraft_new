@@ -16,7 +16,6 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.ModelManager;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class TCSuperBlockRenderer<T extends TCCreeperSuperBlockEntity> implements BlockEntityRenderer<T> {
@@ -33,20 +32,24 @@ public class TCSuperBlockRenderer<T extends TCCreeperSuperBlockEntity> implement
     public void render(T blockentity, float partialTicks, PoseStack poseStack, MultiBufferSource bufferSource, int p_112311_, int p_112312_) {
         try {
             ModelManager modelmanager = this.blockRenderer.getBlockModelShaper().getModelManager();
-            BlockState state = Blocks.BEACON.defaultBlockState();
-            BakedModel model = this.blockRenderer.getBlockModel(state);
-            if (model == null || model.equals(this.blockRenderer.getBlockModelShaper().getModelManager().getMissingModel())) {
+            BlockState state = blockentity.getState();
+            BakedModel model;
+            if (state == null || state.isAir()) {
                 model = this.blockRenderer.getBlockModel(TCBlockCore.SUPER_BLOCK.defaultBlockState());
+            } else {
+                model = this.blockRenderer.getBlockModel(state);
+                if (model == null || model.equals(this.blockRenderer.getBlockModelShaper().getModelManager().getMissingModel())) {
+                    model = this.blockRenderer.getBlockModel(TCBlockCore.SUPER_BLOCK.defaultBlockState());
+                }
+                poseStack.pushPose();
+                BlockColors colors = BlockColors.createDefault();
+                int i = colors.getColor(state, null, null, 0);
+                float factorR = (float) (i >> 16 & 255) / 255.0F;
+                float factorG = (float) (i >> 8 & 255) / 255.0F;
+                float factorB = (float) (i & 255) / 255.0F;
+                this.blockRenderer.getModelRenderer().renderModel(poseStack.last(), bufferSource.getBuffer(RenderType.translucent()), state, model, factorR, factorG, factorB, p_112311_, OverlayTexture.NO_OVERLAY);
+                poseStack.popPose();
             }
-            poseStack.pushPose();
-            BlockColors colors = BlockColors.createDefault();
-            int i = colors.getColor(state, null, null, 0);
-            float factorR = (float) (i >> 16 & 255) / 255.0F;
-            float factorG = (float) (i >> 8 & 255) / 255.0F;
-            float factorB = (float) (i & 255) / 255.0F;
-            this.blockRenderer.getModelRenderer().renderModel(poseStack.last(), bufferSource.getBuffer(RenderType.translucent()), state, model, factorR, factorG, factorB, p_112311_, OverlayTexture.NO_OVERLAY);
-            poseStack.popPose();
-
             poseStack.pushPose();
             float overrap = 0.001f;
             poseStack.scale(1 + overrap, 1 + overrap, 1 + overrap);
@@ -55,7 +58,6 @@ public class TCSuperBlockRenderer<T extends TCCreeperSuperBlockEntity> implement
             VertexConsumer consumer = bufferSource.getBuffer(RenderType.energySwirl(POWERED_TEXTURE, f % 1f, f % 1f));
             this.blockRenderer.getModelRenderer().renderModel(poseStack.last(), consumer, state, model, 0.5f, 0.5f, 0.5f, p_112311_, OverlayTexture.NO_OVERLAY);
             poseStack.popPose();
-
         } catch (Exception ignored) {
         }
     }
