@@ -44,7 +44,7 @@ public class TCSuperBlockRenderer<T extends TCCreeperSuperBlockEntity> implement
             float factorR = (float) (i >> 16 & 255) / 255.0F;
             float factorG = (float) (i >> 8 & 255) / 255.0F;
             float factorB = (float) (i & 255) / 255.0F;
-            this.blockRenderer.getModelRenderer().renderModel(poseStack.last(), bufferSource.getBuffer(RenderType.translucent()), null, model, factorR, factorG, factorB, p_112311_, OverlayTexture.NO_OVERLAY);
+            this.blockRenderer.getModelRenderer().renderModel(poseStack.last(), bufferSource.getBuffer(RenderType.translucent()), state, model, factorR, factorG, factorB, p_112311_, OverlayTexture.NO_OVERLAY);
             poseStack.popPose();
 
             poseStack.pushPose();
@@ -53,7 +53,7 @@ public class TCSuperBlockRenderer<T extends TCCreeperSuperBlockEntity> implement
             poseStack.translate(-overrap / 2, -overrap / 2, -overrap / 2);
             float f = Minecraft.getInstance().player.tickCount * 0.0005f;
             VertexConsumer consumer = bufferSource.getBuffer(RenderType.energySwirl(POWERED_TEXTURE, f % 1f, f % 1f));
-            this.blockRenderer.getModelRenderer().renderModel(poseStack.last(), consumer, null, model, 0.5f, 0.5f, 0.5f, p_112311_, OverlayTexture.NO_OVERLAY);
+            this.blockRenderer.getModelRenderer().renderModel(poseStack.last(), consumer, state, model, 0.5f, 0.5f, 0.5f, p_112311_, OverlayTexture.NO_OVERLAY);
             poseStack.popPose();
 
         } catch (Exception ignored) {
