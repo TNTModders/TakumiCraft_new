@@ -45,7 +45,7 @@ public class TCCreeperBedRenderer implements BlockEntityRenderer<TCCreeperBedBlo
     public static final Material SUPER_TEXTURE = new Material(Sheets.BED_SHEET, new ResourceLocation(TakumiCraftCore.MODID, "entity/bed/super"));
     public static final Material OVERLAY_TEXTURE = new Material(InventoryMenu.BLOCK_ATLAS, new ResourceLocation(TakumiCraftCore.MODID, "block/creeperbomb"));
 
-    public static final ResourceLocation POWERED_TEXTURE = new ResourceLocation(TakumiCraftCore.MODID, "textures/block/takumiblock.png");
+    public static final ResourceLocation POWERED_TEXTURE = new ResourceLocation(TakumiCraftCore.MODID, "textures/entity/bed/creepersuperbed_overlay.png");
 
     private final ModelPart headRoot;
     private final ModelPart footRoot;

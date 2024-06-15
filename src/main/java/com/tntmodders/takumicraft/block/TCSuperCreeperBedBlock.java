@@ -71,6 +71,7 @@ public class TCSuperCreeperBedBlock extends TCCreeperBedBlock {
                     serverPlayer.connection.send(pkt);
             }
         }
+        bed.setChanged();
     }
 
     @Override

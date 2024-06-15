@@ -1,0 +1,43 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_kingcore": {
+      "conditions": {
+        "items": [
+          {
+            "items": "takumicraft:kingcore"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_takumiblock": {
+      "conditions": {
+        "items": [
+          {
+            "items": "takumicraft:takumiblock"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "takumicraft:takumiblock"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_kingcore",
+      "has_takumiblock"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "takumicraft:takumiblock"
+    ]
+  }
+}

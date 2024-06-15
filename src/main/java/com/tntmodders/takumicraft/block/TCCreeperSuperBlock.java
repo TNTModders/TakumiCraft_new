@@ -4,12 +4,19 @@ import com.mojang.serialization.MapCodec;
 import com.tntmodders.takumicraft.block.entity.TCCreeperSuperBlockEntity;
 import com.tntmodders.takumicraft.client.renderer.block.TCBEWLRenderer;
 import com.tntmodders.takumicraft.core.TCBlockCore;
+import com.tntmodders.takumicraft.core.TCItemCore;
+import com.tntmodders.takumicraft.data.loot.TCBlockLoot;
 import com.tntmodders.takumicraft.item.TCBlockItem;
 import com.tntmodders.takumicraft.provider.ITCBlocks;
+import com.tntmodders.takumicraft.provider.ITCRecipe;
 import com.tntmodders.takumicraft.provider.TCBlockStateProvider;
+import com.tntmodders.takumicraft.provider.TCRecipeProvider;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.data.loot.LootTableSubProvider;
+import net.minecraft.data.recipes.RecipeCategory;
+import net.minecraft.data.recipes.RecipeOutput;
+import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.BlockTags;
@@ -22,6 +29,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.GameType;
+import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
@@ -44,40 +53,46 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-public class TCCreeperSuperBlock extends BaseEntityBlock implements EntityBlock, ITCBlocks {
+public class TCCreeperSuperBlock extends BaseEntityBlock implements EntityBlock, ITCBlocks, ITCRecipe {
 
     public static final MapCodec<TCCreeperSuperBlock> CODEC = simpleCodec(p_309280_ -> new TCCreeperSuperBlock());
 
     public TCCreeperSuperBlock() {
-        super(BlockBehaviour.Properties.of().mapColor(MapColor.STONE).instrument(NoteBlockInstrument.BASEDRUM).strength(-1.0F, 1000000.0F).noLootTable().noOcclusion().isViewBlocking(TCBlockCore::never).isValidSpawn(TCBlockCore::never).lightLevel(p_50886_ -> 15).pushReaction(PushReaction.BLOCK).dynamicShape());
+        super(BlockBehaviour.Properties.of().mapColor(MapColor.STONE).instrument(NoteBlockInstrument.BASEDRUM).strength(-1.0F, 1000000.0F).noOcclusion().isViewBlocking(TCBlockCore::never).isValidSpawn(TCBlockCore::never).lightLevel(p_50886_ -> 15).pushReaction(PushReaction.BLOCK).dynamicShape());
     }
 
     @Override
     protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult result) {
-        if (level.getBlockEntity(pos) instanceof TCCreeperSuperBlockEntity superBlock) {
+        if (!level.isClientSide() && level.getBlockEntity(pos) instanceof TCCreeperSuperBlockEntity superBlock) {
             if (stack.getItem() instanceof BlockItem blockItem) {
                 if (blockItem.getBlock() == this) {
-
+                    superBlock.setHideOverlay(!superBlock.isHideOverlay());
+                    if (player instanceof ServerPlayer serverPlayer) {
+                        Packet<?> pkt = superBlock.getUpdatePacket();
+                        if (pkt != null) {
+                            serverPlayer.connection.send(pkt);
+                        }
+                    }
                 } else {
                     this.setBlocktoSuperBlock(superBlock, player, hand, result, blockItem.getBlock());
                 }
             } else if (player.getItemInHand(hand).isEmpty() && player.isShiftKeyDown()) {
                 this.setBlocktoSuperBlock(superBlock, player, hand, result, Blocks.AIR);
             }
-
         }
         return ItemInteractionResult.CONSUME_PARTIAL;
     }
 
     private void setBlocktoSuperBlock(TCCreeperSuperBlockEntity superBlock, Player player, InteractionHand hand, BlockHitResult result, Block block) {
         if (player instanceof ServerPlayer serverPlayer) {
-            BlockState insideState = block.getStateForPlacement(new BlockPlaceContext(new UseOnContext(player, hand, result)));
+            BlockState insideState = block.getStateForPlacement(new BlockPlaceContext(new UseOnContext(player, hand, result.withPosition(superBlock.getBlockPos()))));
             superBlock.setState(insideState);
             Packet<?> pkt = superBlock.getUpdatePacket();
             if (pkt != null) {
                 serverPlayer.connection.send(pkt);
             }
         }
+        superBlock.setChanged();
     }
 
     @Override
@@ -112,6 +127,14 @@ public class TCCreeperSuperBlock extends BaseEntityBlock implements EntityBlock,
     }
 
     @Override
+    protected void attack(BlockState state, Level level, BlockPos pos, Player player) {
+        super.attack(state, level, pos, player);
+        if (player instanceof ServerPlayer serverPlayer && serverPlayer.gameMode.getGameModeForPlayer() != GameType.ADVENTURE) {
+            level.destroyBlock(pos, true, player);
+        }
+    }
+
+    @Override
     protected MapCodec<? extends BaseEntityBlock> codec() {
         return CODEC;
     }
@@ -139,7 +162,7 @@ public class TCCreeperSuperBlock extends BaseEntityBlock implements EntityBlock,
 
     @Override
     public Supplier<LootTableSubProvider> getBlockLootSubProvider(Block block) {
-        return null;
+        return () -> new TCBlockLoot(block, true);
     }
 
     @Override
@@ -167,5 +190,17 @@ public class TCCreeperSuperBlock extends BaseEntityBlock implements EntityBlock,
     @Override
     public List<TagKey<Block>> getBlockTags() {
         return List.of(TCBlockCore.ANTI_EXPLOSION, BlockTags.DRAGON_IMMUNE, BlockTags.WITHER_IMMUNE);
+    }
+
+    @Override
+    public void addRecipes(TCRecipeProvider provider, ItemLike itemLike, RecipeOutput consumer) {
+        provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS,
+                        TCBlockCore.SUPER_BLOCK, 8)
+                .define('#', TCItemCore.KING_CORE)
+                .define('B', TCBlockCore.CREEPER_BOMB)
+                .pattern("BBB")
+                .pattern("B#B")
+                .pattern("BBB")
+                .unlockedBy("has_kingcore", TCRecipeProvider.hasItem(TCItemCore.KING_CORE)));
     }
 }

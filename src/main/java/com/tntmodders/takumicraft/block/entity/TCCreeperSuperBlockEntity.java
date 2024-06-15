@@ -18,6 +18,7 @@ import javax.annotation.Nullable;
 
 public class TCCreeperSuperBlockEntity extends BlockEntity {
     private BlockState state;
+    private boolean hideOverlay;
 
     public TCCreeperSuperBlockEntity(BlockPos pos, BlockState state) {
         super(TCBlockEntityCore.SUPER_BLOCK, pos, state);
@@ -31,16 +32,28 @@ public class TCCreeperSuperBlockEntity extends BlockEntity {
         return state;
     }
 
+    public boolean isHideOverlay() {
+        return hideOverlay;
+    }
+
     public void setState(BlockState state) {
         this.state = state;
+    }
+
+    public void setHideOverlay(boolean hideOverlay) {
+        this.hideOverlay = hideOverlay;
     }
 
     @Override
     protected void loadAdditional(CompoundTag tag, HolderLookup.Provider provider) {
         super.loadAdditional(tag, provider);
-        HolderGetter<Block> holdergetter = this.level != null ? this.level.holderLookup(Registries.BLOCK) : BuiltInRegistries.BLOCK.asLookup();
-        this.state = NbtUtils.readBlockState(holdergetter, tag.getCompound("state"));
-
+        if (tag.contains("state")) {
+            HolderGetter<Block> holdergetter = this.level != null ? this.level.holderLookup(Registries.BLOCK) : BuiltInRegistries.BLOCK.asLookup();
+            this.state = NbtUtils.readBlockState(holdergetter, tag.getCompound("state"));
+        }
+        if (tag.contains("hideOverlay")) {
+            this.hideOverlay = tag.getBoolean("hideOverlay");
+        }
     }
 
     @Override
@@ -49,6 +62,7 @@ public class TCCreeperSuperBlockEntity extends BlockEntity {
         if (this.state != null) {
             tag.put("state", NbtUtils.writeBlockState(this.state));
         }
+        tag.putBoolean("hideOverlay", this.hideOverlay);
     }
 
     @Override
