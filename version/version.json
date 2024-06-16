@@ -1,9 +1,10 @@
 {
   "homepage": "https://www.tntmodders.com/takumicraft/",
   "1.20.6": {
-    "3.0.0.0-beta.2.0.0": "add 18 creepers, including King Creeper, and several items."
+    "3.0.0.0-beta.2.1.0": "Add multiple blocks, including Creeper Super Block.",
+    "3.0.0.0-beta.2.0.0": "Add 18 creepers, including King Creeper, and several items."
   },
   "promos": {
-    "1.20.6-latest": "1.20.6-3.0.0.0-beta.2.0.0"
+    "1.20.6-latest": "1.20.6-3.0.0.0-beta.2.1.0"
   }
 }
