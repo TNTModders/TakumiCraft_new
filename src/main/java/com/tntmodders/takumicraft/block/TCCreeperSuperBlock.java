@@ -14,6 +14,7 @@ import com.tntmodders.takumicraft.provider.TCBlockStateProvider;
 import com.tntmodders.takumicraft.provider.TCRecipeProvider;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.data.loot.LootTableSubProvider;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
@@ -29,11 +30,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
-import net.minecraft.world.item.context.UseOnContext;
-import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.GameType;
-import net.minecraft.world.level.ItemLike;
-import net.minecraft.world.level.Level;
+import net.minecraft.world.level.*;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -46,6 +43,7 @@ import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import net.minecraftforge.client.model.generators.ModelFile;
@@ -86,19 +84,19 @@ public class TCCreeperSuperBlock extends BaseEntityBlock implements EntityBlock,
                             }
                         }
                     } else {
-                        this.setBlocktoSuperBlock(superBlock, player, hand, result, blockItem.getBlock());
+                        this.setBlocktoSuperBlock(state, superBlock, player, hand, result, blockItem.getBlock());
                     }
                 } else if (player.getItemInHand(hand).isEmpty() && player.isShiftKeyDown()) {
-                    this.setBlocktoSuperBlock(superBlock, player, hand, result, Blocks.AIR);
+                    this.setBlocktoSuperBlock(state, superBlock, player, hand, result, Blocks.AIR);
                 }
             }
         }
         return ItemInteractionResult.CONSUME_PARTIAL;
     }
 
-    private void setBlocktoSuperBlock(TCCreeperSuperBlockEntity superBlock, Player player, InteractionHand hand, BlockHitResult result, Block block) {
+    private void setBlocktoSuperBlock(BlockState state, TCCreeperSuperBlockEntity superBlock, Player player, InteractionHand hand, BlockHitResult result, Block block) {
         if (player instanceof ServerPlayer serverPlayer) {
-            BlockState insideState = block.getStateForPlacement(new BlockPlaceContext(new UseOnContext(player, hand, result.withPosition(superBlock.getBlockPos()))));
+            BlockState insideState = block.getStateForPlacement(new TCSuperBlockPlaceContext(superBlock.getLevel(), player, hand, player.getItemInHand(hand), result));
             superBlock.setState(insideState);
             Packet<?> pkt = superBlock.getUpdatePacket();
             if (pkt != null) {
@@ -106,6 +104,15 @@ public class TCCreeperSuperBlock extends BaseEntityBlock implements EntityBlock,
             }
         }
         superBlock.setChanged();
+        updateNeighbourShapes(state, superBlock.getLevel(), superBlock.getBlockPos());
+    }
+
+    private void updateNeighbourShapes(BlockState state, LevelAccessor levelAccessor, BlockPos pos) {
+        BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+        for (Direction direction : BlockBehaviour.UPDATE_SHAPE_ORDER) {
+            blockpos$mutableblockpos.setWithOffset(pos, direction);
+            levelAccessor.neighborShapeChanged(direction.getOpposite(), state, blockpos$mutableblockpos, pos, 3, 512);
+        }
     }
 
     @Override
@@ -131,6 +138,11 @@ public class TCCreeperSuperBlock extends BaseEntityBlock implements EntityBlock,
     }
 
     @Override
+    protected VoxelShape getBlockSupportShape(BlockState p_60581_, BlockGetter p_60582_, BlockPos p_60583_) {
+        return Shapes.block();
+    }
+
+    @Override
     protected VoxelShape getShape(BlockState p_60555_, BlockGetter p_60556_, BlockPos p_60557_, CollisionContext p_60558_) {
         if (p_60556_.getBlockEntity(p_60557_) instanceof TCCreeperSuperBlockEntity superBlock) {
             if (superBlock.getState() != null) {
@@ -150,6 +162,7 @@ public class TCCreeperSuperBlock extends BaseEntityBlock implements EntityBlock,
     protected boolean propagatesSkylightDown(BlockState p_312717_, BlockGetter p_312877_, BlockPos p_312899_) {
         return true;
     }
+
 
     @Override
     protected MapCodec<? extends BaseEntityBlock> codec() {
@@ -219,5 +232,12 @@ public class TCCreeperSuperBlock extends BaseEntityBlock implements EntityBlock,
                 .pattern("B#B")
                 .pattern("BBB")
                 .unlockedBy("has_kingcore", TCRecipeProvider.hasItem(TCItemCore.KING_CORE)));
+    }
+
+    static class TCSuperBlockPlaceContext extends BlockPlaceContext {
+        public TCSuperBlockPlaceContext(Level p_43638_, @Nullable Player p_43639_, InteractionHand p_43640_, ItemStack p_43641_, BlockHitResult p_43642_) {
+            super(p_43638_, p_43639_, p_43640_, p_43641_, p_43642_);
+            this.replaceClicked = true;
+        }
     }
 }

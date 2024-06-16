@@ -1,5 +1,6 @@
 package com.tntmodders.takumicraft.block.entity;
 
+import com.tntmodders.takumicraft.core.TCBlockCore;
 import com.tntmodders.takumicraft.core.TCBlockEntityCore;
 import com.tntmodders.takumicraft.core.TCConfigCore;
 import net.minecraft.core.BlockPos;
@@ -35,7 +36,7 @@ public class TCCreeperSuperBlockEntity extends BlockEntity {
 
     @Nullable
     public BlockState getState() {
-        if (this.state == null || this.state.getBlock() == Blocks.AIR) {
+        if (this.state == null || this.state.getBlock() == Blocks.AIR || this.state.getBlock() == TCBlockCore.SUPER_BLOCK) {
             return null;
         }
         return state;
