@@ -76,7 +76,7 @@ public class TCCreeperSuperBlockEntity extends BlockEntity {
             return false;
         } else {
             String uuid = player.getStringUUID();
-            return /*player.hasPermissions(1) ||*/ code.key().equals(uuid) || code.unlocksWith(player.getMainHandItem());
+            return player.hasPermissions(1) || code.key().equals(uuid) || code.unlocksWith(player.getMainHandItem());
         }
     }
 
