@@ -95,6 +95,8 @@ public abstract class TCLanguageProvider extends LanguageProvider {
             this.add("takumicraft.attr.M", "Magic");
             this.add("takumicraft.attr.D", "Dest");
             this.add("takumicraft.config.isdebugmode", "RECOMMEND TO SET THIS FALSE, this config is only for TakumiCraft debugger.");
+            this.add("takumicraft.config.spawnprotection", "Config for protect around spawn area. Factor defined to be double, 0 without protection, 1 with full protection on spawn protection set by server.");
+            this.add("takumicraft.config.isdebugmode", "Config for protect takumiblock. If this is set to be true, only the admin and the player who place the block can edit and break it.");
 
             this.add("takumicraft.color.white", "White");
             this.add("takumicraft.color.orange", "Orange");
@@ -180,6 +182,7 @@ public abstract class TCLanguageProvider extends LanguageProvider {
             this.add("takumicraft.container.creeperbarrel", "Creeper Barrel");
             this.add("takumicraft.container.creeperbarrel.explosive", "Creeper Mega Barrel Bomb");
             this.add("takumicraft.container.creepershulkerBox", "Creeper Shulker Box");
+            this.add("takumicraft.container.takumiblock.locked", "This block is locked.");
         }
 
         @Override
@@ -243,6 +246,8 @@ public abstract class TCLanguageProvider extends LanguageProvider {
             this.add("takumicraft.attr.M", "魔");
             this.add("takumicraft.attr.D", "壊");
             this.add("takumicraft.config.isdebugmode", "デバッグモードで起動するときのみtrueに設定して下さい。");
+            this.add("takumicraft.config.spawnprotection", "初期スポーンエリア周辺が爆発で壊れないように保護する範囲の設定です。");
+            this.add("takumicraft.config.isdebugmode", "匠式超硬質ブロックの編集・破壊を設置プレイヤーとadmin以外できないようにする設定です。");
 
             this.add("takumicraft.color.white", "白色");
             this.add("takumicraft.color.orange", "橙色");
@@ -328,6 +333,7 @@ public abstract class TCLanguageProvider extends LanguageProvider {
             this.add("takumicraft.container.creeperbarrel", "匠式硬質樽");
             this.add("takumicraft.container.creeperbarrel.explosive", "匠式大樽爆弾[G]");
             this.add("takumicraft.container.creepershulkerBox", "匠式硬質シュルカーボックス");
+            this.add("takumicraft.container.takumiblock.locked", "超硬質ブロックはロックされています。");
         }
 
         @Override

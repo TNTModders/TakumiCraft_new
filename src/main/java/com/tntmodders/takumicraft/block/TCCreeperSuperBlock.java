@@ -4,6 +4,7 @@ import com.mojang.serialization.MapCodec;
 import com.tntmodders.takumicraft.block.entity.TCCreeperSuperBlockEntity;
 import com.tntmodders.takumicraft.client.renderer.block.TCBEWLRenderer;
 import com.tntmodders.takumicraft.core.TCBlockCore;
+import com.tntmodders.takumicraft.core.TCConfigCore;
 import com.tntmodders.takumicraft.core.TCItemCore;
 import com.tntmodders.takumicraft.data.loot.TCBlockLoot;
 import com.tntmodders.takumicraft.item.TCBlockItem;
@@ -23,6 +24,7 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
@@ -62,22 +64,33 @@ public class TCCreeperSuperBlock extends BaseEntityBlock implements EntityBlock,
     }
 
     @Override
+    public void setPlacedBy(Level level, BlockPos pos, BlockState state, @Nullable LivingEntity livingEntity, ItemStack stack) {
+        super.setPlacedBy(level, pos, state, livingEntity, stack);
+        if (livingEntity instanceof ServerPlayer player && TCConfigCore.TCServerConfig.SERVER.useTakumiBlockLock.get() && level.getBlockEntity(pos) instanceof TCCreeperSuperBlockEntity superBlock) {
+            superBlock.setLock(player);
+            superBlock.setChanged();
+        }
+    }
+
+    @Override
     protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult result) {
         if (!level.isClientSide() && level.getBlockEntity(pos) instanceof TCCreeperSuperBlockEntity superBlock) {
-            if (stack.getItem() instanceof BlockItem blockItem) {
-                if (blockItem.getBlock() == this) {
-                    superBlock.setHideOverlay(!superBlock.isHideOverlay());
-                    if (player instanceof ServerPlayer serverPlayer) {
-                        Packet<?> pkt = superBlock.getUpdatePacket();
-                        if (pkt != null) {
-                            serverPlayer.connection.send(pkt);
+            if (superBlock.canChange(player)) {
+                if (stack.getItem() instanceof BlockItem blockItem) {
+                    if (blockItem.getBlock() == this) {
+                        superBlock.setHideOverlay(!superBlock.isHideOverlay());
+                        if (player instanceof ServerPlayer serverPlayer) {
+                            Packet<?> pkt = superBlock.getUpdatePacket();
+                            if (pkt != null) {
+                                serverPlayer.connection.send(pkt);
+                            }
                         }
+                    } else {
+                        this.setBlocktoSuperBlock(superBlock, player, hand, result, blockItem.getBlock());
                     }
-                } else {
-                    this.setBlocktoSuperBlock(superBlock, player, hand, result, blockItem.getBlock());
+                } else if (player.getItemInHand(hand).isEmpty() && player.isShiftKeyDown()) {
+                    this.setBlocktoSuperBlock(superBlock, player, hand, result, Blocks.AIR);
                 }
-            } else if (player.getItemInHand(hand).isEmpty() && player.isShiftKeyDown()) {
-                this.setBlocktoSuperBlock(superBlock, player, hand, result, Blocks.AIR);
             }
         }
         return ItemInteractionResult.CONSUME_PARTIAL;
@@ -93,6 +106,18 @@ public class TCCreeperSuperBlock extends BaseEntityBlock implements EntityBlock,
             }
         }
         superBlock.setChanged();
+    }
+
+    @Override
+    protected void attack(BlockState state, Level level, BlockPos pos, Player player) {
+        super.attack(state, level, pos, player);
+        if (!level.isClientSide() && player instanceof ServerPlayer serverPlayer && serverPlayer.gameMode.getGameModeForPlayer() != GameType.ADVENTURE) {
+            if (level.getBlockEntity(pos) instanceof TCCreeperSuperBlockEntity superBlock && superBlock.canChange(serverPlayer)) {
+                level.destroyBlock(pos, true, player);
+            } else {
+                //serverPlayer.sendSystemMessage(Component.translatable("takumicraft.container.takumiblock.locked"));
+            }
+        }
     }
 
     @Override
@@ -124,14 +149,6 @@ public class TCCreeperSuperBlock extends BaseEntityBlock implements EntityBlock,
     @Override
     protected boolean propagatesSkylightDown(BlockState p_312717_, BlockGetter p_312877_, BlockPos p_312899_) {
         return true;
-    }
-
-    @Override
-    protected void attack(BlockState state, Level level, BlockPos pos, Player player) {
-        super.attack(state, level, pos, player);
-        if (player instanceof ServerPlayer serverPlayer && serverPlayer.gameMode.getGameModeForPlayer() != GameType.ADVENTURE) {
-            level.destroyBlock(pos, true, player);
-        }
     }
 
     @Override

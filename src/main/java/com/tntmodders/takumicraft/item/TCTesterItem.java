@@ -1,11 +1,14 @@
 package com.tntmodders.takumicraft.item;
 
+import com.tntmodders.takumicraft.block.entity.TCCreeperSuperBlockEntity;
 import com.tntmodders.takumicraft.core.TCEnchantmentCore;
 import com.tntmodders.takumicraft.core.TCEntityCore;
 import com.tntmodders.takumicraft.core.TCItemCore;
 import com.tntmodders.takumicraft.entity.mobs.TCZombieCreeper;
 import com.tntmodders.takumicraft.provider.ITCItems;
 import com.tntmodders.takumicraft.provider.ITCTranslator;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
@@ -22,6 +25,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
+import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 
@@ -94,6 +98,16 @@ public class TCTesterItem extends Item implements ITCItems, ITCTranslator {
             return InteractionResult.SUCCESS;
         }
         return super.interactLivingEntity(p_41398_, p_41399_, p_41400_, p_41401_);
+    }
+
+    @Override
+    public InteractionResult useOn(UseOnContext p_41427_) {
+        if (p_41427_.getLevel().getBlockEntity(p_41427_.getClickedPos()) instanceof TCCreeperSuperBlockEntity superBlock) {
+            p_41427_.getItemInHand().set(DataComponents.CUSTOM_NAME, Component.literal("LOCK_TEST"));
+            superBlock.setLockCode("LOCK_TEST");
+            superBlock.setChanged();
+        }
+        return super.useOn(p_41427_);
     }
 
     @Override

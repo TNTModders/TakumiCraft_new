@@ -153,6 +153,6 @@ public class TCEvents {
         int i = Mth.abs(pos.getX() - blockpos.getX());
         int j = Mth.abs(pos.getZ() - blockpos.getZ());
         int k = Math.max(i, j);
-        return k <= level.getServer().getSpawnProtectionRadius() * TCConfigCore.TCCommonConfig.COMMON.spawnProtectionRadius.get();
+        return k <= level.getServer().getSpawnProtectionRadius() * TCConfigCore.TCServerConfig.SERVER.spawnProtectionRadius.get();
     }
 }

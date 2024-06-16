@@ -1,14 +1,22 @@
 package com.tntmodders.takumicraft.block.entity;
 
 import com.tntmodders.takumicraft.core.TCBlockEntityCore;
+import com.tntmodders.takumicraft.core.TCConfigCore;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.component.DataComponentMap;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.LockCode;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -17,6 +25,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import javax.annotation.Nullable;
 
 public class TCCreeperSuperBlockEntity extends BlockEntity {
+    private LockCode lockKey = LockCode.NO_LOCK;
     private BlockState state;
     private boolean hideOverlay;
 
@@ -44,9 +53,37 @@ public class TCCreeperSuperBlockEntity extends BlockEntity {
         this.hideOverlay = hideOverlay;
     }
 
+    public void setLock(Player player) {
+        this.setLockCode(player.getStringUUID());
+    }
+
+    public void setLockCode(String lock) {
+        this.lockKey = new LockCode(lock);
+    }
+
+    public boolean canChange(Player player) {
+        if (TCConfigCore.TCServerConfig.SERVER.useTakumiBlockLock.get() && !player.isSpectator() && !unlocksWithPlayer(this.lockKey, player)) {
+            player.sendSystemMessage(Component.translatable("takumicraft.container.takumiblock.locked"));
+            player.playNotifySound(SoundEvents.LODESTONE_COMPASS_LOCK, SoundSource.BLOCKS, 1.0F, 1.0F);
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    private static boolean unlocksWithPlayer(LockCode code, Player player) {
+        if (code.key().isEmpty()) {
+            return false;
+        } else {
+            String uuid = player.getStringUUID();
+            return /*player.hasPermissions(1) ||*/ code.key().equals(uuid) || code.unlocksWith(player.getMainHandItem());
+        }
+    }
+
     @Override
     protected void loadAdditional(CompoundTag tag, HolderLookup.Provider provider) {
         super.loadAdditional(tag, provider);
+        this.lockKey = LockCode.fromTag(tag);
         if (tag.contains("state")) {
             HolderGetter<Block> holdergetter = this.level != null ? this.level.holderLookup(Registries.BLOCK) : BuiltInRegistries.BLOCK.asLookup();
             this.state = NbtUtils.readBlockState(holdergetter, tag.getCompound("state"));
@@ -59,6 +96,7 @@ public class TCCreeperSuperBlockEntity extends BlockEntity {
     @Override
     protected void saveAdditional(CompoundTag tag, HolderLookup.Provider provider) {
         super.saveAdditional(tag, provider);
+        this.lockKey.addToTag(tag);
         if (this.state != null) {
             tag.put("state", NbtUtils.writeBlockState(this.state));
         }
@@ -74,5 +112,19 @@ public class TCCreeperSuperBlockEntity extends BlockEntity {
     @Override
     public ClientboundBlockEntityDataPacket getUpdatePacket() {
         return ClientboundBlockEntityDataPacket.create(this);
+    }
+
+    @Override
+    protected void applyImplicitComponents(BlockEntity.DataComponentInput p_329127_) {
+        super.applyImplicitComponents(p_329127_);
+        this.lockKey = p_329127_.getOrDefault(DataComponents.LOCK, LockCode.NO_LOCK);
+    }
+
+    @Override
+    protected void collectImplicitComponents(DataComponentMap.Builder p_336292_) {
+        super.collectImplicitComponents(p_336292_);
+        if (!this.lockKey.equals(LockCode.NO_LOCK)) {
+            p_336292_.set(DataComponents.LOCK, this.lockKey);
+        }
     }
 }
