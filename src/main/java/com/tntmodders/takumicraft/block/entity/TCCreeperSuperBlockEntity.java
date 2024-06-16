@@ -74,7 +74,7 @@ public class TCCreeperSuperBlockEntity extends BlockEntity {
 
     private static boolean unlocksWithPlayer(LockCode code, Player player) {
         if (code.key().isEmpty()) {
-            return false;
+            return true;
         } else {
             String uuid = player.getStringUUID();
             return player.hasPermissions(1) || code.key().equals(uuid) || code.unlocksWith(player.getMainHandItem());
@@ -87,7 +87,10 @@ public class TCCreeperSuperBlockEntity extends BlockEntity {
         this.lockKey = LockCode.fromTag(tag);
         if (tag.contains("state")) {
             HolderGetter<Block> holdergetter = this.level != null ? this.level.holderLookup(Registries.BLOCK) : BuiltInRegistries.BLOCK.asLookup();
-            this.state = NbtUtils.readBlockState(holdergetter, tag.getCompound("state"));
+            BlockState newState = NbtUtils.readBlockState(holdergetter, tag.getCompound("state"));
+            if (this.state == null || !newState.getBlock().equals(this.state.getBlock())) {
+                this.setState(newState);
+            }
         }
         if (tag.contains("hideOverlay")) {
             this.hideOverlay = tag.getBoolean("hideOverlay");

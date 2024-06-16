@@ -173,6 +173,14 @@ public abstract class TCLanguageProvider extends LanguageProvider {
             this.add("item.takumicraft.creeper_campfire.desc", "Right Click without any item to set spawn position here.");
             this.add("item.takumicraft.creeper_campfire.set_spawn", "Rest at campfire.");
 
+            this.add("block.takumicraft.takumiblock.mode.replace", "Replace Mode");
+            this.add("block.takumicraft.takumiblock.mode.place", "Place Mode");
+            this.add("block.takumicraft.takumiblock.desc.01", "Right click on this block with any BlockItem to change apprearance.");
+            this.add("block.takumicraft.takumiblock.desc.02", "Right click on this block with this to toggle show/hide effect.");
+            this.add("block.takumicraft.takumiblock.desc.03", "Sneak Right click on this block without any item to reset apprearance.");
+            this.add("block.takumicraft.takumiblock.desc.replace", "Right click on any block to replace it Super Block.");
+            this.add("block.takumicraft.takumiblock.desc.toggle", "Sneak Right click on air to toggle the mode. (Creative Only)");
+
             this.add("entity.takumicraft.bedcreeper.message", "%s was blasted your respawn-point by bed creeper!");
             this.add("entity.takumicraft.returncreeper.message", "%s was teleported to your respawn-point by return creeper!");
             this.add("entity.takumicraft.sleepercreeper.message", "%s's respawn-point was borked by sleeper creeper!");
@@ -323,6 +331,14 @@ public abstract class TCLanguageProvider extends LanguageProvider {
             this.add("item.takumicraft.creeperbarrel.desc", "爆発物でインベントリを満たすと……");
             this.add("item.takumicraft.creeper_campfire.desc", "手に何も持たずに右クリックで休息可能");
             this.add("item.takumicraft.creeper_campfire.set_spawn", "篝火で休息した。");
+
+            this.add("block.takumicraft.takumiblock.mode.replace", "置換モード");
+            this.add("block.takumicraft.takumiblock.mode.place", "設置モード");
+            this.add("block.takumicraft.takumiblock.desc.replace", "置換: 置換したいブロックをこのアイテムで右クリック");
+            this.add("block.takumicraft.takumiblock.desc.01", "格納ブロック変更: ブロックで右クリック");
+            this.add("block.takumicraft.takumiblock.desc.02", "エフェクト切り替え: このアイテムで右クリック");
+            this.add("block.takumicraft.takumiblock.desc.03", "変更解除: 手に何も持たずにスニーク右クリック");
+            this.add("block.takumicraft.takumiblock.desc.toggle", "モード切替: このアイテムを持って何もないところをスニーク右クリック (クリエイティブ時のみ)");
 
             this.add("entity.takumicraft.bedcreeper.message", "%sのリスポーン地点が寝台匠に爆破された!");
             this.add("entity.takumicraft.returncreeper.message", "%sは帰匠によってリスポーン地点へ転移した!");
