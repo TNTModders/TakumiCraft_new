@@ -126,7 +126,6 @@ public class TCCreeperBedRenderer implements BlockEntityRenderer<TCCreeperBedBlo
         p_173542_.popPose();
     }
 
-    //@TODO check the render, if the vertex doesn't work
     private void renderSuperPiece(TCCreeperBedBlockEntity entity, PoseStack poseStack, MultiBufferSource source, ModelPart modelPart, Direction direction, int p_173547_, int p_173548_, boolean p_173549_) {
         poseStack.pushPose();
         poseStack.translate(0.0F, 0.5625F, p_173549_ ? -1.0F : 0.0F);

@@ -7,7 +7,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.datafixers.util.Pair;
 import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.core.TCEntityCore;
-import com.tntmodders.takumicraft.core.client.TCSearchTreeCore;
+import com.tntmodders.takumicraft.core.TCItemCore;
 import com.tntmodders.takumicraft.entity.mobs.AbstractTCCreeper;
 import com.tntmodders.takumicraft.item.TCSpawnEggItem;
 import com.tntmodders.takumicraft.utils.TCEntityUtils;
@@ -21,6 +21,7 @@ import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.inventory.CreativeInventoryListener;
 import net.minecraft.client.gui.screens.inventory.EffectRenderingInventoryScreen;
 import net.minecraft.client.player.inventory.Hotbar;
+import net.minecraft.client.searchtree.FullTextSearchTree;
 import net.minecraft.client.searchtree.SearchTree;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
@@ -46,10 +47,12 @@ import net.minecraft.world.item.*;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.ForgeSpawnEggItem;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nullable;
 import java.util.*;
 import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 @OnlyIn(Dist.CLIENT)
 public class TCTakumiBookOutlineScreen extends EffectRenderingInventoryScreen<TCTakumiBookOutlineScreen.TakumiPickerMenu> {
@@ -85,11 +88,26 @@ public class TCTakumiBookOutlineScreen extends EffectRenderingInventoryScreen<TC
 
     private int lastPage = 0;
 
+    private final SearchTree<ItemStack> searchtree;
+
     public TCTakumiBookOutlineScreen(Player p_259788_) {
         super(new TCTakumiBookOutlineScreen.TakumiPickerMenu(p_259788_), p_259788_.getInventory(), CommonComponents.EMPTY);
         p_259788_.containerMenu = this.menu;
         this.imageHeight = 136;
         this.imageWidth = 195;
+
+        NonNullList<ItemStack> nonnulllist = NonNullList.create();
+        for (Item item : TCItemCore.ITEMS) {
+            if (item instanceof TCSpawnEggItem) {
+                nonnulllist.add(item.getDefaultInstance());
+            }
+        }
+        this.searchtree = new FullTextSearchTree<>(itemStack -> {
+            if (itemStack.getItem() instanceof TCSpawnEggItem item) {
+                return Stream.of(item.getContext().getEnUSName(), item.getContext().getJaJPName(), item.getContext().getJaJPRead()).filter(s -> s != null && !s.isEmpty());
+            }
+            return itemStack.getTooltipLines(null, null, TooltipFlag.Default.NORMAL).stream().map(component -> ChatFormatting.stripFormatting(component.getString()).trim()).filter(s -> !s.isEmpty());
+        }, itemStack -> Stream.of(ForgeRegistries.ITEMS.getKey(itemStack.getItem())), nonnulllist);
     }
 
     public TCTakumiBookOutlineScreen(Player player, int lastPage) {
@@ -295,10 +313,8 @@ public class TCTakumiBookOutlineScreen extends EffectRenderingInventoryScreen<TC
         if (s.isEmpty()) {
             TCEntityCore.ENTITY_CONTEXTS.forEach(context -> this.menu.items.add(new ItemStack(ForgeSpawnEggItem.fromEntityType(context.entityType()))));
         } else {
-            if (TCSearchTreeCore.REGISTRY == null) {
-                TCSearchTreeCore.register();
-            }
-            SearchTree<ItemStack> searchtree = this.minecraft.getConnection().searchTrees().getSearchTree(TCSearchTreeCore.CREEPER_NAMES);
+            //TCSearchTreeCore.register();
+            //<ItemStack> searchtree = this.minecraft.getConnection().searchTrees().getSearchTree(TCSearchTreeCore.CREEPER_NAMES);
             List<ItemStack> stacks = searchtree.search(s.toLowerCase(Locale.ROOT));
             this.menu.items.addAll(stacks);
         }
