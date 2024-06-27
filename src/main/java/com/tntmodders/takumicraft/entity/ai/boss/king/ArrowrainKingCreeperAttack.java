@@ -64,7 +64,7 @@ public class ArrowrainKingCreeperAttack extends AbstractKingCreeperAttack {
     @Override
     public void serverExp(TCKingCreeper creeper) {
         for (int i = 0; i < (creeper.isPowered() ? 300 : 150); i++) {
-            TCCreeperArrow arrow = new TCCreeperArrow(creeper.level(), creeper, stack);
+            TCCreeperArrow arrow = new TCCreeperArrow(creeper.level(), creeper, stack, null);
             arrow.shootFromRotation(creeper, (float) (-70 - creeper.getRandom().nextGaussian() * 10f), creeper.getYRot(), 1.7f, (float) (0.25f + creeper.getRandom().nextGaussian()) * 2.5f, 4f);
             arrow.setDest(true);
             arrow.setPower(creeper.isPowered() ? 4f : 2f);

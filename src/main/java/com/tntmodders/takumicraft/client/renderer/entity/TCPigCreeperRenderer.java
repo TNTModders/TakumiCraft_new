@@ -17,7 +17,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class TCPigCreeperRenderer extends MobRenderer<TCPigCreeper, TCPigCreeperModel<TCPigCreeper>> {
-    private static final ResourceLocation LOCATION = new ResourceLocation(TakumiCraftCore.MODID, "textures/entity/creeper/pigcreeper.png");
+    private static final ResourceLocation LOCATION = ResourceLocation.tryBuild(TakumiCraftCore.MODID, "textures/entity/creeper/pigcreeper.png");
 
     public TCPigCreeperRenderer(EntityRendererProvider.Context p_173956_) {
         super(p_173956_, new TCPigCreeperModel<>(p_173956_.bakeLayer(ModelLayers.PIG)), 0.7F);

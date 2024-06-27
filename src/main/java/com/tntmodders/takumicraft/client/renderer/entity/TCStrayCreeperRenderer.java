@@ -25,7 +25,7 @@ public class TCStrayCreeperRenderer extends TCSkeletonCreeperRenderer {
 
     @OnlyIn(Dist.CLIENT)
     public static class TCStrayCreeperClothingLayer<T extends Mob & RangedAttackMob, M extends EntityModel<T>> extends RenderLayer<T, M> {
-        private static final ResourceLocation STRAY_CLOTHES_LOCATION = new ResourceLocation(TakumiCraftCore.MODID, "textures/entity/creeper/straycreeper_overlay.png");
+        private static final ResourceLocation STRAY_CLOTHES_LOCATION = ResourceLocation.tryBuild(TakumiCraftCore.MODID, "textures/entity/creeper/straycreeper_overlay.png");
         private final SkeletonModel<T> layerModel;
 
         public TCStrayCreeperClothingLayer(RenderLayerParent<T, M> p_174544_, EntityModelSet p_174545_) {
@@ -35,7 +35,7 @@ public class TCStrayCreeperRenderer extends TCSkeletonCreeperRenderer {
 
         @Override
         public void render(PoseStack p_117553_, MultiBufferSource p_117554_, int p_117555_, T p_117556_, float p_117557_, float p_117558_, float p_117559_, float p_117560_, float p_117561_, float p_117562_) {
-            coloredCutoutModelCopyLayerRender(this.getParentModel(), this.layerModel, STRAY_CLOTHES_LOCATION, p_117553_, p_117554_, p_117555_, p_117556_, p_117557_, p_117558_, p_117560_, p_117561_, p_117562_, p_117559_, 1.0F, 1.0F, 1.0F);
+            coloredCutoutModelCopyLayerRender(this.getParentModel(), this.layerModel, STRAY_CLOTHES_LOCATION, p_117553_, p_117554_, p_117555_, p_117556_, p_117557_, p_117558_, p_117560_, p_117561_, p_117562_, p_117559_, 1);
         }
     }
 }

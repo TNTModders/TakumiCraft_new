@@ -10,16 +10,14 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.monster.Creeper;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.level.portal.DimensionTransition;
 import net.minecraftforge.event.level.ExplosionEvent;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class TCReturnCreeper extends AbstractTCCreeper {
 
@@ -40,8 +38,8 @@ public class TCReturnCreeper extends AbstractTCCreeper {
             if (entity instanceof ServerPlayer serverPlayer) {
                 BlockPos pos = serverPlayer.getRespawnPosition();
                 if (pos != null && pos != BlockPos.ZERO) {
-                    Optional<Vec3> optional = Player.findRespawnPositionAndUseSpawnBlock(serverPlayer.serverLevel(), pos, serverPlayer.getRespawnAngle(), false, true);
-                    if (optional != null && optional.isPresent()) {
+                    DimensionTransition transition = serverPlayer.findRespawnPositionAndUseSpawnBlock(true, DimensionTransition.DO_NOTHING);
+                    if (transition != null && !transition.missingRespawnBlock()) {
                         serverPlayer.teleportTo(pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5);
                         serverPlayer.sendSystemMessage(Component.translatable("entity.takumicraft.returncreeper.message", serverPlayer.getName()));
                         TCExplosionUtils.createExplosion(this.level(), null, pos, 0f);

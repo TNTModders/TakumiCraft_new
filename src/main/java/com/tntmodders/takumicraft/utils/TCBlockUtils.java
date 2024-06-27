@@ -17,7 +17,7 @@ import java.util.regex.Pattern;
 
 public class TCBlockUtils {
     public static Block getTCBlockFromRegistry(String path) {
-        return ForgeRegistries.BLOCKS.getValue(new ResourceLocation(TakumiCraftCore.MODID, path));
+        return ForgeRegistries.BLOCKS.getValue(ResourceLocation.tryBuild(TakumiCraftCore.MODID, path));
     }
 
     //Anti-Explosion-Safe setBlock

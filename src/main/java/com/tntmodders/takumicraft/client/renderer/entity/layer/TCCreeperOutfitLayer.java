@@ -18,9 +18,9 @@ import net.minecraft.resources.ResourceLocation;
 
 public class TCCreeperOutfitLayer<T extends AbstractTCCreeper, M extends CreeperModel<T>> extends RenderLayer<T, M> {
 
-    private static final ResourceLocation XMAS_YUKARI = new ResourceLocation(TakumiCraftCore.MODID, "textures/entity/creeper/seasons/xmas_yukari.png");
-    private static final ResourceLocation NY_YUKARI = new ResourceLocation(TakumiCraftCore.MODID, "textures/entity/creeper/seasons/newyear_yukari.png");
-    private static final ResourceLocation NY_CREEPER = new ResourceLocation(TakumiCraftCore.MODID, "textures/entity/creeper/seasons/newyear.png");
+    private static final ResourceLocation XMAS_YUKARI = ResourceLocation.tryBuild(TakumiCraftCore.MODID, "textures/entity/creeper/seasons/xmas_yukari.png");
+    private static final ResourceLocation NY_YUKARI = ResourceLocation.tryBuild(TakumiCraftCore.MODID, "textures/entity/creeper/seasons/newyear_yukari.png");
+    private static final ResourceLocation NY_CREEPER = ResourceLocation.tryBuild(TakumiCraftCore.MODID, "textures/entity/creeper/seasons/newyear.png");
 
     private final M model;
 
@@ -47,7 +47,7 @@ public class TCCreeperOutfitLayer<T extends AbstractTCCreeper, M extends Creeper
             this.getParentModel().copyPropertiesTo(entitymodel);
             VertexConsumer vertexconsumer = source.getBuffer(RenderType.armorCutoutNoCull(location));
             entitymodel.setupAnim(creeper, p_116974_, p_116975_, p_116977_, p_116978_, p_116979_);
-            entitymodel.renderToBuffer(poseStack, vertexconsumer, p_116972_, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
+            entitymodel.renderToBuffer(poseStack, vertexconsumer, p_116972_, OverlayTexture.NO_OVERLAY);
             poseStack.popPose();
         }
     }

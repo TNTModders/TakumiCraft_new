@@ -31,7 +31,7 @@ public class TCBlockStateProvider extends BlockStateProvider {
 
     public void sideBlockWithItem(Block block) {
         String name = name(block);
-        ModelFile model = this.models().cubeBottomTop(name, blockFolder(new ResourceLocation(TakumiCraftCore.MODID, name + "_side")), blockFolder(new ResourceLocation(TakumiCraftCore.MODID, name + "_bottom")), blockFolder(new ResourceLocation(TakumiCraftCore.MODID, name + "_top")));
+        ModelFile model = this.models().cubeBottomTop(name, blockFolder(ResourceLocation.tryBuild(TakumiCraftCore.MODID, name + "_side")), blockFolder(ResourceLocation.tryBuild(TakumiCraftCore.MODID, name + "_bottom")), blockFolder(ResourceLocation.tryBuild(TakumiCraftCore.MODID, name + "_top")));
         this.simpleBlock(block, model);
         this.simpleBlockItem(block, model);
     }
@@ -61,7 +61,7 @@ public class TCBlockStateProvider extends BlockStateProvider {
     }
 
     public ResourceLocation blockFolder(ResourceLocation name) {
-        return new ResourceLocation(name.getNamespace(), ModelProvider.BLOCK_FOLDER + '/' + name.getPath());
+        return ResourceLocation.tryBuild(name.getNamespace(), ModelProvider.BLOCK_FOLDER + '/' + name.getPath());
     }
 
     public String name(Block block) {

@@ -7,16 +7,17 @@ import com.tntmodders.takumicraft.core.TCRecipeSerializerCore;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.world.Container;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.SmithingRecipe;
+import net.minecraft.world.item.crafting.SmithingRecipeInput;
 import net.minecraft.world.level.Level;
 
 import java.util.List;
@@ -32,7 +33,7 @@ public class TCSaberRecipe implements SmithingRecipe {
     final ItemStack result = TCItemCore.LIGHTSABER.getDefaultInstance();
 
     @Override
-    public boolean matches(Container p_266855_, Level p_266781_) {
+    public boolean matches(SmithingRecipeInput p_266855_, Level p_266781_) {
         ItemStack stack = p_266855_.getItem(1);
         if (stack.has(DataComponents.CUSTOM_DATA)) {
             CompoundTag tag = stack.get(DataComponents.CUSTOM_DATA).copyTag();
@@ -50,9 +51,9 @@ public class TCSaberRecipe implements SmithingRecipe {
     }
 
     @Override
-    public ItemStack assemble(Container p_267036_, HolderLookup.Provider p_331030_) {
+    public ItemStack assemble(SmithingRecipeInput p_267036_, HolderLookup.Provider p_331030_) {
         ItemStack stack = this.result;
-        stack.enchant(TCEnchantmentCore.ANTI_POWERED, 1);
+        stack.enchant(p_331030_.lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(TCEnchantmentCore.ANTI_POWERED), 1);
         return stack;
     }
 

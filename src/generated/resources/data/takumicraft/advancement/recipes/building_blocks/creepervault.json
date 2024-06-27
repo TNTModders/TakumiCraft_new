@@ -1,0 +1,43 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_creeperplanks": {
+      "conditions": {
+        "items": [
+          {
+            "items": "takumicraft:creeperplanks"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_takumicraft:creepervault": {
+      "conditions": {
+        "items": [
+          {
+            "items": "takumicraft:creepervault"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "takumicraft:creepervault"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_creeperplanks",
+      "has_takumicraft:creepervault"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "takumicraft:creepervault"
+    ]
+  }
+}

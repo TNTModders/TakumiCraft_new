@@ -4,10 +4,10 @@ import com.tntmodders.takumicraft.core.TCItemCore;
 import com.tntmodders.takumicraft.core.TCRecipeSerializerCore;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.BannerItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.CraftingBookCategory;
+import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
@@ -19,11 +19,11 @@ public class TCCreeperShieldDecorationRecipe extends CustomRecipe {
     }
 
     @Override
-    public boolean matches(CraftingContainer p_44308_, Level p_44309_) {
+    public boolean matches(CraftingInput p_44308_, Level p_44309_) {
         ItemStack itemstack = ItemStack.EMPTY;
         ItemStack itemstack1 = ItemStack.EMPTY;
 
-        for (int i = 0; i < p_44308_.getContainerSize(); ++i) {
+        for (int i = 0; i < p_44308_.size(); ++i) {
             ItemStack itemstack2 = p_44308_.getItem(i);
             if (!itemstack2.isEmpty()) {
                 if (itemstack2.getItem() instanceof BannerItem) {
@@ -55,11 +55,11 @@ public class TCCreeperShieldDecorationRecipe extends CustomRecipe {
     }
 
     @Override
-    public ItemStack assemble(CraftingContainer p_44306_, HolderLookup.Provider p_332698_) {
+    public ItemStack assemble(CraftingInput p_44306_, HolderLookup.Provider p_332698_) {
         ItemStack itemstack = ItemStack.EMPTY;
         ItemStack itemstack1 = ItemStack.EMPTY;
 
-        for (int i = 0; i < p_44306_.getContainerSize(); ++i) {
+        for (int i = 0; i < p_44306_.size(); ++i) {
             ItemStack itemstack2 = p_44306_.getItem(i);
             if (!itemstack2.isEmpty()) {
                 if (itemstack2.getItem() instanceof BannerItem) {

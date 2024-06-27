@@ -3,6 +3,7 @@ package com.tntmodders.takumicraft.block;
 import com.tntmodders.takumicraft.block.entity.TCAcidBlockEntity;
 import com.tntmodders.takumicraft.provider.TCBlockStateProvider;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.data.loot.LootTableSubProvider;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -22,7 +23,7 @@ import net.minecraftforge.client.model.generators.ConfiguredModel;
 import net.minecraftforge.client.model.generators.ModelFile;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.function.Supplier;
+import java.util.function.Function;
 
 public class TCAcidBlock extends AbstractTCBombBlock implements EntityBlock {
 
@@ -67,7 +68,7 @@ public class TCAcidBlock extends AbstractTCBombBlock implements EntityBlock {
     }
 
     @Override
-    public Supplier<LootTableSubProvider> getBlockLootSubProvider(Block block) {
+    public Function<HolderLookup.Provider, LootTableSubProvider> getBlockLootSubProvider(Block block) {
         return null;
     }
 

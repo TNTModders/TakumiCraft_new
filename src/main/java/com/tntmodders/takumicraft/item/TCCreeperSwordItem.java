@@ -1,5 +1,6 @@
 package com.tntmodders.takumicraft.item;
 
+import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.core.TCBlockCore;
 import com.tntmodders.takumicraft.core.TCEnchantmentCore;
 import com.tntmodders.takumicraft.core.TCItemCore;
@@ -10,11 +11,13 @@ import com.tntmodders.takumicraft.provider.TCRecipeProvider;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.SmithingTransformRecipeBuilder;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.Entity;
@@ -29,12 +32,11 @@ import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 
 import java.util.List;
-import java.util.UUID;
 
 public class TCCreeperSwordItem extends SwordItem implements ITCItems, ITCRecipe {
-    public static final UUID ATTACK_DAMAGE_UUID = UUID.fromString("D1E13C24-5227-0C58-D5EF-CA1762D01B04");
-    public static final UUID ATTACK_SPEED_UUID = UUID.fromString("D1E13C24-5227-0C58-D5EF-CA1762D01B05");
-    public static final UUID ATTACK_RANGE_UUID = UUID.fromString("D1E13C24-5227-0C58-D5EF-CA1762D01B06");
+    public static final ResourceLocation ATTACK_DAMAGE_UUID = ResourceLocation.tryBuild(TakumiCraftCore.MODID, "elemental_attack_damage");
+    public static final ResourceLocation ATTACK_SPEED_UUID = ResourceLocation.tryBuild(TakumiCraftCore.MODID, "elemental_attack_speed");
+    public static final ResourceLocation ATTACK_RANGE_UUID = ResourceLocation.tryBuild(TakumiCraftCore.MODID, "elemental_attack_range");
 
     private final double maxAtk = 12;
     private final double maxSpd = 3.2;
@@ -46,8 +48,8 @@ public class TCCreeperSwordItem extends SwordItem implements ITCItems, ITCRecipe
 
     public static ItemAttributeModifiers createAttributes() {
         return ItemAttributeModifiers.builder()
-                .add(Attributes.ATTACK_DAMAGE, new AttributeModifier(ATTACK_DAMAGE_UUID, "CreeperSword Modifier", 6, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND)
-                .add(Attributes.ATTACK_SPEED, new AttributeModifier(ATTACK_SPEED_UUID, "CreeperSword Modifier", 1.6, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND)
+                .add(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_ID, 6, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND)
+                .add(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_ID, 1.6, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND)
                 .build();
     }
 
@@ -55,7 +57,7 @@ public class TCCreeperSwordItem extends SwordItem implements ITCItems, ITCRecipe
     public void inventoryTick(ItemStack p_41404_, Level p_41405_, Entity p_41406_, int p_41407_, boolean p_41408_) {
         super.inventoryTick(p_41404_, p_41405_, p_41406_, p_41407_, p_41408_);
         if (!p_41404_.isEnchanted()) {
-            p_41404_.enchant(TCEnchantmentCore.ANTI_POWERED, 1);
+            p_41404_.enchant(p_41405_.holderLookup(Registries.ENCHANTMENT).getOrThrow(TCEnchantmentCore.ANTI_POWERED), 1);
         }
     }
 

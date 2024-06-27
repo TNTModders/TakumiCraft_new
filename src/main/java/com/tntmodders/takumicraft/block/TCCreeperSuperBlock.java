@@ -13,6 +13,7 @@ import com.tntmodders.takumicraft.provider.ITCRecipe;
 import com.tntmodders.takumicraft.provider.TCBlockStateProvider;
 import com.tntmodders.takumicraft.provider.TCRecipeProvider;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.data.loot.LootTableSubProvider;
 import net.minecraft.data.recipes.RecipeCategory;
@@ -54,7 +55,7 @@ import net.minecraftforge.client.model.generators.ModelFile;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
-import java.util.function.Supplier;
+import java.util.function.Function;
 
 public class TCCreeperSuperBlock extends BaseEntityBlock implements EntityBlock, ITCBlocks, ITCRecipe {
 
@@ -190,8 +191,8 @@ public class TCCreeperSuperBlock extends BaseEntityBlock implements EntityBlock,
     }
 
     @Override
-    public Supplier<LootTableSubProvider> getBlockLootSubProvider(Block block) {
-        return () -> new TCBlockLoot(block, true);
+    public Function<HolderLookup.Provider, LootTableSubProvider> getBlockLootSubProvider(Block block) {
+        return provider -> new TCBlockLoot(provider, block, true);
     }
 
     @Override

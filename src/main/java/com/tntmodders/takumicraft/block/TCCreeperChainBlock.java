@@ -7,6 +7,7 @@ import com.tntmodders.takumicraft.provider.ITCRecipe;
 import com.tntmodders.takumicraft.provider.TCBlockStateProvider;
 import com.tntmodders.takumicraft.provider.TCRecipeProvider;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.data.loot.LootTableSubProvider;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
@@ -22,7 +23,7 @@ import net.minecraftforge.client.model.generators.ConfiguredModel;
 import net.minecraftforge.client.model.generators.ModelFile;
 
 import java.util.List;
-import java.util.function.Supplier;
+import java.util.function.Function;
 
 public class TCCreeperChainBlock extends ChainBlock implements ITCBlocks, ITCRecipe {
     public TCCreeperChainBlock() {
@@ -35,8 +36,8 @@ public class TCCreeperChainBlock extends ChainBlock implements ITCBlocks, ITCRec
     }
 
     @Override
-    public Supplier<LootTableSubProvider> getBlockLootSubProvider(Block block) {
-        return () -> new TCBlockLoot(block, true);
+    public Function<HolderLookup.Provider, LootTableSubProvider> getBlockLootSubProvider(Block block) {
+        return provider -> new TCBlockLoot(provider, block, true);
     }
 
     @Override

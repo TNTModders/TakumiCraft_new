@@ -18,7 +18,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class TCChildCreeperRenderer extends MobRenderer<TCChildCreeper, TCChildCreeperModel<TCChildCreeper>> {
-    private static final ResourceLocation CREEPER_LOCATION = new ResourceLocation(TakumiCraftCore.MODID, "textures/entity/creeper/childcreeper.png");
+    private static final ResourceLocation CREEPER_LOCATION = ResourceLocation.tryBuild(TakumiCraftCore.MODID, "textures/entity/creeper/childcreeper.png");
 
     public TCChildCreeperRenderer(EntityRendererProvider.Context p_173958_) {
         super(p_173958_, new TCChildCreeperModel(p_173958_.bakeLayer(TCRenderCore.CHILD)), 0.5F);

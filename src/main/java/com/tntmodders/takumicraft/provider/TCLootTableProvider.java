@@ -3,6 +3,7 @@ package com.tntmodders.takumicraft.provider;
 import com.tntmodders.takumicraft.core.TCBlockCore;
 import com.tntmodders.takumicraft.core.TCEntityCore;
 import com.tntmodders.takumicraft.utils.TCLoggingUtils;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.Registry;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.loot.LootTableProvider;
@@ -17,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
-import java.util.function.Supplier;
+import java.util.function.Function;
 
 public class TCLootTableProvider extends LootTableProvider {
     public TCLootTableProvider(PackOutput packOutput, CompletableFuture lookup) {
@@ -38,10 +39,10 @@ public class TCLootTableProvider extends LootTableProvider {
         });
 
         TCEntityCore.ENTITY_CONTEXTS.forEach(context -> {
-            Supplier<LootTableSubProvider> supplier = context.getCreeperLoot(context.entityType());
-            if (supplier != null) {
+            Function<HolderLookup.Provider, LootTableSubProvider> creeperLoot = context.getCreeperLoot(context.entityType());
+            if (creeperLoot != null) {
                 TCLoggingUtils.entryRegistry("LootTable", context.getRegistryName());
-                tableList.add(new SubProviderEntry(supplier, LootContextParamSets.ENTITY));
+                tableList.add(new SubProviderEntry(creeperLoot, LootContextParamSets.ENTITY));
             }
         });
         TCLoggingUtils.completeRegistry("LootTable");

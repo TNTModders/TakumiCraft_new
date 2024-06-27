@@ -34,7 +34,7 @@ public class TCMonsterBombBlockRenderer implements BlockEntityRenderer<TCMonster
                     poseStack.translate(0.5, 0.75, 0.5);
                     poseStack.rotateAround(Axis.XN.rotationDegrees(180), 1, 0, 0);
                     poseStack.scale(2, 2, 2);
-                    VertexConsumer consumer = source.getBuffer(RenderType.entityCutoutNoCull(new ResourceLocation(TakumiCraftCore.MODID, "textures/entity/creeper/" + bomb.getContext().getRegistryName() + ".png")));
+                    VertexConsumer consumer = source.getBuffer(RenderType.entityCutoutNoCull(ResourceLocation.tryBuild(TakumiCraftCore.MODID, "textures/entity/creeper/" + bomb.getContext().getRegistryName() + ".png")));
                     part.render(poseStack, consumer, p_112311_, p_112312_);
                     poseStack.popPose();
                 } catch (Exception ignored) {

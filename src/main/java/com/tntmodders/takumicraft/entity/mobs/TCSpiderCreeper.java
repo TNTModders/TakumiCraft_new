@@ -204,7 +204,7 @@ public class TCSpiderCreeper extends AbstractTCCreeper {
         @Override
         public boolean canContinueToUse() {
             float f = this.mob.getLightLevelDependentMagicValue();
-            if (f >= 0.5F && this.mob.getRandom().nextInt(100) == 0) {
+            if (f >= 0.5F && this.mob.level().getRandom().nextInt(100) == 0) {
                 this.mob.setTarget(null);
                 return false;
             } else {

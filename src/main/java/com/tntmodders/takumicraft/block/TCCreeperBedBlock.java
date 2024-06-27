@@ -10,6 +10,7 @@ import com.tntmodders.takumicraft.item.TCBlockItem;
 import com.tntmodders.takumicraft.provider.*;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.data.loot.LootTableSubProvider;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
@@ -36,7 +37,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.function.Consumer;
-import java.util.function.Supplier;
+import java.util.function.Function;
 
 public class TCCreeperBedBlock extends BedBlock implements ITCBlocks, ITCRecipe {
     private final DyeColor color;
@@ -59,8 +60,8 @@ public class TCCreeperBedBlock extends BedBlock implements ITCBlocks, ITCRecipe 
     }
 
     @Override
-    public Supplier<LootTableSubProvider> getBlockLootSubProvider(Block block) {
-        return () -> new TCBlockLoot(block, true);
+    public Function<HolderLookup.Provider, LootTableSubProvider> getBlockLootSubProvider(Block block) {
+        return provider -> new TCBlockLoot(provider, block, true);
     }
 
     @Override

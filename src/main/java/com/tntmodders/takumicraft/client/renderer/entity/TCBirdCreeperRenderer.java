@@ -17,7 +17,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class TCBirdCreeperRenderer extends MobRenderer<TCBirdCreeper, TCBirdCreeperModel<TCBirdCreeper>> {
-    private static final ResourceLocation LOCATION = new ResourceLocation(TakumiCraftCore.MODID, "textures/entity/creeper/birdcreeper.png");
+    private static final ResourceLocation LOCATION = ResourceLocation.tryBuild(TakumiCraftCore.MODID, "textures/entity/creeper/birdcreeper.png");
 
     public TCBirdCreeperRenderer(EntityRendererProvider.Context p_173956_) {
         super(p_173956_, new TCBirdCreeperModel<>(p_173956_.bakeLayer(ModelLayers.CHICKEN)), 0.7F);

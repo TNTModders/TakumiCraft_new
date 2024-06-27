@@ -4,6 +4,7 @@ import com.ibm.icu.impl.Pair;
 import com.tntmodders.takumicraft.data.loot.TCBlockLoot;
 import com.tntmodders.takumicraft.item.TCBlockItem;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.data.loot.LootTableSubProvider;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
@@ -13,7 +14,7 @@ import net.minecraftforge.client.model.generators.ModelFile;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Supplier;
+import java.util.function.Function;
 
 public interface ITCBlocks extends ITCTranslator {
     String getRegistryName();
@@ -30,7 +31,7 @@ public interface ITCBlocks extends ITCTranslator {
         loot.dropSelf(block);
     }
 
-    Supplier<LootTableSubProvider> getBlockLootSubProvider(Block block);
+    Function<HolderLookup.Provider, LootTableSubProvider> getBlockLootSubProvider(Block block);
 
     default List<TagKey<Block>> getBlockTags() {
         return new ArrayList<>();

@@ -52,6 +52,6 @@ public class TCSlimeCreeperRenderer extends MobRenderer<TCSlimeCreeper, SlimeMod
 
     @Override
     public ResourceLocation getTextureLocation(TCSlimeCreeper creeper) {
-        return new ResourceLocation(TakumiCraftCore.MODID, "textures/entity/creeper/" + creeper.getType().toShortString() + ".png");
+        return ResourceLocation.tryBuild(TakumiCraftCore.MODID, "textures/entity/creeper/" + creeper.getType().toShortString() + ".png");
     }
 }

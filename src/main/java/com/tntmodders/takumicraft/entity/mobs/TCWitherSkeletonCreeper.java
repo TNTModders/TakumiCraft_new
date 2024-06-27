@@ -6,6 +6,9 @@ import com.tntmodders.takumicraft.core.TCEnchantmentCore;
 import com.tntmodders.takumicraft.core.TCEntityCore;
 import com.tntmodders.takumicraft.core.TCItemCore;
 import net.minecraft.core.Holder;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.BiomeTags;
@@ -31,7 +34,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
-import net.minecraft.world.level.storage.loot.functions.LootingEnchantFunction;
+import net.minecraft.world.level.storage.loot.functions.EnchantedCountIncreaseFunction;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.predicates.LootItemKilledByPlayerCondition;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
@@ -86,28 +89,24 @@ public class TCWitherSkeletonCreeper extends AbstractTCSkeletonCreeper {
         return SoundEvents.WITHER_SKELETON_STEP;
     }
 
+
     @Override
-    protected void dropCustomDeathLoot(DamageSource p_34174_, int p_34175_, boolean p_34176_) {
-        super.dropCustomDeathLoot(p_34174_, p_34175_, p_34176_);
-        Entity entity = p_34174_.getEntity();
+    protected void dropCustomDeathLoot(ServerLevel p_342918_, DamageSource p_32292_, boolean p_32294_) {
+        super.dropCustomDeathLoot(p_342918_, p_32292_, p_32294_);
+        Entity entity = p_32292_.getEntity();
         if (entity instanceof Creeper creeper) {
             if (creeper.canDropMobsSkull()) {
                 creeper.increaseDroppedSkulls();
                 this.spawnAtLocation(Items.WITHER_SKELETON_SKULL);
             }
         }
-
     }
 
     @Override
     protected void populateDefaultEquipmentSlots(RandomSource p_219154_, DifficultyInstance p_219155_) {
         ItemStack stack = new ItemStack(TCItemCore.CREEPER_SWORD);
-        stack.enchant(TCEnchantmentCore.ANTI_POWERED, 1);
+        stack.enchant(this.level().holderLookup(Registries.ENCHANTMENT).getOrThrow(TCEnchantmentCore.ANTI_POWERED), 1);
         this.setItemSlot(EquipmentSlot.MAINHAND, stack);
-    }
-
-    @Override
-    protected void populateDefaultEquipmentEnchantments(RandomSource p_219157_, DifficultyInstance p_219158_) {
     }
 
     @Override
@@ -133,8 +132,8 @@ public class TCWitherSkeletonCreeper extends AbstractTCSkeletonCreeper {
     }
 
     @Override
-    protected AbstractArrow getArrow(ItemStack p_34189_, float p_34190_) {
-        AbstractArrow abstractarrow = super.getArrow(p_34189_, p_34190_);
+    protected AbstractArrow getArrow(ItemStack p_34189_, float p_34190_, ItemStack itemStack) {
+        AbstractArrow abstractarrow = super.getArrow(p_34189_, p_34190_, itemStack);
         abstractarrow.igniteForSeconds(100);
         return abstractarrow;
     }
@@ -222,8 +221,8 @@ public class TCWitherSkeletonCreeper extends AbstractTCSkeletonCreeper {
         }
 
         @Override
-        public LootTable.Builder additionalBuilder(LootTable.Builder lootTable) {
-            return TCCreeperContext.super.additionalBuilder(lootTable).withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F)).add(LootItem.lootTableItem(Items.WITHER_SKELETON_SKULL).apply(SetItemCountFunction.setCount(UniformGenerator.between(0.0F, 1.0F))).apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(0.0F, 1.0F)).setLimit(1))).when(LootItemKilledByPlayerCondition.killedByPlayer()));
+        public LootTable.Builder additionalBuilder(HolderLookup.Provider provider, LootTable.Builder lootTable) {
+            return TCCreeperContext.super.additionalBuilder(provider, lootTable).withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F)).add(LootItem.lootTableItem(Items.WITHER_SKELETON_SKULL).apply(SetItemCountFunction.setCount(UniformGenerator.between(0.0F, 1.0F))).apply(EnchantedCountIncreaseFunction.lootingMultiplier(provider, UniformGenerator.between(0.0F, 1.0F)).setLimit(1))).when(LootItemKilledByPlayerCondition.killedByPlayer()));
         }
 
         @Override

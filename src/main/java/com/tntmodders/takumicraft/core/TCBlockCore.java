@@ -121,10 +121,10 @@ public class TCBlockCore {
     public static final Block CREEPER_SHULKER = new TCCreeperShulkerBoxBlock();
     public static final Block SUPER_BLOCK = new TCCreeperSuperBlock();
 
-    public static final TagKey<Block> GUNORES = TagKey.create(Registries.BLOCK, new ResourceLocation(TakumiCraftCore.MODID, "gunores"));
-    public static final TagKey<Block> ANTI_EXPLOSION = TagKey.create(Registries.BLOCK, new ResourceLocation(TakumiCraftCore.MODID, "anti_explosion"));
-    public static final TagKey<Block> CREEPER_BED = TagKey.create(Registries.BLOCK, new ResourceLocation(TakumiCraftCore.MODID, "creeperbed"));
-    public static final TagKey<Block> EXPLOSIVES = TagKey.create(Registries.BLOCK, new ResourceLocation(TakumiCraftCore.MODID, "explosives"));
+    public static final TagKey<Block> GUNORES = TagKey.create(Registries.BLOCK, ResourceLocation.tryBuild(TakumiCraftCore.MODID, "gunores"));
+    public static final TagKey<Block> ANTI_EXPLOSION = TagKey.create(Registries.BLOCK, ResourceLocation.tryBuild(TakumiCraftCore.MODID, "anti_explosion"));
+    public static final TagKey<Block> CREEPER_BED = TagKey.create(Registries.BLOCK, ResourceLocation.tryBuild(TakumiCraftCore.MODID, "creeperbed"));
+    public static final TagKey<Block> EXPLOSIVES = TagKey.create(Registries.BLOCK, ResourceLocation.tryBuild(TakumiCraftCore.MODID, "explosives"));
 
     static {
         Arrays.stream(DyeColor.values()).forEach(dyeColor -> {
@@ -143,13 +143,13 @@ public class TCBlockCore {
             try {
                 Object obj = field.get(null);
                 if (obj instanceof ITCBlocks && obj instanceof Block block) {
-                    event.register(ForgeRegistries.BLOCKS.getRegistryKey(), blockRegisterHelper -> blockRegisterHelper.register(new ResourceLocation(TakumiCraftCore.MODID, ((ITCBlocks) block).getRegistryName()), block));
+                    event.register(ForgeRegistries.BLOCKS.getRegistryKey(), blockRegisterHelper -> blockRegisterHelper.register(ResourceLocation.tryBuild(TakumiCraftCore.MODID, ((ITCBlocks) block).getRegistryName()), block));
                     BLOCKS.add(block);
                     TCLoggingUtils.entryRegistry("Block", ((ITCBlocks) block).getRegistryName());
                 } else if (obj instanceof Map map) {
                     map.values().forEach(value -> {
                         if (value instanceof ITCBlocks && value instanceof Block block) {
-                            event.register(ForgeRegistries.BLOCKS.getRegistryKey(), blockRegisterHelper -> blockRegisterHelper.register(new ResourceLocation(TakumiCraftCore.MODID, ((ITCBlocks) block).getRegistryName()), block));
+                            event.register(ForgeRegistries.BLOCKS.getRegistryKey(), blockRegisterHelper -> blockRegisterHelper.register(ResourceLocation.tryBuild(TakumiCraftCore.MODID, ((ITCBlocks) block).getRegistryName()), block));
                             BLOCKS.add(block);
                             TCLoggingUtils.entryRegistry("Block", ((ITCBlocks) block).getRegistryName());
                         }

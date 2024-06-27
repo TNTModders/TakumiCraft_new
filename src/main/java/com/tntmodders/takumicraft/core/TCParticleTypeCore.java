@@ -30,7 +30,7 @@ public class TCParticleTypeCore {
             try {
                 Object obj = field.get(null);
                 if (obj instanceof TCParticleType type) {
-                    event.register(ForgeRegistries.PARTICLE_TYPES.getRegistryKey(), helper -> helper.register(new ResourceLocation(TakumiCraftCore.MODID, type.getRegistryName()), type));
+                    event.register(ForgeRegistries.PARTICLE_TYPES.getRegistryKey(), helper -> helper.register(ResourceLocation.tryBuild(TakumiCraftCore.MODID, type.getRegistryName()), type));
                     PARTICLE_TYPES.add(type);
                     TCLoggingUtils.entryRegistry("ParticleType", type.getRegistryName());
                 }

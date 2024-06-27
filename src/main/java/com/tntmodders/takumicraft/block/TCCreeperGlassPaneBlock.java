@@ -7,6 +7,7 @@ import com.tntmodders.takumicraft.provider.ITCBlocks;
 import com.tntmodders.takumicraft.provider.ITCRecipe;
 import com.tntmodders.takumicraft.provider.TCBlockStateProvider;
 import com.tntmodders.takumicraft.provider.TCRecipeProvider;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.data.loot.LootTableSubProvider;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
@@ -22,7 +23,7 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 
 import java.util.List;
-import java.util.function.Supplier;
+import java.util.function.Function;
 
 public class TCCreeperGlassPaneBlock extends IronBarsBlock implements ITCBlocks, ITCRecipe {
     private final Block baseTakumiBlock;
@@ -35,14 +36,14 @@ public class TCCreeperGlassPaneBlock extends IronBarsBlock implements ITCBlocks,
     @Override
     public void registerStateAndModel(TCBlockStateProvider provider) {
         ResourceLocation sourceName = provider.blockTexture(this.getBaseTakumiBlock());
-        ResourceLocation topName = provider.blockFolder(new ResourceLocation(TakumiCraftCore.MODID, "creeperglasspane_top"));
+        ResourceLocation topName = provider.blockFolder(ResourceLocation.tryBuild(TakumiCraftCore.MODID, "creeperglasspane_top"));
         provider.paneBlockWithRenderType(this, sourceName, topName, "cutout");
         provider.singleBlockItem(this, sourceName);
     }
 
     @Override
-    public Supplier<LootTableSubProvider> getBlockLootSubProvider(Block block) {
-        return () -> new TCBlockLoot(block, true);
+    public Function<HolderLookup.Provider, LootTableSubProvider> getBlockLootSubProvider(Block block) {
+        return provider -> new TCBlockLoot(provider, block, true);
     }
 
     @Override

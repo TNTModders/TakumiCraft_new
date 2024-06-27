@@ -1,12 +1,16 @@
 package com.tntmodders.takumicraft;
 
 import com.tntmodders.takumicraft.core.*;
-import com.tntmodders.takumicraft.core.client.*;
+import com.tntmodders.takumicraft.core.client.TCColorsCore;
+import com.tntmodders.takumicraft.core.client.TCItemPropertyCore;
+import com.tntmodders.takumicraft.core.client.TCKeyBindingCore;
+import com.tntmodders.takumicraft.core.client.TCRenderCore;
 import com.tntmodders.takumicraft.event.TCEvents;
 import com.tntmodders.takumicraft.event.client.TCClientEvents;
 import com.tntmodders.takumicraft.provider.*;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
 import net.minecraftforge.api.distmarker.Dist;
@@ -67,17 +71,17 @@ public class TakumiCraftCore {
         CompletableFuture<HolderLookup.Provider> lookupProvider = event.getLookupProvider();
         gen.addProvider(event.includeClient(), new TCBlockStateProvider(packOutput, fileHelper));
         gen.addProvider(event.includeClient(), new TCItemModelProvider(packOutput, fileHelper));
-        gen.addProvider(event.includeClient(), new TCLanguageProvider.TCEnUSLanguageProvider(gen));
-        gen.addProvider(event.includeClient(), new TCLanguageProvider.TCJaJPLanguageProvider(gen));
         TCBlockTagsProvider blockTagsProvider = new TCBlockTagsProvider(packOutput, lookupProvider, fileHelper);
         gen.addProvider(event.includeServer(), blockTagsProvider);
         gen.addProvider(event.includeServer(), new TCItemTagsProvider(packOutput, lookupProvider, blockTagsProvider.contentsGetter(), fileHelper));
         gen.addProvider(event.includeServer(), new TCEntityTypeTagsProvider(packOutput, lookupProvider, fileHelper));
+        gen.addProvider(event.includeServer(), new TCDatapackRegistryProvider(packOutput, lookupProvider));
         gen.addProvider(event.includeServer(), new TCRecipeProvider(packOutput, lookupProvider));
         gen.addProvider(event.includeServer(), new TCLootTableProvider(packOutput, lookupProvider));
         gen.addProvider(event.includeServer(), new TCAdvancementProvider(packOutput, lookupProvider,
                 fileHelper, List.of(new TCAdvancementProvider.TCAdvancementGenerator())));
-        gen.addProvider(event.includeServer(), new TCOreGenProvider(packOutput, lookupProvider));
+        gen.addProvider(event.includeClient(), new TCLanguageProvider.TCEnUSLanguageProvider(gen));
+        gen.addProvider(event.includeClient(), new TCLanguageProvider.TCJaJPLanguageProvider(gen));
     }
 
     @SubscribeEvent
@@ -97,8 +101,8 @@ public class TakumiCraftCore {
             if (ForgeRegistries.ENTITY_TYPES.equals(event.getForgeRegistry())) {
                 TCEntityCore.registerEntityType(event);
             }
-            if (ForgeRegistries.ENCHANTMENTS.equals(event.getForgeRegistry())) {
-                TCEnchantmentCore.register(event);
+            if (Registries.ENCHANTMENT.equals(event.getRegistryKey())) {
+                //TCEnchantmentCore.register(event);
             }
             if (BuiltInRegistries.CREATIVE_MODE_TAB.equals(event.getVanillaRegistry())) {
                 TCCreativeModeTabCore.register(event);
@@ -150,7 +154,7 @@ public class TakumiCraftCore {
 
         @SubscribeEvent
         public static void clientInit(FMLClientSetupEvent event) {
-            TCSearchTreeCore.register();
+            //TCSearchTreeCore.register();
             TCItemPropertyCore.register();
         }
 

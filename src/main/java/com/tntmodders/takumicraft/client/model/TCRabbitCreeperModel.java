@@ -67,24 +67,24 @@ public class TCRabbitCreeperModel<T extends TCRabbitCreeper> extends EntityModel
     }
 
     @Override
-    public void renderToBuffer(PoseStack p_103555_, VertexConsumer p_103556_, int p_103557_, int p_103558_, float p_103559_, float p_103560_, float p_103561_, float p_103562_) {
+    public void renderToBuffer(PoseStack p_103555_, VertexConsumer p_103556_, int p_103557_, int p_103558_, int i) {
         if (this.young) {
             float f = 1.5F;
             p_103555_.pushPose();
             p_103555_.scale(0.56666666F, 0.56666666F, 0.56666666F);
             p_103555_.translate(0.0F, 1.375F, 0.125F);
-            ImmutableList.of(this.head, this.leftEar, this.rightEar, this.nose).forEach(p_103597_ -> p_103597_.render(p_103555_, p_103556_, p_103557_, p_103558_, p_103559_, p_103560_, p_103561_, p_103562_));
+            ImmutableList.of(this.head, this.leftEar, this.rightEar, this.nose).forEach(p_103597_ -> p_103597_.render(p_103555_, p_103556_, p_103557_, p_103558_));
             p_103555_.popPose();
             p_103555_.pushPose();
             p_103555_.scale(0.4F, 0.4F, 0.4F);
             p_103555_.translate(0.0F, 2.25F, 0.0F);
-            ImmutableList.of(this.leftRearFoot, this.rightRearFoot, this.leftHaunch, this.rightHaunch, this.body, this.leftFrontLeg, this.rightFrontLeg, this.tail).forEach(p_103587_ -> p_103587_.render(p_103555_, p_103556_, p_103557_, p_103558_, p_103559_, p_103560_, p_103561_, p_103562_));
+            ImmutableList.of(this.leftRearFoot, this.rightRearFoot, this.leftHaunch, this.rightHaunch, this.body, this.leftFrontLeg, this.rightFrontLeg, this.tail).forEach(p_103587_ -> p_103587_.render(p_103555_, p_103556_, p_103557_, p_103558_));
             p_103555_.popPose();
         } else {
             p_103555_.pushPose();
             p_103555_.scale(0.6F, 0.6F, 0.6F);
             p_103555_.translate(0.0F, 1.0F, 0.0F);
-            ImmutableList.of(this.leftRearFoot, this.rightRearFoot, this.leftHaunch, this.rightHaunch, this.body, this.leftFrontLeg, this.rightFrontLeg, this.head, this.rightEar, this.leftEar, this.tail, this.nose).forEach(p_103572_ -> p_103572_.render(p_103555_, p_103556_, p_103557_, p_103558_, p_103559_, p_103560_, p_103561_, p_103562_));
+            ImmutableList.of(this.leftRearFoot, this.rightRearFoot, this.leftHaunch, this.rightHaunch, this.body, this.leftFrontLeg, this.rightFrontLeg, this.head, this.rightEar, this.leftEar, this.tail, this.nose).forEach(p_103572_ -> p_103572_.render(p_103555_, p_103556_, p_103557_, p_103558_));
             p_103555_.popPose();
         }
 

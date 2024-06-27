@@ -14,14 +14,13 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.*;
+import net.minecraft.world.Clearable;
+import net.minecraft.world.ContainerHelper;
+import net.minecraft.world.Containers;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.ItemContainerContents;
-import net.minecraft.world.item.crafting.CampfireCookingRecipe;
-import net.minecraft.world.item.crafting.RecipeHolder;
-import net.minecraft.world.item.crafting.RecipeManager;
-import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.CampfireBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -41,7 +40,7 @@ public class TCCreeperCampFireBlockEntity extends BlockEntity implements Clearab
     private final NonNullList<ItemStack> items = NonNullList.withSize(4, ItemStack.EMPTY);
     private final int[] cookingProgress = new int[4];
     private final int[] cookingTime = new int[4];
-    private final RecipeManager.CachedCheck<Container, CampfireCookingRecipe> quickCheck = RecipeManager.createCheck(RecipeType.CAMPFIRE_COOKING);
+    private final RecipeManager.CachedCheck<SingleRecipeInput, CampfireCookingRecipe> quickCheck = RecipeManager.createCheck(RecipeType.CAMPFIRE_COOKING);
 
 
     public static void cookTick(Level level, BlockPos pos, BlockState state, TCCreeperCampFireBlockEntity campfire) {
@@ -53,7 +52,7 @@ public class TCCreeperCampFireBlockEntity extends BlockEntity implements Clearab
                 flag = true;
                 campfire.cookingProgress[i]++;
                 if (campfire.cookingProgress[i] >= campfire.cookingTime[i]) {
-                    Container container = new SimpleContainer(itemstack);
+                    SingleRecipeInput container = new SingleRecipeInput(itemstack);
                     ItemStack itemstack1 = campfire.quickCheck
                             .getRecipeFor(container, level)
                             .map(p_327303_ -> p_327303_.value().assemble(container, level.registryAccess()))
@@ -166,7 +165,7 @@ public class TCCreeperCampFireBlockEntity extends BlockEntity implements Clearab
     public Optional<RecipeHolder<CampfireCookingRecipe>> getCookableRecipe(ItemStack p_59052_) {
         return this.items.stream().noneMatch(ItemStack::isEmpty)
                 ? Optional.empty()
-                : this.quickCheck.getRecipeFor(new SimpleContainer(p_59052_), this.level);
+                : this.quickCheck.getRecipeFor(new SingleRecipeInput(p_59052_), this.level);
     }
 
     public boolean placeFood(@Nullable Entity p_238285_, ItemStack p_238286_, int p_238287_) {

@@ -49,9 +49,9 @@ public class TCTakumiBookScreen extends Screen {
     protected static final int TEXT_HEIGHT = 128;
     protected static final int IMAGE_WIDTH = 192;
     protected static final int IMAGE_HEIGHT = 192;
-    private static final ResourceLocation BOOK_GUI_TEXTURES = new ResourceLocation("textures/gui/book.png");
+    private static final ResourceLocation BOOK_GUI_TEXTURES = ResourceLocation.tryBuild("minecraft", "textures/gui/book.png");
     private static final ResourceLocation BOOK_GUI_TEXTURES_BOSS =
-            new ResourceLocation(TakumiCraftCore.MODID, "textures/book/book_boss.png");
+            ResourceLocation.tryBuild(TakumiCraftCore.MODID, "textures/book/book_boss.png");
     private static int currentPage;
     public final NonNullList<AbstractTCCreeper> creepers = NonNullList.create();
     private final boolean playTurnSound;
@@ -235,18 +235,18 @@ public class TCTakumiBookScreen extends Screen {
         if (flg) {
             location = context.getElement().getIcon();
         } else {
-            location = new ResourceLocation(TakumiCraftCore.MODID, "textures/book/underfound.png");
+            location = ResourceLocation.tryBuild(TakumiCraftCore.MODID, "textures/book/underfound.png");
         }
         RenderSystem.setShaderTexture(0, location);
         graphics.blit(location, i, 2, 0, 0, 192, 192);
         if (flg) {
             if (context.getElement().isDest()) {
-                location = new ResourceLocation(TakumiCraftCore.MODID, "textures/book/dest.png");
+                location = ResourceLocation.tryBuild(TakumiCraftCore.MODID, "textures/book/dest.png");
                 RenderSystem.setShaderTexture(0, location);
                 graphics.blit(location, i, 2, 0, 0, 192, 192);
             }
             if (context.getElement().isMagic()) {
-                location = new ResourceLocation(TakumiCraftCore.MODID, "textures/book/magic.png");
+                location = ResourceLocation.tryBuild(TakumiCraftCore.MODID, "textures/book/magic.png");
                 RenderSystem.setShaderTexture(0, location);
                 graphics.blit(location, i, 2, 0, 0, 192, 192);
             }

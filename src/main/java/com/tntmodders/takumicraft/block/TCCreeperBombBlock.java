@@ -5,6 +5,7 @@ import com.tntmodders.takumicraft.data.loot.TCBlockLoot;
 import com.tntmodders.takumicraft.item.TCBlockItem;
 import com.tntmodders.takumicraft.provider.ITCRecipe;
 import com.tntmodders.takumicraft.provider.TCRecipeProvider;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.data.loot.LootTableSubProvider;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
@@ -20,7 +21,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.MapColor;
 
 import java.util.List;
-import java.util.function.Supplier;
+import java.util.function.Function;
 import java.util.function.ToIntFunction;
 
 public class TCCreeperBombBlock extends AbstractTCBombBlock implements ITCRecipe {
@@ -58,8 +59,8 @@ public class TCCreeperBombBlock extends AbstractTCBombBlock implements ITCRecipe
     }
 
     @Override
-    public Supplier<LootTableSubProvider> getBlockLootSubProvider(Block block) {
-        return () -> new TCBlockLoot(block, false);
+    public Function<HolderLookup.Provider, LootTableSubProvider> getBlockLootSubProvider(Block block) {
+        return provider -> new TCBlockLoot(provider, block, false);
     }
 
     @Override

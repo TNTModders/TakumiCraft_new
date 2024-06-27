@@ -11,7 +11,7 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.world.Container;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -22,9 +22,9 @@ import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.SmithingRecipe;
+import net.minecraft.world.item.crafting.SmithingRecipeInput;
 import net.minecraft.world.level.Level;
 
-import java.util.UUID;
 import java.util.stream.Stream;
 
 import static com.tntmodders.takumicraft.item.TCCreeperSwordItem.*;
@@ -39,12 +39,12 @@ public class TCCreeperSwordUpgradeRecipe implements SmithingRecipe {
     final ItemStack result = TCItemCore.CREEPER_SWORD.getDefaultInstance();
 
     @Override
-    public boolean matches(Container p_266855_, Level p_266781_) {
+    public boolean matches(SmithingRecipeInput p_266855_, Level p_266781_) {
         return this.template.test(p_266855_.getItem(0)) && this.base.test(p_266855_.getItem(1));
     }
 
     @Override
-    public ItemStack assemble(Container p_267036_, HolderLookup.Provider p_331030_) {
+    public ItemStack assemble(SmithingRecipeInput p_267036_, HolderLookup.Provider p_331030_) {
         ItemStack itemstack = p_267036_.getItem(1).transmuteCopy(this.result.getItem(), this.result.getCount());
         itemstack.applyComponents(this.result.getComponentsPatch());
         upgradeNewAttributes(itemstack, (TCElementCoreItem) p_267036_.getItem(0).getItem());
@@ -52,7 +52,7 @@ public class TCCreeperSwordUpgradeRecipe implements SmithingRecipe {
         CustomData data;
         if (p_267036_.getItem(0).getItem() instanceof TCElementCoreItem item) {
             AbstractTCCreeper.TCCreeperContext.EnumTakumiElement element = item.getElement();
-            int[] ints = new int[6];
+            int[] ints;
             if (itemstack.has(DataComponents.CUSTOM_DATA) && itemstack.get(DataComponents.CUSTOM_DATA).copyTag().contains("elemcount")) {
                 CompoundTag tag = itemstack.get(DataComponents.CUSTOM_DATA).copyTag();
                 ints = tag.getIntArray("elemcount");
@@ -130,15 +130,15 @@ public class TCCreeperSwordUpgradeRecipe implements SmithingRecipe {
         CreeperSwordUpgrader speed = new CreeperSwordUpgrader(Attributes.ATTACK_SPEED, element.getAddSpeed());
         CreeperSwordUpgrader range = new CreeperSwordUpgrader(Attributes.ENTITY_INTERACTION_RANGE, element.getAddRange());
         modifiers = modifiers
-                .withModifierAdded(damage.holder(), new AttributeModifier(damage.getUUID(), "CreeperSword Modifier", damage.getModifyAmount(modifiers, stack), AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND)
-                .withModifierAdded(speed.holder(), new AttributeModifier(speed.getUUID(), "CreeperSowrd Modifier", speed.getModifyAmount(modifiers, stack), AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND)
-                .withModifierAdded(range.holder(), new AttributeModifier(range.getUUID(), "CreeperSword Modifier", range.getModifyAmount(modifiers, stack), AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND);
+                .withModifierAdded(damage.holder(), new AttributeModifier(damage.getUUID(), damage.getModifyAmount(modifiers, stack), AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND)
+                .withModifierAdded(speed.holder(), new AttributeModifier(speed.getUUID(), speed.getModifyAmount(modifiers, stack), AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND)
+                .withModifierAdded(range.holder(), new AttributeModifier(range.getUUID(), range.getModifyAmount(modifiers, stack), AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND);
         stack.set(DataComponents.ATTRIBUTE_MODIFIERS, modifiers);
         return stack;
     }
 
     record CreeperSwordUpgrader(Holder<Attribute> holder, double amount) {
-        public UUID getUUID() {
+        public ResourceLocation getUUID() {
             if (holder().equals(Attributes.ATTACK_SPEED)) {
                 return ATTACK_SPEED_UUID;
             } else if (holder().equals(Attributes.ENTITY_INTERACTION_RANGE)) {

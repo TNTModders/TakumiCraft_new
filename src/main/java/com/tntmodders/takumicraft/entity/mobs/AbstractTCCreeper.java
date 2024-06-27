@@ -12,6 +12,7 @@ import com.tntmodders.takumicraft.utils.client.TCClientUtils;
 import net.minecraft.advancements.critereon.EntityPredicate;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.data.loot.EntityLootSubProvider;
 import net.minecraft.data.loot.LootTableSubProvider;
 import net.minecraft.network.FriendlyByteBuf;
@@ -38,10 +39,10 @@ import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.entries.TagEntry;
-import net.minecraft.world.level.storage.loot.functions.LootingEnchantFunction;
+import net.minecraft.world.level.storage.loot.functions.EnchantedCountIncreaseFunction;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.predicates.LootItemEntityPropertyCondition;
-import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceWithLootingCondition;
+import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceWithEnchantedBonusCondition;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import net.minecraftforge.api.distmarker.Dist;
@@ -55,7 +56,7 @@ import net.minecraftforge.event.level.ExplosionEvent;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Supplier;
+import java.util.function.Function;
 import java.util.stream.Stream;
 
 public abstract class AbstractTCCreeper extends Creeper implements ITCEntities, IEntityAdditionalSpawnData {
@@ -114,8 +115,8 @@ public abstract class AbstractTCCreeper extends Creeper implements ITCEntities, 
     public abstract TCCreeperContext<? extends AbstractTCCreeper> getContext();
 
     @Override
-    public Supplier<LootTableSubProvider> getEntityLoot() {
-        return () -> new EntityLootSubProvider(FeatureFlags.REGISTRY.allFlags()) {
+    public Function<HolderLookup.Provider, LootTableSubProvider> getEntityLoot() {
+        return provider -> new EntityLootSubProvider(FeatureFlags.REGISTRY.allFlags(), provider) {
             @Override
             protected Stream<EntityType<?>> getKnownEntityTypes() {
                 return TCEntityCore.ENTITY_TYPES.stream();
@@ -199,30 +200,35 @@ public abstract class AbstractTCCreeper extends Creeper implements ITCEntities, 
         }
 
         @Nullable
-        default Supplier<LootTableSubProvider> getCreeperLoot(EntityType<?> type) {
-            return () -> new EntityLootSubProvider(FeatureFlags.REGISTRY.allFlags()) {
+        default Function<HolderLookup.Provider, LootTableSubProvider> getCreeperLoot(EntityType<?> type) {
+            return new Function<>() {
                 @Override
-                public Stream<EntityType<?>> getKnownEntityTypes() {
-                    return Stream.of(type);
-                }
+                public LootTableSubProvider apply(HolderLookup.Provider provider) {
+                    return new EntityLootSubProvider(FeatureFlags.REGISTRY.allFlags(), provider) {
+                        @Override
+                        public Stream<EntityType<?>> getKnownEntityTypes() {
+                            return Stream.of(type);
+                        }
 
-                @Override
-                public void generate() {
-                    LootTable.Builder lootTable =
-                            LootTable.lootTable()
-                                    .withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
-                                            .add(LootItem.lootTableItem(TCCreeperContext.this.getMainDropItem())
-                                                    .apply(SetItemCountFunction.setCount(TCCreeperContext.this.getDropRange()))
-                                                    .apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(0.0F, 1.0F)))))
-                                    .withPool(LootPool.lootPool().add(TagEntry.expandTag(ItemTags.CREEPER_DROP_MUSIC_DISCS))
-                                            .when(LootItemEntityPropertyCondition.hasProperties(LootContext.EntityTarget.KILLER,
-                                                    EntityPredicate.Builder.entity().of(EntityTypeTags.SKELETONS))));
-                    this.add(type, TCCreeperContext.this.additionalBuilder(lootTable));
+                        @Override
+                        public void generate() {
+                            LootTable.Builder lootTable =
+                                    LootTable.lootTable()
+                                            .withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
+                                                    .add(LootItem.lootTableItem(TCCreeperContext.this.getMainDropItem())
+                                                            .apply(SetItemCountFunction.setCount(TCCreeperContext.this.getDropRange()))
+                                                            .apply(EnchantedCountIncreaseFunction.lootingMultiplier(this.registries, UniformGenerator.between(0.0F, 1.0F)))))
+                                            .withPool(LootPool.lootPool().add(TagEntry.expandTag(ItemTags.CREEPER_DROP_MUSIC_DISCS))
+                                                    .when(LootItemEntityPropertyCondition.hasProperties(LootContext.EntityTarget.ATTACKER,
+                                                            EntityPredicate.Builder.entity().of(EntityTypeTags.SKELETONS))));
+                            this.add(type, TCCreeperContext.this.additionalBuilder(this.registries, lootTable));
+                        }
+                    };
                 }
             };
         }
 
-        default LootTable.Builder additionalBuilder(LootTable.Builder lootTable) {
+        default LootTable.Builder additionalBuilder(HolderLookup.Provider provider, LootTable.Builder lootTable) {
             lootTable = lootTable.withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1f))
                     .add(LootItem.lootTableItem(TCBlockCore.CREEPER_BOMB))
                     .apply(SetItemCountFunction.setCount(UniformGenerator.between(0f, TCCreeperContext.this.getRank() != EnumTakumiRank.BOSS && TCCreeperContext.this.getRank().getLevel() > 1 ? 2f : 0f))));
@@ -233,7 +239,7 @@ public abstract class AbstractTCCreeper extends Creeper implements ITCEntities, 
                     lootTable = lootTable.withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1f))
                             .add(LootItem.lootTableItem(item))
                             .apply(SetItemCountFunction.setCount(UniformGenerator.between(0f, 1f)))
-                            .when(LootItemRandomChanceWithLootingCondition.randomChanceAndLootingBoost(0.025F, 0.01F)));
+                            .when(LootItemRandomChanceWithEnchantedBonusCondition.randomChanceAndLootingBoost(provider, 0.025F, 0.01F)));
                 }
             }
             return lootTable;
@@ -351,14 +357,14 @@ public abstract class AbstractTCCreeper extends Creeper implements ITCEntities, 
 
             public ResourceLocation getIcon() {
                 return switch (this.id) {
-                    case 0 -> new ResourceLocation(TakumiCraftCore.MODID, "textures/book/takumi.png");
-                    case 1 -> new ResourceLocation(TakumiCraftCore.MODID, "textures/book/fire.png");
-                    case 2 -> new ResourceLocation(TakumiCraftCore.MODID, "textures/book/grass.png");
-                    case 3 -> new ResourceLocation(TakumiCraftCore.MODID, "textures/book/water.png");
-                    case 4 -> new ResourceLocation(TakumiCraftCore.MODID, "textures/book/wind.png");
-                    case 5 -> new ResourceLocation(TakumiCraftCore.MODID, "textures/book/ground.png");
-                    case 6 -> new ResourceLocation(TakumiCraftCore.MODID, "textures/book/normal.png");
-                    default -> new ResourceLocation(TakumiCraftCore.MODID, "textures/book/underfound.png");
+                    case 0 -> ResourceLocation.tryBuild(TakumiCraftCore.MODID, "textures/book/takumi.png");
+                    case 1 -> ResourceLocation.tryBuild(TakumiCraftCore.MODID, "textures/book/fire.png");
+                    case 2 -> ResourceLocation.tryBuild(TakumiCraftCore.MODID, "textures/book/grass.png");
+                    case 3 -> ResourceLocation.tryBuild(TakumiCraftCore.MODID, "textures/book/water.png");
+                    case 4 -> ResourceLocation.tryBuild(TakumiCraftCore.MODID, "textures/book/wind.png");
+                    case 5 -> ResourceLocation.tryBuild(TakumiCraftCore.MODID, "textures/book/ground.png");
+                    case 6 -> ResourceLocation.tryBuild(TakumiCraftCore.MODID, "textures/book/normal.png");
+                    default -> ResourceLocation.tryBuild(TakumiCraftCore.MODID, "textures/book/underfound.png");
                 };
             }
 

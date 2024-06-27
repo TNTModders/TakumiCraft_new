@@ -31,7 +31,7 @@ import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
 import net.minecraftforge.event.level.ExplosionEvent;
 
 public class TCYukariCreeper extends AbstractTCCreeper {
-    public static final ResourceLocation YUKARI_LOCATION = new ResourceLocation(TakumiCraftCore.MODID, "textures/entity/creeper/yukaricreeper_armor.png");
+    public static final ResourceLocation YUKARI_LOCATION = ResourceLocation.tryBuild(TakumiCraftCore.MODID, "textures/entity/creeper/yukaricreeper_armor.png");
 
     public TCYukariCreeper(EntityType<? extends Creeper> entityType, Level level) {
         super(entityType, level);

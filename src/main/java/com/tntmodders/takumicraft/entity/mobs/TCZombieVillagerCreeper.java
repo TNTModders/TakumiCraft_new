@@ -8,6 +8,7 @@ import com.tntmodders.takumicraft.client.renderer.entity.TCZombieVillagerCreeper
 import com.tntmodders.takumicraft.core.TCEntityCore;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.loot.EntityLootSubProvider;
 import net.minecraft.data.loot.LootTableSubProvider;
@@ -38,6 +39,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.enchantment.EnchantmentEffectComponents;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.trading.MerchantOffers;
 import net.minecraft.world.level.Level;
@@ -45,16 +47,14 @@ import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.BedBlock;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
-import net.minecraft.world.level.storage.loot.functions.LootingEnchantFunction;
+import net.minecraft.world.level.storage.loot.functions.EnchantedCountIncreaseFunction;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.functions.SmeltItemFunction;
-import net.minecraft.world.level.storage.loot.predicates.LootItemEntityPropertyCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemKilledByPlayerCondition;
-import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceWithLootingCondition;
+import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceWithEnchantedBonusCondition;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import net.minecraftforge.api.distmarker.Dist;
@@ -64,7 +64,7 @@ import org.slf4j.Logger;
 
 import javax.annotation.Nullable;
 import java.util.UUID;
-import java.util.function.Supplier;
+import java.util.function.Function;
 import java.util.stream.Stream;
 
 public class TCZombieVillagerCreeper extends TCZombieCreeper implements VillagerDataHolder {
@@ -221,45 +221,38 @@ public class TCZombieVillagerCreeper extends TCZombieCreeper implements Villager
 
     private void finishConversion(ServerLevel p_34399_) {
         Villager villager = this.convertTo(EntityType.VILLAGER, false);
+        if (villager != null) {
+            for (EquipmentSlot equipmentslot : this.dropPreservedEquipment(p_341444_ -> !EnchantmentHelper.has(p_341444_, EnchantmentEffectComponents.PREVENT_ARMOR_CHANGE))) {
+                SlotAccess slotaccess = villager.getSlot(equipmentslot.getIndex() + 300);
+                slotaccess.set(this.getItemBySlot(equipmentslot));
+            }
 
-        for (EquipmentSlot equipmentslot : EquipmentSlot.values()) {
-            ItemStack itemstack = this.getItemBySlot(equipmentslot);
-            if (!itemstack.isEmpty()) {
-                if (EnchantmentHelper.hasBindingCurse(itemstack)) {
-                    villager.getSlot(equipmentslot.getIndex() + 300).set(itemstack);
-                } else {
-                    double d0 = this.getEquipmentDropChance(equipmentslot);
-                    if (d0 > 1.0D) {
-                        this.spawnAtLocation(itemstack);
-                    }
+            villager.setVillagerData(this.getVillagerData());
+            if (this.gossips != null) {
+                villager.setGossips(this.gossips);
+            }
+
+            if (this.tradeOffers != null) {
+                villager.setOffers(this.tradeOffers.copy());
+            }
+
+            villager.setVillagerXp(this.villagerXp);
+            villager.finalizeSpawn(p_34399_, p_34399_.getCurrentDifficultyAt(villager.blockPosition()), MobSpawnType.CONVERSION, null);
+            villager.refreshBrain(p_34399_);
+            if (this.conversionStarter != null) {
+                Player player = p_34399_.getPlayerByUUID(this.conversionStarter);
+                if (player instanceof ServerPlayer) {
+                    //CriteriaTriggers.CURED_ZOMBIE_VILLAGER.trigger((ServerPlayer)player, this, villager);
+                    p_34399_.onReputationEvent(ReputationEventType.ZOMBIE_VILLAGER_CURED, player, villager);
                 }
             }
-        }
 
-        villager.setVillagerData(this.getVillagerData());
-        if (this.gossips != null) {
-            villager.setGossips(this.gossips);
-        }
-
-        if (this.tradeOffers != null) {
-            villager.setOffers(this.tradeOffers.copy());
-        }
-
-        villager.setVillagerXp(this.villagerXp);
-        villager.finalizeSpawn(p_34399_, p_34399_.getCurrentDifficultyAt(villager.blockPosition()), MobSpawnType.CONVERSION, null);
-        if (this.conversionStarter != null) {
-            Player player = p_34399_.getPlayerByUUID(this.conversionStarter);
-            if (player instanceof ServerPlayer) {
-                //CriteriaTriggers.CURED_ZOMBIE_VILLAGER.trigger((ServerPlayer) player, this, villager);
-                p_34399_.onReputationEvent(ReputationEventType.ZOMBIE_VILLAGER_CURED, player, villager);
+            villager.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 200, 0));
+            if (!this.isSilent()) {
+                p_34399_.levelEvent(null, 1027, this.blockPosition(), 0);
             }
+            net.minecraftforge.event.ForgeEventFactory.onLivingConvert(this, villager);
         }
-
-        villager.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 200, 0));
-        if (!this.isSilent()) {
-            p_34399_.levelEvent(null, 1027, this.blockPosition(), 0);
-        }
-        net.minecraftforge.event.ForgeEventFactory.onLivingConvert(this, villager);
     }
 
     private int getConversionProgress() {
@@ -434,17 +427,22 @@ public class TCZombieVillagerCreeper extends TCZombieCreeper implements Villager
 
         @Nullable
         @Override
-        public Supplier<LootTableSubProvider> getCreeperLoot(EntityType<?> type) {
-            return () -> new EntityLootSubProvider(FeatureFlags.REGISTRY.allFlags()) {
+        public Function<HolderLookup.Provider, LootTableSubProvider> getCreeperLoot(EntityType<?> type) {
+            return new Function<>() {
                 @Override
-                public Stream<EntityType<?>> getKnownEntityTypes() {
-                    return Stream.of(type);
-                }
+                public LootTableSubProvider apply(HolderLookup.Provider provider) {
+                    return new EntityLootSubProvider(FeatureFlags.REGISTRY.allFlags(), provider) {
+                        @Override
+                        public Stream<EntityType<?>> getKnownEntityTypes() {
+                            return Stream.of(type);
+                        }
 
-                @Override
-                public void generate() {
-                    LootTable.Builder builder = LootTable.lootTable().withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F)).add(LootItem.lootTableItem(Items.ROTTEN_FLESH).apply(SetItemCountFunction.setCount(UniformGenerator.between(0.0F, 2.0F))).apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(0.0F, 1.0F))))).withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F)).add(LootItem.lootTableItem(Items.IRON_INGOT)).add(LootItem.lootTableItem(Items.CARROT)).add(LootItem.lootTableItem(Items.POTATO).apply(SmeltItemFunction.smelted().when(LootItemEntityPropertyCondition.hasProperties(LootContext.EntityTarget.THIS, ENTITY_ON_FIRE)))).when(LootItemKilledByPlayerCondition.killedByPlayer()).when(LootItemRandomChanceWithLootingCondition.randomChanceAndLootingBoost(0.025F, 0.01F)));
-                    this.add(CREEPER, TCZombieVillagerCreeperContext.this.additionalBuilder(builder));
+                        @Override
+                        public void generate() {
+                            LootTable.Builder builder = LootTable.lootTable().withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F)).add(LootItem.lootTableItem(Items.ROTTEN_FLESH).apply(SetItemCountFunction.setCount(UniformGenerator.between(0.0F, 2.0F))).apply(EnchantedCountIncreaseFunction.lootingMultiplier(provider, UniformGenerator.between(0.0F, 1.0F))))).withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F)).add(LootItem.lootTableItem(Items.IRON_INGOT)).add(LootItem.lootTableItem(Items.CARROT)).add(LootItem.lootTableItem(Items.POTATO).apply(SmeltItemFunction.smelted().when(this.shouldSmeltLoot()))).when(LootItemKilledByPlayerCondition.killedByPlayer()).when(LootItemRandomChanceWithEnchantedBonusCondition.randomChanceAndLootingBoost(provider, 0.025F, 0.01F)));
+                            this.add(CREEPER, TCZombieVillagerCreeperContext.this.additionalBuilder(provider, builder));
+                        }
+                    };
                 }
             };
         }

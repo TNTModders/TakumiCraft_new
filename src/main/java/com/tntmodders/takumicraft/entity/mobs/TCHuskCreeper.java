@@ -4,6 +4,7 @@ import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.client.renderer.entity.TCZombieCreeperRenderer;
 import com.tntmodders.takumicraft.core.TCEntityCore;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.data.loot.EntityLootSubProvider;
 import net.minecraft.data.loot.LootTableSubProvider;
 import net.minecraft.tags.BiomeTags;
@@ -20,16 +21,14 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.levelgen.Heightmap;
-import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
-import net.minecraft.world.level.storage.loot.functions.LootingEnchantFunction;
+import net.minecraft.world.level.storage.loot.functions.EnchantedCountIncreaseFunction;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.functions.SmeltItemFunction;
-import net.minecraft.world.level.storage.loot.predicates.LootItemEntityPropertyCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemKilledByPlayerCondition;
-import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceWithLootingCondition;
+import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceWithEnchantedBonusCondition;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import net.minecraftforge.api.distmarker.Dist;
@@ -39,7 +38,7 @@ import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
 import net.minecraftforge.event.level.ExplosionEvent;
 
 import javax.annotation.Nullable;
-import java.util.function.Supplier;
+import java.util.function.Function;
 import java.util.stream.Stream;
 
 public class TCHuskCreeper extends TCZombieCreeper {
@@ -152,17 +151,40 @@ public class TCHuskCreeper extends TCZombieCreeper {
 
         @Nullable
         @Override
-        public Supplier<LootTableSubProvider> getCreeperLoot(EntityType<?> type) {
-            return () -> new EntityLootSubProvider(FeatureFlags.REGISTRY.allFlags()) {
+        public Function<HolderLookup.Provider, LootTableSubProvider> getCreeperLoot(EntityType<?> type) {
+            return new Function<>() {
                 @Override
-                public Stream<EntityType<?>> getKnownEntityTypes() {
-                    return Stream.of(type);
-                }
+                public LootTableSubProvider apply(HolderLookup.Provider provider) {
+                    return new EntityLootSubProvider(FeatureFlags.REGISTRY.allFlags(), provider) {
+                        @Override
+                        public Stream<EntityType<?>> getKnownEntityTypes() {
+                            return Stream.of(type);
+                        }
 
-                @Override
-                public void generate() {
-                    LootTable.Builder builder = LootTable.lootTable().withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F)).add(LootItem.lootTableItem(Items.ROTTEN_FLESH).apply(SetItemCountFunction.setCount(UniformGenerator.between(0.0F, 2.0F))).apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(0.0F, 1.0F))))).withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F)).add(LootItem.lootTableItem(Items.IRON_INGOT)).add(LootItem.lootTableItem(Items.CARROT)).add(LootItem.lootTableItem(Items.POTATO).apply(SmeltItemFunction.smelted().when(LootItemEntityPropertyCondition.hasProperties(LootContext.EntityTarget.THIS, ENTITY_ON_FIRE)))).when(LootItemKilledByPlayerCondition.killedByPlayer()).when(LootItemRandomChanceWithLootingCondition.randomChanceAndLootingBoost(0.025F, 0.01F)));
-                    this.add(CREEPER, TCHuskCreeperContext.this.additionalBuilder(builder));
+                        @Override
+                        public void generate() {
+                            LootTable.Builder builder = LootTable.lootTable()
+                                    .withPool(
+                                            LootPool.lootPool()
+                                                    .setRolls(ConstantValue.exactly(1.0F))
+                                                    .add(
+                                                            LootItem.lootTableItem(Items.ROTTEN_FLESH)
+                                                                    .apply(SetItemCountFunction.setCount(UniformGenerator.between(0.0F, 2.0F)))
+                                                                    .apply(EnchantedCountIncreaseFunction.lootingMultiplier(this.registries, UniformGenerator.between(0.0F, 1.0F)))
+                                                    )
+                                    )
+                                    .withPool(
+                                            LootPool.lootPool()
+                                                    .setRolls(ConstantValue.exactly(1.0F))
+                                                    .add(LootItem.lootTableItem(Items.IRON_INGOT))
+                                                    .add(LootItem.lootTableItem(Items.CARROT))
+                                                    .add(LootItem.lootTableItem(Items.POTATO).apply(SmeltItemFunction.smelted().when(this.shouldSmeltLoot())))
+                                                    .when(LootItemKilledByPlayerCondition.killedByPlayer())
+                                                    .when(LootItemRandomChanceWithEnchantedBonusCondition.randomChanceAndLootingBoost(this.registries, 0.025F, 0.01F))
+                                    );
+                            this.add(CREEPER, TCHuskCreeperContext.this.additionalBuilder(this.registries, builder));
+                        }
+                    };
                 }
             };
         }

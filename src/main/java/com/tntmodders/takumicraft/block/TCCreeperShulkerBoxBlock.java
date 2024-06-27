@@ -12,6 +12,7 @@ import com.tntmodders.takumicraft.provider.TCBlockStateProvider;
 import com.tntmodders.takumicraft.provider.TCRecipeProvider;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.data.loot.LootTableSubProvider;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
@@ -42,7 +43,7 @@ import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.function.Consumer;
-import java.util.function.Supplier;
+import java.util.function.Function;
 
 public class TCCreeperShulkerBoxBlock extends ShulkerBoxBlock implements ITCBlocks, ITCRecipe {
     private static final BlockBehaviour.StatePredicate NOT_CLOSED_SHULKER = (state, getter, pos) -> !(getter.getBlockEntity(pos) instanceof ShulkerBoxBlockEntity shulkerboxblockentity) || shulkerboxblockentity.isClosed();
@@ -100,8 +101,8 @@ public class TCCreeperShulkerBoxBlock extends ShulkerBoxBlock implements ITCBloc
     }
 
     @Override
-    public Supplier<LootTableSubProvider> getBlockLootSubProvider(Block block) {
-        return () -> new TCBlockLoot(block, true);
+    public Function<HolderLookup.Provider, LootTableSubProvider> getBlockLootSubProvider(Block block) {
+        return provider -> new TCBlockLoot(provider, block, true);
     }
 
     @Override

@@ -17,7 +17,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class TCCowCreeperRenderer extends MobRenderer<TCCowCreeper, TCCowCreeperModel<TCCowCreeper>> {
-    private static final ResourceLocation LOCATION = new ResourceLocation(TakumiCraftCore.MODID, "textures/entity/creeper/cowcreeper.png");
+    private static final ResourceLocation LOCATION = ResourceLocation.tryBuild(TakumiCraftCore.MODID, "textures/entity/creeper/cowcreeper.png");
 
     public TCCowCreeperRenderer(EntityRendererProvider.Context p_173956_) {
         super(p_173956_, new TCCowCreeperModel<>(p_173956_.bakeLayer(ModelLayers.COW)), 0.7F);

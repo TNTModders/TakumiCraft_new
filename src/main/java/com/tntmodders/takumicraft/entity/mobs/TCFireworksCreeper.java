@@ -8,6 +8,7 @@ import com.tntmodders.takumicraft.utils.TCBlockUtils;
 import com.tntmodders.takumicraft.utils.TCEntityUtils;
 import it.unimi.dsi.fastutil.ints.IntList;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -238,8 +239,8 @@ public class TCFireworksCreeper extends AbstractTCCreeper {
         }
 
         @Override
-        public LootTable.Builder additionalBuilder(LootTable.Builder lootTable) {
-            return TCCreeperContext.super.additionalBuilder(lootTable).withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F)).add(LootItem.lootTableItem(Items.FIREWORK_ROCKET).apply(SetComponentsFunction.setComponent(DataComponents.FIREWORKS, getFireworks())).apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 1)))));
+        public LootTable.Builder additionalBuilder(HolderLookup.Provider provider, LootTable.Builder lootTable) {
+            return TCCreeperContext.super.additionalBuilder(provider, lootTable).withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F)).add(LootItem.lootTableItem(Items.FIREWORK_ROCKET).apply(SetComponentsFunction.setComponent(DataComponents.FIREWORKS, getFireworks())).apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 1)))));
         }
     }
 }

@@ -24,7 +24,7 @@ import net.minecraftforge.client.ChunkRenderTypeSet;
 import java.util.Arrays;
 
 public class TCSuperBlockRenderer<T extends TCCreeperSuperBlockEntity> implements BlockEntityRenderer<T> {
-    public static final ResourceLocation POWERED_TEXTURE = new ResourceLocation(TakumiCraftCore.MODID, "textures/takumiblock/takumiblock_overlay.png");
+    public static final ResourceLocation POWERED_TEXTURE = ResourceLocation.tryBuild(TakumiCraftCore.MODID, "textures/takumiblock/takumiblock_overlay.png");
     private final BlockEntityRendererProvider.Context context;
     private final BlockRenderDispatcher blockRenderer;
 

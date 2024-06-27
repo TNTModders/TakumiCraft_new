@@ -92,16 +92,17 @@ public class TCChildCreeperModel<T extends TCChildCreeper> extends CreeperModel<
         this.parent_leftFrontLeg.xRot = Mth.cos(p_102464_ * 0.6662F) * 1.4F * p_102465_;
     }
 
+
     @Override
-    public void renderToBuffer(PoseStack poseStack, VertexConsumer p_170626_, int p_170627_, int p_170628_, float p_170629_, float p_170630_, float p_170631_, float p_170632_) {
+    public void renderToBuffer(PoseStack poseStack, VertexConsumer vertex, int p_170627_, int p_170628_, int p_342246_) {
         boolean flg = this.head.visible;
         if (flg) {
-            this.head.render(poseStack, p_170626_, p_170627_, p_170628_, p_170629_, p_170630_, p_170631_, p_170632_);
-            this.root.render(poseStack, p_170626_, p_170627_, p_170628_, p_170629_, p_170630_, p_170631_, p_170632_);
-            this.leftFrontLeg.render(poseStack, p_170626_, p_170627_, p_170628_, p_170629_, p_170630_, p_170631_, p_170632_);
-            this.rightFrontLeg.render(poseStack, p_170626_, p_170627_, p_170628_, p_170629_, p_170630_, p_170631_, p_170632_);
-            this.leftHindLeg.render(poseStack, p_170626_, p_170627_, p_170628_, p_170629_, p_170630_, p_170631_, p_170632_);
-            this.rightHindLeg.render(poseStack, p_170626_, p_170627_, p_170628_, p_170629_, p_170630_, p_170631_, p_170632_);
+            this.head.render(poseStack, vertex, p_170627_, p_170628_);
+            this.root.render(poseStack, vertex, p_170627_, p_170628_);
+            this.leftFrontLeg.render(poseStack, vertex, p_170627_, p_170628_);
+            this.rightFrontLeg.render(poseStack, vertex, p_170627_, p_170628_);
+            this.leftHindLeg.render(poseStack, vertex, p_170627_, p_170628_);
+            this.rightHindLeg.render(poseStack, vertex, p_170627_, p_170628_);
         }
 
         poseStack.pushPose();
@@ -112,7 +113,7 @@ public class TCChildCreeperModel<T extends TCChildCreeper> extends CreeperModel<
             poseStack.scale(2f, 2f, 2f);
         }
         poseStack.scale(0.5f, 0.5f, 0.5f);
-        this.parent.render(poseStack, p_170626_, p_170627_, p_170628_, p_170629_, p_170630_, p_170631_, p_170632_);
+        this.parent.render(poseStack, vertex, p_170627_, p_170628_);
         poseStack.popPose();
     }
 }

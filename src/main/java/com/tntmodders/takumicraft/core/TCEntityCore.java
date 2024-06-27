@@ -105,9 +105,9 @@ public class TCEntityCore {
     public static final TCCreeperContext<TCNetheriteCreeper> NETHERITE = new TCNetheriteCreeper.TCNetheriteCreeperContext();
     public static final TCCreeperContext<TCSculkCreeper> SCULK = new TCSculkCreeper.TCSclukCreeperContext();
 
-    public static final TagKey<EntityType<?>> TAKUMIS = TagKey.create(Registries.ENTITY_TYPE, new ResourceLocation(TakumiCraftCore.MODID, "takumi"));
-    public static final TagKey<EntityType<?>> NETHER_TAKUMIS = TagKey.create(Registries.ENTITY_TYPE, new ResourceLocation(TakumiCraftCore.MODID, "nether_takumi"));
-    public static final TagKey<EntityType<?>> END_TAKUMIS = TagKey.create(Registries.ENTITY_TYPE, new ResourceLocation(TakumiCraftCore.MODID, "end_takumi"));
+    public static final TagKey<EntityType<?>> TAKUMIS = TagKey.create(Registries.ENTITY_TYPE, ResourceLocation.tryBuild(TakumiCraftCore.MODID, "takumi"));
+    public static final TagKey<EntityType<?>> NETHER_TAKUMIS = TagKey.create(Registries.ENTITY_TYPE, ResourceLocation.tryBuild(TakumiCraftCore.MODID, "nether_takumi"));
+    public static final TagKey<EntityType<?>> END_TAKUMIS = TagKey.create(Registries.ENTITY_TYPE, ResourceLocation.tryBuild(TakumiCraftCore.MODID, "end_takumi"));
 
     public static void registerEntityType(RegisterEvent event) {
         TCLoggingUtils.startRegistry("Entity");
@@ -117,7 +117,7 @@ public class TCEntityCore {
                 Object obj = field.get(null);
                 if (obj instanceof TCCreeperContext<?> context) {
                     EntityType<?> type = context.entityType();
-                    event.register(ForgeRegistries.ENTITY_TYPES.getRegistryKey(), entityTypeRegisterHelper -> entityTypeRegisterHelper.register(new ResourceLocation(TakumiCraftCore.MODID, context.getRegistryName()), type));
+                    event.register(ForgeRegistries.ENTITY_TYPES.getRegistryKey(), entityTypeRegisterHelper -> entityTypeRegisterHelper.register(ResourceLocation.tryBuild(TakumiCraftCore.MODID, context.getRegistryName()), type));
                     ENTITY_TYPES.add(type);
                     ENTITY_CONTEXTS.add(context);
                     if (context.alterSpawn()) {
@@ -138,21 +138,21 @@ public class TCEntityCore {
 
     private static void registerAdditionalEntityType(RegisterEvent event) {
         event.register(ForgeRegistries.ENTITY_TYPES.getRegistryKey(), entityTypeRegisterHelper ->
-                entityTypeRegisterHelper.register(new ResourceLocation(TakumiCraftCore.MODID, "creeperarrow"), TCCreeperArrow.ARROW));
+                entityTypeRegisterHelper.register(ResourceLocation.tryBuild(TakumiCraftCore.MODID, "creeperarrow"), TCCreeperArrow.ARROW));
         event.register(ForgeRegistries.ENTITY_TYPES.getRegistryKey(), entityTypeRegisterHelper ->
-                entityTypeRegisterHelper.register(new ResourceLocation(TakumiCraftCore.MODID, "amethystbomb"), TCAmethystBomb.AMETHYST_BOMB));
+                entityTypeRegisterHelper.register(ResourceLocation.tryBuild(TakumiCraftCore.MODID, "amethystbomb"), TCAmethystBomb.AMETHYST_BOMB));
         event.register(ForgeRegistries.ENTITY_TYPES.getRegistryKey(), entityTypeRegisterHelper ->
-                entityTypeRegisterHelper.register(new ResourceLocation(TakumiCraftCore.MODID, "birdbomb"), TCBirdBomb.BIRD_BOMB));
+                entityTypeRegisterHelper.register(ResourceLocation.tryBuild(TakumiCraftCore.MODID, "birdbomb"), TCBirdBomb.BIRD_BOMB));
         event.register(ForgeRegistries.ENTITY_TYPES.getRegistryKey(), entityTypeRegisterHelper ->
-                entityTypeRegisterHelper.register(new ResourceLocation(TakumiCraftCore.MODID, "king_storm"), TCKingStorm.KING_STORM));
+                entityTypeRegisterHelper.register(ResourceLocation.tryBuild(TakumiCraftCore.MODID, "king_storm"), TCKingStorm.KING_STORM));
         event.register(ForgeRegistries.ENTITY_TYPES.getRegistryKey(), entityTypeRegisterHelper ->
-                entityTypeRegisterHelper.register(new ResourceLocation(TakumiCraftCore.MODID, "king_block"), TCKingBlock.KING_BLOCK));
+                entityTypeRegisterHelper.register(ResourceLocation.tryBuild(TakumiCraftCore.MODID, "king_block"), TCKingBlock.KING_BLOCK));
         event.register(ForgeRegistries.ENTITY_TYPES.getRegistryKey(), entityTypeRegisterHelper ->
-                entityTypeRegisterHelper.register(new ResourceLocation(TakumiCraftCore.MODID, "takumithrowgrenade"), TCCreeperGrenade.GRENADE));
+                entityTypeRegisterHelper.register(ResourceLocation.tryBuild(TakumiCraftCore.MODID, "takumithrowgrenade"), TCCreeperGrenade.GRENADE));
         event.register(ForgeRegistries.ENTITY_TYPES.getRegistryKey(), entityTypeRegisterHelper ->
-                entityTypeRegisterHelper.register(new ResourceLocation(TakumiCraftCore.MODID, "creeperframe"), TCCreeperFrame.ITEM_FRAME));
+                entityTypeRegisterHelper.register(ResourceLocation.tryBuild(TakumiCraftCore.MODID, "creeperframe"), TCCreeperFrame.ITEM_FRAME));
         event.register(ForgeRegistries.ENTITY_TYPES.getRegistryKey(), entityTypeRegisterHelper ->
-                entityTypeRegisterHelper.register(new ResourceLocation(TakumiCraftCore.MODID, "creeperframe_glowing"), TCCreeperGlowingFrame.GLOWING_FRAME));
+                entityTypeRegisterHelper.register(ResourceLocation.tryBuild(TakumiCraftCore.MODID, "creeperframe_glowing"), TCCreeperGlowingFrame.GLOWING_FRAME));
     }
 
     public static void registerAttribute(EntityAttributeCreationEvent event) {

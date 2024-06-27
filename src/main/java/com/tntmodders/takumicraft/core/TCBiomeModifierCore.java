@@ -26,6 +26,6 @@ public class TCBiomeModifierCore {
     ).apply(builder, TCOreGenModifier::new)));
 
 
-    public static final ResourceKey<ConfiguredFeature<?, ?>> GUNORE_CONFIGURED_FEATURE = ResourceKey.create(Registries.CONFIGURED_FEATURE, new ResourceLocation(TakumiCraftCore.MODID, "tc_ore_gunore"));
-    public static final ResourceKey<PlacedFeature> GUNORE_PLACED_FEATURE = ResourceKey.create(Registries.PLACED_FEATURE, new ResourceLocation(TakumiCraftCore.MODID, "tc_ore_gunore"));
+    public static final ResourceKey<ConfiguredFeature<?, ?>> GUNORE_CONFIGURED_FEATURE = ResourceKey.create(Registries.CONFIGURED_FEATURE, ResourceLocation.tryBuild(TakumiCraftCore.MODID, "tc_ore_gunore"));
+    public static final ResourceKey<PlacedFeature> GUNORE_PLACED_FEATURE = ResourceKey.create(Registries.PLACED_FEATURE, ResourceLocation.tryBuild(TakumiCraftCore.MODID, "tc_ore_gunore"));
 }

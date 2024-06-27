@@ -42,13 +42,13 @@ import java.util.Map;
 
 @OnlyIn(Dist.CLIENT)
 public class TCRenderCore {
-    public static final ModelLayerLocation CHILD = new ModelLayerLocation(new ResourceLocation(TakumiCraftCore.MODID, TCEntityCore.CHILD.getRegistryName()), TCEntityCore.CHILD.getRegistryName());
-    public static final ModelLayerLocation SABER = new ModelLayerLocation(new ResourceLocation(TakumiCraftCore.MODID, "typesword_normal"), "typesword_normal");
-    public static final ModelLayerLocation SHIELD = new ModelLayerLocation(new ResourceLocation(TakumiCraftCore.MODID, "creepershield"), "creepershield");
-    public static final ModelLayerLocation SUPERBED_HEAD = new ModelLayerLocation(new ResourceLocation(TakumiCraftCore.MODID, "super_creeperbed_head"), "super_creeperbed_head");
-    public static final ModelLayerLocation SUPERBED_FOOT = new ModelLayerLocation(new ResourceLocation(TakumiCraftCore.MODID, "super_creeperbed_foot"), "super_creeperbed_foot");
-    public static final ModelLayerLocation ACID = new ModelLayerLocation(new ResourceLocation(TakumiCraftCore.MODID, "acidblock"), "acidblock");
-    public static final ModelLayerLocation FRAME = new ModelLayerLocation(new ResourceLocation(TakumiCraftCore.MODID, "creeperframe"), "creeperframe");
+    public static final ModelLayerLocation CHILD = new ModelLayerLocation(ResourceLocation.tryBuild(TakumiCraftCore.MODID, TCEntityCore.CHILD.getRegistryName()), TCEntityCore.CHILD.getRegistryName());
+    public static final ModelLayerLocation SABER = new ModelLayerLocation(ResourceLocation.tryBuild(TakumiCraftCore.MODID, "typesword_normal"), "typesword_normal");
+    public static final ModelLayerLocation SHIELD = new ModelLayerLocation(ResourceLocation.tryBuild(TakumiCraftCore.MODID, "creepershield"), "creepershield");
+    public static final ModelLayerLocation SUPERBED_HEAD = new ModelLayerLocation(ResourceLocation.tryBuild(TakumiCraftCore.MODID, "super_creeperbed_head"), "super_creeperbed_head");
+    public static final ModelLayerLocation SUPERBED_FOOT = new ModelLayerLocation(ResourceLocation.tryBuild(TakumiCraftCore.MODID, "super_creeperbed_foot"), "super_creeperbed_foot");
+    public static final ModelLayerLocation ACID = new ModelLayerLocation(ResourceLocation.tryBuild(TakumiCraftCore.MODID, "acidblock"), "acidblock");
+    public static final ModelLayerLocation FRAME = new ModelLayerLocation(ResourceLocation.tryBuild(TakumiCraftCore.MODID, "creeperframe"), "creeperframe");
 
     public static void registerEntityRender(EntityRenderersEvent.RegisterRenderers event) {
         TCLoggingUtils.startRegistry("EntityRenderer");
@@ -65,7 +65,7 @@ public class TCRenderCore {
         event.registerEntityRenderer(TCCreeperArrow.ARROW, p_174010_ -> new ArrowRenderer<>(p_174010_) {
             @Override
             public ResourceLocation getTextureLocation(Arrow p_114482_) {
-                return new ResourceLocation(TakumiCraftCore.MODID, "texutres/entity/projectile/creeperarrow.png");
+                return ResourceLocation.tryBuild(TakumiCraftCore.MODID, "texutres/entity/projectile/creeperarrow.png");
             }
         });
         event.registerEntityRenderer(TCAmethystBomb.AMETHYST_BOMB, TCAmethystBombRenderer::new);
@@ -106,7 +106,7 @@ public class TCRenderCore {
 
     public static void registerAdditionalModels(ModelEvent.RegisterAdditional event) {
         StateDefinition<Block, BlockState> fake_def = new StateDefinition.Builder<Block, BlockState>(Blocks.AIR).add(BooleanProperty.create("map")).create(Block::defaultBlockState, BlockState::new);
-        Map<ResourceLocation, StateDefinition<Block, BlockState>> static_def = ImmutableMap.of(new ResourceLocation(TakumiCraftCore.MODID, "creeperframe"), fake_def, new ResourceLocation(TakumiCraftCore.MODID, "creeperframe_glowing"), fake_def);
+        Map<ResourceLocation, StateDefinition<Block, BlockState>> static_def = ImmutableMap.of(ResourceLocation.tryBuild(TakumiCraftCore.MODID, "creeperframe"), fake_def, ResourceLocation.tryBuild(TakumiCraftCore.MODID, "creeperframe_glowing"), fake_def);
 
         static_def.forEach((location, statedef) -> statedef.getPossibleStates().forEach(state -> event.register(BlockModelShaper.stateToModelLocation(location, state))));
     }

@@ -11,6 +11,7 @@ import com.tntmodders.takumicraft.provider.TCBlockStateProvider;
 import com.tntmodders.takumicraft.provider.TCRecipeProvider;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.data.loot.LootTableSubProvider;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
@@ -40,7 +41,7 @@ import net.minecraftforge.client.model.generators.ConfiguredModel;
 import net.minecraftforge.client.model.generators.ModelFile;
 
 import java.util.List;
-import java.util.function.Supplier;
+import java.util.function.Function;
 
 public class TCScaffoldingBlock extends ScaffoldingBlock implements ITCBlocks, ITCRecipe {
     public static final int STABILITY_MAX_DISTANCE = 7;
@@ -132,9 +133,9 @@ public class TCScaffoldingBlock extends ScaffoldingBlock implements ITCBlocks, I
 
     @Override
     public void registerStateAndModel(TCBlockStateProvider provider) {
-        ResourceLocation top = provider.blockFolder(new ResourceLocation(TakumiCraftCore.MODID, provider.name(this) + "_top"));
-        ResourceLocation side = provider.blockFolder(new ResourceLocation(TakumiCraftCore.MODID, provider.name(this) + "_side"));
-        ResourceLocation bottom = provider.blockFolder(new ResourceLocation(TakumiCraftCore.MODID, provider.name(this) + "_bottom"));
+        ResourceLocation top = provider.blockFolder(ResourceLocation.tryBuild(TakumiCraftCore.MODID, provider.name(this) + "_top"));
+        ResourceLocation side = provider.blockFolder(ResourceLocation.tryBuild(TakumiCraftCore.MODID, provider.name(this) + "_side"));
+        ResourceLocation bottom = provider.blockFolder(ResourceLocation.tryBuild(TakumiCraftCore.MODID, provider.name(this) + "_bottom"));
 
         ModelFile model_stable = provider.models().withExistingParent(provider.name(this) + "_stable", "scaffolding_stable").texture("particle", top).texture("top", top).texture("side", side).texture("bottom", bottom).renderType("cutout");
         ModelFile model_unstable = provider.models().withExistingParent(provider.name(this) + "_unstable", "scaffolding_unstable").texture("particle", top).texture("top", top).texture("side", side).texture("bottom", bottom).renderType("cutout");
@@ -150,8 +151,8 @@ public class TCScaffoldingBlock extends ScaffoldingBlock implements ITCBlocks, I
 
 
     @Override
-    public Supplier<LootTableSubProvider> getBlockLootSubProvider(Block block) {
-        return () -> new TCBlockLoot(block, true);
+    public Function<HolderLookup.Provider, LootTableSubProvider> getBlockLootSubProvider(Block block) {
+        return provider -> new TCBlockLoot(provider, block, true);
     }
 
     @Override

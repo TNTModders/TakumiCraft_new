@@ -17,7 +17,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class TCRabbitCreeperRenderer extends MobRenderer<TCRabbitCreeper, TCRabbitCreeperModel<TCRabbitCreeper>> {
-    private static final ResourceLocation LOCATION = new ResourceLocation(TakumiCraftCore.MODID, "textures/entity/creeper/rabbitcreeper.png");
+    private static final ResourceLocation LOCATION = ResourceLocation.tryBuild(TakumiCraftCore.MODID, "textures/entity/creeper/rabbitcreeper.png");
 
     public TCRabbitCreeperRenderer(EntityRendererProvider.Context p_173956_) {
         super(p_173956_, new TCRabbitCreeperModel<>(p_173956_.bakeLayer(ModelLayers.RABBIT)), 0.7F);

@@ -17,7 +17,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class TCHorseCreeperRenderer extends MobRenderer<TCHorseCreeper, TCHorseCreeperModel<TCHorseCreeper>> {
-    private static final ResourceLocation LOCATION = new ResourceLocation(TakumiCraftCore.MODID, "textures/entity/creeper/horsecreeper.png");
+    private static final ResourceLocation LOCATION = ResourceLocation.tryBuild(TakumiCraftCore.MODID, "textures/entity/creeper/horsecreeper.png");
 
     public TCHorseCreeperRenderer(EntityRendererProvider.Context p_173956_) {
         super(p_173956_, new TCHorseCreeperModel<>(p_173956_.bakeLayer(ModelLayers.HORSE)), 0.7F);

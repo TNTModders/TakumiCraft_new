@@ -8,6 +8,7 @@ import com.tntmodders.takumicraft.provider.ITCRecipe;
 import com.tntmodders.takumicraft.provider.TCItemModelProvider;
 import com.tntmodders.takumicraft.provider.TCRecipeProvider;
 import com.tntmodders.takumicraft.utils.TCExplosionUtils;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.SmithingTransformRecipeBuilder;
@@ -31,7 +32,7 @@ import java.util.List;
 
 public class TCCreeperMaceItem extends MaceItem implements ITCItems, ITCRecipe {
     public TCCreeperMaceItem() {
-        super(new Properties().durability(128).attributes(ItemAttributeModifiers.builder().add(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Weapon modifier", 9.0, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND).add(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_UUID, "Weapon modifier", -3.2F, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND).build()));
+        super(new Properties().durability(128).attributes(ItemAttributeModifiers.builder().add(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_ID, 9.0F, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND).add(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_ID, -3.4F, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND).build()));
     }
 
     @Override
@@ -48,7 +49,7 @@ public class TCCreeperMaceItem extends MaceItem implements ITCItems, ITCRecipe {
     public void inventoryTick(ItemStack p_41404_, Level p_41405_, Entity p_41406_, int p_41407_, boolean p_41408_) {
         super.inventoryTick(p_41404_, p_41405_, p_41406_, p_41407_, p_41408_);
         if (!p_41404_.isEnchanted()) {
-            p_41404_.enchant(TCEnchantmentCore.BLAST_POWERED, 1);
+            p_41404_.enchant(p_41405_.holderLookup(Registries.ENCHANTMENT).getOrThrow(TCEnchantmentCore.BLAST_POWERED), 1);
         }
     }
 

@@ -4,6 +4,7 @@ import com.tntmodders.takumicraft.core.TCBlockCore;
 import com.tntmodders.takumicraft.item.TCBlockItem;
 import com.tntmodders.takumicraft.provider.ITCBlocks;
 import com.tntmodders.takumicraft.provider.TCBlockStateProvider;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.data.loot.LootTableSubProvider;
 import net.minecraft.tags.BlockTags;
@@ -15,7 +16,7 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.PushReaction;
 
 import java.util.List;
-import java.util.function.Supplier;
+import java.util.function.Function;
 
 public class TCCreeperTorchBlock_Wall extends WallTorchBlock implements ITCBlocks {
     public TCCreeperTorchBlock_Wall() {
@@ -28,7 +29,7 @@ public class TCCreeperTorchBlock_Wall extends WallTorchBlock implements ITCBlock
     }
 
     @Override
-    public Supplier<LootTableSubProvider> getBlockLootSubProvider(Block block) {
+    public Function<HolderLookup.Provider, LootTableSubProvider> getBlockLootSubProvider(Block block) {
         return null;
     }
 

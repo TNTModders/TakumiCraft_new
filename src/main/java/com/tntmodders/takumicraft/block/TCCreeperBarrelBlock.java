@@ -12,6 +12,7 @@ import com.tntmodders.takumicraft.provider.TCRecipeProvider;
 import com.tntmodders.takumicraft.utils.TCExplosionUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.data.loot.LootTableSubProvider;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
@@ -49,7 +50,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.function.Supplier;
+import java.util.function.Function;
 
 public class TCCreeperBarrelBlock extends BarrelBlock implements ITCBlocks, ITCRecipe {
     public static final BooleanProperty EXPLOSIVE = BooleanProperty.create("explosive");
@@ -82,7 +83,7 @@ public class TCCreeperBarrelBlock extends BarrelBlock implements ITCBlocks, ITCR
                 if (!level.isClientSide() && !level.players().isEmpty()) {
                     level.players().forEach(player -> {
                         if (player instanceof ServerPlayer serverPlayer && player.distanceToSqr(pos.getCenter()) < 100) {
-                            serverPlayer.getAdvancements().award(Objects.requireNonNull(serverPlayer.server.getAdvancements().get(new ResourceLocation(TakumiCraftCore.MODID, "creeperbarrel"))), "impossible");
+                            serverPlayer.getAdvancements().award(Objects.requireNonNull(serverPlayer.server.getAdvancements().get(ResourceLocation.tryBuild(TakumiCraftCore.MODID, "creeperbarrel"))), "impossible");
                         }
                     });
                 }
@@ -126,8 +127,8 @@ public class TCCreeperBarrelBlock extends BarrelBlock implements ITCBlocks, ITCR
     }
 
     @Override
-    public Supplier<LootTableSubProvider> getBlockLootSubProvider(Block block) {
-        return () -> new TCBlockLoot(block, true);
+    public Function<HolderLookup.Provider, LootTableSubProvider> getBlockLootSubProvider(Block block) {
+        return provider -> new TCBlockLoot(provider, block, true);
     }
 
     @Override
@@ -142,20 +143,20 @@ public class TCCreeperBarrelBlock extends BarrelBlock implements ITCBlocks, ITCR
 
     @Override
     public void registerStateAndModel(TCBlockStateProvider provider) {
-        ResourceLocation top = provider.blockFolder(new ResourceLocation(TakumiCraftCore.MODID, provider.name(this) + "_top"));
-        ResourceLocation side = provider.blockFolder(new ResourceLocation(TakumiCraftCore.MODID, provider.name(this) + "_side"));
-        ResourceLocation bottom = provider.blockFolder(new ResourceLocation(TakumiCraftCore.MODID, provider.name(this) + "_bottom"));
-        ResourceLocation top_open = provider.blockFolder(new ResourceLocation(TakumiCraftCore.MODID, provider.name(this) + "_top_open"));
-        ResourceLocation top_exp = provider.blockFolder(new ResourceLocation(TakumiCraftCore.MODID, provider.name(this) + "_top_explosive"));
-        ResourceLocation side_exp = provider.blockFolder(new ResourceLocation(TakumiCraftCore.MODID, provider.name(this) + "_side_explosive"));
-        ResourceLocation bottom_exp = provider.blockFolder(new ResourceLocation(TakumiCraftCore.MODID, provider.name(this) + "_bottom_explosive"));
-        ResourceLocation top_open_exp = provider.blockFolder(new ResourceLocation(TakumiCraftCore.MODID, provider.name(this) + "_top_open_explosive"));
+        ResourceLocation top = provider.blockFolder(ResourceLocation.tryBuild(TakumiCraftCore.MODID, provider.name(this) + "_top"));
+        ResourceLocation side = provider.blockFolder(ResourceLocation.tryBuild(TakumiCraftCore.MODID, provider.name(this) + "_side"));
+        ResourceLocation bottom = provider.blockFolder(ResourceLocation.tryBuild(TakumiCraftCore.MODID, provider.name(this) + "_bottom"));
+        ResourceLocation top_open = provider.blockFolder(ResourceLocation.tryBuild(TakumiCraftCore.MODID, provider.name(this) + "_top_open"));
+        ResourceLocation top_exp = provider.blockFolder(ResourceLocation.tryBuild(TakumiCraftCore.MODID, provider.name(this) + "_top_explosive"));
+        ResourceLocation side_exp = provider.blockFolder(ResourceLocation.tryBuild(TakumiCraftCore.MODID, provider.name(this) + "_side_explosive"));
+        ResourceLocation bottom_exp = provider.blockFolder(ResourceLocation.tryBuild(TakumiCraftCore.MODID, provider.name(this) + "_bottom_explosive"));
+        ResourceLocation top_open_exp = provider.blockFolder(ResourceLocation.tryBuild(TakumiCraftCore.MODID, provider.name(this) + "_top_open_explosive"));
         ModelFile model = provider.models().withExistingParent(provider.name(this), "barrel").texture("particle", top).texture("top", top).texture("side", side).texture("bottom", bottom);
         ModelFile model_open = provider.models().withExistingParent(provider.name(this) + "_open", "barrel_open").texture("particle", top).texture("top", top_open).texture("side", side).texture("bottom", bottom);
         ModelFile model_explosive = provider.models().withExistingParent(provider.name(this) + "_explosive", "barrel").texture("particle", top_exp).texture("top", top_exp).texture("side", side_exp).texture("bottom", bottom_exp);
         ModelFile model_open_explosive = provider.models().withExistingParent(provider.name(this) + "_open_explosive", "barrel_open").texture("particle", top_exp).texture("top", top_open_exp).texture("side", side_exp).texture("bottom", bottom_exp);
         provider.directionalBlock(this, state -> state.getValue(TCCreeperBarrelBlock.EXPLOSIVE) ? state.getValue(BarrelBlock.OPEN) ? new ConfiguredModel(model_open_explosive).model : new ConfiguredModel(model_explosive).model : state.getValue(BarrelBlock.OPEN) ? new ConfiguredModel(model_open).model : new ConfiguredModel(model).model);
-        provider.itemModels().getBuilder(provider.key(this).getPath()).override().predicate(new ResourceLocation("custom_model_data"), 0f).model(model).end().override().predicate(new ResourceLocation("custom_model_data"), 898f).model(model_explosive).end();
+        provider.itemModels().getBuilder(provider.key(this).getPath()).override().predicate(ResourceLocation.withDefaultNamespace("custom_model_data"), 0f).model(model).end().override().predicate(ResourceLocation.withDefaultNamespace("custom_model_data"), 898f).model(model_explosive).end();
     }
 
     @Override

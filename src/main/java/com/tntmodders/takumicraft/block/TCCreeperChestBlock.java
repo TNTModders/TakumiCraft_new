@@ -1,6 +1,7 @@
 package com.tntmodders.takumicraft.block;
 
 import com.mojang.serialization.MapCodec;
+import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.block.entity.TCCreeperChestBlockEntity;
 import com.tntmodders.takumicraft.client.renderer.block.TCBEWLRenderer;
 import com.tntmodders.takumicraft.core.TCBlockCore;
@@ -15,6 +16,7 @@ import it.unimi.dsi.fastutil.floats.Float2FloatFunction;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.data.loot.LootTableSubProvider;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
@@ -64,6 +66,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.BiPredicate;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 public class TCCreeperChestBlock extends BaseEntityBlock implements ITCBlocks, ITCRecipe {
@@ -379,8 +382,8 @@ public class TCCreeperChestBlock extends BaseEntityBlock implements ITCBlocks, I
     }
 
     @Override
-    public Supplier<LootTableSubProvider> getBlockLootSubProvider(Block block) {
-        return () -> new TCBlockLoot(block, true);
+    public Function<HolderLookup.Provider, LootTableSubProvider> getBlockLootSubProvider(Block block) {
+        return provider -> new TCBlockLoot(provider, block, true);
     }
 
     @Override
@@ -402,7 +405,7 @@ public class TCCreeperChestBlock extends BaseEntityBlock implements ITCBlocks, I
     public void registerStateAndModel(TCBlockStateProvider provider) {
         ModelFile blockModel = provider.models().getBuilder(provider.key(this).toString()).texture("particle", "takumicraft:block/creeperplanks");
         provider.getVariantBuilder(this).partialState().setModels(new ConfiguredModel(blockModel));
-        provider.itemModels().withExistingParent(provider.key(this).getPath(), new ResourceLocation("takumicraft:item/template_creeperchest"));
+        provider.itemModels().withExistingParent(provider.key(this).getPath(), ResourceLocation.tryBuild(TakumiCraftCore.MODID, "item/template_creeperchest"));
     }
 
     @Override

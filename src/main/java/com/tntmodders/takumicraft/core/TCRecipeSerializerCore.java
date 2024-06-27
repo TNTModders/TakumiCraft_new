@@ -25,6 +25,6 @@ public class TCRecipeSerializerCore {
     }
 
     private static void registerRecipes(final RegisterEvent event, String name, RecipeSerializer<?> serializer) {
-        event.register(ForgeRegistries.RECIPE_SERIALIZERS.getRegistryKey(), new ResourceLocation(TakumiCraftCore.MODID, name), () -> serializer);
+        event.register(ForgeRegistries.RECIPE_SERIALIZERS.getRegistryKey(), ResourceLocation.tryBuild(TakumiCraftCore.MODID, name), () -> serializer);
     }
 }

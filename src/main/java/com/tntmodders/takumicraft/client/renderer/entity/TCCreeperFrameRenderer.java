@@ -34,8 +34,8 @@ import net.minecraft.world.level.saveddata.maps.MapItemSavedData;
 import net.minecraft.world.phys.Vec3;
 
 public class TCCreeperFrameRenderer<T extends TCCreeperFrame> extends ItemFrameRenderer<T> {
-    public static final ResourceLocation CREEPER_FRAME_LOCATION = new ResourceLocation(TakumiCraftCore.MODID, "textures/block/creeperframe.png");
-    public static final ResourceLocation CREEPER_GLOW_FRAME_LOCATION = new ResourceLocation(TakumiCraftCore.MODID, "textures/block/creeperframe_glowing.png");
+    public static final ResourceLocation CREEPER_FRAME_LOCATION = ResourceLocation.tryBuild(TakumiCraftCore.MODID, "textures/block/creeperframe.png");
+    public static final ResourceLocation CREEPER_GLOW_FRAME_LOCATION = ResourceLocation.tryBuild(TakumiCraftCore.MODID, "textures/block/creeperframe_glowing.png");
 
     private static final ModelResourceLocation FRAME_LOCATION = ModelResourceLocation.vanilla("item_frame", "map=false");
     private static final ModelResourceLocation MAP_FRAME_LOCATION = ModelResourceLocation.vanilla("item_frame", "map=true");
@@ -90,7 +90,7 @@ public class TCCreeperFrameRenderer<T extends TCCreeperFrame> extends ItemFrameR
             poseStack.pushPose();
             poseStack.translate(0.0F, 0.0F, 0.5F);
             RenderType type = creeperframe.getType() == TCCreeperGlowingFrame.GLOWING_FRAME ? RenderType.energySwirl(this.getTextureLocation(creeperframe), 0f, 0f) : RenderType.entityTranslucent(this.getTextureLocation(creeperframe));
-            this.modelPart.render(poseStack, bufferSource.getBuffer(type).color(0.5f, 0.5f, 0.5f, 0.5f), p_115081_, OverlayTexture.NO_OVERLAY);
+            this.modelPart.render(poseStack, bufferSource.getBuffer(type).setColor(0.5f, 0.5f, 0.5f, 0.5f), p_115081_, OverlayTexture.NO_OVERLAY);
             poseStack.popPose();
         }
         if (flag) {
@@ -100,7 +100,7 @@ public class TCCreeperFrameRenderer<T extends TCCreeperFrame> extends ItemFrameR
         }
 
         if (!itemstack.isEmpty()) {
-            MapId mapid = creeperframe.getFramedMapId();
+            MapId mapid = creeperframe.getFramedMapId(itemstack);
             int k = this.getLightVal(creeperframe, 15728880, p_115081_);
             int j = mapid != null ? creeperframe.getRotation() % 4 * 2 : creeperframe.getRotation();
             poseStack.mulPose(Axis.ZP.rotationDegrees((float) j * 360.0F / 8.0F));

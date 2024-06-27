@@ -39,7 +39,7 @@ public class TCCreeperIlluminationBlock extends AbstractTCAntiExplosionBlock imp
 
     @Override
     public void registerStateAndModel(TCBlockStateProvider provider) {
-        ModelFile model = provider.models().withExistingParent(provider.name(this), "block/beacon").texture("particle", provider.blockTexture(TCBlockCore.CREEPER_GLASS)).texture("glass", provider.blockTexture(TCBlockCore.CREEPER_GLASS)).texture("beacon", provider.blockFolder(new ResourceLocation(TakumiCraftCore.MODID, "creeperbeacon"))).renderType("cutout");
+        ModelFile model = provider.models().withExistingParent(provider.name(this), "block/beacon").texture("particle", provider.blockTexture(TCBlockCore.CREEPER_GLASS)).texture("glass", provider.blockTexture(TCBlockCore.CREEPER_GLASS)).texture("beacon", provider.blockFolder(ResourceLocation.tryBuild(TakumiCraftCore.MODID, "creeperbeacon"))).renderType("cutout");
         provider.simpleBlock(this, model);
         provider.simpleBlockItem(this, model);
     }

@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_takumicraft:deepslate_gunore": {
+      "conditions": {
+        "items": [
+          {
+            "items": "takumicraft:deepslate_gunore"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "minecraft:deepslate_gunore_from_smelting"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_takumicraft:deepslate_gunore"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "minecraft:deepslate_gunore_from_smelting"
+    ]
+  }
+}

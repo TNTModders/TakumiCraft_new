@@ -64,18 +64,18 @@ public class TCItemCore {
     public static final Item CREEPER_FRAME = new TCCreeperFrameItem(TCCreeperFrame.ITEM_FRAME, Items.ITEM_FRAME, "", "Creeper Frame", "匠式硬質額縁");
     public static final Item CREEPER_FRAME_GLOWING = new TCCreeperFrameItem(TCCreeperGlowingFrame.GLOWING_FRAME, Items.GLOW_ITEM_FRAME, "_glowing", "Creeper Glowing Frame", "匠式硬質額縁[輝]");
 
-    public static final TagKey<Item> GUNORES = TagKey.create(Registries.ITEM, new ResourceLocation(TakumiCraftCore.MODID,
+    public static final TagKey<Item> GUNORES = TagKey.create(Registries.ITEM, ResourceLocation.tryBuild(TakumiCraftCore.MODID,
             "gunores"));
-    public static final TagKey<Item> EXPLOSIVE_SHIELDS = TagKey.create(Registries.ITEM, new ResourceLocation(TakumiCraftCore.MODID,
+    public static final TagKey<Item> EXPLOSIVE_SHIELDS = TagKey.create(Registries.ITEM, ResourceLocation.tryBuild(TakumiCraftCore.MODID,
             "can_shield_explosion"));
-    public static final TagKey<Item> CREEPER_ARROWS = TagKey.create(Registries.ITEM, new ResourceLocation(TakumiCraftCore.MODID, "creeper_arrow"));
-    public static final TagKey<Item> MINESWEEPER_TOOLS = TagKey.create(Registries.ITEM, new ResourceLocation(TakumiCraftCore.MODID, "minesweeper_tool"));
-    public static final TagKey<Item> CREEPER_BED = TagKey.create(Registries.ITEM, new ResourceLocation(TakumiCraftCore.MODID, "creeperbed"));
-    public static final TagKey<Item> SPECIAL_MEATS = TagKey.create(Registries.ITEM, new ResourceLocation(TakumiCraftCore.MODID, "takumispecialmeat"));
-    public static final TagKey<Item> ELEMENT_CORE = TagKey.create(Registries.ITEM, new ResourceLocation(TakumiCraftCore.MODID, "elementcore"));
-    public static final TagKey<Item> ANTI_POWERED = TagKey.create(Registries.ITEM, new ResourceLocation(TakumiCraftCore.MODID, "anti_powered"));
-    public static final TagKey<Item> BLAST_POWERED = TagKey.create(Registries.ITEM, new ResourceLocation(TakumiCraftCore.MODID, "blast_powered"));
-    public static final TagKey<Item> EXPLOSIVES = TagKey.create(Registries.ITEM, new ResourceLocation(TakumiCraftCore.MODID, "explosives"));
+    public static final TagKey<Item> CREEPER_ARROWS = TagKey.create(Registries.ITEM, ResourceLocation.tryBuild(TakumiCraftCore.MODID, "creeper_arrow"));
+    public static final TagKey<Item> MINESWEEPER_TOOLS = TagKey.create(Registries.ITEM, ResourceLocation.tryBuild(TakumiCraftCore.MODID, "minesweeper_tool"));
+    public static final TagKey<Item> CREEPER_BED = TagKey.create(Registries.ITEM, ResourceLocation.tryBuild(TakumiCraftCore.MODID, "creeperbed"));
+    public static final TagKey<Item> SPECIAL_MEATS = TagKey.create(Registries.ITEM, ResourceLocation.tryBuild(TakumiCraftCore.MODID, "takumispecialmeat"));
+    public static final TagKey<Item> ELEMENT_CORE = TagKey.create(Registries.ITEM, ResourceLocation.tryBuild(TakumiCraftCore.MODID, "elementcore"));
+    public static final TagKey<Item> ANTI_POWERED = TagKey.create(Registries.ITEM, ResourceLocation.tryBuild(TakumiCraftCore.MODID, "anti_powered"));
+    public static final TagKey<Item> BLAST_POWERED = TagKey.create(Registries.ITEM, ResourceLocation.tryBuild(TakumiCraftCore.MODID, "blast_powered"));
+    public static final TagKey<Item> EXPLOSIVES = TagKey.create(Registries.ITEM, ResourceLocation.tryBuild(TakumiCraftCore.MODID, "explosives"));
 
     public static void register(final RegisterEvent event) {
         TCLoggingUtils.startRegistry("Item");
@@ -84,13 +84,13 @@ public class TCItemCore {
             try {
                 Object obj = field.get(null);
                 if (obj instanceof ITCItems && obj instanceof Item item) {
-                    event.register(ForgeRegistries.ITEMS.getRegistryKey(), itemRegisterHelper -> itemRegisterHelper.register(new ResourceLocation(TakumiCraftCore.MODID, ((ITCItems) item).getRegistryName()), item));
+                    event.register(ForgeRegistries.ITEMS.getRegistryKey(), itemRegisterHelper -> itemRegisterHelper.register(ResourceLocation.tryBuild(TakumiCraftCore.MODID, ((ITCItems) item).getRegistryName()), item));
                     ITEMS.add((Item) obj);
                     TCLoggingUtils.entryRegistry("Item", ((ITCItems) item).getRegistryName());
                 } else if (obj instanceof Map map) {
                     map.values().forEach(value -> {
                         if (value instanceof ITCItems && value instanceof Item item) {
-                            event.register(ForgeRegistries.ITEMS.getRegistryKey(), itemRegisterHelper -> itemRegisterHelper.register(new ResourceLocation(TakumiCraftCore.MODID, ((ITCItems) item).getRegistryName()), item));
+                            event.register(ForgeRegistries.ITEMS.getRegistryKey(), itemRegisterHelper -> itemRegisterHelper.register(ResourceLocation.tryBuild(TakumiCraftCore.MODID, ((ITCItems) item).getRegistryName()), item));
                             ITEMS.add((Item) obj);
                             TCLoggingUtils.entryRegistry("Item", ((ITCItems) item).getRegistryName());
                         }
@@ -104,7 +104,7 @@ public class TCItemCore {
         TCBlockCore.BLOCKS.forEach(block -> {
             TCBlockItem blockItem = block instanceof ITCBlocks ? ((ITCBlocks) block).getCustomBlockItem(block) : new TCBlockItem(block);
             if (blockItem != null) {
-                event.register(ForgeRegistries.ITEMS.getRegistryKey(), itemRegisterHelper -> itemRegisterHelper.register(new ResourceLocation(TakumiCraftCore.MODID, blockItem.getRegistryName()), blockItem));
+                event.register(ForgeRegistries.ITEMS.getRegistryKey(), itemRegisterHelper -> itemRegisterHelper.register(ResourceLocation.tryBuild(TakumiCraftCore.MODID, blockItem.getRegistryName()), blockItem));
                 BLOCKITEMS.put(block, blockItem);
                 TCLoggingUtils.entryRegistry("BlockItem", blockItem.getRegistryName());
             }
@@ -116,7 +116,7 @@ public class TCItemCore {
                 Object obj = field.get(null);
                 if (obj instanceof AbstractTCCreeper.TCCreeperContext<?> context) {
                     TCSpawnEggItem eggItem = new TCSpawnEggItem(() -> (EntityType<? extends Mob>) context.entityType(), context);
-                    event.register(ForgeRegistries.ITEMS.getRegistryKey(), itemRegisterHelper -> itemRegisterHelper.register(new ResourceLocation(TakumiCraftCore.MODID, eggItem.getRegistryName()), eggItem));
+                    event.register(ForgeRegistries.ITEMS.getRegistryKey(), itemRegisterHelper -> itemRegisterHelper.register(ResourceLocation.tryBuild(TakumiCraftCore.MODID, eggItem.getRegistryName()), eggItem));
                     ITEMS.add(eggItem);
                     EGGITEMS.put(context, eggItem);
                     TCLoggingUtils.entryRegistry("SpawnEggItem", context.getRegistryName());

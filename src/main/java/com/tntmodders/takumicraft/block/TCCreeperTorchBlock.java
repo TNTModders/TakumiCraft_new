@@ -9,6 +9,7 @@ import com.tntmodders.takumicraft.provider.ITCBlocks;
 import com.tntmodders.takumicraft.provider.ITCRecipe;
 import com.tntmodders.takumicraft.provider.TCBlockStateProvider;
 import com.tntmodders.takumicraft.provider.TCRecipeProvider;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.data.loot.LootTableSubProvider;
 import net.minecraft.data.recipes.RecipeCategory;
@@ -26,7 +27,7 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.PushReaction;
 
 import java.util.List;
-import java.util.function.Supplier;
+import java.util.function.Function;
 
 public class TCCreeperTorchBlock extends TorchBlock implements ITCBlocks, ITCRecipe {
     public TCCreeperTorchBlock() {
@@ -39,8 +40,8 @@ public class TCCreeperTorchBlock extends TorchBlock implements ITCBlocks, ITCRec
     }
 
     @Override
-    public Supplier<LootTableSubProvider> getBlockLootSubProvider(Block block) {
-        return () -> new TCBlockLoot(block, true);
+    public Function<HolderLookup.Provider, LootTableSubProvider> getBlockLootSubProvider(Block block) {
+        return provider -> new TCBlockLoot(provider, block, true);
     }
 
     @Override
@@ -61,8 +62,8 @@ public class TCCreeperTorchBlock extends TorchBlock implements ITCBlocks, ITCRec
     @Override
     public void registerStateAndModel(TCBlockStateProvider provider) {
         provider.simpleBlock(this, provider.models().withExistingParent(provider.key(this).toString(), "block/torch").texture("torch", provider.blockTexture(this)).renderType("cutout"));
-        ResourceLocation name = new ResourceLocation(TakumiCraftCore.MODID, this.getRegistryName());
-        provider.itemModels().singleTexture(name.getPath(), provider.mcLoc("item/generated"), "layer0", new ResourceLocation(name.getNamespace(), "block/" + name.getPath()));
+        ResourceLocation name = ResourceLocation.tryBuild(TakumiCraftCore.MODID, this.getRegistryName());
+        provider.itemModels().singleTexture(name.getPath(), provider.mcLoc("item/generated"), "layer0", ResourceLocation.tryBuild(name.getNamespace(), "block/" + name.getPath()));
     }
 
     @Override

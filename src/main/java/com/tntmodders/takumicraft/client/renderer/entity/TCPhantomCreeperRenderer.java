@@ -22,7 +22,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class TCPhantomCreeperRenderer extends MobRenderer<TCPhantomCreeper, TCPhantomCreeperModel<TCPhantomCreeper>> {
-    private static final ResourceLocation PHANTOM_LOCATION = new ResourceLocation(TakumiCraftCore.MODID, "textures/entity/creeper/phantomcreeper.png");
+    private static final ResourceLocation PHANTOM_LOCATION = ResourceLocation.tryBuild(TakumiCraftCore.MODID, "textures/entity/creeper/phantomcreeper.png");
 
     public TCPhantomCreeperRenderer(EntityRendererProvider.Context context) {
         super(context, new TCPhantomCreeperModel<>(context.bakeLayer(ModelLayers.PHANTOM)), 0.75F);
@@ -58,7 +58,7 @@ public class TCPhantomCreeperRenderer extends MobRenderer<TCPhantomCreeper, TCPh
 
     @OnlyIn(Dist.CLIENT)
     public static class TCPhantomCreeperEyesLayer<T extends TCPhantomCreeper> extends EyesLayer<T, TCPhantomCreeperModel<T>> {
-        private static final RenderType PHANTOM_EYES = RenderType.eyes(new ResourceLocation(TakumiCraftCore.MODID, "textures/entity/creeper/phantomcreeper_eyes.png"));
+        private static final RenderType PHANTOM_EYES = RenderType.eyes(ResourceLocation.tryBuild(TakumiCraftCore.MODID, "textures/entity/creeper/phantomcreeper_eyes.png"));
 
         public TCPhantomCreeperEyesLayer(RenderLayerParent<T, TCPhantomCreeperModel<T>> p_117342_) {
             super(p_117342_);

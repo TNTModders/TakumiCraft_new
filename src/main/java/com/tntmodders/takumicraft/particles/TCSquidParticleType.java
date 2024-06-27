@@ -11,6 +11,6 @@ public class TCSquidParticleType extends TCParticleType {
 
     @Override
     public void registerParticleSprite(RegisterParticleProvidersEvent event, ParticleType type) {
-        event.registerSpriteSet(type, TCSquidParticle.Provider::new);
+        event.registerSpriteSet(type, TCSquidParticle.TCSquidParticleProvider::new);
     }
 }

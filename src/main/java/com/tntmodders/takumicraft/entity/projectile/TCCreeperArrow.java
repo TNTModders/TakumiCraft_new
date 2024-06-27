@@ -18,6 +18,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.event.level.ExplosionEvent;
 
+import javax.annotation.Nullable;
+
 public class TCCreeperArrow extends Arrow {
     public static final EntityType<Arrow> ARROW = EntityType.Builder.<Arrow>of(TCCreeperArrow::new, MobCategory.MISC)
             .sized(0.5F, 0.5F)
@@ -30,12 +32,12 @@ public class TCCreeperArrow extends Arrow {
         super(p_36858_, p_36859_);
     }
 
-    public TCCreeperArrow(Level p_36861_, double p_36862_, double p_36863_, double p_36864_, ItemStack stack) {
-        super(p_36861_, p_36862_, p_36863_, p_36864_, stack);
+    public TCCreeperArrow(Level p_36861_, double p_36862_, double p_36863_, double p_36864_, ItemStack stack, @Nullable ItemStack p_343588_) {
+        super(p_36861_, p_36862_, p_36863_, p_36864_, stack, p_343588_);
     }
 
-    public TCCreeperArrow(Level p_36866_, LivingEntity p_36867_, ItemStack stack) {
-        super(p_36866_, p_36867_, stack);
+    public TCCreeperArrow(Level p_36866_, LivingEntity p_36867_, ItemStack stack, @Nullable ItemStack p_343588_) {
+        super(p_36866_, p_36867_, stack, p_343588_);
     }
 
     @Override

@@ -67,7 +67,7 @@ public class TCCreeperBedBlockEntity extends BlockEntity {
         if (this.textureNamespace == null || this.texturePath == null || this.textureNamespace.isEmpty() || this.texturePath.isEmpty() || this.texturePath.equals("air")) {
             return null;
         }
-        return new ResourceLocation(this.textureNamespace, this.texturePath);
+        return ResourceLocation.tryBuild(this.textureNamespace, this.texturePath);
     }
 
     public void setTexture(ResourceLocation location) {
@@ -79,7 +79,7 @@ public class TCCreeperBedBlockEntity extends BlockEntity {
     public Block getBlock() {
         if (this.block == null) {
             try {
-                this.block = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(this.textureNamespace, this.texturePath));
+                this.block = ForgeRegistries.BLOCKS.getValue(ResourceLocation.tryBuild(this.textureNamespace, this.texturePath));
             } catch (Exception e) {
                 this.block = Blocks.AIR;
             }
@@ -91,7 +91,7 @@ public class TCCreeperBedBlockEntity extends BlockEntity {
     protected void loadAdditional(CompoundTag tag, HolderLookup.Provider provider) {
         super.loadAdditional(tag, provider);
         if (tag.contains("namespace") && tag.contains("path")) {
-            this.setTexture(new ResourceLocation(tag.getString("namespace"), tag.getString("path")));
+            this.setTexture(ResourceLocation.tryBuild(tag.getString("namespace"), tag.getString("path")));
         }
     }
 

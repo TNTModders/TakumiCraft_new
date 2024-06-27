@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_takumicraft:creepercopper_chiseled_exposed": {
+      "conditions": {
+        "items": [
+          {
+            "items": "takumicraft:creepercopper_chiseled_exposed"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "takumicraft:creepercopper_chiseled_exposed_stonecutting"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_takumicraft:creepercopper_chiseled_exposed"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "takumicraft:creepercopper_chiseled_exposed_stonecutting"
+    ]
+  }
+}

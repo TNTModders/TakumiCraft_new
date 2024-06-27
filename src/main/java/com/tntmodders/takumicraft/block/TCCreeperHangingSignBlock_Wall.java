@@ -8,6 +8,7 @@ import com.tntmodders.takumicraft.provider.ITCBlocks;
 import com.tntmodders.takumicraft.provider.TCBlockStateProvider;
 import com.tntmodders.takumicraft.world.level.block.state.properties.TCWoodType;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.data.loot.LootTableSubProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
@@ -21,7 +22,7 @@ import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.MapColor;
 
 import java.util.List;
-import java.util.function.Supplier;
+import java.util.function.Function;
 
 public class TCCreeperHangingSignBlock_Wall extends WallHangingSignBlock implements ITCBlocks {
     public TCCreeperHangingSignBlock_Wall() {
@@ -34,7 +35,7 @@ public class TCCreeperHangingSignBlock_Wall extends WallHangingSignBlock impleme
     }
 
     @Override
-    public Supplier<LootTableSubProvider> getBlockLootSubProvider(Block block) {
+    public Function<HolderLookup.Provider, LootTableSubProvider> getBlockLootSubProvider(Block block) {
         return null;
     }
 
@@ -51,8 +52,8 @@ public class TCCreeperHangingSignBlock_Wall extends WallHangingSignBlock impleme
     @Override
     public void registerStateAndModel(TCBlockStateProvider provider) {
         provider.simpleBlock(this, provider.models().sign(this.getRegistryName(), provider.blockTexture(TCBlockCore.CREEPER_HANGING_SIGN)));
-        ResourceLocation name = new ResourceLocation(TakumiCraftCore.MODID, this.getRegistryName());
-        provider.itemModels().singleTexture(name.getPath(), provider.mcLoc("item/generated"), "layer0", new ResourceLocation(name.getNamespace(), "block/creeperhangingsign"));
+        ResourceLocation name = ResourceLocation.tryBuild(TakumiCraftCore.MODID, this.getRegistryName());
+        provider.itemModels().singleTexture(name.getPath(), provider.mcLoc("item/generated"), "layer0", ResourceLocation.tryBuild(name.getNamespace(), "block/creeperhangingsign"));
     }
 
     @Override

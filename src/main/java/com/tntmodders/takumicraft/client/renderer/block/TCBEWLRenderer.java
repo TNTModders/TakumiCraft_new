@@ -51,7 +51,7 @@ public class TCBEWLRenderer extends BlockEntityWithoutLevelRenderer {
     }
 
     public static void renderPatterns(PoseStack p_112075_, MultiBufferSource p_112076_, int p_112077_, int p_112078_, ModelPart p_112079_, Material p_112080_, boolean p_112081_, DyeColor p_336347_, BannerPatternLayers p_332113_, boolean p_112083_) {
-        p_112079_.render(p_112075_, p_112076_.getBuffer(RenderType.entitySolid(new ResourceLocation(TakumiCraftCore.MODID, "textures/entity/shield.png"))), p_112077_, p_112078_);
+        p_112079_.render(p_112075_, p_112076_.getBuffer(RenderType.entitySolid(ResourceLocation.tryBuild(TakumiCraftCore.MODID, "textures/entity/shield.png"))), p_112077_, p_112078_);
         renderPatternLayer(p_112075_, p_112076_, p_112077_, p_112078_, p_112079_, p_112081_ ? Sheets.BANNER_BASE : Sheets.SHIELD_BASE, p_336347_);
 
         for (int i = 0; i < 16 && i < p_332113_.layers().size(); i++) {
@@ -62,8 +62,8 @@ public class TCBEWLRenderer extends BlockEntityWithoutLevelRenderer {
     }
 
     private static void renderPatternLayer(PoseStack p_332210_, MultiBufferSource p_336119_, int p_333952_, int p_335632_, ModelPart p_327937_, Material p_327979_, DyeColor p_331652_) {
-        float[] afloat = p_331652_.getTextureDiffuseColors();
-        p_327937_.render(p_332210_, p_327979_.buffer(p_336119_, RenderType::entityNoOutline), p_333952_, p_335632_, afloat[0], afloat[1], afloat[2], 0.75F);
+        int i = p_331652_.getTextureDiffuseColor();
+        p_327937_.render(p_332210_, p_327979_.buffer(p_336119_, RenderType::entityNoOutline), p_333952_, p_335632_, i);
     }
 
 
@@ -74,11 +74,11 @@ public class TCBEWLRenderer extends BlockEntityWithoutLevelRenderer {
                 poseStack.pushPose();
                 poseStack.scale(1.0F, -1.0F, -1.0F);
                 poseStack.scale(0.5F, 0.5F, 0.5F);
-                VertexConsumer vertexconsumer1 = ItemRenderer.getFoilBufferDirect(bufferSource, this.saberModel.renderType(new ResourceLocation("textures/block/iron_block.png")), false, stack.hasFoil());
+                VertexConsumer vertexconsumer1 = ItemRenderer.getFoilBufferDirect(bufferSource, this.saberModel.renderType(ResourceLocation.withDefaultNamespace("textures/block/iron_block.png")), false, stack.hasFoil());
                 this.saberModel.renderToBufferBase(poseStack, vertexconsumer1, p_108834_, p_108835_, 1.0F, 1.0F, 1.0F, 1.0F);
 
                 float f = Minecraft.getInstance().player.tickCount * 0.01f;
-                VertexConsumer vertexconsumer2 = bufferSource.getBuffer(RenderType.energySwirl(new ResourceLocation(TakumiCraftCore.MODID, "textures/item/lightsaber_armor.png"), f % 1.0F, f * 0.01F % 1.0F));
+                VertexConsumer vertexconsumer2 = bufferSource.getBuffer(RenderType.energySwirl(ResourceLocation.tryBuild(TakumiCraftCore.MODID, "textures/item/lightsaber_armor.png"), f % 1.0F, f * 0.01F % 1.0F));
                 this.saberModel.renderToBufferBlade(poseStack, vertexconsumer2, p_108834_, p_108835_, 1.0F, 1.0F, 1.0F, 1.0F);
                 poseStack.popPose();
             }
@@ -89,12 +89,12 @@ public class TCBEWLRenderer extends BlockEntityWithoutLevelRenderer {
                 poseStack.pushPose();
                 poseStack.scale(1.0F, -1.0F, -1.0F);
                 Material material = flag ? ModelBakery.SHIELD_BASE : ModelBakery.NO_PATTERN_SHIELD;
-                VertexConsumer vertexconsumer = bufferSource.getBuffer(RenderType.entitySolid(new ResourceLocation(TakumiCraftCore.MODID, "textures/entity/shield.png")));
-                this.shieldModel.handle().render(poseStack, vertexconsumer, p_108834_, p_108835_, 1.0F, 1.0F, 1.0F, 1.0F);
+                VertexConsumer vertexconsumer = bufferSource.getBuffer(RenderType.entitySolid(ResourceLocation.tryBuild(TakumiCraftCore.MODID, "textures/entity/shield.png")));
+                this.shieldModel.handle().render(poseStack, vertexconsumer, p_108834_, p_108835_);
                 if (flag) {
                     renderPatterns(poseStack, bufferSource, p_108834_, p_108835_, this.shieldModel.plate(), material, false, Objects.requireNonNullElse(dyecolor, DyeColor.WHITE), bannerpatternlayers, stack.hasFoil());
                 } else {
-                    this.shieldModel.plate().render(poseStack, vertexconsumer, p_108834_, p_108835_, 1.0F, 1.0F, 1.0F, 1.0F);
+                    this.shieldModel.plate().render(poseStack, vertexconsumer, p_108834_, p_108835_);
                 }
                 poseStack.popPose();
             }

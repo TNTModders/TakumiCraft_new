@@ -5,6 +5,7 @@ import com.tntmodders.takumicraft.client.renderer.entity.TCStrayCreeperRenderer;
 import com.tntmodders.takumicraft.core.TCEntityCore;
 import com.tntmodders.takumicraft.core.TCItemCore;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.RandomSource;
@@ -29,7 +30,7 @@ import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
-import net.minecraft.world.level.storage.loot.functions.LootingEnchantFunction;
+import net.minecraft.world.level.storage.loot.functions.EnchantedCountIncreaseFunction;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.functions.SetPotionFunction;
 import net.minecraft.world.level.storage.loot.predicates.LootItemKilledByPlayerCondition;
@@ -76,8 +77,8 @@ public class TCStrayCreeper extends AbstractTCSkeletonCreeper {
     }
 
     @Override
-    protected AbstractArrow getArrow(ItemStack p_33846_, float p_33847_) {
-        AbstractArrow abstractarrow = super.getArrow(p_33846_, p_33847_);
+    protected AbstractArrow getArrow(ItemStack p_33846_, float p_33847_, ItemStack itemStack) {
+        AbstractArrow abstractarrow = super.getArrow(p_33846_, p_33847_, itemStack);
         if (abstractarrow instanceof Arrow) {
             ((Arrow) abstractarrow).addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 600, 4));
         }
@@ -162,8 +163,8 @@ public class TCStrayCreeper extends AbstractTCSkeletonCreeper {
         }
 
         @Override
-        public LootTable.Builder additionalBuilder(LootTable.Builder lootTable) {
-            return TCCreeperContext.super.additionalBuilder(lootTable).withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F)).add(LootItem.lootTableItem(TCItemCore.TIPPED_CREEPER_ARROW).apply(SetItemCountFunction.setCount(UniformGenerator.between(0.0F, 1.0F))).apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(0.0F, 1.0F)).setLimit(1)).apply(SetPotionFunction.setPotion(Potions.SLOWNESS))).when(LootItemKilledByPlayerCondition.killedByPlayer()));
+        public LootTable.Builder additionalBuilder(HolderLookup.Provider provider, LootTable.Builder lootTable) {
+            return TCCreeperContext.super.additionalBuilder(provider, lootTable).withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F)).add(LootItem.lootTableItem(TCItemCore.TIPPED_CREEPER_ARROW).apply(SetItemCountFunction.setCount(UniformGenerator.between(0.0F, 1.0F))).apply(EnchantedCountIncreaseFunction.lootingMultiplier(provider, UniformGenerator.between(0.0F, 1.0F)).setLimit(1)).apply(SetPotionFunction.setPotion(Potions.SLOWNESS))).when(LootItemKilledByPlayerCondition.killedByPlayer()));
         }
 
         @Override

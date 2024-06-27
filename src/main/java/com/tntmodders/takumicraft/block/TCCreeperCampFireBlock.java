@@ -15,6 +15,7 @@ import com.tntmodders.takumicraft.provider.TCRecipeProvider;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.data.loot.LootTableSubProvider;
 import net.minecraft.data.recipes.RecipeCategory;
@@ -76,7 +77,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
-import java.util.function.Supplier;
 
 public class TCCreeperCampFireBlock extends CampfireBlock implements ITCBlocks, ITCRecipe {
     public static final MapCodec<CampfireBlock> CODEC = simpleCodec(TCCreeperCampFireBlock::new);
@@ -104,7 +104,7 @@ public class TCCreeperCampFireBlock extends CampfireBlock implements ITCBlocks, 
                     try {
                         serverplayer.connection.send(function.apply(ComponentUtils.updateForEntity(serverplayer.createCommandSourceStack(), Component.literal("CAMPFIRE LIT").withStyle(ChatFormatting.DARK_RED), serverplayer, 0)));
                         serverplayer.playSound(SoundEvents.UI_TOAST_CHALLENGE_COMPLETE);
-                        serverplayer.getAdvancements().award(Objects.requireNonNull(serverplayer.server.getAdvancements().get(new ResourceLocation(TakumiCraftCore.MODID, "creepercampfire"))), "impossible");
+                        serverplayer.getAdvancements().award(Objects.requireNonNull(serverplayer.server.getAdvancements().get(ResourceLocation.tryBuild(TakumiCraftCore.MODID, "creepercampfire"))), "impossible");
                     } catch (CommandSyntaxException ignored) {
                     }
                 }
@@ -260,8 +260,8 @@ public class TCCreeperCampFireBlock extends CampfireBlock implements ITCBlocks, 
     }
 
     @Override
-    public Supplier<LootTableSubProvider> getBlockLootSubProvider(Block block) {
-        return () -> new TCBlockLoot(block, true);
+    public Function<HolderLookup.Provider, LootTableSubProvider> getBlockLootSubProvider(Block block) {
+        return provider -> new TCBlockLoot(provider, block, true);
     }
 
     @Override
@@ -294,14 +294,14 @@ public class TCCreeperCampFireBlock extends CampfireBlock implements ITCBlocks, 
     @Override
     public void registerStateAndModel(TCBlockStateProvider provider) {
         ModelFile lit = provider.models().withExistingParent(this.getRegistryName(), "minecraft:block/campfire")
-                .texture("fire", provider.blockFolder(new ResourceLocation(TakumiCraftCore.MODID, "creeper_campfire_fire")))
-                .texture("log", provider.blockFolder(new ResourceLocation(TakumiCraftCore.MODID, "creeper_campfire_log")))
-                .texture("lit_log", provider.blockFolder(new ResourceLocation(TakumiCraftCore.MODID, "creeper_campfire_log_lit")))
-                .texture("particle", provider.blockFolder(new ResourceLocation(TakumiCraftCore.MODID, "creeper_campfire_log_lit")))
+                .texture("fire", provider.blockFolder(ResourceLocation.tryBuild(TakumiCraftCore.MODID, "creeper_campfire_fire")))
+                .texture("log", provider.blockFolder(ResourceLocation.tryBuild(TakumiCraftCore.MODID, "creeper_campfire_log")))
+                .texture("lit_log", provider.blockFolder(ResourceLocation.tryBuild(TakumiCraftCore.MODID, "creeper_campfire_log_lit")))
+                .texture("particle", provider.blockFolder(ResourceLocation.tryBuild(TakumiCraftCore.MODID, "creeper_campfire_log_lit")))
                 .renderType("cutout");
         ModelFile unlit = provider.models().withExistingParent(this.getRegistryName() + "_off", "minecraft:block/campfire_off")
-                .texture("log", provider.blockFolder(new ResourceLocation(TakumiCraftCore.MODID, "creeper_campfire_log")))
-                .texture("particle", provider.blockFolder(new ResourceLocation(TakumiCraftCore.MODID, "creeper_campfire_log")))
+                .texture("log", provider.blockFolder(ResourceLocation.tryBuild(TakumiCraftCore.MODID, "creeper_campfire_log")))
+                .texture("particle", provider.blockFolder(ResourceLocation.tryBuild(TakumiCraftCore.MODID, "creeper_campfire_log")))
                 .renderType("cutout");
         provider.getVariantBuilder(this).forAllStatesExcept(state -> {
             Direction dir = state.getValue(BlockStateProperties.HORIZONTAL_FACING);

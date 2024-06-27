@@ -31,7 +31,7 @@ public class TCItemModelProvider extends ItemModelProvider {
     }
 
     public void singleItem(Item item, String base) {
-        ResourceLocation name = new ResourceLocation(modid, ((ITCItems) item).getRegistryName());
-        singleTexture(name.getPath(), mcLoc(folder + "/" + base), "layer0", new ResourceLocation(name.getNamespace(), folder + "/" + name.getPath()));
+        ResourceLocation name = ResourceLocation.tryBuild(modid, ((ITCItems) item).getRegistryName());
+        singleTexture(name.getPath(), mcLoc(folder + "/" + base), "layer0", ResourceLocation.tryBuild(name.getNamespace(), folder + "/" + name.getPath()));
     }
 }

@@ -7,6 +7,7 @@ import com.tntmodders.takumicraft.provider.ITCRecipe;
 import com.tntmodders.takumicraft.provider.TCBlockStateProvider;
 import com.tntmodders.takumicraft.provider.TCRecipeProvider;
 import com.tntmodders.takumicraft.utils.TCBlockUtils;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.data.loot.LootTableSubProvider;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
@@ -22,6 +23,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.client.model.generators.ModelFile;
 
 import java.util.List;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 public class TCAntiExplosionWallBlock extends WallBlock implements ITCBlocks, ITCRecipe {
@@ -87,7 +89,7 @@ public class TCAntiExplosionWallBlock extends WallBlock implements ITCBlocks, IT
 
 
     @Override
-    public Supplier<LootTableSubProvider> getBlockLootSubProvider(Block block) {
-        return () -> new TCBlockLoot(block, true);
+    public Function<HolderLookup.Provider, LootTableSubProvider> getBlockLootSubProvider(Block block) {
+        return provider -> new TCBlockLoot(provider, block, true);
     }
 }

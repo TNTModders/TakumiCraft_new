@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_takumicraft:creepercopper_grate_weathered": {
+      "conditions": {
+        "items": [
+          {
+            "items": "takumicraft:creepercopper_grate_weathered"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "takumicraft:creepercopper_grate_weathered_stonecutting"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_takumicraft:creepercopper_grate_weathered"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "takumicraft:creepercopper_grate_weathered_stonecutting"
+    ]
+  }
+}

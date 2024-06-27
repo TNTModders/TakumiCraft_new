@@ -23,7 +23,7 @@ public class TCWoolBlock extends AbstractTCAntiExplosionBlock implements ITCReci
     public TCWoolBlock(DyeColor colorIn) {
         super(BlockBehaviour.Properties.of().mapColor(colorIn.getMapColor()).instrument(NoteBlockInstrument.GUITAR).strength(0.8F).sound(SoundType.WOOL));
         this.color = colorIn;
-        this.baseBlock = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(this.color.getName() + "_wool"));
+        this.baseBlock = ForgeRegistries.BLOCKS.getValue(ResourceLocation.tryBuild("minecraft", this.color.getName() + "_wool"));
     }
 
     @Override

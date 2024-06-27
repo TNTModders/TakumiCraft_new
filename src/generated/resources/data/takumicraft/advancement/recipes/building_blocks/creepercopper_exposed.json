@@ -1,0 +1,43 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_creeperbomb": {
+      "conditions": {
+        "items": [
+          {
+            "items": "takumicraft:creeperbomb"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_takumicraft:creepercopper_exposed": {
+      "conditions": {
+        "items": [
+          {
+            "items": "takumicraft:creepercopper_exposed"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "takumicraft:creepercopper_exposed"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_creeperbomb",
+      "has_takumicraft:creepercopper_exposed"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "takumicraft:creepercopper_exposed"
+    ]
+  }
+}

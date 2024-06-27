@@ -13,6 +13,7 @@ import com.tntmodders.takumicraft.provider.TCRecipeProvider;
 import com.tntmodders.takumicraft.world.level.block.state.properties.TCWoodType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.data.loot.LootTableSubProvider;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
@@ -30,7 +31,7 @@ import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.MapColor;
 
 import java.util.List;
-import java.util.function.Supplier;
+import java.util.function.Function;
 
 public class TCCreeperHangingSignBlock extends CeilingHangingSignBlock implements ITCBlocks, ITCRecipe {
     public TCCreeperHangingSignBlock() {
@@ -43,8 +44,8 @@ public class TCCreeperHangingSignBlock extends CeilingHangingSignBlock implement
     }
 
     @Override
-    public Supplier<LootTableSubProvider> getBlockLootSubProvider(Block block) {
-        return () -> new TCBlockLoot(block, true);
+    public Function<HolderLookup.Provider, LootTableSubProvider> getBlockLootSubProvider(Block block) {
+        return provider -> new TCBlockLoot(provider, block, true);
     }
 
     @Override
@@ -70,8 +71,8 @@ public class TCCreeperHangingSignBlock extends CeilingHangingSignBlock implement
     @Override
     public void registerStateAndModel(TCBlockStateProvider provider) {
         provider.simpleBlock(this, provider.models().sign(this.getRegistryName(), provider.blockTexture(this)));
-        ResourceLocation name = new ResourceLocation(TakumiCraftCore.MODID, this.getRegistryName());
-        provider.itemModels().singleTexture(name.getPath(), provider.mcLoc("item/generated"), "layer0", new ResourceLocation(name.getNamespace(), "block/" + name.getPath()));
+        ResourceLocation name = ResourceLocation.tryBuild(TakumiCraftCore.MODID, this.getRegistryName());
+        provider.itemModels().singleTexture(name.getPath(), provider.mcLoc("item/generated"), "layer0", ResourceLocation.tryBuild(name.getNamespace(), "block/" + name.getPath()));
     }
 
     @Override

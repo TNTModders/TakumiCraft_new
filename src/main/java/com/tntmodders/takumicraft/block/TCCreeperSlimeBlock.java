@@ -8,6 +8,7 @@ import com.tntmodders.takumicraft.provider.ITCRecipe;
 import com.tntmodders.takumicraft.provider.TCBlockStateProvider;
 import com.tntmodders.takumicraft.provider.TCRecipeProvider;
 import com.tntmodders.takumicraft.utils.TCExplosionUtils;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.data.loot.LootTableSubProvider;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
@@ -28,7 +29,7 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.client.model.generators.ConfiguredModel;
 import net.minecraftforge.client.model.generators.ModelFile;
 
-import java.util.function.Supplier;
+import java.util.function.Function;
 
 public class TCCreeperSlimeBlock extends SlimeBlock implements ITCBlocks, ITCRecipe {
     public TCCreeperSlimeBlock() {
@@ -67,8 +68,8 @@ public class TCCreeperSlimeBlock extends SlimeBlock implements ITCBlocks, ITCRec
     }
 
     @Override
-    public Supplier<LootTableSubProvider> getBlockLootSubProvider(Block block) {
-        return () -> new TCBlockLoot(block, true);
+    public Function<HolderLookup.Provider, LootTableSubProvider> getBlockLootSubProvider(Block block) {
+        return provider -> new TCBlockLoot(provider, block, true);
     }
 
     @Override
@@ -88,7 +89,7 @@ public class TCCreeperSlimeBlock extends SlimeBlock implements ITCBlocks, ITCRec
 
     @Override
     public void registerStateAndModel(TCBlockStateProvider provider) {
-        ModelFile blockModel = provider.models().withExistingParent(provider.name(this), "takumicraft:block/template_creeperslimeblock").texture("texture", provider.blockTexture(this)).texture("inside", provider.blockFolder(new ResourceLocation(TakumiCraftCore.MODID, provider.name(this) + "_inside")));
+        ModelFile blockModel = provider.models().withExistingParent(provider.name(this), "takumicraft:block/template_creeperslimeblock").texture("texture", provider.blockTexture(this)).texture("inside", provider.blockFolder(ResourceLocation.tryBuild(TakumiCraftCore.MODID, provider.name(this) + "_inside")));
         provider.getVariantBuilder(this).partialState().addModels(new ConfiguredModel(blockModel));
         provider.itemModels().withExistingParent(provider.name(this), provider.blockTexture(this));
     }

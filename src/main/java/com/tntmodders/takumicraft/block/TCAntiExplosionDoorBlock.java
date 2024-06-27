@@ -8,6 +8,7 @@ import com.tntmodders.takumicraft.provider.ITCRecipe;
 import com.tntmodders.takumicraft.provider.TCBlockStateProvider;
 import com.tntmodders.takumicraft.provider.TCRecipeProvider;
 import com.tntmodders.takumicraft.utils.TCBlockUtils;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.data.loot.LootTableSubProvider;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
@@ -23,6 +24,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockSetType;
 
 import java.util.List;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 public class TCAntiExplosionDoorBlock extends DoorBlock implements ITCBlocks, ITCRecipe {
@@ -74,7 +76,7 @@ public class TCAntiExplosionDoorBlock extends DoorBlock implements ITCBlocks, IT
 
     @Override
     public void registerStateAndModel(TCBlockStateProvider provider) {
-        provider.doorBlockWithRenderType(this, provider.blockFolder(new ResourceLocation(TakumiCraftCore.MODID, provider.key(this.getBaseBlock()).getPath() + "_door_bottom")), provider.blockFolder(new ResourceLocation(TakumiCraftCore.MODID, provider.key(this.getBaseBlock()).getPath() + "_door_top")), "cutout");
+        provider.doorBlockWithRenderType(this, provider.blockFolder(ResourceLocation.tryBuild(TakumiCraftCore.MODID, provider.key(this.getBaseBlock()).getPath() + "_door_bottom")), provider.blockFolder(ResourceLocation.tryBuild(TakumiCraftCore.MODID, provider.key(this.getBaseBlock()).getPath() + "_door_top")), "cutout");
         provider.singleBlockItem(this, provider.blockTexture(this));
     }
 
@@ -95,8 +97,8 @@ public class TCAntiExplosionDoorBlock extends DoorBlock implements ITCBlocks, IT
 
 
     @Override
-    public Supplier<LootTableSubProvider> getBlockLootSubProvider(Block block) {
-        return () -> new TCBlockLoot(block, true);
+    public Function<HolderLookup.Provider, LootTableSubProvider> getBlockLootSubProvider(Block block) {
+        return provider -> new TCBlockLoot(provider, block, true);
     }
 
     @Override

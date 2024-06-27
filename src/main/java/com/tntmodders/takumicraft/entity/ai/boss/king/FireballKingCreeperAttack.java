@@ -8,6 +8,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.projectile.LargeFireball;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -37,9 +38,9 @@ public class FireballKingCreeperAttack extends AbstractKingCreeperAttack {
         for (int t = 0; t < 20 * (creeper.isPowered() ? 2 : 1); t++) {
             RandomSource rand = creeper.getRandom();
             BlockPos pos = this.getRandomPos(creeper, 20, 2, 20).above(50);
-            LargeFireball fireball = new LargeFireball(creeper.level(), creeper, 0, -1 - rand.nextGaussian() * 2, 0, creeper.isPowered() ? 6 : 4);
+            LargeFireball fireball = new LargeFireball(creeper.level(), creeper, new Vec3(0, -1 - rand.nextGaussian() * 2, 0), creeper.isPowered() ? 6 : 4);
             fireball.setPos(pos.getCenter());
-            fireball.yPower = -0.3 - rand.nextGaussian() / 4;
+            fireball.setDeltaMovement(0, -0.3 - rand.nextGaussian() / 4, 0);
             creeper.level().addFreshEntity(fireball);
         }
         TCExplosionUtils.createExplosion(creeper.level(), creeper, creeper.getX(), creeper.getY(), creeper.getZ(), 3f, true);

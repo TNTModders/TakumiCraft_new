@@ -107,7 +107,7 @@ public class TCRabbitCreeper extends AbstractTCCreeper {
     }
 
     @Override
-    protected void jumpFromGround() {
+    public void jumpFromGround() {
         super.jumpFromGround();
         double d0 = this.moveControl.getSpeedModifier();
         if (d0 > 0.0D) {

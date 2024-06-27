@@ -10,19 +10,17 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.monster.Creeper;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.portal.DimensionTransition;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
-import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.level.ExplosionEvent;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class TCBedCreeper extends AbstractTCCreeper {
 
@@ -46,8 +44,8 @@ public class TCBedCreeper extends AbstractTCCreeper {
                 if (pos != null && pos != BlockPos.ZERO) {
                     BlockState state = this.level().getBlockState(pos);
                     float res = state.getExplosionResistance(this.level(), pos, event.getExplosion());
-                    Optional<Vec3> optional = Player.findRespawnPositionAndUseSpawnBlock(serverPlayer.serverLevel(), pos, serverPlayer.getRespawnAngle(), false, true);
-                    if (optional != null && optional.isPresent() && res <= 2000) {
+                    DimensionTransition transition = serverPlayer.findRespawnPositionAndUseSpawnBlock(true, DimensionTransition.DO_NOTHING);
+                    if (transition != null && !transition.missingRespawnBlock() && res <= 2000) {
                         this.level().setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
                         TCExplosionUtils.createExplosion(this.level(), null, pos, this.isPowered() ? 20 : 12);
                         serverPlayer.sendSystemMessage(Component.translatable("entity.takumicraft.bedcreeper.message", serverPlayer.getName()));

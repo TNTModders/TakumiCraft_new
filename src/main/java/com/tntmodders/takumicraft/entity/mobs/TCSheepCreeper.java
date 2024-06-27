@@ -11,6 +11,7 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -25,13 +26,11 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.CraftingContainer;
-import net.minecraft.world.inventory.TransientCraftingContainer;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.DyeItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
@@ -44,6 +43,7 @@ import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
 
 import javax.annotation.Nullable;
+import java.util.List;
 import java.util.Objects;
 
 public class TCSheepCreeper extends AbstractTCCreeper {
@@ -58,16 +58,6 @@ public class TCSheepCreeper extends AbstractTCCreeper {
         super(entityType, level);
     }
 
-    private static float[] createSheepColor(DyeColor p_29866_) {
-        if (p_29866_ == DyeColor.WHITE) {
-            return new float[]{0.9019608F, 0.9019608F, 0.9019608F};
-        } else {
-            float[] afloat = p_29866_.getTextureDiffuseColors();
-            float f = 0.75F;
-            return new float[]{afloat[0] * 0.75F, afloat[1] * 0.75F, afloat[2] * 0.75F};
-        }
-    }
-
     public static AttributeSupplier.Builder createAttributes() {
         return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 8.0D).add(Attributes.MOVEMENT_SPEED, 0.23F);
     }
@@ -76,21 +66,8 @@ public class TCSheepCreeper extends AbstractTCCreeper {
         return DyeColor.byId(rand.nextInt(16));
     }
 
-    private static CraftingContainer makeContainer(DyeColor p_29832_, DyeColor p_29833_) {
-        CraftingContainer craftingcontainer = new TransientCraftingContainer(new AbstractContainerMenu(null, -1) {
-            @Override
-            public ItemStack quickMoveStack(Player p_218264_, int p_218265_) {
-                return ItemStack.EMPTY;
-            }
-
-            @Override
-            public boolean stillValid(Player p_29888_) {
-                return false;
-            }
-        }, 2, 1);
-        craftingcontainer.setItem(0, new ItemStack(DyeItem.byColor(p_29832_)));
-        craftingcontainer.setItem(1, new ItemStack(DyeItem.byColor(p_29833_)));
-        return craftingcontainer;
+    private static CraftingInput makeCraftInput(DyeColor p_344668_, DyeColor p_344678_) {
+        return CraftingInput.of(2, 1, List.of(new ItemStack(DyeItem.byColor(p_344668_)), new ItemStack(DyeItem.byColor(p_344678_))));
     }
 
     @Override
@@ -214,14 +191,15 @@ public class TCSheepCreeper extends AbstractTCCreeper {
         if (this.isRainbow() && p_21014_.is(DamageTypes.PLAYER_ATTACK) && p_21014_.getEntity() instanceof ServerPlayer player) {
             if (player instanceof ServerPlayer && player.distanceToSqr(this) < 100) {
                 player.getAdvancements()
-                        .award(Objects.requireNonNull(player.server.getAdvancements().get(new ResourceLocation(TakumiCraftCore.MODID, "rainbowsheep"))), "impossible");
+                        .award(Objects.requireNonNull(player.server.getAdvancements().get(ResourceLocation.tryBuild(TakumiCraftCore.MODID, "rainbowsheep"))), "impossible");
             }
         }
     }
 
+
     @Override
-    protected void dropCustomDeathLoot(DamageSource p_32292_, int p_32293_, boolean p_32294_) {
-        super.dropCustomDeathLoot(p_32292_, p_32293_, p_32294_);
+    protected void dropCustomDeathLoot(ServerLevel p_342918_, DamageSource p_32292_, boolean p_32294_) {
+        super.dropCustomDeathLoot(p_342918_, p_32292_, p_32294_);
         this.spawnAtLocation(TCBlockCore.CREEPER_WOOL_MAP.get(this.getColor()));
     }
 

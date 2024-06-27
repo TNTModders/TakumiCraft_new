@@ -18,6 +18,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
@@ -27,8 +28,8 @@ public class TCCreeperArrowItem extends ArrowItem implements ITCItems, ITCTransl
     }
 
     @Override
-    public AbstractArrow createArrow(Level p_40513_, ItemStack p_40514_, LivingEntity p_40515_) {
-        TCCreeperArrow arrow = new TCCreeperArrow(p_40513_, p_40515_, p_40514_);
+    public AbstractArrow createArrow(Level p_40513_, ItemStack p_40514_, LivingEntity p_40515_, @Nullable ItemStack p_343176_) {
+        TCCreeperArrow arrow = new TCCreeperArrow(p_40513_, p_40515_, p_40514_, p_343176_);
         //arrow.setEffectsFromItem(p_40514_);
         return arrow;
     }

@@ -65,7 +65,7 @@ import java.util.stream.Stream;
 public class TCKingCreeper extends AbstractTCBossCreeper {
 
     private static final EntityDataAccessor<Integer> ATTACK_ID = SynchedEntityData.defineId(TCKingCreeper.class, EntityDataSerializers.INT);
-    public static final ResourceLocation KING_LOCATION = new ResourceLocation(TakumiCraftCore.MODID, "textures/entity/creeper/kingcreeper_armor.png");
+    public static final ResourceLocation KING_LOCATION = ResourceLocation.tryBuild(TakumiCraftCore.MODID, "textures/entity/creeper/kingcreeper_armor.png");
     private int lastAttackID;
     private boolean ULTCasted;
 
@@ -258,7 +258,7 @@ public class TCKingCreeper extends AbstractTCBossCreeper {
         if (damage > 20) {
             damage = 20;
         }
-        if (source.isIndirect()) {
+        if (!source.isDirect()) {
             damageImmune = true;
             if (this.isPowered() && source.getDirectEntity() instanceof Projectile projectile && !this.hasEffect(MobEffects.BLINDNESS)) {
                 TCExplosionUtils.createExplosion(level(), this, projectile.getX(), projectile.getY(), projectile.getZ(), 0f, false);

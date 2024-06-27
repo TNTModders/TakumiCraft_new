@@ -10,6 +10,7 @@ import com.tntmodders.takumicraft.provider.TCRecipeProvider;
 import com.tntmodders.takumicraft.utils.TCBlockUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.data.loot.LootTableSubProvider;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
@@ -40,6 +41,7 @@ import net.minecraftforge.client.model.generators.ConfiguredModel;
 import net.minecraftforge.client.model.generators.VariantBlockStateBuilder;
 
 import java.util.List;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 public class TCAntiExplosionHalfBlock extends Block implements ITCBlocks, ITCRecipe, SimpleWaterloggedBlock {
@@ -185,8 +187,8 @@ public class TCAntiExplosionHalfBlock extends Block implements ITCBlocks, ITCRec
     @Override
     public void registerStateAndModel(TCBlockStateProvider provider) {
         VariantBlockStateBuilder builder = provider.getVariantBuilder(this);
-        Direction.stream().forEach(direction -> builder.partialState().with(TCAntiExplosionHalfBlock.FACING, direction).addModels(new ConfiguredModel(provider.models().withExistingParent(provider.name(this) + "_" + direction.getName(), new ResourceLocation(TakumiCraftCore.MODID, "half_" + direction.getName())).texture("top", provider.blockFolder(new ResourceLocation(TakumiCraftCore.MODID, this.getTopTextureName()))).texture("side", provider.blockFolder(new ResourceLocation(TakumiCraftCore.MODID, this.getTextureName()))).texture("bottom", provider.blockFolder(new ResourceLocation(TakumiCraftCore.MODID, this.getBottomTextureName()))).renderType("cutout"))));
-        provider.itemModels().withExistingParent(this.getRegistryName(), provider.blockFolder(new ResourceLocation(TakumiCraftCore.MODID, this.getRegistryName() + "_east")));
+        Direction.stream().forEach(direction -> builder.partialState().with(TCAntiExplosionHalfBlock.FACING, direction).addModels(new ConfiguredModel(provider.models().withExistingParent(provider.name(this) + "_" + direction.getName(), ResourceLocation.tryBuild(TakumiCraftCore.MODID, "half_" + direction.getName())).texture("top", provider.blockFolder(ResourceLocation.tryBuild(TakumiCraftCore.MODID, this.getTopTextureName()))).texture("side", provider.blockFolder(ResourceLocation.tryBuild(TakumiCraftCore.MODID, this.getTextureName()))).texture("bottom", provider.blockFolder(ResourceLocation.tryBuild(TakumiCraftCore.MODID, this.getBottomTextureName()))).renderType("cutout"))));
+        provider.itemModels().withExistingParent(this.getRegistryName(), provider.blockFolder(ResourceLocation.tryBuild(TakumiCraftCore.MODID, this.getRegistryName() + "_east")));
     }
 
     @Override
@@ -203,7 +205,7 @@ public class TCAntiExplosionHalfBlock extends Block implements ITCBlocks, ITCRec
 
 
     @Override
-    public Supplier<LootTableSubProvider> getBlockLootSubProvider(Block block) {
-        return () -> new TCBlockLoot(block, true);
+    public Function<HolderLookup.Provider, LootTableSubProvider> getBlockLootSubProvider(Block block) {
+        return provider -> new TCBlockLoot(provider, block, true);
     }
 }

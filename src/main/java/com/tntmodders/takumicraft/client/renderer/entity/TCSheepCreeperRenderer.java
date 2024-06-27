@@ -18,7 +18,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class TCSheepCreeperRenderer extends MobRenderer<TCSheepCreeper, TCSheepCreeperModel<TCSheepCreeper>> {
-    private static final ResourceLocation LOCATION = new ResourceLocation(TakumiCraftCore.MODID, "textures/entity/creeper/sheepcreeper.png");
+    private static final ResourceLocation LOCATION = ResourceLocation.tryBuild(TakumiCraftCore.MODID, "textures/entity/creeper/sheepcreeper.png");
 
     public TCSheepCreeperRenderer(EntityRendererProvider.Context p_173956_) {
         super(p_173956_, new TCSheepCreeperModel<>(p_173956_.bakeLayer(ModelLayers.SHEEP)), 0.7F);

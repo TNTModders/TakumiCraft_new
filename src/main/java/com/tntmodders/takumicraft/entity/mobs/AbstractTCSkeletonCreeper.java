@@ -93,7 +93,7 @@ public abstract class AbstractTCSkeletonCreeper extends AbstractTCCreeper implem
                 if (itemstack.isDamageableItem()) {
                     itemstack.setDamageValue(itemstack.getDamageValue() + this.random.nextInt(2));
                     if (itemstack.getDamageValue() >= itemstack.getMaxDamage()) {
-                        this.broadcastBreakEvent(EquipmentSlot.HEAD);
+                        this.onEquippedItemBroken(itemstack.getItem(), EquipmentSlot.HEAD);
                         this.setItemSlot(EquipmentSlot.HEAD, ItemStack.EMPTY);
                     }
                 }
@@ -131,7 +131,7 @@ public abstract class AbstractTCSkeletonCreeper extends AbstractTCCreeper implem
         p_32149_ = super.finalizeSpawn(p_32146_, p_32147_, p_32148_, p_32149_);
         RandomSource randomsource = p_32146_.getRandom();
         this.populateDefaultEquipmentSlots(randomsource, p_32147_);
-        this.populateDefaultEquipmentEnchantments(randomsource, p_32147_);
+        this.populateDefaultEquipmentEnchantments(p_32146_, randomsource, p_32147_);
         this.reassessWeaponGoal();
         this.setCanPickUpLoot(randomsource.nextFloat() < 0.55F * p_32147_.getSpecialMultiplier());
         if (this.getItemBySlot(EquipmentSlot.HEAD).isEmpty()) {
@@ -170,7 +170,7 @@ public abstract class AbstractTCSkeletonCreeper extends AbstractTCCreeper implem
     @Override
     public void performRangedAttack(LivingEntity p_32141_, float p_32142_) {
         ItemStack itemstack = this.getProjectile(this.getItemInHand(ProjectileUtil.getWeaponHoldingHand(this, item -> item instanceof net.minecraft.world.item.BowItem)));
-        AbstractArrow abstractarrow = this.getArrow(itemstack, p_32142_);
+        AbstractArrow abstractarrow = this.getArrow(itemstack, p_32142_, itemstack);
         if (this.getMainHandItem().getItem() instanceof net.minecraft.world.item.BowItem)
             abstractarrow = ((net.minecraft.world.item.BowItem) this.getMainHandItem().getItem()).customArrow(abstractarrow);
         double d0 = p_32141_.getX() - this.getX();
@@ -213,10 +213,10 @@ public abstract class AbstractTCSkeletonCreeper extends AbstractTCCreeper implem
 
     }
 
-    protected AbstractArrow getArrow(ItemStack p_33846_, float p_33847_) {
+    protected AbstractArrow getArrow(ItemStack p_33846_, float p_33847_, ItemStack itemStack) {
         ArrowItem arrowitem = (ArrowItem) (p_33846_.getItem() instanceof ArrowItem ? p_33846_.getItem() : TCItemCore.CREEPER_ARROW);
-        AbstractArrow abstractarrow = arrowitem.createArrow(this.level(), p_33846_, this);
-        abstractarrow.setEnchantmentEffectsFromEntity(this, p_33847_);
+        AbstractArrow abstractarrow = arrowitem.createArrow(this.level(), p_33846_, this, itemStack);
+        abstractarrow.setBaseDamageFromMob(p_33847_);
         if (abstractarrow instanceof TCCreeperArrow creeperArrow) {
             if (p_33846_.is(TCItemCore.TIPPED_CREEPER_ARROW)) {
                 //creeperArrow.setEffectsFromItem(p_33846_);

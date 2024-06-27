@@ -35,7 +35,7 @@ public class TCCreeperShulkerBoxRenderer extends ShulkerBoxRenderer {
                 direction = blockstate.getValue(ShulkerBoxBlock.FACING);
             }
         }
-        Material material = new Material(Sheets.SHULKER_SHEET, new ResourceLocation(TakumiCraftCore.MODID, "entity/shulker/creepershulkerbox"));
+        Material material = new Material(Sheets.SHULKER_SHEET, ResourceLocation.tryBuild(TakumiCraftCore.MODID, "entity/shulker/creepershulkerbox"));
         poseStack.pushPose();
         poseStack.translate(0.5F, 0.5F, 0.5F);
         float f = 0.9995F;
@@ -47,7 +47,7 @@ public class TCCreeperShulkerBoxRenderer extends ShulkerBoxRenderer {
         modelpart.setPos(0.0F, 24.0F - entity.getProgress(partialTicks) * 0.5F * 16.0F, 0.0F);
         modelpart.yRot = 270.0F * entity.getProgress(partialTicks) * (float) (Math.PI / 180.0);
         VertexConsumer vertexconsumer = material.buffer(bufferSource, RenderType::entityCutoutNoCull);
-        this.model.renderToBuffer(poseStack, vertexconsumer, x, z, 1.0F, 1.0F, 1.0F, 1.0F);
+        this.model.renderToBuffer(poseStack, vertexconsumer, x, z);
         poseStack.popPose();
     }
 }

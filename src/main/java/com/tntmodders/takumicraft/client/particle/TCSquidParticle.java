@@ -57,10 +57,10 @@ public class TCSquidParticle extends SimpleAnimatedParticle {
     }
 
     @OnlyIn(Dist.CLIENT)
-    public static class Provider implements ParticleProvider<SimpleParticleType> {
+    public static class TCSquidParticleProvider implements ParticleProvider<SimpleParticleType> {
         private final SpriteSet sprites;
 
-        public Provider(SpriteSet p_107991_) {
+        public TCSquidParticleProvider(SpriteSet p_107991_) {
             this.sprites = p_107991_;
         }
 

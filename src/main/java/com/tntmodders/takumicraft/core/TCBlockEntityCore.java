@@ -41,16 +41,16 @@ public class TCBlockEntityCore {
 
     public static void register(final RegisterEvent event) {
         TCLoggingUtils.startRegistry("BlockEntity");
-        event.register(ForgeRegistries.BLOCK_ENTITY_TYPES.getRegistryKey(), new ResourceLocation(TakumiCraftCore.MODID, "creeperbed"), () -> CREEPER_BED);
-        event.register(ForgeRegistries.BLOCK_ENTITY_TYPES.getRegistryKey(), new ResourceLocation(TakumiCraftCore.MODID, "acidblock"), () -> ACID);
-        event.register(ForgeRegistries.BLOCK_ENTITY_TYPES.getRegistryKey(), new ResourceLocation(TakumiCraftCore.MODID, "monsterbomb"), () -> MONSTER_BOMB);
-        event.register(ForgeRegistries.BLOCK_ENTITY_TYPES.getRegistryKey(), new ResourceLocation(TakumiCraftCore.MODID, "creeperchest"), () -> CHEST);
-        event.register(ForgeRegistries.BLOCK_ENTITY_TYPES.getRegistryKey(), new ResourceLocation(TakumiCraftCore.MODID, "creeperbarrel"), () -> BARREL);
-        event.register(ForgeRegistries.BLOCK_ENTITY_TYPES.getRegistryKey(), new ResourceLocation(TakumiCraftCore.MODID, "creepercampfire"), () -> CAMPFIRE);
-        event.register(ForgeRegistries.BLOCK_ENTITY_TYPES.getRegistryKey(), new ResourceLocation(TakumiCraftCore.MODID, "creepersign"), () -> SIGN);
-        event.register(ForgeRegistries.BLOCK_ENTITY_TYPES.getRegistryKey(), new ResourceLocation(TakumiCraftCore.MODID, "creeperhangingsign"), () -> HANGING_SIGN);
-        event.register(ForgeRegistries.BLOCK_ENTITY_TYPES.getRegistryKey(), new ResourceLocation(TakumiCraftCore.MODID, "creepershulkerbox"), () -> SHULKER);
-        event.register(ForgeRegistries.BLOCK_ENTITY_TYPES.getRegistryKey(), new ResourceLocation(TakumiCraftCore.MODID, "takumiblock"), () -> SUPER_BLOCK);
+        event.register(ForgeRegistries.BLOCK_ENTITY_TYPES.getRegistryKey(), ResourceLocation.tryBuild(TakumiCraftCore.MODID, "creeperbed"), () -> CREEPER_BED);
+        event.register(ForgeRegistries.BLOCK_ENTITY_TYPES.getRegistryKey(), ResourceLocation.tryBuild(TakumiCraftCore.MODID, "acidblock"), () -> ACID);
+        event.register(ForgeRegistries.BLOCK_ENTITY_TYPES.getRegistryKey(), ResourceLocation.tryBuild(TakumiCraftCore.MODID, "monsterbomb"), () -> MONSTER_BOMB);
+        event.register(ForgeRegistries.BLOCK_ENTITY_TYPES.getRegistryKey(), ResourceLocation.tryBuild(TakumiCraftCore.MODID, "creeperchest"), () -> CHEST);
+        event.register(ForgeRegistries.BLOCK_ENTITY_TYPES.getRegistryKey(), ResourceLocation.tryBuild(TakumiCraftCore.MODID, "creeperbarrel"), () -> BARREL);
+        event.register(ForgeRegistries.BLOCK_ENTITY_TYPES.getRegistryKey(), ResourceLocation.tryBuild(TakumiCraftCore.MODID, "creepercampfire"), () -> CAMPFIRE);
+        event.register(ForgeRegistries.BLOCK_ENTITY_TYPES.getRegistryKey(), ResourceLocation.tryBuild(TakumiCraftCore.MODID, "creepersign"), () -> SIGN);
+        event.register(ForgeRegistries.BLOCK_ENTITY_TYPES.getRegistryKey(), ResourceLocation.tryBuild(TakumiCraftCore.MODID, "creeperhangingsign"), () -> HANGING_SIGN);
+        event.register(ForgeRegistries.BLOCK_ENTITY_TYPES.getRegistryKey(), ResourceLocation.tryBuild(TakumiCraftCore.MODID, "creepershulkerbox"), () -> SHULKER);
+        event.register(ForgeRegistries.BLOCK_ENTITY_TYPES.getRegistryKey(), ResourceLocation.tryBuild(TakumiCraftCore.MODID, "takumiblock"), () -> SUPER_BLOCK);
         TCLoggingUtils.completeRegistry("BlockEntity");
     }
 

@@ -3,25 +3,12 @@ package com.tntmodders.takumicraft.enchantment;
 import com.tntmodders.takumicraft.provider.ITCTranslator;
 import net.minecraft.world.item.enchantment.Enchantment;
 
-public abstract class AbstractTCEnchantment extends Enchantment implements ITCTranslator {
-    protected AbstractTCEnchantment(EnchantmentDefinition definition) {
-        super(definition);
+public abstract class AbstractTCEnchantment implements ITCTranslator {
+
+    protected AbstractTCEnchantment(Enchantment.EnchantmentDefinition definition) {
     }
 
-    @Override
-    public boolean isTreasureOnly() {
-        return true;
-    }
-
-    @Override
-    public boolean isTradeable() {
-        return false;
-    }
-
-    @Override
-    public boolean isDiscoverable() {
-        return false;
-    }
+    public abstract Enchantment getEnchantment();
 
     public abstract String getRegistryName();
 }

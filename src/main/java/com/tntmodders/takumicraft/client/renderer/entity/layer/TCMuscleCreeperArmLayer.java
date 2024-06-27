@@ -20,7 +20,7 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
 
 public class TCMuscleCreeperArmLayer<T extends TCMuscleCreeper, M extends EntityModel<T>> extends ElytraLayer<T, M> {
-    private static final ResourceLocation WINGS_LOCATION = new ResourceLocation(TakumiCraftCore.MODID, "textures/entity/creeper/musclecreeperarm.png");
+    private static final ResourceLocation WINGS_LOCATION = ResourceLocation.tryBuild(TakumiCraftCore.MODID, "textures/entity/creeper/musclecreeperarm.png");
     private final ElytraModel<T> elytraModel;
 
     public TCMuscleCreeperArmLayer(RenderLayerParent p_174493_, EntityModelSet p_174494_) {
@@ -38,34 +38,17 @@ public class TCMuscleCreeperArmLayer<T extends TCMuscleCreeper, M extends Entity
             p_116951_.translate(0.0F, 0.0F, 0.125F);
             this.getParentModel().copyPropertiesTo(this.elytraModel);
             this.elytraModel.setupAnim(p_116954_, p_116955_, p_116956_, p_116958_, p_116959_, p_116960_);
-            VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(p_116952_, RenderType.armorCutoutNoCull(resourcelocation), false, itemstack.hasFoil());
-            this.elytraModel.renderToBuffer(p_116951_, vertexconsumer, p_116953_, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
+            VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(p_116952_, RenderType.armorCutoutNoCull(resourcelocation), itemstack.hasFoil());
+            this.elytraModel.renderToBuffer(p_116951_, vertexconsumer, p_116953_, OverlayTexture.NO_OVERLAY);
             p_116951_.popPose();
         }
     }
 
-    /**
-     * Determines if the ElytraLayer should render.
-     * ItemStack and Entity are provided for modder convenience,
-     * For example, using the same ElytraLayer for multiple custom Elytra.
-     *
-     * @param stack  The Elytra ItemStack
-     * @param entity The entity being rendered.
-     * @return If the ElytraLayer should render.
-     */
     @Override
     public boolean shouldRender(ItemStack stack, T entity) {
         return true;
     }
 
-    /**
-     * Gets the texture to use with this ElytraLayer.
-     * This assumes the vanilla Elytra model.
-     *
-     * @param stack  The Elytra ItemStack.
-     * @param entity The entity being rendered.
-     * @return The texture.
-     */
     @Override
     public ResourceLocation getElytraTexture(ItemStack stack, T entity) {
         return WINGS_LOCATION;

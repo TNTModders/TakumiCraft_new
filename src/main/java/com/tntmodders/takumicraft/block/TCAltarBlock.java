@@ -79,7 +79,7 @@ public class TCAltarBlock extends AbstractTCAntiExplosionBlock implements ITCRec
     @Override
     public void registerStateAndModel(TCBlockStateProvider provider) {
         String name = provider.name(this);
-        ModelFile model = provider.models().cubeBottomTop(name, provider.blockFolder(new ResourceLocation(TakumiCraftCore.MODID, name + "_side")), provider.blockFolder(new ResourceLocation(TakumiCraftCore.MODID, name + "_bottom")), provider.blockFolder(new ResourceLocation(TakumiCraftCore.MODID, name + "_top")));
+        ModelFile model = provider.models().cubeBottomTop(name, provider.blockFolder(ResourceLocation.tryBuild(TakumiCraftCore.MODID, name + "_side")), provider.blockFolder(ResourceLocation.tryBuild(TakumiCraftCore.MODID, name + "_bottom")), provider.blockFolder(ResourceLocation.tryBuild(TakumiCraftCore.MODID, name + "_top")));
         provider.simpleBlock(this, model);
         provider.simpleBlockItem(this, model);
     }

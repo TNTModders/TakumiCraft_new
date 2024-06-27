@@ -25,7 +25,7 @@ public class TCZombieCreeperRenderer<T extends TCZombieCreeper, M extends TCZomb
 
     @Override
     public ResourceLocation getTextureLocation(T creeper) {
-        return new ResourceLocation(TakumiCraftCore.MODID, "textures/entity/creeper/" + creeper.getType().toShortString() + ".png");
+        return ResourceLocation.tryBuild(TakumiCraftCore.MODID, "textures/entity/creeper/" + creeper.getType().toShortString() + ".png");
     }
 
     @Override

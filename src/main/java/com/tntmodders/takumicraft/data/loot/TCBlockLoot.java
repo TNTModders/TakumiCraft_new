@@ -1,12 +1,14 @@
 package com.tntmodders.takumicraft.data.loot;
 
-import com.tntmodders.takumicraft.core.TCEnchantmentCore;
 import com.tntmodders.takumicraft.provider.ITCBlocks;
 import net.minecraft.advancements.critereon.*;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
@@ -29,15 +31,17 @@ import java.util.stream.Stream;
 
 public class TCBlockLoot extends BlockLootSubProvider {
 
-    public static final LootItemCondition.Builder HAS_MINESWEEPER = MatchTool.toolMatches(ItemPredicate.Builder.item().withSubPredicate(ItemSubPredicates.ENCHANTMENTS, ItemEnchantmentsPredicate.enchantments(List.of(new EnchantmentPredicate(TCEnchantmentCore.MINESWEEPER, MinMaxBounds.Ints.atLeast(1))))));
-    public static final LootItemCondition.Builder HAS_SILK_TOUCH = MatchTool.toolMatches(ItemPredicate.Builder.item().withSubPredicate(ItemSubPredicates.ENCHANTMENTS, ItemEnchantmentsPredicate.enchantments(List.of(new EnchantmentPredicate(Enchantments.SILK_TOUCH, MinMaxBounds.Ints.atLeast(1))))));
-
     private final Block block;
 
-    public TCBlockLoot(Block blockIn, boolean isExplosionResistance) {
-        super(isExplosionResistance ? Stream.of(blockIn).map(ItemLike::asItem).collect(Collectors.toSet()) : Set.of(),
-                FeatureFlags.REGISTRY.allFlags());
+    public TCBlockLoot(HolderLookup.Provider provider, Block blockIn, boolean isExplosionResistance) {
+        super(isExplosionResistance ? Stream.of(blockIn).map(ItemLike::asItem).collect(Collectors.toSet()) : Set.of(), FeatureFlags.REGISTRY.allFlags(), provider);
         this.block = blockIn;
+    }
+
+    //@TODO BINDING_CURSE->MINESWEEPER
+    protected LootItemCondition.Builder hasMinesweeper() {
+        HolderLookup.RegistryLookup<Enchantment> registrylookup = this.registries.lookupOrThrow(Registries.ENCHANTMENT);
+        return MatchTool.toolMatches(ItemPredicate.Builder.item().withSubPredicate(ItemSubPredicates.ENCHANTMENTS, ItemEnchantmentsPredicate.enchantments(List.of(new EnchantmentPredicate(registrylookup.getOrThrow(Enchantments.BINDING_CURSE), MinMaxBounds.Ints.atLeast(1))))));
     }
 
     @Override
@@ -75,7 +79,7 @@ public class TCBlockLoot extends BlockLootSubProvider {
     }
 
     public LootTable.Builder createSingleItemTableWithMinesweeper(ItemLike p_251912_) {
-        return LootTable.lootTable().withPool(LootPool.lootPool().when(TCBlockLoot.HAS_MINESWEEPER.or(HAS_SILK_TOUCH)).setRolls(ConstantValue.exactly(1.0F)).add(LootItem.lootTableItem(p_251912_)));
+        return LootTable.lootTable().withPool(LootPool.lootPool().when(this.hasMinesweeper().or(hasSilkTouch())).setRolls(ConstantValue.exactly(1.0F)).add(LootItem.lootTableItem(p_251912_)));
     }
 
     @Override
@@ -100,6 +104,6 @@ public class TCBlockLoot extends BlockLootSubProvider {
     }
 
     public LootTable.Builder createOreDropWithMinesweeper(Block block, Item item, UniformGenerator generator) {
-        return LootTable.lootTable().withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1f)).add(LootItem.lootTableItem(block)).when(HAS_SILK_TOUCH)).withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1f)).add(LootItem.lootTableItem(item)).apply(SetItemCountFunction.setCount(generator)).apply(ApplyBonusCount.addUniformBonusCount(Enchantments.FORTUNE)).when(HAS_MINESWEEPER.and(HAS_SILK_TOUCH.invert())));
+        return LootTable.lootTable().withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1f)).add(LootItem.lootTableItem(block)).when(hasSilkTouch())).withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1f)).add(LootItem.lootTableItem(item)).apply(SetItemCountFunction.setCount(generator)).apply(ApplyBonusCount.addUniformBonusCount(this.registries.lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(Enchantments.FORTUNE))).when(hasMinesweeper().and(doesNotHaveSilkTouch())));
     }
 }

@@ -4,6 +4,7 @@ import com.tntmodders.takumicraft.core.TCBlockCore;
 import com.tntmodders.takumicraft.core.TCEnchantmentCore;
 import com.tntmodders.takumicraft.core.TCItemCore;
 import com.tntmodders.takumicraft.provider.*;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.SmithingTransformRecipeBuilder;
@@ -33,7 +34,7 @@ public class TCMinesweeperAxeItem extends AxeItem implements ITCItems, ITCTransl
     public void inventoryTick(ItemStack p_41404_, Level p_41405_, Entity p_41406_, int p_41407_, boolean p_41408_) {
         super.inventoryTick(p_41404_, p_41405_, p_41406_, p_41407_, p_41408_);
         if (!p_41404_.isEnchanted()) {
-            p_41404_.enchant(TCEnchantmentCore.MINESWEEPER, 1);
+            p_41404_.enchant(p_41405_.holderLookup(Registries.ENCHANTMENT).getOrThrow(TCEnchantmentCore.MINESWEEPER), 1);
         }
     }
 

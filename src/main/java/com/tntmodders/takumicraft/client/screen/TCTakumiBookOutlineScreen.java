@@ -54,9 +54,9 @@ import java.util.function.Predicate;
 @OnlyIn(Dist.CLIENT)
 public class TCTakumiBookOutlineScreen extends EffectRenderingInventoryScreen<TCTakumiBookOutlineScreen.TakumiPickerMenu> {
     static final SimpleContainer CONTAINER = new SimpleContainer(45);
-    private static final ResourceLocation SCROLLER_SPRITE = new ResourceLocation("container/creative_inventory/scroller");
-    private static final ResourceLocation SCROLLER_DISABLED_SPRITE = new ResourceLocation("container/creative_inventory/scroller_disabled");
-    private static final ResourceLocation SEARCH_GUI_TEXTURES = new ResourceLocation(TakumiCraftCore.MODID, "textures/book/book_search.png");
+    private static final ResourceLocation SCROLLER_SPRITE = ResourceLocation.tryBuild("minecraft", "container/creative_inventory/scroller");
+    private static final ResourceLocation SCROLLER_DISABLED_SPRITE = ResourceLocation.tryBuild("minecraft", "container/creative_inventory/scroller_disabled");
+    private static final ResourceLocation SEARCH_GUI_TEXTURES = ResourceLocation.tryBuild(TakumiCraftCore.MODID, "textures/book/book_search.png");
     private static final String GUI_CREATIVE_TAB_PREFIX = "textures/gui/container/creative_inventory/tab_";
     private static final String CUSTOM_SLOT_LOCK = "CustomCreativeLock";
     private static final int NUM_ROWS = 5;
@@ -295,7 +295,10 @@ public class TCTakumiBookOutlineScreen extends EffectRenderingInventoryScreen<TC
         if (s.isEmpty()) {
             TCEntityCore.ENTITY_CONTEXTS.forEach(context -> this.menu.items.add(new ItemStack(ForgeSpawnEggItem.fromEntityType(context.entityType()))));
         } else {
-            SearchTree<ItemStack> searchtree = this.minecraft.getSearchTree(TCSearchTreeCore.CREEPER_NAMES);
+            if (TCSearchTreeCore.REGISTRY == null) {
+                TCSearchTreeCore.register();
+            }
+            SearchTree<ItemStack> searchtree = this.minecraft.getConnection().searchTrees().getSearchTree(TCSearchTreeCore.CREEPER_NAMES);
             List<ItemStack> stacks = searchtree.search(s.toLowerCase(Locale.ROOT));
             this.menu.items.addAll(stacks);
         }

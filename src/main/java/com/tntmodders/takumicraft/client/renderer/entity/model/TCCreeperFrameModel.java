@@ -43,15 +43,15 @@ public class TCCreeperFrameModel extends BakedModelWrapper {
         list.forEach(bakedQuad -> {
             TextureAtlasSprite sprite = bakedQuad.getSprite();
             TextureAtlasSprite newSprite = null;
-            if (sprite.contents().name().equals(new ResourceLocation("block/birch_planks"))) {
+            if (sprite.contents().name().equals(ResourceLocation.withDefaultNamespace("block/birch_planks"))) {
                 TextureAtlas atlas = Minecraft.getInstance().getModelManager().getAtlas(InventoryMenu.BLOCK_ATLAS);
-                newSprite = atlas.getSprite(new ResourceLocation(TakumiCraftCore.MODID, "block/creeperplanks"));
-            } else if (sprite.contents().name().equals(new ResourceLocation("block/item_frame"))) {
+                newSprite = atlas.getSprite(ResourceLocation.tryBuild(TakumiCraftCore.MODID, "block/creeperplanks"));
+            } else if (sprite.contents().name().equals(ResourceLocation.withDefaultNamespace("block/item_frame"))) {
                 TextureAtlas atlas = Minecraft.getInstance().getModelManager().getAtlas(InventoryMenu.BLOCK_ATLAS);
-                newSprite = atlas.getSprite(new ResourceLocation(TakumiCraftCore.MODID, "block/creeperframe"));
-            } else if (sprite.contents().name().equals(new ResourceLocation("block/glow_item_frame"))) {
+                newSprite = atlas.getSprite(ResourceLocation.tryBuild(TakumiCraftCore.MODID, "block/creeperframe"));
+            } else if (sprite.contents().name().equals(ResourceLocation.withDefaultNamespace("block/glow_item_frame"))) {
                 TextureAtlas atlas = Minecraft.getInstance().getModelManager().getAtlas(InventoryMenu.BLOCK_ATLAS);
-                newSprite = atlas.getSprite(new ResourceLocation(TakumiCraftCore.MODID, "block/creeperframe_glowing"));
+                newSprite = atlas.getSprite(ResourceLocation.tryBuild(TakumiCraftCore.MODID, "block/creeperframe_glowing"));
             }
             if (newSprite != null) {
                 BakedQuad quad = new BakedQuad(bakedQuad.getVertices(), bakedQuad.getTintIndex(), bakedQuad.getDirection(), newSprite, bakedQuad.isShade(), bakedQuad.hasAmbientOcclusion());

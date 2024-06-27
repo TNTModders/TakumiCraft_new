@@ -5,6 +5,7 @@ import com.tntmodders.takumicraft.client.renderer.entity.TCSlimeCreeperRenderer;
 import com.tntmodders.takumicraft.core.TCEntityCore;
 import com.tntmodders.takumicraft.utils.TCExplosionUtils;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.data.loot.EntityLootSubProvider;
@@ -15,6 +16,7 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
@@ -35,6 +37,7 @@ import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.*;
 import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.levelgen.Heightmap;
@@ -43,7 +46,7 @@ import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
-import net.minecraft.world.level.storage.loot.functions.LootingEnchantFunction;
+import net.minecraft.world.level.storage.loot.functions.EnchantedCountIncreaseFunction;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
@@ -55,7 +58,7 @@ import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
 
 import javax.annotation.Nullable;
 import java.util.EnumSet;
-import java.util.function.Supplier;
+import java.util.function.Function;
 import java.util.stream.Stream;
 
 public class TCSlimeCreeper extends AbstractTCCreeper {
@@ -295,7 +298,6 @@ public class TCSlimeCreeper extends AbstractTCCreeper {
         if (p_33636_ instanceof IronGolem && this.isDealsDamage()) {
             this.dealDamage((LivingEntity) p_33636_);
         }
-
     }
 
     @Override
@@ -303,7 +305,6 @@ public class TCSlimeCreeper extends AbstractTCCreeper {
         if (this.isDealsDamage()) {
             this.dealDamage(p_33611_);
         }
-
     }
 
     protected void dealDamage(LivingEntity p_33638_) {
@@ -311,10 +312,11 @@ public class TCSlimeCreeper extends AbstractTCCreeper {
             int i = this.getSize();
             if (this.distanceToSqr(p_33638_) < 0.6D * (double) i * 0.6D * (double) i && this.hasLineOfSight(p_33638_) && p_33638_.hurt(this.level().damageSources().mobAttack(this), this.getAttackDamage())) {
                 this.playSound(SoundEvents.SLIME_ATTACK, 1.0F, (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F);
-                this.doEnchantDamageEffects(this, p_33638_);
+                if (this.level() instanceof ServerLevel serverlevel) {
+                    EnchantmentHelper.doPostAttackEffects(serverlevel, p_33638_, this.damageSources().mobAttack(this));
+                }
             }
         }
-
     }
 
     protected boolean isDealsDamage() {
@@ -359,7 +361,7 @@ public class TCSlimeCreeper extends AbstractTCCreeper {
     }
 
     @Override
-    protected void jumpFromGround() {
+    public void jumpFromGround() {
         Vec3 vec3 = this.getDeltaMovement();
         this.setDeltaMovement(vec3.x, this.getJumpPower(), vec3.z);
         this.hasImpulse = true;
@@ -679,19 +681,24 @@ public class TCSlimeCreeper extends AbstractTCCreeper {
 
         @Nullable
         @Override
-        public Supplier<LootTableSubProvider> getCreeperLoot(EntityType<?> type) {
-            return () -> new EntityLootSubProvider(FeatureFlags.REGISTRY.allFlags()) {
+        public Function<HolderLookup.Provider, LootTableSubProvider> getCreeperLoot(EntityType<?> type) {
+            return new Function<>() {
                 @Override
-                public Stream<EntityType<?>> getKnownEntityTypes() {
-                    return Stream.of(type);
-                }
+                public LootTableSubProvider apply(HolderLookup.Provider provider) {
+                    return new EntityLootSubProvider(FeatureFlags.REGISTRY.allFlags(), provider) {
+                        @Override
+                        public Stream<EntityType<?>> getKnownEntityTypes() {
+                            return Stream.of(type);
+                        }
 
-                @Override
-                public void generate() {
-                    LootTable.Builder builder = LootTable.lootTable().withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
-                            .add(LootItem.lootTableItem(Items.SLIME_BALL).apply(SetItemCountFunction.setCount(UniformGenerator.between(0.0F, 2.0F)))
-                                    .apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(0.0F, 1.0F)))));
-                    this.add(CREEPER, TCSlimeCreeperContext.this.additionalBuilder(builder));
+                        @Override
+                        public void generate() {
+                            LootTable.Builder builder = LootTable.lootTable().withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
+                                    .add(LootItem.lootTableItem(Items.SLIME_BALL).apply(SetItemCountFunction.setCount(UniformGenerator.between(0.0F, 2.0F)))
+                                            .apply(EnchantedCountIncreaseFunction.lootingMultiplier(provider, UniformGenerator.between(0.0F, 1.0F)))));
+                            this.add(CREEPER, TCSlimeCreeperContext.this.additionalBuilder(provider, builder));
+                        }
+                    };
                 }
             };
         }

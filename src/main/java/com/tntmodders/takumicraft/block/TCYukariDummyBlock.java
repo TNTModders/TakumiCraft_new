@@ -2,6 +2,7 @@ package com.tntmodders.takumicraft.block;
 
 import com.tntmodders.takumicraft.item.TCBlockItem;
 import com.tntmodders.takumicraft.provider.ITCBlocks;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.data.loot.LootTableSubProvider;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.DyeColor;
@@ -10,7 +11,7 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.block.Block;
 
 import java.util.List;
-import java.util.function.Supplier;
+import java.util.function.Function;
 
 public class TCYukariDummyBlock extends Block implements ITCBlocks {
     public TCYukariDummyBlock() {
@@ -23,7 +24,7 @@ public class TCYukariDummyBlock extends Block implements ITCBlocks {
     }
 
     @Override
-    public Supplier<LootTableSubProvider> getBlockLootSubProvider(Block block) {
+    public Function<HolderLookup.Provider, LootTableSubProvider> getBlockLootSubProvider(Block block) {
         return null;
     }
 

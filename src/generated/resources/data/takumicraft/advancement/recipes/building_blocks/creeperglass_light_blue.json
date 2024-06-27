@@ -1,0 +1,43 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_creeperbomb": {
+      "conditions": {
+        "items": [
+          {
+            "items": "takumicraft:creeperbomb"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_takumicraft:creeperglass_light_blue": {
+      "conditions": {
+        "items": [
+          {
+            "items": "takumicraft:creeperglass_light_blue"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "takumicraft:creeperglass_light_blue"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_creeperbomb",
+      "has_takumicraft:creeperglass_light_blue"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "takumicraft:creeperglass_light_blue"
+    ]
+  }
+}

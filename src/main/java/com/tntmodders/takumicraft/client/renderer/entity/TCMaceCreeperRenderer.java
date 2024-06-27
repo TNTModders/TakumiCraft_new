@@ -44,7 +44,7 @@ public class TCMaceCreeperRenderer<T extends TCMaceCreeper, M extends TCZombieVi
 
     @Override
     public ResourceLocation getTextureLocation(T creeper) {
-        return new ResourceLocation(TakumiCraftCore.MODID, "textures/entity/creeper/" + creeper.getType().toShortString() + ".png");
+        return ResourceLocation.tryBuild(TakumiCraftCore.MODID, "textures/entity/creeper/" + creeper.getType().toShortString() + ".png");
     }
 
     @Override
@@ -59,7 +59,7 @@ public class TCMaceCreeperRenderer<T extends TCMaceCreeper, M extends TCZombieVi
     }
 
     public static class MaceCreeperProfessionLayer<T extends LivingEntity, M extends EntityModel<T> & VillagerHeadModel> extends RenderLayer<T, M> {
-        private static final ResourceLocation LEVEL_LOCATION = new ResourceLocation("diamond");
+        private static final ResourceLocation LEVEL_LOCATION = ResourceLocation.withDefaultNamespace("diamond");
         private final Object2ObjectMap<VillagerType, VillagerMetaDataSection.Hat> typeHatCache = new Object2ObjectOpenHashMap<>();
         private final Object2ObjectMap<VillagerProfession, VillagerMetaDataSection.Hat> professionHatCache = new Object2ObjectOpenHashMap<>();
         private final ResourceManager resourceManager;
@@ -86,14 +86,14 @@ public class TCMaceCreeperRenderer<T extends TCMaceCreeper, M extends TCZombieVi
                                 || villagermetadatasection$hat1 == VillagerMetaDataSection.Hat.PARTIAL && villagermetadatasection$hat != VillagerMetaDataSection.Hat.FULL
                 );
                 ResourceLocation resourcelocation = this.getResourceLocation("type", BuiltInRegistries.VILLAGER_TYPE.getKey(villagertype));
-                renderColoredCutoutModel(m, resourcelocation, p_117646_, p_117647_, p_117648_, p_117649_, 1.0F, 1.0F, 1.0F);
+                renderColoredCutoutModel(m, resourcelocation, p_117646_, p_117647_, p_117648_, p_117649_, 1);
                 m.hatVisible(true);
                 if (villagerprofession != VillagerProfession.NONE && !p_117649_.isBaby()) {
                     ResourceLocation resourcelocation1 = this.getResourceLocation("profession", BuiltInRegistries.VILLAGER_PROFESSION.getKey(villagerprofession));
-                    renderColoredCutoutModel(m, resourcelocation1, p_117646_, p_117647_, p_117648_, p_117649_, 1.0F, 1.0F, 1.0F);
+                    renderColoredCutoutModel(m, resourcelocation1, p_117646_, p_117647_, p_117648_, p_117649_, 1);
                     if (villagerprofession != VillagerProfession.NITWIT) {
                         ResourceLocation resourcelocation2 = this.getResourceLocation("profession_level", LEVEL_LOCATION);
-                        renderColoredCutoutModel(m, resourcelocation2, p_117646_, p_117647_, p_117648_, p_117649_, 1.0F, 1.0F, 1.0F);
+                        renderColoredCutoutModel(m, resourcelocation2, p_117646_, p_117647_, p_117648_, p_117649_, 1);
                     }
                 }
             }

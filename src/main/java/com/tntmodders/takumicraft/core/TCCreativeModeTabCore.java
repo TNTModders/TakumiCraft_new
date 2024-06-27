@@ -54,7 +54,7 @@ public class TCCreativeModeTabCore {
             });
 
         }).build();
-        event.register(BuiltInRegistries.CREATIVE_MODE_TAB.key(), tabRegistryHelper -> tabRegistryHelper.register(new ResourceLocation(TakumiCraftCore.MODID, "takumicraft"), TAB_TC));
+        event.register(BuiltInRegistries.CREATIVE_MODE_TAB.key(), tabRegistryHelper -> tabRegistryHelper.register(ResourceLocation.tryBuild(TakumiCraftCore.MODID, "takumicraft"), TAB_TC));
         TAB_EGGS = CreativeModeTab.builder().title(Component.translatable("item_group.takumicraft.egg")).icon(() -> new ItemStack(Items.CREEPER_SPAWN_EGG)).displayItems((params, output) -> {
             List<ItemStack> eggItems = new ArrayList<>();
             ForgeRegistries.ITEMS.forEach(item -> {
@@ -72,7 +72,7 @@ public class TCCreativeModeTabCore {
             });
             output.acceptAll(eggItems);
         }).build();
-        event.register(BuiltInRegistries.CREATIVE_MODE_TAB.key(), tabRegistryHelper -> tabRegistryHelper.register(new ResourceLocation(TakumiCraftCore.MODID, "takumicraft.egg"), TAB_EGGS));
+        event.register(BuiltInRegistries.CREATIVE_MODE_TAB.key(), tabRegistryHelper -> tabRegistryHelper.register(ResourceLocation.tryBuild(TakumiCraftCore.MODID, "takumicraft.egg"), TAB_EGGS));
     }
 
     public static void registerItems(BuildCreativeModeTabContentsEvent event) {

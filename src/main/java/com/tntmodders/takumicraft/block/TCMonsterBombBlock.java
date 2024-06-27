@@ -1,5 +1,6 @@
 package com.tntmodders.takumicraft.block;
 
+import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.block.entity.TCMonsterBombBlockEntity;
 import com.tntmodders.takumicraft.client.renderer.block.TCBEWLRenderer;
 import com.tntmodders.takumicraft.core.TCBlockCore;
@@ -11,6 +12,7 @@ import com.tntmodders.takumicraft.item.TCBlockItem;
 import com.tntmodders.takumicraft.provider.TCBlockStateProvider;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.data.loot.LootTableSubProvider;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -29,7 +31,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.function.Consumer;
-import java.util.function.Supplier;
+import java.util.function.Function;
 import java.util.function.ToIntFunction;
 
 public class TCMonsterBombBlock extends AbstractTCBombBlock implements EntityBlock {
@@ -61,15 +63,15 @@ public class TCMonsterBombBlock extends AbstractTCBombBlock implements EntityBlo
     }
 
     @Override
-    public Supplier<LootTableSubProvider> getBlockLootSubProvider(Block block) {
-        return () -> new TCBlockLoot(block, false);
+    public Function<HolderLookup.Provider, LootTableSubProvider> getBlockLootSubProvider(Block block) {
+        return provider -> new TCBlockLoot(provider, block, false);
     }
 
     @Override
     public void registerStateAndModel(TCBlockStateProvider provider) {
         ModelFile blockModel = provider.models().getBuilder(provider.key(this).toString()).texture("particle", provider.blockTexture(TCBlockCore.CREEPER_BOMB).toString());
         provider.getVariantBuilder(this).partialState().setModels(new ConfiguredModel(blockModel));
-        provider.itemModels().withExistingParent(provider.key(this).getPath(), new ResourceLocation("takumicraft:item/template_monsterbomb"));
+        provider.itemModels().withExistingParent(provider.key(this).getPath(), ResourceLocation.tryBuild(TakumiCraftCore.MODID, "item/template_monsterbomb"));
 
     }
 

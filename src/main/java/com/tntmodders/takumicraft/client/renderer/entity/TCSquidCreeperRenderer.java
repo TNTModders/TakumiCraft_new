@@ -44,7 +44,7 @@ public class TCSquidCreeperRenderer<T extends TCSquidCreeper> extends MobRendere
 
     @Override
     public ResourceLocation getTextureLocation(T p_114482_) {
-        return new ResourceLocation(TakumiCraftCore.MODID, "textures/entity/creeper/" + p_114482_.getContext().getRegistryName() + ".png");
+        return ResourceLocation.tryBuild(TakumiCraftCore.MODID, "textures/entity/creeper/" + p_114482_.getContext().getRegistryName() + ".png");
     }
 
     @Override

@@ -15,7 +15,6 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.Monster;
-import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
@@ -44,7 +43,7 @@ public class TCMaceCreeper extends TCZombieCreeper {
     @Override
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_32372_, DifficultyInstance p_32373_, MobSpawnType p_32374_, @Nullable SpawnGroupData p_32375_) {
         p_32375_ = super.finalizeSpawn(p_32372_, p_32373_, p_32374_, p_32375_);
-        if (this.getItemBySlot(EquipmentSlot.OFFHAND).isEmpty() && this.random.nextFloat() < 0.03F && this.level().enabledFeatures().contains(FeatureFlags.UPDATE_1_21)) {
+        if (this.getItemBySlot(EquipmentSlot.OFFHAND).isEmpty() && this.random.nextFloat() < 0.03F) {
             this.setItemSlot(EquipmentSlot.OFFHAND, new ItemStack(Items.HEAVY_CORE));
             this.handDropChances[EquipmentSlot.OFFHAND.getIndex()] = 2.0F;
         }

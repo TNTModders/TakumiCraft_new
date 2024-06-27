@@ -1,3 +1,4 @@
+/*
 package com.tntmodders.takumicraft.enchantment;
 
 import com.tntmodders.takumicraft.core.TCItemCore;
@@ -24,3 +25,4 @@ public class TCMinesweeperEnchantment extends AbstractTCEnchantment {
         return "minesweeper";
     }
 }
+*/

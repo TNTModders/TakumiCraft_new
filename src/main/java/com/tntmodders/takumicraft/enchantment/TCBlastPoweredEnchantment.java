@@ -1,3 +1,4 @@
+/*
 package com.tntmodders.takumicraft.enchantment;
 
 import com.tntmodders.takumicraft.core.TCItemCore;
@@ -69,3 +70,4 @@ public class TCBlastPoweredEnchantment extends AbstractTCEnchantment {
         return "巨匠跳躍";
     }
 }
+*/

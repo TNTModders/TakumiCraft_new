@@ -206,16 +206,6 @@ public class TCWolfCreeper extends AbstractTCCreeper {
     }
 
     @Override
-    public boolean doHurtTarget(Entity p_30372_) {
-        boolean flag = p_30372_.hurt(this.damageSources().mobAttack(this), (float) (int) this.getAttributeValue(Attributes.ATTACK_DAMAGE));
-        if (flag) {
-            this.doEnchantDamageEffects(this, p_30372_);
-        }
-
-        return flag;
-    }
-
-    @Override
     public void handleEntityEvent(byte p_30379_) {
         if (p_30379_ == 8) {
             this.isShaking = true;

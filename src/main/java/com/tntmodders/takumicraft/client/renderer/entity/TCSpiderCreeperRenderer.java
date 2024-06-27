@@ -17,7 +17,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class TCSpiderCreeperRenderer extends MobRenderer<TCSpiderCreeper, TCSpiderCreeperModel<TCSpiderCreeper>> {
-    private static final ResourceLocation LOCATION = new ResourceLocation(TakumiCraftCore.MODID, "textures/entity/creeper/spidercreeper.png");
+    private static final ResourceLocation LOCATION = ResourceLocation.tryBuild(TakumiCraftCore.MODID, "textures/entity/creeper/spidercreeper.png");
 
     public TCSpiderCreeperRenderer(EntityRendererProvider.Context p_173956_) {
         super(p_173956_, new TCSpiderCreeperModel<>(p_173956_.bakeLayer(ModelLayers.SPIDER)), 0.7F);

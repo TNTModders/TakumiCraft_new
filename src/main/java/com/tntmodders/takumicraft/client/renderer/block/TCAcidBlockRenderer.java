@@ -20,7 +20,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 
 public class TCAcidBlockRenderer implements BlockEntityRenderer<TCAcidBlockEntity> {
-    private static final ResourceLocation TEXTURE = new ResourceLocation(TakumiCraftCore.MODID, "textures/block/acidblock.png");
+    private static final ResourceLocation TEXTURE = ResourceLocation.tryBuild(TakumiCraftCore.MODID, "textures/block/acidblock.png");
     private final ModelPart modelPart;
 
     public TCAcidBlockRenderer(BlockEntityRendererProvider.Context p_173540_) {

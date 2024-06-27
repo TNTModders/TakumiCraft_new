@@ -176,7 +176,7 @@ public class TCCreeperChestRenderer<T extends TCCreeperChestBlockEntity> impleme
     }
 
     private static Material chestMaterial(String p_110779_) {
-        return new Material(CHEST_SHEET, new ResourceLocation(TakumiCraftCore.MODID, "entity/chest/" + p_110779_));
+        return new Material(CHEST_SHEET, ResourceLocation.tryBuild(TakumiCraftCore.MODID, "entity/chest/" + p_110779_));
     }
 
     public static Material chooseMaterial(BlockEntity p_110768_, ChestType p_110769_, boolean p_110770_) {

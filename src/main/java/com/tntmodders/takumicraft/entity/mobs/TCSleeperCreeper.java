@@ -9,15 +9,13 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.monster.Creeper;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.level.portal.DimensionTransition;
 import net.minecraftforge.event.level.ExplosionEvent;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class TCSleeperCreeper extends AbstractTCCreeper {
 
@@ -41,8 +39,8 @@ public class TCSleeperCreeper extends AbstractTCCreeper {
                 if (pos != null && pos != BlockPos.ZERO) {
                     BlockState state = this.level().getBlockState(pos);
                     float res = state.getExplosionResistance(this.level(), pos, event.getExplosion());
-                    Optional<Vec3> optional = Player.findRespawnPositionAndUseSpawnBlock(serverPlayer.serverLevel(), pos, serverPlayer.getRespawnAngle(), false, true);
-                    if (optional != null && optional.isPresent() && res <= 2000) {
+                    DimensionTransition transition = serverPlayer.findRespawnPositionAndUseSpawnBlock(true, DimensionTransition.DO_NOTHING);
+                    if (transition != null && !transition.missingRespawnBlock() && res <= 2000) {
                         for (int i = 0; i < (this.isPowered() ? 10 : 5); i++) {
                             TCCreeperContext context = TCEntityCore.ENTITY_CONTEXTS.get(this.level().getRandom().nextInt(TCEntityCore.ENTITY_CONTEXTS.size()));
                             if (context.getRank().getLevel() < TCCreeperContext.EnumTakumiRank.HIGH.getLevel()) {

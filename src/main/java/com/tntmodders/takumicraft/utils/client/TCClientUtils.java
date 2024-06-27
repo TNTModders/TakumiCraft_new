@@ -31,7 +31,7 @@ import java.util.List;
 
 @OnlyIn(Dist.CLIENT)
 public class TCClientUtils {
-    public static final ResourceLocation POWER_LOCATION = new ResourceLocation("textures/entity/creeper/creeper_armor.png");
+    public static final ResourceLocation POWER_LOCATION = ResourceLocation.withDefaultNamespace("textures/entity/creeper/creeper_armor.png");
 
     public static void scaleSwelling(AbstractTCCreeper creeper, PoseStack poseStack, float pertialTick) {
         float f = creeper.getSwelling(pertialTick);
@@ -116,7 +116,7 @@ public class TCClientUtils {
     public static boolean checkSlayAdv(EntityType entity) {
         LocalPlayer player = Minecraft.getInstance().player;
         ClientAdvancements advancements = player.connection.getAdvancements();
-        AdvancementProgress progress = advancements.progress.get(advancements.get(new ResourceLocation(TakumiCraftCore.MODID, "slay/slay_" + entity.toShortString())));
+        AdvancementProgress progress = advancements.progress.get(advancements.get(ResourceLocation.tryBuild(TakumiCraftCore.MODID, "slay/slay_" + entity.toShortString())));
         return progress != null && progress.isDone();
     }
 
@@ -125,7 +125,7 @@ public class TCClientUtils {
         try {
             LocalPlayer player = Minecraft.getInstance().player;
             ClientAdvancements advancements = player.connection.getAdvancements();
-            AdvancementProgress progress = advancements.progress.get(advancements.get(new ResourceLocation(TakumiCraftCore.MODID, "slay_all")));
+            AdvancementProgress progress = advancements.progress.get(advancements.get(ResourceLocation.tryBuild(TakumiCraftCore.MODID, "slay_all")));
             int size = ((List<?>) progress.getCompletedCriteria()).size();
             int allSize = ((List<?>) progress.getRemainingCriteria()).size() + size;
             return Pair.of(size, allSize);

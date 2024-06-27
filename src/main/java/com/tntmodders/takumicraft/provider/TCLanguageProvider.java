@@ -36,7 +36,7 @@ public abstract class TCLanguageProvider extends LanguageProvider {
             this.add(TCEntityUtils.getEntityLangCode(context.entityType(), ""), this.getTranslation(context));
             this.add(TCEntityUtils.getEntityLangCode(context.entityType(), ".desc"), this instanceof TCJaJPLanguageProvider ? context.getJaJPDesc() : context.getEnUSDesc());
         });
-        TCEnchantmentCore.ENCHANTMENTS.forEach(ench -> this.add(ench, this.getTranslation(ench)));
+        TCEnchantmentCore.ENCHANTMENTS.forEach(ench -> this.add(ench.getEnchantment(), this.getTranslation(ench)));
     }
 
     abstract String getTranslation(ITCTranslator translator);

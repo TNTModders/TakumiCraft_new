@@ -16,6 +16,6 @@ public class TCCreeperHangingSignRenderer extends HangingSignRenderer {
 
     @Override
     protected Material getSignMaterial(WoodType p_251961_) {
-        return new Material(SIGN_SHEET, new ResourceLocation(TakumiCraftCore.MODID, "entity/signs/creeperhangingsign"));
+        return new Material(SIGN_SHEET, ResourceLocation.tryBuild(TakumiCraftCore.MODID, "entity/signs/creeperhangingsign"));
     }
 }
