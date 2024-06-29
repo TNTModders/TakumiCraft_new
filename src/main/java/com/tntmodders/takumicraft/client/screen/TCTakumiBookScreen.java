@@ -251,7 +251,7 @@ public class TCTakumiBookScreen extends Screen {
                 graphics.blit(location, i, 2, 0, 0, 192, 192);
             }
         }
-        if (context.showRead()) {
+        if (context.showRead() && flg) {
             Component read = Component.translatable(flg ? TCEntityUtils.getEntityLangCode(context.entityType(), ".read") : "???");
             graphics.drawString(this.font, read, i + 70, 25, 0, false);
         }
