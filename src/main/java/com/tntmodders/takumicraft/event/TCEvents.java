@@ -149,11 +149,11 @@ public class TCEvents {
 
     @SubscribeEvent
     public void onAttack(LivingAttackEvent event) {
-        if (event.getEntity() instanceof Creeper creeper && event.getSource().getEntity() instanceof LivingEntity living && EnchantmentHelper.getEnchantmentLevel(event.getEntity().level().holderLookup(Registries.ENCHANTMENT).getOrThrow(TCEnchantmentCore.ANTI_POWERED), living) > 0) {
+        if (event.getEntity() instanceof Creeper creeper && event.getSource().getEntity() instanceof LivingEntity living && EnchantmentHelper.getEnchantmentLevel(living.level().holderLookup(Registries.ENCHANTMENT).getOrThrow(TCEnchantmentCore.ANTI_POWERED), living) > 0 && creeper.isPowered()) {
             if (!creeper.level().isClientSide) {
-                creeper.hurt(living.level().damageSources().mobAttack(living), 20f);
                 creeper.getEntityData().set(ObfuscationReflectionHelper.getPrivateValue(Creeper.class, creeper, "DATA_IS_POWERED"), false);
                 TCExplosionUtils.createExplosion(creeper.level(), living, creeper.blockPosition(), 0f);
+                creeper.hurt(living.level().damageSources().mobAttack(living), 20f);
             }
             living.playSound(SoundEvents.TRIDENT_THUNDER.get());
             if (living instanceof ServerPlayer player) {
