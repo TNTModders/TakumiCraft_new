@@ -8,7 +8,7 @@ import net.minecraft.world.level.block.state.BlockState;
 
 public class TCCreeperHangingSignBlockEntity extends HangingSignBlockEntity {
     public TCCreeperHangingSignBlockEntity(BlockPos pos, BlockState state) {
-        super(pos, state);
+        super(TCBlockEntityCore.HANGING_SIGN, pos, state);
     }
 
     @Override
