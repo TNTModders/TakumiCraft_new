@@ -1,0 +1,4 @@
+{
+  "parent": "minecraft:block/bamboo_sapling",
+  "render_type": "minecraft:cutout"
+}

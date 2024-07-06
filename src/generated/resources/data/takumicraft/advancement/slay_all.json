@@ -57,6 +57,20 @@
       },
       "trigger": "minecraft:player_killed_entity"
     },
+    "slay_bamboocreeper": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "takumicraft:bamboocreeper"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
     "slay_bangcreeper": {
       "conditions": {
         "entity": [
@@ -1084,6 +1098,9 @@
     ],
     [
       "slay_potatocreeper"
+    ],
+    [
+      "slay_bamboocreeper"
     ],
     [
       "slay_phantomcreeper"
