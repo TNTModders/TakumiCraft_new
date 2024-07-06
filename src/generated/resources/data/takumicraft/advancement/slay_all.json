@@ -519,6 +519,20 @@
       },
       "trigger": "minecraft:player_killed_entity"
     },
+    "slay_myceliumcreeper": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "takumicraft:myceliumcreeper"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
     "slay_naturalcreeper": {
       "conditions": {
         "entity": [
@@ -1101,6 +1115,9 @@
     ],
     [
       "slay_bamboocreeper"
+    ],
+    [
+      "slay_myceliumcreeper"
     ],
     [
       "slay_phantomcreeper"
