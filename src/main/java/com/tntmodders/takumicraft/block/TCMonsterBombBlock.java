@@ -4,7 +4,6 @@ import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.block.entity.TCMonsterBombBlockEntity;
 import com.tntmodders.takumicraft.client.renderer.block.TCBEWLRenderer;
 import com.tntmodders.takumicraft.core.TCBlockCore;
-import com.tntmodders.takumicraft.data.loot.TCBlockLoot;
 import com.tntmodders.takumicraft.entity.mobs.AbstractTCCreeper;
 import com.tntmodders.takumicraft.entity.mobs.AbstractTCCreeper.TCCreeperContext;
 import com.tntmodders.takumicraft.entity.mobs.TCYukariCreeper;
@@ -64,7 +63,7 @@ public class TCMonsterBombBlock extends AbstractTCBombBlock implements EntityBlo
 
     @Override
     public Function<HolderLookup.Provider, LootTableSubProvider> getBlockLootSubProvider(Block block) {
-        return provider -> new TCBlockLoot(provider, block, false);
+        return null;
     }
 
     @Override

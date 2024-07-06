@@ -1,7 +1,6 @@
 package com.tntmodders.takumicraft.block;
 
 import com.tntmodders.takumicraft.core.TCBlockCore;
-import com.tntmodders.takumicraft.data.loot.TCBlockLoot;
 import com.tntmodders.takumicraft.item.TCBlockItem;
 import com.tntmodders.takumicraft.provider.ITCRecipe;
 import com.tntmodders.takumicraft.provider.TCRecipeProvider;
@@ -60,7 +59,7 @@ public class TCCreeperBombBlock extends AbstractTCBombBlock implements ITCRecipe
 
     @Override
     public Function<HolderLookup.Provider, LootTableSubProvider> getBlockLootSubProvider(Block block) {
-        return provider -> new TCBlockLoot(provider, block, false);
+        return null;
     }
 
     @Override

@@ -78,7 +78,7 @@ public class TCGunOreBlock extends AbstractTCBombBlock implements ITCRecipe {
 
     @Override
     public Function<HolderLookup.Provider, LootTableSubProvider> getBlockLootSubProvider(Block block) {
-        return provider -> new TCBlockLoot(provider, block, false);
+        return null;
     }
 
     @Override
