@@ -26,7 +26,7 @@
               "function": "minecraft:enchanted_count_increase"
             }
           ],
-          "name": "minecraft:mycelium"
+          "name": "minecraft:gunpowder"
         }
       ],
       "rolls": 1.0
@@ -89,7 +89,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "takumicraft:elementcore_ground"
+          "name": "takumicraft:elementcore_water"
         }
       ],
       "functions": [
@@ -106,5 +106,5 @@
       "rolls": 1.0
     }
   ],
-  "random_sequence": "takumicraft:entities/myceliumcreeper"
+  "random_sequence": "takumicraft:entities/hotspringcreeper"
 }

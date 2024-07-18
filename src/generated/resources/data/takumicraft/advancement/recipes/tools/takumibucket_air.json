@@ -1,0 +1,43 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_emerald": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:emerald"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_takumicraft:takumibucket_air": {
+      "conditions": {
+        "items": [
+          {
+            "items": "takumicraft:takumibucket_air"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "takumicraft:takumibucket_air"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_emerald",
+      "has_takumicraft:takumibucket_air"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "takumicraft:takumibucket_air"
+    ]
+  }
+}

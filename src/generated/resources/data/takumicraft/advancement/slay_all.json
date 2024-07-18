@@ -379,6 +379,20 @@
       },
       "trigger": "minecraft:player_killed_entity"
     },
+    "slay_hotspringcreeper": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "takumicraft:hotspringcreeper"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
     "slay_huskcreeper": {
       "conditions": {
         "entity": [
@@ -1118,6 +1132,9 @@
     ],
     [
       "slay_myceliumcreeper"
+    ],
+    [
+      "slay_hotspringcreeper"
     ],
     [
       "slay_phantomcreeper"

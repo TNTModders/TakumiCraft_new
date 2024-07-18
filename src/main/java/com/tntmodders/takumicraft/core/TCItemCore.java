@@ -17,6 +17,7 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegisterEvent;
 
@@ -63,6 +64,8 @@ public class TCItemCore {
     public static final Item TAKUMI_GRENADE = new TCCreeperGrenadeItem();
     public static final Item CREEPER_FRAME = new TCCreeperFrameItem(TCCreeperFrame.ITEM_FRAME, Items.ITEM_FRAME, "", "Creeper Frame", "匠式硬質額縁");
     public static final Item CREEPER_FRAME_GLOWING = new TCCreeperFrameItem(TCCreeperGlowingFrame.GLOWING_FRAME, Items.GLOW_ITEM_FRAME, "_glowing", "Creeper Glowing Frame", "匠式硬質額縁[輝]");
+    public static final Item TAKUMI_BUCKET = new TCTakumiBucketItem(() -> Fluids.EMPTY, "takumibucket_air", "Emerald Bucket", "エメラルドバケツ");
+    public static final Item TAKUMI_BUCKET_HOTSPRING = new TCTakumiBucketItem(TCFluidCore.HOTSPRING, "takumibucket_takumihotspring", "Emerald Hot Spring Bucket", "匠温泉入りエメラルドバケツ");
 
     public static final TagKey<Item> GUNORES = TagKey.create(Registries.ITEM, ResourceLocation.tryBuild(TakumiCraftCore.MODID,
             "gunores"));
@@ -76,6 +79,7 @@ public class TCItemCore {
     public static final TagKey<Item> ANTI_POWERED = TagKey.create(Registries.ITEM, ResourceLocation.tryBuild(TakumiCraftCore.MODID, "anti_powered"));
     public static final TagKey<Item> BLAST_POWERED = TagKey.create(Registries.ITEM, ResourceLocation.tryBuild(TakumiCraftCore.MODID, "blast_powered"));
     public static final TagKey<Item> EXPLOSIVES = TagKey.create(Registries.ITEM, ResourceLocation.tryBuild(TakumiCraftCore.MODID, "explosives"));
+    public static final TagKey<Item> TAKUMI_BUCKETS = TagKey.create(Registries.ITEM, ResourceLocation.tryBuild(TakumiCraftCore.MODID, "takumi_buckets"));
 
     public static void register(final RegisterEvent event) {
         TCLoggingUtils.startRegistry("Item");

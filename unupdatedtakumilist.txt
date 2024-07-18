@@ -1,7 +1,4 @@
 blazecreeper
-hotspringcreeper
-skeletoncreeper
-witherskeletoncreeper
 
 gunorecreeper
 treecreeper
@@ -178,7 +175,7 @@ wondercreeper
 gemcreeper
 fakecreeper
 poisoncreeper
-myceliumcreeper
+
 iceologercreeper
 extremecreeper
 piglincreeper

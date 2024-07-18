@@ -17,6 +17,8 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageTypes;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -24,9 +26,14 @@ import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.Phantom;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.level.block.LiquidBlock;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.event.entity.EntityMobGriefingEvent;
 import net.minecraftforge.event.entity.living.*;
+import net.minecraftforge.event.entity.player.FillBucketEvent;
 import net.minecraftforge.event.entity.player.PlayerDestroyItemEvent;
 import net.minecraftforge.event.level.ExplosionEvent;
 import net.minecraftforge.eventbus.api.Event;
@@ -112,6 +119,12 @@ public class TCEvents {
                 creeper.getEntityData().set(Creeper.DATA_IS_POWERED, true);
             }
         }
+        if (event.getEntity().isInFluidType(TCFluidCore.HOTSPRING_TYPE.get())) {
+            event.getEntity().addEffect(new MobEffectInstance(MobEffects.REGENERATION, 4, 0, true, false, false));
+            if (event.getEntity().tickCount % 200 == 0) {
+                event.getEntity().addEffect(new MobEffectInstance(MobEffects.SATURATION, 4, 0, true, false, false));
+            }
+        }
     }
 
     @SubscribeEvent
@@ -159,6 +172,13 @@ public class TCEvents {
             if (living instanceof ServerPlayer player) {
                 player.getAdvancements().award(player.server.getAdvancements().get(ResourceLocation.tryBuild(TakumiCraftCore.MODID, "disarmament")), "impossible");
             }
+        }
+    }
+
+    @SubscribeEvent
+    public void onBucketUse(FillBucketEvent event) {
+        if (event.getEmptyBucket().is(Items.BUCKET) && event.getTarget().getType() == HitResult.Type.BLOCK && event.getLevel().getBlockState(((BlockHitResult) event.getTarget()).getBlockPos()).getBlock() instanceof LiquidBlock liquidBlock && liquidBlock.getFluid().getBucket().getDefaultInstance().is(TCItemCore.TAKUMI_BUCKETS)) {
+            event.setCanceled(true);
         }
     }
 

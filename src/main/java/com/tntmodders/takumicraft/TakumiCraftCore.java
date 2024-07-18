@@ -50,6 +50,8 @@ public class TakumiCraftCore {
         modEventBus.addListener(this::registerProviders);
         modEventBus.addListener(this::complete);
         TCBiomeModifierCore.BIOME_MODIFIER_SERIALIZERS.register(modEventBus);
+        TCFluidCore.FLUID_TYPES_SERIALIZERS.register(modEventBus);
+        TCFluidCore.FLUIDS_SERIALIZERS.register(modEventBus);
         MinecraftForge.EVENT_BUS.register(this);
         MinecraftForge.EVENT_BUS.register(TCEvents.INSTANCE);
         if (FMLEnvironment.dist.isClient()) {
@@ -74,6 +76,7 @@ public class TakumiCraftCore {
         TCBlockTagsProvider blockTagsProvider = new TCBlockTagsProvider(packOutput, lookupProvider, fileHelper);
         gen.addProvider(event.includeServer(), blockTagsProvider);
         gen.addProvider(event.includeServer(), new TCItemTagsProvider(packOutput, lookupProvider, blockTagsProvider.contentsGetter(), fileHelper));
+        gen.addProvider(event.includeServer(), new TCFluidTagsProvider(packOutput, lookupProvider, fileHelper));
         gen.addProvider(event.includeServer(), new TCEntityTypeTagsProvider(packOutput, lookupProvider, fileHelper));
         gen.addProvider(event.includeServer(), new TCDatapackRegistryProvider(packOutput, lookupProvider));
         gen.addProvider(event.includeServer(), new TCRecipeProvider(packOutput, lookupProvider));
