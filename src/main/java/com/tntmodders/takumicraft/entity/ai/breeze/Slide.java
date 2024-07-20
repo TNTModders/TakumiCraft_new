@@ -20,6 +20,13 @@ public class Slide extends Behavior<TCBreezeCreeper> {
         super(Map.of(MemoryModuleType.ATTACK_TARGET, MemoryStatus.VALUE_PRESENT, MemoryModuleType.WALK_TARGET, MemoryStatus.VALUE_ABSENT, MemoryModuleType.BREEZE_JUMP_COOLDOWN, MemoryStatus.VALUE_ABSENT, MemoryModuleType.BREEZE_SHOOT, MemoryStatus.VALUE_ABSENT));
     }
 
+    private static Vec3 randomPointInMiddleCircle(TCBreezeCreeper p_310635_, LivingEntity p_312574_) {
+        Vec3 vec3 = p_312574_.position().subtract(p_310635_.position());
+        double d0 = vec3.length() - Mth.lerp(p_310635_.getRandom().nextDouble(), 8.0, 4.0);
+        Vec3 vec31 = vec3.normalize().multiply(d0, d0, d0);
+        return p_310635_.position().add(vec31);
+    }
+
     @Override
     protected boolean checkExtraStartConditions(ServerLevel p_312721_, TCBreezeCreeper p_311782_) {
         return p_311782_.onGround() && !p_311782_.isInWater() && p_311782_.getPose() == Pose.STANDING;
@@ -44,12 +51,5 @@ public class Slide extends Behavior<TCBreezeCreeper> {
 
             p_310251_.getBrain().setMemory(MemoryModuleType.WALK_TARGET, new WalkTarget(BlockPos.containing(vec3), 0.6F, 1));
         }
-    }
-
-    private static Vec3 randomPointInMiddleCircle(TCBreezeCreeper p_310635_, LivingEntity p_312574_) {
-        Vec3 vec3 = p_312574_.position().subtract(p_310635_.position());
-        double d0 = vec3.length() - Mth.lerp(p_310635_.getRandom().nextDouble(), 8.0, 4.0);
-        Vec3 vec31 = vec3.normalize().multiply(d0, d0, d0);
-        return p_310635_.position().add(vec31);
     }
 }

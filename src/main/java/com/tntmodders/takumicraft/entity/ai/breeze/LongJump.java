@@ -98,6 +98,66 @@ public class LongJump extends Behavior<TCBreezeCreeper> {
         }
     }
 
+    private static boolean isFinishedInhaling(TCBreezeCreeper p_330141_) {
+        return p_330141_.getBrain().getMemory(MemoryModuleType.BREEZE_JUMP_INHALING).isEmpty() && p_330141_.getPose() == Pose.INHALING;
+    }
+
+    private static boolean isFinishedJumping(TCBreezeCreeper p_330755_) {
+        boolean flag = p_330755_.getPose() == Pose.LONG_JUMPING;
+        boolean flag1 = p_330755_.onGround();
+        boolean flag2 = p_330755_.isInWater() && p_330755_.getBrain().checkMemory(MemoryModuleType.BREEZE_LEAVING_WATER, MemoryStatus.VALUE_ABSENT);
+        return flag && (flag1 || flag2);
+    }
+
+    @Nullable
+    private static BlockPos snapToSurface(LivingEntity p_312785_, Vec3 p_311613_) {
+        ClipContext clipcontext = new ClipContext(
+                p_311613_, p_311613_.relative(Direction.DOWN, 10.0), ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, p_312785_
+        );
+        HitResult hitresult = p_312785_.level().clip(clipcontext);
+        if (hitresult.getType() == HitResult.Type.BLOCK) {
+            return BlockPos.containing(hitresult.getLocation()).above();
+        } else {
+            ClipContext clipcontext1 = new ClipContext(
+                    p_311613_, p_311613_.relative(Direction.UP, 10.0), ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, p_312785_
+            );
+            HitResult hitresult1 = p_312785_.level().clip(clipcontext1);
+            return hitresult1.getType() == HitResult.Type.BLOCK ? BlockPos.containing(hitresult1.getLocation()).above() : null;
+        }
+    }
+
+    private static boolean outOfAggroRange(TCBreezeCreeper p_310244_, LivingEntity p_309508_) {
+        return !p_309508_.closerThan(p_310244_, 24.0);
+    }
+
+    private static boolean tooCloseForJump(TCBreezeCreeper p_310091_, LivingEntity p_311303_) {
+        return p_311303_.distanceTo(p_310091_) - 4.0F <= 0.0F;
+    }
+
+    private static boolean canJumpFromCurrentPosition(ServerLevel p_312023_, TCBreezeCreeper p_313218_) {
+        BlockPos blockpos = p_313218_.blockPosition();
+
+        for (int i = 1; i <= 4; i++) {
+            BlockPos blockpos1 = blockpos.relative(Direction.UP, i);
+            if (!p_312023_.getBlockState(blockpos1).isAir() && !p_312023_.getFluidState(blockpos1).is(FluidTags.WATER)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private static Optional<Vec3> calculateOptimalJumpVector(TCBreezeCreeper p_310143_, RandomSource p_313023_, Vec3 p_309973_) {
+        for (int i : Util.shuffledCopy(ALLOWED_ANGLES, p_313023_)) {
+            Optional<Vec3> optional = LongJumpUtil.calculateJumpVectorForAngle(p_310143_, p_309973_, 1.4F, i, false);
+            if (optional.isPresent()) {
+                return optional;
+            }
+        }
+
+        return Optional.empty();
+    }
+
     @Override
     protected boolean checkExtraStartConditions(ServerLevel p_312411_, TCBreezeCreeper p_309539_) {
         return canRun(p_312411_, p_309539_);
@@ -166,65 +226,5 @@ public class LongJump extends Behavior<TCBreezeCreeper> {
         p_311681_.getBrain().eraseMemory(MemoryModuleType.BREEZE_JUMP_TARGET);
         p_311681_.getBrain().eraseMemory(MemoryModuleType.BREEZE_JUMP_INHALING);
         p_311681_.getBrain().eraseMemory(MemoryModuleType.BREEZE_LEAVING_WATER);
-    }
-
-    private static boolean isFinishedInhaling(TCBreezeCreeper p_330141_) {
-        return p_330141_.getBrain().getMemory(MemoryModuleType.BREEZE_JUMP_INHALING).isEmpty() && p_330141_.getPose() == Pose.INHALING;
-    }
-
-    private static boolean isFinishedJumping(TCBreezeCreeper p_330755_) {
-        boolean flag = p_330755_.getPose() == Pose.LONG_JUMPING;
-        boolean flag1 = p_330755_.onGround();
-        boolean flag2 = p_330755_.isInWater() && p_330755_.getBrain().checkMemory(MemoryModuleType.BREEZE_LEAVING_WATER, MemoryStatus.VALUE_ABSENT);
-        return flag && (flag1 || flag2);
-    }
-
-    @Nullable
-    private static BlockPos snapToSurface(LivingEntity p_312785_, Vec3 p_311613_) {
-        ClipContext clipcontext = new ClipContext(
-                p_311613_, p_311613_.relative(Direction.DOWN, 10.0), ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, p_312785_
-        );
-        HitResult hitresult = p_312785_.level().clip(clipcontext);
-        if (hitresult.getType() == HitResult.Type.BLOCK) {
-            return BlockPos.containing(hitresult.getLocation()).above();
-        } else {
-            ClipContext clipcontext1 = new ClipContext(
-                    p_311613_, p_311613_.relative(Direction.UP, 10.0), ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, p_312785_
-            );
-            HitResult hitresult1 = p_312785_.level().clip(clipcontext1);
-            return hitresult1.getType() == HitResult.Type.BLOCK ? BlockPos.containing(hitresult1.getLocation()).above() : null;
-        }
-    }
-
-    private static boolean outOfAggroRange(TCBreezeCreeper p_310244_, LivingEntity p_309508_) {
-        return !p_309508_.closerThan(p_310244_, 24.0);
-    }
-
-    private static boolean tooCloseForJump(TCBreezeCreeper p_310091_, LivingEntity p_311303_) {
-        return p_311303_.distanceTo(p_310091_) - 4.0F <= 0.0F;
-    }
-
-    private static boolean canJumpFromCurrentPosition(ServerLevel p_312023_, TCBreezeCreeper p_313218_) {
-        BlockPos blockpos = p_313218_.blockPosition();
-
-        for (int i = 1; i <= 4; i++) {
-            BlockPos blockpos1 = blockpos.relative(Direction.UP, i);
-            if (!p_312023_.getBlockState(blockpos1).isAir() && !p_312023_.getFluidState(blockpos1).is(FluidTags.WATER)) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    private static Optional<Vec3> calculateOptimalJumpVector(TCBreezeCreeper p_310143_, RandomSource p_313023_, Vec3 p_309973_) {
-        for (int i : Util.shuffledCopy(ALLOWED_ANGLES, p_313023_)) {
-            Optional<Vec3> optional = LongJumpUtil.calculateJumpVectorForAngle(p_310143_, p_309973_, 1.4F, i, false);
-            if (optional.isPresent()) {
-                return optional;
-            }
-        }
-
-        return Optional.empty();
     }
 }

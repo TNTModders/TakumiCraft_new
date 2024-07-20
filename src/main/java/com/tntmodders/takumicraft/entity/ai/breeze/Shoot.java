@@ -49,6 +49,18 @@ public class Shoot extends Behavior<TCBreezeCreeper> {
         );
     }
 
+    @VisibleForTesting
+    public static boolean isFacingTarget(TCBreezeCreeper p_311537_, LivingEntity p_310664_) {
+        Vec3 vec3 = p_311537_.getViewVector(1.0F);
+        Vec3 vec31 = p_310664_.position().subtract(p_311537_.position()).normalize();
+        return vec3.dot(vec31) > 0.5;
+    }
+
+    private static boolean isTargetWithinRange(TCBreezeCreeper p_311470_, LivingEntity p_309385_) {
+        double d0 = p_311470_.position().distanceToSqr(p_309385_.position());
+        return d0 > 4.0 && d0 < 256.0;
+    }
+
     @Override
     protected boolean checkExtraStartConditions(ServerLevel p_310608_, TCBreezeCreeper p_310203_) {
         return p_310203_.getPose() == Pose.STANDING && p_310203_.getBrain().getMemory(MemoryModuleType.ATTACK_TARGET).map(p_311282_ -> isTargetWithinRange(p_310203_, p_311282_)).map(p_311912_ -> {
@@ -105,17 +117,5 @@ public class Shoot extends Behavior<TCBreezeCreeper> {
                 }
             }
         }
-    }
-
-    @VisibleForTesting
-    public static boolean isFacingTarget(TCBreezeCreeper p_311537_, LivingEntity p_310664_) {
-        Vec3 vec3 = p_311537_.getViewVector(1.0F);
-        Vec3 vec31 = p_310664_.position().subtract(p_311537_.position()).normalize();
-        return vec3.dot(vec31) > 0.5;
-    }
-
-    private static boolean isTargetWithinRange(TCBreezeCreeper p_311470_, LivingEntity p_309385_) {
-        double d0 = p_311470_.position().distanceToSqr(p_309385_.position());
-        return d0 > 4.0 && d0 < 256.0;
     }
 }

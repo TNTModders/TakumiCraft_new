@@ -5,6 +5,7 @@ import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.client.renderer.entity.TCBreezeCreeperRenderer;
 import com.tntmodders.takumicraft.core.TCEntityCore;
 import com.tntmodders.takumicraft.entity.ai.breeze.TCBreezeCreeperAi;
+import com.tntmodders.takumicraft.entity.projectile.TCBreezeCreeperWindCharge;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.protocol.game.DebugPackets;
@@ -25,6 +26,7 @@ import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.entity.projectile.ProjectileDeflection;
+import net.minecraft.world.entity.projectile.windcharge.AbstractWindCharge;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
@@ -75,6 +77,28 @@ public class TCBreezeCreeper extends AbstractTCCreeper {
     @Override
     public TCCreeperContext<? extends AbstractTCCreeper> getContext() {
         return TCEntityCore.BREEZE;
+    }
+
+    @Override
+    public void explodeCreeper() {
+        if (!this.level().isClientSide()) {
+            float f = this.isPowered() ? 2.0F : 1.0F;
+            this.dead = true;
+            this.level().explode(this, null, AbstractWindCharge.EXPLOSION_DAMAGE_CALCULATOR, this.getX(), this.getY(), this.getZ(), (float) this.explosionRadius * f, false, Level.ExplosionInteraction.TRIGGER, ParticleTypes.GUST_EMITTER_SMALL, ParticleTypes.GUST_EMITTER_LARGE, SoundEvents.BREEZE_WIND_CHARGE_BURST);
+            this.spawnLingeringCloud();
+
+            for (int i = 0; i < (this.isPowered() ? 8 : 4); i++) {
+                double d0 = this.getRandomX(10) - this.getX();
+                double d2 = this.getRandomZ(10) - this.getZ();
+                TCBreezeCreeperWindCharge breezewindcharge = new TCBreezeCreeperWindCharge(this, this.level());
+                this.playSound(SoundEvents.BREEZE_SHOOT, 1.5F, 1.0F);
+                breezewindcharge.shoot(d0, -this.getRandom().nextDouble() * 0.25, d2, 0.7F, (float) (5 - this.level().getDifficulty().getId() * 4));
+                this.level().addFreshEntity(breezewindcharge);
+            }
+
+            this.triggerOnDeathMobEffects(Entity.RemovalReason.KILLED);
+            this.discard();
+        }
     }
 
     @Override
