@@ -8,10 +8,7 @@ import com.tntmodders.takumicraft.entity.misc.TCKingStorm;
 import com.tntmodders.takumicraft.entity.mobs.*;
 import com.tntmodders.takumicraft.entity.mobs.AbstractTCCreeper.TCCreeperContext;
 import com.tntmodders.takumicraft.entity.mobs.boss.TCKingCreeper;
-import com.tntmodders.takumicraft.entity.projectile.TCAmethystBomb;
-import com.tntmodders.takumicraft.entity.projectile.TCBirdBomb;
-import com.tntmodders.takumicraft.entity.projectile.TCCreeperArrow;
-import com.tntmodders.takumicraft.entity.projectile.TCCreeperGrenade;
+import com.tntmodders.takumicraft.entity.projectile.*;
 import com.tntmodders.takumicraft.utils.TCLoggingUtils;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.registries.Registries;
@@ -108,6 +105,7 @@ public class TCEntityCore {
     public static final TCCreeperContext<TCMyceliumCreeper> MYCELIUM = new TCMyceliumCreeper.TCMyceliumCreeperContext();
     public static final TCCreeperContext<TCHotspringCreeper> HOTSPRING = new TCHotspringCreeper.TCHotspringCreeperContext();
     public static final TCCreeperContext<TCBlazeCreeper> BLAZE = new TCBlazeCreeper.TCBlazeCreeperContext();
+    public static final TCCreeperContext<TCBreezeCreeper> BREEZE = new TCBreezeCreeper.TCBreezeCreeperContext();
 
     public static final TagKey<EntityType<?>> TAKUMIS = TagKey.create(Registries.ENTITY_TYPE, ResourceLocation.tryBuild(TakumiCraftCore.MODID, "takumi"));
     public static final TagKey<EntityType<?>> NETHER_TAKUMIS = TagKey.create(Registries.ENTITY_TYPE, ResourceLocation.tryBuild(TakumiCraftCore.MODID, "nether_takumi"));
@@ -157,6 +155,8 @@ public class TCEntityCore {
                 entityTypeRegisterHelper.register(ResourceLocation.tryBuild(TakumiCraftCore.MODID, "creeperframe"), TCCreeperFrame.ITEM_FRAME));
         event.register(ForgeRegistries.ENTITY_TYPES.getRegistryKey(), entityTypeRegisterHelper ->
                 entityTypeRegisterHelper.register(ResourceLocation.tryBuild(TakumiCraftCore.MODID, "creeperframe_glowing"), TCCreeperGlowingFrame.GLOWING_FRAME));
+        event.register(ForgeRegistries.ENTITY_TYPES.getRegistryKey(), entityTypeRegisterHelper ->
+                entityTypeRegisterHelper.register(ResourceLocation.tryBuild(TakumiCraftCore.MODID, "breezecreeper_windcharge"), TCBreezeCreeperWindCharge.BREEZE_WIND_CHARGE));
     }
 
     public static void registerAttribute(EntityAttributeCreationEvent event) {

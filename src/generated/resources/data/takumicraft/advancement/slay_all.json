@@ -141,6 +141,20 @@
       },
       "trigger": "minecraft:player_killed_entity"
     },
+    "slay_breezecreeper": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "takumicraft:breezecreeper"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
     "slay_cherrycreeper": {
       "conditions": {
         "entity": [
@@ -1152,6 +1166,9 @@
     ],
     [
       "slay_blazecreeper"
+    ],
+    [
+      "slay_breezecreeper"
     ],
     [
       "slay_phantomcreeper"

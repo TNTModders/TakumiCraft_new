@@ -15,10 +15,7 @@ import com.tntmodders.takumicraft.entity.decoration.TCCreeperFrame;
 import com.tntmodders.takumicraft.entity.decoration.TCCreeperGlowingFrame;
 import com.tntmodders.takumicraft.entity.misc.TCKingBlock;
 import com.tntmodders.takumicraft.entity.misc.TCKingStorm;
-import com.tntmodders.takumicraft.entity.projectile.TCAmethystBomb;
-import com.tntmodders.takumicraft.entity.projectile.TCBirdBomb;
-import com.tntmodders.takumicraft.entity.projectile.TCCreeperArrow;
-import com.tntmodders.takumicraft.entity.projectile.TCCreeperGrenade;
+import com.tntmodders.takumicraft.entity.projectile.*;
 import com.tntmodders.takumicraft.utils.TCLoggingUtils;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
@@ -26,6 +23,7 @@ import net.minecraft.client.renderer.block.BlockModelShaper;
 import net.minecraft.client.renderer.entity.ArrowRenderer;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
+import net.minecraft.client.renderer.entity.WindChargeRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.projectile.Arrow;
 import net.minecraft.world.level.block.Block;
@@ -80,6 +78,7 @@ public class TCRenderCore {
         event.registerEntityRenderer(TCCreeperGrenade.GRENADE, ThrownItemRenderer::new);
         event.registerEntityRenderer(TCCreeperFrame.ITEM_FRAME, TCCreeperFrameRenderer::new);
         event.registerEntityRenderer(TCCreeperGlowingFrame.GLOWING_FRAME, TCCreeperFrameRenderer::new);
+        event.registerEntityRenderer(TCBreezeCreeperWindCharge.BREEZE_WIND_CHARGE, WindChargeRenderer::new);
     }
 
     private static void blockEntityRender(EntityRenderersEvent.RegisterRenderers event) {

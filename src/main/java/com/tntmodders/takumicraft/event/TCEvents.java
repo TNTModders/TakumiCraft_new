@@ -3,6 +3,7 @@ package com.tntmodders.takumicraft.event;
 import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.core.*;
 import com.tntmodders.takumicraft.entity.mobs.AbstractTCCreeper;
+import com.tntmodders.takumicraft.entity.mobs.TCBreezeCreeper;
 import com.tntmodders.takumicraft.entity.mobs.TCPhantomCreeper;
 import com.tntmodders.takumicraft.entity.projectile.TCCreeperArrow;
 import com.tntmodders.takumicraft.entity.projectile.TCCreeperGrenade;
@@ -24,6 +25,7 @@ import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.Phantom;
+import net.minecraft.world.entity.monster.breeze.Breeze;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -105,6 +107,22 @@ public class TCEvents {
             creeper.moveTo(pos, 0f, 0f);
             creeper.finalizeSpawn(level, level.getCurrentDifficultyAt(pos), MobSpawnType.NATURAL, null);
             if (level.tryAddFreshEntityWithPassengers(creeper)) {
+                event.setResult(Event.Result.DENY);
+            }
+        }
+        if (event.getEntity() instanceof Breeze) {
+            if (event.getLevel().getRandom().nextInt(10) == 0 && event.getEntity().level() instanceof ServerLevel level) {
+                BlockPos pos = new BlockPos((int) event.getX(), (int) event.getY(), (int) event.getZ());
+                TCBreezeCreeper creeper = (TCBreezeCreeper) TCEntityCore.BREEZE.entityType().create(level);
+                creeper.moveTo(pos, 0f, 0f);
+                creeper.finalizeSpawn(level, level.getCurrentDifficultyAt(pos), event.getEntity().getSpawnType(), null);
+                if (level.tryAddFreshEntityWithPassengers(creeper)) {
+                    event.setResult(Event.Result.DENY);
+                }
+            }
+        }
+        if (event.getEntity() instanceof TCBreezeCreeper creeper && !creeper.isPowered()) {
+            if (!event.getLevel().getLevel().isThundering()) {
                 event.setResult(Event.Result.DENY);
             }
         }
