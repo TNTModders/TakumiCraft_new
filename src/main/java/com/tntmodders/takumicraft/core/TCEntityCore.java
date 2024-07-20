@@ -107,6 +107,7 @@ public class TCEntityCore {
     public static final TCCreeperContext<TCBambooCreeper> BAMBOO = new TCBambooCreeper.TCBambooCreeperContext();
     public static final TCCreeperContext<TCMyceliumCreeper> MYCELIUM = new TCMyceliumCreeper.TCMyceliumCreeperContext();
     public static final TCCreeperContext<TCHotspringCreeper> HOTSPRING = new TCHotspringCreeper.TCHotspringCreeperContext();
+    public static final TCCreeperContext<TCBlazeCreeper> BLAZE = new TCBlazeCreeper.TCBlazeCreeperContext();
 
     public static final TagKey<EntityType<?>> TAKUMIS = TagKey.create(Registries.ENTITY_TYPE, ResourceLocation.tryBuild(TakumiCraftCore.MODID, "takumi"));
     public static final TagKey<EntityType<?>> NETHER_TAKUMIS = TagKey.create(Registries.ENTITY_TYPE, ResourceLocation.tryBuild(TakumiCraftCore.MODID, "nether_takumi"));

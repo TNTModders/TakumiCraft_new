@@ -1,5 +1,3 @@
-blazecreeper
-
 gunorecreeper
 treecreeper
 fishcreeper
@@ -195,7 +193,7 @@ windowscreeper
 ghostcreeper
 statuecreeper
 
-vanillamobs
+-vanillamobs
 
 allay
 axolotol
@@ -221,7 +219,6 @@ bee
 goat
 llama
 
-witherskeleton
 witch
 vindicator
 vex
@@ -235,7 +232,6 @@ silverfish
 hogrin
 pigrin
 pilligar
-blaze
 ravager
 
 warden
