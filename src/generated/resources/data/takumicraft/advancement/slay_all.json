@@ -645,6 +645,20 @@
       },
       "trigger": "minecraft:player_killed_entity"
     },
+    "slay_parrotcreeper": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "takumicraft:parrotcreeper"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
     "slay_patinacreeper": {
       "conditions": {
         "entity": [
@@ -1261,6 +1275,9 @@
     ],
     [
       "slay_sculkcreeper"
+    ],
+    [
+      "slay_parrotcreeper"
     ],
     [
       "slay_boltcreeper"

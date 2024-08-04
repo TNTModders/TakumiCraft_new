@@ -21,7 +21,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class TCBeeCreeperRenderer extends MobRenderer<TCBeeCreeper, TCBeeCreeperRenderer.TCBeeCreeperModel<TCBeeCreeper>> {
+public class TCBeeCreeperRenderer<T extends TCBeeCreeper> extends MobRenderer<T, TCBeeCreeperRenderer.TCBeeCreeperModel<T>> {
     private static final ResourceLocation LOCATION = ResourceLocation.tryBuild(TakumiCraftCore.MODID, "textures/entity/creeper/beecreeper.png");
 
     public TCBeeCreeperRenderer(EntityRendererProvider.Context p_173956_) {
@@ -30,17 +30,17 @@ public class TCBeeCreeperRenderer extends MobRenderer<TCBeeCreeper, TCBeeCreeper
     }
 
     @Override
-    public ResourceLocation getTextureLocation(TCBeeCreeper p_114482_) {
+    public ResourceLocation getTextureLocation(T p_114482_) {
         return LOCATION;
     }
 
     @Override
-    protected void scale(TCBeeCreeper p_114046_, PoseStack p_114047_, float p_114048_) {
+    protected void scale(T p_114046_, PoseStack p_114047_, float p_114048_) {
         TCClientUtils.scaleSwelling(p_114046_, p_114047_, p_114048_);
     }
 
     @Override
-    protected float getWhiteOverlayProgress(TCBeeCreeper p_114043_, float p_114044_) {
+    protected float getWhiteOverlayProgress(T p_114043_, float p_114044_) {
         float f = p_114043_.getSwelling(p_114044_);
         return (int) (f * 10.0F) % 2 == 0 ? 0.0F : Mth.clamp(f, 0.5F, 1.0F);
     }

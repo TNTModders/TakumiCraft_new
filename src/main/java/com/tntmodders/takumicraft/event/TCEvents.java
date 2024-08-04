@@ -12,6 +12,7 @@ import com.tntmodders.takumicraft.provider.ITCBlocks;
 import com.tntmodders.takumicraft.utils.TCExplosionUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.nbt.ListTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -22,6 +23,7 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.animal.Parrot;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.Phantom;
@@ -141,6 +143,29 @@ public class TCEvents {
             event.getEntity().addEffect(new MobEffectInstance(MobEffects.REGENERATION, 4, 0, true, false, false));
             if (event.getEntity().tickCount % 200 == 0) {
                 event.getEntity().addEffect(new MobEffectInstance(MobEffects.SATURATION, 4, 0, true, false, false));
+            }
+        }
+        if (event.getEntity() instanceof Parrot parrot && !parrot.getTags().isEmpty() && parrot.getTags().contains("parrotcreeper")) {
+            TCExplosionUtils.createExplosion(parrot.level(), parrot, parrot.getOnPos(), 2f);
+            parrot.discard();
+        }
+        if (event.getEntity() instanceof ServerPlayer player) {
+            //parrotcreeper
+            if (player.tickCount % 400 == 0) {
+                ListTag list = null;
+                if (player.getShoulderEntityLeft().contains("Tags")) {
+                    list = player.getShoulderEntityLeft().getList("Tags", 8);
+                } else if (player.getShoulderEntityRight().contains("id")) {
+                    list = player.getShoulderEntityLeft().getList("Tags", 8);
+                }
+                if (list != null) {
+                    for (int i = 0; i < list.size(); i++) {
+                        String tag = list.getString(i);
+                        if (tag.equals("parrotcreeper")) {
+                            player.playSound(SoundEvents.PARROT_IMITATE_CREEPER);
+                        }
+                    }
+                }
             }
         }
     }
