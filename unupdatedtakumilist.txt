@@ -14,7 +14,6 @@ ghastcreeper
 
 lostcreeper
 
-batcreeper
 weathercreeper
 colorcreeper
 
@@ -132,7 +131,7 @@ fescreeper
 bonecreeper
 mastercreeper
 spongecreeper
-bigbatcreeper
+
 clockcreeper
 levelupcreeper
 beetrootcreeper
@@ -197,11 +196,10 @@ statuecreeper
 
 allay
 axolotol
-parrot
 frog
 turtle
 fox
-bat
+
 fish
 strider
 sniffer

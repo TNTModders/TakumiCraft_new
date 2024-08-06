@@ -1,0 +1,38 @@
+{
+  "parent": "takumicraft:slay/root",
+  "criteria": {
+    "killed_batcreeper": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "takumicraft:batcreeper"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "takumicraft.message.slay"
+    },
+    "hidden": true,
+    "icon": {
+      "count": 1,
+      "id": "takumicraft:takumibook"
+    },
+    "title": {
+      "translate": "entity.takumicraft.batcreeper"
+    }
+  },
+  "requirements": [
+    [
+      "killed_batcreeper"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

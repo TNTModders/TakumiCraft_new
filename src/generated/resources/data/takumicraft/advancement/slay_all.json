@@ -85,6 +85,20 @@
       },
       "trigger": "minecraft:player_killed_entity"
     },
+    "slay_batcreeper": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "takumicraft:batcreeper"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
     "slay_bedcreeper": {
       "conditions": {
         "entity": [
@@ -107,6 +121,20 @@
             "entity": "this",
             "predicate": {
               "type": "takumicraft:beecreeper"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
+    "slay_bigbatcreeper": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "takumicraft:bigbatcreeper"
             }
           }
         ]
@@ -1202,6 +1230,9 @@
       "slay_beecreeper"
     ],
     [
+      "slay_batcreeper"
+    ],
+    [
       "slay_phantomcreeper"
     ],
     [
@@ -1278,6 +1309,9 @@
     ],
     [
       "slay_parrotcreeper"
+    ],
+    [
+      "slay_bigbatcreeper"
     ],
     [
       "slay_boltcreeper"
