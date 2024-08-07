@@ -1,0 +1,38 @@
+{
+  "parent": "takumicraft:slay/root",
+  "criteria": {
+    "killed_chasecreeper": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "takumicraft:chasecreeper"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "takumicraft.message.slay"
+    },
+    "hidden": true,
+    "icon": {
+      "count": 1,
+      "id": "takumicraft:takumibook"
+    },
+    "title": {
+      "translate": "entity.takumicraft.chasecreeper"
+    }
+  },
+  "requirements": [
+    [
+      "killed_chasecreeper"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

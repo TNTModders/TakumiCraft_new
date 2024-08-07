@@ -110,6 +110,9 @@ public class TCEntityCore {
     public static final TCCreeperContext<TCParrotCreeper> PARROT = new TCParrotCreeper.TCParrotCreeperContext();
     public static final TCCreeperContext<TCBatCreeper> BAT = new TCBatCreeper.TCBatCreeperContext();
     public static final TCCreeperContext<TCBigBatCreeper> BIGBAT = new TCBigBatCreeper.TCBigBatCreeperContext();
+    public static final TCCreeperContext<TCRushCreeper> RUSH = new TCRushCreeper.TCRushCreeperContext();
+    public static final TCCreeperContext<TCDashCreeper> DASH = new TCDashCreeper.TCDashCreeperContext();
+    public static final TCCreeperContext<TCChaseCreeper> CHASE = new TCChaseCreeper.TCChaseCreeperContext();
 
     public static final TagKey<EntityType<?>> TAKUMIS = TagKey.create(Registries.ENTITY_TYPE, ResourceLocation.tryBuild(TakumiCraftCore.MODID, "takumi"));
     public static final TagKey<EntityType<?>> NETHER_TAKUMIS = TagKey.create(Registries.ENTITY_TYPE, ResourceLocation.tryBuild(TakumiCraftCore.MODID, "nether_takumi"));

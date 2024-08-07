@@ -197,6 +197,20 @@
       },
       "trigger": "minecraft:player_killed_entity"
     },
+    "slay_chasecreeper": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "takumicraft:chasecreeper"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
     "slay_cherrycreeper": {
       "conditions": {
         "entity": [
@@ -247,6 +261,20 @@
             "entity": "this",
             "predicate": {
               "type": "takumicraft:cowcreeper"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
+    "slay_dashcreeper": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "takumicraft:dashcreeper"
             }
           }
         ]
@@ -827,6 +855,20 @@
       },
       "trigger": "minecraft:player_killed_entity"
     },
+    "slay_rushcreeper": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "takumicraft:rushcreeper"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
     "slay_sandcreeper": {
       "conditions": {
         "entity": [
@@ -1312,6 +1354,15 @@
     ],
     [
       "slay_bigbatcreeper"
+    ],
+    [
+      "slay_rushcreeper"
+    ],
+    [
+      "slay_dashcreeper"
+    ],
+    [
+      "slay_chasecreeper"
     ],
     [
       "slay_boltcreeper"

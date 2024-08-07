@@ -45,7 +45,6 @@ rarecreeper
 annivcreeper
 leadcreeper
 catcreeper
-rushcreeper
 
 callcreeper
 chestcreeper

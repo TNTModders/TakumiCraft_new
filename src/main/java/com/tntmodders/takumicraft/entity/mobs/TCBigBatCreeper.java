@@ -35,29 +35,13 @@ public class TCBigBatCreeper extends TCBatCreeper {
                 TCBatCreeper batCreeper = (TCBatCreeper) TCEntityCore.BAT.entityType().create(this.level());
                 batCreeper.copyPosition(this);
                 this.level().addFreshEntity(batCreeper);
-                //@TODO change this to Rush
-                AbstractTCCreeper rushCreeper = (AbstractTCCreeper) TCEntityCore.SILENT.entityType().create(this.level());
+                AbstractTCCreeper rushCreeper = (AbstractTCCreeper) TCEntityCore.RUSH.entityType().create(this.level());
                 rushCreeper.copyPosition(batCreeper);
                 this.level().addFreshEntity(rushCreeper);
                 rushCreeper.startRiding(batCreeper, true);
             }
         }
     }
-
-    /*    @Override
-    public void takumiExplode() {
-        if (!this.world.isRemote) {
-            for (int i = 0; i <= (this.getPowered() ? 5 : 3); i++) {
-                EntityBatCreeper batCreeper = new EntityBatCreeper(this.world);
-                batCreeper.copyLocationAndAnglesFrom(this);
-                this.world.spawnEntity(batCreeper);
-                EntityRushCreeper rushCreeper = new EntityRushCreeper(this.world);
-                rushCreeper.copyLocationAndAnglesFrom(this);
-                this.world.spawnEntity(rushCreeper);
-                rushCreeper.startRiding(batCreeper, true);
-            }
-        }
-    }*/
 
     @Override
     public void tick() {
