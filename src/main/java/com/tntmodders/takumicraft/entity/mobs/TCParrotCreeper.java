@@ -245,7 +245,7 @@ public class TCParrotCreeper extends AbstractTCCreeper implements FlyingAnimal {
 
     @Override
     public Vec3 getLeashOffset() {
-        return new Vec3(0.0, (double) (0.5F * this.getEyeHeight()), (double) (this.getBbWidth() * 0.4F));
+        return new Vec3(0.0, 0.5F * this.getEyeHeight(), this.getBbWidth() * 0.4F);
     }
 
     static class ParrotWanderGoal extends WaterAvoidingRandomFlyingGoal {
@@ -297,7 +297,7 @@ public class TCParrotCreeper extends AbstractTCCreeper implements FlyingAnimal {
         }
     }
 
-    public static enum Variant implements StringRepresentable {
+    public enum Variant implements StringRepresentable {
         RED_BLUE(0, "red_blue"),
         BLUE(1, "blue"),
         GREEN(2, "green"),
@@ -309,7 +309,7 @@ public class TCParrotCreeper extends AbstractTCCreeper implements FlyingAnimal {
         final int id;
         private final String name;
 
-        private Variant(final int p_262571_, final String p_262693_) {
+        Variant(final int p_262571_, final String p_262693_) {
             this.id = p_262571_;
             this.name = p_262693_;
         }

@@ -296,7 +296,7 @@ public class TCBreezeCreeper extends AbstractTCCreeper {
 
     @Override
     public double getFluidJumpThreshold() {
-        return (double) this.getEyeHeight();
+        return this.getEyeHeight();
     }
 
     @Override
