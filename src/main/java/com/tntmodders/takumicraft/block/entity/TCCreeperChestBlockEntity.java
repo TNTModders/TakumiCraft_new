@@ -1,5 +1,6 @@
 package com.tntmodders.takumicraft.block.entity;
 
+import com.tntmodders.takumicraft.core.TCBlockCore;
 import com.tntmodders.takumicraft.core.TCBlockEntityCore;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -222,5 +223,15 @@ public class TCCreeperChestBlockEntity extends RandomizableContainerBlockEntity 
             chestHandler.invalidate();
             chestHandler = null;
         }
+    }
+
+    @Override
+    public BlockEntityType<?> getType() {
+        return TCBlockEntityCore.CHEST;
+    }
+
+    @Override
+    public boolean isValidBlockState(BlockState p_345570_) {
+        return p_345570_.is(TCBlockCore.CREEPER_CHEST);
     }
 }

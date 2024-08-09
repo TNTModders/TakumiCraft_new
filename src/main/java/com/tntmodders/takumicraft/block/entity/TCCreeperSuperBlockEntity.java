@@ -21,6 +21,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
 import javax.annotation.Nullable;
@@ -130,5 +131,10 @@ public class TCCreeperSuperBlockEntity extends BlockEntity {
         if (!this.lockKey.equals(LockCode.NO_LOCK)) {
             p_336292_.set(DataComponents.LOCK, this.lockKey);
         }
+    }
+
+    @Override
+    public BlockEntityType<?> getType() {
+        return TCBlockEntityCore.SUPER_BLOCK;
     }
 }

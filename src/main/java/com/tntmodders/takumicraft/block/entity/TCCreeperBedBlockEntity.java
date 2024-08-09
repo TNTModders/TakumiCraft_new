@@ -12,6 +12,7 @@ import net.minecraft.world.level.block.BedBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -104,5 +105,10 @@ public class TCCreeperBedBlockEntity extends BlockEntity {
         if (this.textureNamespace != null && !this.texturePath.isEmpty()) {
             tag.putString("path", this.texturePath);
         }
+    }
+
+    @Override
+    public BlockEntityType<?> getType() {
+        return TCBlockEntityCore.CREEPER_BED;
     }
 }

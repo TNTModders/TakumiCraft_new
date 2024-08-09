@@ -30,7 +30,6 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BannerPatternLayers;
 
 import java.util.Objects;
@@ -39,7 +38,7 @@ public class TCBEWLRenderer extends BlockEntityWithoutLevelRenderer {
     private final TCSaberModel saberModel;
     private final TCShieldModel shieldModel;
 
-    private final TCCreeperBedBlockEntity bed = new TCCreeperBedBlockEntity(BlockPos.ZERO, Blocks.RED_BED.defaultBlockState());
+    private final TCCreeperBedBlockEntity bed = new TCCreeperBedBlockEntity(BlockPos.ZERO, TCBlockCore.SUPER_CREEPER_BED.defaultBlockState());
     private final TCCreeperChestBlockEntity chest = new TCCreeperChestBlockEntity(BlockPos.ZERO, TCBlockCore.CREEPER_CHEST.defaultBlockState());
     private final TCCreeperShulkerBoxBlockEntity shulker = new TCCreeperShulkerBoxBlockEntity(BlockPos.ZERO, TCBlockCore.CREEPER_SHULKER.defaultBlockState());
     private final TCCreeperSuperBlockEntity superBlock = new TCCreeperSuperBlockEntity(BlockPos.ZERO, TCBlockCore.SUPER_BLOCK.defaultBlockState());

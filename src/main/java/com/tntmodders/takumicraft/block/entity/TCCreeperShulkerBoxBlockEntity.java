@@ -1,5 +1,6 @@
 package com.tntmodders.takumicraft.block.entity;
 
+import com.tntmodders.takumicraft.core.TCBlockCore;
 import com.tntmodders.takumicraft.core.TCBlockEntityCore;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -26,5 +27,10 @@ public class TCCreeperShulkerBoxBlockEntity extends ShulkerBoxBlockEntity {
     @Override
     protected Component getDefaultName() {
         return Component.translatable("takumicraft.container.creepershulkerBox");
+    }
+
+    @Override
+    public boolean isValidBlockState(BlockState p_345570_) {
+        return p_345570_.is(TCBlockCore.CREEPER_SHULKER);
     }
 }
