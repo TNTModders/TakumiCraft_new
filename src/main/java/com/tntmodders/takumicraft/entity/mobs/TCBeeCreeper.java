@@ -488,6 +488,16 @@ public class TCBeeCreeper extends AbstractTCCreeper implements FlyingAnimal {
         }
 
         @Override
+        public int getSpawnWeight() {
+            return TCCreeperContext.super.getSpawnWeight() / 50;
+        }
+
+        @Override
+        public int getMaxSpawn() {
+            return (int) (TCCreeperContext.super.getMaxSpawn() * 2.5);
+        }
+
+        @Override
         public boolean registerSpawn(SpawnPlacementRegisterEvent event, EntityType<AbstractTCCreeper> type) {
             event.register(type, SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AbstractTCCreeper::checkAnimalSpawnRules, SpawnPlacementRegisterEvent.Operation.OR);
             return true;

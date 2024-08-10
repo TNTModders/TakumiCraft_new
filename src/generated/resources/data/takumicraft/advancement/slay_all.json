@@ -589,6 +589,20 @@
       },
       "trigger": "minecraft:player_killed_entity"
     },
+    "slay_lostcreeper": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "takumicraft:lostcreeper"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
     "slay_macecreeper": {
       "conditions": {
         "entity": [
@@ -1301,6 +1315,9 @@
     ],
     [
       "slay_batcreeper"
+    ],
+    [
+      "slay_lostcreeper"
     ],
     [
       "slay_phantomcreeper"

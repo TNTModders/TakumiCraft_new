@@ -8,6 +8,7 @@ import com.mojang.math.Axis;
 import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.core.TCItemCore;
 import com.tntmodders.takumicraft.entity.mobs.*;
+import com.tntmodders.takumicraft.entity.mobs.boss.TCRavagerCreeper;
 import net.minecraft.advancements.AdvancementProgress;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientAdvancements;
@@ -109,6 +110,8 @@ public class TCClientUtils {
             creeper.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(TCItemCore.CREEPER_BOW));
         } else if (entity instanceof TCMaceCreeper creeper) {
             creeper.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(TCItemCore.CREEPER_MACE));
+        } else if (entity instanceof TCRavagerCreeper creeper) {
+            posestack.scale(0.5f, 0.5f, 0.5f);
         }
     }
 

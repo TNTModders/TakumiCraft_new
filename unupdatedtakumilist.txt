@@ -3,16 +3,12 @@ treecreeper
 fishcreeper
 subsidencecreeper
 
-parrotcreeper
-
 frostcreeper
 magmacreeper
 sandstormcreeper
 wrylycreeper
 
 ghastcreeper
-
-lostcreeper
 
 weathercreeper
 colorcreeper
@@ -35,11 +31,10 @@ reversecreeper
 chunkcreeper
 fightercreeper
 ceruleancreeper
-boltcreeper
-ofalencreeper
+
 giantcreeper
 tntcreeper
-yukaricreeper
+
 demoncreeper
 rarecreeper
 annivcreeper
@@ -57,7 +52,7 @@ bigfishcreeper
 bedcreeper
 acidcreeper
 piercecreeper
-kingcreeper
+
 endermitecreeper
 seaguardiancreeper
 roundcreeper
