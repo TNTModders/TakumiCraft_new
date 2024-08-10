@@ -8,6 +8,7 @@ import com.tntmodders.takumicraft.entity.misc.TCKingStorm;
 import com.tntmodders.takumicraft.entity.mobs.*;
 import com.tntmodders.takumicraft.entity.mobs.AbstractTCCreeper.TCCreeperContext;
 import com.tntmodders.takumicraft.entity.mobs.boss.TCKingCreeper;
+import com.tntmodders.takumicraft.entity.mobs.boss.TCRavagerCreeper;
 import com.tntmodders.takumicraft.entity.projectile.*;
 import com.tntmodders.takumicraft.utils.TCLoggingUtils;
 import net.minecraft.core.NonNullList;
@@ -113,6 +114,7 @@ public class TCEntityCore {
     public static final TCCreeperContext<TCRushCreeper> RUSH = new TCRushCreeper.TCRushCreeperContext();
     public static final TCCreeperContext<TCDashCreeper> DASH = new TCDashCreeper.TCDashCreeperContext();
     public static final TCCreeperContext<TCChaseCreeper> CHASE = new TCChaseCreeper.TCChaseCreeperContext();
+    public static final TCCreeperContext<TCRavagerCreeper> RAVAGER = new TCRavagerCreeper.TCRavagerCreeperContext();
 
     public static final TagKey<EntityType<?>> TAKUMIS = TagKey.create(Registries.ENTITY_TYPE, ResourceLocation.tryBuild(TakumiCraftCore.MODID, "takumi"));
     public static final TagKey<EntityType<?>> NETHER_TAKUMIS = TagKey.create(Registries.ENTITY_TYPE, ResourceLocation.tryBuild(TakumiCraftCore.MODID, "nether_takumi"));

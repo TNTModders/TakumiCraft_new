@@ -20,40 +20,40 @@ public abstract class AbstractTCBossCreeper extends AbstractTCCreeper {
         super(entityType, level);
     }
 
+    public ServerBossEvent getBossEvent() {
+        return this.bossEvent;
+    }
+
     @Override
     public void readAdditionalSaveData(CompoundTag p_31474_) {
         super.readAdditionalSaveData(p_31474_);
         if (this.hasCustomName()) {
-            this.bossEvent.setName(this.getDisplayName());
+            this.getBossEvent().setName(this.getDisplayName());
         }
     }
 
     @Override
     public void setCustomName(@Nullable Component p_31476_) {
         super.setCustomName(p_31476_);
-        this.bossEvent.setName(this.getDisplayName());
+        this.getBossEvent().setName(this.getDisplayName());
     }
 
     @Override
     public void tick() {
         super.tick();
-        this.bossEvent.setProgress(this.getHealth() / this.getMaxHealth());
+        this.getBossEvent().setProgress(this.getHealth() / this.getMaxHealth());
     }
 
     @Override
     public void startSeenByPlayer(ServerPlayer p_31483_) {
         super.startSeenByPlayer(p_31483_);
-        this.bossEvent.addPlayer(p_31483_);
+        this.getBossEvent().addPlayer(p_31483_);
     }
 
     @Override
     public void stopSeenByPlayer(ServerPlayer p_31488_) {
         super.stopSeenByPlayer(p_31488_);
-        this.bossEvent.removePlayer(p_31488_);
-    }
-
-    @Override
-    public void weatherSetPowered() {
+        this.getBossEvent().removePlayer(p_31488_);
     }
 
     @Override

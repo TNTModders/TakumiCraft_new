@@ -206,5 +206,10 @@ public class TCChaseCreeper extends AbstractTCCreeper {
             list.add(TCEntityCore.NETHER_TAKUMIS);
             return list;
         }
+
+        @Override
+        public int getSpawnWeight() {
+            return TCCreeperContext.super.getSpawnWeight() / 4;
+        }
     }
 }

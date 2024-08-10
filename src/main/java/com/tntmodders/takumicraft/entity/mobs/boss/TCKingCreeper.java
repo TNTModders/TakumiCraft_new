@@ -137,6 +137,10 @@ public class TCKingCreeper extends AbstractTCBossCreeper {
     }
 
     @Override
+    public void weatherSetPowered() {
+    }
+
+    @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         this.setAttackID(EnumTCKingCreeperAttackID.getID(tag.getInt("AttackID")));

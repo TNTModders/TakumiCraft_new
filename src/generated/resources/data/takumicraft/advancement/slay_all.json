@@ -799,6 +799,20 @@
       },
       "trigger": "minecraft:player_killed_entity"
     },
+    "slay_ravagercreeper": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "takumicraft:ravagercreeper"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
     "slay_redstonecreeper": {
       "conditions": {
         "entity": [
@@ -1363,6 +1377,9 @@
     ],
     [
       "slay_chasecreeper"
+    ],
+    [
+      "slay_ravagercreeper"
     ],
     [
       "slay_boltcreeper"
