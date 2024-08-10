@@ -46,10 +46,12 @@ import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.entity.BeehiveBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.client.event.EntityRenderersEvent;
+import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
 
 import javax.annotation.Nullable;
 import java.util.EnumSet;
@@ -483,6 +485,12 @@ public class TCBeeCreeper extends AbstractTCCreeper implements FlyingAnimal {
         @Override
         public AttributeSupplier.Builder entityAttribute() {
             return TCBeeCreeper.createAttributes();
+        }
+
+        @Override
+        public boolean registerSpawn(SpawnPlacementRegisterEvent event, EntityType<AbstractTCCreeper> type) {
+            event.register(type, SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AbstractTCCreeper::checkAnimalSpawnRules, SpawnPlacementRegisterEvent.Operation.OR);
+            return true;
         }
     }
 }

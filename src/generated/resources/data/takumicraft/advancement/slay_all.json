@@ -197,6 +197,20 @@
       },
       "trigger": "minecraft:player_killed_entity"
     },
+    "slay_catcreeper": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "takumicraft:catcreeper"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
     "slay_chasecreeper": {
       "conditions": {
         "entity": [
@@ -1380,6 +1394,9 @@
     ],
     [
       "slay_ravagercreeper"
+    ],
+    [
+      "slay_catcreeper"
     ],
     [
       "slay_boltcreeper"

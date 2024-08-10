@@ -44,7 +44,6 @@ demoncreeper
 rarecreeper
 annivcreeper
 leadcreeper
-catcreeper
 
 callcreeper
 chestcreeper
@@ -204,7 +203,6 @@ strider
 sniffer
 snowgolem
 
-cat
 pufferfish
 mooshroom
 camel
@@ -228,7 +226,6 @@ silverfish
 hogrin
 pigrin
 pilligar
-ravager
 
 warden
 wither
