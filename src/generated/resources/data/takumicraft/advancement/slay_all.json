@@ -253,6 +253,20 @@
       },
       "trigger": "minecraft:player_killed_entity"
     },
+    "slay_colorcreeper": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "takumicraft:colorcreeper"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
     "slay_coppercreeper": {
       "conditions": {
         "entity": [
@@ -1318,6 +1332,9 @@
     ],
     [
       "slay_lostcreeper"
+    ],
+    [
+      "slay_colorcreeper"
     ],
     [
       "slay_phantomcreeper"
