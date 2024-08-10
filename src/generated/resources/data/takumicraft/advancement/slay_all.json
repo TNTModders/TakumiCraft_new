@@ -1093,6 +1093,20 @@
       },
       "trigger": "minecraft:player_killed_entity"
     },
+    "slay_weathercreeper": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "takumicraft:weathercreeper"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
     "slay_witherskeletoncreeper": {
       "conditions": {
         "entity": [
@@ -1335,6 +1349,9 @@
     ],
     [
       "slay_colorcreeper"
+    ],
+    [
+      "slay_weathercreeper"
     ],
     [
       "slay_phantomcreeper"
