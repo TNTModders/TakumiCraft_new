@@ -150,7 +150,7 @@ public class TCBirdCreeper extends AbstractTCCreeper {
 
     public static class TCBirdCreeperContext implements TCCreeperContext<TCBirdCreeper> {
         private static final String NAME = "birdcreeper";
-        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCBirdCreeper::new, MobCategory.MONSTER).sized(0.4F, 0.7F).clientTrackingRange(10).build(TakumiCraftCore.MODID + ":" + NAME);
+        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCBirdCreeper::new, MobCategory.MONSTER).sized(0.4F, 0.7F).clientTrackingRange(10).eyeHeight(0.644F).passengerAttachments(new Vec3(0.0, 0.7, -0.1)).build(TakumiCraftCore.MODID + ":" + NAME);
 
         @Override
         public String getRegistryName() {
