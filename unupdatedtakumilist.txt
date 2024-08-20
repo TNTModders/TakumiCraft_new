@@ -205,7 +205,6 @@ camel
 dolphin
 polarbear
 panda
-goat
 llama
 
 witch
