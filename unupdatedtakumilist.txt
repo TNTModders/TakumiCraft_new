@@ -10,9 +10,6 @@ wrylycreeper
 
 ghastcreeper
 
-weathercreeper
-colorcreeper
-
 snowcreeper
 voidcreeper
 lapiscreeper

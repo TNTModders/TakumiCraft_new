@@ -121,6 +121,7 @@ public class TCEntityCore {
     public static final TCCreeperContext<TCWeatherCreeper> WEATHER = new TCWeatherCreeper.TCWeatherCreeperContext();
     public static final TCCreeperContext<TCGoatCreeper> GOAT = new TCGoatCreeper.TCGoatCreeperContext();
     public static final TCCreeperContext<TCLlamaCreeper> LLAMA = new TCLlamaCreeper.TCLlamaCreeperContext();
+    public static final TCCreeperContext<TCVoidCreeper> VOID = new TCVoidCreeper.TCVoidCreeperContext();
 
     public static final TagKey<EntityType<?>> TAKUMIS = TagKey.create(Registries.ENTITY_TYPE, ResourceLocation.tryBuild(TakumiCraftCore.MODID, "takumi"));
     public static final TagKey<EntityType<?>> NETHER_TAKUMIS = TagKey.create(Registries.ENTITY_TYPE, ResourceLocation.tryBuild(TakumiCraftCore.MODID, "nether_takumi"));

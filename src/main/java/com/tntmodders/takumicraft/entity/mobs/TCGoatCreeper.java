@@ -341,11 +341,6 @@ public class TCGoatCreeper extends AbstractTCCreeper {
         }
 
         @Override
-        public boolean showRead() {
-            return true;
-        }
-
-        @Override
         public String getEnUSDesc() {
             return "You are the GOAT!";
         }
