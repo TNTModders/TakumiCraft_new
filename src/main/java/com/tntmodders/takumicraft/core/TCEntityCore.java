@@ -119,6 +119,7 @@ public class TCEntityCore {
     public static final TCCreeperContext<TCLostCreeper> LOST = new TCLostCreeper.TCLostCreeperContext();
     public static final TCCreeperContext<TCColorCreeper> COLOR = new TCColorCreeper.TCColorCreeperContext();
     public static final TCCreeperContext<TCWeatherCreeper> WEATHER = new TCWeatherCreeper.TCWeatherCreeperContext();
+    public static final TCCreeperContext<TCGoatCreeper> GOAT = new TCGoatCreeper.TCGoatCreeperContext();
 
     public static final TagKey<EntityType<?>> TAKUMIS = TagKey.create(Registries.ENTITY_TYPE, ResourceLocation.tryBuild(TakumiCraftCore.MODID, "takumi"));
     public static final TagKey<EntityType<?>> NETHER_TAKUMIS = TagKey.create(Registries.ENTITY_TYPE, ResourceLocation.tryBuild(TakumiCraftCore.MODID, "nether_takumi"));

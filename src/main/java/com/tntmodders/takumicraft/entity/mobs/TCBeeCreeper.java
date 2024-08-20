@@ -494,7 +494,7 @@ public class TCBeeCreeper extends AbstractTCCreeper implements FlyingAnimal {
 
         @Override
         public int getMaxSpawn() {
-            return (int) (TCCreeperContext.super.getMaxSpawn() * 2.5);
+            return (int) (TCCreeperContext.super.getMaxSpawn() / 2.5);
         }
 
         @Override
