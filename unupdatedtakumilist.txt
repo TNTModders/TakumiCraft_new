@@ -58,7 +58,7 @@ seaguardiancreeper
 roundcreeper
 inversioncreeper
 craftsmancreeper
-llamacreeper
+
 polarbearcreeper
 shulkercreeper
 concretecreeper
@@ -205,7 +205,6 @@ camel
 dolphin
 polarbear
 panda
-llama
 
 witch
 vindicator

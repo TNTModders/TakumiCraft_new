@@ -20,10 +20,7 @@ import com.tntmodders.takumicraft.utils.TCLoggingUtils;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
 import net.minecraft.client.renderer.block.BlockModelShaper;
-import net.minecraft.client.renderer.entity.ArrowRenderer;
-import net.minecraft.client.renderer.entity.EntityRenderer;
-import net.minecraft.client.renderer.entity.ThrownItemRenderer;
-import net.minecraft.client.renderer.entity.WindChargeRenderer;
+import net.minecraft.client.renderer.entity.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.projectile.Arrow;
 import net.minecraft.world.level.block.Block;
@@ -79,6 +76,7 @@ public class TCRenderCore {
         event.registerEntityRenderer(TCCreeperFrame.ITEM_FRAME, TCCreeperFrameRenderer::new);
         event.registerEntityRenderer(TCCreeperGlowingFrame.GLOWING_FRAME, TCCreeperFrameRenderer::new);
         event.registerEntityRenderer(TCBreezeCreeperWindCharge.BREEZE_WIND_CHARGE, WindChargeRenderer::new);
+        event.registerEntityRenderer(TCLlamaCreeperSpit.LLAMA_SPIT, LlamaSpitRenderer::new);
     }
 
     private static void blockEntityRender(EntityRenderersEvent.RegisterRenderers event) {

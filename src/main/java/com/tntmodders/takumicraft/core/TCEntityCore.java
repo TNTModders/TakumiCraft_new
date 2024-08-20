@@ -120,6 +120,7 @@ public class TCEntityCore {
     public static final TCCreeperContext<TCColorCreeper> COLOR = new TCColorCreeper.TCColorCreeperContext();
     public static final TCCreeperContext<TCWeatherCreeper> WEATHER = new TCWeatherCreeper.TCWeatherCreeperContext();
     public static final TCCreeperContext<TCGoatCreeper> GOAT = new TCGoatCreeper.TCGoatCreeperContext();
+    public static final TCCreeperContext<TCLlamaCreeper> LLAMA = new TCLlamaCreeper.TCLlamaCreeperContext();
 
     public static final TagKey<EntityType<?>> TAKUMIS = TagKey.create(Registries.ENTITY_TYPE, ResourceLocation.tryBuild(TakumiCraftCore.MODID, "takumi"));
     public static final TagKey<EntityType<?>> NETHER_TAKUMIS = TagKey.create(Registries.ENTITY_TYPE, ResourceLocation.tryBuild(TakumiCraftCore.MODID, "nether_takumi"));
@@ -171,6 +172,8 @@ public class TCEntityCore {
                 entityTypeRegisterHelper.register(ResourceLocation.tryBuild(TakumiCraftCore.MODID, "creeperframe_glowing"), TCCreeperGlowingFrame.GLOWING_FRAME));
         event.register(ForgeRegistries.ENTITY_TYPES.getRegistryKey(), entityTypeRegisterHelper ->
                 entityTypeRegisterHelper.register(ResourceLocation.tryBuild(TakumiCraftCore.MODID, "breezecreeper_windcharge"), TCBreezeCreeperWindCharge.BREEZE_WIND_CHARGE));
+        event.register(ForgeRegistries.ENTITY_TYPES.getRegistryKey(), entityTypeRegisterHelper ->
+                entityTypeRegisterHelper.register(ResourceLocation.tryBuild(TakumiCraftCore.MODID, "llamacreeperspit"), TCLlamaCreeperSpit.LLAMA_SPIT));
     }
 
     public static void registerAttribute(EntityAttributeCreationEvent event) {
