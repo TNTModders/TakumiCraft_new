@@ -1,7 +1,8 @@
 package com.tntmodders.takumicraft.entity.mobs;
 
 import com.tntmodders.takumicraft.TakumiCraftCore;
-import com.tntmodders.takumicraft.client.renderer.entity.TCGunOreCreeperRenderer;
+import com.tntmodders.takumicraft.client.renderer.entity.TCBlockCreeperRenderer;
+import com.tntmodders.takumicraft.core.TCBlockCore;
 import com.tntmodders.takumicraft.core.TCEntityCore;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.BlockTags;
@@ -20,17 +21,20 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
-import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
 
-public class TCGunOreCreeper extends AbstractTCCreeper {
+public class TCGunOreCreeper extends AbstractTCBlockCreeper {
 
     public TCGunOreCreeper(EntityType<? extends Creeper> entityType, Level level) {
         super(entityType, level);
         this.explosionRadius = 6;
         this.maxSwell = 40;
+    }
+
+    @Override
+    public BlockState getBlock() {
+        return TCBlockCore.GUNORE_CREEPER.defaultBlockState();
     }
 
     public static boolean checkGunOreCreeperSpawnRules(EntityType<? extends Monster> type, ServerLevelAccessor levelAccessor, MobSpawnType spawnType, BlockPos pos, RandomSource random) {
@@ -54,39 +58,6 @@ public class TCGunOreCreeper extends AbstractTCCreeper {
             amount *= 10f;
         }
         return super.hurt(p_21016_, amount);
-    }
-
-
-    @Override
-    protected Entity.MovementEmission getMovementEmission() {
-        return Entity.MovementEmission.NONE;
-    }
-
-    @Override
-    public void push(Entity p_33474_) {
-    }
-
-    @Override
-    public boolean canBeCollidedWith() {
-        return this.isAlive();
-    }
-
-    @Override
-    protected AABB makeBoundingBox() {
-        return super.makeBoundingBox();
-    }
-
-    @Override
-    public void move(MoverType p_33424_, Vec3 p_33425_) {
-    }
-
-    @Override
-    public Vec3 getDeltaMovement() {
-        return Vec3.ZERO;
-    }
-
-    @Override
-    public void setDeltaMovement(Vec3 p_149804_) {
     }
 
     public static class TCGunOreCreeperContext implements TCCreeperContext<TCGunOreCreeper> {
@@ -151,7 +122,7 @@ public class TCGunOreCreeper extends AbstractTCCreeper {
 
         @Override
         public void registerRenderer(EntityRenderersEvent.RegisterRenderers event, EntityType<?> type) {
-            event.registerEntityRenderer((EntityType<TCGunOreCreeper>) type, TCGunOreCreeperRenderer::new);
+            event.registerEntityRenderer((EntityType<TCGunOreCreeper>) type, TCBlockCreeperRenderer::new);
         }
 
         @Override

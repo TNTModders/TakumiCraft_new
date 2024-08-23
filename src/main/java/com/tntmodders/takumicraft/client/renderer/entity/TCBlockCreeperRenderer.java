@@ -2,8 +2,7 @@ package com.tntmodders.takumicraft.client.renderer.entity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.tntmodders.takumicraft.core.TCBlockCore;
-import com.tntmodders.takumicraft.entity.mobs.TCGunOreCreeper;
+import com.tntmodders.takumicraft.entity.mobs.AbstractTCBlockCreeper;
 import com.tntmodders.takumicraft.utils.client.TCClientUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -26,19 +25,19 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import static com.tntmodders.takumicraft.client.renderer.block.TCSuperBlockRenderer.POWERED_TEXTURE;
 
 @OnlyIn(Dist.CLIENT)
-public class TCGunOreCreeperRenderer extends EntityRenderer<TCGunOreCreeper> {
+public class TCBlockCreeperRenderer extends EntityRenderer<AbstractTCBlockCreeper> {
     private final BlockRenderDispatcher dispatcher;
 
-    public TCGunOreCreeperRenderer(EntityRendererProvider.Context p_174112_) {
+    public TCBlockCreeperRenderer(EntityRendererProvider.Context p_174112_) {
         super(p_174112_);
         this.shadowRadius = 0F;
         this.dispatcher = p_174112_.getBlockRenderDispatcher();
     }
 
     @Override
-    public void render(TCGunOreCreeper creeper, float p_114635_, float pertialTicks, PoseStack poseStack, MultiBufferSource bufferSource, int p_114639_) {
+    public void render(AbstractTCBlockCreeper creeper, float p_114635_, float pertialTicks, PoseStack poseStack, MultiBufferSource bufferSource, int p_114639_) {
         if (creeper.isAlive()) {
-            BlockState blockstate = TCBlockCore.GUNORE_CREEPER.defaultBlockState();
+            BlockState blockstate = creeper.getBlock();
             if (blockstate.getRenderShape() == RenderShape.MODEL) {
                 Level level = creeper.level();
                 if (blockstate != level.getBlockState(creeper.blockPosition()) && blockstate.getRenderShape() != RenderShape.INVISIBLE) {
@@ -106,13 +105,13 @@ public class TCGunOreCreeperRenderer extends EntityRenderer<TCGunOreCreeper> {
         }
     }
 
-    protected float getWhiteOverlayProgress(TCGunOreCreeper p_114043_, float p_114044_) {
+    protected float getWhiteOverlayProgress(AbstractTCBlockCreeper p_114043_, float p_114044_) {
         float f = p_114043_.getSwelling(p_114044_);
         return (int) (f * 10.0F) % 2 == 0 ? 0.0F : Mth.clamp(f, 0.5F, 1.0F);
     }
 
     @Override
-    public ResourceLocation getTextureLocation(TCGunOreCreeper p_114632_) {
+    public ResourceLocation getTextureLocation(AbstractTCBlockCreeper p_114632_) {
         return TextureAtlas.LOCATION_BLOCKS;
     }
 }
