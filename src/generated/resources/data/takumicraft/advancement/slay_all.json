@@ -491,6 +491,20 @@
       },
       "trigger": "minecraft:player_killed_entity"
     },
+    "slay_gunorecreeper": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "takumicraft:gunorecreeper"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
     "slay_happinesscreeper": {
       "conditions": {
         "entity": [
@@ -1394,6 +1408,9 @@
     ],
     [
       "slay_weathercreeper"
+    ],
+    [
+      "slay_gunorecreeper"
     ],
     [
       "slay_phantomcreeper"

@@ -1,0 +1,163 @@
+package com.tntmodders.takumicraft.entity.mobs;
+
+import com.tntmodders.takumicraft.TakumiCraftCore;
+import com.tntmodders.takumicraft.client.renderer.entity.TCGunOreCreeperRenderer;
+import com.tntmodders.takumicraft.core.TCEntityCore;
+import net.minecraft.core.BlockPos;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.monster.Creeper;
+import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Explosion;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.client.event.EntityRenderersEvent;
+import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
+
+public class TCGunOreCreeper extends AbstractTCCreeper {
+
+    public TCGunOreCreeper(EntityType<? extends Creeper> entityType, Level level) {
+        super(entityType, level);
+        this.explosionRadius = 6;
+        this.maxSwell = 40;
+    }
+
+    public static boolean checkGunOreCreeperSpawnRules(EntityType<? extends Monster> type, ServerLevelAccessor levelAccessor, MobSpawnType spawnType, BlockPos pos, RandomSource random) {
+        return levelAccessor.getBlockState(pos.below()).is(Blocks.STONE) && checkTakumiSpawnRules(type, levelAccessor, spawnType, pos, random);
+    }
+
+    @Override
+    public TCCreeperContext<? extends AbstractTCCreeper> getContext() {
+        return TCEntityCore.GUNORE;
+    }
+
+    @Override
+    public float getBlockExplosionResistance(Explosion explosion, BlockGetter wolrdIn, BlockPos pos, BlockState blockStateIn, FluidState p_19996_, float p_19997_) {
+        return blockStateIn.isAir() || blockStateIn.is(BlockTags.MINEABLE_WITH_PICKAXE) ? 0.05f : super.getBlockExplosionResistance(explosion, wolrdIn, pos, blockStateIn, p_19996_, p_19997_);
+    }
+
+    @Override
+    public boolean hurt(DamageSource p_21016_, float p_21017_) {
+        float amount = p_21017_;
+        if (p_21016_.getEntity() instanceof LivingEntity living && living.getMainHandItem().is(ItemTags.PICKAXES)) {
+            amount *= 10f;
+        }
+        return super.hurt(p_21016_, amount);
+    }
+
+
+    @Override
+    protected Entity.MovementEmission getMovementEmission() {
+        return Entity.MovementEmission.NONE;
+    }
+
+    @Override
+    public void push(Entity p_33474_) {
+    }
+
+    @Override
+    public boolean canBeCollidedWith() {
+        return this.isAlive();
+    }
+
+    @Override
+    protected AABB makeBoundingBox() {
+        return super.makeBoundingBox();
+    }
+
+    @Override
+    public void move(MoverType p_33424_, Vec3 p_33425_) {
+    }
+
+    @Override
+    public Vec3 getDeltaMovement() {
+        return Vec3.ZERO;
+    }
+
+    @Override
+    public void setDeltaMovement(Vec3 p_149804_) {
+    }
+
+    public static class TCGunOreCreeperContext implements TCCreeperContext<TCGunOreCreeper> {
+        private static final String NAME = "gunorecreeper";
+        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder
+                .of(TCGunOreCreeper::new, MobCategory.MONSTER).sized(1, 1).clientTrackingRange(8).build(TakumiCraftCore.MODID + ":" + NAME);
+
+        @Override
+        public String getRegistryName() {
+            return NAME;
+        }
+
+        @Override
+        public String getJaJPRead() {
+            return "かやくいわたくみ";
+        }
+
+        @Override
+        public String getEnUSDesc() {
+            return "This is not a block, but a creeper. You pick this, soon this explodes.";
+        }
+
+        @Override
+        public String getJaJPDesc() {
+            return "火薬岩に化けた匠。掘ればその途端、正体をあらわす。";
+        }
+
+        @Override
+        public String getEnUSName() {
+            return "Gunpowder Ore Creeper";
+        }
+
+        @Override
+        public String getJaJPName() {
+            return "火薬岩匠";
+        }
+
+        @Override
+        public EntityType<?> entityType() {
+            return CREEPER;
+        }
+
+        @Override
+        public int getPrimaryColor() {
+            return 7829367;
+        }
+
+        @Override
+        public EnumTakumiElement getElement() {
+            return EnumTakumiElement.GROUND;
+        }
+
+        @Override
+        public EnumTakumiRank getRank() {
+            return EnumTakumiRank.LOW;
+        }
+
+        @Override
+        public UniformGenerator getDropRange() {
+            return UniformGenerator.between(1, 16);
+        }
+
+        @Override
+        public void registerRenderer(EntityRenderersEvent.RegisterRenderers event, EntityType<?> type) {
+            event.registerEntityRenderer((EntityType<TCGunOreCreeper>) type, TCGunOreCreeperRenderer::new);
+        }
+
+        @Override
+        public boolean registerSpawn(SpawnPlacementRegisterEvent event, EntityType<AbstractTCCreeper> type) {
+            event.register(type, SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, TCGunOreCreeper::checkGunOreCreeperSpawnRules, SpawnPlacementRegisterEvent.Operation.OR);
+            return true;
+        }
+    }
+}

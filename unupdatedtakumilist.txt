@@ -1,4 +1,4 @@
-gunorecreeper
+
 treecreeper
 fishcreeper
 subsidencecreeper
@@ -11,7 +11,7 @@ wrylycreeper
 ghastcreeper
 
 snowcreeper
-voidcreeper
+
 lapiscreeper
 witchcreeper
 destructioncreeper
