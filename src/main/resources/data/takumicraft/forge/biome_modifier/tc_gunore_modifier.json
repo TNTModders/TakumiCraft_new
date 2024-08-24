@@ -1,5 +1,0 @@
-{
-  "type": "takumicraft:tc_gunore_modifier",
-  "biomes": "#minecraft:is_overworld",
-  "features": "takumicraft:tc_ore_gunore"
-}

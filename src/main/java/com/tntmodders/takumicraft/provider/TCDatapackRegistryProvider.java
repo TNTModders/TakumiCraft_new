@@ -19,13 +19,11 @@ import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.enchantment.Enchantment;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.levelgen.VerticalAnchor;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration;
 import net.minecraft.world.level.levelgen.placement.*;
-import net.minecraft.world.level.levelgen.structure.templatesystem.BlockMatchTest;
 import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
 import net.minecraft.world.level.levelgen.structure.templatesystem.TagMatchTest;
 
@@ -41,17 +39,17 @@ public class TCDatapackRegistryProvider extends RegistriesDatapackGenerator {
                     bootstrap -> {
                         RuleTest ruletest1 = new TagMatchTest(BlockTags.STONE_ORE_REPLACEABLES);
                         RuleTest ruletest2 = new TagMatchTest(BlockTags.DEEPSLATE_ORE_REPLACEABLES);
-                        RuleTest ruletest3 = new BlockMatchTest(Blocks.STONE);
+                        RuleTest ruletest3 = new TagMatchTest(BlockTags.BASE_STONE_OVERWORLD);
                         List<OreConfiguration.TargetBlockState> list = List.of(
                                 OreConfiguration.target(ruletest1, TCBlockCore.GUNORE.defaultBlockState()),
                                 OreConfiguration.target(ruletest2, TCBlockCore.DEEPSLATE_GUNORE.defaultBlockState()),
                                 OreConfiguration.target(ruletest3, TCBlockCore.GUNORE_CREEPER.defaultBlockState()));
-                        bootstrap.register(TCBiomeModifierCore.GUNORE_CONFIGURED_FEATURE, new ConfiguredFeature<>(Feature.ORE, new OreConfiguration(list, 32)));
+                        bootstrap.register(TCBiomeModifierCore.GUNORE_CONFIGURED_FEATURE, new ConfiguredFeature<>(Feature.ORE, new OreConfiguration(list, 16)));
                     })
             .add(Registries.PLACED_FEATURE,
                     bootstrap -> {
                         HolderGetter<ConfiguredFeature<?, ?>> configured = bootstrap.lookup(Registries.CONFIGURED_FEATURE);
-                        bootstrap.register(TCBiomeModifierCore.GUNORE_PLACED_FEATURE, new PlacedFeature(configured.getOrThrow(TCBiomeModifierCore.GUNORE_CONFIGURED_FEATURE), commonOrePlacement(32, HeightRangePlacement.uniform(VerticalAnchor.belowTop(0), VerticalAnchor.aboveBottom(0)))));
+                        bootstrap.register(TCBiomeModifierCore.GUNORE_PLACED_FEATURE, new PlacedFeature(configured.getOrThrow(TCBiomeModifierCore.GUNORE_CONFIGURED_FEATURE), commonOrePlacement(10, HeightRangePlacement.uniform(VerticalAnchor.aboveBottom(0), VerticalAnchor.belowTop(0)))));
                     })
             .add(Registries.ENCHANTMENT, bootstrap -> {
                 registerEnchantment(bootstrap, TCEnchantmentCore.ANTI_POWERED, new TCAntiPoweredContext(bootstrap));
