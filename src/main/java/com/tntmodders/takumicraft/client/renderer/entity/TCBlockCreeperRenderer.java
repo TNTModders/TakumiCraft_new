@@ -79,7 +79,7 @@ public class TCBlockCreeperRenderer extends EntityRenderer<AbstractTCBlockCreepe
                                 );
                         if (this.useOverlay) {
                             poseStack.pushPose();
-                            float overrap = 0.01f;
+                            float overrap = 0.03f;
                             poseStack.scale(1 + overrap, 1 + overrap, 1 + overrap);
                             poseStack.translate(-overrap / 2, 0, -overrap / 2);
                             BlockState blockstate1 = TCBlockCore.CREEPER_PROTECTOR.defaultBlockState();
@@ -94,7 +94,7 @@ public class TCBlockCreeperRenderer extends EntityRenderer<AbstractTCBlockCreepe
                                                 blockstate1,
                                                 blockpos,
                                                 poseStack,
-                                                bufferSource.getBuffer(renderType1),
+                                                bufferSource.getBuffer(renderType1).setColor(0.8f, 0.8f, 0.8f, 0.8f),
                                                 false,
                                                 RandomSource.create(),
                                                 blockstate1.getSeed(creeper.blockPosition()),
@@ -107,7 +107,7 @@ public class TCBlockCreeperRenderer extends EntityRenderer<AbstractTCBlockCreepe
                         }
                         if (creeper.isPowered()) {
                             poseStack.pushPose();
-                            float overrap = 0.02f;
+                            float overrap = 0.05f;
                             poseStack.scale(1 + overrap, 1 + overrap, 1 + overrap);
                             poseStack.translate(-overrap / 2, 0, -overrap / 2);
                             float f = Minecraft.getInstance().player.tickCount * 0.0005f;

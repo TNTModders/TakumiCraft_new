@@ -44,7 +44,7 @@ public class TCCreeperProtectorBlockRenderer<T extends TCCreeperProtectorBlockEn
     @Override
     public void render(T blockentity, float partialTicks, PoseStack poseStack, MultiBufferSource bufferSource, int p_112311_, int p_112312_) {
         poseStack.pushPose();
-        VertexConsumer consumer = bufferSource.getBuffer(RenderType.entityCutoutNoCull(TEXTURE));
+        VertexConsumer consumer = bufferSource.getBuffer(RenderType.entityTranslucent(TEXTURE)).setColor(0.8f, 0.8f, 0.8f, 0.8f);
         BlockState state = blockentity.getBlockState();
         Direction.stream().forEach(direction -> {
             if (state.hasProperty(TCCreeperProtectorBlock.FACEING_PROPERTIES.get(direction))) {
