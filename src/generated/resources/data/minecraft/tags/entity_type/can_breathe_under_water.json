@@ -1,6 +1,9 @@
 {
   "values": [
+    "takumicraft:zombiecreeper",
+    "takumicraft:drownedcreeper",
     "takumicraft:squidcreeper",
-    "takumicraft:glowingsquidcreeper"
+    "takumicraft:glowingsquidcreeper",
+    "takumicraft:hydrothermalcreeper"
   ]
 }
