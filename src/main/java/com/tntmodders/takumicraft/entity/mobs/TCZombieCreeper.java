@@ -24,6 +24,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -274,7 +275,7 @@ public class TCZombieCreeper extends AbstractTCCreeper {
     }
 
     protected void doUnderWaterConversion() {
-        this.convertToZombieType((EntityType<? extends TCZombieCreeper>) TCEntityCore.DROWNED);
+        this.convertToZombieType((EntityType<? extends TCZombieCreeper>) TCEntityCore.DROWNED.entityType());
         if (!this.isSilent()) {
             this.level().levelEvent(null, 1040, this.blockPosition(), 0);
         }
@@ -297,7 +298,7 @@ public class TCZombieCreeper extends AbstractTCCreeper {
 
     @Override
     public boolean hurt(DamageSource p_34288_, float p_34289_) {
-        if (!super.hurt(p_34288_, p_34289_)) {
+        if (p_34288_.is(DamageTypes.DROWN) || !super.hurt(p_34288_, p_34289_)) {
             return false;
         } else if (!(this.level() instanceof ServerLevel serverLevel)) {
             return false;
