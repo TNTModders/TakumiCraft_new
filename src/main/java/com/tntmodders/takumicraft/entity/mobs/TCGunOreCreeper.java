@@ -101,11 +101,6 @@ public class TCGunOreCreeper extends AbstractTCBlockCreeper {
         }
 
         @Override
-        public int getMaxSpawn() {
-            return 1;
-        }
-
-        @Override
         public int getPrimaryColor() {
             return 7829367;
         }

@@ -5,7 +5,9 @@ import com.tntmodders.takumicraft.client.renderer.entity.TCBlockCreeperRenderer;
 import com.tntmodders.takumicraft.core.TCEntityCore;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.tags.FluidTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
@@ -22,6 +24,8 @@ import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
 import net.minecraftforge.event.level.ExplosionEvent;
 
+import java.util.List;
+
 public class TCHydrothermalCreeper extends AbstractTCBlockCreeper {
 
     public TCHydrothermalCreeper(EntityType<? extends Creeper> entityType, Level level) {
@@ -35,7 +39,11 @@ public class TCHydrothermalCreeper extends AbstractTCBlockCreeper {
     }
 
     public static boolean checkHTCreeperSpawnRules(EntityType<? extends Monster> type, ServerLevelAccessor levelAccessor, MobSpawnType spawnType, BlockPos pos, RandomSource random) {
-        return pos.getY() <= levelAccessor.getSeaLevel() && isDarkEnoughToSpawn(levelAccessor, pos, random) && levelAccessor.getBlockState(pos).is(Blocks.WATER) && levelAccessor.getBlockState(pos.below()).isCollisionShapeFullBlock(levelAccessor, pos.below());
+        boolean flg1 = pos.getY() <= levelAccessor.getSeaLevel();
+        boolean flg2 = isDarkEnoughToSpawn(levelAccessor, pos, random);
+        boolean flg3 = levelAccessor.getBlockState(pos).is(Blocks.WATER);
+        boolean flg4 = !levelAccessor.getBlockState(pos.below()).isAir();
+        return flg1 && flg2 && flg3 && flg4;
     }
 
     @Override
@@ -140,11 +148,6 @@ public class TCHydrothermalCreeper extends AbstractTCBlockCreeper {
         }
 
         @Override
-        public int getMaxSpawn() {
-            return 1;
-        }
-
-        @Override
         public ItemLike getMainDropItem() {
             return Blocks.MAGMA_BLOCK;
         }
@@ -156,8 +159,16 @@ public class TCHydrothermalCreeper extends AbstractTCBlockCreeper {
 
         @Override
         public boolean registerSpawn(SpawnPlacementRegisterEvent event, EntityType<AbstractTCCreeper> type) {
-            event.register(type, SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, TCHydrothermalCreeper::checkHTCreeperSpawnRules, SpawnPlacementRegisterEvent.Operation.OR);
+            event.register(type, SpawnPlacementTypes.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, TCHydrothermalCreeper::checkHTCreeperSpawnRules, SpawnPlacementRegisterEvent.Operation.OR);
             return true;
         }
+
+        @Override
+        public List<TagKey<EntityType<?>>> getEntityTypeTags() {
+            List list = TCCreeperContext.super.getEntityTypeTags();
+            list.add(EntityTypeTags.CAN_BREATHE_UNDER_WATER);
+            return list;
+        }
+
     }
 }
