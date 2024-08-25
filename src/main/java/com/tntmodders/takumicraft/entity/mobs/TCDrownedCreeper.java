@@ -14,6 +14,7 @@ import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -185,6 +186,11 @@ public class TCDrownedCreeper extends TCZombieCreeper implements RangedAttackMob
     @Override
     protected boolean convertsInWater() {
         return false;
+    }
+
+    @Override
+    public boolean hurt(DamageSource p_34288_, float p_34289_) {
+        return !p_34288_.is(DamageTypes.DROWN) && super.hurt(p_34288_, p_34289_);
     }
 
     @Override
