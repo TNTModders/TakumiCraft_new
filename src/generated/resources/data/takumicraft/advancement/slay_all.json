@@ -561,6 +561,20 @@
       },
       "trigger": "minecraft:player_killed_entity"
     },
+    "slay_hydrothermalcreeper": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "takumicraft:hydrothermalcreeper"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
     "slay_icecreeper": {
       "conditions": {
         "entity": [
@@ -1411,6 +1425,9 @@
     ],
     [
       "slay_gunorecreeper"
+    ],
+    [
+      "slay_hydrothermalcreeper"
     ],
     [
       "slay_phantomcreeper"

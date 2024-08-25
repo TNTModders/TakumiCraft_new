@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "#": {
+      "item": "takumicraft:creeperbomb"
+    },
+    "B": {
+      "item": "takumicraft:creepertintedglass"
+    },
+    "H": {
+      "item": "minecraft:honeycomb"
+    }
+  },
+  "pattern": [
+    "BBB",
+    "H#H",
+    "BBB"
+  ],
+  "result": {
+    "count": 8,
+    "id": "takumicraft:creeperprotector"
+  }
+}

@@ -29,6 +29,7 @@ public class TCBlockEntityCore {
     public static final BlockEntityType<TCCreeperShulkerBoxBlockEntity> SHULKER = BlockEntityType.Builder.of(TCCreeperShulkerBoxBlockEntity::new, TCBlockCore.CREEPER_SHULKER).build(Util.fetchChoiceType(References.BLOCK_ENTITY, "creepershulkerbox"));
     public static final BlockEntityType<TCCreeperSuperBlockEntity> SUPER_BLOCK = BlockEntityType.Builder.of(TCCreeperSuperBlockEntity::new, TCBlockCore.SUPER_BLOCK).build(Util.fetchChoiceType(References.BLOCK_ENTITY, "takumiblock"));
     public static final BlockEntityType<TCTakenokoBlockEntity> TAKENOKO = BlockEntityType.Builder.of(TCTakenokoBlockEntity::new, TCBlockCore.TAKENOKO).build(Util.fetchChoiceType(References.BLOCK_ENTITY, "takenoko"));
+    public static final BlockEntityType<TCCreeperProtectorBlockEntity> PROTECTOR = BlockEntityType.Builder.of(TCCreeperProtectorBlockEntity::new, TCBlockCore.CREEPER_PROTECTOR).build(Util.fetchChoiceType(References.BLOCK_ENTITY, "creeperprotector"));
 
     public static void register(final RegisterEvent event) {
         TCLoggingUtils.startRegistry("BlockEntity");
@@ -43,6 +44,7 @@ public class TCBlockEntityCore {
         event.register(ForgeRegistries.BLOCK_ENTITY_TYPES.getRegistryKey(), ResourceLocation.tryBuild(TakumiCraftCore.MODID, "creepershulkerbox"), () -> SHULKER);
         event.register(ForgeRegistries.BLOCK_ENTITY_TYPES.getRegistryKey(), ResourceLocation.tryBuild(TakumiCraftCore.MODID, "takumiblock"), () -> SUPER_BLOCK);
         event.register(ForgeRegistries.BLOCK_ENTITY_TYPES.getRegistryKey(), ResourceLocation.tryBuild(TakumiCraftCore.MODID, "takenoko"), () -> TAKENOKO);
+        event.register(ForgeRegistries.BLOCK_ENTITY_TYPES.getRegistryKey(), ResourceLocation.tryBuild(TakumiCraftCore.MODID, "creeperprotector"), () -> PROTECTOR);
         TCLoggingUtils.completeRegistry("BlockEntity");
     }
 

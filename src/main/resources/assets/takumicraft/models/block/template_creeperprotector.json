@@ -1,0 +1,209 @@
+{
+  "parent": "block/block",
+  "textures": {
+    "block": "takumicraft:block/creeperprotector",
+    "particle": "takumicraft:block/creeperprotector"
+  },
+  "elements": [
+    {
+      "name": "up",
+      "from": [
+        0,
+        15.98,
+        0
+      ],
+      "to": [
+        16,
+        15.98,
+        16
+      ],
+      "faces": {
+        "up": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#block",
+          "rotation": 180
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#block"
+        }
+      }
+    },
+    {
+      "name": "down",
+      "from": [
+        0,
+        0.02,
+        0
+      ],
+      "to": [
+        16,
+        0.02,
+        16
+      ],
+      "faces": {
+        "down": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#block"
+        },
+        "up": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#block",
+          "rotation": 180
+        }
+      }
+    },
+    {
+      "name": "south",
+      "from": [
+        0,
+        0,
+        15.98
+      ],
+      "to": [
+        16,
+        16,
+        15.98
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#block"
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#block"
+        }
+      }
+    },
+    {
+      "name": "north",
+      "from": [
+        0,
+        0,
+        0.02
+      ],
+      "to": [
+        16,
+        16,
+        0.02
+      ],
+      "faces": {
+        "south": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#block"
+        },
+        "north": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#block"
+        }
+      }
+    },
+    {
+      "name": "east",
+      "from": [
+        15.98,
+        0,
+        0
+      ],
+      "to": [
+        15.98,
+        16,
+        16
+      ],
+      "faces": {
+        "west": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#block"
+        },
+        "east": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#block"
+        }
+      }
+    },
+    {
+      "name": "west",
+      "from": [
+        0.02,
+        0,
+        0
+      ],
+      "to": [
+        0.02,
+        16,
+        16
+      ],
+      "faces": {
+        "east": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#block"
+        },
+        "west": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#block"
+        }
+      }
+    }
+  ]
+}

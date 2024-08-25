@@ -44,6 +44,7 @@ public class TCRenderCore {
     public static final ModelLayerLocation SUPERBED_FOOT = new ModelLayerLocation(ResourceLocation.tryBuild(TakumiCraftCore.MODID, "super_creeperbed_foot"), "super_creeperbed_foot");
     public static final ModelLayerLocation ACID = new ModelLayerLocation(ResourceLocation.tryBuild(TakumiCraftCore.MODID, "acidblock"), "acidblock");
     public static final ModelLayerLocation FRAME = new ModelLayerLocation(ResourceLocation.tryBuild(TakumiCraftCore.MODID, "creeperframe"), "creeperframe");
+    public static final ModelLayerLocation PROTECTOR = new ModelLayerLocation(ResourceLocation.tryBuild(TakumiCraftCore.MODID, "protector"), "protector");
 
     public static void registerEntityRender(EntityRenderersEvent.RegisterRenderers event) {
         TCLoggingUtils.startRegistry("EntityRenderer");
@@ -89,6 +90,7 @@ public class TCRenderCore {
         event.registerBlockEntityRenderer(TCBlockEntityCore.HANGING_SIGN, TCCreeperHangingSignRenderer::new);
         event.registerBlockEntityRenderer(TCBlockEntityCore.SHULKER, TCCreeperShulkerBoxRenderer::new);
         event.registerBlockEntityRenderer(TCBlockEntityCore.SUPER_BLOCK, TCSuperBlockRenderer::new);
+        event.registerBlockEntityRenderer(TCBlockEntityCore.PROTECTOR, TCCreeperProtectorBlockRenderer::new);
     }
 
     public static void registerLayerDefinition(EntityRenderersEvent.RegisterLayerDefinitions event) {
@@ -99,6 +101,7 @@ public class TCRenderCore {
         event.registerLayerDefinition(SUPERBED_FOOT, TCCreeperBedRenderer::createSuperFootLayer);
         event.registerLayerDefinition(ACID, TCAcidBlockRenderer::createLayer);
         event.registerLayerDefinition(FRAME, TCCreeperFrameRenderer::createLayer);
+        event.registerLayerDefinition(PROTECTOR, TCCreeperProtectorBlockRenderer::createLayer);
     }
 
     public static void registerAdditionalModels(ModelEvent.RegisterAdditional event) {

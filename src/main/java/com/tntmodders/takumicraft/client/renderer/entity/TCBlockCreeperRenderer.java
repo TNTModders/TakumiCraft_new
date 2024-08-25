@@ -2,6 +2,7 @@ package com.tntmodders.takumicraft.client.renderer.entity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.tntmodders.takumicraft.core.TCBlockCore;
 import com.tntmodders.takumicraft.entity.mobs.AbstractTCBlockCreeper;
 import com.tntmodders.takumicraft.utils.client.TCClientUtils;
 import net.minecraft.client.Minecraft;
@@ -27,11 +28,17 @@ import static com.tntmodders.takumicraft.client.renderer.block.TCSuperBlockRende
 @OnlyIn(Dist.CLIENT)
 public class TCBlockCreeperRenderer extends EntityRenderer<AbstractTCBlockCreeper> {
     private final BlockRenderDispatcher dispatcher;
+    private final boolean useOverlay;
 
-    public TCBlockCreeperRenderer(EntityRendererProvider.Context p_174112_) {
-        super(p_174112_);
+    public TCBlockCreeperRenderer(EntityRendererProvider.Context context) {
+        this(context, false);
+    }
+
+    public TCBlockCreeperRenderer(EntityRendererProvider.Context context, boolean overlay) {
+        super(context);
         this.shadowRadius = 0F;
-        this.dispatcher = p_174112_.getBlockRenderDispatcher();
+        this.dispatcher = context.getBlockRenderDispatcher();
+        this.useOverlay = overlay;
     }
 
     @Override
@@ -70,10 +77,37 @@ public class TCBlockCreeperRenderer extends EntityRenderer<AbstractTCBlockCreepe
                                         net.minecraftforge.client.model.data.ModelData.EMPTY,
                                         renderType
                                 );
-
-                        if (creeper.isPowered()) {
+                        if (this.useOverlay) {
                             poseStack.pushPose();
                             float overrap = 0.01f;
+                            poseStack.scale(1 + overrap, 1 + overrap, 1 + overrap);
+                            poseStack.translate(-overrap / 2, 0, -overrap / 2);
+                            BlockState blockstate1 = TCBlockCore.CREEPER_PROTECTOR.defaultBlockState();
+                            model = this.dispatcher.getBlockModel(blockstate1);
+                            for (var renderType1 : model.getRenderTypes(blockstate1, RandomSource.create(blockstate1.getSeed(creeper.blockPosition())), net.minecraftforge.client.model.data.ModelData.EMPTY)) {
+                                renderType1 = RenderType.entityTranslucent(this.getTextureLocation(creeper));
+                                this.dispatcher
+                                        .getModelRenderer()
+                                        .tesselateBlock(
+                                                level,
+                                                model,
+                                                blockstate1,
+                                                blockpos,
+                                                poseStack,
+                                                bufferSource.getBuffer(renderType1),
+                                                false,
+                                                RandomSource.create(),
+                                                blockstate1.getSeed(creeper.blockPosition()),
+                                                creeper.getSwelling(p_114635_) > 0 ? overlay : OverlayTexture.NO_OVERLAY,
+                                                net.minecraftforge.client.model.data.ModelData.EMPTY,
+                                                renderType1
+                                        );
+                            }
+                            poseStack.popPose();
+                        }
+                        if (creeper.isPowered()) {
+                            poseStack.pushPose();
+                            float overrap = 0.02f;
                             poseStack.scale(1 + overrap, 1 + overrap, 1 + overrap);
                             poseStack.translate(-overrap / 2, 0, -overrap / 2);
                             float f = Minecraft.getInstance().player.tickCount * 0.0005f;

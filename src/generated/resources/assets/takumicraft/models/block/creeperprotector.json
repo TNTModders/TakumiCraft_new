@@ -1,0 +1,4 @@
+{
+  "parent": "takumicraft:block/template_creeperprotector",
+  "render_type": "minecraft:cutout"
+}
