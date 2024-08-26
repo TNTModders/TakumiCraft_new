@@ -118,3 +118,10 @@ sourceSets.each {
     it.output.resourcesDir = dir
     it.java.destinationDirectory = dir
 }
+
+idea {
+    module {
+        downloadJavadoc = true
+        downloadSources = true
+    }
+}
