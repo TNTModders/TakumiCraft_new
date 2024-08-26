@@ -1,0 +1,38 @@
+{
+  "parent": "takumicraft:slay/root",
+  "criteria": {
+    "killed_piercecreeper": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "takumicraft:piercecreeper"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "takumicraft.message.slay"
+    },
+    "hidden": true,
+    "icon": {
+      "count": 1,
+      "id": "takumicraft:takumibook"
+    },
+    "title": {
+      "translate": "entity.takumicraft.piercecreeper"
+    }
+  },
+  "requirements": [
+    [
+      "killed_piercecreeper"
+    ]
+  ],
+  "sends_telemetry_event": true
+}
