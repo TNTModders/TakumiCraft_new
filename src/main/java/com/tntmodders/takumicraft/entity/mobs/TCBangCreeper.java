@@ -48,7 +48,7 @@ public class TCBangCreeper extends AbstractTCCreeper {
 
     @Override
     public float getBlockExplosionResistance(Explosion explosion, BlockGetter level, BlockPos pos, BlockState blockState, FluidState fluidState, float f) {
-        return blockState.getDestroySpeed(level, pos) < 0 ? super.getBlockExplosionResistance(explosion, level, pos, blockState, fluidState, f) : 1f;
+        return blockState.getDestroySpeed(level, pos) < 0 ? super.getBlockExplosionResistance(explosion, level, pos, blockState, fluidState, f) : 0.5f;
     }
 
     public static class TCBangCreeperContext implements TCCreeperContext<TCBangCreeper> {
