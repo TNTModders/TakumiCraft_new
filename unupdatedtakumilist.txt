@@ -13,7 +13,7 @@ ghastcreeper
 snowcreeper
 
 lapiscreeper
-witchcreeper
+
 destructioncreeper
 destructioncreeper_evo
 creativecreeper
@@ -59,7 +59,7 @@ craftsmancreeper
 polarbearcreeper
 shulkercreeper
 concretecreeper
-vindicatorcreeper
+
 evokercreeper
 vexcreeper
 illusionercreeper
@@ -203,8 +203,6 @@ dolphin
 polarbear
 panda
 
-witch
-vindicator
 vex
 evoker
 endermite

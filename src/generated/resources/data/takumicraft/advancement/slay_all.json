@@ -1135,6 +1135,20 @@
       },
       "trigger": "minecraft:player_killed_entity"
     },
+    "slay_vindicatorcreeper": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "takumicraft:vindicatorcreeper"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
     "slay_voidcreeper": {
       "conditions": {
         "entity": [
@@ -1550,6 +1564,9 @@
     ],
     [
       "slay_witchcreeper"
+    ],
+    [
+      "slay_vindicatorcreeper"
     ],
     [
       "slay_boltcreeper"
