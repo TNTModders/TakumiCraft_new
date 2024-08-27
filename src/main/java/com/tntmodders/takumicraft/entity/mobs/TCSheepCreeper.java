@@ -179,7 +179,7 @@ public class TCSheepCreeper extends AbstractTCCreeper {
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_29835_, DifficultyInstance p_29836_, MobSpawnType p_29837_, @Nullable SpawnGroupData p_29838_) {
         this.setColor(getRandomSheepColor(p_29835_.getRandom()));
         if (this.random.nextInt(10000) == 0) {
-            this.setCustomName(Component.literal(RAINBOW_NAME));
+            this.setRainbow();
             this.setPowered(true);
         }
         return super.finalizeSpawn(p_29835_, p_29836_, p_29837_, p_29838_);
@@ -196,7 +196,6 @@ public class TCSheepCreeper extends AbstractTCCreeper {
         }
     }
 
-
     @Override
     protected void dropCustomDeathLoot(ServerLevel p_342918_, DamageSource p_32292_, boolean p_32294_) {
         super.dropCustomDeathLoot(p_342918_, p_32292_, p_32294_);
@@ -210,6 +209,10 @@ public class TCSheepCreeper extends AbstractTCCreeper {
 
     public boolean isRainbow() {
         return this.hasCustomName() && RAINBOW_NAME.equals(this.getName().getString());
+    }
+
+    public void setRainbow() {
+        this.setCustomName(Component.literal(RAINBOW_NAME));
     }
 
     @Override

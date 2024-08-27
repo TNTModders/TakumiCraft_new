@@ -393,6 +393,20 @@
       },
       "trigger": "minecraft:player_killed_entity"
     },
+    "slay_evokercreeper": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "takumicraft:evokercreeper"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
     "slay_fallcreeper": {
       "conditions": {
         "entity": [
@@ -1601,6 +1615,9 @@
     ],
     [
       "slay_vindicatorcreeper"
+    ],
+    [
+      "slay_evokercreeper"
     ],
     [
       "slay_boltcreeper"

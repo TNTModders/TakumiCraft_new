@@ -1,0 +1,38 @@
+{
+  "parent": "takumicraft:slay/root",
+  "criteria": {
+    "killed_evokercreeper": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "takumicraft:evokercreeper"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "takumicraft.message.slay"
+    },
+    "hidden": true,
+    "icon": {
+      "count": 1,
+      "id": "takumicraft:takumibook"
+    },
+    "title": {
+      "translate": "entity.takumicraft.evokercreeper"
+    }
+  },
+  "requirements": [
+    [
+      "killed_evokercreeper"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

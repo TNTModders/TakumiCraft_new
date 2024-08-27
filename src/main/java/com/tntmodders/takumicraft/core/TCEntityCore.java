@@ -128,6 +128,7 @@ public class TCEntityCore {
     public static final TCCreeperContext<TCWitchCreeper> WITCH = new TCWitchCreeper.TCWitchCreeperContext();
     public static final TCCreeperContext<TCVindicatorCreeper> VINDICATOR = new TCVindicatorCreeper.TCVindicatorCreeperContext();
     public static final TCCreeperContext<TCVexCreeper> VEX = new TCVexCreeper.TCVexCreeperContext();
+    public static final TCCreeperContext<TCEvokerCreeper> EVOKER = new TCEvokerCreeper.TCEvokerCreeperContext();
 
     public static final TagKey<EntityType<?>> TAKUMIS = TagKey.create(Registries.ENTITY_TYPE, ResourceLocation.tryBuild(TakumiCraftCore.MODID, "takumi"));
     public static final TagKey<EntityType<?>> NETHER_TAKUMIS = TagKey.create(Registries.ENTITY_TYPE, ResourceLocation.tryBuild(TakumiCraftCore.MODID, "nether_takumi"));

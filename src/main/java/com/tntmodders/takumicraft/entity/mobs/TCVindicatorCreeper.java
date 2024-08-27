@@ -201,7 +201,7 @@ public class TCVindicatorCreeper extends AbstractTCIllagerCreeper {
 
         @Override
         public String getEnUSName() {
-            return "TCVindicatorCreeper Creeper";
+            return "Vindicator Creeper";
         }
 
         @Override
