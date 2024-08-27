@@ -197,6 +197,20 @@
       },
       "trigger": "minecraft:player_killed_entity"
     },
+    "slay_callcreeper": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "takumicraft:callcreeper"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
     "slay_catcreeper": {
       "conditions": {
         "entity": [
@@ -1609,6 +1623,9 @@
     ],
     [
       "slay_piercecreeper"
+    ],
+    [
+      "slay_callcreeper"
     ],
     [
       "slay_witchcreeper"

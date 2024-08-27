@@ -22,8 +22,7 @@ earthcreeper
 earthcreeper_evo
 darkcreeper
 darkcreeper_evo
-rewritecreeper
-artcreeper
+
 reversecreeper
 chunkcreeper
 fightercreeper
@@ -37,7 +36,6 @@ rarecreeper
 annivcreeper
 leadcreeper
 
-callcreeper
 chestcreeper
 uppercreeper
 gorgeouscreeper
@@ -56,8 +54,6 @@ craftsmancreeper
 polarbearcreeper
 shulkercreeper
 concretecreeper
-
-evokercreeper
 
 illusionercreeper
 pigmancreeper
@@ -200,7 +196,6 @@ dolphin
 polarbear
 panda
 
-evoker
 endermite
 guardian
 ghast

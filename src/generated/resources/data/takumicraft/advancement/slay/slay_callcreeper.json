@@ -1,0 +1,38 @@
+{
+  "parent": "takumicraft:slay/root",
+  "criteria": {
+    "killed_callcreeper": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "takumicraft:callcreeper"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "takumicraft.message.slay"
+    },
+    "hidden": true,
+    "icon": {
+      "count": 1,
+      "id": "takumicraft:takumibook"
+    },
+    "title": {
+      "translate": "entity.takumicraft.callcreeper"
+    }
+  },
+  "requirements": [
+    [
+      "killed_callcreeper"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

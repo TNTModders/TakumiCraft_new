@@ -125,6 +125,7 @@ public class TCEntityCore {
     public static final TCCreeperContext<TCGunOreCreeper> GUNORE = new TCGunOreCreeper.TCGunOreCreeperContext();
     public static final TCCreeperContext<TCHydrothermalCreeper> HT = new TCHydrothermalCreeper.TCHydrothermalCreeperContext();
     public static final TCCreeperContext<TCPierceCreeper> PIERCE = new TCPierceCreeper.TCPierceCreeperContext();
+    public static final TCCreeperContext<TCCallCreeper> CALL = new TCCallCreeper.TCCallCreeperContext();
     public static final TCCreeperContext<TCWitchCreeper> WITCH = new TCWitchCreeper.TCWitchCreeperContext();
     public static final TCCreeperContext<TCVindicatorCreeper> VINDICATOR = new TCVindicatorCreeper.TCVindicatorCreeperContext();
     public static final TCCreeperContext<TCVexCreeper> VEX = new TCVexCreeper.TCVexCreeperContext();
