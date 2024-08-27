@@ -1149,6 +1149,20 @@
       },
       "trigger": "minecraft:player_killed_entity"
     },
+    "slay_vexcreeper": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "takumicraft:vexcreeper"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
     "slay_vindicatorcreeper": {
       "conditions": {
         "entity": [
@@ -1470,6 +1484,9 @@
     ],
     [
       "slay_hydrothermalcreeper"
+    ],
+    [
+      "slay_vexcreeper"
     ],
     [
       "slay_phantomcreeper"

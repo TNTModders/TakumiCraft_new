@@ -46,9 +46,6 @@ onecreeper
 antinomycreeper
 antinomycreeper_evo
 bigfishcreeper
-bedcreeper
-acidcreeper
-piercecreeper
 
 endermitecreeper
 seaguardiancreeper
@@ -61,7 +58,7 @@ shulkercreeper
 concretecreeper
 
 evokercreeper
-vexcreeper
+
 illusionercreeper
 pigmancreeper
 killercreeper
@@ -203,7 +200,6 @@ dolphin
 polarbear
 panda
 
-vex
 evoker
 endermite
 guardian
