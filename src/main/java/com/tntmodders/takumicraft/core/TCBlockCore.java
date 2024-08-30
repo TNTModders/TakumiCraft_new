@@ -123,6 +123,7 @@ public class TCBlockCore {
     public static final Block TAKENOKO = new TCTakenokoBlock();
     public static final Block HOTSPRING = new TCHotspringBlock();
     public static final Block GUNORE_CREEPER = new TCGunOreCreeperBlock();
+    public static final Block FALLING_BOMB = new TCFallingBombBlock();
     public static final Block CREEPER_PROTECTOR = new TCCreeperProtectorBlock();
 
     public static final TagKey<Block> GUNORES = TagKey.create(Registries.BLOCK, ResourceLocation.tryBuild(TakumiCraftCore.MODID, "gunores"));

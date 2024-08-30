@@ -435,6 +435,20 @@
       },
       "trigger": "minecraft:player_killed_entity"
     },
+    "slay_fallingbombcreeper": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "takumicraft:fallingbombcreeper"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
     "slay_firecreeper": {
       "conditions": {
         "entity": [
@@ -1626,6 +1640,9 @@
     ],
     [
       "slay_callcreeper"
+    ],
+    [
+      "slay_fallingbombcreeper"
     ],
     [
       "slay_witchcreeper"
