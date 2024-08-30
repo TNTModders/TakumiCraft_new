@@ -15,6 +15,20 @@
       },
       "trigger": "minecraft:player_killed_entity"
     },
+    "slay_allaycreeper": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "takumicraft:allaycreeper"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
     "slay_amethystcreeper": {
       "conditions": {
         "entity": [
@@ -1669,6 +1683,9 @@
     ],
     [
       "slay_evokercreeper"
+    ],
+    [
+      "slay_allaycreeper"
     ],
     [
       "slay_boltcreeper"

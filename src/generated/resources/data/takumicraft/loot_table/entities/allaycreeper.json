@@ -26,7 +26,7 @@
               "function": "minecraft:enchanted_count_increase"
             }
           ],
-          "name": "minecraft:gravel"
+          "name": "minecraft:gunpowder"
         }
       ],
       "rolls": 1.0
@@ -106,5 +106,5 @@
       "rolls": 1.0
     }
   ],
-  "random_sequence": "takumicraft:entities/fallingbombcreeper"
+  "random_sequence": "takumicraft:entities/allaycreeper"
 }
