@@ -67,6 +67,13 @@ public class TCFallingBombBlock extends ColoredFallingBlock implements ITCBlocks
     }
 
     @Override
+    protected void falling(FallingBlockEntity entity) {
+        if (entity.dropItem) {
+            entity.dropItem = false;
+        }
+    }
+
+    @Override
     public boolean onDestroyedByPlayer(BlockState state, Level world, BlockPos pos, Player player, boolean willHarvest, FluidState fluid) {
         boolean flg = super.onDestroyedByPlayer(state, world, pos, player, willHarvest, fluid);
         if (flg) {

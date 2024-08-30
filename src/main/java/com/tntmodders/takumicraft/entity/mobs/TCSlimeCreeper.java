@@ -400,7 +400,7 @@ public class TCSlimeCreeper extends AbstractTCCreeper {
 
     @Override
     public boolean hurt(DamageSource source, float damage) {
-        return source.is(DamageTypes.EXPLOSION) && source.getEntity() instanceof TCSlimeCreeper || super.hurt(source,
+        return source.is(DamageTypes.EXPLOSION) && !(source.getEntity() instanceof TCSlimeCreeper) || super.hurt(source,
                 damage);
     }
 

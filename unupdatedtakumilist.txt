@@ -65,8 +65,7 @@ crosscreeper
 transcreeper
 shootingcreeper
 shadowcreeper
-fallingbombcreeper
-fallingslimecreeper
+
 terracottacreeper
 wearcreeper
 blackcreeper

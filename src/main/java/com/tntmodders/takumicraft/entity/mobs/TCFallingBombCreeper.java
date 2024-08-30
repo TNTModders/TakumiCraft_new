@@ -9,7 +9,9 @@ import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Explosion;
+import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraftforge.event.level.ExplosionEvent;
@@ -106,6 +108,11 @@ public class TCFallingBombCreeper extends AbstractTCCreeper {
         @Override
         public EnumTakumiRank getRank() {
             return EnumTakumiRank.MID;
+        }
+
+        @Override
+        public ItemLike getMainDropItem() {
+            return Blocks.GRAVEL;
         }
     }
 }
