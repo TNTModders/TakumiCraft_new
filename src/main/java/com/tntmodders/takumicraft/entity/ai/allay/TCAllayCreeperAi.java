@@ -18,8 +18,6 @@ import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.ai.behavior.*;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
-import net.minecraft.world.entity.animal.allay.Allay;
-import net.minecraft.world.entity.animal.allay.AllayAi;
 import net.minecraft.world.entity.item.PrimedTnt;
 import net.minecraft.world.entity.npc.InventoryCarrier;
 import net.minecraft.world.entity.schedule.Activity;
@@ -203,11 +201,11 @@ public class TCAllayCreeperAi {
                 PositionTracker positiontracker = optional.get();
                 double d0 = positiontracker.currentPosition().distanceTo(p_217227_.getEyePosition());
                 if (d0 < 3.0) {
-                    ItemStack itemstack = p_217227_.getInventory().removeItem(0, 1);
+                    ItemStack itemstack = p_217227_.getInventory().removeItem(0, 1 + p_217227_.getRandom().nextInt(4));
                     if (!itemstack.isEmpty()) {
                         throwItem(p_217227_, itemstack, getThrowPosition(positiontracker));
-                        if (p_217227_ instanceof Allay allay) {
-                            AllayAi.getLikedPlayer(allay).ifPresent(p_217224_ -> this.triggerDropItemOnBlock(positiontracker, itemstack, p_217224_));
+                        if (p_217227_ instanceof TCAllayCreeper allay) {
+                            TCAllayCreeperAi.getLikedPlayer(allay).ifPresent(p_217224_ -> this.triggerDropItemOnBlock(positiontracker, itemstack, p_217224_));
                         }
 
                         p_217227_.getBrain().setMemory(MemoryModuleType.ITEM_PICKUP_COOLDOWN_TICKS, 60);
@@ -239,7 +237,7 @@ public class TCAllayCreeperAi {
             throwTNT(p_217208_, p_217209_, p_217210_, vec3, 0.2F);
             Level level = p_217208_.level();
             if (level.getGameTime() % 7L == 0L && level.random.nextDouble() < 0.9) {
-                float f = Util.getRandom(Allay.THROW_SOUND_PITCHES, level.getRandom());
+                float f = Util.getRandom(TCAllayCreeper.THROW_SOUND_PITCHES, level.getRandom());
                 level.playSound(null, p_217208_, SoundEvents.ALLAY_THROW, SoundSource.NEUTRAL, 1.0F, f);
             }
         }

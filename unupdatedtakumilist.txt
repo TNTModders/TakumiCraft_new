@@ -176,7 +176,6 @@ statuecreeper
 
 -vanillamobs
 
-allay
 axolotol
 frog
 turtle

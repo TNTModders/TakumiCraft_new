@@ -22,12 +22,10 @@ import net.minecraft.resources.RegistryOps;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.GameEventTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -36,7 +34,6 @@ import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.behavior.BehaviorUtils;
 import net.minecraft.world.entity.ai.control.FlyingMoveControl;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
@@ -305,34 +302,6 @@ public class TCAllayCreeper extends AbstractTCCreeper implements InventoryCarrie
 
     private boolean isOnPickupCooldown() {
         return this.getBrain().checkMemory(MemoryModuleType.ITEM_PICKUP_COOLDOWN_TICKS, MemoryStatus.VALUE_PRESENT);
-    }
-
-    @Override
-    protected InteractionResult mobInteract(Player p_218361_, InteractionHand p_218362_) {
-        ItemStack itemstack = p_218361_.getItemInHand(p_218362_);
-        ItemStack itemstack1 = this.getItemInHand(InteractionHand.MAIN_HAND);
-        if (itemstack1.isEmpty() && !itemstack.isEmpty()) {
-            ItemStack itemstack3 = itemstack.copyWithCount(1);
-            this.setItemInHand(InteractionHand.MAIN_HAND, itemstack3);
-            this.removeInteractionItem(p_218361_, itemstack);
-            this.level().playSound(p_218361_, this, SoundEvents.ALLAY_ITEM_GIVEN, SoundSource.NEUTRAL, 2.0F, 1.0F);
-            this.getBrain().setMemory(MemoryModuleType.LIKED_PLAYER, p_218361_.getUUID());
-            return InteractionResult.SUCCESS;
-        } else if (!itemstack1.isEmpty() && p_218362_ == InteractionHand.MAIN_HAND && itemstack.isEmpty()) {
-            this.setItemSlot(EquipmentSlot.MAINHAND, ItemStack.EMPTY);
-            this.level().playSound(p_218361_, this, SoundEvents.ALLAY_ITEM_TAKEN, SoundSource.NEUTRAL, 2.0F, 1.0F);
-            this.swing(InteractionHand.MAIN_HAND);
-
-            for (ItemStack itemstack2 : this.getInventory().removeAllItems()) {
-                BehaviorUtils.throwItem(this, itemstack2, this.position());
-            }
-
-            this.getBrain().eraseMemory(MemoryModuleType.LIKED_PLAYER);
-            p_218361_.addItem(itemstack1);
-            return InteractionResult.SUCCESS;
-        } else {
-            return super.mobInteract(p_218361_, p_218362_);
-        }
     }
 
     public void setJukeboxPlaying(BlockPos p_240102_, boolean p_240103_) {
