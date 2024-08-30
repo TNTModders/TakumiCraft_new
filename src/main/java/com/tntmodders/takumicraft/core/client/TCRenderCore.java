@@ -17,6 +17,7 @@ import com.tntmodders.takumicraft.entity.misc.TCKingBlock;
 import com.tntmodders.takumicraft.entity.misc.TCKingStorm;
 import com.tntmodders.takumicraft.entity.projectile.*;
 import com.tntmodders.takumicraft.utils.TCLoggingUtils;
+import net.minecraft.client.model.CreeperModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
 import net.minecraft.client.renderer.block.BlockModelShaper;
@@ -38,6 +39,7 @@ import java.util.Map;
 @OnlyIn(Dist.CLIENT)
 public class TCRenderCore {
     public static final ModelLayerLocation CHILD = new ModelLayerLocation(ResourceLocation.tryBuild(TakumiCraftCore.MODID, TCEntityCore.CHILD.getRegistryName()), TCEntityCore.CHILD.getRegistryName());
+    public static final ModelLayerLocation FALLING_SLIME = new ModelLayerLocation(ResourceLocation.tryBuild(TakumiCraftCore.MODID, TCEntityCore.FALLING_SLIME.getRegistryName()), TCEntityCore.FALLING_SLIME.getRegistryName());
     public static final ModelLayerLocation SABER = new ModelLayerLocation(ResourceLocation.tryBuild(TakumiCraftCore.MODID, "typesword_normal"), "typesword_normal");
     public static final ModelLayerLocation SHIELD = new ModelLayerLocation(ResourceLocation.tryBuild(TakumiCraftCore.MODID, "creepershield"), "creepershield");
     public static final ModelLayerLocation SUPERBED_HEAD = new ModelLayerLocation(ResourceLocation.tryBuild(TakumiCraftCore.MODID, "super_creeperbed_head"), "super_creeperbed_head");
@@ -95,6 +97,7 @@ public class TCRenderCore {
 
     public static void registerLayerDefinition(EntityRenderersEvent.RegisterLayerDefinitions event) {
         event.registerLayerDefinition(CHILD, () -> TCChildCreeperModel.createBodyLayer(CubeDeformation.NONE));
+        event.registerLayerDefinition(FALLING_SLIME, () -> CreeperModel.createBodyLayer(new CubeDeformation(1.0f)));
         event.registerLayerDefinition(SABER, TCSaberModel::createLayer);
         event.registerLayerDefinition(SHIELD, TCShieldModel::createLayer);
         event.registerLayerDefinition(SUPERBED_HEAD, TCCreeperBedRenderer::createSuperHeadLayer);

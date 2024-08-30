@@ -3,12 +3,12 @@ package com.tntmodders.takumicraft.client.renderer.entity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.tntmodders.takumicraft.TakumiCraftCore;
+import com.tntmodders.takumicraft.core.client.TCRenderCore;
 import com.tntmodders.takumicraft.entity.mobs.TCFallingSlimeCreeper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.CreeperModel;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.EntityModelSet;
-import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -39,7 +39,7 @@ public class TCFallingSlimeCreeperRenderer<T extends TCFallingSlimeCreeper> exte
 
         public TCFallingSlimeOuterLayer(RenderLayerParent<T, CreeperModel<T>> p_174536_, EntityModelSet p_174537_) {
             super(p_174536_);
-            this.model = new CreeperModel<>(p_174537_.bakeLayer(ModelLayers.CREEPER));
+            this.model = new CreeperModel<>(p_174537_.bakeLayer(TCRenderCore.FALLING_SLIME));
         }
 
         @Override
@@ -54,7 +54,6 @@ public class TCFallingSlimeCreeperRenderer<T extends TCFallingSlimeCreeper> exte
                     vertexconsumer = bufferSource.getBuffer(RenderType.entityTranslucent(this.getTextureLocation(creeper)));
                 }
                 poseStack.pushPose();
-                poseStack.scale(1.2f, 1.2f, 1.2f);
                 this.getParentModel().copyPropertiesTo(this.model);
                 this.model.prepareMobModel(creeper, p_117474_, p_117475_, p_117476_);
                 this.model.setupAnim(creeper, p_117474_, p_117475_, p_117477_, p_117478_, p_117479_);
