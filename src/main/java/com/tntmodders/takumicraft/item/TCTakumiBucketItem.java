@@ -15,7 +15,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.stats.Stats;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.ClipContext;
@@ -65,21 +65,21 @@ public class TCTakumiBucketItem extends BucketItem implements ITCItems, ITCRecip
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+    public InteractionResult use(Level level, Player player, InteractionHand hand) {
         ItemStack itemstack = player.getItemInHand(hand);
         BlockHitResult blockhitresult = getPlayerPOVHitResult(level, player, this.getFluid() == Fluids.EMPTY ? ClipContext.Fluid.SOURCE_ONLY : ClipContext.Fluid.NONE);
-        InteractionResultHolder<ItemStack> ret = net.minecraftforge.event.ForgeEventFactory.onBucketUse(player, level, itemstack, blockhitresult);
+        InteractionResult ret = net.minecraftforge.event.ForgeEventFactory.onBucketUse(player, level, itemstack, blockhitresult);
         if (ret != null) return ret;
         if (blockhitresult.getType() == HitResult.Type.MISS) {
-            return InteractionResultHolder.pass(itemstack);
+            return InteractionResult.PASS;
         } else if (blockhitresult.getType() != HitResult.Type.BLOCK) {
-            return InteractionResultHolder.pass(itemstack);
+            return InteractionResult.PASS;
         } else {
             BlockPos blockpos = blockhitresult.getBlockPos();
             Direction direction = blockhitresult.getDirection();
             BlockPos blockpos1 = blockpos.relative(direction);
             if (!level.mayInteract(player, blockpos) || !player.mayUseItemAt(blockpos1, direction, itemstack)) {
-                return InteractionResultHolder.fail(itemstack);
+                return InteractionResult.FAIL;
             } else if (this.getFluid() == Fluids.EMPTY) {
                 BlockState blockstate1 = level.getBlockState(blockpos);
                 if (blockstate1.getBlock() instanceof BucketPickup bucketpickup) {
@@ -93,11 +93,11 @@ public class TCTakumiBucketItem extends BucketItem implements ITCItems, ITCRecip
                             CriteriaTriggers.FILLED_BUCKET.trigger((ServerPlayer) player, itemstack3);
                         }
 
-                        return InteractionResultHolder.sidedSuccess(itemstack2, level.isClientSide());
+                        return InteractionResult.SUCCESS;
                     }
                 }
 
-                return InteractionResultHolder.fail(itemstack);
+                return InteractionResult.FAIL;
             } else {
                 BlockState blockstate = level.getBlockState(blockpos);
                 BlockPos blockpos2 = canBlockContainFluid(level, blockpos, blockstate) ? blockpos : blockpos1;
@@ -109,9 +109,9 @@ public class TCTakumiBucketItem extends BucketItem implements ITCItems, ITCRecip
 
                     player.awardStat(Stats.ITEM_USED.get(this));
                     ItemStack itemstack1 = ItemUtils.createFilledResult(itemstack, player, getEmptySuccessItem(itemstack, player));
-                    return InteractionResultHolder.sidedSuccess(itemstack1, level.isClientSide());
+                    return InteractionResult.SUCCESS;
                 } else {
-                    return InteractionResultHolder.fail(itemstack);
+                    return InteractionResult.FAIL;
                 }
             }
         }
@@ -124,7 +124,7 @@ public class TCTakumiBucketItem extends BucketItem implements ITCItems, ITCRecip
     @Override
     public void addRecipes(TCRecipeProvider provider, ItemLike itemLike, RecipeOutput consumer) {
         if (this.getFluid() == Fluids.EMPTY) {
-            provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, itemLike).define('#', Items.EMERALD).define('B', TCBlockCore.CREEPER_BOMB).pattern("#B#").pattern(" # ").unlockedBy("has_emerald", TCRecipeProvider.hasItem(Items.EMERALD)));
+            provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(provider.items, RecipeCategory.TOOLS, itemLike).define('#', Items.EMERALD).define('B', TCBlockCore.CREEPER_BOMB).pattern("#B#").pattern(" # ").unlockedBy("has_emerald", provider.hasItem(Items.EMERALD)));
         }
     }
 }

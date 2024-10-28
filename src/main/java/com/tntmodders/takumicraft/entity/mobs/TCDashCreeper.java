@@ -1,8 +1,8 @@
 package com.tntmodders.takumicraft.entity.mobs;
 
-import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.core.TCBlockCore;
 import com.tntmodders.takumicraft.core.TCEntityCore;
+import com.tntmodders.takumicraft.utils.TCEntityUtils;
 import com.tntmodders.takumicraft.utils.TCExplosionUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
@@ -12,9 +12,9 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
-import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.Creeper;
@@ -93,7 +93,7 @@ public class TCDashCreeper extends AbstractTCCreeper {
     }
 
     @Override
-    public boolean checkSpawnRules(LevelAccessor levelAccessor, MobSpawnType spawnType) {
+    public boolean checkSpawnRules(LevelAccessor levelAccessor, EntitySpawnReason spawnType) {
         return super.checkSpawnRules(levelAccessor, spawnType) && levelAccessor.getRandom().nextInt(5) == 0;
     }
 
@@ -106,7 +106,7 @@ public class TCDashCreeper extends AbstractTCCreeper {
 
     public static class TCDashCreeperContext implements TCCreeperContext<TCDashCreeper> {
         private static final String NAME = "dashcreeper";
-        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCDashCreeper::new, MobCategory.MONSTER).sized(0.6F, 1.7F).clientTrackingRange(8).build(TakumiCraftCore.MODID + ":" + NAME);
+        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCDashCreeper::new, MobCategory.MONSTER).sized(0.6F, 1.7F).clientTrackingRange(8).build(TCEntityUtils.TCEntityId(NAME));
 
         @Override
         public String getRegistryName() {

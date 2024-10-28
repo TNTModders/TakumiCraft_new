@@ -1,9 +1,9 @@
 package com.tntmodders.takumicraft.entity.mobs;
 
-import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.client.renderer.entity.TCSquidCreeperRenderer;
 import com.tntmodders.takumicraft.core.TCEntityCore;
 import com.tntmodders.takumicraft.core.TCParticleTypeCore;
+import com.tntmodders.takumicraft.utils.TCEntityUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
@@ -45,7 +45,7 @@ public class TCGlowingSquidCreeper extends TCSquidCreeper {
         super(entityType, level);
     }
 
-    public static boolean checkGlowSquidSpawnRules(EntityType<? extends LivingEntity> p_300540_, ServerLevelAccessor p_297255_, MobSpawnType p_297489_, BlockPos p_299141_, RandomSource p_297395_) {
+    public static boolean checkGlowSquidSpawnRules(EntityType<? extends LivingEntity> p_300540_, ServerLevelAccessor p_297255_, EntitySpawnReason p_297489_, BlockPos p_299141_, RandomSource p_297395_) {
         return p_299141_.getY() <= p_297255_.getSeaLevel() - 33 && p_297255_.getRawBrightness(p_299141_, 0) == 0 && p_297255_.getBlockState(p_299141_).is(Blocks.WATER);
     }
 
@@ -142,7 +142,7 @@ public class TCGlowingSquidCreeper extends TCSquidCreeper {
 
     public static class TCSquidCreeperContext implements TCCreeperContext<TCGlowingSquidCreeper> {
         private static final String NAME = "glowingsquidcreeper";
-        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCGlowingSquidCreeper::new, MobCategory.MONSTER).sized(0.9F, 1.4F).clientTrackingRange(10).build(TakumiCraftCore.MODID + ":" + NAME);
+        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCGlowingSquidCreeper::new, MobCategory.MONSTER).sized(0.9F, 1.4F).clientTrackingRange(10).build(TCEntityUtils.TCEntityId(NAME));
 
         @Override
         public String getRegistryName() {

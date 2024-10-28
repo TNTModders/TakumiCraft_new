@@ -12,7 +12,9 @@ import com.tntmodders.takumicraft.utils.client.TCClientUtils;
 import net.minecraft.advancements.critereon.EntityPredicate;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
+import net.minecraft.core.HolderGetter;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.loot.EntityLootSubProvider;
 import net.minecraft.data.loot.LootTableSubProvider;
 import net.minecraft.network.FriendlyByteBuf;
@@ -21,8 +23,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.*;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.SpawnPlacementTypes;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.monster.Creeper;
@@ -66,8 +68,8 @@ public abstract class AbstractTCCreeper extends Creeper implements ITCEntities, 
         super(entityType, level);
     }
 
-    public static boolean checkTakumiSpawnRules(EntityType<? extends Monster> type, ServerLevelAccessor levelAccessor, MobSpawnType spawnType, BlockPos pos, RandomSource random) {
-        if (type.create(levelAccessor.getLevel()) instanceof AbstractTCCreeper creeper) {
+    public static boolean checkTakumiSpawnRules(EntityType<? extends Monster> type, ServerLevelAccessor levelAccessor, EntitySpawnReason spawnType, BlockPos pos, RandomSource random) {
+        if (type.create(levelAccessor.getLevel(), spawnType) instanceof AbstractTCCreeper creeper) {
             TCCreeperContext.EnumTakumiRank rank = creeper.getContext().getRank();
             if (rank.getLevel() > 2 || random.nextInt(50) > rank.getSpawnWeight()) {
                 return false;
@@ -76,7 +78,7 @@ public abstract class AbstractTCCreeper extends Creeper implements ITCEntities, 
         return checkMonsterSpawnRules(type, levelAccessor, spawnType, pos, random);
     }
 
-    public static boolean checkAnimalSpawnRules(EntityType<? extends AbstractTCCreeper> p_218105_, LevelAccessor p_218106_, MobSpawnType p_218107_, BlockPos p_218108_, RandomSource p_218109_) {
+    public static boolean checkAnimalSpawnRules(EntityType<? extends AbstractTCCreeper> p_218105_, LevelAccessor p_218106_, EntitySpawnReason p_218107_, BlockPos p_218108_, RandomSource p_218109_) {
         return p_218106_.getBlockState(p_218108_.below()).is(BlockTags.ANIMALS_SPAWNABLE_ON) && isBrightEnoughToSpawn(p_218106_, p_218108_);
     }
 
@@ -212,6 +214,7 @@ public abstract class AbstractTCCreeper extends Creeper implements ITCEntities, 
 
                         @Override
                         public void generate() {
+                            HolderGetter<EntityType<?>> holdergetter = this.registries.lookupOrThrow(Registries.ENTITY_TYPE);
                             LootTable.Builder lootTable =
                                     LootTable.lootTable()
                                             .withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
@@ -220,7 +223,7 @@ public abstract class AbstractTCCreeper extends Creeper implements ITCEntities, 
                                                             .apply(EnchantedCountIncreaseFunction.lootingMultiplier(this.registries, UniformGenerator.between(0.0F, 1.0F)))))
                                             .withPool(LootPool.lootPool().add(TagEntry.expandTag(ItemTags.CREEPER_DROP_MUSIC_DISCS))
                                                     .when(LootItemEntityPropertyCondition.hasProperties(LootContext.EntityTarget.ATTACKER,
-                                                            EntityPredicate.Builder.entity().of(EntityTypeTags.SKELETONS))));
+                                                            EntityPredicate.Builder.entity().of(holdergetter, EntityTypeTags.SKELETONS))));
                             this.add(type, TCCreeperContext.this.additionalBuilder(this.registries, lootTable));
                         }
                     };

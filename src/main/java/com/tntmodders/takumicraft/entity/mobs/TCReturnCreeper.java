@@ -1,7 +1,7 @@
 package com.tntmodders.takumicraft.entity.mobs;
 
-import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.core.TCEntityCore;
+import com.tntmodders.takumicraft.utils.TCEntityUtils;
 import com.tntmodders.takumicraft.utils.TCExplosionUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -13,7 +13,7 @@ import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.portal.DimensionTransition;
+import net.minecraft.world.level.portal.TeleportTransition;
 import net.minecraftforge.event.level.ExplosionEvent;
 
 import java.util.ArrayList;
@@ -38,7 +38,7 @@ public class TCReturnCreeper extends AbstractTCCreeper {
             if (entity instanceof ServerPlayer serverPlayer) {
                 BlockPos pos = serverPlayer.getRespawnPosition();
                 if (pos != null && pos != BlockPos.ZERO) {
-                    DimensionTransition transition = serverPlayer.findRespawnPositionAndUseSpawnBlock(true, DimensionTransition.DO_NOTHING);
+                    TeleportTransition transition = serverPlayer.findRespawnPositionAndUseSpawnBlock(true, TeleportTransition.DO_NOTHING);
                     if (transition != null && !transition.missingRespawnBlock()) {
                         serverPlayer.teleportTo(pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5);
                         serverPlayer.sendSystemMessage(Component.translatable("entity.takumicraft.returncreeper.message", serverPlayer.getName()));
@@ -53,7 +53,7 @@ public class TCReturnCreeper extends AbstractTCCreeper {
 
     public static class TCReturnCreeperContext implements TCCreeperContext<TCReturnCreeper> {
         private static final String NAME = "returncreeper";
-        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCReturnCreeper::new, MobCategory.MONSTER).sized(0.6F, 1.7F).clientTrackingRange(8).build(TakumiCraftCore.MODID + ":" + NAME);
+        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCReturnCreeper::new, MobCategory.MONSTER).sized(0.6F, 1.7F).clientTrackingRange(8).build(TCEntityUtils.TCEntityId(NAME));
 
         @Override
         public String getRegistryName() {

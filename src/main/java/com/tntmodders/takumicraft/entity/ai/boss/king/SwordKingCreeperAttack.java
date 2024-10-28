@@ -8,6 +8,7 @@ import com.tntmodders.takumicraft.utils.TCExplosionUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
+import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemDisplayContext;
@@ -49,7 +50,7 @@ public class SwordKingCreeperAttack extends AbstractKingCreeperAttack {
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void clientTick(TCKingCreeper creeper, int swell, PoseStack pose, MultiBufferSource bufferSource, float renderTick) {
+    public void clientTick(LivingEntityRenderState state, TCKingCreeper creeper, int swell, PoseStack pose, MultiBufferSource bufferSource, float renderTick) {
         pose.pushPose();
         float f = creeper.getSwelling(renderTick);
         f = Math.clamp(f, 0.0F, 1.0F) * 10;
@@ -63,7 +64,7 @@ public class SwordKingCreeperAttack extends AbstractKingCreeperAttack {
             pose.rotateAround(Axis.ZP.rotationDegrees(-135.0f), 0.0f, 0.0f, 1.0f);
         }
         pose.scale(f, f, f);
-        Minecraft.getInstance().getItemRenderer().renderStatic(creeper, sword, ItemDisplayContext.NONE, false, pose, bufferSource, creeper.level(), 0xffffff, LivingEntityRenderer.getOverlayCoords(creeper, 0.0F), creeper.getId());
+        Minecraft.getInstance().getItemRenderer().renderStatic(creeper, sword, ItemDisplayContext.NONE, false, pose, bufferSource, creeper.level(), 0xffffff, LivingEntityRenderer.getOverlayCoords(state, 0.0F), creeper.getId());
         pose.popPose();
     }
 

@@ -9,6 +9,7 @@ import com.tntmodders.takumicraft.provider.ITCBlocks;
 import com.tntmodders.takumicraft.utils.TCExplosionUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -33,10 +34,11 @@ public abstract class AbstractTCBombBlock extends Block implements ITCBlocks {
 
     public abstract float getPower();
 
+
     @Override
-    public void wasExploded(Level level, BlockPos pos, Explosion explosion) {
+    public void wasExploded(ServerLevel level, BlockPos pos, Explosion explosion) {
         super.wasExploded(level, pos, explosion);
-        this.explode(level, pos, Math.max(Math.min(this.getPower(), explosion.radius - 0.1f), this.getPower() / 2));
+        this.explode(level, pos, Math.max(Math.min(this.getPower(), explosion.radius() - 0.1f), this.getPower() / 2));
     }
 
     @Override

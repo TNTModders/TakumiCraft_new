@@ -11,11 +11,12 @@ import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.ItemLike;
-import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.ScheduledTickAccess;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SoundType;
@@ -47,8 +48,8 @@ public class TCCreeperCarpetBlock extends AbstractTCAntiExplosionBlock implement
     }
 
     @Override
-    public BlockState updateShape(BlockState p_152926_, Direction p_152927_, BlockState p_152928_, LevelAccessor p_152929_, BlockPos p_152930_, BlockPos p_152931_) {
-        return !p_152926_.canSurvive(p_152929_, p_152930_) ? Blocks.AIR.defaultBlockState() : super.updateShape(p_152926_, p_152927_, p_152928_, p_152929_, p_152930_, p_152931_);
+    protected BlockState updateShape(BlockState p_152926_, LevelReader p_367863_, ScheduledTickAccess p_362101_, BlockPos p_152930_, Direction p_152927_, BlockPos p_152931_, BlockState p_152928_, RandomSource p_362637_) {
+        return !p_152926_.canSurvive(p_367863_, p_152930_) ? Blocks.AIR.defaultBlockState() : super.updateShape(p_152926_, p_367863_, p_362101_, p_152930_, p_152927_, p_152931_, p_152928_, p_362637_);
     }
 
     @Override
@@ -58,9 +59,9 @@ public class TCCreeperCarpetBlock extends AbstractTCAntiExplosionBlock implement
 
     @Override
     public void addRecipes(TCRecipeProvider provider, ItemLike itemLike, RecipeOutput consumer) {
-        provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, TCBlockCore.CREEPER_CARPET_MAP.get(this.color), 8).define('#', TCBlockCore.CREEPER_BOMB).define('B', this.baseBlock).pattern("BBB").pattern("B#B").pattern("BBB").unlockedBy("has_creeperbomb", TCRecipeProvider.hasItem(TCBlockCore.CREEPER_BOMB)).group("creepercarpet"));
+        provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(provider.items, RecipeCategory.DECORATIONS, TCBlockCore.CREEPER_CARPET_MAP.get(this.color), 8).define('#', TCBlockCore.CREEPER_BOMB).define('B', this.baseBlock).pattern("BBB").pattern("B#B").pattern("BBB").unlockedBy("has_creeperbomb", provider.hasItem(TCBlockCore.CREEPER_BOMB)).group("creepercarpet"));
 
-        provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, TCBlockCore.CREEPER_CARPET_MAP.get(this.color), 3).define('#', TCBlockCore.CREEPER_WOOL_MAP.get(this.color)).pattern("##").unlockedBy("has_creeperwool", TCRecipeProvider.hasItem(TCBlockCore.CREEPER_WOOL_MAP.get(this.color))).group("creepercarpet"), "from_creeperwool");
+        provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(provider.items, RecipeCategory.DECORATIONS, TCBlockCore.CREEPER_CARPET_MAP.get(this.color), 3).define('#', TCBlockCore.CREEPER_WOOL_MAP.get(this.color)).pattern("##").unlockedBy("has_creeperwool", provider.hasItem(TCBlockCore.CREEPER_WOOL_MAP.get(this.color))).group("creepercarpet"), "from_creeperwool");
     }
 
     @Override

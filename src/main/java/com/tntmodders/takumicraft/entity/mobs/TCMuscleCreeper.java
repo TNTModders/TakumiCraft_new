@@ -1,8 +1,8 @@
 package com.tntmodders.takumicraft.entity.mobs;
 
-import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.client.renderer.entity.TCMuscleCreeperRenderer;
 import com.tntmodders.takumicraft.core.TCEntityCore;
+import com.tntmodders.takumicraft.utils.TCEntityUtils;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityType;
@@ -47,7 +47,7 @@ public class TCMuscleCreeper extends AbstractTCCreeper {
         private static final String NAME = "musclecreeper";
         public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder
                 .of(TCMuscleCreeper::new, MobCategory.MONSTER).sized(0.6F, 1.7F).clientTrackingRange(8)
-                .build(TakumiCraftCore.MODID + ":" + NAME);
+                .build(TCEntityUtils.TCEntityId(NAME));
 
         @Override
         public String getRegistryName() {

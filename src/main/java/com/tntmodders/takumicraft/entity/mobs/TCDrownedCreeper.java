@@ -1,8 +1,8 @@
 package com.tntmodders.takumicraft.entity.mobs;
 
-import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.client.renderer.entity.TCDrownedCreeperRenderer;
 import com.tntmodders.takumicraft.entity.ai.TCZombieCreeperAttackGoal;
+import com.tntmodders.takumicraft.utils.TCEntityUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.sounds.SoundEvent;
@@ -71,12 +71,12 @@ public class TCDrownedCreeper extends TCZombieCreeper implements RangedAttackMob
         this.groundNavigation = new GroundPathNavigation(this, level);
     }
 
-    public static boolean checkDrownedSpawnRules(EntityType<? extends AbstractTCCreeper> p_32350_, ServerLevelAccessor p_32351_, MobSpawnType p_32352_, BlockPos p_32353_, RandomSource p_32354_) {
+    public static boolean checkDrownedSpawnRules(EntityType<? extends AbstractTCCreeper> p_32350_, ServerLevelAccessor p_32351_, EntitySpawnReason p_32352_, BlockPos p_32353_, RandomSource p_32354_) {
         if (!p_32351_.getFluidState(p_32353_.below()).is(FluidTags.WATER)) {
             return false;
         } else {
             Holder<Biome> holder = p_32351_.getBiome(p_32353_);
-            boolean flag = p_32351_.getDifficulty() != Difficulty.PEACEFUL && isDarkEnoughToSpawn(p_32351_, p_32353_, p_32354_) && (p_32352_ == MobSpawnType.SPAWNER || p_32351_.getFluidState(p_32353_).is(FluidTags.WATER));
+            boolean flag = p_32351_.getDifficulty() != Difficulty.PEACEFUL && isDarkEnoughToSpawn(p_32351_, p_32353_, p_32354_) && (p_32352_ == EntitySpawnReason.SPAWNER || p_32351_.getFluidState(p_32353_).is(FluidTags.WATER));
             if (!holder.is(Biomes.RIVER) && !holder.is(Biomes.FROZEN_RIVER)) {
                 return p_32354_.nextInt(40) == 0 && isDeepEnoughToSpawn(p_32351_, p_32353_) && flag;
             } else {
@@ -112,7 +112,7 @@ public class TCDrownedCreeper extends TCZombieCreeper implements RangedAttackMob
     }
 
     @Override
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_32372_, DifficultyInstance p_32373_, MobSpawnType p_32374_, @Nullable SpawnGroupData p_32375_) {
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_32372_, DifficultyInstance p_32373_, EntitySpawnReason p_32374_, @Nullable SpawnGroupData p_32375_) {
         p_32375_ = super.finalizeSpawn(p_32372_, p_32373_, p_32374_, p_32375_);
         if (this.getItemBySlot(EquipmentSlot.OFFHAND).isEmpty() && this.random.nextFloat() < 0.03F) {
             this.setItemSlot(EquipmentSlot.OFFHAND, new ItemStack(Items.NAUTILUS_SHELL));
@@ -511,7 +511,7 @@ public class TCDrownedCreeper extends TCZombieCreeper implements RangedAttackMob
 
     public static class TCDrownedCreeperContext implements TCCreeperContext<TCDrownedCreeper> {
         private static final String NAME = "drownedcreeper";
-        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCDrownedCreeper::new, MobCategory.MONSTER).sized(0.6F, 1.95F).clientTrackingRange(8).build(TakumiCraftCore.MODID + ":" + NAME);
+        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCDrownedCreeper::new, MobCategory.MONSTER).sized(0.6F, 1.95F).clientTrackingRange(8).build(TCEntityUtils.TCEntityId(NAME));
 
         @Override
         public String getRegistryName() {

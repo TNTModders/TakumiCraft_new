@@ -2,10 +2,10 @@ package com.tntmodders.takumicraft.entity.mobs;
 
 import com.google.common.collect.ImmutableList;
 import com.mojang.serialization.Dynamic;
-import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.client.renderer.entity.TCGoatCreeperRenderer;
 import com.tntmodders.takumicraft.core.TCEntityCore;
 import com.tntmodders.takumicraft.entity.ai.goat.TCGoatCreeperAi;
+import com.tntmodders.takumicraft.utils.TCEntityUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
@@ -194,7 +194,7 @@ public class TCGoatCreeper extends AbstractTCCreeper {
     }
 
     @Override
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_149365_, DifficultyInstance p_149366_, MobSpawnType p_149367_, @Nullable SpawnGroupData p_149368_) {
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_149365_, DifficultyInstance p_149366_, EntitySpawnReason p_149367_, @Nullable SpawnGroupData p_149368_) {
         RandomSource randomsource = p_149365_.getRandom();
         TCGoatCreeperAi.initMemories(this, randomsource);
         this.setScreamingGoat(randomsource.nextDouble() < 0.02);
@@ -322,13 +322,13 @@ public class TCGoatCreeper extends AbstractTCCreeper {
         return (float) this.lowerHeadTick / 20.0F * 30.0F * (float) (Math.PI / 180.0);
     }
 
-    public static boolean checkGoatSpawnRules(EntityType<AbstractTCCreeper> p_218753_, LevelAccessor p_218754_, MobSpawnType p_218755_, BlockPos p_218756_, RandomSource p_218757_) {
+    public static boolean checkGoatSpawnRules(EntityType<AbstractTCCreeper> p_218753_, LevelAccessor p_218754_, EntitySpawnReason p_218755_, BlockPos p_218756_, RandomSource p_218757_) {
         return p_218754_.getBlockState(p_218756_.below()).is(BlockTags.GOATS_SPAWNABLE_ON) && isBrightEnoughToSpawn(p_218754_, p_218756_);
     }
 
     public static class TCGoatCreeperContext implements TCCreeperContext<TCGoatCreeper> {
         private static final String NAME = "goatcreeper";
-        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCGoatCreeper::new, MobCategory.MONSTER).sized(0.9F, 1.3F).passengerAttachments(1.1125F).clientTrackingRange(10).build(TakumiCraftCore.MODID + ":" + NAME);
+        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCGoatCreeper::new, MobCategory.MONSTER).sized(0.9F, 1.3F).passengerAttachments(1.1125F).clientTrackingRange(10).build(TCEntityUtils.TCEntityId(NAME));
 
         @Override
         public String getRegistryName() {

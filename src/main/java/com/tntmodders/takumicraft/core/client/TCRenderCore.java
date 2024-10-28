@@ -1,6 +1,5 @@
 package com.tntmodders.takumicraft.core.client;
 
-import com.google.common.collect.ImmutableMap;
 import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.client.model.TCChildCreeperModel;
 import com.tntmodders.takumicraft.client.renderer.block.*;
@@ -20,21 +19,13 @@ import com.tntmodders.takumicraft.utils.TCLoggingUtils;
 import net.minecraft.client.model.CreeperModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
-import net.minecraft.client.renderer.block.BlockModelShaper;
 import net.minecraft.client.renderer.entity.*;
+import net.minecraft.client.renderer.entity.state.ArrowRenderState;
+import net.minecraft.client.renderer.entity.state.EntityRenderState;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.projectile.Arrow;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.EntityRenderersEvent;
-import net.minecraftforge.client.event.ModelEvent;
-
-import java.util.Map;
 
 @OnlyIn(Dist.CLIENT)
 public class TCRenderCore {
@@ -61,8 +52,14 @@ public class TCRenderCore {
 
     private static void additionalEntityRender(EntityRenderersEvent.RegisterRenderers event) {
         event.registerEntityRenderer(TCCreeperArrow.ARROW, p_174010_ -> new ArrowRenderer<>(p_174010_) {
+
             @Override
-            public ResourceLocation getTextureLocation(Arrow p_114482_) {
+            public ArrowRenderState createRenderState() {
+                return new ArrowRenderState();
+            }
+
+            @Override
+            protected ResourceLocation getTextureLocation(ArrowRenderState p_364393_) {
                 return ResourceLocation.tryBuild(TakumiCraftCore.MODID, "texutres/entity/projectile/creeperarrow.png");
             }
         });
@@ -70,8 +67,8 @@ public class TCRenderCore {
         event.registerEntityRenderer(TCBirdBomb.BIRD_BOMB, ThrownItemRenderer::new);
         event.registerEntityRenderer(TCKingStorm.KING_STORM, p_174010_ -> new EntityRenderer<>(p_174010_) {
             @Override
-            public ResourceLocation getTextureLocation(TCKingStorm p_114482_) {
-                return null;
+            public EntityRenderState createRenderState() {
+                return new EntityRenderState();
             }
         });
         event.registerEntityRenderer(TCKingBlock.KING_BLOCK, TCKingBlockRenderer::new);
@@ -106,11 +103,11 @@ public class TCRenderCore {
         event.registerLayerDefinition(FRAME, TCCreeperFrameRenderer::createLayer);
         event.registerLayerDefinition(PROTECTOR, TCCreeperProtectorBlockRenderer::createLayer);
     }
-
-    public static void registerAdditionalModels(ModelEvent.RegisterAdditional event) {
+    //@TODO alt method of replace CreeperFrame
+/*    public static void registerAdditionalModels(ModelEvent.RegisterAdditional event) {
         StateDefinition<Block, BlockState> fake_def = new StateDefinition.Builder<Block, BlockState>(Blocks.AIR).add(BooleanProperty.create("map")).create(Block::defaultBlockState, BlockState::new);
         Map<ResourceLocation, StateDefinition<Block, BlockState>> static_def = ImmutableMap.of(ResourceLocation.tryBuild(TakumiCraftCore.MODID, "creeperframe"), fake_def, ResourceLocation.tryBuild(TakumiCraftCore.MODID, "creeperframe_glowing"), fake_def);
 
         static_def.forEach((location, statedef) -> statedef.getPossibleStates().forEach(state -> event.register(BlockModelShaper.stateToModelLocation(location, state))));
-    }
+    }*/
 }

@@ -1,7 +1,7 @@
 package com.tntmodders.takumicraft.entity.mobs;
 
-import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.core.TCEntityCore;
+import com.tntmodders.takumicraft.utils.TCEntityUtils;
 import com.tntmodders.takumicraft.utils.TCExplosionUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -15,7 +15,7 @@ import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.portal.DimensionTransition;
+import net.minecraft.world.level.portal.TeleportTransition;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import net.minecraftforge.event.level.ExplosionEvent;
 
@@ -36,7 +36,7 @@ public class TCBedCreeper extends AbstractTCCreeper {
 
     @Override
     public void explodeCreeperEvent(ExplosionEvent.Detonate event) {
-        event.getExplosion().clearToBlow();
+        event.getAffectedBlocks().clear();
         List<Entity> entityList = new ArrayList<>();
         event.getAffectedEntities().forEach(entity -> {
             if (entity instanceof ServerPlayer serverPlayer) {
@@ -44,7 +44,7 @@ public class TCBedCreeper extends AbstractTCCreeper {
                 if (pos != null && pos != BlockPos.ZERO) {
                     BlockState state = this.level().getBlockState(pos);
                     float res = state.getExplosionResistance(this.level(), pos, event.getExplosion());
-                    DimensionTransition transition = serverPlayer.findRespawnPositionAndUseSpawnBlock(true, DimensionTransition.DO_NOTHING);
+                    TeleportTransition transition = serverPlayer.findRespawnPositionAndUseSpawnBlock(true, TeleportTransition.DO_NOTHING);
                     if (transition != null && !transition.missingRespawnBlock() && res <= 2000) {
                         this.level().setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
                         TCExplosionUtils.createExplosion(this.level(), null, pos, this.isPowered() ? 20 : 12);
@@ -58,7 +58,7 @@ public class TCBedCreeper extends AbstractTCCreeper {
 
     public static class TCBedCreeperContext implements TCCreeperContext<TCBedCreeper> {
         private static final String NAME = "bedcreeper";
-        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCBedCreeper::new, MobCategory.MONSTER).sized(0.6F, 1.7F).clientTrackingRange(8).build(TakumiCraftCore.MODID + ":" + NAME);
+        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCBedCreeper::new, MobCategory.MONSTER).sized(0.6F, 1.7F).clientTrackingRange(8).build(TCEntityUtils.TCEntityId(NAME));
 
         @Override
         public String getRegistryName() {

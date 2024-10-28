@@ -1,9 +1,9 @@
 package com.tntmodders.takumicraft.entity.mobs;
 
-import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.client.renderer.entity.TCSkeletonCreeperRenderer;
 import com.tntmodders.takumicraft.core.TCEntityCore;
 import com.tntmodders.takumicraft.core.TCItemCore;
+import com.tntmodders.takumicraft.utils.TCEntityUtils;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -142,7 +142,7 @@ public class TCSkeletonCreeper extends AbstractTCSkeletonCreeper {
         private static final String NAME = "skeletoncreeper";
         public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder
                 .of(TCSkeletonCreeper::new, MobCategory.MONSTER).sized(0.6F, 1.99F).clientTrackingRange(8)
-                .build(TakumiCraftCore.MODID + ":" + NAME);
+                .build(TCEntityUtils.TCEntityId(NAME));
 
         @Override
         public String getRegistryName() {

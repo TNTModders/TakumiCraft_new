@@ -15,6 +15,7 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.data.loot.LootTableSubProvider;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
@@ -77,7 +78,7 @@ public class TCMonsterBombBlock extends AbstractTCBombBlock implements EntityBlo
     @Override
     protected void explode(Level level, BlockPos pos, float power) {
         if (!level.isClientSide()) {
-            var entity = this.context.entityType().create(level);
+            var entity = this.context.entityType().create(level, EntitySpawnReason.TRIGGERED);
             if (entity instanceof AbstractTCCreeper creeper) {
                 creeper.setPos(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
                 creeper.setInvulnerable(true);

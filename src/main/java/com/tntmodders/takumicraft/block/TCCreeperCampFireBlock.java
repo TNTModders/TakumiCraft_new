@@ -26,6 +26,7 @@ import net.minecraft.network.chat.ComponentUtils;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientboundSetTitleTextPacket;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -37,7 +38,6 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -147,18 +147,18 @@ public class TCCreeperCampFireBlock extends CampfireBlock implements ITCBlocks, 
     }
 
     @Override
-    protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult result) {
-        if (level.getBlockEntity(pos) instanceof TCCreeperCampFireBlockEntity campfireblockentity) {
+    protected InteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult result) {
+        if (level instanceof ServerLevel serverLevel && level.getBlockEntity(pos) instanceof TCCreeperCampFireBlockEntity campfireblockentity) {
             ItemStack itemstack = player.getItemInHand(hand);
-            Optional<RecipeHolder<CampfireCookingRecipe>> optional = campfireblockentity.getCookableRecipe(itemstack);
+            Optional<RecipeHolder<CampfireCookingRecipe>> optional = campfireblockentity.getCookableRecipe(serverLevel, itemstack);
             if (optional.isPresent()) {
                 if (!level.isClientSide
-                        && campfireblockentity.placeFood(player, player.hasInfiniteMaterials() ? itemstack.copy() : itemstack, optional.get().value().getCookingTime())) {
+                        && campfireblockentity.placeFood(player, player.hasInfiniteMaterials() ? itemstack.copy() : itemstack, optional.get().value().cookingTime())) {
                     player.awardStat(Stats.INTERACT_WITH_CAMPFIRE);
-                    return ItemInteractionResult.SUCCESS;
+                    return InteractionResult.SUCCESS;
                 }
 
-                return ItemInteractionResult.CONSUME;
+                return InteractionResult.CONSUME;
             } else if (itemstack.getItem() instanceof ShovelItem && state.getValue(LIT)) {
                 if (!level.isClientSide()) {
                     level.levelEvent(null, 1009, pos, 0);
@@ -175,7 +175,7 @@ public class TCCreeperCampFireBlock extends CampfireBlock implements ITCBlocks, 
                 }
             }
         }
-        return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+        return InteractionResult.TRY_WITH_EMPTY_HAND;
     }
 
     @Override
@@ -266,14 +266,14 @@ public class TCCreeperCampFireBlock extends CampfireBlock implements ITCBlocks, 
 
     @Override
     public void addRecipes(TCRecipeProvider provider, ItemLike itemLike, RecipeOutput consumer) {
-        provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, TCBlockCore.CREEPER_CAMPFIRE)
+        provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(provider.items, RecipeCategory.BUILDING_BLOCKS, TCBlockCore.CREEPER_CAMPFIRE)
                 .define('#', TCBlockCore.CREEPER_BOMB)
                 .define('S', Items.STICK)
                 .define('B', TCBlockCore.CREEPER_PLANKS)
                 .pattern(" S ")
                 .pattern("S#S")
                 .pattern("BBB")
-                .unlockedBy("has_creeperbomb", TCRecipeProvider.hasItem(TCBlockCore.CREEPER_BOMB)));
+                .unlockedBy("has_creeperbomb", provider.hasItem(TCBlockCore.CREEPER_BOMB)));
     }
 
     @Override

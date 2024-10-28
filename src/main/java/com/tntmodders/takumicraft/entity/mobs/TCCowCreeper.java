@@ -1,8 +1,8 @@
 package com.tntmodders.takumicraft.entity.mobs;
 
-import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.client.renderer.entity.TCCowCreeperRenderer;
 import com.tntmodders.takumicraft.core.TCEntityCore;
+import com.tntmodders.takumicraft.utils.TCEntityUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -80,7 +80,7 @@ public class TCCowCreeper extends AbstractTCCreeper {
             p_28298_.playSound(SoundEvents.COW_MILK, 1.0F, 1.0F);
             ItemStack itemstack1 = ItemUtils.createFilledResult(itemstack, p_28298_, Items.MILK_BUCKET.getDefaultInstance());
             p_28298_.setItemInHand(p_28299_, itemstack1);
-            return InteractionResult.sidedSuccess(this.level().isClientSide);
+            return InteractionResult.SUCCESS;
         } else {
             return super.mobInteract(p_28298_, p_28299_);
         }
@@ -93,7 +93,7 @@ public class TCCowCreeper extends AbstractTCCreeper {
 
     public static class TCCowCreeperContext implements TCCreeperContext<TCCowCreeper> {
         private static final String NAME = "cowcreeper";
-        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCCowCreeper::new, MobCategory.MONSTER).sized(0.9F, 1.4F).clientTrackingRange(10).build(TakumiCraftCore.MODID + ":" + NAME);
+        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCCowCreeper::new, MobCategory.MONSTER).sized(0.9F, 1.4F).clientTrackingRange(10).build(TCEntityUtils.TCEntityId(NAME));
 
         @Override
         public String getRegistryName() {

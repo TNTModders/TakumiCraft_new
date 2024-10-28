@@ -9,9 +9,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -41,13 +39,8 @@ public class TCTesterItem extends Item implements ITCItems, ITCTranslator {
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+    public InteractionResult use(Level level, Player player, InteractionHand hand) {
         return super.use(level, player, hand);
-    }
-
-    @Override
-    public ItemAttributeModifiers getAttributeModifiers(EquipmentSlot slot, ItemStack stack) {
-        return slot == EquipmentSlot.MAINHAND ? ItemAttributeModifiers.EMPTY.withModifierAdded(Attributes.ATTACK_DAMAGE, this.defaultModifier, EquipmentSlotGroup.MAINHAND) : super.getDefaultAttributeModifiers();
     }
 
     @Override

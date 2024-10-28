@@ -36,10 +36,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ChestMenu;
 import net.minecraft.world.item.context.BlockPlaceContext;
-import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.ItemLike;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.*;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
@@ -78,8 +75,8 @@ public class TCCreeperChestBlock extends BaseEntityBlock implements ITCBlocks, I
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(TYPE, ChestType.SINGLE).setValue(WATERLOGGED, Boolean.FALSE));
     }
 
-    public static final MapCodec<ChestBlock> CODEC = simpleCodec(p_309280_ -> new ChestBlock(p_309280_, () -> BlockEntityType.CHEST));
-    public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
+    public static final MapCodec<ChestBlock> CODEC = simpleCodec(p_309280_ -> new ChestBlock(() -> BlockEntityType.CHEST, p_309280_));
+    public static final EnumProperty<Direction> FACING = HorizontalDirectionalBlock.FACING;
     public static final EnumProperty<ChestType> TYPE = BlockStateProperties.CHEST_TYPE;
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     public static final int EVENT_SET_OPEN_COUNT = 1;
@@ -159,10 +156,11 @@ public class TCCreeperChestBlock extends BaseEntityBlock implements ITCBlocks, I
         return RenderShape.ENTITYBLOCK_ANIMATED;
     }
 
+
     @Override
-    protected BlockState updateShape(BlockState p_51555_, Direction p_51556_, BlockState p_51557_, LevelAccessor p_51558_, BlockPos p_51559_, BlockPos p_51560_) {
+    protected BlockState updateShape(BlockState p_51555_, LevelReader p_51558_, ScheduledTickAccess p_366146_, BlockPos p_51559_, Direction p_51556_, BlockPos p_51560_, BlockState p_51557_, RandomSource p_363918_) {
         if (p_51555_.getValue(WATERLOGGED)) {
-            p_51558_.scheduleTick(p_51559_, Fluids.WATER, Fluids.WATER.getTickDelay(p_51558_));
+            p_366146_.scheduleTick(p_51559_, Fluids.WATER, Fluids.WATER.getTickDelay(p_51558_));
         }
 
         if (p_51557_.is(this) && p_51556_.getAxis().isHorizontal()) {
@@ -174,7 +172,7 @@ public class TCCreeperChestBlock extends BaseEntityBlock implements ITCBlocks, I
             return p_51555_.setValue(TYPE, ChestType.SINGLE);
         }
 
-        return super.updateShape(p_51555_, p_51556_, p_51557_, p_51558_, p_51559_, p_51560_);
+        return super.updateShape(p_51555_, p_51558_, p_366146_, p_51559_, p_51556_, p_51560_, p_51557_, p_363918_);
     }
 
     @Override
@@ -245,10 +243,10 @@ public class TCCreeperChestBlock extends BaseEntityBlock implements ITCBlocks, I
             return InteractionResult.SUCCESS;
         } else {
             MenuProvider menuprovider = this.getMenuProvider(p_51531_, p_51532_, p_51533_);
-            if (menuprovider != null) {
+            if (menuprovider != null && p_51532_ instanceof ServerLevel serverLevel) {
                 p_51534_.openMenu(menuprovider);
                 p_51534_.awardStat(this.getOpenChestStat());
-                PiglinAi.angerNearbyPiglins(p_51534_, true);
+                PiglinAi.angerNearbyPiglins(serverLevel, p_51534_, true);
             }
 
             return InteractionResult.CONSUME;
@@ -430,6 +428,6 @@ public class TCCreeperChestBlock extends BaseEntityBlock implements ITCBlocks, I
 
     @Override
     public void addRecipes(TCRecipeProvider provider, ItemLike itemLike, RecipeOutput consumer) {
-        provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, TCBlockCore.CREEPER_CHEST, 1).define('#', TCBlockCore.CREEPER_PLANKS).pattern("###").pattern("# #").pattern("###").unlockedBy("has_creeperplanks", TCRecipeProvider.hasItem(TCBlockCore.CREEPER_PLANKS)));
+        provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(provider.items, RecipeCategory.BUILDING_BLOCKS, TCBlockCore.CREEPER_CHEST, 1).define('#', TCBlockCore.CREEPER_PLANKS).pattern("###").pattern("# #").pattern("###").unlockedBy("has_creeperplanks", provider.hasItem(TCBlockCore.CREEPER_PLANKS)));
     }
 }

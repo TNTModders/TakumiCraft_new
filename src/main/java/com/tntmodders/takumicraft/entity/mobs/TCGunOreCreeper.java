@@ -1,9 +1,9 @@
 package com.tntmodders.takumicraft.entity.mobs;
 
-import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.client.renderer.entity.TCBlockCreeperRenderer;
 import com.tntmodders.takumicraft.core.TCBlockCore;
 import com.tntmodders.takumicraft.core.TCEntityCore;
+import com.tntmodders.takumicraft.utils.TCEntityUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
@@ -37,7 +37,7 @@ public class TCGunOreCreeper extends AbstractTCBlockCreeper {
         return TCBlockCore.GUNORE_CREEPER.defaultBlockState();
     }
 
-    public static boolean checkGunOreCreeperSpawnRules(EntityType<? extends Monster> type, ServerLevelAccessor levelAccessor, MobSpawnType spawnType, BlockPos pos, RandomSource random) {
+    public static boolean checkGunOreCreeperSpawnRules(EntityType<? extends Monster> type, ServerLevelAccessor levelAccessor, EntitySpawnReason spawnType, BlockPos pos, RandomSource random) {
         return levelAccessor.getBlockState(pos.below()).is(Blocks.STONE) && checkTakumiSpawnRules(type, levelAccessor, spawnType, pos, random);
     }
 
@@ -63,7 +63,7 @@ public class TCGunOreCreeper extends AbstractTCBlockCreeper {
     public static class TCGunOreCreeperContext implements TCCreeperContext<TCGunOreCreeper> {
         private static final String NAME = "gunorecreeper";
         public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder
-                .of(TCGunOreCreeper::new, MobCategory.MONSTER).sized(1, 1).clientTrackingRange(8).build(TakumiCraftCore.MODID + ":" + NAME);
+                .of(TCGunOreCreeper::new, MobCategory.MONSTER).sized(1, 1).clientTrackingRange(8).build(TCEntityUtils.TCEntityId(NAME));
 
         @Override
         public String getRegistryName() {

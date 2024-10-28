@@ -1,11 +1,11 @@
 package com.tntmodders.takumicraft.entity.mobs;
 
 import com.mojang.serialization.Dynamic;
-import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.client.renderer.entity.TCBreezeCreeperRenderer;
 import com.tntmodders.takumicraft.core.TCEntityCore;
 import com.tntmodders.takumicraft.entity.ai.breeze.TCBreezeCreeperAi;
 import com.tntmodders.takumicraft.entity.projectile.TCBreezeCreeperWindCharge;
+import com.tntmodders.takumicraft.utils.TCEntityUtils;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.protocol.game.DebugPackets;
@@ -321,7 +321,7 @@ public class TCBreezeCreeper extends AbstractTCCreeper {
 
     public static class TCBreezeCreeperContext implements TCCreeperContext<TCBreezeCreeper> {
         private static final String NAME = "breezecreeper";
-        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCBreezeCreeper::new, MobCategory.MONSTER).sized(0.6F, 1.77F).eyeHeight(1.3452F).clientTrackingRange(10).build(TakumiCraftCore.MODID + ":" + NAME);
+        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCBreezeCreeper::new, MobCategory.MONSTER).sized(0.6F, 1.77F).eyeHeight(1.3452F).clientTrackingRange(10).build(TCEntityUtils.TCEntityId(NAME));
 
         @Override
         public String getRegistryName() {

@@ -1,6 +1,7 @@
 package com.tntmodders.takumicraft.block;
 
 import com.tntmodders.takumicraft.block.entity.TCTakenokoBlockEntity;
+import com.tntmodders.takumicraft.core.TCBlockCore;
 import com.tntmodders.takumicraft.provider.ITCBlocks;
 import com.tntmodders.takumicraft.provider.TCBlockStateProvider;
 import net.minecraft.core.BlockPos;
@@ -27,7 +28,7 @@ import java.util.function.Function;
 
 public class TCTakenokoBlock extends BambooSaplingBlock implements ITCBlocks, EntityBlock {
     public TCTakenokoBlock() {
-        super(BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).forceSolidOn().randomTicks().instabreak().noCollission().strength(1.0F).sound(SoundType.BAMBOO_SAPLING).offsetType(BlockBehaviour.OffsetType.XZ).ignitedByLava().pushReaction(PushReaction.DESTROY).lootFrom(() -> Blocks.BAMBOO_SAPLING));
+        super(TCBlockCore.variant(Blocks.BAMBOO_SAPLING, false).mapColor(MapColor.WOOD).forceSolidOn().randomTicks().instabreak().noCollission().strength(1.0F).sound(SoundType.BAMBOO_SAPLING).offsetType(BlockBehaviour.OffsetType.XZ).ignitedByLava().pushReaction(PushReaction.DESTROY));
     }
 
     @Override

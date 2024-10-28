@@ -1,8 +1,8 @@
 package com.tntmodders.takumicraft.entity.mobs;
 
-import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.core.TCBlockCore;
 import com.tntmodders.takumicraft.core.TCEntityCore;
+import com.tntmodders.takumicraft.utils.TCEntityUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
@@ -48,7 +48,7 @@ public class TCFallingBombCreeper extends AbstractTCCreeper {
         private static final String NAME = "fallingbombcreeper";
         public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder
                 .of(TCFallingBombCreeper::new, MobCategory.MONSTER).sized(0.6F, 1.7F).clientTrackingRange(8)
-                .build(TakumiCraftCore.MODID + ":" + NAME);
+                .build(TCEntityUtils.TCEntityId(NAME));
 
         @Override
         public String getRegistryName() {

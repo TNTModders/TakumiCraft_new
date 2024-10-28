@@ -1,11 +1,14 @@
 package com.tntmodders.takumicraft.entity.mobs;
 
+import com.tntmodders.takumicraft.utils.TCEntityUtils;
+
 import net.minecraft.core.particles.ColorParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.ByIdMap;
 import net.minecraft.util.Mth;
@@ -69,10 +72,9 @@ public abstract class AbstractTCSpellcasterCreeper extends AbstractTCIllagerCree
     protected AbstractTCSpellcasterCreeper.IllagerSpell getCurrentSpell() {
         return !this.level().isClientSide ? this.currentSpell : AbstractTCSpellcasterCreeper.IllagerSpell.byId(this.entityData.get(DATA_SPELL_CASTING_ID));
     }
-
     @Override
-    protected void customServerAiStep() {
-        super.customServerAiStep();
+    protected void customServerAiStep(ServerLevel level) {
+        super.customServerAiStep(level);
         if (this.spellCastingTickCount > 0) {
             this.spellCastingTickCount--;
         }

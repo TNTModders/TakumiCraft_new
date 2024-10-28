@@ -7,7 +7,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.Item;
@@ -23,7 +23,7 @@ public abstract class AbstractTCGrenadeItem extends Item implements ProjectileIt
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+    public InteractionResult use(Level level, Player player, InteractionHand hand) {
         ItemStack itemstack = player.getItemInHand(hand);
         level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.SNOWBALL_THROW, SoundSource.NEUTRAL, 0.5F, 0.4F / (level.getRandom().nextFloat() * 0.4F + 0.8F));
         if (!level.isClientSide) {
@@ -33,7 +33,7 @@ public abstract class AbstractTCGrenadeItem extends Item implements ProjectileIt
         }
         player.awardStat(Stats.ITEM_USED.get(this));
         itemstack.consume(1, player);
-        return InteractionResultHolder.sidedSuccess(itemstack, level.isClientSide());
+        return InteractionResult.SUCCESS;
     }
 
     @Override

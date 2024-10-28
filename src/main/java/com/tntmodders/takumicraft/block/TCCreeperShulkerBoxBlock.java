@@ -17,6 +17,7 @@ import net.minecraft.data.loot.LootTableSubProvider;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -87,8 +88,8 @@ public class TCCreeperShulkerBoxBlock extends ShulkerBoxBlock implements ITCBloc
             }
         }
         this.spawnDestroyParticles(level, player, pos, state);
-        if (state.is(BlockTags.GUARDED_BY_PIGLINS)) {
-            PiglinAi.angerNearbyPiglins(player, false);
+        if (state.is(BlockTags.GUARDED_BY_PIGLINS) && level instanceof ServerLevel serverLevel) {
+            PiglinAi.angerNearbyPiglins(serverLevel, player, false);
         }
 
         level.gameEvent(GameEvent.BLOCK_DESTROY, pos, GameEvent.Context.of(player, state));
@@ -107,7 +108,7 @@ public class TCCreeperShulkerBoxBlock extends ShulkerBoxBlock implements ITCBloc
 
     @Override
     public void addRecipes(TCRecipeProvider provider, ItemLike itemLike, RecipeOutput consumer) {
-        provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, TCBlockCore.CREEPER_SHULKER).define('#', TCBlockCore.CREEPER_BOMB).define('B', Blocks.SHULKER_BOX).pattern("BBB").pattern("B#B").pattern("BBB").unlockedBy("has_creeperbomb", TCRecipeProvider.hasItem(TCBlockCore.CREEPER_BOMB)));
+        provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(provider.items, RecipeCategory.DECORATIONS, TCBlockCore.CREEPER_SHULKER).define('#', TCBlockCore.CREEPER_BOMB).define('B', Blocks.SHULKER_BOX).pattern("BBB").pattern("B#B").pattern("BBB").unlockedBy("has_creeperbomb", provider.hasItem(TCBlockCore.CREEPER_BOMB)));
     }
 
     @Override

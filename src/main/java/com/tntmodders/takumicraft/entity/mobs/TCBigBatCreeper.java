@@ -1,8 +1,8 @@
 package com.tntmodders.takumicraft.entity.mobs;
 
-import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.client.renderer.entity.TCBatCreeperRenderer;
 import com.tntmodders.takumicraft.core.TCEntityCore;
+import com.tntmodders.takumicraft.utils.TCEntityUtils;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -63,7 +63,7 @@ public class TCBigBatCreeper extends TCBatCreeper {
 
     public static class TCBigBatCreeperContext implements TCCreeperContext<TCBigBatCreeper> {
         private static final String NAME = "bigbatcreeper";
-        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCBigBatCreeper::new, MobCategory.MONSTER).sized(1.0F, 1.5F).eyeHeight(0.8F).clientTrackingRange(5).build(TakumiCraftCore.MODID + ":" + NAME);
+        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCBigBatCreeper::new, MobCategory.MONSTER).sized(1.0F, 1.5F).eyeHeight(0.8F).clientTrackingRange(5).build(TCEntityUtils.TCEntityId(NAME));
 
         @Override
         public String getRegistryName() {

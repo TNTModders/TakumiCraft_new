@@ -1,7 +1,7 @@
 package com.tntmodders.takumicraft.entity.mobs;
 
-import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.core.TCEntityCore;
+import com.tntmodders.takumicraft.utils.TCEntityUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.world.entity.EntityType;
@@ -51,7 +51,7 @@ public class TCSculkCreeper extends AbstractTCCreeper {
 
     public static class TCSclukCreeperContext implements TCCreeperContext<TCSculkCreeper> {
         private static final String NAME = "sculkcreeper";
-        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCSculkCreeper::new, MobCategory.MONSTER).sized(0.6f * 0.75f, 1.7f * 0.75f).clientTrackingRange(8).fireImmune().build(TakumiCraftCore.MODID + ":" + NAME);
+        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCSculkCreeper::new, MobCategory.MONSTER).sized(0.6f * 0.75f, 1.7f * 0.75f).clientTrackingRange(8).fireImmune().build(TCEntityUtils.TCEntityId(NAME));
 
         @Override
         public String getRegistryName() {

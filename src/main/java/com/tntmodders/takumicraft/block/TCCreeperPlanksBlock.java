@@ -42,13 +42,13 @@ public class TCCreeperPlanksBlock extends AbstractTCAntiExplosionBlock implement
 
     @Override
     public void addRecipes(TCRecipeProvider provider, ItemLike itemLike, RecipeOutput consumer) {
-        provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS,
+        provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(provider.items, RecipeCategory.BUILDING_BLOCKS,
                         TCBlockCore.CREEPER_PLANKS, 8)
                 .define('#', TCBlockCore.CREEPER_BOMB)
                 .define('B', ItemTags.PLANKS)
                 .pattern("BBB")
                 .pattern("B#B")
                 .pattern("BBB")
-                .unlockedBy("has_creeperbomb", TCRecipeProvider.hasItem(TCBlockCore.CREEPER_BOMB)));
+                .unlockedBy("has_creeperbomb", provider.hasItem(TCBlockCore.CREEPER_BOMB)));
     }
 }

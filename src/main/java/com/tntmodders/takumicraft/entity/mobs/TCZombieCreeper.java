@@ -1,9 +1,9 @@
 package com.tntmodders.takumicraft.entity.mobs;
 
-import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.client.renderer.entity.TCZombieCreeperRenderer;
 import com.tntmodders.takumicraft.core.TCEntityCore;
 import com.tntmodders.takumicraft.entity.ai.TCZombieCreeperAttackGoal;
+import com.tntmodders.takumicraft.utils.TCEntityUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.loot.EntityLootSubProvider;
@@ -321,12 +321,12 @@ public class TCZombieCreeper extends AbstractTCCreeper {
                     BlockPos blockpos = new BlockPos(i1, j1, k1);
                     EntityType<?> entitytype = zombie.getType();
                     SpawnPlacementType spawnplacements$type = SpawnPlacements.getPlacementType(entitytype);
-                    if (SpawnPlacements.isSpawnPositionOk(entitytype, this.level(), blockpos) && SpawnPlacements.checkSpawnRules(entitytype, serverLevel, MobSpawnType.REINFORCEMENT, blockpos, this.level().random)) {
+                    if (SpawnPlacements.isSpawnPositionOk(entitytype, this.level(), blockpos) && SpawnPlacements.checkSpawnRules(entitytype, serverLevel, EntitySpawnReason.REINFORCEMENT, blockpos, this.level().random)) {
                         zombie.setPos(i1, j1, k1);
                         if (!this.level().hasNearbyAlivePlayer(i1, j1, k1, 7.0D) && this.level().isUnobstructed(zombie) && this.level().noCollision(zombie) && !this.level().containsAnyLiquid(zombie.getBoundingBox())) {
                             if (livingentity != null)
                                 zombie.setTarget(livingentity);
-                            zombie.finalizeSpawn(serverLevel, this.level().getCurrentDifficultyAt(zombie.blockPosition()), MobSpawnType.REINFORCEMENT, null);
+                            zombie.finalizeSpawn(serverLevel, this.level().getCurrentDifficultyAt(zombie.blockPosition()), EntitySpawnReason.REINFORCEMENT, null);
                             serverLevel.addFreshEntityWithPassengers(zombie);
                             AttributeInstance attributeinstance = this.getAttribute(Attributes.SPAWN_REINFORCEMENTS_CHANCE);
                             AttributeModifier attributemodifier = attributeinstance.getModifier(REINFORCEMENT_CALLER_CHARGE_ID);
@@ -426,7 +426,7 @@ public class TCZombieCreeper extends AbstractTCCreeper {
                 return flg;
             }
             TCZombieVillagerCreeper zombievillager = villager.convertTo((EntityType<TCZombieVillagerCreeper>) TCEntityCore.ZOMBIE_VILLAGER.entityType(), false);
-            zombievillager.finalizeSpawn(p_34281_, p_34281_.getCurrentDifficultyAt(zombievillager.blockPosition()), MobSpawnType.CONVERSION, new Zombie.ZombieGroupData(false, true));
+            zombievillager.finalizeSpawn(p_34281_, p_34281_.getCurrentDifficultyAt(zombievillager.blockPosition()), EntitySpawnReason.CONVERSION, new Zombie.ZombieGroupData(false, true));
             zombievillager.setVillagerData(villager.getVillagerData());
             zombievillager.setGossips(villager.getGossips().store(NbtOps.INSTANCE));
             zombievillager.setTradeOffers(villager.getOffers().copy());
@@ -452,7 +452,7 @@ public class TCZombieCreeper extends AbstractTCCreeper {
 
     @Override
     @Nullable
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_34297_, DifficultyInstance p_34298_, MobSpawnType p_34299_, @Nullable SpawnGroupData p_34300_) {
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_34297_, DifficultyInstance p_34298_, EntitySpawnReason p_34299_, @Nullable SpawnGroupData p_34300_) {
         p_34300_ = super.finalizeSpawn(p_34297_, p_34298_, p_34299_, p_34300_);
         float f = p_34298_.getSpecialMultiplier();
         this.setCanPickUpLoot(this.random.nextFloat() < 0.55F * f);
@@ -474,7 +474,7 @@ public class TCZombieCreeper extends AbstractTCCreeper {
                     } else if ((double) p_34297_.getRandom().nextFloat() < 0.05D) {
                         Chicken chicken1 = EntityType.CHICKEN.create(this.level());
                         chicken1.moveTo(this.getX(), this.getY(), this.getZ(), this.getYRot(), 0.0F);
-                        chicken1.finalizeSpawn(p_34297_, p_34298_, MobSpawnType.JOCKEY, null);
+                        chicken1.finalizeSpawn(p_34297_, p_34298_, EntitySpawnReason.JOCKEY, null);
                         chicken1.setChickenJockey(true);
                         this.startRiding(chicken1);
                         p_34297_.addFreshEntity(chicken1);
@@ -556,7 +556,7 @@ public class TCZombieCreeper extends AbstractTCCreeper {
         private static final String NAME = "zombiecreeper";
         public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder
                 .of(TCZombieCreeper::new, MobCategory.MONSTER).sized(0.6F, 1.95F).clientTrackingRange(8)
-                .build(TakumiCraftCore.MODID + ":" + NAME);
+                .build(TCEntityUtils.TCEntityId(NAME));
 
         @Override
         public String getRegistryName() {

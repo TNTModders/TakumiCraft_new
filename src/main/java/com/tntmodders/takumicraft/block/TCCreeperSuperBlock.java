@@ -25,7 +25,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
@@ -75,7 +75,7 @@ public class TCCreeperSuperBlock extends BaseEntityBlock implements EntityBlock,
     }
 
     @Override
-    protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult result) {
+    protected InteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult result) {
         if (!level.isClientSide() && level.getBlockEntity(pos) instanceof TCCreeperSuperBlockEntity superBlock) {
             if (superBlock.canChange(player)) {
                 if (stack.getItem() instanceof BlockItem blockItem) {
@@ -96,7 +96,7 @@ public class TCCreeperSuperBlock extends BaseEntityBlock implements EntityBlock,
                 }
             }
         }
-        return ItemInteractionResult.CONSUME_PARTIAL;
+        return InteractionResult.CONSUME;
     }
 
     private void setBlocktoSuperBlock(BlockState state, TCCreeperSuperBlockEntity superBlock, Player player, InteractionHand hand, BlockHitResult result, Block block) {
@@ -159,10 +159,9 @@ public class TCCreeperSuperBlock extends BaseEntityBlock implements EntityBlock,
     }
 
     @Override
-    protected boolean propagatesSkylightDown(BlockState p_312717_, BlockGetter p_312877_, BlockPos p_312899_) {
+    protected boolean propagatesSkylightDown(BlockState p_331634_) {
         return true;
     }
-
 
     @Override
     protected MapCodec<? extends BaseEntityBlock> codec() {
@@ -214,14 +213,14 @@ public class TCCreeperSuperBlock extends BaseEntityBlock implements EntityBlock,
 
     @Override
     public void addRecipes(TCRecipeProvider provider, ItemLike itemLike, RecipeOutput consumer) {
-        provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS,
+        provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(provider.items, RecipeCategory.BUILDING_BLOCKS,
                         TCBlockCore.SUPER_BLOCK, 8)
                 .define('#', TCItemCore.KING_CORE)
                 .define('B', TCBlockCore.CREEPER_BOMB)
                 .pattern("BBB")
                 .pattern("B#B")
                 .pattern("BBB")
-                .unlockedBy("has_kingcore", TCRecipeProvider.hasItem(TCItemCore.KING_CORE)));
+                .unlockedBy("has_kingcore", provider.hasItem(TCItemCore.KING_CORE)));
     }
 
     static class TCSuperBlockPlaceContext extends BlockPlaceContext {

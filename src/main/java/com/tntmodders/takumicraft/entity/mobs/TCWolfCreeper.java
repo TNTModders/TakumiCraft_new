@@ -1,8 +1,8 @@
 package com.tntmodders.takumicraft.entity.mobs;
 
-import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.client.renderer.entity.TCWolfCreeperRenderer;
 import com.tntmodders.takumicraft.core.TCEntityCore;
+import com.tntmodders.takumicraft.utils.TCEntityUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.particles.ParticleTypes;
@@ -67,7 +67,7 @@ public class TCWolfCreeper extends AbstractTCCreeper {
         this.wolves = this.registryAccess().registryOrThrow(Registries.WOLF_VARIANT).holders().toList();
     }
 
-    public static boolean checkWolfSpawnRules(EntityType<? extends AbstractTCCreeper> p_218292_, LevelAccessor p_218293_, MobSpawnType p_218294_, BlockPos p_218295_, RandomSource p_218296_) {
+    public static boolean checkWolfSpawnRules(EntityType<? extends AbstractTCCreeper> p_218292_, LevelAccessor p_218293_, EntitySpawnReason p_218294_, BlockPos p_218295_, RandomSource p_218296_) {
         return p_218293_.getBlockState(p_218295_.below()).is(BlockTags.WOLVES_SPAWNABLE_ON) && isBrightEnoughToSpawn(p_218293_, p_218295_);
     }
 
@@ -266,7 +266,7 @@ public class TCWolfCreeper extends AbstractTCCreeper {
 
     public static class TCWolfCreeperContext implements TCCreeperContext<TCWolfCreeper> {
         private static final String NAME = "wolfcreeper";
-        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCWolfCreeper::new, MobCategory.MONSTER).sized(0.6F, 0.85F).clientTrackingRange(10).build(TakumiCraftCore.MODID + ":" + NAME);
+        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCWolfCreeper::new, MobCategory.MONSTER).sized(0.6F, 0.85F).clientTrackingRange(10).build(TCEntityUtils.TCEntityId(NAME));
 
         @Override
         public String getRegistryName() {

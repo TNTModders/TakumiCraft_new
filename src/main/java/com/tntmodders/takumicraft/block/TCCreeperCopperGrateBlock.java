@@ -8,11 +8,13 @@ import net.minecraft.core.Direction;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.SingleItemRecipeBuilder;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.ItemLike;
-import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.ScheduledTickAccess;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
 import net.minecraft.world.level.block.SoundType;
@@ -51,14 +53,11 @@ public class TCCreeperCopperGrateBlock extends TCCreeperCopperBlock implements S
     }
 
     @Override
-    protected BlockState updateShape(
-            BlockState p_312220_, Direction p_310752_, BlockState p_310063_, LevelAccessor p_311410_, BlockPos p_310038_, BlockPos p_309617_
-    ) {
-        if (p_312220_.getValue(WATERLOGGED)) {
-            p_311410_.scheduleTick(p_310038_, Fluids.WATER, Fluids.WATER.getTickDelay(p_311410_));
+    protected BlockState updateShape(BlockState p_60541_, LevelReader p_368027_, ScheduledTickAccess p_366146_, BlockPos p_60545_, Direction p_60542_, BlockPos p_60546_, BlockState p_60543_, RandomSource p_363918_) {
+        if (p_60541_.getValue(WATERLOGGED)) {
+            p_366146_.scheduleTick(p_60545_, Fluids.WATER, Fluids.WATER.getTickDelay(p_368027_));
         }
-
-        return super.updateShape(p_312220_, p_310752_, p_310063_, p_311410_, p_310038_, p_309617_);
+        return super.updateShape(p_60541_, p_368027_, p_366146_, p_60545_, p_60542_, p_60546_, p_60543_, p_363918_);
     }
 
     @Override
@@ -81,8 +80,9 @@ public class TCCreeperCopperGrateBlock extends TCCreeperCopperBlock implements S
         return 1.0F;
     }
 
+
     @Override
-    protected boolean propagatesSkylightDown(BlockState p_312717_, BlockGetter p_312877_, BlockPos p_312899_) {
+    protected boolean propagatesSkylightDown(BlockState p_331634_) {
         return true;
     }
 

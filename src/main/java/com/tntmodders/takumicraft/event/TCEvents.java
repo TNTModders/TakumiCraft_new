@@ -21,8 +21,8 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.animal.Parrot;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Creeper;
@@ -107,7 +107,7 @@ public class TCEvents {
             BlockPos pos = new BlockPos((int) event.getX(), (int) event.getY(), (int) event.getZ());
             TCPhantomCreeper creeper = (TCPhantomCreeper) TCEntityCore.PHANTOM.entityType().create(level);
             creeper.moveTo(pos, 0f, 0f);
-            creeper.finalizeSpawn(level, level.getCurrentDifficultyAt(pos), MobSpawnType.NATURAL, null);
+            creeper.finalizeSpawn(level, level.getCurrentDifficultyAt(pos), EntitySpawnReason.NATURAL, null);
             if (level.tryAddFreshEntityWithPassengers(creeper)) {
                 event.setResult(Event.Result.DENY);
             }

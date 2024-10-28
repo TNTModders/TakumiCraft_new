@@ -12,6 +12,7 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.Clearable;
@@ -48,13 +49,13 @@ public class TCCreeperCampFireBlockEntity extends BlockEntity implements Clearab
 
         for (int i = 0; i < campfire.items.size(); i++) {
             ItemStack itemstack = campfire.items.get(i);
-            if (!itemstack.isEmpty()) {
+            if (!itemstack.isEmpty() && level instanceof ServerLevel serverLevel) {
                 flag = true;
                 campfire.cookingProgress[i]++;
                 if (campfire.cookingProgress[i] >= campfire.cookingTime[i]) {
                     SingleRecipeInput container = new SingleRecipeInput(itemstack);
                     ItemStack itemstack1 = campfire.quickCheck
-                            .getRecipeFor(container, level)
+                            .getRecipeFor(container, serverLevel)
                             .map(p_327303_ -> p_327303_.value().assemble(container, level.registryAccess()))
                             .orElse(itemstack);
                     if (itemstack1.isItemEnabled(level.enabledFeatures())) {
@@ -162,10 +163,10 @@ public class TCCreeperCampFireBlockEntity extends BlockEntity implements Clearab
         return compoundtag;
     }
 
-    public Optional<RecipeHolder<CampfireCookingRecipe>> getCookableRecipe(ItemStack p_59052_) {
+    public Optional<RecipeHolder<CampfireCookingRecipe>> getCookableRecipe(ServerLevel serverLevel, ItemStack p_59052_) {
         return this.items.stream().noneMatch(ItemStack::isEmpty)
                 ? Optional.empty()
-                : this.quickCheck.getRecipeFor(new SingleRecipeInput(p_59052_), this.level);
+                : this.quickCheck.getRecipeFor(new SingleRecipeInput(p_59052_), serverLevel);
     }
 
     public boolean placeFood(@Nullable Entity p_238285_, ItemStack p_238286_, int p_238287_) {

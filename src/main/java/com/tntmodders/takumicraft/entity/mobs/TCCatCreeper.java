@@ -1,8 +1,8 @@
 package com.tntmodders.takumicraft.entity.mobs;
 
-import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.client.renderer.entity.TCCatCreeperRenderer;
 import com.tntmodders.takumicraft.core.TCEntityCore;
+import com.tntmodders.takumicraft.utils.TCEntityUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -125,7 +125,7 @@ public class TCCatCreeper extends AbstractTCCreeper {
 
     @Override
     public Vec3 getLeashOffset() {
-        return new Vec3(0.0, (double) (0.5F * this.getEyeHeight()), (double) (this.getBbWidth() * 0.4F));
+        return new Vec3(0.0, 0.5F * this.getEyeHeight(), this.getBbWidth() * 0.4F);
     }
 
     @Override
@@ -135,7 +135,7 @@ public class TCCatCreeper extends AbstractTCCreeper {
 
     public static class TCCatCreeperContext implements TCCreeperContext<TCCatCreeper> {
         private static final String NAME = "catcreeper";
-        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCCatCreeper::new, MobCategory.MONSTER).sized(0.6F, 0.7F).eyeHeight(0.35F).passengerAttachments(0.5125F).clientTrackingRange(8).build(TakumiCraftCore.MODID + ":" + NAME);
+        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCCatCreeper::new, MobCategory.MONSTER).sized(0.6F, 0.7F).eyeHeight(0.35F).passengerAttachments(0.5125F).clientTrackingRange(8).build(TCEntityUtils.TCEntityId(NAME));
 
         @Override
         public String getRegistryName() {

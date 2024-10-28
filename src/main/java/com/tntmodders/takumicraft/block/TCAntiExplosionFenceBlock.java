@@ -72,7 +72,7 @@ public class TCAntiExplosionFenceBlock extends FenceBlock implements ITCBlocks, 
 
     @Override
     public void addRecipes(TCRecipeProvider provider, ItemLike itemLike, RecipeOutput consumer) {
-        provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, itemLike, 3).define('#', this.baseBlock).define('S', Items.STICK).pattern("#S#").pattern("#S#").unlockedBy("has_baseblock", TCRecipeProvider.hasItem(this.baseBlock)));
+        provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(provider.items, RecipeCategory.DECORATIONS, itemLike, 3).define('#', this.baseBlock).define('S', Items.STICK).pattern("#S#").pattern("#S#").unlockedBy("has_baseblock", provider.hasItem(this.baseBlock)));
     }
 
 

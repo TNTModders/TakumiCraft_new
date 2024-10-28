@@ -10,7 +10,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -52,7 +51,7 @@ public class TCCreeperSuperBlockItem extends TCBlockItem {
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level p_41432_, Player p_41433_, InteractionHand p_41434_) {
+    public InteractionResult use(Level p_41432_, Player p_41433_, InteractionHand p_41434_) {
         if (p_41433_.isCreative() && p_41433_.isShiftKeyDown()) {
             ItemStack stack = p_41433_.getItemInHand(p_41434_);
             CompoundTag tag = new CompoundTag();
@@ -65,7 +64,7 @@ public class TCCreeperSuperBlockItem extends TCBlockItem {
             }
             tag.putBoolean("replace", !replace);
             stack.set(DataComponents.CUSTOM_DATA, CustomData.of(tag));
-            return InteractionResultHolder.success(stack);
+            return InteractionResult.SUCCESS;
         }
         return super.use(p_41432_, p_41433_, p_41434_);
     }
@@ -85,7 +84,7 @@ public class TCCreeperSuperBlockItem extends TCBlockItem {
                         superBlock.setState(oldState);
                         superBlock.setChanged();
                     }
-                    return InteractionResult.CONSUME_PARTIAL;
+                    return InteractionResult.CONSUME;
                 }
             } else {
                 CompoundTag tag = stack.get(DataComponents.CUSTOM_DATA).copyTag();

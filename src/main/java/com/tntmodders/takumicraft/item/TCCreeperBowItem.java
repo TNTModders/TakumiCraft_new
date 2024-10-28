@@ -93,7 +93,7 @@ public class TCCreeperBowItem extends BowItem implements ITCItems, ITCTranslator
     public void addRecipes(TCRecipeProvider provider, ItemLike itemLike, RecipeOutput consumer) {
         SmithingTransformRecipeBuilder.smithing(Ingredient.of(TCItemCore.ELEMENTCORE_FIRE, TCItemCore.ELEMENTCORE_NORMAL, TCItemCore.ELEMENTCORE_WATER, TCItemCore.ELEMENTCORE_GRASS, TCItemCore.ELEMENTCORE_WIND, TCItemCore.ELEMENTCORE_GROUND),
                         Ingredient.of(Items.BOW), Ingredient.of(TCBlockCore.CREEPER_BOMB)
-                        , RecipeCategory.COMBAT, TCItemCore.CREEPER_BOW).unlocks("has_creeperbomb", TCRecipeProvider.hasItem(TCBlockCore.CREEPER_BOMB))
+                        , RecipeCategory.COMBAT, TCItemCore.CREEPER_BOW).unlocks("has_creeperbomb", provider.hasItem(TCBlockCore.CREEPER_BOMB))
                 .save(consumer, "creeperbow_smithing");
     }
 

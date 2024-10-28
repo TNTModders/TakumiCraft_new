@@ -73,7 +73,7 @@ public class TCMinesweeperShovelItem extends ShovelItem implements ITCItems, ITC
     public void addRecipes(TCRecipeProvider provider, ItemLike itemLike, RecipeOutput consumer) {
         SmithingTransformRecipeBuilder.smithing(Ingredient.of(TCItemCore.ELEMENTCORE_FIRE, TCItemCore.ELEMENTCORE_NORMAL, TCItemCore.ELEMENTCORE_WATER, TCItemCore.ELEMENTCORE_GRASS, TCItemCore.ELEMENTCORE_WIND, TCItemCore.ELEMENTCORE_GROUND),
                         Ingredient.of(Items.IRON_SHOVEL), Ingredient.of(TCBlockCore.CREEPER_BOMB)
-                        , RecipeCategory.TOOLS, TCItemCore.MINESWEEPER_SHOVEL).unlocks("has_creeperbomb", TCRecipeProvider.hasItem(TCBlockCore.CREEPER_BOMB))
+                        , RecipeCategory.TOOLS, TCItemCore.MINESWEEPER_SHOVEL).unlocks("has_creeperbomb", provider.hasItem(TCBlockCore.CREEPER_BOMB))
                 .save(consumer, this.getRegistryName() + "_smithing");
     }
 }

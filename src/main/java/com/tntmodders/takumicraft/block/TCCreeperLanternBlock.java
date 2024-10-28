@@ -43,14 +43,14 @@ public class TCCreeperLanternBlock extends LanternBlock implements ITCBlocks, IT
 
     @Override
     public void addRecipes(TCRecipeProvider provider, ItemLike itemLike, RecipeOutput consumer) {
-        provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS,
+        provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(provider.items, RecipeCategory.BUILDING_BLOCKS,
                         TCBlockCore.CREEPER_LANTERN, 8)
                 .define('#', TCBlockCore.CREEPER_BOMB)
                 .define('B', Blocks.LANTERN)
                 .pattern("BBB")
                 .pattern("B#B")
                 .pattern("BBB")
-                .unlockedBy("has_creeperbomb", TCRecipeProvider.hasItem(TCBlockCore.CREEPER_BOMB)));
+                .unlockedBy("has_creeperbomb", provider.hasItem(TCBlockCore.CREEPER_BOMB)));
     }
 
     @Override

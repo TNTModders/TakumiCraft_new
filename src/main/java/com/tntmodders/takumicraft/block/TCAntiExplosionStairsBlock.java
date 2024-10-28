@@ -82,7 +82,7 @@ public class TCAntiExplosionStairsBlock extends StairBlock implements ITCBlocks,
 
     @Override
     public void addRecipes(TCRecipeProvider provider, ItemLike itemLike, RecipeOutput consumer) {
-        ShapedRecipeBuilder builder = ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, itemLike, 4).define('#', this.baseBlock).pattern("#  ").pattern("## ").pattern("###").unlockedBy("has_baseblock", TCRecipeProvider.hasItem(this.baseBlock));
+        ShapedRecipeBuilder builder = ShapedRecipeBuilder.shaped(provider.items, RecipeCategory.BUILDING_BLOCKS, itemLike, 4).define('#', this.baseBlock).pattern("#  ").pattern("## ").pattern("###").unlockedBy("has_baseblock", provider.hasItem(this.baseBlock));
         if (!this.group.isEmpty()) {
             builder.group(this.group);
         }

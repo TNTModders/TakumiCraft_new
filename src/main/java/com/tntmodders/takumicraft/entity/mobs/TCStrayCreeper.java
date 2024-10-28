@@ -1,9 +1,9 @@
 package com.tntmodders.takumicraft.entity.mobs;
 
-import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.client.renderer.entity.TCStrayCreeperRenderer;
 import com.tntmodders.takumicraft.core.TCEntityCore;
 import com.tntmodders.takumicraft.core.TCItemCore;
+import com.tntmodders.takumicraft.utils.TCEntityUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.sounds.SoundEvent;
@@ -12,9 +12,9 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
-import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.SpawnPlacementTypes;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.monster.Creeper;
@@ -46,14 +46,14 @@ public class TCStrayCreeper extends AbstractTCSkeletonCreeper {
         super(entityType, level);
     }
 
-    public static boolean checkStraySpawnRules(EntityType<AbstractTCCreeper> p_219121_, ServerLevelAccessor p_219122_, MobSpawnType p_219123_, BlockPos p_219124_, RandomSource p_219125_) {
+    public static boolean checkStraySpawnRules(EntityType<AbstractTCCreeper> p_219121_, ServerLevelAccessor p_219122_, EntitySpawnReason p_219123_, BlockPos p_219124_, RandomSource p_219125_) {
         BlockPos blockpos = p_219124_;
 
         do {
             blockpos = blockpos.above();
         } while (p_219122_.getBlockState(blockpos).is(Blocks.POWDER_SNOW));
 
-        return checkMonsterSpawnRules(p_219121_, p_219122_, p_219123_, p_219124_, p_219125_) && (MobSpawnType.isSpawner(p_219123_) || p_219122_.canSeeSky(blockpos.below()));
+        return checkMonsterSpawnRules(p_219121_, p_219122_, p_219123_, p_219124_, p_219125_) && (EntitySpawnReason.isSpawner(p_219123_) || p_219122_.canSeeSky(blockpos.below()));
     }
 
     @Override
@@ -94,7 +94,7 @@ public class TCStrayCreeper extends AbstractTCSkeletonCreeper {
         private static final String NAME = "straycreeper";
         public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder
                 .of(TCStrayCreeper::new, MobCategory.MONSTER).sized(0.6F, 1.99F).clientTrackingRange(8)
-                .immuneTo(Blocks.POWDER_SNOW).build(TakumiCraftCore.MODID + ":" + NAME);
+                .immuneTo(Blocks.POWDER_SNOW).build(TCEntityUtils.TCEntityId(NAME));
 
         @Override
         public String getRegistryName() {

@@ -34,8 +34,7 @@ import java.util.List;
 public class TCClientUtils {
     public static final ResourceLocation POWER_LOCATION = ResourceLocation.withDefaultNamespace("textures/entity/creeper/creeper_armor.png");
 
-    public static void scaleSwelling(AbstractTCCreeper creeper, PoseStack poseStack, float pertialTick) {
-        float f = creeper.getSwelling(pertialTick);
+    public static void scaleSwelling(float f, PoseStack poseStack) {
         float f1 = 1.0F + Mth.sin(f * 100.0F) * f * 0.01F;
         f = Mth.clamp(f, 0.0F, 1.0F);
         f *= f;

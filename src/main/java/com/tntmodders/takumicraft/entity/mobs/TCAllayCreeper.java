@@ -6,6 +6,7 @@ import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.client.renderer.entity.TCAllayCreeperRenderer;
 import com.tntmodders.takumicraft.core.TCEntityCore;
 import com.tntmodders.takumicraft.entity.ai.allay.TCAllayCreeperAi;
+import com.tntmodders.takumicraft.utils.TCEntityUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.core.Holder;
@@ -25,6 +26,8 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.GameEventTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
+import net.minecraft.util.profiling.Profiler;
+import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.damagesource.DamageSource;
@@ -220,14 +223,15 @@ public class TCAllayCreeper extends AbstractTCCreeper implements InventoryCarrie
     }
 
     @Override
-    protected void customServerAiStep() {
-        this.level().getProfiler().push("allayBrain");
-        this.getBrain().tick((ServerLevel) this.level(), this);
-        this.level().getProfiler().pop();
-        this.level().getProfiler().push("allayActivityUpdate");
+    protected void customServerAiStep(ServerLevel p_367271_) {
+        ProfilerFiller profilerfiller = Profiler.get();
+        profilerfiller.push("allayBrain");
+        this.getBrain().tick(p_367271_, this);
+        profilerfiller.pop();
+        profilerfiller.push("allayActivityUpdate");
         TCAllayCreeperAi.updateActivity(this);
-        this.level().getProfiler().pop();
-        super.customServerAiStep();
+        profilerfiller.pop();
+        super.customServerAiStep(p_367271_);
     }
 
     @Override
@@ -296,7 +300,7 @@ public class TCAllayCreeper extends AbstractTCCreeper implements InventoryCarrie
     }
 
     @Override
-    public boolean canTakeItem(ItemStack p_218380_) {
+    protected boolean canDispenserEquipIntoSlot(EquipmentSlot p_360851_) {
         return false;
     }
 
@@ -327,9 +331,9 @@ public class TCAllayCreeper extends AbstractTCCreeper implements InventoryCarrie
     }
 
     @Override
-    public boolean wantsToPickUp(ItemStack p_218387_) {
+    public boolean wantsToPickUp(ServerLevel p_363882_, ItemStack p_218387_) {
         ItemStack itemstack = this.getItemInHand(InteractionHand.MAIN_HAND);
-        return !itemstack.isEmpty() && this.inventory.canAddItem(p_218387_) && this.allayConsidersItemEqual(itemstack, p_218387_) && net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.level(), this);
+        return !itemstack.isEmpty() && this.inventory.canAddItem(p_218387_) && this.allayConsidersItemEqual(itemstack, p_218387_) && net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(p_363882_, this);
     }
 
     private boolean allayConsidersItemEqual(ItemStack p_252278_, ItemStack p_250405_) {
@@ -337,8 +341,8 @@ public class TCAllayCreeper extends AbstractTCCreeper implements InventoryCarrie
     }
 
     @Override
-    protected void pickUpItem(ItemEntity p_218359_) {
-        InventoryCarrier.pickUpItem(this, this, p_218359_);
+    protected void pickUpItem(ServerLevel p_363025_, ItemEntity p_218359_) {
+        InventoryCarrier.pickUpItem(p_363025_, this, this, p_218359_);
     }
 
     @Override
@@ -395,12 +399,12 @@ public class TCAllayCreeper extends AbstractTCCreeper implements InventoryCarrie
     }
 
     @Override
-    protected void dropEquipment() {
-        super.dropEquipment();
-        this.inventory.removeAllItems().forEach(this::spawnAtLocation);
+    protected void dropEquipment(ServerLevel level) {
+        super.dropEquipment(level);
+        this.inventory.removeAllItems().forEach(stack -> this.spawnAtLocation(level, stack));
         ItemStack itemstack = this.getItemBySlot(EquipmentSlot.MAINHAND);
         if (!itemstack.isEmpty() && !EnchantmentHelper.has(itemstack, EnchantmentEffectComponents.PREVENT_EQUIPMENT_DROP)) {
-            this.spawnAtLocation(itemstack);
+            this.spawnAtLocation(level, itemstack);
             this.setItemSlot(EquipmentSlot.MAINHAND, ItemStack.EMPTY);
         }
     }
@@ -568,7 +572,7 @@ public class TCAllayCreeper extends AbstractTCCreeper implements InventoryCarrie
 
     public static class TCAllayCreeperContext implements TCCreeperContext<TCAllayCreeper> {
         private static final String NAME = "allaycreeper";
-        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCAllayCreeper::new, MobCategory.MONSTER).sized(0.35F, 0.6F).eyeHeight(0.36F).ridingOffset(0.04F).clientTrackingRange(8).updateInterval(2).build(TakumiCraftCore.MODID + ":" + NAME);
+        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCAllayCreeper::new, MobCategory.MONSTER).sized(0.35F, 0.6F).eyeHeight(0.36F).ridingOffset(0.04F).clientTrackingRange(8).updateInterval(2).build(TCEntityUtils.TCEntityId(NAME));
 
         @Override
         public String getRegistryName() {

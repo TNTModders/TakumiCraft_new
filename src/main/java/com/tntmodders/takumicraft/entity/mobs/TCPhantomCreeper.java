@@ -1,8 +1,8 @@
 package com.tntmodders.takumicraft.entity.mobs;
 
-import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.client.renderer.entity.TCPhantomCreeperRenderer;
 import com.tntmodders.takumicraft.core.TCEntityCore;
+import com.tntmodders.takumicraft.utils.TCEntityUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -177,7 +177,7 @@ public class TCPhantomCreeper extends AbstractTCCreeper {
     }
 
     @Override
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_33126_, DifficultyInstance p_33127_, MobSpawnType p_33128_, @Nullable SpawnGroupData p_33129_) {
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_33126_, DifficultyInstance p_33127_, EntitySpawnReason p_33128_, @Nullable SpawnGroupData p_33129_) {
         this.anchorPoint = this.blockPosition().above(5);
         this.setPhantomSize(0);
         return super.finalizeSpawn(p_33126_, p_33127_, p_33128_, p_33129_);
@@ -250,7 +250,7 @@ public class TCPhantomCreeper extends AbstractTCCreeper {
                 && !this.hasEffect(MobEffects.MOVEMENT_SPEED) && this.level() instanceof ServerLevel) {
             TCZombieCreeper creeper = (TCZombieCreeper) TCEntityCore.ZOMBIE.entityType().create(this.level());
             creeper.copyPosition(this);
-            creeper.finalizeSpawn((ServerLevel) this.level(), this.level().getCurrentDifficultyAt(this.blockPosition()), MobSpawnType.MOB_SUMMONED, null);
+            creeper.finalizeSpawn((ServerLevel) this.level(), this.level().getCurrentDifficultyAt(this.blockPosition()), EntitySpawnReason.MOB_SUMMONED, null);
             creeper.setItemSlot(EquipmentSlot.CHEST, new ItemStack(Items.ELYTRA));
             ((ServerLevel) this.level()).addFreshEntityWithPassengers(creeper);
             this.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 60));
@@ -291,7 +291,7 @@ public class TCPhantomCreeper extends AbstractTCCreeper {
         private static final String NAME = "phantomcreeper";
         public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder
                 .of(TCPhantomCreeper::new, MobCategory.MONSTER).sized(0.9F, 0.5F).clientTrackingRange(8)
-                .build(TakumiCraftCore.MODID + ":" + NAME);
+                .build(TCEntityUtils.TCEntityId(NAME));
 
         @Override
         public String getRegistryName() {

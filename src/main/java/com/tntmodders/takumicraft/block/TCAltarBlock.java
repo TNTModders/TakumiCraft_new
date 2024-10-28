@@ -16,6 +16,7 @@ import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -58,7 +59,7 @@ public class TCAltarBlock extends AbstractTCAntiExplosionBlock implements ITCRec
 
     private boolean summonHigh(Level level, BlockPos pos) {
         AbstractTCCreeper.TCCreeperContext context = TCEntityCore.ALTAR_LIST.get(level.getRandom().nextInt(TCEntityCore.ALTAR_LIST.size()));
-        var entity = context.entityType().create(level);
+        var entity = context.entityType().create(level, EntitySpawnReason.SPAWN_ITEM_USE);
         if (entity instanceof AbstractTCCreeper creeper) {
             creeper.setPos(pos.getCenter());
             return level.addFreshEntity(creeper);
@@ -68,7 +69,7 @@ public class TCAltarBlock extends AbstractTCAntiExplosionBlock implements ITCRec
 
     private boolean summonKing(Level level, BlockPos pos) {
         AbstractTCCreeper.TCCreeperContext context = TCEntityCore.KING;
-        var entity = context.entityType().create(level);
+        var entity = context.entityType().create(level, EntitySpawnReason.SPAWN_ITEM_USE);
         if (entity instanceof AbstractTCCreeper creeper) {
             creeper.setPos(pos.getCenter());
             return level.addFreshEntity(creeper);
@@ -101,7 +102,7 @@ public class TCAltarBlock extends AbstractTCAntiExplosionBlock implements ITCRec
 
     @Override
     public void addRecipes(TCRecipeProvider provider, ItemLike itemLike, RecipeOutput consumer) {
-        provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, itemLike).define('#', TCBlockCore.CREEPER_BOMB).define('D', Blocks.DIAMOND_BLOCK).define('E', Blocks.EMERALD_BLOCK).pattern("EEE").pattern("D#D").pattern("###").unlockedBy("has_creeperbomb", TCRecipeProvider.hasItem(TCBlockCore.CREEPER_BOMB)));
+        provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(provider.items, RecipeCategory.BUILDING_BLOCKS, itemLike).define('#', TCBlockCore.CREEPER_BOMB).define('D', Blocks.DIAMOND_BLOCK).define('E', Blocks.EMERALD_BLOCK).pattern("EEE").pattern("D#D").pattern("###").unlockedBy("has_creeperbomb", provider.hasItem(TCBlockCore.CREEPER_BOMB)));
     }
 
     @Override

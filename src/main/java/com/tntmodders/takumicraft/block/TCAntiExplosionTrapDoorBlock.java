@@ -92,7 +92,7 @@ public class TCAntiExplosionTrapDoorBlock extends TrapDoorBlock implements ITCBl
 
     @Override
     public void addRecipes(TCRecipeProvider provider, ItemLike itemLike, RecipeOutput consumer) {
-        ShapedRecipeBuilder builder = ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, itemLike).define('#', this.baseBlock).pattern("##").pattern("##").unlockedBy("has_baseblock", TCRecipeProvider.hasItem(this.baseBlock));
+        ShapedRecipeBuilder builder = ShapedRecipeBuilder.shaped(provider.items, RecipeCategory.REDSTONE, itemLike).define('#', this.baseBlock).pattern("##").pattern("##").unlockedBy("has_baseblock", provider.hasItem(this.baseBlock));
         if (!this.group.isEmpty()) {
             builder.group(this.group);
         }

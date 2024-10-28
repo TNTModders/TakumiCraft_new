@@ -1,8 +1,8 @@
 package com.tntmodders.takumicraft.entity.mobs;
 
-import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.client.renderer.entity.TCSpiderCreeperRenderer;
 import com.tntmodders.takumicraft.core.TCEntityCore;
+import com.tntmodders.takumicraft.utils.TCEntityUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -157,7 +157,7 @@ public class TCSpiderCreeper extends AbstractTCCreeper {
 
     @Override
     @Nullable
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_33790_, DifficultyInstance p_33791_, MobSpawnType p_33792_, @Nullable SpawnGroupData p_33793_) {
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_33790_, DifficultyInstance p_33791_, EntitySpawnReason p_33792_, @Nullable SpawnGroupData p_33793_) {
         p_33793_ = super.finalizeSpawn(p_33790_, p_33791_, p_33792_, p_33793_);
         RandomSource randomsource = p_33790_.getRandom();
         if (this.getContext() == TCEntityCore.SPIDER && randomsource.nextInt(100) == 0) {
@@ -246,7 +246,7 @@ public class TCSpiderCreeper extends AbstractTCCreeper {
     public static class TCSpiderCreeperContext implements TCCreeperContext<TCSpiderCreeper> {
         private static final String NAME = "spidercreeper";
         public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder
-                .of(TCSpiderCreeper::new, MobCategory.MONSTER).sized(1.4F, 0.9F).eyeHeight(0.65F).clientTrackingRange(8).build(TakumiCraftCore.MODID + ":" + NAME);
+                .of(TCSpiderCreeper::new, MobCategory.MONSTER).sized(1.4F, 0.9F).eyeHeight(0.65F).clientTrackingRange(8).build(TCEntityUtils.TCEntityId(NAME));
 
         @Override
         public String getRegistryName() {

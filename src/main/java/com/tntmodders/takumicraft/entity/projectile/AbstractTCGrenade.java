@@ -1,10 +1,12 @@
 package com.tntmodders.takumicraft.entity.projectile;
 
+import com.tntmodders.takumicraft.core.TCItemCore;
 import com.tntmodders.takumicraft.utils.TCExplosionUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
@@ -18,12 +20,12 @@ public abstract class AbstractTCGrenade extends ThrowableItemProjectile {
         super(p_37442_, p_37443_);
     }
 
-    public AbstractTCGrenade(EntityType<? extends ThrowableItemProjectile> p_37432_, double p_37433_, double p_37434_, double p_37435_, Level p_37436_) {
-        super(p_37432_, p_37433_, p_37434_, p_37435_, p_37436_);
+    public AbstractTCGrenade(EntityType<? extends ThrowableItemProjectile> p_37432_, double p_37433_, double p_37434_, double p_37435_, Level p_37436_, ItemStack stack) {
+        super(p_37432_, p_37433_, p_37434_, p_37435_, p_37436_, stack);
     }
 
-    public AbstractTCGrenade(EntityType<? extends ThrowableItemProjectile> p_37438_, LivingEntity p_37439_, Level p_37440_) {
-        super(p_37438_, p_37439_, p_37440_);
+    public AbstractTCGrenade(EntityType<? extends ThrowableItemProjectile> p_37438_, LivingEntity p_37439_, Level p_37440_, ItemStack stack) {
+        super(p_37438_, p_37439_, p_37440_, stack);
     }
 
     @Override

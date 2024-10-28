@@ -1,8 +1,8 @@
 package com.tntmodders.takumicraft.entity.mobs;
 
-import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.core.TCBlockCore;
 import com.tntmodders.takumicraft.core.TCEntityCore;
+import com.tntmodders.takumicraft.utils.TCEntityUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.tags.DamageTypeTags;
@@ -117,13 +117,13 @@ public class TCChaseCreeper extends AbstractTCCreeper {
     }
 
     @Override
-    public boolean checkSpawnRules(LevelAccessor levelAccessor, MobSpawnType spawnType) {
+    public boolean checkSpawnRules(LevelAccessor levelAccessor, EntitySpawnReason spawnType) {
         return super.checkSpawnRules(levelAccessor, spawnType) && levelAccessor.getRandom().nextInt(5) == 0;
     }
 
     public static class TCChaseCreeperContext implements TCCreeperContext<TCChaseCreeper> {
         private static final String NAME = "chasecreeper";
-        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCChaseCreeper::new, MobCategory.MONSTER).sized(0.6F, 1.7F).clientTrackingRange(8).build(TakumiCraftCore.MODID + ":" + NAME);
+        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCChaseCreeper::new, MobCategory.MONSTER).sized(0.6F, 1.7F).clientTrackingRange(8).build(TCEntityUtils.TCEntityId(NAME));
 
         @Override
         public String getRegistryName() {

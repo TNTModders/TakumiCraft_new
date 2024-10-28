@@ -18,15 +18,15 @@ import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.ItemLike;
-import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.ScheduledTickAccess;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -88,15 +88,15 @@ public class TCCreeperProtectorBlock extends BaseEntityBlock implements ITCBlock
     }
 
     @Override
-    protected BlockState updateShape(BlockState state, Direction direction, BlockState faceState, LevelAccessor levelAccessor, BlockPos pos, BlockPos facePos) {
+    protected BlockState updateShape(BlockState state, LevelReader levelReader, ScheduledTickAccess tickAccess, BlockPos pos, Direction direction, BlockPos facePos, BlockState faceState, RandomSource random) {
         for (Direction direction1 : Direction.values()) {
-            BlockState neighborState = levelAccessor.getBlockState(pos.relative(direction1));
+            BlockState neighborState = levelReader.getBlockState(pos.relative(direction1));
             boolean face = state.getValue(FACEING_PROPERTIES.get(direction1));
             if (face == neighborState.isAir()) {
                 state = state.setValue(FACEING_PROPERTIES.get(direction1), !face);
             }
         }
-        return this.canSurvive(state, levelAccessor, pos) ? super.updateShape(state, direction, faceState, levelAccessor, pos, facePos) : Blocks.AIR.defaultBlockState();
+        return super.updateShape(state, levelReader, tickAccess, pos, direction, facePos, faceState, random);
     }
 
     @Override
@@ -110,7 +110,7 @@ public class TCCreeperProtectorBlock extends BaseEntityBlock implements ITCBlock
     }
 
     @Override
-    protected boolean propagatesSkylightDown(BlockState p_312717_, BlockGetter p_312877_, BlockPos p_312899_) {
+    protected boolean propagatesSkylightDown(BlockState p_312717_) {
         return true;
     }
 
@@ -133,7 +133,7 @@ public class TCCreeperProtectorBlock extends BaseEntityBlock implements ITCBlock
 
     @Override
     public void addRecipes(TCRecipeProvider provider, ItemLike itemLike, RecipeOutput consumer) {
-        provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, TCBlockCore.CREEPER_PROTECTOR, 8).define('#', TCBlockCore.CREEPER_BOMB).define('B', TCBlockCore.CREEPER_TINTED_GLASS).define('H', Items.HONEYCOMB).pattern("BBB").pattern("H#H").pattern("BBB").unlockedBy("has_creeperbomb", TCRecipeProvider.hasItem(TCBlockCore.CREEPER_BOMB)));
+        provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(provider.items, RecipeCategory.BUILDING_BLOCKS, TCBlockCore.CREEPER_PROTECTOR, 8).define('#', TCBlockCore.CREEPER_BOMB).define('B', TCBlockCore.CREEPER_TINTED_GLASS).define('H', Items.HONEYCOMB).pattern("BBB").pattern("H#H").pattern("BBB").unlockedBy("has_creeperbomb", provider.hasItem(TCBlockCore.CREEPER_BOMB)));
     }
 
     @Override

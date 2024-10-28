@@ -1,6 +1,5 @@
 package com.tntmodders.takumicraft.entity.mobs;
 
-import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.core.TCBlockCore;
 import com.tntmodders.takumicraft.core.TCEntityCore;
 import com.tntmodders.takumicraft.core.TCItemCore;
@@ -186,7 +185,7 @@ public class TCFireworksCreeper extends AbstractTCCreeper {
 
     public static class TCFireworksCreeperContext implements TCCreeperContext<TCFireworksCreeper> {
         private static final String NAME = "fireworkscreeper";
-        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCFireworksCreeper::new, MobCategory.MONSTER).sized(0.6F, 1.7F).clientTrackingRange(8).build(TakumiCraftCore.MODID + ":" + NAME);
+        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCFireworksCreeper::new, MobCategory.MONSTER).sized(0.6F, 1.7F).clientTrackingRange(8).build(TCEntityUtils.getTCEntityKey(NAME));
 
         @Override
         public String getRegistryName() {

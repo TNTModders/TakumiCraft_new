@@ -1,6 +1,10 @@
 package com.tntmodders.takumicraft.utils;
 
+import com.tntmodders.takumicraft.TakumiCraftCore;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
@@ -11,6 +15,10 @@ import java.util.Calendar;
 public class TCEntityUtils {
     public static Component getEntityName(EntityType<?> type) {
         return Component.translatable(type.getDescriptionId());
+    }
+
+    public static ResourceKey<EntityType<?>> TCEntityId(String id) {
+        return ResourceKey.create(Registries.ENTITY_TYPE, ResourceLocation.tryBuild(TakumiCraftCore.MODID, id));
     }
 
     public static Component getUnknown() {

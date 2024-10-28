@@ -8,6 +8,7 @@ import com.tntmodders.takumicraft.entity.projectile.TCCreeperArrow;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
+import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemDisplayContext;
@@ -33,7 +34,7 @@ public class ArrowrainKingCreeperAttack extends AbstractKingCreeperAttack {
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void clientTick(TCKingCreeper creeper, int swell, PoseStack pose, MultiBufferSource bufferSource, float renderTick) {
+    public void clientTick(LivingEntityRenderState state, TCKingCreeper creeper, int swell, PoseStack pose, MultiBufferSource bufferSource, float renderTick) {
         commonTick(creeper, swell);
         creeper.setUseItem(bow);
         pose.pushPose();
@@ -43,7 +44,7 @@ public class ArrowrainKingCreeperAttack extends AbstractKingCreeperAttack {
         pose.rotateAround(Axis.YP.rotationDegrees(90f), 0.0f, 0.0f, 0.0f);
         pose.rotateAround(Axis.ZP.rotationDegrees(-135.0f), 0.0f, 0.0f, 1.0f);
         pose.scale(f, f, f);
-        Minecraft.getInstance().getItemRenderer().renderStatic(creeper, bow, ItemDisplayContext.NONE, false, pose, bufferSource, creeper.level(), 0xffffff, LivingEntityRenderer.getOverlayCoords(creeper, 0.0F), creeper.getId());
+        Minecraft.getInstance().getItemRenderer().renderStatic(creeper, bow, ItemDisplayContext.NONE, false, pose, bufferSource, creeper.level(), 0xffffff, LivingEntityRenderer.getOverlayCoords(state, 0.0F), creeper.getId());
         pose.popPose();
     }
 
@@ -75,8 +76,8 @@ public class ArrowrainKingCreeperAttack extends AbstractKingCreeperAttack {
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void clientExp(TCKingCreeper creeper, int swell, PoseStack pose, float renderTick) {
-        super.clientExp(creeper, swell, pose, renderTick);
+    public void clientExp(LivingEntityRenderState state, TCKingCreeper creeper, int swell, PoseStack pose, float renderTick) {
+        super.clientExp(state, creeper, swell, pose, renderTick);
         creeper.setUseItem(ItemStack.EMPTY);
     }
 }

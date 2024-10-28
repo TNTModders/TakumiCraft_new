@@ -26,7 +26,7 @@ public class TCColoredCreeperGlassBlock extends TCCreeperGlassBlock {
 
     @Override
     public void addRecipes(TCRecipeProvider provider, ItemLike itemLike, RecipeOutput consumer) {
-        provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, TCBlockCore.CREEPER_COLORED_GLASS_MAP.get(this.color), 8).define('#', TCBlockCore.CREEPER_BOMB).define('B', this.baseBlock).pattern("BBB").pattern("B#B").pattern("BBB").unlockedBy("has_creeperbomb", TCRecipeProvider.hasItem(TCBlockCore.CREEPER_BOMB)).group("creeperglass"));
+        provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(provider.items, RecipeCategory.BUILDING_BLOCKS, TCBlockCore.CREEPER_COLORED_GLASS_MAP.get(this.color), 8).define('#', TCBlockCore.CREEPER_BOMB).define('B', this.baseBlock).pattern("BBB").pattern("B#B").pattern("BBB").unlockedBy("has_creeperbomb", provider.hasItem(TCBlockCore.CREEPER_BOMB)).group("creeperglass"));
     }
 
     @Override

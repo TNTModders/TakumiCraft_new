@@ -73,6 +73,6 @@ public class TCCreeperTorchBlock extends TorchBlock implements ITCBlocks, ITCRec
 
     @Override
     public void addRecipes(TCRecipeProvider provider, ItemLike itemLike, RecipeOutput consumer) {
-        provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, itemLike, 2).define('#', TCBlockCore.CREEPER_BOMB).define('S', Items.STICK).pattern("#").pattern("S").unlockedBy("has_creeperbomb", TCRecipeProvider.hasItem(TCBlockCore.CREEPER_BOMB)));
+        provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(provider.items, RecipeCategory.DECORATIONS, itemLike, 2).define('#', TCBlockCore.CREEPER_BOMB).define('S', Items.STICK).pattern("#").pattern("S").unlockedBy("has_creeperbomb", provider.hasItem(TCBlockCore.CREEPER_BOMB)));
     }
 }

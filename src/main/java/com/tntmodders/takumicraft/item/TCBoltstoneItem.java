@@ -6,7 +6,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.entity.LivingEntity;
@@ -29,9 +29,9 @@ public class TCBoltstoneItem extends Item implements ITCItems, ITCTranslator {
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+    public InteractionResult use(Level level, Player player, InteractionHand hand) {
         ItemStack itemStack = player.getItemInHand(hand);
-        player.getCooldowns().addCooldown(this, 20);
+        player.getCooldowns().addCooldown(itemStack, 20);
         if (!level.isClientSide) {
             Vec3 vec3 = player.getLookAngle();
             vec3 = vec3.normalize().scale(10);
@@ -44,7 +44,7 @@ public class TCBoltstoneItem extends Item implements ITCItems, ITCTranslator {
         if (!player.getAbilities().instabuild && level.isClientSide) {
             itemStack.shrink(1);
         }
-        return InteractionResultHolder.sidedSuccess(itemStack, level.isClientSide());
+        return InteractionResult.SUCCESS;
     }
 
     @Override

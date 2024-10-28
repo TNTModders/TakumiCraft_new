@@ -1,7 +1,7 @@
 package com.tntmodders.takumicraft.entity.mobs;
 
-import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.core.TCEntityCore;
+import com.tntmodders.takumicraft.utils.TCEntityUtils;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.monster.Creeper;
@@ -27,13 +27,13 @@ public class TCArtCreeper extends AbstractTCCreeper {
     public void explodeCreeperEvent(ExplosionEvent.Detonate event) {
         List<Block> blocks = ForgeRegistries.BLOCKS.getValues().stream().filter(block -> block.defaultBlockState().getDestroySpeed(level(), blockPosition()) >= 0 && block.defaultBlockState().isCollisionShapeFullBlock(level(), blockPosition())).toList();
 
-        event.getExplosion().getToBlow().forEach(pos -> this.level().setBlock(pos, blocks.get(getRandom().nextInt(blocks.size())).defaultBlockState(), 3));
-        event.getExplosion().clearToBlow();
+        event.getAffectedBlocks().forEach(pos -> this.level().setBlock(pos, blocks.get(getRandom().nextInt(blocks.size())).defaultBlockState(), 3));
+        event.getAffectedBlocks().clear();
     }
 
     public static class TCArtCreeperContext implements TCCreeperContext<TCArtCreeper> {
         private static final String NAME = "artcreeper";
-        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCArtCreeper::new, MobCategory.MONSTER).sized(0.6F, 1.7F).clientTrackingRange(8).build(TakumiCraftCore.MODID + ":" + NAME);
+        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCArtCreeper::new, MobCategory.MONSTER).sized(0.6F, 1.7F).clientTrackingRange(8).build(TCEntityUtils.TCEntityId(NAME));
 
         @Override
         public String getRegistryName() {

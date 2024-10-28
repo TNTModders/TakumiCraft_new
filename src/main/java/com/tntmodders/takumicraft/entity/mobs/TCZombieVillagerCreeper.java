@@ -3,9 +3,9 @@ package com.tntmodders.takumicraft.entity.mobs;
 import com.mojang.logging.LogUtils;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.Dynamic;
-import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.client.renderer.entity.TCZombieVillagerCreeperRenderer;
 import com.tntmodders.takumicraft.core.TCEntityCore;
+import com.tntmodders.takumicraft.utils.TCEntityUtils;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
@@ -237,7 +237,7 @@ public class TCZombieVillagerCreeper extends TCZombieCreeper implements Villager
             }
 
             villager.setVillagerXp(this.villagerXp);
-            villager.finalizeSpawn(p_34399_, p_34399_.getCurrentDifficultyAt(villager.blockPosition()), MobSpawnType.CONVERSION, null);
+            villager.finalizeSpawn(p_34399_, p_34399_.getCurrentDifficultyAt(villager.blockPosition()), EntitySpawnReason.CONVERSION, null);
             villager.refreshBrain(p_34399_);
             if (this.conversionStarter != null) {
                 Player player = p_34399_.getPlayerByUUID(this.conversionStarter);
@@ -320,7 +320,7 @@ public class TCZombieVillagerCreeper extends TCZombieCreeper implements Villager
 
     @Override
     @Nullable
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_34378_, DifficultyInstance p_34379_, MobSpawnType p_34380_, @Nullable SpawnGroupData p_34381_) {
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_34378_, DifficultyInstance p_34379_, EntitySpawnReason p_34380_, @Nullable SpawnGroupData p_34381_) {
         this.setVillagerData(this.getVillagerData().setType(VillagerType.byBiome(p_34378_.getBiome(this.blockPosition()))));
         return super.finalizeSpawn(p_34378_, p_34379_, p_34380_, p_34381_);
     }
@@ -352,7 +352,7 @@ public class TCZombieVillagerCreeper extends TCZombieCreeper implements Villager
         private static final String NAME = "zombievillagercreeper";
         public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder
                 .of(TCZombieVillagerCreeper::new, MobCategory.MONSTER).sized(0.6F, 1.95F).clientTrackingRange(8)
-                .build(TakumiCraftCore.MODID + ":" + NAME);
+                .build(TCEntityUtils.TCEntityId(NAME));
 
         @Override
         public String getRegistryName() {

@@ -1,9 +1,10 @@
 package com.tntmodders.takumicraft.entity.mobs;
 
-import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.client.renderer.entity.TCRabbitCreeperRenderer;
 import com.tntmodders.takumicraft.core.TCEntityCore;
+import com.tntmodders.takumicraft.utils.TCEntityUtils;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.BlockTags;
@@ -60,7 +61,7 @@ public class TCRabbitCreeper extends AbstractTCCreeper {
         return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 3.0D).add(Attributes.MOVEMENT_SPEED, 0.3F);
     }
 
-    public static boolean checkRabbitSpawnRules(EntityType<AbstractTCCreeper> p_218256_, LevelAccessor p_218257_, MobSpawnType p_218258_, BlockPos p_218259_, RandomSource p_218260_) {
+    public static boolean checkRabbitSpawnRules(EntityType<AbstractTCCreeper> p_218256_, LevelAccessor p_218257_, EntitySpawnReason p_218258_, BlockPos p_218259_, RandomSource p_218260_) {
         return p_218257_.getBlockState(p_218259_.below()).is(BlockTags.RABBITS_SPAWNABLE_ON) && isBrightEnoughToSpawn(p_218257_, p_218259_);
     }
 
@@ -148,7 +149,7 @@ public class TCRabbitCreeper extends AbstractTCCreeper {
     }
 
     @Override
-    public void customServerAiStep() {
+    public void customServerAiStep(ServerLevel level) {
         if (this.jumpDelayTicks > 0) {
             --this.jumpDelayTicks;
         }
@@ -363,7 +364,7 @@ public class TCRabbitCreeper extends AbstractTCCreeper {
 
     public static class TCRabbitCreeperContext implements TCCreeperContext<TCRabbitCreeper> {
         private static final String NAME = "rabbitcreeper";
-        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCRabbitCreeper::new, MobCategory.MONSTER).sized(0.4F, 0.5F).clientTrackingRange(8).build(TakumiCraftCore.MODID + ":" + NAME);
+        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCRabbitCreeper::new, MobCategory.MONSTER).sized(0.4F, 0.5F).clientTrackingRange(8).build(TCEntityUtils.TCEntityId(NAME));
 
         @Override
         public String getRegistryName() {

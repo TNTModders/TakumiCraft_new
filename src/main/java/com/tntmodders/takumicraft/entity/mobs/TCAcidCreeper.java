@@ -1,9 +1,9 @@
 package com.tntmodders.takumicraft.entity.mobs;
 
-import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.block.TCAcidBlock;
 import com.tntmodders.takumicraft.core.TCBlockCore;
 import com.tntmodders.takumicraft.core.TCEntityCore;
+import com.tntmodders.takumicraft.utils.TCEntityUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
@@ -37,7 +37,7 @@ public class TCAcidCreeper extends AbstractTCCreeper {
 
     @Override
     public void explodeCreeperEvent(ExplosionEvent.Detonate event) {
-        event.getExplosion().getToBlow().forEach(pos -> {
+        event.getAffectedBlocks().forEach(pos -> {
             if (!event.getLevel().getBlockState(pos).isAir()) {
                 if (event.getLevel().getBlockState(pos).is(TCBlockCore.ACID)) {
                     this.level().setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
@@ -46,7 +46,7 @@ public class TCAcidCreeper extends AbstractTCCreeper {
                 }
             }
         });
-        event.getExplosion().clearToBlow();
+        event.getAffectedBlocks().clear();
     }
 
     @Override
@@ -58,7 +58,7 @@ public class TCAcidCreeper extends AbstractTCCreeper {
         private static final String NAME = "acidcreeper";
         public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder
                 .of(TCAcidCreeper::new, MobCategory.MONSTER).sized(0.6F, 1.7F).clientTrackingRange(8)
-                .build(TakumiCraftCore.MODID + ":" + NAME);
+                .build(TCEntityUtils.TCEntityId(NAME));
 
         @Override
         public String getRegistryName() {

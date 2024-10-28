@@ -64,12 +64,12 @@ public class TCCreeperBombBlock extends AbstractTCBombBlock implements ITCRecipe
 
     @Override
     public void addRecipes(TCRecipeProvider provider, ItemLike itemLike, RecipeOutput consumer) {
-        provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS,
+        provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(provider.items, RecipeCategory.BUILDING_BLOCKS,
                         TCBlockCore.CREEPER_BOMB)
                 .define('#', Items.CREEPER_HEAD)
                 .pattern(" # ")
                 .pattern("###")
                 .pattern(" # ")
-                .unlockedBy("has_gunpowder", TCRecipeProvider.hasItem(Items.CREEPER_HEAD)));
+                .unlockedBy("has_gunpowder", provider.hasItem(Items.CREEPER_HEAD)));
     }
 }

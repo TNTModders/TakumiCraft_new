@@ -1,8 +1,8 @@
 package com.tntmodders.takumicraft.entity.mobs;
 
-import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.client.renderer.entity.TCSlimeCreeperRenderer;
 import com.tntmodders.takumicraft.core.TCEntityCore;
+import com.tntmodders.takumicraft.utils.TCEntityUtils;
 import com.tntmodders.takumicraft.utils.TCExplosionUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
@@ -76,7 +76,7 @@ public class TCSlimeCreeper extends AbstractTCCreeper {
         this.moveControl = new TCSlimeCreeper.SlimeMoveControl(this);
     }
 
-    public static boolean checkSlimeSpawnRules(EntityType<AbstractTCCreeper> p_33621_, LevelAccessor p_33622_, MobSpawnType p_33623_, BlockPos p_33624_, RandomSource p_33625_) {
+    public static boolean checkSlimeSpawnRules(EntityType<AbstractTCCreeper> p_33621_, LevelAccessor p_33622_, EntitySpawnReason p_33623_, BlockPos p_33624_, RandomSource p_33625_) {
         if (p_33622_.getDifficulty() != Difficulty.PEACEFUL) {
             if (p_33622_.getBiome(p_33624_).is(Biomes.SWAMP) && p_33624_.getY() > 50 && p_33624_.getY() < 70 && p_33625_.nextFloat() < 0.5F && p_33625_.nextFloat() < p_33622_.getMoonBrightness() && p_33622_.getMaxLocalRawBrightness(p_33624_) <= p_33625_.nextInt(8)) {
                 return checkMobSpawnRules(p_33621_, p_33622_, p_33623_, p_33624_, p_33625_);
@@ -369,7 +369,7 @@ public class TCSlimeCreeper extends AbstractTCCreeper {
 
     @Override
     @Nullable
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_33601_, DifficultyInstance p_33602_, MobSpawnType p_33603_, @Nullable SpawnGroupData p_33604_) {
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_33601_, DifficultyInstance p_33602_, EntitySpawnReason p_33603_, @Nullable SpawnGroupData p_33604_) {
         int i = this.random.nextInt(4);
         if (i < 2 && this.random.nextFloat() < 0.5F * p_33602_.getSpecialMultiplier()) {
             ++i;
@@ -610,7 +610,7 @@ public class TCSlimeCreeper extends AbstractTCCreeper {
         private static final String NAME = "slimecreeper";
         public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder
                 .of(TCSlimeCreeper::new, MobCategory.MONSTER).sized(2.04f, 2.04f).clientTrackingRange(10)
-                .build(TakumiCraftCore.MODID + ":" + NAME);
+                .build(TCEntityUtils.TCEntityId(NAME));
 
         @Override
         public String getRegistryName() {

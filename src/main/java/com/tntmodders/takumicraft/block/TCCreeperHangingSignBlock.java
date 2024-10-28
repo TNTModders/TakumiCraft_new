@@ -82,6 +82,6 @@ public class TCCreeperHangingSignBlock extends CeilingHangingSignBlock implement
 
     @Override
     public void addRecipes(TCRecipeProvider provider, ItemLike itemLike, RecipeOutput consumer) {
-        provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, itemLike, 3).define('#', TCBlockCore.CREEPER_PLANKS).define('C', TCBlockCore.CREEPER_CHAIN).pattern("C C").pattern("###").pattern("###").unlockedBy("has_creeperplanks", TCRecipeProvider.hasItem(TCBlockCore.CREEPER_PLANKS)));
+        provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(provider.items, RecipeCategory.DECORATIONS, itemLike, 3).define('#', TCBlockCore.CREEPER_PLANKS).define('C', TCBlockCore.CREEPER_CHAIN).pattern("C C").pattern("###").pattern("###").unlockedBy("has_creeperplanks", provider.hasItem(TCBlockCore.CREEPER_PLANKS)));
     }
 }

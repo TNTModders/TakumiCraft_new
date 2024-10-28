@@ -90,7 +90,7 @@ public class TCCreeperSignBlock extends StandingSignBlock implements ITCBlocks, 
 
     @Override
     public void addRecipes(TCRecipeProvider provider, ItemLike itemLike, RecipeOutput consumer) {
-        provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, itemLike, 3).define('#', TCBlockCore.CREEPER_PLANKS).define('S', Items.STICK).pattern("###").pattern("###").pattern(" S ").unlockedBy("has_creeperplanks", TCRecipeProvider.hasItem(TCBlockCore.CREEPER_PLANKS)));
+        provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(provider.items, RecipeCategory.DECORATIONS, itemLike, 3).define('#', TCBlockCore.CREEPER_PLANKS).define('S', Items.STICK).pattern("###").pattern("###").pattern(" S ").unlockedBy("has_creeperplanks", provider.hasItem(TCBlockCore.CREEPER_PLANKS)));
     }
 }
 

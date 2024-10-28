@@ -3,6 +3,7 @@ package com.tntmodders.takumicraft.entity.ai.boss.king;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.tntmodders.takumicraft.entity.mobs.boss.TCKingCreeper;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraftforge.api.distmarker.Dist;
@@ -16,11 +17,11 @@ public abstract class AbstractKingCreeperAttack {
     public abstract void serverTick(TCKingCreeper creeper, int swell);
 
     @OnlyIn(Dist.CLIENT)
-    public abstract void clientTick(TCKingCreeper creeper, int swell, PoseStack pose, MultiBufferSource bufferSource, float renderTick);
+    public abstract void clientTick(LivingEntityRenderState state, TCKingCreeper creeper, int swell, PoseStack pose, MultiBufferSource bufferSource, float renderTick);
 
     public abstract void serverExp(TCKingCreeper creeper);
 
-    public void clientExp(TCKingCreeper creeper, int swell, PoseStack pose, float renderTick) {
+    public void clientExp(LivingEntityRenderState state, TCKingCreeper creeper, int swell, PoseStack pose, float renderTick) {
     }
 
     public void serverExpEvent(TCKingCreeper creeper, ExplosionEvent.Detonate event) {

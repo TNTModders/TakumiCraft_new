@@ -103,10 +103,10 @@ public class TCCreeperBarrelBlock extends BarrelBlock implements ITCBlocks, ITCR
             return InteractionResult.SUCCESS;
         } else {
             BlockEntity blockentity = p_49070_.getBlockEntity(p_49071_);
-            if (blockentity instanceof TCCreeperBarrelBlockEntity) {
+            if (blockentity instanceof TCCreeperBarrelBlockEntity && p_49070_ instanceof ServerLevel serverLevel) {
                 p_49072_.openMenu((TCCreeperBarrelBlockEntity) blockentity);
                 p_49072_.awardStat(Stats.OPEN_BARREL);
-                PiglinAi.angerNearbyPiglins(p_49072_, true);
+                PiglinAi.angerNearbyPiglins(serverLevel, p_49072_, true);
             }
 
             return InteractionResult.CONSUME;
@@ -177,6 +177,6 @@ public class TCCreeperBarrelBlock extends BarrelBlock implements ITCBlocks, ITCR
 
     @Override
     public void addRecipes(TCRecipeProvider provider, ItemLike itemLike, RecipeOutput consumer) {
-        provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, TCBlockCore.CREEPER_BARREL, 1).define('#', TCBlockCore.CREEPER_PLANKS).define('H', TCBlockCore.CREEPER_PLANKS_HALF).pattern("#H#").pattern("# #").pattern("#H#").unlockedBy("has_creeperplanks", TCRecipeProvider.hasItem(TCBlockCore.CREEPER_PLANKS)));
+        provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(provider.items, RecipeCategory.BUILDING_BLOCKS, TCBlockCore.CREEPER_BARREL, 1).define('#', TCBlockCore.CREEPER_PLANKS).define('H', TCBlockCore.CREEPER_PLANKS_HALF).pattern("#H#").pattern("# #").pattern("#H#").unlockedBy("has_creeperplanks", provider.hasItem(TCBlockCore.CREEPER_PLANKS)));
     }
 }

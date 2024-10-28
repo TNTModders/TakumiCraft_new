@@ -1,8 +1,8 @@
 package com.tntmodders.takumicraft.entity.mobs;
 
-import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.client.renderer.entity.TCBatCreeperRenderer;
 import com.tntmodders.takumicraft.core.TCEntityCore;
+import com.tntmodders.takumicraft.utils.TCEntityUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -222,7 +222,7 @@ public class TCBatCreeper extends AbstractTCCreeper {
         p_27443_.putByte("BatFlags", this.entityData.get(DATA_ID_FLAGS));
     }
 
-    public static boolean checkBatSpawnRules(EntityType<AbstractTCCreeper> p_218099_, LevelAccessor p_218100_, MobSpawnType p_218101_, BlockPos p_218102_, RandomSource p_218103_) {
+    public static boolean checkBatSpawnRules(EntityType<AbstractTCCreeper> p_218099_, LevelAccessor p_218100_, EntitySpawnReason p_218101_, BlockPos p_218102_, RandomSource p_218103_) {
         if (p_218102_.getY() >= p_218100_.getSeaLevel()) {
             return false;
         } else {
@@ -262,7 +262,7 @@ public class TCBatCreeper extends AbstractTCCreeper {
 
     public static class TCBatCreeperContext implements TCCreeperContext<TCBatCreeper> {
         private static final String NAME = "batcreeper";
-        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCBatCreeper::new, MobCategory.MONSTER).sized(0.5F, 0.9F).eyeHeight(0.45F).clientTrackingRange(5).build(TakumiCraftCore.MODID + ":" + NAME);
+        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCBatCreeper::new, MobCategory.MONSTER).sized(0.5F, 0.9F).eyeHeight(0.45F).clientTrackingRange(5).build(TCEntityUtils.TCEntityId(NAME));
 
         @Override
         public String getRegistryName() {

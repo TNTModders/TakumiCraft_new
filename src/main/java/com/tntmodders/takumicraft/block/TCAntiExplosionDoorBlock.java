@@ -82,13 +82,13 @@ public class TCAntiExplosionDoorBlock extends DoorBlock implements ITCBlocks, IT
 
     @Override
     public void addRecipes(TCRecipeProvider provider, ItemLike itemLike, RecipeOutput consumer) {
-        ShapedRecipeBuilder builder = ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE,
+        ShapedRecipeBuilder builder = ShapedRecipeBuilder.shaped(provider.items, RecipeCategory.REDSTONE,
                         itemLike, 3)
                 .define('#', this.baseBlock)
                 .pattern("##")
                 .pattern("##")
                 .pattern("##")
-                .unlockedBy("has_baseblock", TCRecipeProvider.hasItem(this.baseBlock));
+                .unlockedBy("has_baseblock", provider.hasItem(this.baseBlock));
         if (!this.group.isEmpty()) {
             builder.group(this.group);
         }

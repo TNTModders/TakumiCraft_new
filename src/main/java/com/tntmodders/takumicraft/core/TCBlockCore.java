@@ -15,6 +15,7 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.WeatheringCopper;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -177,5 +178,15 @@ public class TCBlockCore {
 
     public static Boolean never(BlockState p_50779_, BlockGetter p_50780_, BlockPos p_50781_, EntityType<?> p_50782_) {
         return false;
+    }
+
+    public static BlockBehaviour.Properties variant(Block p_364015_, boolean p_361131_) {
+        BlockBehaviour.Properties blockbehaviour$properties = p_364015_.properties();
+        BlockBehaviour.Properties blockbehaviour$properties1 = BlockBehaviour.Properties.of().overrideLootTable(p_364015_.getLootTable());
+        if (p_361131_) {
+            blockbehaviour$properties1 = blockbehaviour$properties1.overrideDescription(p_364015_.getDescriptionId());
+        }
+
+        return blockbehaviour$properties1;
     }
 }

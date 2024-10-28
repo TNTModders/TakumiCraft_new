@@ -1,10 +1,10 @@
 package com.tntmodders.takumicraft.entity.mobs;
 
 import com.mojang.serialization.Codec;
-import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.client.renderer.entity.TCLlamaCreeperRenderer;
 import com.tntmodders.takumicraft.core.TCEntityCore;
 import com.tntmodders.takumicraft.entity.projectile.TCLlamaCreeperSpit;
+import com.tntmodders.takumicraft.utils.TCEntityUtils;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -125,7 +125,7 @@ public class TCLlamaCreeper extends AbstractTCCreeper implements VariantHolder<T
 
     @Nullable
     @Override
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_30774_, DifficultyInstance p_30775_, MobSpawnType p_30776_, @Nullable SpawnGroupData p_30777_) {
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_30774_, DifficultyInstance p_30775_, EntitySpawnReason p_30776_, @Nullable SpawnGroupData p_30777_) {
         RandomSource randomsource = p_30774_.getRandom();
         this.setRandomStrength(randomsource);
         TCLlamaCreeper.Variant llama$variant;
@@ -309,7 +309,7 @@ public class TCLlamaCreeper extends AbstractTCCreeper implements VariantHolder<T
 
     public static class TCLlamaCreeperContext implements TCCreeperContext<TCLlamaCreeper> {
         private static final String NAME = "llamacreeper";
-        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCLlamaCreeper::new, MobCategory.MONSTER).sized(0.9F, 1.87F).eyeHeight(1.7765F).passengerAttachments(new Vec3(0.0, 1.37, -0.3)).clientTrackingRange(10).build(TakumiCraftCore.MODID + ":" + NAME);
+        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCLlamaCreeper::new, MobCategory.MONSTER).sized(0.9F, 1.87F).eyeHeight(1.7765F).passengerAttachments(new Vec3(0.0, 1.37, -0.3)).clientTrackingRange(10).build(TCEntityUtils.TCEntityId(NAME));
 
         @Override
         public String getRegistryName() {

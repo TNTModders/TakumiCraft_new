@@ -1,9 +1,9 @@
 package com.tntmodders.takumicraft.entity.mobs;
 
-import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.client.renderer.entity.TCMaceCreeperRenderer;
 import com.tntmodders.takumicraft.core.TCEntityCore;
 import com.tntmodders.takumicraft.core.TCItemCore;
+import com.tntmodders.takumicraft.utils.TCEntityUtils;
 import com.tntmodders.takumicraft.utils.TCExplosionUtils;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
@@ -41,7 +41,7 @@ public class TCMaceCreeper extends TCZombieCreeper {
     }
 
     @Override
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_32372_, DifficultyInstance p_32373_, MobSpawnType p_32374_, @Nullable SpawnGroupData p_32375_) {
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_32372_, DifficultyInstance p_32373_, EntitySpawnReason p_32374_, @Nullable SpawnGroupData p_32375_) {
         p_32375_ = super.finalizeSpawn(p_32372_, p_32373_, p_32374_, p_32375_);
         if (this.getItemBySlot(EquipmentSlot.OFFHAND).isEmpty() && this.random.nextFloat() < 0.03F) {
             this.setItemSlot(EquipmentSlot.OFFHAND, new ItemStack(Items.HEAVY_CORE));
@@ -106,7 +106,7 @@ public class TCMaceCreeper extends TCZombieCreeper {
 
     public static class TCMaceCreeperContext implements TCCreeperContext<TCMaceCreeper> {
         private static final String NAME = "macecreeper";
-        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCMaceCreeper::new, MobCategory.MONSTER).sized(0.6F, 1.95F).clientTrackingRange(8).build(TakumiCraftCore.MODID + ":" + NAME);
+        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCMaceCreeper::new, MobCategory.MONSTER).sized(0.6F, 1.95F).clientTrackingRange(8).build(TCEntityUtils.TCEntityId(NAME));
 
         @Override
         public String getRegistryName() {

@@ -1,10 +1,10 @@
 package com.tntmodders.takumicraft.entity.mobs;
 
-import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.client.renderer.entity.TCWitherSkeletonCreeperRenderer;
 import com.tntmodders.takumicraft.core.TCEnchantmentCore;
 import com.tntmodders.takumicraft.core.TCEntityCore;
 import com.tntmodders.takumicraft.core.TCItemCore;
+import com.tntmodders.takumicraft.utils.TCEntityUtils;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
@@ -111,7 +111,7 @@ public class TCWitherSkeletonCreeper extends AbstractTCSkeletonCreeper {
 
     @Override
     @Nullable
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_34178_, DifficultyInstance p_34179_, MobSpawnType p_34180_, @Nullable SpawnGroupData p_34181_) {
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_34178_, DifficultyInstance p_34179_, EntitySpawnReason p_34180_, @Nullable SpawnGroupData p_34181_) {
         SpawnGroupData spawngroupdata = super.finalizeSpawn(p_34178_, p_34179_, p_34180_, p_34181_);
         this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(4.0D);
         this.reassessWeaponGoal();
@@ -152,7 +152,7 @@ public class TCWitherSkeletonCreeper extends AbstractTCSkeletonCreeper {
         private static final String NAME = "witherskeletoncreeper";
         public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder
                 .of(TCWitherSkeletonCreeper::new, MobCategory.MONSTER).sized(0.7F, 2.4F).clientTrackingRange(8)
-                .fireImmune().immuneTo(Blocks.WITHER_ROSE).build(TakumiCraftCore.MODID + ":" + NAME);
+                .fireImmune().immuneTo(Blocks.WITHER_ROSE).build(TCEntityUtils.TCEntityId(NAME));
 
         @Override
         public String getRegistryName() {

@@ -15,7 +15,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.ItemLike;
@@ -38,18 +38,18 @@ public class TCSuperCreeperBedBlock extends TCCreeperBedBlock {
 
 
     @Override
-    protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult result) {
+    protected InteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult result) {
         if (level.getBlockEntity(pos) instanceof TCCreeperBedBlockEntity bed) {
             if (player.getItemInHand(hand).isEmpty() && player.isShiftKeyDown()) {
                 if (bed.getBlock() != null && bed.getBlock() != Blocks.AIR) {
                     this.setBlockToBed(bed, player, state, pos, Blocks.AIR);
-                    return ItemInteractionResult.CONSUME_PARTIAL;
+                    return InteractionResult.CONSUME;
                 }
             }
             if (player.getItemInHand(hand).getItem() instanceof BlockItem blockItem) {
-                if (Block.isShapeFullBlock(blockItem.getBlock().defaultBlockState().getOcclusionShape(level, pos))) {
+                if (Block.isShapeFullBlock(blockItem.getBlock().defaultBlockState().getOcclusionShape())) {
                     this.setBlockToBed(bed, player, state, pos, blockItem.getBlock());
-                    return ItemInteractionResult.CONSUME_PARTIAL;
+                    return InteractionResult.CONSUME;
                 }
             }
         }
@@ -76,13 +76,13 @@ public class TCSuperCreeperBedBlock extends TCCreeperBedBlock {
 
     @Override
     public void addRecipes(TCRecipeProvider provider, ItemLike itemLike, RecipeOutput consumer) {
-        provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS,
+        provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(provider.items, RecipeCategory.DECORATIONS,
                         TCBlockCore.SUPER_CREEPER_BED)
                 .define('#', TCItemCore.CREEPER_BED)
                 .pattern("###")
                 .pattern("###")
                 .pattern("###")
-                .unlockedBy("has_creeperbed", TCRecipeProvider.hasItemTag(TCItemCore.CREEPER_BED))
+                .unlockedBy("has_creeperbed", provider.hasItemTag(TCItemCore.CREEPER_BED))
                 .group("creeperbed"));
     }
 

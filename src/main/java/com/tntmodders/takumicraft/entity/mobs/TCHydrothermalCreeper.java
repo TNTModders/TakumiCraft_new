@@ -1,17 +1,17 @@
 package com.tntmodders.takumicraft.entity.mobs;
 
-import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.client.renderer.entity.TCBlockCreeperRenderer;
 import com.tntmodders.takumicraft.core.TCEntityCore;
+import com.tntmodders.takumicraft.utils.TCEntityUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
-import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.SpawnPlacementTypes;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.Monster;
@@ -38,7 +38,7 @@ public class TCHydrothermalCreeper extends AbstractTCBlockCreeper {
         return Blocks.MAGMA_BLOCK.defaultBlockState();
     }
 
-    public static boolean checkHTCreeperSpawnRules(EntityType<? extends Monster> type, ServerLevelAccessor levelAccessor, MobSpawnType spawnType, BlockPos pos, RandomSource random) {
+    public static boolean checkHTCreeperSpawnRules(EntityType<? extends Monster> type, ServerLevelAccessor levelAccessor, EntitySpawnReason spawnType, BlockPos pos, RandomSource random) {
         boolean flg1 = pos.getY() <= levelAccessor.getSeaLevel();
         boolean flg2 = isDarkEnoughToSpawn(levelAccessor, pos, random);
         boolean flg3 = levelAccessor.getBlockState(pos).is(Blocks.WATER);
@@ -85,7 +85,7 @@ public class TCHydrothermalCreeper extends AbstractTCBlockCreeper {
     public static class TCHydrothermalCreeperContext implements TCCreeperContext<TCHydrothermalCreeper> {
         private static final String NAME = "hydrothermalcreeper";
         public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder
-                .of(TCHydrothermalCreeper::new, MobCategory.MONSTER).sized(1, 1).clientTrackingRange(8).build(TakumiCraftCore.MODID + ":" + NAME);
+                .of(TCHydrothermalCreeper::new, MobCategory.MONSTER).sized(1, 1).clientTrackingRange(8).build(TCEntityUtils.TCEntityId(NAME));
 
         @Override
         public String getRegistryName() {

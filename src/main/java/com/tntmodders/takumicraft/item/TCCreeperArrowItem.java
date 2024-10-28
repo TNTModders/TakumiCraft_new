@@ -56,12 +56,12 @@ public class TCCreeperArrowItem extends ArrowItem implements ITCItems, ITCTransl
 
     @Override
     public void addRecipes(TCRecipeProvider provider, ItemLike itemLike, RecipeOutput consumer) {
-        provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, TCItemCore.CREEPER_ARROW, 1)
+        provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(provider.items, RecipeCategory.COMBAT, TCItemCore.CREEPER_ARROW, 1)
                 .define('#', Items.STICK)
                 .define('X', Items.CREEPER_HEAD)
                 .define('Y', Items.FEATHER)
                 .pattern("X").pattern("#").pattern("Y")
-                .unlockedBy("has_feather", TCRecipeProvider.hasItem(Items.CREEPER_HEAD)));
+                .unlockedBy("has_feather", provider.hasItem(Items.CREEPER_HEAD)));
 
     }
 }

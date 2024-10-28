@@ -1,9 +1,9 @@
 package com.tntmodders.takumicraft.entity.mobs;
 
 import com.mojang.serialization.Codec;
-import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.client.renderer.entity.TCParrotCreeperRenderer;
 import com.tntmodders.takumicraft.core.TCEntityCore;
+import com.tntmodders.takumicraft.utils.TCEntityUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerPlayer;
@@ -172,7 +172,7 @@ public class TCParrotCreeper extends AbstractTCCreeper implements FlyingAnimal {
         }
     }
 
-    public static boolean checkParrotSpawnRules(EntityType<Parrot> p_218242_, LevelAccessor p_218243_, MobSpawnType p_218244_, BlockPos p_218245_, RandomSource p_218246_) {
+    public static boolean checkParrotSpawnRules(EntityType<Parrot> p_218242_, LevelAccessor p_218243_, EntitySpawnReason p_218244_, BlockPos p_218245_, RandomSource p_218246_) {
         return p_218243_.getBlockState(p_218245_.below()).is(BlockTags.PARROTS_SPAWNABLE_ON) && isBrightEnoughToSpawn(p_218243_, p_218245_);
     }
 
@@ -332,7 +332,7 @@ public class TCParrotCreeper extends AbstractTCCreeper implements FlyingAnimal {
         private static final String NAME = "parrotcreeper";
         public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder
                 .of(TCParrotCreeper::new, MobCategory.MONSTER).sized(0.5F, 0.9F).eyeHeight(0.54F).passengerAttachments(0.4625F).clientTrackingRange(8)
-                .build(TakumiCraftCore.MODID + ":" + NAME);
+                .build(TCEntityUtils.TCEntityId(NAME));
 
         @Override
         public String getRegistryName() {

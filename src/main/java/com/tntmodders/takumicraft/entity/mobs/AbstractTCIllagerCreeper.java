@@ -29,7 +29,7 @@ public abstract class AbstractTCIllagerCreeper extends AbstractTCCreeper {
     }
 
     @Override
-    public boolean isAlliedTo(Entity p_333400_) {
+    public boolean considersEntityAsAlly(Entity p_333400_) {
         if (super.isAlliedTo(p_333400_)) {
             return true;
         } else {

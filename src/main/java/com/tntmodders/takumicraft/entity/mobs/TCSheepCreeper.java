@@ -4,6 +4,7 @@ import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.client.renderer.entity.TCSheepCreeperRenderer;
 import com.tntmodders.takumicraft.core.TCBlockCore;
 import com.tntmodders.takumicraft.core.TCEntityCore;
+import com.tntmodders.takumicraft.utils.TCEntityUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -176,7 +177,7 @@ public class TCSheepCreeper extends AbstractTCCreeper {
 
     @Override
     @Nullable
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_29835_, DifficultyInstance p_29836_, MobSpawnType p_29837_, @Nullable SpawnGroupData p_29838_) {
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_29835_, DifficultyInstance p_29836_, EntitySpawnReason p_29837_, @Nullable SpawnGroupData p_29838_) {
         this.setColor(getRandomSheepColor(p_29835_.getRandom()));
         if (this.random.nextInt(10000) == 0) {
             this.setRainbow();
@@ -239,7 +240,7 @@ public class TCSheepCreeper extends AbstractTCCreeper {
 
     public static class TCSheepCreeperContext implements TCCreeperContext<TCSheepCreeper> {
         private static final String NAME = "sheepcreeper";
-        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCSheepCreeper::new, MobCategory.MONSTER).sized(0.9F, 1.3F).clientTrackingRange(10).build(TakumiCraftCore.MODID + ":" + NAME);
+        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCSheepCreeper::new, MobCategory.MONSTER).sized(0.9F, 1.3F).clientTrackingRange(10).build(TCEntityUtils.TCEntityId(NAME));
 
         @Override
         public String getRegistryName() {

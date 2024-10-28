@@ -1,7 +1,7 @@
 package com.tntmodders.takumicraft.entity.mobs;
 
-import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.core.TCEntityCore;
+import com.tntmodders.takumicraft.utils.TCEntityUtils;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
@@ -30,7 +30,7 @@ public class TCArrowCreeper extends AbstractTCCreeper {
     @Override
     public void explodeCreeperEvent(ExplosionEvent.Detonate event) {
         event.getAffectedEntities().clear();
-        event.getExplosion().clearToBlow();
+        event.getAffectedBlocks().clear();
     }
 
     @Override
@@ -69,7 +69,7 @@ public class TCArrowCreeper extends AbstractTCCreeper {
 
     public static class TCArrowCreeperContext implements TCCreeperContext<TCArrowCreeper> {
         private static final String NAME = "arrowcreeper";
-        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCArrowCreeper::new, MobCategory.MONSTER).sized(0.6F, 1.7F).clientTrackingRange(8).build(TakumiCraftCore.MODID + ":" + NAME);
+        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCArrowCreeper::new, MobCategory.MONSTER).sized(0.6F, 1.7F).clientTrackingRange(8).build(TCEntityUtils.TCEntityId(NAME));
 
         @Override
         public String getRegistryName() {

@@ -78,12 +78,7 @@ public class TCCreeperShieldDecorationRecipe extends CustomRecipe {
     }
 
     @Override
-    public boolean canCraftInDimensions(int p_44298_, int p_44299_) {
-        return p_44298_ * p_44299_ >= 2;
-    }
-
-    @Override
-    public RecipeSerializer<?> getSerializer() {
+    public RecipeSerializer<TCCreeperShieldDecorationRecipe> getSerializer() {
         return TCRecipeSerializerCore.CREEPER_SHIELD_DECO;
     }
 }

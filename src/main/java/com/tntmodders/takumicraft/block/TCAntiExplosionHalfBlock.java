@@ -20,18 +20,20 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.TagKey;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.ItemLike;
-import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.ScheduledTickAccess;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.pathfinder.PathComputationType;
@@ -45,7 +47,7 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 public class TCAntiExplosionHalfBlock extends Block implements ITCBlocks, ITCRecipe, SimpleWaterloggedBlock {
-    public static final DirectionProperty FACING = BlockStateProperties.FACING;
+    public static final EnumProperty<Direction> FACING = BlockStateProperties.FACING;
     public static final BooleanProperty WATERLOGGED;
     protected static final VoxelShape BOTTOM_AABB;
     protected static final VoxelShape TOP_AABB;
@@ -125,14 +127,12 @@ public class TCAntiExplosionHalfBlock extends Block implements ITCBlocks, ITCRec
     }
 
     @Override
-    public BlockState updateShape(BlockState p_56381_, Direction p_56382_, BlockState p_56383_, LevelAccessor p_56384_, BlockPos p_56385_, BlockPos p_56386_) {
-        if (p_56381_.getValue(WATERLOGGED)) {
-            p_56384_.scheduleTick(p_56385_, Fluids.WATER, Fluids.WATER.getTickDelay(p_56384_));
+    protected BlockState updateShape(BlockState p_60541_, LevelReader p_368027_, ScheduledTickAccess p_366146_, BlockPos p_60545_, Direction p_60542_, BlockPos p_60546_, BlockState p_60543_, RandomSource p_363918_) {
+        if (p_60541_.getValue(WATERLOGGED)) {
+            p_366146_.scheduleTick(p_60545_, Fluids.WATER, Fluids.WATER.getTickDelay(p_368027_));
         }
-
-        return super.updateShape(p_56381_, p_56382_, p_56383_, p_56384_, p_56385_, p_56386_);
+        return super.updateShape(p_60541_, p_368027_, p_366146_, p_60545_, p_60542_, p_60546_, p_60543_, p_363918_);
     }
-
 
     @Override
     protected boolean isPathfindable(BlockState p_60475_, PathComputationType p_60478_) {
@@ -193,7 +193,7 @@ public class TCAntiExplosionHalfBlock extends Block implements ITCBlocks, ITCRec
 
     @Override
     public void addRecipes(TCRecipeProvider provider, ItemLike itemLike, RecipeOutput consumer) {
-        ShapedRecipeBuilder builder = ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, itemLike, 6).define('#', this.baseBlock).pattern("###").unlockedBy("has_baseblock", TCRecipeProvider.hasItem(this.baseBlock));
+        ShapedRecipeBuilder builder = ShapedRecipeBuilder.shaped(provider.items, RecipeCategory.BUILDING_BLOCKS, itemLike, 6).define('#', this.baseBlock).pattern("###").unlockedBy("has_baseblock", provider.hasItem(this.baseBlock));
         if (!this.group.isEmpty()) {
             builder.group(this.group);
         }

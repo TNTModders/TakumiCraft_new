@@ -1,5 +1,7 @@
 package com.tntmodders.takumicraft.entity.mobs;
 
+import com.tntmodders.takumicraft.utils.TCEntityUtils;
+
 import com.tntmodders.takumicraft.core.TCItemCore;
 import com.tntmodders.takumicraft.entity.projectile.TCCreeperArrow;
 import net.minecraft.core.BlockPos;
@@ -127,7 +129,7 @@ public abstract class AbstractTCSkeletonCreeper extends AbstractTCCreeper implem
 
     @Override
     @Nullable
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_32146_, DifficultyInstance p_32147_, MobSpawnType p_32148_, @Nullable SpawnGroupData p_32149_) {
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_32146_, DifficultyInstance p_32147_, EntitySpawnReason p_32148_, @Nullable SpawnGroupData p_32149_) {
         p_32149_ = super.finalizeSpawn(p_32146_, p_32147_, p_32148_, p_32149_);
         RandomSource randomsource = p_32146_.getRandom();
         this.populateDefaultEquipmentSlots(randomsource, p_32147_);

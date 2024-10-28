@@ -89,13 +89,13 @@ public class TCCreeperFrameItem extends ItemFrameItem implements ITCItems, ITCRe
 
     @Override
     public void addRecipes(TCRecipeProvider provider, ItemLike itemLike, RecipeOutput consumer) {
-        provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, this, 8)
+        provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(provider.items, RecipeCategory.DECORATIONS, this, 8)
                 .define('#', TCBlockCore.CREEPER_BOMB)
                 .define('B', this.base)
                 .pattern("BBB")
                 .pattern("B#B")
                 .pattern("BBB")
-                .unlockedBy("has_creeperbomb", TCRecipeProvider.hasItem(TCBlockCore.CREEPER_BOMB)));
+                .unlockedBy("has_creeperbomb", provider.hasItem(TCBlockCore.CREEPER_BOMB)));
     }
 
     @Override

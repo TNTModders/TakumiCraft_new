@@ -14,7 +14,10 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.*;
+import net.minecraftforge.client.event.EntityRenderersEvent;
+import net.minecraftforge.client.event.RegisterColorHandlersEvent;
+import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
+import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.data.event.GatherDataEvent;
@@ -79,7 +82,7 @@ public class TakumiCraftCore {
         gen.addProvider(event.includeServer(), new TCFluidTagsProvider(packOutput, lookupProvider, fileHelper));
         gen.addProvider(event.includeServer(), new TCEntityTypeTagsProvider(packOutput, lookupProvider, fileHelper));
         gen.addProvider(event.includeServer(), new TCDatapackRegistryProvider(packOutput, lookupProvider));
-        gen.addProvider(event.includeServer(), new TCRecipeProvider(packOutput, lookupProvider));
+        gen.addProvider(event.includeServer(), new TCRecipeProvider.Runner(packOutput, lookupProvider));
         gen.addProvider(event.includeServer(), new TCLootTableProvider(packOutput, lookupProvider));
         gen.addProvider(event.includeServer(), new TCAdvancementProvider(packOutput, lookupProvider, fileHelper, List.of(new TCAdvancementProvider.TCAdvancementGenerator())));
         gen.addProvider(event.includeClient(), new TCLanguageProvider.TCEnUSLanguageProvider(gen));
@@ -149,10 +152,10 @@ public class TakumiCraftCore {
             TCRenderCore.registerEntityRender(rendererRegister);
         }
 
-        @SubscribeEvent
+/*        @SubscribeEvent
         public static void registerAdditionalModels(ModelEvent.RegisterAdditional modelRegister) {
             TCRenderCore.registerAdditionalModels(modelRegister);
-        }
+        }*/
 
         @SubscribeEvent
         public static void clientInit(FMLClientSetupEvent event) {

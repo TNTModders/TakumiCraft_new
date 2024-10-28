@@ -16,7 +16,6 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.WallHangingSignBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.MapColor;
@@ -26,7 +25,7 @@ import java.util.function.Function;
 
 public class TCCreeperHangingSignBlock_Wall extends WallHangingSignBlock implements ITCBlocks {
     public TCCreeperHangingSignBlock_Wall() {
-        super(TCWoodType.CREEPER_WOOD, BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).forceSolidOn().instrument(NoteBlockInstrument.BASS).noCollission().strength(1.0F, 1000000F).lootFrom(() -> TCBlockCore.CREEPER_HANGING_SIGN).ignitedByLava());
+        super(TCWoodType.CREEPER_WOOD, TCBlockCore.variant(TCBlockCore.CREEPER_SIGN, true).mapColor(MapColor.WOOD).forceSolidOn().instrument(NoteBlockInstrument.BASS).noCollission().strength(1.0F, 1000000F).ignitedByLava());
     }
 
     @Override
@@ -54,11 +53,6 @@ public class TCCreeperHangingSignBlock_Wall extends WallHangingSignBlock impleme
         provider.simpleBlock(this, provider.models().sign(this.getRegistryName(), provider.blockTexture(TCBlockCore.CREEPER_HANGING_SIGN)));
         ResourceLocation name = ResourceLocation.tryBuild(TakumiCraftCore.MODID, this.getRegistryName());
         provider.itemModels().singleTexture(name.getPath(), provider.mcLoc("item/generated"), "layer0", ResourceLocation.tryBuild(name.getNamespace(), "block/creeperhangingsign"));
-    }
-
-    @Override
-    public String getDescriptionId() {
-        return this.getRegistryName();
     }
 
     @Override

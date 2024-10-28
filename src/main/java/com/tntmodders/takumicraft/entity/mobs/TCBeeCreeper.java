@@ -1,8 +1,8 @@
 package com.tntmodders.takumicraft.entity.mobs;
 
-import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.client.renderer.entity.TCBeeCreeperRenderer;
 import com.tntmodders.takumicraft.core.TCEntityCore;
+import com.tntmodders.takumicraft.utils.TCEntityUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
@@ -415,7 +415,7 @@ public class TCBeeCreeper extends AbstractTCCreeper implements FlyingAnimal {
 
     public static class TCBeeCreeperContext implements TCCreeperContext<TCBeeCreeper> {
         private static final String NAME = "beecreeper";
-        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCBeeCreeper::new, MobCategory.MONSTER).sized(0.7F, 0.6F).eyeHeight(0.3F).clientTrackingRange(8).build(TakumiCraftCore.MODID + ":" + NAME);
+        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCBeeCreeper::new, MobCategory.MONSTER).sized(0.7F, 0.6F).eyeHeight(0.3F).clientTrackingRange(8).build(TCEntityUtils.TCEntityId(NAME));
 
         @Override
         public String getRegistryName() {

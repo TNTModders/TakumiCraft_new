@@ -79,7 +79,7 @@ public class TCAntiExplosionWallBlock extends WallBlock implements ITCBlocks, IT
 
     @Override
     public void addRecipes(TCRecipeProvider provider, ItemLike itemLike, RecipeOutput consumer) {
-        ShapedRecipeBuilder builder = ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, itemLike, 6).define('#', this.baseBlock).pattern("###").pattern("###").unlockedBy("has_baseblock", TCRecipeProvider.hasItem(this.baseBlock));
+        ShapedRecipeBuilder builder = ShapedRecipeBuilder.shaped(provider.items, RecipeCategory.DECORATIONS, itemLike, 6).define('#', this.baseBlock).pattern("###").pattern("###").unlockedBy("has_baseblock", provider.hasItem(this.baseBlock));
         if (!this.group.isEmpty()) {
             builder.group(this.group);
         }

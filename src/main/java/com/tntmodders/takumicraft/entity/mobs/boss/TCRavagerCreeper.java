@@ -1,6 +1,5 @@
 package com.tntmodders.takumicraft.entity.mobs.boss;
 
-import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.client.renderer.entity.TCRavagerCreeperRenderer;
 import com.tntmodders.takumicraft.core.TCBlockCore;
 import com.tntmodders.takumicraft.core.TCEntityCore;
@@ -362,13 +361,13 @@ public class TCRavagerCreeper extends AbstractTCBossCreeper {
     }
 
     @Override
-    public boolean checkSpawnRules(LevelAccessor levelAccessor, MobSpawnType spawnType) {
+    public boolean checkSpawnRules(LevelAccessor levelAccessor, EntitySpawnReason spawnType) {
         return super.checkSpawnRules(levelAccessor, spawnType) && levelAccessor.getRandom().nextInt(20) == 0;
     }
 
     public static class TCRavagerCreeperContext implements TCCreeperContext<TCRavagerCreeper> {
         private static final String NAME = "ravagercreeper";
-        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCRavagerCreeper::new, MobCategory.MONSTER).sized(1.95F, 2.2F).passengerAttachments(new Vec3(0.0, 2.2625, -0.0625)).clientTrackingRange(10).build(TakumiCraftCore.MODID + ":" + NAME);
+        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCRavagerCreeper::new, MobCategory.MONSTER).sized(1.95F, 2.2F).passengerAttachments(new Vec3(0.0, 2.2625, -0.0625)).clientTrackingRange(10).build(TCEntityUtils.TCEntityId(NAME));
 
         @Override
         public String getRegistryName() {
