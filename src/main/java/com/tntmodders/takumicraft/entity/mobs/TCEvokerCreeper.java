@@ -109,8 +109,8 @@ public class TCEvokerCreeper extends AbstractTCSpellcasterCreeper {
     }
 
     @Override
-    protected void customServerAiStep() {
-        super.customServerAiStep();
+    protected void customServerAiStep(ServerLevel level) {
+        super.customServerAiStep(level);
     }
 
     @Override

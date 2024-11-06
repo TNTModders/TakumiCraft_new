@@ -121,9 +121,9 @@ public class TCBeeCreeper extends AbstractTCCreeper implements FlyingAnimal {
     }
 
     @Override
-    public boolean doHurtTarget(Entity p_27722_) {
+    public boolean doHurtTarget(ServerLevel p_365514_, Entity p_27722_) {
         DamageSource damagesource = this.damageSources().sting(this);
-        boolean flag = p_27722_.hurt(damagesource, (float) (int) this.getAttributeValue(Attributes.ATTACK_DAMAGE));
+        boolean flag = p_27722_.hurtServer(p_365514_, damagesource, (float) (int) this.getAttributeValue(Attributes.ATTACK_DAMAGE));
         if (flag) {
             if (this.level() instanceof ServerLevel serverlevel) {
                 EnchantmentHelper.doPostAttackEffects(serverlevel, p_27722_, damagesource);
@@ -207,7 +207,7 @@ public class TCBeeCreeper extends AbstractTCCreeper implements FlyingAnimal {
     }
 
     @Override
-    protected void customServerAiStep() {
+    protected void customServerAiStep(ServerLevel level) {
         if (this.isInWaterOrBubble()) {
             this.underWaterTicks++;
         } else {

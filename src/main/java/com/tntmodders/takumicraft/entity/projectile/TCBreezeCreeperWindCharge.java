@@ -1,6 +1,7 @@
 package com.tntmodders.takumicraft.entity.projectile;
 
 import com.tntmodders.takumicraft.entity.mobs.TCBreezeCreeper;
+import com.tntmodders.takumicraft.utils.TCEntityUtils;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.EntityType;
@@ -11,7 +12,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
 public class TCBreezeCreeperWindCharge extends AbstractWindCharge {
-    public static final EntityType<TCBreezeCreeperWindCharge> BREEZE_WIND_CHARGE = EntityType.Builder.<TCBreezeCreeperWindCharge>of(TCBreezeCreeperWindCharge::new, MobCategory.MISC).sized(0.3125F, 0.3125F).eyeHeight(0.0F).clientTrackingRange(4).updateInterval(10).build("breezecreeper_windcharge");
+    public static final EntityType<TCBreezeCreeperWindCharge> BREEZE_WIND_CHARGE = EntityType.Builder.<TCBreezeCreeperWindCharge>of(TCBreezeCreeperWindCharge::new, MobCategory.MISC).sized(0.3125F, 0.3125F).eyeHeight(0.0F).clientTrackingRange(4).updateInterval(10).build(TCEntityUtils.TCEntityId("breezecreeper_windcharge"));
 
     public TCBreezeCreeperWindCharge(EntityType<? extends AbstractWindCharge> p_328102_, Level p_329873_) {
         super(p_328102_, p_329873_);

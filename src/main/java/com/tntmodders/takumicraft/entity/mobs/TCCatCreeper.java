@@ -4,6 +4,7 @@ import com.tntmodders.takumicraft.client.renderer.entity.TCCatCreeperRenderer;
 import com.tntmodders.takumicraft.core.TCEntityCore;
 import com.tntmodders.takumicraft.utils.TCEntityUtils;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.BlockTags;
@@ -64,7 +65,7 @@ public class TCCatCreeper extends AbstractTCCreeper {
     }
 
     @Override
-    public void customServerAiStep() {
+    public void customServerAiStep(ServerLevel level) {
         if (this.getMoveControl().hasWanted()) {
             double d0 = this.getMoveControl().getSpeedModifier();
             if (d0 == 0.6) {

@@ -16,6 +16,11 @@ import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import net.minecraft.world.entity.ai.sensing.Sensor;
 import net.minecraft.world.entity.ai.sensing.SensorType;
+import net.minecraft.world.entity.monster.breeze.LongJump;
+import net.minecraft.world.entity.monster.breeze.Shoot;
+import net.minecraft.world.entity.monster.breeze.ShootWhenStuck;
+import net.minecraft.world.entity.monster.breeze.Slide;
+import net.minecraft.world.entity.monster.breeze.*;
 import net.minecraft.world.entity.schedule.Activity;
 
 import java.util.List;
@@ -40,15 +45,33 @@ public class TCBreezeCreeperAi {
     }
 
     private static void initCoreActivity(Brain<TCBreezeCreeper> p_312238_) {
-        p_312238_.addActivity(Activity.CORE, 0, ImmutableList.of(new Swim(0.8F), new LookAtTargetSink(45, 90)));
+        p_312238_.addActivity(Activity.CORE, 0, ImmutableList.of(new Swim<>(0.8F), new LookAtTargetSink(45, 90)));
     }
 
     private static void initIdleActivity(Brain<TCBreezeCreeper> p_335718_) {
-        p_335718_.addActivity(Activity.IDLE, ImmutableList.of(Pair.of(0, StartAttacking.create(p_312068_ -> p_312068_.getBrain().getMemory(MemoryModuleType.NEAREST_ATTACKABLE))), Pair.of(1, StartAttacking.create(TCBreezeCreeper::getHurtBy)), Pair.of(2, new SlideToTargetSink(20, 40)), Pair.of(3, new RunOne<>(ImmutableList.of(Pair.of(new DoNothing(20, 100), 1), Pair.of(RandomStroll.stroll(0.6F), 2))))));
+        p_335718_.addActivity(
+                Activity.IDLE,
+                ImmutableList.of(
+                        Pair.of(0, StartAttacking.create((p_369589_, p_312068_) -> p_312068_.getBrain().getMemory(MemoryModuleType.NEAREST_ATTACKABLE))),
+                        Pair.of(1, StartAttacking.create((p_359265_, p_359266_) -> p_359266_.getHurtBy())),
+                        Pair.of(2, new BreezeAi.SlideToTargetSink(20, 40)),
+                        Pair.of(3, new RunOne<>(ImmutableList.of(Pair.of(new DoNothing(20, 100), 1), Pair.of(RandomStroll.stroll(0.6F), 2))))
+                )
+        );
     }
 
     private static void initFightActivity(TCBreezeCreeper p_344626_, Brain<TCBreezeCreeper> p_310469_) {
-        p_310469_.addActivityWithConditions(Activity.FIGHT, ImmutableList.of(Pair.of(0, StopAttackingIfTargetInvalid.create(p_341449_ -> !Sensor.isEntityAttackable(p_344626_, p_341449_))), Pair.of(1, new Shoot()), Pair.of(2, new LongJump()), Pair.of(3, new ShootWhenStuck()), Pair.of(4, new Slide())), ImmutableSet.of(Pair.of(MemoryModuleType.ATTACK_TARGET, MemoryStatus.VALUE_PRESENT), Pair.of(MemoryModuleType.WALK_TARGET, MemoryStatus.VALUE_ABSENT)));
+        p_310469_.addActivityWithConditions(
+                Activity.FIGHT,
+                (ImmutableList<? extends Pair<Integer, ? extends BehaviorControl<? super TCBreezeCreeper>>>) ImmutableList.of(
+                        Pair.of(0, StopAttackingIfTargetInvalid.create(Sensor.wasEntityAttackableLastNTicks(p_344626_, 100).negate()::test)),
+                        Pair.of(1, new Shoot()),
+                        Pair.of(2, new LongJump()),
+                        Pair.of(3, new ShootWhenStuck()),
+                        Pair.of(4, new Slide())
+                ),
+                ImmutableSet.of(Pair.of(MemoryModuleType.ATTACK_TARGET, MemoryStatus.VALUE_PRESENT), Pair.of(MemoryModuleType.WALK_TARGET, MemoryStatus.VALUE_ABSENT))
+        );
     }
 
     public static void updateActivity(TCBreezeCreeper p_331608_) {

@@ -85,9 +85,9 @@ public class TCSheepCreeper extends AbstractTCCreeper {
     }
 
     @Override
-    protected void customServerAiStep() {
+    protected void customServerAiStep(ServerLevel level) {
         this.eatAnimationTick = this.eatBlockGoal.getEatAnimationTick();
-        super.customServerAiStep();
+        super.customServerAiStep(level);
     }
 
     @Override

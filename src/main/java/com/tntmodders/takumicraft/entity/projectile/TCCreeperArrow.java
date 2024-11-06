@@ -1,6 +1,6 @@
 package com.tntmodders.takumicraft.entity.projectile;
 
-import com.tntmodders.takumicraft.TakumiCraftCore;
+import com.tntmodders.takumicraft.utils.TCEntityUtils;
 import com.tntmodders.takumicraft.utils.TCExplosionUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
@@ -24,7 +24,7 @@ public class TCCreeperArrow extends Arrow {
     public static final EntityType<Arrow> ARROW = EntityType.Builder.<Arrow>of(TCCreeperArrow::new, MobCategory.MISC)
             .sized(0.5F, 0.5F)
             .clientTrackingRange(4)
-            .updateInterval(20).build(TakumiCraftCore.MODID + ":creeperarrow");
+            .updateInterval(20).build(TCEntityUtils.TCEntityId("creeperarrow"));
     private float power = 1.5f;
     private boolean dest = false;
 

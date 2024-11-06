@@ -14,11 +14,12 @@ import net.minecraftforge.registries.RegisterEvent;
 import java.util.ArrayList;
 import java.util.List;
 
+//@TODO fix
 public class TCBlockEntityCore {
     public static final BlockEntityType<TCCreeperBedBlockEntity> CREEPER_BED = BlockEntityType.Builder.of(TCCreeperBedBlockEntity::new, createBedList().toArray(new Block[0])).build(Util.fetchChoiceType(References.BLOCK_ENTITY, "creeperbed"));
 
     public static final BlockEntityType<TCMonsterBombBlockEntity> MONSTER_BOMB = BlockEntityType.Builder.of(TCMonsterBombBlockEntity::new, TCBlockCore.YUKARI_BOMB).build(Util.fetchChoiceType(References.BLOCK_ENTITY, "monsterbomb"));
-
+    ForgeRegistries
     public static final BlockEntityType<TCAcidBlockEntity> ACID = BlockEntityType.Builder.of(TCAcidBlockEntity::new, TCBlockCore.ACID).build(Util.fetchChoiceType(References.BLOCK_ENTITY, "acidblock"));
 
     public static final BlockEntityType<TCCreeperChestBlockEntity> CHEST = BlockEntityType.Builder.of(TCCreeperChestBlockEntity::new, TCBlockCore.CREEPER_CHEST).build(Util.fetchChoiceType(References.BLOCK_ENTITY, "creeperchest"));

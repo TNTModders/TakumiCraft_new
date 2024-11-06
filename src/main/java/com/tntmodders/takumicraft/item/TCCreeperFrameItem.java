@@ -56,7 +56,7 @@ public class TCCreeperFrameItem extends ItemFrameItem implements ITCItems, ITCRe
                 hangingentity = new TCCreeperFrame(TCCreeperFrame.ITEM_FRAME, level, blockpos1, direction);
             } else {
                 if (this.base != Items.GLOW_ITEM_FRAME) {
-                    return InteractionResult.sidedSuccess(level.isClientSide);
+                    return InteractionResult.SUCCESS;
                 }
 
                 hangingentity = new TCCreeperGlowingFrame(TCCreeperGlowingFrame.GLOWING_FRAME, level, blockpos1, direction);
@@ -75,7 +75,7 @@ public class TCCreeperFrameItem extends ItemFrameItem implements ITCItems, ITCRe
                 }
 
                 itemstack.shrink(1);
-                return InteractionResult.sidedSuccess(level.isClientSide);
+                return InteractionResult.SUCCESS;
             } else {
                 return InteractionResult.CONSUME;
             }

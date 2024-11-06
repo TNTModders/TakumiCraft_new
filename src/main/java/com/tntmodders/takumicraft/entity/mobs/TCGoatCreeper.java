@@ -153,14 +153,14 @@ public class TCGoatCreeper extends AbstractTCCreeper {
     }
 
     @Override
-    protected void customServerAiStep() {
+    protected void customServerAiStep(ServerLevel level) {
         this.level().getProfiler().push("goatBrain");
         this.getBrain().tick((ServerLevel) this.level(), this);
         this.level().getProfiler().pop();
         this.level().getProfiler().push("goatActivityUpdate");
         TCGoatCreeperAi.updateActivity(this);
         this.level().getProfiler().pop();
-        super.customServerAiStep();
+        super.customServerAiStep(level);
     }
 
     @Override

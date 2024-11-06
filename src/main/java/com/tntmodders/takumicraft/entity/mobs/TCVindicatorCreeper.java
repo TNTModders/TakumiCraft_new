@@ -68,13 +68,13 @@ public class TCVindicatorCreeper extends AbstractTCIllagerCreeper {
     }
 
     @Override
-    protected void customServerAiStep() {
+    protected void customServerAiStep(ServerLevel level) {
         if (!this.isNoAi() && GoalUtils.hasGroundPathNavigation(this)) {
             boolean flag = ((ServerLevel) this.level()).isRaided(this.blockPosition());
             ((GroundPathNavigation) this.getNavigation()).setCanOpenDoors(flag);
         }
 
-        super.customServerAiStep();
+        super.customServerAiStep(level);
     }
 
     public static AttributeSupplier.Builder createAttributes() {

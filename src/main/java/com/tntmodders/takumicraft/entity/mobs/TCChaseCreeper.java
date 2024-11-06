@@ -5,6 +5,7 @@ import com.tntmodders.takumicraft.core.TCEntityCore;
 import com.tntmodders.takumicraft.utils.TCEntityUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.damagesource.DamageSource;
@@ -47,7 +48,7 @@ public class TCChaseCreeper extends AbstractTCCreeper {
             this.spawnLingeringCloud();
 
             if (this.getHealth() > 1) {
-                TCChaseCreeper chaseCreeper = (TCChaseCreeper) TCEntityCore.CHASE.entityType().create(this.level());
+                TCChaseCreeper chaseCreeper = (TCChaseCreeper) TCEntityCore.CHASE.entityType().create(this.level(), EntitySpawnReason.MOB_SUMMONED);
                 chaseCreeper.copyPosition(this);
                 chaseCreeper.setTarget(this.getTarget());
                 chaseCreeper.setHealth(this.getHealth() - 1);
@@ -57,7 +58,9 @@ public class TCChaseCreeper extends AbstractTCCreeper {
                 this.level().addFreshEntity(chaseCreeper);
             }
 
-            this.triggerOnDeathMobEffects(RemovalReason.KILLED);
+            if (this.level() instanceof ServerLevel serverLevel) {
+                this.triggerOnDeathMobEffects(serverLevel, RemovalReason.KILLED);
+            }
             this.discard();
         }
     }
@@ -70,14 +73,14 @@ public class TCChaseCreeper extends AbstractTCCreeper {
     }
 
     @Override
-    public boolean hurt(DamageSource source, float amount) {
+    public boolean hurtServer(ServerLevel level, DamageSource source, float amount) {
         if (source.is(DamageTypes.EXPLOSION) || source.is(DamageTypeTags.IS_FIRE) || source.is(DamageTypes.FALL) || source.is(DamageTypes.IN_WALL) || source.is(DamageTypes.DROWN)) {
             return false;
         } else {
             if (source.getEntity() instanceof LivingEntity living && this.getTarget() != living) {
                 this.setTarget(living);
             }
-            return super.hurt(source, amount);
+            return super.hurtServer(level, source, amount);
         }
     }
 

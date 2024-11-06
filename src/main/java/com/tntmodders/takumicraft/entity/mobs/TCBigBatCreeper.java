@@ -6,10 +6,7 @@ import com.tntmodders.takumicraft.utils.TCEntityUtils;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobCategory;
-import net.minecraft.world.entity.SpawnPlacementTypes;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.Creeper;
@@ -32,10 +29,10 @@ public class TCBigBatCreeper extends TCBatCreeper {
         super.explodeCreeper();
         if (!this.level().isClientSide) {
             for (int i = 0; i <= (this.isPowered() ? 5 : 3); i++) {
-                TCBatCreeper batCreeper = (TCBatCreeper) TCEntityCore.BAT.entityType().create(this.level());
+                TCBatCreeper batCreeper = (TCBatCreeper) TCEntityCore.BAT.entityType().create(this.level(), EntitySpawnReason.MOB_SUMMONED);
                 batCreeper.copyPosition(this);
                 this.level().addFreshEntity(batCreeper);
-                AbstractTCCreeper rushCreeper = (AbstractTCCreeper) TCEntityCore.RUSH.entityType().create(this.level());
+                AbstractTCCreeper rushCreeper = (AbstractTCCreeper) TCEntityCore.RUSH.entityType().create(this.level(), EntitySpawnReason.MOB_SUMMONED);
                 rushCreeper.copyPosition(batCreeper);
                 this.level().addFreshEntity(rushCreeper);
                 rushCreeper.startRiding(batCreeper, true);

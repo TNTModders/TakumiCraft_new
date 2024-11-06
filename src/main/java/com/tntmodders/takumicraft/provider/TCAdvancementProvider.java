@@ -11,11 +11,14 @@ import net.minecraft.advancements.AdvancementHolder;
 import net.minecraft.advancements.AdvancementType;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.advancements.critereon.*;
+import net.minecraft.core.HolderGetter;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -37,7 +40,7 @@ public class TCAdvancementProvider extends ForgeAdvancementProvider {
         public void generate(HolderLookup.Provider registries, Consumer<AdvancementHolder> consumer,
                              ExistingFileHelper fileHelper) {
             TCLoggingUtils.startRegistry("Advancements");
-
+            HolderGetter<EntityType<?>> types = registries.lookupOrThrow(Registries.ENTITY_TYPE);
             AdvancementHolder slay_root = Advancement.Builder.advancement()
                     /*.display(TCBlockCore.CREEPER_BOMB, new TranslatableContents("takumicraft.takumibook"),
                             new TranslatableContents("takumicraft.takumibook"), ResourceLocation.tryBuild(TakumiCraftCore.MODID, "textures/block/creeperbomb.png"), AdvancementType.TASK,
@@ -48,15 +51,17 @@ public class TCAdvancementProvider extends ForgeAdvancementProvider {
             TCEntityCore.ENTITY_TYPES.forEach(type -> Advancement.Builder.advancement().parent(slay_root)
                     .display(new ItemStack(TCItemCore.TAKUMIBOOK), Component.translatable(type.getDescriptionId()),
                             Component.translatable("takumicraft.message.slay"), null, AdvancementType.TASK, true, true, true)
-                    .addCriterion("killed_" + type.toShortString(), KilledTrigger.TriggerInstance.playerKilledEntity(EntityPredicate.Builder.entity().of(type)))
+                    .addCriterion("killed_" + type.toShortString(), KilledTrigger.TriggerInstance.playerKilledEntity(EntityPredicate.Builder.entity().of(types, type)))
                     .save(consumer, ResourceLocation.tryBuild(TakumiCraftCore.MODID, "slay/slay_" + type.toShortString())));
 
-            this.registerAdditionalAdvancements(consumer, fileHelper);
+            this.registerAdditionalAdvancements(registries, consumer, fileHelper);
 
             TCLoggingUtils.completeRegistry("Advancements");
         }
 
-        private void registerAdditionalAdvancements(Consumer<AdvancementHolder> consumer, ExistingFileHelper fileHelper) {
+        private void registerAdditionalAdvancements(HolderLookup.Provider registries, Consumer<AdvancementHolder> consumer, ExistingFileHelper fileHelper) {
+            HolderGetter<EntityType<?>> types = registries.lookupOrThrow(Registries.ENTITY_TYPE);
+
             AdvancementHolder root = Advancement.Builder.advancement()
                     .display(new ItemStack(Items.CREEPER_HEAD), Component.translatable("advancement.takumicraft.root.title"),
                             Component.translatable("advancement.takumicraft.root.desc"), ResourceLocation.tryBuild(TakumiCraftCore.MODID, "textures/block/gunore.png"),
@@ -76,7 +81,7 @@ public class TCAdvancementProvider extends ForgeAdvancementProvider {
                             Component.translatable("advancement.takumicraft.slay_all.desc"), null,
                             AdvancementType.GOAL, true, true, false).parent(root);
             TCEntityCore.ENTITY_CONTEXTS.forEach(context ->
-                    slay_all_builder.addCriterion("slay_" + context.getRegistryName(), KilledTrigger.TriggerInstance.playerKilledEntity(new EntityPredicate.Builder().of(context.entityType()))));
+                    slay_all_builder.addCriterion("slay_" + context.getRegistryName(), KilledTrigger.TriggerInstance.playerKilledEntity(new EntityPredicate.Builder().of(types, context.entityType()))));
             AdvancementHolder slay_all = slay_all_builder.save(consumer, ResourceLocation.tryBuild(TakumiCraftCore.MODID, "slay_all"));
 
             AdvancementHolder creepershield = Advancement.Builder.advancement()
@@ -111,14 +116,14 @@ public class TCAdvancementProvider extends ForgeAdvancementProvider {
                     .display(new ItemStack(TCItemCore.SPMEAT_BEEF), Component.translatable("advancement.takumicraft.spmeat.title"),
                             Component.translatable("advancement.takumicraft.spmeat.desc"), null,
                             AdvancementType.TASK, true, true, false).parent(creepershield);
-            TCTakumiSpecialMeatItem.MEAT_LIST.forEach(meatItem -> specialmeat_builder.addCriterion(meatItem.getRegistryName(), ConsumeItemTrigger.TriggerInstance.usedItem(meatItem)));
+            TCTakumiSpecialMeatItem.MEAT_LIST.forEach(meatItem -> specialmeat_builder.addCriterion(meatItem.getRegistryName(), ConsumeItemTrigger.TriggerInstance.usedItem(ItemPredicate.Builder.item().of(registries.lookupOrThrow(Registries.ITEM), meatItem))));
             AdvancementHolder specialmeat = specialmeat_builder.save(consumer, ResourceLocation.tryBuild(TakumiCraftCore.MODID, "spmeat"));
 
             AdvancementHolder kingslayer = Advancement.Builder.advancement()
                     .display(new ItemStack(TCItemCore.KING_CORE), Component.translatable("advancement.takumicraft.kingslayer.title"),
                             Component.translatable("advancement.takumicraft.kingslayer.desc"), null,
                             AdvancementType.CHALLENGE, true, true, false)
-                    .addCriterion("kingslayer", KilledTrigger.TriggerInstance.playerKilledEntity(new EntityPredicate.Builder().of(TCEntityCore.KING.entityType()))).parent(takumialtar).save(consumer, ResourceLocation.tryBuild(TakumiCraftCore.MODID, "kingslayer"));
+                    .addCriterion("kingslayer", KilledTrigger.TriggerInstance.playerKilledEntity(new EntityPredicate.Builder().of(types, TCEntityCore.KING.entityType()))).parent(takumialtar).save(consumer, ResourceLocation.tryBuild(TakumiCraftCore.MODID, "kingslayer"));
             ItemStack barrel = new ItemStack(TCBlockCore.CREEPER_BARREL);
             barrel.set(DataComponents.CUSTOM_MODEL_DATA, new CustomModelData(898));
             AdvancementHolder creeperbarrel = Advancement.Builder.advancement()

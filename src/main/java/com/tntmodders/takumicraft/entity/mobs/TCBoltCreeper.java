@@ -7,6 +7,7 @@ import net.minecraft.core.Holder;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.entity.MobCategory;
@@ -40,7 +41,7 @@ public class TCBoltCreeper extends AbstractTCCreeper {
     @Override
     public void remove(RemovalReason reason) {
         if (!this.level().isClientSide() && this.getHealth() > 0f && !this.isPowered()) {
-            var entity = TCEntityCore.BOLT.entityType().create(this.level());
+            var entity = TCEntityCore.BOLT.entityType().create(this.level(), EntitySpawnReason.NATURAL);
             if (entity instanceof TCBoltCreeper bolt) {
                 bolt.copyPosition(this);
                 bolt.setPowered(true);
@@ -57,8 +58,8 @@ public class TCBoltCreeper extends AbstractTCCreeper {
     }
 
     @Override
-    public boolean hurt(DamageSource source, float damage) {
-        return !source.is(DamageTypes.LIGHTNING_BOLT) && !source.is(DamageTypes.IN_FIRE) && !source.is(DamageTypes.EXPLOSION) && super.hurt(source, damage);
+    public boolean hurtServer(ServerLevel level, DamageSource source, float damage) {
+        return !source.is(DamageTypes.LIGHTNING_BOLT) && !source.is(DamageTypes.IN_FIRE) && !source.is(DamageTypes.EXPLOSION) && super.hurtServer(level, source, damage);
     }
 
     @Override

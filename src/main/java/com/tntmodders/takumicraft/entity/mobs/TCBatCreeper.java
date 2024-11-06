@@ -8,6 +8,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
@@ -129,31 +130,31 @@ public class TCBatCreeper extends AbstractTCCreeper {
     }
 
     @Override
-    protected void customServerAiStep() {
-        super.customServerAiStep();
+    protected void customServerAiStep(ServerLevel p_369019_) {
+        super.customServerAiStep(p_369019_);
         BlockPos blockpos = this.blockPosition();
         BlockPos blockpos1 = blockpos.above();
         if (this.isResting()) {
             boolean flag = this.isSilent();
-            if (this.level().getBlockState(blockpos1).isRedstoneConductor(this.level(), blockpos)) {
+            if (p_369019_.getBlockState(blockpos1).isRedstoneConductor(p_369019_, blockpos)) {
                 if (this.random.nextInt(200) == 0) {
                     this.yHeadRot = (float) this.random.nextInt(360);
                 }
 
-                if (this.level().getNearestPlayer(BAT_RESTING_TARGETING, this) != null) {
+                if (p_369019_.getNearestPlayer(BAT_RESTING_TARGETING, this) != null) {
                     this.setResting(false);
                     if (!flag) {
-                        this.level().levelEvent(null, 1025, blockpos, 0);
+                        p_369019_.levelEvent(null, 1025, blockpos, 0);
                     }
                 }
             } else {
                 this.setResting(false);
                 if (!flag) {
-                    this.level().levelEvent(null, 1025, blockpos, 0);
+                    p_369019_.levelEvent(null, 1025, blockpos, 0);
                 }
             }
         } else {
-            if (this.targetPosition != null && (!this.level().isEmptyBlock(this.targetPosition) || this.targetPosition.getY() <= this.level().getMinBuildHeight())) {
+            if (this.targetPosition != null && (!p_369019_.isEmptyBlock(this.targetPosition) || this.targetPosition.getY() <= p_369019_.getMinY())) {
                 this.targetPosition = null;
             }
 
@@ -177,7 +178,7 @@ public class TCBatCreeper extends AbstractTCCreeper {
             float f1 = Mth.wrapDegrees(f - this.getYRot());
             this.zza = 0.5F;
             this.setYRot(this.getYRot() + f1);
-            if (this.random.nextInt(100) == 0 && this.level().getBlockState(blockpos1).isRedstoneConductor(this.level(), blockpos1)) {
+            if (this.random.nextInt(100) == 0 && p_369019_.getBlockState(blockpos1).isRedstoneConductor(p_369019_, blockpos1)) {
                 this.setResting(true);
             }
         }
@@ -198,15 +199,15 @@ public class TCBatCreeper extends AbstractTCCreeper {
     }
 
     @Override
-    public boolean hurt(DamageSource p_27424_, float p_27425_) {
-        if (this.isInvulnerableTo(p_27424_)) {
+    public boolean hurtServer(ServerLevel level, DamageSource source, float amount) {
+        if (this.isInvulnerableTo(level, source)) {
             return false;
         } else {
             if (!this.level().isClientSide && this.isResting()) {
                 this.setResting(false);
             }
 
-            return super.hurt(p_27424_, p_27425_);
+            return super.hurtServer(level, source, amount);
         }
     }
 

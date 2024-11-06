@@ -27,7 +27,7 @@ public class TCCreeperShieldItem extends ShieldItem implements ITCItems, ITCTran
 
     @Override
     public List<TagKey<Item>> getItemTags() {
-        return List.of(TCItemCore.EXPLOSIVE_SHIELDS, Tags.Items.TOOLS_SHIELDS);
+        return List.of(TCItemCore.EXPLOSIVE_SHIELDS, Tags.Items.TOOLS_SHIELD);
     }
 
     @Override

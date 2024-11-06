@@ -18,6 +18,7 @@ import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.ai.behavior.*;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
+import net.minecraft.world.entity.animal.allay.Allay;
 import net.minecraft.world.entity.item.PrimedTnt;
 import net.minecraft.world.entity.npc.InventoryCarrier;
 import net.minecraft.world.entity.schedule.Activity;
@@ -59,9 +60,9 @@ public class TCAllayCreeperAi {
         p_218426_.addActivity(
                 Activity.CORE,
                 0,
-                ImmutableList.of(
-                        new Swim(0.8F),
-                        new AnimalPanic<>(2.5F),
+                (ImmutableList<? extends BehaviorControl<? super TCAllayCreeper>>) ImmutableList.of(
+                        new Swim<>(0.8F),
+                        new AnimalPanic<Allay>(2.5F),
                         new LookAtTargetSink(45, 90),
                         new MoveToTargetSink(),
                         new CountDownCooldownTicks(MemoryModuleType.LIKED_NOTEBLOCK_COOLDOWN_TICKS),

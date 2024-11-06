@@ -14,6 +14,8 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.EntityTypeTags;
+import net.minecraft.util.profiling.Profiler;
+import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.Brain;
@@ -81,7 +83,7 @@ public class TCBreezeCreeper extends AbstractTCCreeper {
 
     @Override
     public void explodeCreeper() {
-        if (!this.level().isClientSide()) {
+        if (this.level() instanceof ServerLevel serverLevel) {
             float f = this.isPowered() ? 2.0F : 1.0F;
             this.dead = true;
             this.level().explode(this, null, AbstractWindCharge.EXPLOSION_DAMAGE_CALCULATOR, this.getX(), this.getY(), this.getZ(), (float) this.explosionRadius * f, false, Level.ExplosionInteraction.TRIGGER, ParticleTypes.GUST_EMITTER_SMALL, ParticleTypes.GUST_EMITTER_LARGE, SoundEvents.BREEZE_WIND_CHARGE_BURST);
@@ -96,7 +98,7 @@ public class TCBreezeCreeper extends AbstractTCCreeper {
                 this.level().addFreshEntity(breezewindcharge);
             }
 
-            this.triggerOnDeathMobEffects(Entity.RemovalReason.KILLED);
+            this.triggerOnDeathMobEffects(serverLevel, Entity.RemovalReason.KILLED);
             this.discard();
         }
     }
@@ -255,13 +257,14 @@ public class TCBreezeCreeper extends AbstractTCCreeper {
     }
 
     @Override
-    protected void customServerAiStep() {
-        this.level().getProfiler().push("breezeBrain");
-        this.getBrain().tick((ServerLevel) this.level(), this);
-        this.level().getProfiler().popPush("breezeActivityUpdate");
+    protected void customServerAiStep(ServerLevel p_364535_) {
+        ProfilerFiller profilerfiller = Profiler.get();
+        profilerfiller.push("breezeBrain");
+        this.getBrain().tick(p_364535_, this);
+        profilerfiller.popPush("breezeActivityUpdate");
         TCBreezeCreeperAi.updateActivity(this);
-        this.level().getProfiler().pop();
-        super.customServerAiStep();
+        profilerfiller.pop();
+        super.customServerAiStep(p_364535_);
     }
 
     @Override
@@ -290,8 +293,8 @@ public class TCBreezeCreeper extends AbstractTCCreeper {
     }
 
     @Override
-    public boolean isInvulnerableTo(DamageSource p_309859_) {
-        return p_309859_.getEntity() instanceof TCBreezeCreeper || super.isInvulnerableTo(p_309859_);
+    public boolean isInvulnerableTo(ServerLevel level, DamageSource p_309859_) {
+        return p_309859_.getEntity() instanceof TCBreezeCreeper || super.isInvulnerableTo(level, p_309859_);
     }
 
     @Override

@@ -8,6 +8,7 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.BiomeTags;
@@ -120,7 +121,7 @@ public class TCBlazeCreeper extends AbstractTCCreeper {
     }
 
     @Override
-    protected void customServerAiStep() {
+    protected void customServerAiStep(ServerLevel level) {
         this.nextHeightOffsetChangeTick--;
         if (this.nextHeightOffsetChangeTick <= 0) {
             this.nextHeightOffsetChangeTick = 100;
@@ -134,7 +135,7 @@ public class TCBlazeCreeper extends AbstractTCCreeper {
             this.hasImpulse = true;
         }
 
-        super.customServerAiStep();
+        super.customServerAiStep(level);
     }
 
     @Override
@@ -218,9 +219,9 @@ public class TCBlazeCreeper extends AbstractTCCreeper {
                         return;
                     }
 
-                    if (this.attackTime <= 0) {
+                    if (this.attackTime <= 0 && this.creeper.level() instanceof ServerLevel serverLevel) {
                         this.attackTime = 20;
-                        this.creeper.doHurtTarget(livingentity);
+                        this.creeper.doHurtTarget(serverLevel, livingentity);
                     }
 
                     this.creeper.getMoveControl().setWantedPosition(livingentity.getX(), livingentity.getY(), livingentity.getZ(), 1.0);
