@@ -2,6 +2,7 @@ package com.tntmodders.takumicraft.client.renderer.entity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
+import com.tntmodders.takumicraft.client.renderer.entity.state.TCKingBlockRenderState;
 import com.tntmodders.takumicraft.core.TCBlockCore;
 import com.tntmodders.takumicraft.entity.misc.TCKingBlock;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -9,11 +10,9 @@ import net.minecraft.client.renderer.block.BlockRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.level.block.Block;
 
-public class TCKingBlockRenderer<T extends TCKingBlock> extends EntityRenderer<T> {
+public class TCKingBlockRenderer<T extends TCKingBlock, S extends TCKingBlockRenderState> extends EntityRenderer<T, S> {
 
     private final Block block;
     private final BlockRenderDispatcher blockRenderDispatcher;
@@ -25,20 +24,25 @@ public class TCKingBlockRenderer<T extends TCKingBlock> extends EntityRenderer<T
     }
 
     @Override
-    public void render(T entity, float entityYaw, float partialTicks, PoseStack pose, MultiBufferSource bufferSource, int p_114490_) {
+    public void render(S state, PoseStack pose, MultiBufferSource source, int p_114490_) {
         pose.pushPose();
         pose.rotateAround(Axis.YP.rotationDegrees(-90.0F), 0.0F, 1.0F, 0.0F);
         pose.translate(-0.5F, 0F, -0.5F);
-        pose.scale(entity.getGlowingSize(), entity.getGlowingSize(), entity.getGlowingSize());
-        this.blockRenderDispatcher.renderSingleBlock(this.block.defaultBlockState(), pose, bufferSource, p_114490_, OverlayTexture.NO_OVERLAY);
+        pose.scale(state.glowingSize, state.glowingSize, state.glowingSize);
+        this.blockRenderDispatcher.renderSingleBlock(this.block.defaultBlockState(), pose, source, p_114490_, OverlayTexture.NO_OVERLAY);
         pose.popPose();
 
-        super.render(entity, entityYaw, partialTicks, pose, bufferSource, p_114490_);
+        super.render(state, pose, source, p_114490_);
     }
 
+    @Override
+    public S createRenderState() {
+        return (S) new TCKingBlockRenderState();
+    }
 
     @Override
-    public ResourceLocation getTextureLocation(T p_114482_) {
-        return InventoryMenu.BLOCK_ATLAS;
+    public void extractRenderState(T entity, S state, float p_363243_) {
+        super.extractRenderState(entity, state, p_363243_);
+        state.glowingSize = entity.getGlowingSize();
     }
 }

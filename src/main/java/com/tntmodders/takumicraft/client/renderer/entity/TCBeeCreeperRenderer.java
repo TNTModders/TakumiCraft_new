@@ -1,14 +1,13 @@
 package com.tntmodders.takumicraft.client.renderer.entity;
 
-import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.client.renderer.entity.layer.TCCreeperPowerLayer;
+import com.tntmodders.takumicraft.client.renderer.entity.state.TCBeeCreeperRenderState;
 import com.tntmodders.takumicraft.core.TCEntityCore;
 import com.tntmodders.takumicraft.entity.mobs.TCBeeCreeper;
 import com.tntmodders.takumicraft.utils.client.TCClientUtils;
-import net.minecraft.client.model.AgeableListModel;
-import net.minecraft.client.model.ModelUtils;
+import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
@@ -21,31 +20,50 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class TCBeeCreeperRenderer<T extends TCBeeCreeper> extends MobRenderer<T, TCBeeCreeperRenderer.TCBeeCreeperModel<T>> {
+public class TCBeeCreeperRenderer<T extends TCBeeCreeper, S extends TCBeeCreeperRenderState> extends MobRenderer<T, S, TCBeeCreeperRenderer.TCBeeCreeperModel<S>> {
     private static final ResourceLocation LOCATION = ResourceLocation.tryBuild(TakumiCraftCore.MODID, "textures/entity/creeper/beecreeper.png");
 
     public TCBeeCreeperRenderer(EntityRendererProvider.Context p_173956_) {
-        super(p_173956_, new TCBeeCreeperModel<>(p_173956_.bakeLayer(ModelLayers.BEE)), 0.7F);
-        this.addLayer(new TCCreeperPowerLayer<>(this, p_173956_.getModelSet(), new TCBeeCreeperModel<>(p_173956_.bakeLayer(ModelLayers.BEE)), TCEntityCore.BEE, true));
+        super(p_173956_, new TCBeeCreeperModel(p_173956_.bakeLayer(ModelLayers.BEE)), 0.7F);
+        this.addLayer(new TCCreeperPowerLayer<>(this, p_173956_.getModelSet(), new TCBeeCreeperModel(p_173956_.bakeLayer(ModelLayers.BEE)), TCEntityCore.BEE, true));
     }
 
     @Override
-    public ResourceLocation getTextureLocation(T p_114482_) {
+    public S createRenderState() {
+        return (S) new TCBeeCreeperRenderState();
+    }
+
+    @Override
+    public ResourceLocation getTextureLocation(S p_114482_) {
         return LOCATION;
     }
 
     @Override
-    protected void scale(T p_114046_, PoseStack p_114047_, float p_114048_) {
-        TCClientUtils.scaleSwelling(p_114046_, p_114047_, p_114048_);
+    protected void scale(S state, PoseStack poseStack) {
+        TCClientUtils.scaleSwelling(state.swelling, poseStack);
     }
 
     @Override
-    protected float getWhiteOverlayProgress(T p_114043_, float p_114044_) {
-        float f = p_114043_.getSwelling(p_114044_);
+    protected float getWhiteOverlayProgress(S state) {
+        float f = state.swelling;
         return (int) (f * 10.0F) % 2 == 0 ? 0.0F : Mth.clamp(f, 0.5F, 1.0F);
     }
 
-    public static class TCBeeCreeperModel<T extends TCBeeCreeper> extends AgeableListModel<T> {
+    @Override
+    public void extractRenderState(T creeper, S state, float f) {
+        super.extractRenderState(creeper, state, f);
+        state.rollAmount = creeper.getRollAmount(f);
+        state.hasStinger = true;
+        state.isOnGround = creeper.onGround() && creeper.getDeltaMovement().lengthSqr() < 1.0E-7;
+        state.isAngry = true;
+        state.hasNectar = true;
+        state.swelling = creeper.getSwelling(f);
+        state.isPowered = creeper.isPowered();
+        state.context = creeper.getContext();
+        state.isOnBook = creeper.isOnBook();
+    }
+
+    public static class TCBeeCreeperModel<T extends TCBeeCreeperRenderState> extends EntityModel<T> {
         private static final float BEE_Y_BASE = 19.0F;
         private static final String BONE = "bone";
         private static final String STINGER = "stinger";
@@ -66,7 +84,7 @@ public class TCBeeCreeperRenderer<T extends TCBeeCreeper> extends MobRenderer<T,
         private float rollAmount;
 
         public TCBeeCreeperModel(ModelPart p_170439_) {
-            super(false, 24.0F, 0.0F);
+            super(p_170439_);
             this.bone = p_170439_.getChild("bone");
             ModelPart modelpart = this.bone.getChild("body");
             this.stinger = modelpart.getChild("stinger");
@@ -119,19 +137,14 @@ public class TCBeeCreeperRenderer<T extends TCBeeCreeper> extends MobRenderer<T,
         }
 
         @Override
-        public void prepareMobModel(T p_102232_, float p_102233_, float p_102234_, float p_102235_) {
-            super.prepareMobModel(p_102232_, p_102233_, p_102234_, p_102235_);
-            this.rollAmount = p_102232_.getRollAmount(p_102235_);
+        public void setupAnim(T state) {
+            this.rollAmount = state.rollAmount;
             this.stinger.visible = true;
-        }
-
-        @Override
-        public void setupAnim(T p_102237_, float p_102238_, float p_102239_, float p_102240_, float p_102241_, float p_102242_) {
             this.rightWing.xRot = 0.0F;
             this.leftAntenna.xRot = 0.0F;
             this.rightAntenna.xRot = 0.0F;
             this.bone.xRot = 0.0F;
-            boolean flag = p_102237_.onGround() && p_102237_.getDeltaMovement().lengthSqr() < 1.0E-7;
+            boolean flag = state.isOnGround;
             if (flag) {
                 this.rightWing.yRot = -0.2618F;
                 this.rightWing.zRot = 0.0F;
@@ -142,7 +155,7 @@ public class TCBeeCreeperRenderer<T extends TCBeeCreeper> extends MobRenderer<T,
                 this.midLeg.xRot = 0.0F;
                 this.backLeg.xRot = 0.0F;
             } else {
-                float f = p_102240_ * 120.32113F * (float) (Math.PI / 180.0);
+                float f = state.ageInTicks * 120.32113F * (float) (Math.PI / 180.0);
                 this.rightWing.yRot = 0.0F;
                 this.rightWing.zRot = Mth.cos(f) * (float) Math.PI * 0.15F;
                 this.leftWing.xRot = this.rightWing.xRot;
@@ -157,18 +170,8 @@ public class TCBeeCreeperRenderer<T extends TCBeeCreeper> extends MobRenderer<T,
             }
 
             if (this.rollAmount > 0.0F) {
-                this.bone.xRot = ModelUtils.rotlerpRad(this.bone.xRot, 3.0915928F, this.rollAmount);
+                this.bone.xRot = Mth.rotLerpRad(this.bone.xRot, 3.0915928F, this.rollAmount);
             }
-        }
-
-        @Override
-        protected Iterable<ModelPart> headParts() {
-            return ImmutableList.of();
-        }
-
-        @Override
-        protected Iterable<ModelPart> bodyParts() {
-            return ImmutableList.of(this.bone);
         }
     }
 }

@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.client.model.TCZombieVillagerModel;
 import com.tntmodders.takumicraft.client.renderer.entity.layer.TCCreeperPowerLayer;
+import com.tntmodders.takumicraft.client.renderer.entity.state.TCZombieCreeperRenderState;
 import com.tntmodders.takumicraft.core.TCEntityCore;
 import com.tntmodders.takumicraft.entity.mobs.TCMaceCreeper;
 import com.tntmodders.takumicraft.utils.client.TCClientUtils;
@@ -31,7 +32,7 @@ import net.minecraft.world.entity.npc.VillagerType;
 import java.io.IOException;
 import java.util.Optional;
 
-public class TCMaceCreeperRenderer<T extends TCMaceCreeper, M extends TCZombieVillagerModel<T>> extends HumanoidMobRenderer<T, M> {
+public class TCMaceCreeperRenderer<T extends TCMaceCreeper, S extends TCZombieCreeperRenderState, M extends TCZombieVillagerModel<T>> extends HumanoidMobRenderer<T, M> {
 
     public TCMaceCreeperRenderer(EntityRendererProvider.Context context) {
         super(context, (M) new TCZombieVillagerModel<T>(context.bakeLayer(ModelLayers.ZOMBIE_VILLAGER)), 0.5F);
@@ -43,8 +44,8 @@ public class TCMaceCreeperRenderer<T extends TCMaceCreeper, M extends TCZombieVi
     }
 
     @Override
-    public ResourceLocation getTextureLocation(T creeper) {
-        return ResourceLocation.tryBuild(TakumiCraftCore.MODID, "textures/entity/creeper/" + creeper.getType().toShortString() + ".png");
+    public ResourceLocation getTextureLocation(S creeper) {
+        return ResourceLocation.tryBuild(TakumiCraftCore.MODID, "textures/entity/creeper/" + creeper.context.entityType().toShortString() + ".png");
     }
 
     @Override

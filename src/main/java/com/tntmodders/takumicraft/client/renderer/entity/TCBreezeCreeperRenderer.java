@@ -5,11 +5,12 @@ import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.client.renderer.entity.layer.TCBreezeCreeperEyesLayer;
 import com.tntmodders.takumicraft.client.renderer.entity.layer.TCBreezeCreeperWindLayer;
 import com.tntmodders.takumicraft.client.renderer.entity.layer.TCCreeperPowerLayer;
+import com.tntmodders.takumicraft.client.renderer.entity.state.TCBreezeCreeperRenderState;
 import com.tntmodders.takumicraft.core.TCEntityCore;
 import com.tntmodders.takumicraft.entity.mobs.TCBreezeCreeper;
 import com.tntmodders.takumicraft.utils.client.TCClientUtils;
 import net.minecraft.client.animation.definitions.BreezeAnimation;
-import net.minecraft.client.model.HierarchicalModel;
+import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
@@ -18,46 +19,67 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
+import net.minecraft.client.renderer.entity.state.BreezeRenderState;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class TCBreezeCreeperRenderer extends MobRenderer<TCBreezeCreeper, TCBreezeCreeperRenderer.TCBreezeCreeperModel<TCBreezeCreeper>> {
+public class TCBreezeCreeperRenderer extends MobRenderer<TCBreezeCreeper, TCBreezeCreeperRenderState, TCBreezeCreeperRenderer.TCBreezeCreeperModel<TCBreezeCreeperRenderState>> {
     private static final ResourceLocation LOCATION = ResourceLocation.tryBuild(TakumiCraftCore.MODID, "textures/entity/creeper/breezecreeper.png");
 
     public TCBreezeCreeperRenderer(EntityRendererProvider.Context p_173956_) {
         super(p_173956_, new TCBreezeCreeperModel<>(p_173956_.bakeLayer(ModelLayers.BREEZE)), 0.7F);
-        this.addLayer(new TCCreeperPowerLayer<>(this, p_173956_.getModelSet(), new TCBreezeCreeperModel<>(p_173956_.bakeLayer(ModelLayers.BREEZE)), TCEntityCore.BLAZE, false));
+        this.addLayer(new TCCreeperPowerLayer<>(this, p_173956_.getModelSet(), new TCBreezeCreeperModel(p_173956_.bakeLayer(ModelLayers.BREEZE)), TCEntityCore.BLAZE, false));
         this.addLayer(new TCBreezeCreeperWindLayer(p_173956_, this));
         this.addLayer(new TCBreezeCreeperEyesLayer(this));
     }
 
     @Override
-    public void render(TCBreezeCreeper p_334455_, float p_333681_, float p_331379_, PoseStack p_332688_, MultiBufferSource p_333828_, int p_331024_) {
-        TCBreezeCreeperModel<TCBreezeCreeper> breezemodel = this.getModel();
+    public void render(TCBreezeCreeperRenderState p_334455_, PoseStack p_332688_, MultiBufferSource p_333828_, int p_331024_) {
+        TCBreezeCreeperModel<TCBreezeCreeperRenderState> breezemodel = this.getModel();
         enable(breezemodel, breezemodel.head(), breezemodel.rods());
-        super.render(p_334455_, p_333681_, p_331379_, p_332688_, p_333828_, p_331024_);
+        super.render(p_334455_, p_332688_, p_333828_, p_331024_);
     }
 
     @Override
-    public ResourceLocation getTextureLocation(TCBreezeCreeper p_114482_) {
+    public TCBreezeCreeperRenderState createRenderState() {
+        return new TCBreezeCreeperRenderState();
+    }
+
+    @Override
+    public ResourceLocation getTextureLocation(TCBreezeCreeperRenderState p_114482_) {
         return LOCATION;
     }
 
     @Override
-    protected void scale(TCBreezeCreeper p_114046_, PoseStack p_114047_, float p_114048_) {
-        TCClientUtils.scaleSwelling(p_114046_, p_114047_, p_114048_);
+    protected void scale(TCBreezeCreeperRenderState p_114046_, PoseStack p_114047_) {
+        TCClientUtils.scaleSwelling(p_114046_.swelling, p_114047_);
     }
 
     @Override
-    protected float getWhiteOverlayProgress(TCBreezeCreeper p_114043_, float p_114044_) {
-        float f = p_114043_.getSwelling(p_114044_);
+    protected float getWhiteOverlayProgress(TCBreezeCreeperRenderState p_114043_) {
+        float f = p_114043_.swelling;
         return (int) (f * 10.0F) % 2 == 0 ? 0.0F : Mth.clamp(f, 0.5F, 1.0F);
     }
 
-    public static TCBreezeCreeperModel<TCBreezeCreeper> enable(TCBreezeCreeperModel<TCBreezeCreeper> p_328756_, ModelPart... p_332502_) {
+    @Override
+    public void extractRenderState(TCBreezeCreeper creeper, TCBreezeCreeperRenderState state, float f) {
+        super.extractRenderState(creeper, state, f);
+        state.swelling = creeper.getSwelling(f);
+        state.isPowered = creeper.isPowered();
+        state.context = creeper.getContext();
+        state.idle.copyFrom(creeper.idle);
+        state.shoot.copyFrom(creeper.shoot);
+        state.slide.copyFrom(creeper.slide);
+        state.slideBack.copyFrom(creeper.slideBack);
+        state.inhale.copyFrom(creeper.inhale);
+        state.longJump.copyFrom(creeper.longJump);
+        state.isOnBook = creeper.isOnBook();
+    }
+
+    public static TCBreezeCreeperModel<TCBreezeCreeperRenderState> enable(TCBreezeCreeperModel<TCBreezeCreeperRenderState> p_328756_, ModelPart... p_332502_) {
         p_328756_.head().visible = false;
         p_328756_.eyes().visible = false;
         p_328756_.rods().visible = false;
@@ -72,7 +94,7 @@ public class TCBreezeCreeperRenderer extends MobRenderer<TCBreezeCreeper, TCBree
 
 
     @OnlyIn(Dist.CLIENT)
-    public static class TCBreezeCreeperModel<T extends TCBreezeCreeper> extends HierarchicalModel<T> {
+    public static class TCBreezeCreeperModel<T extends TCBreezeCreeperRenderState> extends EntityModel<T> {
         private static final float WIND_TOP_SPEED = 0.6F;
         private static final float WIND_MIDDLE_SPEED = 0.8F;
         private static final float WIND_BOTTOM_SPEED = 1.0F;
@@ -86,7 +108,7 @@ public class TCBreezeCreeperRenderer extends MobRenderer<TCBreezeCreeper, TCBree
         private final ModelPart rods;
 
         public TCBreezeCreeperModel(ModelPart p_309507_) {
-            super(RenderType::entityTranslucent);
+            super(p_309507_.getChild("root"), RenderType::entityTranslucent);
             this.root = p_309507_;
             this.wind = p_309507_.getChild("wind_body");
             this.windBottom = this.wind.getChild("wind_bottom");
@@ -167,26 +189,14 @@ public class TCBreezeCreeperRenderer extends MobRenderer<TCBreezeCreeper, TCBree
         }
 
         @Override
-        public void setupAnim(T p_310040_, float p_311440_, float p_313252_, float p_309514_, float p_311824_, float p_311398_) {
-            this.root().getAllParts().forEach(ModelPart::resetPose);
-            float f = p_309514_ * (float) Math.PI * -0.1F;
-            this.windTop.x = Mth.cos(f) * 1.0F * 0.6F;
-            this.windTop.z = Mth.sin(f) * 1.0F * 0.6F;
-            this.windMid.x = Mth.sin(f) * 0.5F * 0.8F;
-            this.windMid.z = Mth.cos(f) * 0.8F;
-            this.windBottom.x = Mth.cos(f) * -0.25F * 1.0F;
-            this.windBottom.z = Mth.sin(f) * -0.25F * 1.0F;
-            this.head.y = 4.0F + Mth.cos(f) / 4.0F;
-            this.rods.yRot = p_309514_ * (float) Math.PI * 0.1F;
-            this.animate(p_310040_.shoot, BreezeAnimation.SHOOT, p_309514_);
-            this.animate(p_310040_.slide, BreezeAnimation.SLIDE, p_309514_);
-            this.animate(p_310040_.slideBack, BreezeAnimation.SLIDE_BACK, p_309514_);
-            this.animate(p_310040_.longJump, BreezeAnimation.JUMP, p_309514_);
-        }
-
-        @Override
-        public ModelPart root() {
-            return this.root;
+        public void setupAnim(T p_364657_) {
+            super.setupAnim(p_364657_);
+            this.animate(p_364657_.idle, BreezeAnimation.IDLE, p_364657_.ageInTicks);
+            this.animate(p_364657_.shoot, BreezeAnimation.SHOOT, p_364657_.ageInTicks);
+            this.animate(p_364657_.slide, BreezeAnimation.SLIDE, p_364657_.ageInTicks);
+            this.animate(p_364657_.slideBack, BreezeAnimation.SLIDE_BACK, p_364657_.ageInTicks);
+            this.animate(p_364657_.inhale, BreezeAnimation.INHALE, p_364657_.ageInTicks);
+            this.animate(p_364657_.longJump, BreezeAnimation.JUMP, p_364657_.ageInTicks);
         }
 
         public ModelPart head() {

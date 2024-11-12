@@ -6,8 +6,27 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class TCCreeperRenderState extends CreeperRenderState {
-    public float swelling;
-    public boolean isPowered;
+public class TCCreeperRenderState extends CreeperRenderState implements ITCRenderState {
     public AbstractTCCreeper.TCCreeperContext context;
+    public boolean isOnBook;
+
+    @Override
+    public float getSwelling() {
+        return this.swelling;
+    }
+
+    @Override
+    public boolean isPowered() {
+        return this.isPowered;
+    }
+
+    @Override
+    public AbstractTCCreeper.TCCreeperContext getContext() {
+        return this.context;
+    }
+
+    @Override
+    public boolean isOnBook() {
+        return this.isOnBook;
+    }
 }

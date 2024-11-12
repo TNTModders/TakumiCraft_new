@@ -5,6 +5,7 @@ import com.mojang.math.Axis;
 import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.client.model.TCPhantomCreeperModel;
 import com.tntmodders.takumicraft.client.renderer.entity.layer.TCCreeperPowerLayer;
+import com.tntmodders.takumicraft.client.renderer.entity.state.TCPhantomCreeperRenderState;
 import com.tntmodders.takumicraft.core.TCEntityCore;
 import com.tntmodders.takumicraft.entity.mobs.TCPhantomCreeper;
 import com.tntmodders.takumicraft.utils.client.TCClientUtils;
@@ -21,43 +22,59 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class TCPhantomCreeperRenderer extends MobRenderer<TCPhantomCreeper, TCPhantomCreeperModel<TCPhantomCreeper>> {
+public class TCPhantomCreeperRenderer<T extends TCPhantomCreeper, S extends TCPhantomCreeperRenderState, M extends TCPhantomCreeperModel<S>> extends MobRenderer<T, S, M> {
     private static final ResourceLocation PHANTOM_LOCATION = ResourceLocation.tryBuild(TakumiCraftCore.MODID, "textures/entity/creeper/phantomcreeper.png");
 
     public TCPhantomCreeperRenderer(EntityRendererProvider.Context context) {
-        super(context, new TCPhantomCreeperModel<>(context.bakeLayer(ModelLayers.PHANTOM)), 0.75F);
-        this.addLayer(new TCPhantomCreeperEyesLayer<>(this));
+        super(context, (M) new TCPhantomCreeperModel(context.bakeLayer(ModelLayers.PHANTOM)), 0.75F);
+        this.addLayer(new TCPhantomCreeperEyesLayer(this));
         this.addLayer(new TCCreeperPowerLayer(this, context.getModelSet(), new TCPhantomCreeperModel<>(context.bakeLayer(ModelLayers.PHANTOM)), TCEntityCore.PHANTOM));
     }
 
     @Override
-    public ResourceLocation getTextureLocation(TCPhantomCreeper p_115679_) {
-        return PHANTOM_LOCATION;
+    public ResourceLocation getTextureLocation(S creeper) {
+        return ResourceLocation.tryBuild(TakumiCraftCore.MODID, "textures/entity/creeper/" + creeper.context.entityType().toShortString() + ".png");
+    }
+
+
+    @Override
+    protected void scale(S state, PoseStack poseStack) {
+        float sizeFactor = state.context.getSizeFactor();
+        poseStack.scale(sizeFactor, sizeFactor, sizeFactor);
+        poseStack.translate(0.0D, 1.3125D, 0.1875D);
+        TCClientUtils.scaleSwelling(state.swelling, poseStack);
     }
 
     @Override
-    protected void scale(TCPhantomCreeper p_115681_, PoseStack p_115682_, float p_115683_) {
-        int i = p_115681_.getPhantomSize();
-        float f = 1.0F + 0.15F * (float) i;
-        p_115682_.scale(f, f, f);
-        p_115682_.translate(0.0D, 1.3125D, 0.1875D);
-        TCClientUtils.scaleSwelling(p_115681_, p_115682_, p_115683_);
-    }
-
-    @Override
-    protected float getWhiteOverlayProgress(TCPhantomCreeper p_114043_, float p_114044_) {
-        float f = p_114043_.getSwelling(p_114044_);
+    protected float getWhiteOverlayProgress(S state) {
+        float f = state.swelling;
         return (int) (f * 10.0F) % 2 == 0 ? 0.0F : Mth.clamp(f, 0.5F, 1.0F);
     }
 
     @Override
-    protected void setupRotations(TCPhantomCreeper p_115685_, PoseStack p_115686_, float p_115687_, float p_115688_, float p_115689_, float f) {
-        super.setupRotations(p_115685_, p_115686_, p_115687_, p_115688_, p_115689_, f);
-        p_115686_.mulPose(Axis.XP.rotationDegrees(p_115685_.getXRot()));
+    public S createRenderState() {
+        return (S) new TCPhantomCreeperRenderState();
+    }
+
+    @Override
+    public void extractRenderState(T creeper, S state, float f) {
+        super.extractRenderState(creeper, state, f);
+        state.swelling = creeper.getSwelling(f);
+        state.isPowered = creeper.isPowered();
+        state.context = creeper.getContext();
+        state.isOnBook = creeper.isOnBook();
+        state.flapTime = (float) creeper.getUniqueFlapTickOffset() + state.ageInTicks;
+        state.size = creeper.getPhantomSize();
+    }
+
+    @Override
+    protected void setupRotations(S p_370120_, PoseStack p_115318_, float p_115319_, float p_115320_) {
+        super.setupRotations(p_370120_, p_115318_, p_115319_, p_115320_);
+        p_115318_.mulPose(Axis.XP.rotationDegrees(p_370120_.xRot));
     }
 
     @OnlyIn(Dist.CLIENT)
-    public static class TCPhantomCreeperEyesLayer<T extends TCPhantomCreeper> extends EyesLayer<T, TCPhantomCreeperModel<T>> {
+    public static class TCPhantomCreeperEyesLayer<T extends TCPhantomCreeperRenderState> extends EyesLayer<T, TCPhantomCreeperModel<T>> {
         private static final RenderType PHANTOM_EYES = RenderType.eyes(ResourceLocation.tryBuild(TakumiCraftCore.MODID, "textures/entity/creeper/phantomcreeper_eyes.png"));
 
         public TCPhantomCreeperEyesLayer(RenderLayerParent<T, TCPhantomCreeperModel<T>> p_117342_) {
@@ -65,9 +82,9 @@ public class TCPhantomCreeperRenderer extends MobRenderer<TCPhantomCreeper, TCPh
         }
 
         @Override
-        public void render(PoseStack p_116983_, MultiBufferSource p_116984_, int p_116985_, T creeper, float p_116987_, float p_116988_, float p_116989_, float p_116990_, float p_116991_, float p_116992_) {
-            if (!creeper.isOnBook() || TCClientUtils.checkSlayAdv(creeper.getType())) {
-                super.render(p_116983_, p_116984_, p_116985_, creeper, p_116987_, p_116988_, p_116989_, p_116990_, p_116991_, p_116992_);
+        public void render(PoseStack pose, MultiBufferSource source, int p_116985_, T state, float p_116987_, float p_116988_) {
+            if (!state.isOnBook || TCClientUtils.checkSlayAdv(state.context.entityType())) {
+                super.render(pose, source, p_116985_, state, p_116987_, p_116988_);
             }
         }
 

@@ -3,6 +3,7 @@ package com.tntmodders.takumicraft.client.renderer.entity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.client.renderer.entity.layer.TCCreeperPowerLayer;
+import com.tntmodders.takumicraft.client.renderer.entity.state.TCEvokerCreeperRenderState;
 import com.tntmodders.takumicraft.core.TCEntityCore;
 import com.tntmodders.takumicraft.entity.mobs.TCEvokerCreeper;
 import net.minecraft.client.model.geom.ModelLayers;
@@ -14,29 +15,18 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class TCEvokerCreeperRenderer<T extends TCEvokerCreeper> extends AbstractTCIllagerCreeperRenderer<T> {
+public class TCEvokerCreeperRenderer<T extends TCEvokerCreeper, S extends TCEvokerCreeperRenderState> extends AbstractTCIllagerCreeperRenderer<T, S> {
     private static final ResourceLocation LOCATION = ResourceLocation.tryBuild(TakumiCraftCore.MODID, "textures/entity/creeper/evokercreeper.png");
 
     public TCEvokerCreeperRenderer(EntityRendererProvider.Context context) {
         super(context, new IllagerCreeperModel<>(context.bakeLayer(ModelLayers.EVOKER)), 0.7F);
         this.addLayer(new TCCreeperPowerLayer<>(this, context.getModelSet(), new IllagerCreeperModel<>(context.bakeLayer(ModelLayers.EVOKER)), TCEntityCore.VINDICATOR, true));
         this.addLayer(
-                new ItemInHandLayer<>(this, context.getItemInHandRenderer()) {
+                new ItemInHandLayer<>(this, context.getItemRenderer()) {
                     @Override
-                    public void render(
-                            PoseStack p_114569_,
-                            MultiBufferSource p_114570_,
-                            int p_114571_,
-                            T p_114572_,
-                            float p_114573_,
-                            float p_114574_,
-                            float p_114575_,
-                            float p_114576_,
-                            float p_114577_,
-                            float p_114578_
-                    ) {
-                        if (p_114572_.isCastingSpell()) {
-                            super.render(p_114569_, p_114570_, p_114571_, p_114572_, p_114573_, p_114574_, p_114575_, p_114576_, p_114577_, p_114578_);
+                    public void render(PoseStack p_117204_, MultiBufferSource p_117205_, int p_117206_, S p_363689_, float p_117208_, float p_117209_) {
+                        if (p_363689_.isPowered) {
+                            super.render(p_117204_, p_117205_, p_117206_, p_363689_, p_117208_, p_117209_);
                         }
                     }
                 }
@@ -44,8 +34,13 @@ public class TCEvokerCreeperRenderer<T extends TCEvokerCreeper> extends Abstract
     }
 
     @Override
-    public ResourceLocation getTextureLocation(T p_114482_) {
+    public ResourceLocation getTextureLocation(S p_114482_) {
         return LOCATION;
     }
 
+    @Override
+    public void extractRenderState(T creeper, S state, float f) {
+        super.extractRenderState(creeper, state, f);
+        state.isCastingSpell = creeper.isCastingSpell();
+    }
 }

@@ -1,7 +1,7 @@
 package com.tntmodders.takumicraft.client.model;
 
-import com.tntmodders.takumicraft.entity.mobs.TCPhantomCreeper;
-import net.minecraft.client.model.HierarchicalModel;
+import com.tntmodders.takumicraft.client.renderer.entity.state.TCPhantomCreeperRenderState;
+import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.CubeListBuilder;
@@ -13,7 +13,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class TCPhantomCreeperModel<T extends TCPhantomCreeper> extends HierarchicalModel<T> {
+public class TCPhantomCreeperModel<T extends TCPhantomCreeperRenderState> extends EntityModel<T> {
     private static final String TAIL_BASE = "tail_base";
     private static final String TAIL_TIP = "tail_tip";
     private final ModelPart root;
@@ -25,6 +25,7 @@ public class TCPhantomCreeperModel<T extends TCPhantomCreeper> extends Hierarchi
     private final ModelPart tailTip;
 
     public TCPhantomCreeperModel(ModelPart p_170788_) {
+        super(p_170788_);
         this.root = p_170788_;
         ModelPart modelpart = p_170788_.getChild("body");
         this.tailBase = modelpart.getChild("tail_base");
@@ -49,14 +50,10 @@ public class TCPhantomCreeperModel<T extends TCPhantomCreeper> extends Hierarchi
         return LayerDefinition.create(meshdefinition, 64, 64);
     }
 
-    @Override
-    public ModelPart root() {
-        return this.root;
-    }
 
     @Override
-    public void setupAnim(T creeper, float p_170792_, float p_170793_, float p_170794_, float p_170795_, float p_170796_) {
-        float f = ((float) creeper.getUniqueFlapTickOffset() + p_170794_) * 7.448451F * ((float) Math.PI / 180F);
+    public void setupAnim(T creeper) {
+        float f = creeper.flapTime * 7.448451F * ((float) Math.PI / 180F);
         if (creeper.isOnBook()) {
             f = f / 15;
         }

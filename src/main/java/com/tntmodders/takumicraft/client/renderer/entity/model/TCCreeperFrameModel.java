@@ -54,7 +54,7 @@ public class TCCreeperFrameModel extends BakedModelWrapper {
                 newSprite = atlas.getSprite(ResourceLocation.tryBuild(TakumiCraftCore.MODID, "block/creeperframe_glowing"));
             }
             if (newSprite != null) {
-                BakedQuad quad = new BakedQuad(bakedQuad.getVertices(), bakedQuad.getTintIndex(), bakedQuad.getDirection(), newSprite, bakedQuad.isShade(), bakedQuad.hasAmbientOcclusion());
+                BakedQuad quad = new BakedQuad(bakedQuad.getVertices(), bakedQuad.getTintIndex(), bakedQuad.getDirection(), newSprite, bakedQuad.isShade(), bakedQuad.getLightEmission(), bakedQuad.hasAmbientOcclusion());
                 newList.add(quad);
             }
         });

@@ -3,6 +3,7 @@ package com.tntmodders.takumicraft.client.renderer.entity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.client.renderer.entity.layer.TCCreeperPowerLayer;
+import com.tntmodders.takumicraft.client.renderer.entity.state.TCVindicatorCreeperRenderState;
 import com.tntmodders.takumicraft.core.TCEntityCore;
 import com.tntmodders.takumicraft.entity.mobs.TCVindicatorCreeper;
 import net.minecraft.client.model.geom.ModelLayers;
@@ -14,29 +15,18 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class TCVindicatorCreeperRenderer<T extends TCVindicatorCreeper> extends AbstractTCIllagerCreeperRenderer<T> {
+public class TCVindicatorCreeperRenderer<T extends TCVindicatorCreeper, S extends TCVindicatorCreeperRenderState> extends AbstractTCIllagerCreeperRenderer<T, S> {
     private static final ResourceLocation LOCATION = ResourceLocation.tryBuild(TakumiCraftCore.MODID, "textures/entity/creeper/vindicatorcreeper.png");
 
     public TCVindicatorCreeperRenderer(EntityRendererProvider.Context context) {
         super(context, new IllagerCreeperModel<>(context.bakeLayer(ModelLayers.VINDICATOR)), 0.7F);
         this.addLayer(new TCCreeperPowerLayer<>(this, context.getModelSet(), new IllagerCreeperModel<>(context.bakeLayer(ModelLayers.VINDICATOR)), TCEntityCore.VINDICATOR, true));
         this.addLayer(
-                new ItemInHandLayer<>(this, context.getItemInHandRenderer()) {
+                new ItemInHandLayer<>(this, context.getItemRenderer()) {
                     @Override
-                    public void render(
-                            PoseStack p_116352_,
-                            MultiBufferSource p_116353_,
-                            int p_116354_,
-                            T p_116355_,
-                            float p_116356_,
-                            float p_116357_,
-                            float p_116358_,
-                            float p_116359_,
-                            float p_116360_,
-                            float p_116361_
-                    ) {
-                        if (p_116355_.isAggressive()) {
-                            super.render(p_116352_, p_116353_, p_116354_, p_116355_, p_116356_, p_116357_, p_116358_, p_116359_, p_116360_, p_116361_);
+                    public void render(PoseStack p_117204_, MultiBufferSource p_117205_, int p_117206_, S p_363689_, float p_117208_, float p_117209_) {
+                        if (p_363689_.isAggressive) {
+                            super.render(p_117204_, p_117205_, p_117206_, p_363689_, p_117208_, p_117209_);
                         }
                     }
                 }
@@ -44,7 +34,7 @@ public class TCVindicatorCreeperRenderer<T extends TCVindicatorCreeper> extends 
     }
 
     @Override
-    public ResourceLocation getTextureLocation(T p_114482_) {
+    public ResourceLocation getTextureLocation(S p_114482_) {
         return LOCATION;
     }
 

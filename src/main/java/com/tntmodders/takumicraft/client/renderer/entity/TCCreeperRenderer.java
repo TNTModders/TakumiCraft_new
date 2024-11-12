@@ -40,6 +40,17 @@ public class TCCreeperRenderer<T extends AbstractTCCreeper, S extends TCCreeperR
     }
 
     @Override
+    protected int getBlockLightLevel(T p_114496_, BlockPos p_114497_) {
+        return this.isBright ? 15 : super.getBlockLightLevel(p_114496_, p_114497_);
+    }
+
+    @Override
+    public ResourceLocation getTextureLocation(S creeper) {
+        return ResourceLocation.tryBuild(TakumiCraftCore.MODID, "textures/entity/creeper/" + creeper.context.entityType().toShortString() + ".png");
+    }
+
+
+    @Override
     protected void scale(S state, PoseStack poseStack) {
         float sizeFactor = state.context.getSizeFactor();
         poseStack.scale(sizeFactor, sizeFactor, sizeFactor);
@@ -53,25 +64,16 @@ public class TCCreeperRenderer<T extends AbstractTCCreeper, S extends TCCreeperR
     }
 
     @Override
-    public ResourceLocation getTextureLocation(S creeper) {
-        return ResourceLocation.tryBuild(TakumiCraftCore.MODID, "textures/entity/creeper/" + creeper.context.entityType().toShortString() + ".png");
-    }
-
-    @Override
-    protected int getBlockLightLevel(T p_114496_, BlockPos p_114497_) {
-        return this.isBright ? 15 : super.getBlockLightLevel(p_114496_, p_114497_);
-    }
-
-    @Override
     public S createRenderState() {
         return (S) new TCCreeperRenderState();
     }
 
     @Override
-    public void extractRenderState(T creeper, S state, float p_368319_) {
-        super.extractRenderState(creeper, state, p_368319_);
-        state.swelling = creeper.getSwelling(p_368319_);
+    public void extractRenderState(T creeper, S state, float f) {
+        super.extractRenderState(creeper, state, f);
+        state.swelling = creeper.getSwelling(f);
         state.isPowered = creeper.isPowered();
         state.context = creeper.getContext();
+        state.isOnBook = creeper.isOnBook();
     }
 }

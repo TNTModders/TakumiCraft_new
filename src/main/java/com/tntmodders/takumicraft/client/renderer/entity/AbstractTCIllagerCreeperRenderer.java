@@ -1,33 +1,51 @@
 package com.tntmodders.takumicraft.client.renderer.entity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.tntmodders.takumicraft.client.renderer.entity.state.TCIllagerCreeperRenderState;
 import com.tntmodders.takumicraft.entity.mobs.AbstractTCIllagerCreeper;
 import com.tntmodders.takumicraft.utils.client.TCClientUtils;
-import net.minecraft.client.model.*;
+import net.minecraft.client.model.AnimationUtils;
+import net.minecraft.client.model.ArmedModel;
+import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.model.HeadedModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.client.renderer.entity.layers.CustomHeadLayer;
-import net.minecraft.client.renderer.entity.state.CreeperRenderState;
-import net.minecraft.client.renderer.entity.state.IllagerRenderState;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.monster.AbstractIllager;
-import net.minecraft.world.entity.monster.Creeper;
+import net.minecraft.world.item.CrossbowItem;
 
-public abstract class AbstractTCIllagerCreeperRenderer<T extends AbstractTCIllagerCreeper, S extends AbstractTCIllagerCreeperRenderer.TCIllagerRenderState> extends MobRenderer<T, S, AbstractTCIllagerCreeperRenderer.IllagerCreeperModel<S>> {
+public abstract class AbstractTCIllagerCreeperRenderer<T extends AbstractTCIllagerCreeper, S extends TCIllagerCreeperRenderState> extends MobRenderer<T, S, AbstractTCIllagerCreeperRenderer.IllagerCreeperModel<S>> {
     protected AbstractTCIllagerCreeperRenderer(EntityRendererProvider.Context p_174182_, IllagerCreeperModel<S> p_174183_, float p_174184_) {
         super(p_174182_, p_174183_, p_174184_);
         this.addLayer(new CustomHeadLayer<>(this, p_174182_.getModelSet(), p_174182_.getItemRenderer()));
     }
 
     @Override
-    public void extractRenderState(T p_366316_, S p_369319_, float p_368319_) {
-        super.extractRenderState(p_366316_, p_369319_, p_368319_);
-        p_369319_.swelling = p_366316_.getSwelling(p_368319_);
-        p_369319_.isPowered = p_366316_.isPowered();
+    public S createRenderState() {
+        return (S) new TCIllagerCreeperRenderState();
+    }
+
+    @Override
+    public void extractRenderState(T creeper, S state, float f) {
+        super.extractRenderState(creeper, state, f);
+        state.isRiding = creeper.isPassenger();
+        state.mainArm = creeper.getMainArm();
+        state.armPose = creeper.getArmPose();
+        state.maxCrossbowChargeDuration = state.armPose == AbstractIllager.IllagerArmPose.CROSSBOW_CHARGE
+                ? CrossbowItem.getChargeDuration(creeper.getUseItem(), creeper)
+                : 0;
+        state.ticksUsingItem = creeper.getTicksUsingItem();
+        state.attackAnim = creeper.getAttackAnim(f);
+        state.isAggressive = creeper.isAggressive();
+        state.swelling = creeper.getSwelling(f);
+        state.isPowered = creeper.isPowered();
+        state.context = creeper.getContext();
+        state.isOnBook = creeper.isOnBook();
     }
 
     @Override
@@ -42,12 +60,7 @@ public abstract class AbstractTCIllagerCreeperRenderer<T extends AbstractTCIllag
         return (int) (f * 10.0F) % 2 == 0 ? 0.0F : Mth.clamp(f, 0.5F, 1.0F);
     }
 
-    public static class TCIllagerRenderState extends IllagerRenderState {
-        public float swelling;
-        public boolean isPowered;
-    }
-
-    public static class IllagerCreeperModel<S extends IllagerRenderState> extends EntityModel<S> implements ArmedModel, HeadedModel {
+    public static class IllagerCreeperModel<S extends TCIllagerCreeperRenderState> extends EntityModel<S> implements ArmedModel, HeadedModel {
         private final ModelPart root;
         private final ModelPart head;
         private final ModelPart hat;

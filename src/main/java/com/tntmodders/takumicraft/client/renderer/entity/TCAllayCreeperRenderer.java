@@ -4,38 +4,47 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.client.renderer.entity.layer.TCCreeperPowerLayer;
+import com.tntmodders.takumicraft.client.renderer.entity.state.TCAllayCreeperRenderState;
 import com.tntmodders.takumicraft.core.TCEntityCore;
 import com.tntmodders.takumicraft.entity.mobs.TCAllayCreeper;
 import com.tntmodders.takumicraft.utils.client.TCClientUtils;
 import net.minecraft.client.model.ArmedModel;
-import net.minecraft.client.model.HierarchicalModel;
+import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.entity.AllayRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.client.renderer.entity.layers.ItemInHandLayer;
+import net.minecraft.client.renderer.entity.state.AllayRenderState;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.HumanoidArm;
+import net.minecraft.world.entity.animal.allay.Allay;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class TCAllayCreeperRenderer<T extends TCAllayCreeper> extends MobRenderer<T, TCAllayCreeperRenderer.TCAllayCreeperModel<T>> {
+public class TCAllayCreeperRenderer<T extends TCAllayCreeper, S extends TCAllayCreeperRenderState> extends MobRenderer<T, S, TCAllayCreeperRenderer.TCAllayCreeperModel<S>> {
 
     public TCAllayCreeperRenderer(EntityRendererProvider.Context p_234551_) {
         super(p_234551_, new TCAllayCreeperModel(p_234551_.bakeLayer(ModelLayers.ALLAY)), 0.4F);
-        this.addLayer(new ItemInHandLayer<>(this, p_234551_.getItemInHandRenderer()));
-        this.addLayer(new TCCreeperPowerLayer<>(this, p_234551_.getModelSet(), new TCAllayCreeperModel<>(p_234551_.bakeLayer(ModelLayers.ALLAY)), TCEntityCore.ALLAY, true));
+        this.addLayer(new ItemInHandLayer<>(this, p_234551_.getItemRenderer()));
+        this.addLayer(new TCCreeperPowerLayer<>(this, p_234551_.getModelSet(), new TCAllayCreeperModel(p_234551_.bakeLayer(ModelLayers.ALLAY)), TCEntityCore.ALLAY, true));
     }
 
     @Override
-    public ResourceLocation getTextureLocation(T creeper) {
-        return ResourceLocation.tryBuild(TakumiCraftCore.MODID, "textures/entity/creeper/" + creeper.getType().toShortString() + ".png");
+    public S createRenderState() {
+        return (S) new TCAllayCreeperRenderState();
+    }
+
+    @Override
+    public ResourceLocation getTextureLocation(S creeper) {
+        return ResourceLocation.tryBuild(TakumiCraftCore.MODID, "textures/entity/creeper/" + creeper.context.entityType().toShortString() + ".png");
     }
 
     @Override
@@ -44,18 +53,32 @@ public class TCAllayCreeperRenderer<T extends TCAllayCreeper> extends MobRendere
     }
 
     @Override
-    protected void scale(T creeper, PoseStack poseStack, float p_114048_) {
-        TCClientUtils.scaleSwelling(creeper, poseStack, p_114048_);
+    protected void scale(S creeper, PoseStack poseStack) {
+        TCClientUtils.scaleSwelling(creeper.swelling, poseStack);
     }
 
     @Override
-    protected float getWhiteOverlayProgress(T p_114043_, float p_114044_) {
-        float f = p_114043_.getSwelling(p_114044_);
+    protected float getWhiteOverlayProgress(S state) {
+        float f = state.swelling;
         return (int) (f * 10.0F) % 2 == 0 ? 0.0F : Mth.clamp(f, 0.5F, 1.0F);
     }
 
+    @Override
+    public void extractRenderState(T creeper, S state, float p_362065_) {
+        super.extractRenderState(creeper, state, p_362065_);
+        state.isDancing = creeper.isDancing();
+        state.isSpinning = creeper.isSpinning();
+        state.spinningProgress = creeper.getSpinningProgress(p_362065_);
+        state.holdingAnimationProgress = creeper.getHoldingItemAnimationProgress(p_362065_);
+        state.swelling = creeper.getSwelling(p_362065_);
+        state.isPowered = creeper.isPowered();
+        state.context = creeper.getContext();
+        state.isOnBook = creeper.isOnBook();
+    }
+
+
     @OnlyIn(Dist.CLIENT)
-    public static class TCAllayCreeperModel<T extends TCAllayCreeper> extends HierarchicalModel<T> implements ArmedModel {
+    public static class TCAllayCreeperModel<T extends TCAllayCreeperRenderState> extends EntityModel<T> implements ArmedModel {
         private final ModelPart root;
         private final ModelPart head;
         private final ModelPart body;
@@ -68,7 +91,7 @@ public class TCAllayCreeperRenderer<T extends TCAllayCreeper> extends MobRendere
         private static final float MIN_HAND_HOLDING_ITEM_X_ROT_RAD = (float) (-Math.PI / 3);
 
         public TCAllayCreeperModel(ModelPart p_233312_) {
-            super(RenderType::entityTranslucent);
+            super(p_233312_.getChild("root"), RenderType::entityTranslucent);
             this.root = p_233312_.getChild("root");
             this.head = this.root.getChild("head");
             this.body = this.root.getChild("body");
@@ -76,11 +99,6 @@ public class TCAllayCreeperRenderer<T extends TCAllayCreeper> extends MobRendere
             this.left_arm = this.body.getChild("left_arm");
             this.right_wing = this.body.getChild("right_wing");
             this.left_wing = this.body.getChild("left_wing");
-        }
-
-        @Override
-        public ModelPart root() {
-            return this.root;
         }
 
         public static LayerDefinition createBodyLayer() {
@@ -125,45 +143,46 @@ public class TCAllayCreeperRenderer<T extends TCAllayCreeper> extends MobRendere
         }
 
         @Override
-        public void setupAnim(T p_233325_, float p_233326_, float p_233327_, float p_233328_, float p_233329_, float p_233330_) {
-            this.root().getAllParts().forEach(ModelPart::resetPose);
-            float f = p_233328_ * 20.0F * (float) (Math.PI / 180.0) + p_233326_;
-            float f1 = Mth.cos(f) * (float) Math.PI * 0.15F + p_233327_;
-            float f2 = p_233328_ - (float) p_233325_.tickCount;
-            float f3 = p_233328_ * 9.0F * (float) (Math.PI / 180.0);
-            float f4 = Math.min(p_233327_ / 0.3F, 1.0F);
-            float f5 = 1.0F - f4;
-            float f6 = p_233325_.getHoldingItemAnimationProgress(f2);
-            if (p_233325_.isDancing()) {
-                float f7 = p_233328_ * 8.0F * (float) (Math.PI / 180.0) + p_233327_;
-                float f8 = Mth.cos(f7) * 16.0F * (float) (Math.PI / 180.0);
-                float f9 = p_233325_.getSpinningProgress(f2);
-                float f10 = Mth.cos(f7) * 14.0F * (float) (Math.PI / 180.0);
-                float f11 = Mth.cos(f7) * 30.0F * (float) (Math.PI / 180.0);
-                this.root.yRot = p_233325_.isSpinning() ? (float) (Math.PI * 4) * f9 : this.root.yRot;
-                this.root.zRot = f8 * (1.0F - f9);
-                this.head.yRot = f11 * (1.0F - f9);
-                this.head.zRot = f10 * (1.0F - f9);
+        public void setupAnim(TCAllayCreeperRenderState state) {
+            super.setupAnim((T) state);
+            float f = state.walkAnimationSpeed;
+            float f1 = state.walkAnimationPos;
+            float f2 = state.ageInTicks * 20.0F * (float) (Math.PI / 180.0) + f1;
+            float f3 = Mth.cos(f2) * (float) Math.PI * 0.15F + f;
+            float f4 = state.ageInTicks * 9.0F * (float) (Math.PI / 180.0);
+            float f5 = Math.min(f / 0.3F, 1.0F);
+            float f6 = 1.0F - f5;
+            float f7 = state.holdingAnimationProgress;
+            if (state.isDancing) {
+                float f8 = state.ageInTicks * 8.0F * (float) (Math.PI / 180.0) + f;
+                float f9 = Mth.cos(f8) * 16.0F * (float) (Math.PI / 180.0);
+                float f10 = state.spinningProgress;
+                float f11 = Mth.cos(f8) * 14.0F * (float) (Math.PI / 180.0);
+                float f12 = Mth.cos(f8) * 30.0F * (float) (Math.PI / 180.0);
+                this.root.yRot = state.isSpinning ? (float) (Math.PI * 4) * f10 : this.root.yRot;
+                this.root.zRot = f9 * (1.0F - f10);
+                this.head.yRot = f12 * (1.0F - f10);
+                this.head.zRot = f11 * (1.0F - f10);
             } else {
-                this.head.xRot = p_233330_ * (float) (Math.PI / 180.0);
-                this.head.yRot = p_233329_ * (float) (Math.PI / 180.0);
+                this.head.xRot = state.xRot * (float) (Math.PI / 180.0);
+                this.head.yRot = state.yRot * (float) (Math.PI / 180.0);
             }
 
-            this.right_wing.xRot = 0.43633232F * (1.0F - f4);
-            this.right_wing.yRot = (float) (-Math.PI / 4) + f1;
-            this.left_wing.xRot = 0.43633232F * (1.0F - f4);
-            this.left_wing.yRot = (float) (Math.PI / 4) - f1;
-            this.body.xRot = f4 * (float) (Math.PI / 4);
-            float f12 = f6 * Mth.lerp(f4, (float) (-Math.PI / 3), -1.134464F);
-            this.root.y = this.root.y + (float) Math.cos(f3) * 0.25F * f5;
-            this.right_arm.xRot = f12;
-            this.left_arm.xRot = f12;
-            float f13 = f5 * (1.0F - f6);
-            float f14 = 0.43633232F - Mth.cos(f3 + (float) (Math.PI * 3.0 / 2.0)) * (float) Math.PI * 0.075F * f13;
-            this.left_arm.zRot = -f14;
-            this.right_arm.zRot = f14;
-            this.right_arm.yRot = 0.27925268F * f6;
-            this.left_arm.yRot = -0.27925268F * f6;
+            this.right_wing.xRot = 0.43633232F * (1.0F - f5);
+            this.right_wing.yRot = (float) (-Math.PI / 4) + f3;
+            this.left_wing.xRot = 0.43633232F * (1.0F - f5);
+            this.left_wing.yRot = (float) (Math.PI / 4) - f3;
+            this.body.xRot = f5 * (float) (Math.PI / 4);
+            float f13 = f7 * Mth.lerp(f5, (float) (-Math.PI / 3), -1.134464F);
+            this.root.y = this.root.y + (float) Math.cos((double) f4) * 0.25F * f6;
+            this.right_arm.xRot = f13;
+            this.left_arm.xRot = f13;
+            float f14 = f6 * (1.0F - f7);
+            float f15 = 0.43633232F - Mth.cos(f4 + (float) (Math.PI * 3.0 / 2.0)) * (float) Math.PI * 0.075F * f14;
+            this.left_arm.zRot = -f15;
+            this.right_arm.zRot = f15;
+            this.right_arm.yRot = 0.27925268F * f7;
+            this.left_arm.yRot = -0.27925268F * f7;
         }
 
         @Override

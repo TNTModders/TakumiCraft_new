@@ -3,11 +3,12 @@ package com.tntmodders.takumicraft.client.renderer.entity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.client.renderer.entity.layer.TCCreeperPowerLayer;
+import com.tntmodders.takumicraft.client.renderer.entity.state.TCBatCreeperRenderState;
 import com.tntmodders.takumicraft.core.TCEntityCore;
 import com.tntmodders.takumicraft.entity.mobs.TCBatCreeper;
 import com.tntmodders.takumicraft.utils.client.TCClientUtils;
 import net.minecraft.client.animation.definitions.BatAnimation;
-import net.minecraft.client.model.HierarchicalModel;
+import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
@@ -16,6 +17,7 @@ import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.entity.BatRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
@@ -24,33 +26,51 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class TCBatCreeperRenderer<T extends TCBatCreeper> extends MobRenderer<T, TCBatCreeperRenderer.TCBatCreeperModel<T>> {
+public class TCBatCreeperRenderer<T extends TCBatCreeper, S extends TCBatCreeperRenderState> extends MobRenderer<T, S, TCBatCreeperRenderer.TCBatCreeperModel<S>> {
 
     public TCBatCreeperRenderer(EntityRendererProvider.Context p_173956_) {
         super(p_173956_, new TCBatCreeperModel(p_173956_.bakeLayer(ModelLayers.BAT)), 0.7F);
-        this.addLayer(new TCCreeperPowerLayer<>(this, p_173956_.getModelSet(), new TCBatCreeperModel<>(p_173956_.bakeLayer(ModelLayers.BAT)), TCEntityCore.BAT, true));
+        this.addLayer(new TCCreeperPowerLayer(this, p_173956_.getModelSet(), new TCBatCreeperModel(p_173956_.bakeLayer(ModelLayers.BAT)), TCEntityCore.BAT, true));
     }
 
     @Override
-    public ResourceLocation getTextureLocation(T creeper) {
-        return ResourceLocation.tryBuild(TakumiCraftCore.MODID, "textures/entity/creeper/" + creeper.getType().toShortString() + ".png");
+    public S createRenderState() {
+        return (S) new TCBatCreeperRenderState();
     }
 
     @Override
-    protected void scale(T creeper, PoseStack poseStack, float p_114048_) {
-        float f = creeper.getContext().getSizeFactor();
-        poseStack.scale(f, f, f);
-        TCClientUtils.scaleSwelling(creeper, poseStack, p_114048_);
+    public ResourceLocation getTextureLocation(S creeper) {
+        return ResourceLocation.tryBuild(TakumiCraftCore.MODID, "textures/entity/creeper/" + creeper.context.entityType().toShortString() + ".png");
+    }
+
+
+    @Override
+    protected void scale(S state, PoseStack poseStack) {
+        float sizeFactor = state.context.getSizeFactor();
+        poseStack.scale(sizeFactor, sizeFactor, sizeFactor);
+        TCClientUtils.scaleSwelling(state.swelling, poseStack);
     }
 
     @Override
-    protected float getWhiteOverlayProgress(T p_114043_, float p_114044_) {
-        float f = p_114043_.getSwelling(p_114044_);
+    protected float getWhiteOverlayProgress(S state) {
+        float f = state.swelling;
         return (int) (f * 10.0F) % 2 == 0 ? 0.0F : Mth.clamp(f, 0.5F, 1.0F);
     }
 
+    @Override
+    public void extractRenderState(T creeper, S state, float f) {
+        super.extractRenderState(creeper, state, f);
+        state.swelling = creeper.getSwelling(f);
+        state.isPowered = creeper.isPowered();
+        state.context = creeper.getContext();
+        state.isOnBook = creeper.isOnBook();
+        state.isResting = creeper.isResting();
+        state.flyAnimationState.copyFrom(creeper.flyAnimationState);
+        state.restAnimationState.copyFrom(creeper.restAnimationState);
+    }
+
     @OnlyIn(Dist.CLIENT)
-    public static class TCBatCreeperModel<T extends TCBatCreeper> extends HierarchicalModel<T> {
+    public static class TCBatCreeperModel<T extends TCBatCreeperRenderState> extends EntityModel<T> {
         private final ModelPart root;
         private final ModelPart head;
         private final ModelPart body;
@@ -61,7 +81,7 @@ public class TCBatCreeperRenderer<T extends TCBatCreeper> extends MobRenderer<T,
         private final ModelPart feet;
 
         public TCBatCreeperModel(ModelPart p_170427_) {
-            super(RenderType::entityCutout);
+            super(p_170427_.getChild("root"), RenderType::entityCutout);
             this.root = p_170427_;
             this.body = p_170427_.getChild("body");
             this.head = p_170427_.getChild("head");
@@ -108,19 +128,13 @@ public class TCBatCreeperRenderer<T extends TCBatCreeper> extends MobRenderer<T,
         }
 
         @Override
-        public ModelPart root() {
-            return this.root;
-        }
-
-        @Override
-        public void setupAnim(T p_102200_, float p_102201_, float p_102202_, float p_102203_, float p_102204_, float p_102205_) {
+        public void setupAnim(T state) {
             this.root().getAllParts().forEach(ModelPart::resetPose);
-            if (p_102200_.isResting()) {
-                this.applyHeadRotation(p_102204_);
+            if (state.isResting) {
+                this.applyHeadRotation(state.yRot);
             }
-
-            this.animate(p_102200_.flyAnimationState, BatAnimation.BAT_FLYING, p_102203_, 1.0F);
-            this.animate(p_102200_.restAnimationState, BatAnimation.BAT_RESTING, p_102203_, 1.0F);
+            this.animate(state.flyAnimationState, BatAnimation.BAT_FLYING, state.ageInTicks, 1.0F);
+            this.animate(state.restAnimationState, BatAnimation.BAT_RESTING, state.ageInTicks, 1.0F);
         }
 
         private void applyHeadRotation(float p_310053_) {

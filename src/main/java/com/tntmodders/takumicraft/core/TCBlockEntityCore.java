@@ -3,34 +3,30 @@ package com.tntmodders.takumicraft.core;
 import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.block.entity.*;
 import com.tntmodders.takumicraft.utils.TCLoggingUtils;
-import net.minecraft.Util;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.datafix.fixes.References;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegisterEvent;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
-//@TODO fix
 public class TCBlockEntityCore {
-    public static final BlockEntityType<TCCreeperBedBlockEntity> CREEPER_BED = BlockEntityType.Builder.of(TCCreeperBedBlockEntity::new, createBedList().toArray(new Block[0])).build(Util.fetchChoiceType(References.BLOCK_ENTITY, "creeperbed"));
-
-    public static final BlockEntityType<TCMonsterBombBlockEntity> MONSTER_BOMB = BlockEntityType.Builder.of(TCMonsterBombBlockEntity::new, TCBlockCore.YUKARI_BOMB).build(Util.fetchChoiceType(References.BLOCK_ENTITY, "monsterbomb"));
-    ForgeRegistries
-    public static final BlockEntityType<TCAcidBlockEntity> ACID = BlockEntityType.Builder.of(TCAcidBlockEntity::new, TCBlockCore.ACID).build(Util.fetchChoiceType(References.BLOCK_ENTITY, "acidblock"));
-
-    public static final BlockEntityType<TCCreeperChestBlockEntity> CHEST = BlockEntityType.Builder.of(TCCreeperChestBlockEntity::new, TCBlockCore.CREEPER_CHEST).build(Util.fetchChoiceType(References.BLOCK_ENTITY, "creeperchest"));
-    public static final BlockEntityType<TCCreeperBarrelBlockEntity> BARREL = BlockEntityType.Builder.of(TCCreeperBarrelBlockEntity::new, TCBlockCore.CREEPER_BARREL).build(Util.fetchChoiceType(References.BLOCK_ENTITY, "creeperbarrel"));
-    public static final BlockEntityType<TCCreeperCampFireBlockEntity> CAMPFIRE = BlockEntityType.Builder.of(TCCreeperCampFireBlockEntity::new, TCBlockCore.CREEPER_CAMPFIRE).build(Util.fetchChoiceType(References.BLOCK_ENTITY, "creepercampfire"));
-    public static final BlockEntityType<TCCreeperSignBlockEntity> SIGN = BlockEntityType.Builder.of(TCCreeperSignBlockEntity::new, TCBlockCore.CREEPER_SIGN, TCBlockCore.CREEPER_SIGN_WALL).build(Util.fetchChoiceType(References.BLOCK_ENTITY, "creepersign"));
-    public static final BlockEntityType<TCCreeperHangingSignBlockEntity> HANGING_SIGN = BlockEntityType.Builder.of(TCCreeperHangingSignBlockEntity::new, TCBlockCore.CREEPER_HANGING_SIGN, TCBlockCore.CREEPER_HANGING_SIGN_WALL).build(Util.fetchChoiceType(References.BLOCK_ENTITY, "creeperhangingsign"));
-    public static final BlockEntityType<TCCreeperShulkerBoxBlockEntity> SHULKER = BlockEntityType.Builder.of(TCCreeperShulkerBoxBlockEntity::new, TCBlockCore.CREEPER_SHULKER).build(Util.fetchChoiceType(References.BLOCK_ENTITY, "creepershulkerbox"));
-    public static final BlockEntityType<TCCreeperSuperBlockEntity> SUPER_BLOCK = BlockEntityType.Builder.of(TCCreeperSuperBlockEntity::new, TCBlockCore.SUPER_BLOCK).build(Util.fetchChoiceType(References.BLOCK_ENTITY, "takumiblock"));
-    public static final BlockEntityType<TCTakenokoBlockEntity> TAKENOKO = BlockEntityType.Builder.of(TCTakenokoBlockEntity::new, TCBlockCore.TAKENOKO).build(Util.fetchChoiceType(References.BLOCK_ENTITY, "takenoko"));
-    public static final BlockEntityType<TCCreeperProtectorBlockEntity> PROTECTOR = BlockEntityType.Builder.of(TCCreeperProtectorBlockEntity::new, TCBlockCore.CREEPER_PROTECTOR).build(Util.fetchChoiceType(References.BLOCK_ENTITY, "creeperprotector"));
+    public static final BlockEntityType<TCCreeperBedBlockEntity> CREEPER_BED = new TCBlockEntityType<>(TCCreeperBedBlockEntity::new, createBedList());
+    public static final BlockEntityType<TCMonsterBombBlockEntity> MONSTER_BOMB = new TCBlockEntityType<>(TCMonsterBombBlockEntity::new, TCBlockCore.YUKARI_BOMB);
+    public static final BlockEntityType<TCAcidBlockEntity> ACID = new TCBlockEntityType<>(TCAcidBlockEntity::new, TCBlockCore.ACID);
+    public static final BlockEntityType<TCCreeperChestBlockEntity> CHEST = new TCBlockEntityType<>(TCCreeperChestBlockEntity::new, TCBlockCore.CREEPER_CHEST);
+    public static final BlockEntityType<TCCreeperBarrelBlockEntity> BARREL = new TCBlockEntityType<>(TCCreeperBarrelBlockEntity::new, TCBlockCore.CREEPER_BARREL);
+    public static final BlockEntityType<TCCreeperCampFireBlockEntity> CAMPFIRE = new TCBlockEntityType<>(TCCreeperCampFireBlockEntity::new, TCBlockCore.CREEPER_CAMPFIRE);
+    public static final BlockEntityType<TCCreeperSignBlockEntity> SIGN = new TCBlockEntityType<>(TCCreeperSignBlockEntity::new, TCBlockCore.CREEPER_SIGN, TCBlockCore.CREEPER_SIGN_WALL);
+    public static final BlockEntityType<TCCreeperHangingSignBlockEntity> HANGING_SIGN = new TCBlockEntityType<>(TCCreeperHangingSignBlockEntity::new, TCBlockCore.CREEPER_HANGING_SIGN, TCBlockCore.CREEPER_HANGING_SIGN_WALL);
+    public static final BlockEntityType<TCCreeperShulkerBoxBlockEntity> SHULKER = new TCBlockEntityType<>(TCCreeperShulkerBoxBlockEntity::new, TCBlockCore.CREEPER_SHULKER);
+    public static final BlockEntityType<TCCreeperSuperBlockEntity> SUPER_BLOCK = new TCBlockEntityType<>(TCCreeperSuperBlockEntity::new, TCBlockCore.SUPER_BLOCK);
+    public static final BlockEntityType<TCTakenokoBlockEntity> TAKENOKO = new TCBlockEntityType<>(TCTakenokoBlockEntity::new, TCBlockCore.TAKENOKO);
+    public static final BlockEntityType<TCCreeperProtectorBlockEntity> PROTECTOR = new TCBlockEntityType<>(TCCreeperProtectorBlockEntity::new, TCBlockCore.CREEPER_PROTECTOR);
 
     public static void register(final RegisterEvent event) {
         TCLoggingUtils.startRegistry("BlockEntity");
@@ -49,10 +45,21 @@ public class TCBlockEntityCore {
         TCLoggingUtils.completeRegistry("BlockEntity");
     }
 
-    public static List<Block> createBedList() {
+    public static Set<Block> createBedList() {
         List<Block> list = new ArrayList();
         list.add(TCBlockCore.SUPER_CREEPER_BED);
         list.addAll(TCBlockCore.CREEPER_BED_MAP.values());
-        return list;
+        return Set.copyOf(list);
+    }
+
+    public static class TCBlockEntityType<T extends BlockEntity> extends BlockEntityType<T> {
+
+        public TCBlockEntityType(BlockEntitySupplier<? extends T> supplier, Set<Block> blockSet) {
+            super(supplier, blockSet);
+        }
+
+        public TCBlockEntityType(BlockEntitySupplier<? extends T> supplier, Block... blocks) {
+            this(supplier, Set.of(blocks));
+        }
     }
 }

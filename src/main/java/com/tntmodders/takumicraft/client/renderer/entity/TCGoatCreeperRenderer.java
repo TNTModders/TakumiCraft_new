@@ -3,10 +3,11 @@ package com.tntmodders.takumicraft.client.renderer.entity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.client.renderer.entity.layer.TCCreeperPowerLayer;
+import com.tntmodders.takumicraft.client.renderer.entity.state.TCGoatCreeperRenderState;
 import com.tntmodders.takumicraft.core.TCEntityCore;
 import com.tntmodders.takumicraft.entity.mobs.TCGoatCreeper;
 import com.tntmodders.takumicraft.utils.client.TCClientUtils;
-import net.minecraft.client.model.QuadrupedModel;
+import net.minecraft.client.model.GoatModel;
 import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
@@ -16,40 +17,60 @@ import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
+import net.minecraft.client.renderer.entity.state.GoatRenderState;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class TCGoatCreeperRenderer extends MobRenderer<TCGoatCreeper, TCGoatCreeperRenderer.TCGoatCreeperModel<TCGoatCreeper>> {
+public class TCGoatCreeperRenderer<T extends TCGoatCreeper, S extends TCGoatCreeperRenderState, M extends TCGoatCreeperRenderer.TCGoatCreeperModel<S>> extends MobRenderer<T, S, M> {
     private static final ResourceLocation LOCATION = ResourceLocation.tryBuild(TakumiCraftCore.MODID, "textures/entity/creeper/goatcreeper.png");
 
     public TCGoatCreeperRenderer(EntityRendererProvider.Context p_173956_) {
-        super(p_173956_, new TCGoatCreeperModel<>(p_173956_.bakeLayer(ModelLayers.GOAT)), 0.7F);
-        this.addLayer(new TCCreeperPowerLayer<>(this, p_173956_.getModelSet(), new TCGoatCreeperModel<>(p_173956_.bakeLayer(ModelLayers.GOAT)), TCEntityCore.GOAT, true));
+        super(p_173956_, (M) new TCGoatCreeperModel(p_173956_.bakeLayer(ModelLayers.GOAT)), 0.7F);
+        this.addLayer(new TCCreeperPowerLayer(this, p_173956_.getModelSet(), new TCGoatCreeperModel(p_173956_.bakeLayer(ModelLayers.GOAT)), TCEntityCore.GOAT, true));
     }
 
     @Override
-    public ResourceLocation getTextureLocation(TCGoatCreeper p_114482_) {
+    public ResourceLocation getTextureLocation(S p_114482_) {
         return LOCATION;
     }
 
     @Override
-    protected void scale(TCGoatCreeper p_114046_, PoseStack p_114047_, float p_114048_) {
-        TCClientUtils.scaleSwelling(p_114046_, p_114047_, p_114048_);
+    protected void scale(S state, PoseStack poseStack) {
+        float sizeFactor = state.context.getSizeFactor();
+        poseStack.scale(sizeFactor, sizeFactor, sizeFactor);
+        TCClientUtils.scaleSwelling(state.swelling, poseStack);
     }
 
     @Override
-    protected float getWhiteOverlayProgress(TCGoatCreeper p_114043_, float p_114044_) {
-        float f = p_114043_.getSwelling(p_114044_);
+    protected float getWhiteOverlayProgress(S state) {
+        float f = state.swelling;
         return (int) (f * 10.0F) % 2 == 0 ? 0.0F : Mth.clamp(f, 0.5F, 1.0F);
     }
 
+    @Override
+    public S createRenderState() {
+        return (S) new TCGoatCreeperRenderState();
+    }
+
+    @Override
+    public void extractRenderState(T creeper, S state, float f) {
+        super.extractRenderState(creeper, state, f);
+        state.swelling = creeper.getSwelling(f);
+        state.isPowered = creeper.isPowered();
+        state.context = creeper.getContext();
+        state.isOnBook = creeper.isOnBook();
+        state.hasLeftHorn = creeper.hasLeftHorn();
+        state.hasRightHorn = creeper.hasRightHorn();
+        state.rammingXHeadRot = creeper.getRammingXHeadRot();
+    }
+
     @OnlyIn(Dist.CLIENT)
-    public static class TCGoatCreeperModel<T extends TCGoatCreeper> extends QuadrupedModel<T> {
+    public static class TCGoatCreeperModel<T extends TCGoatCreeperRenderState> extends GoatModel {
         public TCGoatCreeperModel(ModelPart p_170578_) {
-            super(p_170578_, true, 19.0F, 1.0F, 2.5F, 2.0F, 24);
+            super(p_170578_);
         }
 
         public static LayerDefinition createBodyLayer() {
@@ -113,13 +134,12 @@ public class TCGoatCreeperRenderer extends MobRenderer<TCGoatCreeper, TCGoatCree
         }
 
         @Override
-        public void setupAnim(T p_170587_, float p_170588_, float p_170589_, float p_170590_, float p_170591_, float p_170592_) {
-            this.head.getChild("left_horn").visible = p_170587_.hasLeftHorn();
-            this.head.getChild("right_horn").visible = p_170587_.hasRightHorn();
-            super.setupAnim(p_170587_, p_170588_, p_170589_, p_170590_, p_170591_, p_170592_);
-            float f = p_170587_.getRammingXHeadRot();
-            if (f != 0.0F) {
-                this.head.xRot = f;
+        public void setupAnim(GoatRenderState p_364421_) {
+            super.setupAnim(p_364421_);
+            this.head.getChild("left_horn").visible = p_364421_.hasLeftHorn;
+            this.head.getChild("right_horn").visible = p_364421_.hasRightHorn;
+            if (p_364421_.rammingXHeadRot != 0.0F) {
+                this.head.xRot = p_364421_.rammingXHeadRot;
             }
         }
     }

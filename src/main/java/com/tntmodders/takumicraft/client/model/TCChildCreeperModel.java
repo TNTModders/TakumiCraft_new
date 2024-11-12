@@ -3,21 +3,24 @@ package com.tntmodders.takumicraft.client.model;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
+import com.tntmodders.takumicraft.client.renderer.entity.state.TCChildCreeperRenderState;
+import com.tntmodders.takumicraft.client.renderer.entity.state.TCCreeperRenderState;
 import com.tntmodders.takumicraft.entity.mobs.TCChildCreeper;
 import net.minecraft.client.model.CreeperModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
+import net.minecraft.client.renderer.entity.state.CreeperRenderState;
 import net.minecraft.util.Mth;
 
-public class TCChildCreeperModel<T extends TCChildCreeper> extends CreeperModel<T> {
+public class TCChildCreeperModel extends CreeperModel {
 
-    private final ModelPart root;
-    private final ModelPart head;
-    private final ModelPart rightHindLeg;
-    private final ModelPart leftHindLeg;
-    private final ModelPart rightFrontLeg;
-    private final ModelPart leftFrontLeg;
+    public final ModelPart root;
+    public final ModelPart head;
+    public final ModelPart rightHindLeg;
+    public final ModelPart leftHindLeg;
+    public final ModelPart rightFrontLeg;
+    public final ModelPart leftFrontLeg;
 
     private final ModelPart parent;
     private final ModelPart parent_head;
@@ -66,54 +69,24 @@ public class TCChildCreeperModel<T extends TCChildCreeper> extends CreeperModel<
     }
 
     @Override
-    public ModelPart root() {
-        return this.root;
-    }
-
-    @Override
-    public void setupAnim(T p_102463_, float p_102464_, float p_102465_, float p_102466_, float p_102467_, float p_102468_) {
-        if (p_102463_.isChild()) {
+    public void setupAnim(CreeperRenderState state) {
+        if (state instanceof TCChildCreeperRenderState childState && childState.isChild) {
             this.head.visible = false;
         } else {
             this.head.visible = true;
-            this.head.yRot = p_102467_ * ((float) Math.PI / 180F);
-            this.head.xRot = p_102468_ * ((float) Math.PI / 180F);
-            this.rightHindLeg.xRot = Mth.cos(p_102464_ * 0.6662F) * 1.4F * p_102465_;
-            this.leftHindLeg.xRot = Mth.cos(p_102464_ * 0.6662F + (float) Math.PI) * 1.4F * p_102465_;
-            this.rightFrontLeg.xRot = Mth.cos(p_102464_ * 0.6662F + (float) Math.PI) * 1.4F * p_102465_;
-            this.leftFrontLeg.xRot = Mth.cos(p_102464_ * 0.6662F) * 1.4F * p_102465_;
+            this.head.yRot = state.yRot * ((float) Math.PI / 180F);
+            this.head.xRot = state.xRot * ((float) Math.PI / 180F);
+            this.rightHindLeg.xRot = Mth.cos(state.walkAnimationPos * 0.6662F) * 1.4F * state.walkAnimationSpeed;
+            this.leftHindLeg.xRot = Mth.cos(state.walkAnimationPos * 0.6662F + (float) Math.PI) * 1.4F * state.walkAnimationSpeed;
+            this.rightFrontLeg.xRot = Mth.cos(state.walkAnimationPos * 0.6662F + (float) Math.PI) * 1.4F * state.walkAnimationSpeed;
+            this.leftFrontLeg.xRot = Mth.cos(state.walkAnimationPos * 0.6662F) * 1.4F * state.walkAnimationSpeed;
         }
 
-        this.parent_head.yRot = p_102467_ * ((float) Math.PI / 180F);
-        this.parent_head.xRot = p_102468_ * ((float) Math.PI / 180F);
-        this.parent_rightHindLeg.xRot = Mth.cos(p_102464_ * 0.6662F) * 1.4F * p_102465_;
-        this.parent_leftHindLeg.xRot = Mth.cos(p_102464_ * 0.6662F + (float) Math.PI) * 1.4F * p_102465_;
-        this.parent_rightFrontLeg.xRot = Mth.cos(p_102464_ * 0.6662F + (float) Math.PI) * 1.4F * p_102465_;
-        this.parent_leftFrontLeg.xRot = Mth.cos(p_102464_ * 0.6662F) * 1.4F * p_102465_;
-    }
-
-
-    @Override
-    public void renderToBuffer(PoseStack poseStack, VertexConsumer vertex, int p_170627_, int p_170628_, int p_342246_) {
-        boolean flg = this.head.visible;
-        if (flg) {
-            this.head.render(poseStack, vertex, p_170627_, p_170628_);
-            this.root.render(poseStack, vertex, p_170627_, p_170628_);
-            this.leftFrontLeg.render(poseStack, vertex, p_170627_, p_170628_);
-            this.rightFrontLeg.render(poseStack, vertex, p_170627_, p_170628_);
-            this.leftHindLeg.render(poseStack, vertex, p_170627_, p_170628_);
-            this.rightHindLeg.render(poseStack, vertex, p_170627_, p_170628_);
-        }
-
-        poseStack.pushPose();
-        if (flg) {
-            poseStack.translate(0f, 0.375f, 0.05f);
-            poseStack.rotateAround(Axis.XP.rotationDegrees(20), 0, 1, 0);
-        } else {
-            poseStack.scale(2f, 2f, 2f);
-        }
-        poseStack.scale(0.5f, 0.5f, 0.5f);
-        this.parent.render(poseStack, vertex, p_170627_, p_170628_);
-        poseStack.popPose();
+        this.parent_head.yRot = state.yRot * ((float) Math.PI / 180F);
+        this.parent_head.xRot = state.xRot * ((float) Math.PI / 180F);
+        this.parent_rightHindLeg.xRot = Mth.cos(state.walkAnimationPos * 0.6662F) * 1.4F * state.walkAnimationSpeed;
+        this.parent_leftHindLeg.xRot = Mth.cos(state.walkAnimationPos * 0.6662F + (float) Math.PI) * 1.4F * state.walkAnimationSpeed;
+        this.parent_rightFrontLeg.xRot = Mth.cos(state.walkAnimationPos * 0.6662F + (float) Math.PI) * 1.4F * state.walkAnimationSpeed;
+        this.parent_leftFrontLeg.xRot = Mth.cos(state.walkAnimationPos * 0.6662F) * 1.4F * state.walkAnimationSpeed;
     }
 }

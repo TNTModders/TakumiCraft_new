@@ -1,7 +1,7 @@
 package com.tntmodders.takumicraft.client.renderer.entity.layer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.tntmodders.takumicraft.client.renderer.entity.state.TCCreeperRenderState;
+import com.tntmodders.takumicraft.client.renderer.entity.state.ITCRenderState;
 import com.tntmodders.takumicraft.entity.mobs.AbstractTCCreeper;
 import com.tntmodders.takumicraft.utils.client.TCClientUtils;
 import net.minecraft.client.model.EntityModel;
@@ -9,9 +9,10 @@ import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.EnergySwirlLayer;
+import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
 import net.minecraft.resources.ResourceLocation;
 
-public class TCCreeperPowerLayer<T extends TCCreeperRenderState, M extends EntityModel<T>> extends EnergySwirlLayer<T, M> {
+public class TCCreeperPowerLayer<T extends LivingEntityRenderState, M extends EntityModel<T>> extends EnergySwirlLayer<T, M> {
 
     private final M model;
     private final AbstractTCCreeper.TCCreeperContext context;
@@ -56,7 +57,7 @@ public class TCCreeperPowerLayer<T extends TCCreeperRenderState, M extends Entit
     }
 
     @Override
-    protected boolean isPowered(T p_367450_) {
-        return p_367450_.isPowered;
+    protected boolean isPowered(T state) {
+        return state instanceof ITCRenderState && ((ITCRenderState) state).isPowered();
     }
 }
