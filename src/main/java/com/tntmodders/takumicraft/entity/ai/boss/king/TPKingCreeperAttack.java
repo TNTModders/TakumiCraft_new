@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.tntmodders.takumicraft.entity.mobs.boss.TCKingCreeper;
 import com.tntmodders.takumicraft.utils.TCExplosionUtils;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.sounds.SoundEvents;
@@ -40,7 +41,7 @@ public class TPKingCreeperAttack extends AbstractKingCreeperAttack {
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void clientTick(TCKingCreeper creeper, int swell, PoseStack pose, MultiBufferSource bufferSource, float renderTick) {
+    public void clientTick(LivingEntityRenderState state, TCKingCreeper creeper, int swell, PoseStack pose, MultiBufferSource bufferSource, float renderTick) {
         if (swell < 30) {
             for (double x = -2; x <= 2; x += 0.25) {
                 for (double z = -2; z <= 2; z += 0.25) {

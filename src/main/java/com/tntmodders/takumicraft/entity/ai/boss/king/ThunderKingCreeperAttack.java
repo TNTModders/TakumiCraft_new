@@ -4,8 +4,10 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.tntmodders.takumicraft.entity.mobs.boss.TCKingCreeper;
 import com.tntmodders.takumicraft.utils.TCExplosionUtils;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.entity.player.Player;
@@ -32,7 +34,7 @@ public class ThunderKingCreeperAttack extends AbstractKingCreeperAttack {
                 this.searchTarget(creeper);
             } else if (this.target != null && swell % 10 == 0) {
                 for (int i = 0; i < (creeper.isPowered() ? 4 : 2); i++) {
-                    LightningBolt bolt = EntityType.LIGHTNING_BOLT.create(creeper.level());
+                    LightningBolt bolt = EntityType.LIGHTNING_BOLT.create(creeper.level(), EntitySpawnReason.NATURAL);
                     bolt.setPos(this.target.getX() + 0.5, this.target.getY(), this.target.getZ() + 0.5);
                     creeper.level().addFreshEntity(bolt);
                 }
@@ -42,7 +44,7 @@ public class ThunderKingCreeperAttack extends AbstractKingCreeperAttack {
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void clientTick(TCKingCreeper creeper, int swell, PoseStack pose, MultiBufferSource bufferSource, float renderTick) {
+    public void clientTick(LivingEntityRenderState state, TCKingCreeper creeper, int swell, PoseStack pose, MultiBufferSource bufferSource, float renderTick) {
         if (this.isRandom) {
             for (double x = -5; x <= 5; x += 0.5) {
                 for (double z = -5; z <= 5; z += 0.5) {
@@ -82,7 +84,7 @@ public class ThunderKingCreeperAttack extends AbstractKingCreeperAttack {
                 if (creeper.getRandom().nextInt(5) == 0) {
                     TCExplosionUtils.createExplosion(creeper.level(), creeper, pos, 1.5f);
                 }
-                LightningBolt bolt = EntityType.LIGHTNING_BOLT.create(creeper.level());
+                LightningBolt bolt = EntityType.LIGHTNING_BOLT.create(creeper.level(), EntitySpawnReason.NATURAL);
                 bolt.setPos(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
                 creeper.level().addFreshEntity(bolt);
             }
@@ -90,7 +92,7 @@ public class ThunderKingCreeperAttack extends AbstractKingCreeperAttack {
             TCExplosionUtils.createExplosion(creeper.level(), creeper, creeper.getOnPos(), 1.5f);
             if (this.target != null) {
                 for (int i = 0; i < (creeper.isPowered() ? 50 : 30); i++) {
-                    LightningBolt bolt = EntityType.LIGHTNING_BOLT.create(creeper.level());
+                    LightningBolt bolt = EntityType.LIGHTNING_BOLT.create(creeper.level(), EntitySpawnReason.NATURAL);
                     bolt.setPos(this.target.getX() + 0.5, this.target.getY(), this.target.getZ() + 0.5);
                     creeper.level().addFreshEntity(bolt);
                 }
