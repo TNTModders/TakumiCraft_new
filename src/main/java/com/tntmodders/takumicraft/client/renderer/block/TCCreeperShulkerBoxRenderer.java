@@ -3,7 +3,7 @@ package com.tntmodders.takumicraft.client.renderer.block;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.tntmodders.takumicraft.TakumiCraftCore;
-import net.minecraft.client.model.ShulkerModel;
+import net.minecraft.client.model.Model;
 import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -17,13 +17,15 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.ShulkerBoxBlock;
 import net.minecraft.world.level.block.entity.ShulkerBoxBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class TCCreeperShulkerBoxRenderer extends ShulkerBoxRenderer {
-    private final ShulkerModel<?> model;
+    private final TCShulkerBoxModel model;
 
     public TCCreeperShulkerBoxRenderer(BlockEntityRendererProvider.Context context) {
         super(context);
-        this.model = new ShulkerModel(context.bakeLayer(ModelLayers.SHULKER));
+        this.model = new TCShulkerBoxModel(context.bakeLayer(ModelLayers.SHULKER));
     }
 
     @Override
@@ -43,11 +45,24 @@ public class TCCreeperShulkerBoxRenderer extends ShulkerBoxRenderer {
         poseStack.mulPose(direction.getRotation());
         poseStack.scale(1.0F, -1.0F, -1.0F);
         poseStack.translate(0.0F, -1.0F, 0.0F);
-        ModelPart modelpart = this.model.getLid();
-        modelpart.setPos(0.0F, 24.0F - entity.getProgress(partialTicks) * 0.5F * 16.0F, 0.0F);
-        modelpart.yRot = 270.0F * entity.getProgress(partialTicks) * (float) (Math.PI / 180.0);
+        this.model.animate(entity, partialTicks);
         VertexConsumer vertexconsumer = material.buffer(bufferSource, RenderType::entityCutoutNoCull);
         this.model.renderToBuffer(poseStack, vertexconsumer, x, z);
         poseStack.popPose();
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public static class TCShulkerBoxModel extends Model {
+        private final ModelPart lid;
+
+        public TCShulkerBoxModel(ModelPart p_366433_) {
+            super(p_366433_, RenderType::entityCutoutNoCull);
+            this.lid = p_366433_.getChild("lid");
+        }
+
+        public void animate(ShulkerBoxBlockEntity p_362661_, float p_363916_) {
+            this.lid.setPos(0.0F, 24.0F - p_362661_.getProgress(p_363916_) * 0.5F * 16.0F, 0.0F);
+            this.lid.yRot = 270.0F * p_362661_.getProgress(p_363916_) * (float) (Math.PI / 180.0);
+        }
     }
 }

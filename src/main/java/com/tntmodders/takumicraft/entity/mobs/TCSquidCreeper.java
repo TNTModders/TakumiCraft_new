@@ -167,8 +167,8 @@ public class TCSquidCreeper extends AbstractTCWaterAnimalCreeper {
     }
 
     @Override
-    public boolean hurt(DamageSource p_29963_, float p_29964_) {
-        if (super.hurt(p_29963_, p_29964_) && this.getLastHurtByMob() != null) {
+    public boolean hurtServer(ServerLevel level, DamageSource p_29963_, float p_29964_) {
+        if (super.hurtServer(level, p_29963_, p_29964_) && this.getLastHurtByMob() != null) {
             if (!this.level().isClientSide) {
                 this.spawnInk(30, false);
             }

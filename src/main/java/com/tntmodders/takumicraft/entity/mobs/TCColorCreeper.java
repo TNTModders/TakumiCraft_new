@@ -82,7 +82,7 @@ public class TCColorCreeper extends AbstractTCCreeper {
         event.getAffectedEntities().forEach(entity -> {
             if (entity instanceof Painting painting) {
                 List<Holder<PaintingVariant>> list = new ArrayList<>();
-                this.level().registryAccess().registryOrThrow(Registries.PAINTING_VARIANT).getTagOrEmpty(PaintingVariantTags.PLACEABLE).forEach(list::add);
+                this.level().registryAccess().lookupOrThrow(Registries.PAINTING_VARIANT).getTagOrEmpty(PaintingVariantTags.PLACEABLE).forEach(list::add);
                 if (!list.isEmpty()) {
                     list.removeIf(holder -> {
                         painting.setVariant(holder);

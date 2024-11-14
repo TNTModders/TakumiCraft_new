@@ -24,7 +24,7 @@ public class TCNaturalCreeper extends AbstractTCCreeper {
 
     @Override
     public void explodeCreeperEvent(ExplosionEvent.Detonate event) {
-        event.getExplosion().clearToBlow();
+        event.getAffectedBlocks().clear();
     }
 
     @Override

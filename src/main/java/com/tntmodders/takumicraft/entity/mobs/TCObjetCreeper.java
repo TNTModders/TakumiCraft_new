@@ -27,7 +27,7 @@ public class TCObjetCreeper extends AbstractTCCreeper {
 
     @Override
     public void explodeCreeperEvent(ExplosionEvent.Detonate event) {
-        event.getExplosion().clearToBlow();
+        event.getAffectedBlocks().clear();
         int range = this.isPowered() ? 6 : 4;
         BlockState state = this.getRandom().nextBoolean() ? TCBlockCore.CREEPER_BRICKS.defaultBlockState() :
                 TCBlockCore.CREEPER_IRON.defaultBlockState();

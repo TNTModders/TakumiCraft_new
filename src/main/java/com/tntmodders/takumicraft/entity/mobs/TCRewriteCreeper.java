@@ -29,12 +29,12 @@ public class TCRewriteCreeper extends AbstractTCCreeper {
     public void explodeCreeperEvent(ExplosionEvent.Detonate event) {
         List<Block> blocks = ForgeRegistries.BLOCKS.getValues().stream().filter(block -> block.defaultBlockState().getDestroySpeed(level(), blockPosition()) >= 0 && block.defaultBlockState().isCollisionShapeFullBlock(level(), blockPosition())).toList();
         BlockState state = blocks.get(getRandom().nextInt(blocks.size())).defaultBlockState();
-        event.getExplosion().getToBlow().forEach(pos -> {
+        event.getAffectedBlocks().forEach(pos -> {
             if (pos.getY() < TCRewriteCreeper.this.getY()) {
                 TCRewriteCreeper.this.level().setBlock(pos, state, 3);
             }
         });
-        event.getExplosion().clearToBlow();
+        event.getAffectedBlocks().clear();
     }
 
     public static class TCRewriteCreeperContext implements TCCreeperContext<TCRewriteCreeper> {

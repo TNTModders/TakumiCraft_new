@@ -26,7 +26,7 @@ public class TCPatinaCreeper extends AbstractTCCreeper {
 
     @Override
     public void explodeCreeperEvent(ExplosionEvent.Detonate event) {
-        event.getExplosion().getToBlow().forEach(pos -> {
+        event.getAffectedBlocks().forEach(pos -> {
             if (this.level().getBlockState(pos).getBlock() instanceof WeatheringCopper copper) {
                 BlockState previous = this.level().getBlockState(pos);
                 Block previousBlock = previous.getBlock();
@@ -45,7 +45,7 @@ public class TCPatinaCreeper extends AbstractTCCreeper {
                 }
             }
         });
-        event.getExplosion().clearToBlow();
+        event.getAffectedBlocks().clear();
         event.getAffectedEntities().clear();
     }
 

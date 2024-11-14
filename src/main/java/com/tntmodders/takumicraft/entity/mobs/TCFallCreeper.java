@@ -23,12 +23,12 @@ public class TCFallCreeper extends AbstractTCCreeper {
 
     @Override
     public void explodeCreeperEvent(ExplosionEvent.Detonate event) {
-        event.getExplosion().getToBlow().forEach(pos -> {
+        event.getAffectedBlocks().forEach(pos -> {
             if (!event.getLevel().getBlockState(pos).isAir()) {
                 event.getLevel().setBlock(pos, Blocks.GRAVEL.defaultBlockState(), 3);
             }
         });
-        event.getExplosion().clearToBlow();
+        event.getAffectedBlocks().clear();
         event.getAffectedEntities().clear();
     }
 

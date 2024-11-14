@@ -7,7 +7,7 @@ import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.block.TCMonsterBombBlock;
 import com.tntmodders.takumicraft.block.entity.TCMonsterBombBlockEntity;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.HierarchicalModel;
+import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -15,6 +15,7 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.EntitySpawnReason;
 
 public class TCMonsterBombBlockRenderer implements BlockEntityRenderer<TCMonsterBombBlockEntity> {
 
@@ -22,9 +23,9 @@ public class TCMonsterBombBlockRenderer implements BlockEntityRenderer<TCMonster
     }
 
     public static void renderBomb(TCMonsterBombBlock bomb, PoseStack poseStack, MultiBufferSource source, int p_112311_, int p_112312_) {
-        var creeper = bomb.getContext().entityType().create(Minecraft.getInstance().level);
+        var creeper = bomb.getContext().entityType().create(Minecraft.getInstance().level, EntitySpawnReason.LOAD);
         if (Minecraft.getInstance().getEntityRenderDispatcher().getRenderer(creeper) instanceof LivingEntityRenderer renderer) {
-            if (renderer.getModel() instanceof HierarchicalModel<?> model) {
+            if (renderer.getModel() instanceof EntityModel model) {
                 try {
                     ModelPart part = model.root().getChild("head");
                     part.xRot = 0f;

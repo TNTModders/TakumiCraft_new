@@ -246,9 +246,9 @@ public class TCKingCreeper extends AbstractTCBossCreeper {
     }
 
     @Override
-    public boolean hurt(DamageSource source, float damage) {
+    public boolean hurtServer(ServerLevel level, DamageSource source, float damage) {
         if (source.getEntity() == this) {
-            return super.hurt(source, damage);
+            return super.hurtServer(level, source, damage);
         }
         boolean flg1 = source.getEntity() instanceof Player;
         boolean flg2 = source.getDirectEntity() instanceof Player;
@@ -291,7 +291,7 @@ public class TCKingCreeper extends AbstractTCBossCreeper {
             damage = damage / 10;
         }
 
-        return !source.is(DamageTypes.LIGHTNING_BOLT) && !source.is(DamageTypes.IN_FIRE) && !source.is(DamageTypes.EXPLOSION) && flg && super.hurt(source, damage);
+        return !source.is(DamageTypes.LIGHTNING_BOLT) && !source.is(DamageTypes.IN_FIRE) && !source.is(DamageTypes.EXPLOSION) && flg && super.hurtServer(level, source, damage);
     }
 
     @Override

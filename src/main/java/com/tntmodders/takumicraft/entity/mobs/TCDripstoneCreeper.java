@@ -39,7 +39,7 @@ public class TCDripstoneCreeper extends AbstractTCCreeper {
             }
 
         });
-        event.getExplosion().clearToBlow();
+        event.getAffectedBlocks().clear();
         event.getAffectedEntities().clear();
     }
 

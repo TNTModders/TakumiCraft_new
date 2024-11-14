@@ -37,12 +37,12 @@ public class TCStoneCreeper extends AbstractTCCreeper {
 
     @Override
     public void explodeCreeperEvent(ExplosionEvent.Detonate event) {
-        float power = event.getExplosion().radius;
+        float power = event.getExplosion().radius();
         if (power > 0.1) {
             List<BlockPos> posList = new ArrayList<>();
             event.getAffectedBlocks().stream().filter(pos -> this.level().getBlockState(pos).is(BlockTags.MINEABLE_WITH_PICKAXE)).forEach(pos -> {
                 this.level().destroyBlock(pos, true, this);
-                TCExplosionUtils.createExplosion(this.level(), this, pos, Math.max(0, event.getExplosion().radius - 0.3f));
+                TCExplosionUtils.createExplosion(this.level(), this, pos, Math.max(0, event.getExplosion().radius() - 0.3f));
                 posList.add(pos);
             });
             if (!posList.isEmpty()) {

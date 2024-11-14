@@ -11,6 +11,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.EntityTypeTags;
@@ -118,8 +119,8 @@ public class TCGlowingSquidCreeper extends TCSquidCreeper {
     }
 
     @Override
-    public boolean hurt(DamageSource p_147114_, float p_147115_) {
-        boolean flag = super.hurt(p_147114_, p_147115_);
+    public boolean hurtServer(ServerLevel level, DamageSource p_147114_, float p_147115_) {
+        boolean flag = super.hurtServer(level, p_147114_, p_147115_);
         if (flag) {
             this.setDarkTicks(100);
         }

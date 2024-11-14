@@ -114,15 +114,15 @@ public class TCEvokerCreeper extends AbstractTCSpellcasterCreeper {
     }
 
     @Override
-    public boolean isAlliedTo(Entity p_32665_) {
+    public boolean considersEntityAsAlly(Entity p_32665_) {
         if (p_32665_ == null) {
             return false;
         } else if (p_32665_ == this) {
             return true;
-        } else if (super.isAlliedTo(p_32665_)) {
+        } else if (super.considersEntityAsAlly(p_32665_)) {
             return true;
         } else {
-            return p_32665_ instanceof TCVexCreeper vex && this.isAlliedTo(vex.getOwner());
+            return p_32665_ instanceof TCVexCreeper vex && this.considersEntityAsAlly(vex.getOwner());
         }
     }
 
@@ -269,7 +269,7 @@ public class TCEvokerCreeper extends AbstractTCSpellcasterCreeper {
             if (!super.canUse()) {
                 return false;
             } else {
-                int i = TCEvokerCreeper.this.level().getNearbyEntities(Vex.class, this.vexCountTargeting, TCEvokerCreeper.this, TCEvokerCreeper.this.getBoundingBox().inflate(16.0)).size();
+                int i = getServerLevel(TCEvokerCreeper.this).getNearbyEntities(Vex.class, this.vexCountTargeting, TCEvokerCreeper.this, TCEvokerCreeper.this.getBoundingBox().inflate(16.0)).size();
                 return TCEvokerCreeper.this.random.nextInt(8) + 1 > i;
             }
         }
@@ -291,7 +291,7 @@ public class TCEvokerCreeper extends AbstractTCSpellcasterCreeper {
 
             for (int i = 0; i < 3; i++) {
                 BlockPos blockpos = TCEvokerCreeper.this.blockPosition().offset(-2 + TCEvokerCreeper.this.random.nextInt(5), 1, -2 + TCEvokerCreeper.this.random.nextInt(5));
-                Entity entity = TCEntityCore.VEX.entityType().create(TCEvokerCreeper.this.level());
+                Entity entity = TCEntityCore.VEX.entityType().create(TCEvokerCreeper.this.level(), EntitySpawnReason.MOB_SUMMONED);
                 if (entity instanceof TCVexCreeper vex) {
                     vex.moveTo(blockpos, 0.0F, 0.0F);
                     vex.finalizeSpawn(serverlevel, TCEvokerCreeper.this.level().getCurrentDifficultyAt(blockpos), EntitySpawnReason.MOB_SUMMONED, null);
@@ -322,10 +322,10 @@ public class TCEvokerCreeper extends AbstractTCSpellcasterCreeper {
     public class EvokerWololoSpellGoal extends AbstractTCSpellcasterCreeper.SpellcasterUseSpellGoal {
         private final TargetingConditions wololoTargeting = TargetingConditions.forNonCombat()
                 .range(16.0)
-                .selector(p_32710_ -> ((Sheep) p_32710_).getColor() == DyeColor.BLUE);
+                .selector((entity, level) -> ((Sheep) entity).getColor() == DyeColor.BLUE);
         private final TargetingConditions wololoCreeperTargeting = TargetingConditions.forNonCombat()
                 .range(16.0)
-                .selector(p_32710_ -> ((TCSheepCreeper) p_32710_).getColor() == DyeColor.BLUE && !((TCSheepCreeper) p_32710_).isRainbow());
+                .selector((entity, level) -> ((TCSheepCreeper) entity).getColor() == DyeColor.BLUE && !((TCSheepCreeper) entity).isRainbow());
 
         @Override
         public boolean canUse() {
@@ -335,11 +335,11 @@ public class TCEvokerCreeper extends AbstractTCSpellcasterCreeper {
                 return false;
             } else if (TCEvokerCreeper.this.tickCount < this.nextAttackTickCount) {
                 return false;
-            } else if (!net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(TCEvokerCreeper.this.level(), TCEvokerCreeper.this)) {
+            } else if (!net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(getServerLevel(TCEvokerCreeper.this), TCEvokerCreeper.this)) {
                 return false;
             } else {
-                List<Sheep> list = TCEvokerCreeper.this.level().getNearbyEntities(Sheep.class, this.wololoTargeting, TCEvokerCreeper.this, TCEvokerCreeper.this.getBoundingBox().inflate(16.0, 4.0, 16.0));
-                List<TCSheepCreeper> list1 = TCEvokerCreeper.this.level().getNearbyEntities(TCSheepCreeper.class, this.wololoCreeperTargeting, TCEvokerCreeper.this, TCEvokerCreeper.this.getBoundingBox().inflate(16.0, 4.0, 16.0));
+                List<Sheep> list = getServerLevel(TCEvokerCreeper.this).getNearbyEntities(Sheep.class, this.wololoTargeting, TCEvokerCreeper.this, TCEvokerCreeper.this.getBoundingBox().inflate(16.0, 4.0, 16.0));
+                List<TCSheepCreeper> list1 = getServerLevel(TCEvokerCreeper.this).getNearbyEntities(TCSheepCreeper.class, this.wololoCreeperTargeting, TCEvokerCreeper.this, TCEvokerCreeper.this.getBoundingBox().inflate(16.0, 4.0, 16.0));
                 if (list.isEmpty() && list1.isEmpty()) {
                     return false;
                 } else if (!list1.isEmpty()) {

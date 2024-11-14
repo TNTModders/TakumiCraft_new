@@ -52,11 +52,11 @@ public class TCRushCreeper extends AbstractTCCreeper {
     }
 
     @Override
-    public boolean hurt(DamageSource source, float amount) {
+    public boolean hurtServer(ServerLevel level, DamageSource source, float amount) {
         if (source.is(DamageTypes.EXPLOSION) || source.is(DamageTypeTags.IS_FIRE) || source.is(DamageTypes.FALL) || source.is(DamageTypes.IN_WALL) || source.is(DamageTypes.DROWN)) {
             return false;
         } else {
-            return super.hurt(source, amount);
+            return super.hurtServer(level, source, amount);
         }
     }
 

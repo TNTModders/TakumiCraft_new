@@ -52,12 +52,12 @@ public class TCGunOreCreeper extends AbstractTCBlockCreeper {
     }
 
     @Override
-    public boolean hurt(DamageSource p_21016_, float p_21017_) {
+    public boolean hurtServer(ServerLevel level, DamageSource p_21016_, float p_21017_) {
         float amount = p_21017_;
         if (p_21016_.getEntity() instanceof LivingEntity living && living.getMainHandItem().is(ItemTags.PICKAXES)) {
             amount *= 10f;
         }
-        return super.hurt(p_21016_, amount);
+        return super.hurtServer(level, p_21016_, amount);
     }
 
     public static class TCGunOreCreeperContext implements TCCreeperContext<TCGunOreCreeper> {

@@ -56,7 +56,7 @@ public class TCRestCreeper extends AbstractTCCreeper {
                 }
             }
         });
-        event.getExplosion().clearToBlow();
+        event.getAffectedBlocks().clear();
     }
 
     public static class TCRestCreeperContext implements TCCreeperContext<TCRestCreeper> {

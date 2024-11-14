@@ -298,8 +298,8 @@ public class TCZombieCreeper extends AbstractTCCreeper {
     }
 
     @Override
-    public boolean hurt(DamageSource p_34288_, float p_34289_) {
-        if (!super.hurt(p_34288_, p_34289_)) {
+    public boolean hurtServer(ServerLevel level, DamageSource p_34288_, float p_34289_) {
+        if (!super.hurtServer(level, p_34288_, p_34289_)) {
             return false;
         } else if (!(this.level() instanceof ServerLevel serverLevel)) {
             return false;

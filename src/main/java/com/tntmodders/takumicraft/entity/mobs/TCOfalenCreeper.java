@@ -61,8 +61,8 @@ public class TCOfalenCreeper extends AbstractTCCreeper {
     }
 
     @Override
-    public boolean hurt(DamageSource source, float damage) {
-        return !source.is(DamageTypes.EXPLOSION) && super.hurt(source, damage);
+    public boolean hurtServer(ServerLevel level, DamageSource source, float damage) {
+        return !source.is(DamageTypes.EXPLOSION) && super.hurtServer(level, source, damage);
     }
 
     @Override

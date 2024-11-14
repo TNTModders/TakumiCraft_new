@@ -60,7 +60,7 @@ public class TCEnderCreeper extends AbstractTCCreeper {
     private boolean teleport(double x, double y, double z, LivingEntity entity) {
         BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos(x, y, z);
 
-        while (blockpos$mutableblockpos.getY() > entity.level().getMinBuildHeight() && !entity.level().getBlockState(blockpos$mutableblockpos).blocksMotion()) {
+        while (blockpos$mutableblockpos.getY() > entity.level().getMinY() && !entity.level().getBlockState(blockpos$mutableblockpos).blocksMotion()) {
             blockpos$mutableblockpos.move(Direction.DOWN);
         }
 

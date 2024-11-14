@@ -62,8 +62,8 @@ public class TCPierceCreeper extends AbstractTCCreeper {
     }
 
     @Override
-    public boolean hurt(DamageSource p_21016_, float p_21017_) {
-        return !p_21016_.is(DamageTypeTags.IS_EXPLOSION) && !p_21016_.is(DamageTypeTags.IS_FALL) && super.hurt(p_21016_, p_21017_);
+    public boolean hurtServer(ServerLevel level, DamageSource p_21016_, float p_21017_) {
+        return !p_21016_.is(DamageTypeTags.IS_EXPLOSION) && !p_21016_.is(DamageTypeTags.IS_FALL) && super.hurtServer(level, p_21016_, p_21017_);
     }
 
     @Override

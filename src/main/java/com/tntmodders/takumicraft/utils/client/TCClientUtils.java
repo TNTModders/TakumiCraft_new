@@ -18,6 +18,7 @@ import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.npc.VillagerData;
@@ -46,12 +47,12 @@ public class TCClientUtils {
 
     @OnlyIn(Dist.CLIENT)
     public static void renderEntity(PoseStack posestack, double x, double y, int size, float yrot, float xrot, EntityType<?> entityType, boolean isOutline) {
-        if (entityType.create(Minecraft.getInstance().level) instanceof AbstractTCCreeper creeper) {
+        if (entityType.create(Minecraft.getInstance().level, EntitySpawnReason.LOAD) instanceof AbstractTCCreeper creeper) {
             creeper.setOnBook(true);
             posestack.pushPose();
             posestack.translate(x, y, 1050.0D);
             posestack.scale(1.0F, 1.0F, -1.0F);
-            RenderSystem.applyModelViewMatrix();
+            RenderSystem.getModelViewMatrix();
             PoseStack posestack1 = posestack;
             posestack1.translate(0.0D, 0.0D, 1000.0D);
             posestack1.scale((float) size, (float) size, (float) size);
@@ -78,8 +79,7 @@ public class TCClientUtils {
             entityrenderdispatcher.setRenderShadow(false);
             MultiBufferSource.BufferSource multibuffersource$buffersource = Minecraft.getInstance().renderBuffers().bufferSource();
             renderEntitySP(creeper, posestack1, isOutline);
-            entityrenderdispatcher.render(creeper, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F,
-                    posestack1, multibuffersource$buffersource, checkSlayAdv(entityType) ? 0xf000f0 : -10000);
+            entityrenderdispatcher.render(creeper, 0.0D, 0.0D, 0.0D, 0.0F, posestack1, multibuffersource$buffersource, checkSlayAdv(entityType) ? 0xf000f0 : -10000);
             multibuffersource$buffersource.endBatch();
             entityrenderdispatcher.setRenderShadow(true);
             creeper.yBodyRot = f2;
@@ -88,7 +88,7 @@ public class TCClientUtils {
             creeper.yHeadRotO = f5;
             creeper.yHeadRot = f6;
             posestack.popPose();
-            RenderSystem.applyModelViewMatrix();
+            RenderSystem.getModelViewMatrix();
             Lighting.setupFor3DItems();
         }
     }

@@ -4,7 +4,6 @@ import com.tntmodders.takumicraft.client.renderer.entity.TCWolfCreeperRenderer;
 import com.tntmodders.takumicraft.core.TCEntityCore;
 import com.tntmodders.takumicraft.utils.TCEntityUtils;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Holder;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.sounds.SoundEvent;
@@ -20,9 +19,9 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.Wolf;
-import net.minecraft.world.entity.animal.WolfVariant;
 import net.minecraft.world.entity.animal.horse.Llama;
 import net.minecraft.world.entity.monster.AbstractSkeleton;
 import net.minecraft.world.entity.monster.Creeper;
@@ -43,12 +42,9 @@ import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
 import net.minecraftforge.event.level.ExplosionEvent;
 
-import java.util.List;
-import java.util.function.Predicate;
-
 public class TCWolfCreeper extends AbstractTCCreeper {
-    public static final Predicate<LivingEntity> PREY_SELECTOR = p_296809_ -> {
-        EntityType<?> entitytype = p_296809_.getType();
+    public static final TargetingConditions.Selector PREY_SELECTOR = (entity, level) -> {
+        EntityType<?> entitytype = entity.getType();
         return entitytype == EntityType.SHEEP || entitytype == EntityType.RABBIT || entitytype == EntityType.FOX;
     };
     private float interestedAngle;
@@ -58,13 +54,10 @@ public class TCWolfCreeper extends AbstractTCCreeper {
     private float shakeAnim;
     private float shakeAnimO;
 
-    private final List<Holder.Reference<WolfVariant>> wolves;
-
     public TCWolfCreeper(EntityType<? extends Creeper> entityType, Level level) {
         super(entityType, level);
         this.setPathfindingMalus(PathType.POWDER_SNOW, -1.0F);
         this.setPathfindingMalus(PathType.DANGER_POWDER_SNOW, -1.0F);
-        this.wolves = this.registryAccess().registryOrThrow(Registries.WOLF_VARIANT).holders().toList();
     }
 
     public static boolean checkWolfSpawnRules(EntityType<? extends AbstractTCCreeper> p_218292_, LevelAccessor p_218293_, EntitySpawnReason p_218294_, BlockPos p_218295_, RandomSource p_218296_) {
@@ -205,6 +198,10 @@ public class TCWolfCreeper extends AbstractTCCreeper {
         return Mth.lerp(p_30449_, this.interestedAngleO, this.interestedAngle) * 0.15F * (float) Math.PI;
     }
 
+    public float getShakeAnim(float p_366128_) {
+        return Mth.lerp(p_366128_, this.shakeAnimO, this.shakeAnim);
+    }
+
     @Override
     public void handleEntityEvent(byte p_30379_) {
         if (p_30379_ == 8) {
@@ -253,7 +250,7 @@ public class TCWolfCreeper extends AbstractTCCreeper {
                 wolf.setTarget(this.getTarget());
                 wolf.setRemainingPersistentAngerTime(1000000);
                 wolf.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.65);
-                wolf.setVariant(this.wolves.get(this.getRandom().nextInt(this.wolves.size())));
+                wolf.setVariant(this.registryAccess().lookupOrThrow(Registries.WOLF_VARIANT).getRandom(this.getRandom()).get());
                 this.level().addFreshEntity(wolf);
             }
         }

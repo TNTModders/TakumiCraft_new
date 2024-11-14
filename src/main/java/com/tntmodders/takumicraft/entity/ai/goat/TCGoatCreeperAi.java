@@ -32,7 +32,7 @@ public class TCGoatCreeperAi {
     private static final UniformInt TIME_BETWEEN_RAMS = UniformInt.of(100, 300);
     private static final UniformInt TIME_BETWEEN_RAMS_SCREAMER = UniformInt.of(50, 150);
     private static final TargetingConditions RAM_TARGET_CONDITIONS = TargetingConditions.forCombat()
-            .selector(p_341429_ -> !p_341429_.getType().equals(TCEntityCore.GOAT.entityType()) && p_341429_.level().getWorldBorder().isWithinBounds(p_341429_.getBoundingBox()));
+            .selector((entity, level) -> !entity.getType().equals(TCEntityCore.GOAT.entityType()) && entity.level().getWorldBorder().isWithinBounds(entity.getBoundingBox()));
     private static final float SPEED_MULTIPLIER_WHEN_RAMMING = 3.0F;
     public static final int RAM_MIN_DISTANCE = 4;
     public static final float ADULT_RAM_KNOCKBACK_FORCE = 2.5F;
@@ -58,7 +58,7 @@ public class TCGoatCreeperAi {
         p_149454_.addActivity(
                 Activity.CORE,
                 0,
-                ImmutableList.of(
+                (ImmutableList<? extends BehaviorControl<? super TCGoatCreeper>>) ImmutableList.of(
                         new Swim(0.8F),
                         new AnimalPanic<>(2.0F),
                         new LookAtTargetSink(45, 90),
@@ -69,6 +69,7 @@ public class TCGoatCreeperAi {
                 )
         );
     }
+
 
     private static void initIdleActivity(Brain<TCGoatCreeper> p_149458_) {
         p_149458_.addActivityWithConditions(
@@ -122,7 +123,7 @@ public class TCGoatCreeperAi {
                                         3.0F,
                                         p_341430_ -> p_341430_.isBaby() ? 1.0 : 2.5,
                                         p_149468_ -> p_149468_.isScreamingGoat() ? SoundEvents.GOAT_SCREAMING_RAM_IMPACT : SoundEvents.GOAT_RAM_IMPACT,
-                                        p_218772_ -> p_218772_.isScreamingGoat() ? SoundEvents.GOAT_SCREAMING_HORN_BREAK : SoundEvents.GOAT_HORN_BREAK
+                                        p_218772_ -> SoundEvents.GOAT_HORN_BREAK
                                 )
                         ),
                         Pair.of(

@@ -25,7 +25,7 @@ public class TCCopperCreeper extends AbstractTCCreeper {
 
     @Override
     public void explodeCreeperEvent(ExplosionEvent.Detonate event) {
-        event.getExplosion().getToBlow().forEach(pos -> {
+        event.getAffectedBlocks().forEach(pos -> {
             if (this.level().getBlockState(pos).getBlock() instanceof WeatheringCopper copper) {
                 BlockState previous = this.level().getBlockState(pos);
                 BlockState state = WeatheringCopper.getFirst(previous);
@@ -38,7 +38,7 @@ public class TCCopperCreeper extends AbstractTCCreeper {
                 this.level().explode(null, pos.getX(), pos.getY(), pos.getZ(), this.isPowered() ? 6f : 4f, Level.ExplosionInteraction.NONE);
             }
         });
-        event.getExplosion().clearToBlow();
+        event.getAffectedBlocks().clear();
         event.getAffectedEntities().clear();
     }
 

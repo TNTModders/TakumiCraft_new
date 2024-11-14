@@ -159,7 +159,7 @@ public class TCCreeperBedRenderer implements BlockEntityRenderer<TCCreeperBedBlo
                 textureMap.forEach((side, texture) -> {
                     Material material = new Material(texture.atlasLocation(), texture.contents().name());
                     if (modelPart != this.superHeadRoot || side != Direction.SOUTH) {
-                        modelPart.getChild("super_" + side.getName()).render(poseStack, material.buffer(source, RenderType::entityTranslucentCull).setColor(f0, f1, f2, 1f), p_173547_, p_173548_);
+                        modelPart.getChild("super_" + side.getName()).render(poseStack, material.buffer(source, RenderType::entityTranslucent).setColor(f0, f1, f2, 1f), p_173547_, p_173548_);
                     }
                 });
             } else {

@@ -1,7 +1,5 @@
 package com.tntmodders.takumicraft.client.renderer.block.model;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.model.Model;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
@@ -22,7 +20,7 @@ public class TCShieldModel extends Model {
     private final ModelPart handle;
 
     public TCShieldModel(ModelPart p_170911_) {
-        super(RenderType::entitySolid);
+        super(p_170911_, RenderType::entitySolid);
         this.root = p_170911_;
         this.plate = p_170911_.getChild("plate");
         this.handle = p_170911_.getChild("handle");
@@ -44,8 +42,8 @@ public class TCShieldModel extends Model {
         return this.handle;
     }
 
-    @Override
+/*    @Override
     public void renderToBuffer(PoseStack p_103703_, VertexConsumer p_103704_, int p_103705_, int p_103706_, int i) {
         this.root.render(p_103703_, p_103704_, p_103705_, p_103706_);
-    }
+    }*/
 }

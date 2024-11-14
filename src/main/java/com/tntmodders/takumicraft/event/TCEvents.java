@@ -105,7 +105,7 @@ public class TCEvents {
     public void onEntitySpawn(MobSpawnEvent event) {
         if (event.getEntity() instanceof Phantom && event.getLevel().getRandom().nextInt(10) == 0 && event.getEntity().level() instanceof ServerLevel level) {
             BlockPos pos = new BlockPos((int) event.getX(), (int) event.getY(), (int) event.getZ());
-            TCPhantomCreeper creeper = (TCPhantomCreeper) TCEntityCore.PHANTOM.entityType().create(level);
+            TCPhantomCreeper creeper = (TCPhantomCreeper) TCEntityCore.PHANTOM.entityType().create(level, EntitySpawnReason.TRIGGERED);
             creeper.moveTo(pos, 0f, 0f);
             creeper.finalizeSpawn(level, level.getCurrentDifficultyAt(pos), EntitySpawnReason.NATURAL, null);
             if (level.tryAddFreshEntityWithPassengers(creeper)) {
@@ -115,9 +115,9 @@ public class TCEvents {
         if (event.getEntity() instanceof Breeze) {
             if (event.getLevel().getRandom().nextInt(10) == 0 && event.getEntity().level() instanceof ServerLevel level) {
                 BlockPos pos = new BlockPos((int) event.getX(), (int) event.getY(), (int) event.getZ());
-                TCBreezeCreeper creeper = (TCBreezeCreeper) TCEntityCore.BREEZE.entityType().create(level);
+                TCBreezeCreeper creeper = (TCBreezeCreeper) TCEntityCore.BREEZE.entityType().create(level, EntitySpawnReason.TRIGGERED);
                 creeper.moveTo(pos, 0f, 0f);
-                creeper.finalizeSpawn(level, level.getCurrentDifficultyAt(pos), event.getEntity().getSpawnType(), null);
+                creeper.finalizeSpawn(level, level.getCurrentDifficultyAt(pos), EntitySpawnReason.TRIGGERED, null);
                 if (level.tryAddFreshEntityWithPassengers(creeper)) {
                     event.setResult(Event.Result.DENY);
                 }

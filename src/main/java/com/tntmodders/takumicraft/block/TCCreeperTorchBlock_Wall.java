@@ -12,7 +12,6 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.WallTorchBlock;
-import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.PushReaction;
 
 import java.util.List;
@@ -20,7 +19,7 @@ import java.util.function.Function;
 
 public class TCCreeperTorchBlock_Wall extends WallTorchBlock implements ITCBlocks {
     public TCCreeperTorchBlock_Wall() {
-        super(ParticleTypes.SMOKE, BlockBehaviour.Properties.of().noCollission().instabreak().lightLevel(p_50886_ -> 15).sound(SoundType.WOOD).pushReaction(PushReaction.DESTROY).lootFrom(() -> TCBlockCore.CREEPER_TORCH).explosionResistance(10000000f));
+        super(ParticleTypes.SMOKE, TCBlockCore.variant(TCBlockCore.CREEPER_TORCH, true).noCollission().instabreak().lightLevel(p_50886_ -> 15).sound(SoundType.WOOD).pushReaction(PushReaction.DESTROY).explosionResistance(10000000f));
     }
 
     @Override

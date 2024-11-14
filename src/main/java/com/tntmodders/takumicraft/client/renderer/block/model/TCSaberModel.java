@@ -19,7 +19,7 @@ public class TCSaberModel extends Model {
     private final ModelPart blade;
 
     public TCSaberModel(ModelPart part) {
-        super(RenderType::entitySolid);
+        super(part, RenderType::entitySolid);
         this.root = part;
         this.base = part.getChild("base");
         this.blade = part.getChild("blade");
@@ -43,8 +43,7 @@ public class TCSaberModel extends Model {
         this.blade.render(p_103703_, p_103704_, p_103705_, p_103706_);
     }
 
-    @Override
-    public void renderToBuffer(PoseStack p_103703_, VertexConsumer p_103704_, int p_103705_, int p_103706_, int i) {
+    public void renderToBufferAll(PoseStack p_103703_, VertexConsumer p_103704_, int p_103705_, int p_103706_, int i) {
         this.base.render(p_103703_, p_103704_, p_103705_, p_103706_);
         this.blade.render(p_103703_, p_103704_, p_103705_, p_103706_);
     }

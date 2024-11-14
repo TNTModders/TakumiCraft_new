@@ -41,7 +41,7 @@ public class TCSculkCreeper extends AbstractTCCreeper {
                 this.level().setBlock(pos, Blocks.SCULK_CATALYST.defaultBlockState(), 3);
             }
         });
-        event.getExplosion().clearToBlow();
+        event.getAffectedBlocks().clear();
     }
 
     @Override

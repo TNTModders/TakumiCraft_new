@@ -10,6 +10,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.monster.Creeper;
@@ -142,7 +143,7 @@ public class TCFireworksCreeper extends AbstractTCCreeper {
     @Override
     public void explodeCreeperEvent(ExplosionEvent.Detonate event) {
         if (TCEntityUtils.isNewYear() || TCEntityUtils.isXmas()) {
-            event.getExplosion().clearToBlow();
+            event.getAffectedBlocks().clear();
         }
     }
 
@@ -169,7 +170,7 @@ public class TCFireworksCreeper extends AbstractTCCreeper {
         for (int i = 0; i < (this.isPowered() ? 20 : 10); i++) {
             TCCreeperContext context = TCEntityCore.ENTITY_CONTEXTS.get(this.level().getRandom().nextInt(TCEntityCore.ENTITY_CONTEXTS.size()));
             if (context.getRank().getLevel() < TCCreeperContext.EnumTakumiRank.HIGH.getLevel()) {
-                Entity entity = context.entityType().create(this.level());
+                Entity entity = context.entityType().create(this.level(), EntitySpawnReason.MOB_SUMMONED);
                 entity.setPos(this.getRandomX(10), this.getRandomY(3), this.getRandomZ(10));
                 if (entity instanceof AbstractTCCreeper creeper && creeper.checkSpawnObstruction(this.level())) {
                     this.level().addFreshEntity(entity);
@@ -185,7 +186,7 @@ public class TCFireworksCreeper extends AbstractTCCreeper {
 
     public static class TCFireworksCreeperContext implements TCCreeperContext<TCFireworksCreeper> {
         private static final String NAME = "fireworkscreeper";
-        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCFireworksCreeper::new, MobCategory.MONSTER).sized(0.6F, 1.7F).clientTrackingRange(8).build(TCEntityUtils.getTCEntityKey(NAME));
+        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCFireworksCreeper::new, MobCategory.MONSTER).sized(0.6F, 1.7F).clientTrackingRange(8).build(TCEntityUtils.TCEntityId(NAME));
 
         @Override
         public String getRegistryName() {

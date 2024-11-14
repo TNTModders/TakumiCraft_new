@@ -73,7 +73,7 @@ public class TCBEWLRenderer extends BlockEntityWithoutLevelRenderer {
                 poseStack.pushPose();
                 poseStack.scale(1.0F, -1.0F, -1.0F);
                 poseStack.scale(0.5F, 0.5F, 0.5F);
-                VertexConsumer vertexconsumer1 = ItemRenderer.getFoilBufferDirect(bufferSource, this.saberModel.renderType(ResourceLocation.withDefaultNamespace("textures/block/iron_block.png")), false, stack.hasFoil());
+                VertexConsumer vertexconsumer1 = ItemRenderer.getFoilBuffer(bufferSource, this.saberModel.renderType(ResourceLocation.withDefaultNamespace("textures/block/iron_block.png")), false, stack.hasFoil());
                 this.saberModel.renderToBufferBase(poseStack, vertexconsumer1, p_108834_, p_108835_, 1.0F, 1.0F, 1.0F, 1.0F);
 
                 float f = Minecraft.getInstance().player.tickCount * 0.01f;

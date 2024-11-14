@@ -28,8 +28,8 @@ public class TCGlowstoneCreeper extends AbstractTCCreeper {
 
     @Override
     public void explodeCreeperEvent(ExplosionEvent.Detonate event) {
-        event.getExplosion().getToBlow().forEach(pos -> this.level().setBlock(pos, Blocks.GLOWSTONE.defaultBlockState(), 3));
-        event.getExplosion().clearToBlow();
+        event.getAffectedBlocks().forEach(pos -> this.level().setBlock(pos, Blocks.GLOWSTONE.defaultBlockState(), 3));
+        event.getAffectedBlocks().clear();
     }
 
     @Override

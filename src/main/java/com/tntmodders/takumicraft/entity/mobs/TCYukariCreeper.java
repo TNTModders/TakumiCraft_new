@@ -60,7 +60,7 @@ public class TCYukariCreeper extends AbstractTCCreeper {
     @Override
     public void explodeCreeperEvent(ExplosionEvent.Detonate event) {
         BlockState state = this.level().getBlockState(this.blockPosition().below());
-        event.getExplosion().getToBlow().forEach(pos -> {
+        event.getAffectedBlocks().forEach(pos -> {
             if (pos.getY() >= this.getY()) {
                 event.getLevel().setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
             } else if (state.getDestroySpeed(this.level(), this.blockPosition().below()) >= 0f) {
@@ -69,7 +69,7 @@ public class TCYukariCreeper extends AbstractTCCreeper {
                 event.getLevel().setBlock(pos, TCBlockCore.YUKARI_DUMMY.defaultBlockState(), 3);
             }
         });
-        event.getExplosion().clearToBlow();
+        event.getAffectedBlocks().clear();
         DamageSource source = event.getLevel().damageSources().explosion(event.getExplosion());
         event.getAffectedEntities().forEach(entity -> {
             if (entity instanceof LivingEntity living && !living.isInvulnerableTo(source)) {

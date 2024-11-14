@@ -4,6 +4,7 @@ import com.tntmodders.takumicraft.client.renderer.entity.TCFallingSlimeCreeperRe
 import com.tntmodders.takumicraft.core.TCEntityCore;
 import com.tntmodders.takumicraft.utils.TCEntityUtils;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.MoverType;
@@ -29,7 +30,7 @@ public class TCFallingSlimeCreeper extends AbstractTCCreeper {
     @Override
     public void explodeCreeperEvent(ExplosionEvent.Detonate event) {
         event.getAffectedEntities().clear();
-        event.getExplosion().clearToBlow();
+        event.getAffectedBlocks().clear();
     }
 
     @Override
@@ -50,7 +51,7 @@ public class TCFallingSlimeCreeper extends AbstractTCCreeper {
             double y = (this.getRandom().nextDouble() - 0.5) * 30;
             double z = (this.getRandom().nextDouble() - 0.5) * 30;
 
-            TCSlimeCreeper slime = (TCSlimeCreeper) TCEntityCore.SLIME.entityType().create(this.level());
+            TCSlimeCreeper slime = (TCSlimeCreeper) TCEntityCore.SLIME.entityType().create(this.level(), EntitySpawnReason.MOB_SUMMONED);
             int i = this.getRandom().nextInt(3);
             if (i < 2 && this.getRandom().nextFloat() < 0.5F * this.level().getDifficulty().getId()) {
                 ++i;

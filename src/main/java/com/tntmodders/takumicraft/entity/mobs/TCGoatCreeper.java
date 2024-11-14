@@ -8,8 +8,7 @@ import com.tntmodders.takumicraft.entity.ai.goat.TCGoatCreeperAi;
 import com.tntmodders.takumicraft.utils.TCEntityUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
-import net.minecraft.core.HolderSet;
-import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.DebugPackets;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -24,6 +23,8 @@ import net.minecraft.tags.InstrumentTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
+import net.minecraft.util.profiling.Profiler;
+import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -85,10 +86,14 @@ public class TCGoatCreeper extends AbstractTCCreeper {
     private int lowerHeadTick;
 
     public ItemStack createHorn() {
-        RandomSource randomsource = RandomSource.create(this.getUUID().hashCode());
+        RandomSource randomsource = RandomSource.create((long) this.getUUID().hashCode());
         TagKey<Instrument> tagkey = this.isScreamingGoat() ? InstrumentTags.SCREAMING_GOAT_HORNS : InstrumentTags.REGULAR_GOAT_HORNS;
-        HolderSet<Instrument> holderset = BuiltInRegistries.INSTRUMENT.getOrCreateTag(tagkey);
-        return InstrumentItem.create(Items.GOAT_HORN, holderset.getRandomElement(randomsource).get());
+        return this.level()
+                .registryAccess()
+                .lookupOrThrow(Registries.INSTRUMENT)
+                .getRandomElementOf(tagkey, randomsource)
+                .map(p_365766_ -> InstrumentItem.create(Items.GOAT_HORN, (Holder<Instrument>) p_365766_))
+                .orElseGet(() -> new ItemStack(Items.GOAT_HORN));
     }
 
     @Override
@@ -153,14 +158,15 @@ public class TCGoatCreeper extends AbstractTCCreeper {
     }
 
     @Override
-    protected void customServerAiStep(ServerLevel level) {
-        this.level().getProfiler().push("goatBrain");
-        this.getBrain().tick((ServerLevel) this.level(), this);
-        this.level().getProfiler().pop();
-        this.level().getProfiler().push("goatActivityUpdate");
+    protected void customServerAiStep(ServerLevel p_369058_) {
+        ProfilerFiller profilerfiller = Profiler.get();
+        profilerfiller.push("goatBrain");
+        this.getBrain().tick(p_369058_, this);
+        profilerfiller.pop();
+        profilerfiller.push("goatActivityUpdate");
         TCGoatCreeperAi.updateActivity(this);
-        this.level().getProfiler().pop();
-        super.customServerAiStep(level);
+        profilerfiller.pop();
+        super.customServerAiStep(p_369058_);
     }
 
     @Override
@@ -177,18 +183,13 @@ public class TCGoatCreeper extends AbstractTCCreeper {
     }
 
     @Override
-    public SoundEvent getEatingSound(ItemStack p_149394_) {
-        return this.isScreamingGoat() ? SoundEvents.GOAT_SCREAMING_EAT : SoundEvents.GOAT_EAT;
-    }
-
-    @Override
     public InteractionResult mobInteract(Player p_149379_, InteractionHand p_149380_) {
         ItemStack itemstack = p_149379_.getItemInHand(p_149380_);
         if (itemstack.is(Items.BUCKET)) {
             p_149379_.playSound(this.getMilkingSound(), 1.0F, 1.0F);
             ItemStack itemstack1 = ItemUtils.createFilledResult(itemstack, p_149379_, Items.MILK_BUCKET.getDefaultInstance());
             p_149379_.setItemInHand(p_149380_, itemstack1);
-            return InteractionResult.sidedSuccess(this.level().isClientSide);
+            return InteractionResult.SUCCESS;
         }
         return super.mobInteract(p_149379_, p_149380_);
     }

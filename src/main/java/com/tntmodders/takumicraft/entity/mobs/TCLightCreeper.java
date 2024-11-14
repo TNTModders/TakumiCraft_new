@@ -52,9 +52,9 @@ public class TCLightCreeper extends AbstractTCCreeper {
         List<BlockPos> posList = new ArrayList<>();
         event.getAffectedBlocks().forEach(blockPos -> {
             int i = this.level().getBlockState(blockPos).getLightEmission(this.level(), blockPos);
-            if (i > 0.5 && event.getExplosion().radius > 1) {
+            if (i > 0.5 && event.getExplosion().radius() > 1) {
                 this.level().destroyBlock(blockPos, true, this);
-                TCExplosionUtils.createExplosion(this.level(), this, blockPos, event.getExplosion().radius - 0.2f);
+                TCExplosionUtils.createExplosion(this.level(), this, blockPos, event.getExplosion().radius() - 0.2f);
                 posList.add(blockPos);
 
             }

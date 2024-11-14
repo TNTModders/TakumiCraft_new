@@ -104,7 +104,7 @@ public class TCDrownedCreeper extends TCZombieCreeper implements RangedAttackMob
         this.goalSelector.addGoal(6, new TCDrownedCreeper.DrownedSwimUpGoal(this, 1.0D, this.level().getSeaLevel()));
         this.goalSelector.addGoal(7, new RandomStrollGoal(this, 1.0D));
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this, TCDrownedCreeper.class).setAlertOthers(ZombifiedPiglin.class));
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, 10, true, false, this::okTarget));
+        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, 10, true, false, (a, b) -> this.okTarget(a)));
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, AbstractVillager.class, false));
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, IronGolem.class, true));
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, Axolotl.class, true, false));
@@ -171,17 +171,13 @@ public class TCDrownedCreeper extends TCZombieCreeper implements RangedAttackMob
     }
 
     @Override
-    protected boolean canReplaceCurrentItem(ItemStack p_32364_, ItemStack p_32365_) {
+    protected boolean canReplaceCurrentItem(ItemStack p_32364_, ItemStack p_32365_, EquipmentSlot p_368868_) {
         if (p_32365_.is(Items.NAUTILUS_SHELL)) {
             return false;
         } else if (p_32365_.is(Items.TRIDENT)) {
-            if (p_32364_.is(Items.TRIDENT)) {
-                return p_32364_.getDamageValue() < p_32365_.getDamageValue();
-            } else {
-                return false;
-            }
+            return p_32364_.is(Items.TRIDENT) && p_32364_.getDamageValue() < p_32365_.getDamageValue();
         } else {
-            return p_32364_.is(Items.TRIDENT) || super.canReplaceCurrentItem(p_32364_, p_32365_);
+            return p_32364_.is(Items.TRIDENT) || super.canReplaceCurrentItem(p_32364_, p_32365_, p_368868_);
         }
     }
 
