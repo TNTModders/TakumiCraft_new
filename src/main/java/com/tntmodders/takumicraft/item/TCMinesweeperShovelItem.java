@@ -22,7 +22,7 @@ import java.util.List;
 
 public class TCMinesweeperShovelItem extends ShovelItem implements ITCItems, ITCTranslator, ITCRecipe {
     public TCMinesweeperShovelItem() {
-        super(Tiers.IRON, new Item.Properties().attributes(ShovelItem.createAttributes(Tiers.IRON, 1.5f, -3f)));
+        super(ToolMaterial.IRON, 1.5f, -3f, new Properties());
     }
 
     @Override

@@ -70,7 +70,7 @@ public class TCVexCreeper extends AbstractTCCreeper implements TraceableEntity {
     @Override
     public void move(MoverType p_33997_, Vec3 p_33998_) {
         super.move(p_33997_, p_33998_);
-        this.checkInsideBlocks();
+        //this.checkInsideBlocks();
     }
 
     @Override
@@ -269,7 +269,7 @@ public class TCVexCreeper extends AbstractTCCreeper implements TraceableEntity {
             LivingEntity livingentity = TCVexCreeper.this.getTarget();
             if (livingentity != null) {
                 if (TCVexCreeper.this.getBoundingBox().intersects(livingentity.getBoundingBox())) {
-                    TCVexCreeper.this.doHurtTarget(livingentity);
+                    TCVexCreeper.this.doHurtTarget(getServerLevel(TCVexCreeper.this.level()), livingentity);
                     TCVexCreeper.this.setIsCharging(false);
                     TCVexCreeper.this.ignite();
                 } else {

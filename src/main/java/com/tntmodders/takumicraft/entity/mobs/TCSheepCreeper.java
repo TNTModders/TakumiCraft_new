@@ -200,7 +200,7 @@ public class TCSheepCreeper extends AbstractTCCreeper {
     @Override
     protected void dropCustomDeathLoot(ServerLevel p_342918_, DamageSource p_32292_, boolean p_32294_) {
         super.dropCustomDeathLoot(p_342918_, p_32292_, p_32294_);
-        this.spawnAtLocation(TCBlockCore.CREEPER_WOOL_MAP.get(this.getColor()));
+        this.spawnAtLocation(p_342918_, TCBlockCore.CREEPER_WOOL_MAP.get(this.getColor()));
     }
 
     @Override

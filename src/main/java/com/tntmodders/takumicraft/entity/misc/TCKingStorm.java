@@ -1,5 +1,6 @@
 package com.tntmodders.takumicraft.entity.misc;
 
+import com.tntmodders.takumicraft.utils.TCEntityUtils;
 import com.tntmodders.takumicraft.utils.TCExplosionUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.EntityType;
@@ -21,7 +22,7 @@ import net.minecraft.world.level.block.state.BlockState;
 public class TCKingStorm extends PathfinderMob {
 
     public static final EntityType<TCKingStorm> KING_STORM = EntityType.Builder.of(TCKingStorm::new, MobCategory.MISC)
-            .sized(1f, 2f).clientTrackingRange(4).updateInterval(20).build("king_storm");
+            .sized(1f, 2f).clientTrackingRange(4).updateInterval(20).build(TCEntityUtils.TCEntityId("king_storm"));
 
     protected TCKingStorm(EntityType<? extends PathfinderMob> p_21683_, Level p_21684_) {
         super(p_21683_, p_21684_);

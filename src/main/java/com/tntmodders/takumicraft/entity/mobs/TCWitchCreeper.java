@@ -11,6 +11,7 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.DamageTypeTags;
@@ -236,8 +237,8 @@ public class TCWitchCreeper extends AbstractTCCreeper implements RangedAttackMob
             } else if (d3 <= 3.0 && !p_34143_.hasEffect(MobEffects.WEAKNESS) && this.random.nextFloat() < 0.25F) {
                 holder = Potions.LONG_WEAKNESS;
             }
-
-            ThrownPotion thrownpotion = new ThrownPotion(this.level(), this) {
+            ItemStack stack = PotionContents.createItemStack(Items.LINGERING_POTION, holder);
+            ThrownPotion thrownpotion = new ThrownPotion(this.level(), this, stack) {
                 @Override
                 protected void onHit(HitResult hitResult) {
                     super.onHit(hitResult);
@@ -246,7 +247,7 @@ public class TCWitchCreeper extends AbstractTCCreeper implements RangedAttackMob
                     }
                 }
             };
-            thrownpotion.setItem(PotionContents.createItemStack(Items.LINGERING_POTION, holder));
+            thrownpotion.setItem(stack);
             thrownpotion.setXRot(thrownpotion.getXRot() - -20.0F);
             thrownpotion.shoot(d0, d1 + d3 * 0.2, d2, 0.75F, 8.0F);
             if (!this.isSilent()) {

@@ -14,7 +14,6 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.item.alchemy.Potion;
 import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.level.ItemLike;
@@ -71,9 +70,10 @@ public class TCTippedCreeperArrowItem extends TCCreeperArrowItem {
         return "tipped_creeperarrow";
     }
 
+    //@TODO name
     @Override
     public Component getName(ItemStack p_41458_) {
-        String base = Potion.getName(p_41458_.get(DataComponents.POTION_CONTENTS).potion(), "item.minecraft.tipped_arrow.effect.");
+        String base = p_41458_.get(DataComponents.POTION_CONTENTS).potion().get().value().name();
         String parts = Component.translatable(base).getString().replaceAll("の矢|な矢", "").replaceAll("ありふれた矢", "平凡").replaceAll("タートルマスター", "亀").replaceAll("クラフト不可能な効能付き", "???").replaceAll("Arrow", "Creeper Arrow");
         return Component.translatable(this.getDescriptionId()).append("[" + parts + "]");
     }

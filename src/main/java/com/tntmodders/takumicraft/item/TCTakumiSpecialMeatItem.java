@@ -9,6 +9,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.*;
+import net.minecraft.world.item.component.Consumables;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.List;
@@ -22,7 +23,7 @@ public class TCTakumiSpecialMeatItem extends Item implements ITCItems {
     private final boolean isFish;
 
     public TCTakumiSpecialMeatItem(Item item, Item rawItem, boolean isFish) {
-        super(new Properties().food(new FoodProperties.Builder().nutrition(item.components().get(DataComponents.FOOD).nutrition() * 3).saturationModifier(item.components().get(DataComponents.FOOD).saturation() * 3).fast().build()).rarity(Rarity.EPIC));
+        super(new Properties().food(new FoodProperties.Builder().nutrition(item.components().get(DataComponents.FOOD).nutrition() * 3).saturationModifier(item.components().get(DataComponents.FOOD).saturation() * 3).build(), Consumables.defaultFood().consumeSeconds(0.7f).build()).rarity(Rarity.EPIC));
         this.base = item;
         this.rawBase = rawItem;
         this.isFish = isFish;

@@ -1,5 +1,6 @@
 package com.tntmodders.takumicraft.entity.misc;
 
+import com.tntmodders.takumicraft.utils.TCEntityUtils;
 import com.tntmodders.takumicraft.utils.TCExplosionUtils;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -9,6 +10,7 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.level.Explosion;
@@ -21,7 +23,7 @@ import java.util.UUID;
 public class TCKingBlock extends Entity implements TraceableEntity {
     private static final EntityDataAccessor<Integer> WAIT_TICK = SynchedEntityData.defineId(TCKingBlock.class, EntityDataSerializers.INT);
     public static final EntityType<TCKingBlock> KING_BLOCK = EntityType.Builder.<TCKingBlock>of(TCKingBlock::new, MobCategory.MISC)
-            .sized(1f, 1f).clientTrackingRange(4).updateInterval(20).build("king_block");
+            .sized(1f, 1f).clientTrackingRange(4).updateInterval(20).build(TCEntityUtils.TCEntityId("king_block"));
 
     private LivingEntity owner;
     private UUID ownerUUID;
@@ -95,6 +97,11 @@ public class TCKingBlock extends Entity implements TraceableEntity {
         if (this.tickCount > this.getWaitTick()) {
             super.move(type, new Vec3(0, vec3.y(), 0));
         }
+    }
+
+    @Override
+    public boolean hurtServer(ServerLevel p_365506_, DamageSource p_366233_, float p_368913_) {
+        return false;
     }
 
     @Override

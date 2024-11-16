@@ -55,7 +55,7 @@ public class TCScaffoldingBlockItem extends TCBlockItem {
             while (i < STABILITY_MAX_DISTANCE) {
                 if (!level.isClientSide && !level.isInWorldBounds(blockpos$mutableblockpos)) {
                     Player player = context.getPlayer();
-                    int j = level.getMaxBuildHeight();
+                    int j = level.getMaxY();
                     if (player instanceof ServerPlayer && blockpos$mutableblockpos.getY() >= j) {
                         ((ServerPlayer) player).sendSystemMessage(Component.translatable("build.tooHigh", j - 1).withStyle(ChatFormatting.RED), true);
                     }

@@ -8,6 +8,7 @@ import com.tntmodders.takumicraft.core.TCItemCore;
 import com.tntmodders.takumicraft.entity.ai.TCKingCreeperSwellGoal;
 import com.tntmodders.takumicraft.entity.ai.boss.king.*;
 import com.tntmodders.takumicraft.entity.mobs.AbstractTCCreeper;
+import com.tntmodders.takumicraft.utils.TCEntityUtils;
 import com.tntmodders.takumicraft.utils.TCExplosionUtils;
 import com.tntmodders.takumicraft.utils.TCLoggingUtils;
 import net.minecraft.core.BlockPos;
@@ -20,14 +21,13 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.RandomSource;
+import net.minecraft.util.profiling.Profiler;
+import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LightningBolt;
-import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
@@ -177,9 +177,10 @@ public class TCKingCreeper extends AbstractTCBossCreeper {
     public void explodeCreeper() {
         TCLoggingUtils.info(this.getAttackID());
         if (!this.level().isClientSide) {
-            this.level().getProfiler().push("takumicraft_kingcreeper_explode");
+            ProfilerFiller profilerfiller = Profiler.get();
+            profilerfiller.push("takumicraft_kingcreeper_explode");
             this.getAttackID().getAttack().serverExp(this);
-            this.level().getProfiler().pop();
+            profilerfiller.pop();
             if (this.getAttackID().isULTATK()) {
                 this.ULTCasted = true;
             }
@@ -216,7 +217,7 @@ public class TCKingCreeper extends AbstractTCBossCreeper {
 
     @Override
     public float getBlockExplosionResistance(Explosion explosion, BlockGetter level, BlockPos pos, BlockState state, FluidState fluidState, float f) {
-        if (pos.getY() > this.level().getMinBuildHeight() && pos.getY() < this.level().getMinBuildHeight() + 5 && state.getBlock() == Blocks.BEDROCK) {
+        if (pos.getY() > this.level().getMinY() && pos.getY() < this.level().getMinY() + 5 && state.getBlock() == Blocks.BEDROCK) {
             this.level().destroyBlock(pos, false);
             return 10f;
         }
@@ -266,7 +267,7 @@ public class TCKingCreeper extends AbstractTCBossCreeper {
             damageImmune = true;
             if (this.isPowered() && source.getDirectEntity() instanceof Projectile projectile && !this.hasEffect(MobEffects.BLINDNESS)) {
                 TCExplosionUtils.createExplosion(level(), this, projectile.getX(), projectile.getY(), projectile.getZ(), 0f, false);
-                Entity counter = projectile.getType().create(this.level());
+                Entity counter = projectile.getType().create(this.level(), EntitySpawnReason.MOB_SUMMONED);
                 counter.copyPosition(projectile);
                 ((Projectile) counter).setOwner(this);
                 counter.setDeltaMovement(counter.getDeltaMovement().scale(-1.05));

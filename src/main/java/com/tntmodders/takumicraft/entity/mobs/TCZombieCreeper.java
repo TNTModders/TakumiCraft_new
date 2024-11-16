@@ -199,12 +199,12 @@ public class TCZombieCreeper extends AbstractTCCreeper {
     }
 
     @Override
-    protected int getBaseExperienceReward() {
+    protected int getBaseExperienceReward(ServerLevel p_365075_) {
         if (this.isBaby()) {
-            this.xpReward = (int) ((double) this.xpReward * 2.5);
+            this.xpReward = (int) ((double) this.xpReward * 3);
         }
 
-        return super.getBaseExperienceReward();
+        return super.getBaseExperienceReward(p_365075_);
     }
 
     @Override
@@ -284,13 +284,16 @@ public class TCZombieCreeper extends AbstractTCCreeper {
     }
 
     protected void convertToZombieType(EntityType<? extends TCZombieCreeper> p_34311_) {
-        TCZombieCreeper zombie = this.convertTo(p_34311_, true);
-        if (zombie != null) {
-            zombie.handleAttributes(zombie.level().getCurrentDifficultyAt(zombie.blockPosition()).getSpecialMultiplier());
-            zombie.setCanBreakDoors(zombie.supportsBreakDoorGoal() && this.canBreakDoors());
-            net.minecraftforge.event.ForgeEventFactory.onLivingConvert(this, zombie);
-        }
-
+        if (!net.minecraftforge.event.ForgeEventFactory.canLivingConvert(this, p_34311_, timer -> this.conversionTime = timer))
+            return;
+        this.convertTo(
+                p_34311_,
+                ConversionParams.single(this, true, true),
+                p_359259_ -> {
+                    p_359259_.handleAttributes(p_359259_.level().getCurrentDifficultyAt(p_359259_.blockPosition()).getSpecialMultiplier());
+                    net.minecraftforge.event.ForgeEventFactory.onLivingConvert(this, p_359259_);
+                }
+        );
     }
 
     protected boolean isSunSensitive() {
@@ -312,8 +315,8 @@ public class TCZombieCreeper extends AbstractTCCreeper {
             int i = Mth.floor(this.getX());
             int j = Mth.floor(this.getY());
             int k = Mth.floor(this.getZ());
-            if (livingentity != null && this.level().getDifficulty() == Difficulty.HARD && (double) this.random.nextFloat() < this.getAttribute(Attributes.SPAWN_REINFORCEMENTS_CHANCE).getValue() && this.level().getGameRules().getBoolean(GameRules.RULE_DOMOBSPAWNING)) {
-                TCZombieCreeper zombie = (TCZombieCreeper) TCEntityCore.ZOMBIE.entityType().create(this.level());
+            if (livingentity != null && this.level().getDifficulty() == Difficulty.HARD && (double) this.random.nextFloat() < this.getAttribute(Attributes.SPAWN_REINFORCEMENTS_CHANCE).getValue() && level.getGameRules().getBoolean(GameRules.RULE_DOMOBSPAWNING)) {
+                TCZombieCreeper zombie = (TCZombieCreeper) TCEntityCore.ZOMBIE.entityType().create(this.level(), EntitySpawnReason.CONVERSION);
                 for (int l = 0; l < 50; ++l) {
                     int i1 = i + Mth.nextInt(this.random, 7, 40) * Mth.nextInt(this.random, -1, 1);
                     int j1 = j + Mth.nextInt(this.random, 7, 40) * Mth.nextInt(this.random, -1, 1);
@@ -345,8 +348,8 @@ public class TCZombieCreeper extends AbstractTCCreeper {
     }
 
     @Override
-    public boolean doHurtTarget(Entity entity) {
-        boolean flag = super.doHurtTarget(entity);
+    public boolean doHurtTarget(ServerLevel serverLevel, Entity entity) {
+        boolean flag = super.doHurtTarget(serverLevel, entity);
         if (flag) {
             float f = this.level().getCurrentDifficultyAt(this.blockPosition()).getEffectiveDifficulty();
             if (this.getMainHandItem().isEmpty() && this.isOnFire() && this.random.nextFloat() < f * 0.3F) {
@@ -425,7 +428,7 @@ public class TCZombieCreeper extends AbstractTCCreeper {
             if (p_34281_.getDifficulty() != Difficulty.HARD && this.random.nextBoolean()) {
                 return flg;
             }
-            TCZombieVillagerCreeper zombievillager = villager.convertTo((EntityType<TCZombieVillagerCreeper>) TCEntityCore.ZOMBIE_VILLAGER.entityType(), false);
+            TCZombieVillagerCreeper zombievillager = villager.convertTo((EntityType<TCZombieVillagerCreeper>) TCEntityCore.ZOMBIE_VILLAGER.entityType(), ConversionParams.single(villager, true, true), p_359258_ -> p_359258_.finalizeSpawn(p_34281_, p_34281_.getCurrentDifficultyAt(p_359258_.blockPosition()), EntitySpawnReason.CONVERSION, new Zombie.ZombieGroupData(false, true)));
             zombievillager.finalizeSpawn(p_34281_, p_34281_.getCurrentDifficultyAt(zombievillager.blockPosition()), EntitySpawnReason.CONVERSION, new Zombie.ZombieGroupData(false, true));
             zombievillager.setVillagerData(villager.getVillagerData());
             zombievillager.setGossips(villager.getGossips().store(NbtOps.INSTANCE));
@@ -446,8 +449,8 @@ public class TCZombieCreeper extends AbstractTCCreeper {
     }
 
     @Override
-    public boolean wantsToPickUp(ItemStack p_182400_) {
-        return !p_182400_.is(Items.GLOW_INK_SAC) && super.wantsToPickUp(p_182400_);
+    public boolean wantsToPickUp(ServerLevel level, ItemStack p_182400_) {
+        return !p_182400_.is(Items.GLOW_INK_SAC) && super.wantsToPickUp(level, p_182400_);
     }
 
     @Override
@@ -472,7 +475,7 @@ public class TCZombieCreeper extends AbstractTCCreeper {
                             this.startRiding(chicken);
                         }
                     } else if ((double) p_34297_.getRandom().nextFloat() < 0.05D) {
-                        Chicken chicken1 = EntityType.CHICKEN.create(this.level());
+                        Chicken chicken1 = EntityType.CHICKEN.create(this.level(), EntitySpawnReason.TRIGGERED);
                         chicken1.moveTo(this.getX(), this.getY(), this.getZ(), this.getYRot(), 0.0F);
                         chicken1.finalizeSpawn(p_34297_, p_34298_, EntitySpawnReason.JOCKEY, null);
                         chicken1.setChickenJockey(true);
@@ -532,7 +535,7 @@ public class TCZombieCreeper extends AbstractTCCreeper {
                 ItemStack itemstack = this.getSkull();
                 if (!itemstack.isEmpty()) {
                     creeper.increaseDroppedSkulls();
-                    this.spawnAtLocation(itemstack);
+                    this.spawnAtLocation(level, itemstack);
                 }
             }
         }

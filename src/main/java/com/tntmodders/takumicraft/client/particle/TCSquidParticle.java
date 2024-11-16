@@ -7,7 +7,7 @@ import net.minecraft.client.particle.SimpleAnimatedParticle;
 import net.minecraft.client.particle.SpriteSet;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.SimpleParticleType;
-import net.minecraft.util.FastColor;
+import net.minecraft.util.ARGB;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -17,7 +17,7 @@ public class TCSquidParticle extends SimpleAnimatedParticle {
         this.friction = 0.92F;
         this.quadSize = 0.5F;
         this.setAlpha(1.0F);
-        this.setColor((float) FastColor.ARGB32.red(p_172332_), (float) FastColor.ARGB32.green(p_172332_), (float) FastColor.ARGB32.blue(p_172332_));
+        this.setColor((float) ARGB.red(p_172332_), (float) ARGB.green(p_172332_), (float) ARGB.blue(p_172332_));
         this.lifetime = (int) ((double) (this.quadSize * 12.0F) / (Math.random() * (double) 0.8F + (double) 0.2F)) * 25;
         this.setSpriteFromAge(p_172333_);
         this.hasPhysics = false;
@@ -52,7 +52,7 @@ public class TCSquidParticle extends SimpleAnimatedParticle {
 
         @Override
         public Particle createParticle(SimpleParticleType p_172347_, ClientLevel p_172348_, double p_172349_, double p_172350_, double p_172351_, double p_172352_, double p_172353_, double p_172354_) {
-            return new TCSquidParticle(p_172348_, p_172349_, p_172350_, p_172351_, p_172352_, p_172353_, p_172354_, FastColor.ARGB32.color(255, 204, 31, 102), this.sprites);
+            return new TCSquidParticle(p_172348_, p_172349_, p_172350_, p_172351_, p_172352_, p_172353_, p_172354_, ARGB.color(255, 204, 31, 102), this.sprites);
         }
     }
 
@@ -66,7 +66,7 @@ public class TCSquidParticle extends SimpleAnimatedParticle {
 
         @Override
         public Particle createParticle(SimpleParticleType p_108002_, ClientLevel p_108003_, double p_108004_, double p_108005_, double p_108006_, double p_108007_, double p_108008_, double p_108009_) {
-            return new TCSquidParticle(p_108003_, p_108004_, p_108005_, p_108006_, p_108007_, p_108008_, p_108009_, FastColor.ARGB32.color(255, 255, 255, 255), this.sprites);
+            return new TCSquidParticle(p_108003_, p_108004_, p_108005_, p_108006_, p_108007_, p_108008_, p_108009_, ARGB.color(255, 255, 255, 255), this.sprites);
         }
     }
 }

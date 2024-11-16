@@ -10,6 +10,7 @@ import com.tntmodders.takumicraft.utils.TCExplosionUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -46,9 +47,9 @@ public class TCYukariCreeper extends AbstractTCCreeper {
             for (int x = -i; x <= i; x++) {
                 for (int z = -i; z <= i; z++) {
                     if (x * x + z * z < i * i) {
-                        this.level().getProfiler().push("takumicraft_yukaricreeper_explode");
+                        //this.level().getProfiler().push("takumicraft_yukaricreeper_explode");
                         TCExplosionUtils.createExplosion(this.level(), this, this.getX() + x, this.getY(), this.getZ() + z, (float) Math.sqrt(i - Math.sqrt(x * x + z * z) + 1) * 1.75f, false);
-                        this.level().getProfiler().pop();
+                        //this.level().getProfiler().pop();
                     }
                 }
             }
@@ -59,24 +60,26 @@ public class TCYukariCreeper extends AbstractTCCreeper {
 
     @Override
     public void explodeCreeperEvent(ExplosionEvent.Detonate event) {
-        BlockState state = this.level().getBlockState(this.blockPosition().below());
-        event.getAffectedBlocks().forEach(pos -> {
-            if (pos.getY() >= this.getY()) {
-                event.getLevel().setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
-            } else if (state.getDestroySpeed(this.level(), this.blockPosition().below()) >= 0f) {
-                event.getLevel().setBlock(pos, state, 3);
-            } else {
-                event.getLevel().setBlock(pos, TCBlockCore.YUKARI_DUMMY.defaultBlockState(), 3);
-            }
-        });
-        event.getAffectedBlocks().clear();
-        DamageSource source = event.getLevel().damageSources().explosion(event.getExplosion());
-        event.getAffectedEntities().forEach(entity -> {
-            if (entity instanceof LivingEntity living && !living.isInvulnerableTo(source)) {
-                entity.hurt(source, living.getHealth() - 1f);
-            }
-        });
-        event.getAffectedEntities().removeIf(entity -> entity instanceof LivingEntity);
+        if (this.level() instanceof ServerLevel serverLevel) {
+            BlockState state = this.level().getBlockState(this.blockPosition().below());
+            event.getAffectedBlocks().forEach(pos -> {
+                if (pos.getY() >= this.getY()) {
+                    event.getLevel().setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
+                } else if (state.getDestroySpeed(this.level(), this.blockPosition().below()) >= 0f) {
+                    event.getLevel().setBlock(pos, state, 3);
+                } else {
+                    event.getLevel().setBlock(pos, TCBlockCore.YUKARI_DUMMY.defaultBlockState(), 3);
+                }
+            });
+            event.getAffectedBlocks().clear();
+            DamageSource source = event.getLevel().damageSources().explosion(event.getExplosion());
+            event.getAffectedEntities().forEach(entity -> {
+                if (entity instanceof LivingEntity living && !living.isInvulnerableTo(serverLevel, source)) {
+                    entity.hurt(source, living.getHealth() - 1f);
+                }
+            });
+            event.getAffectedEntities().removeIf(entity -> entity instanceof LivingEntity);
+        }
     }
 
     @Override

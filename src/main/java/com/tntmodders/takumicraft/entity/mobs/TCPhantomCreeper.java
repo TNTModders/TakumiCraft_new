@@ -248,7 +248,7 @@ public class TCPhantomCreeper extends AbstractTCCreeper {
             this.setSwellDir(1);
         } else if (this.getTarget() != null && Math.abs(this.getTarget().getX() - this.getX()) + Math.abs(this.getTarget().getZ() - this.getZ()) < 6 && this.getY() > this.getTarget().getY()
                 && !this.hasEffect(MobEffects.MOVEMENT_SPEED) && this.level() instanceof ServerLevel) {
-            TCZombieCreeper creeper = (TCZombieCreeper) TCEntityCore.ZOMBIE.entityType().create(this.level());
+            TCZombieCreeper creeper = (TCZombieCreeper) TCEntityCore.ZOMBIE.entityType().create(this.level(), EntitySpawnReason.MOB_SUMMONED);
             creeper.copyPosition(this);
             creeper.finalizeSpawn((ServerLevel) this.level(), this.level().getCurrentDifficultyAt(this.blockPosition()), EntitySpawnReason.MOB_SUMMONED, null);
             creeper.setItemSlot(EquipmentSlot.CHEST, new ItemStack(Items.ELYTRA));
@@ -365,14 +365,16 @@ public class TCPhantomCreeper extends AbstractTCCreeper {
                 --this.nextScanTick;
             } else {
                 this.nextScanTick = reducedTickDelay(60);
-                List<Player> list = TCPhantomCreeper.this.level().getNearbyPlayers(this.attackTargeting, TCPhantomCreeper.this, TCPhantomCreeper.this.getBoundingBox().inflate(16.0D, 64.0D, 16.0D));
+                List<Entity> list = TCPhantomCreeper.this.level().getEntities(TCPhantomCreeper.this, TCPhantomCreeper.this.getBoundingBox().inflate(16, 64, 16), entity -> entity instanceof Player player && !player.isInvulnerable());
                 if (!list.isEmpty()) {
                     list.sort(Comparator.<Entity, Double>comparing(Entity::getY).reversed());
 
-                    for (Player player : list) {
-                        if (TCPhantomCreeper.this.canAttack(player, TargetingConditions.DEFAULT)) {
-                            TCPhantomCreeper.this.setTarget(player);
-                            return true;
+                    for (Entity entity : list) {
+                        if (entity instanceof Player player) {
+                            if (TCPhantomCreeper.this.canAttack(player)) {
+                                TCPhantomCreeper.this.setTarget(player);
+                                return true;
+                            }
                         }
                     }
                 }
@@ -384,7 +386,7 @@ public class TCPhantomCreeper extends AbstractTCCreeper {
         @Override
         public boolean canContinueToUse() {
             LivingEntity livingentity = TCPhantomCreeper.this.getTarget();
-            return livingentity != null && TCPhantomCreeper.this.canAttack(livingentity, TargetingConditions.DEFAULT);
+            return livingentity != null && TCPhantomCreeper.this.canAttack(livingentity);
         }
     }
 
@@ -394,7 +396,7 @@ public class TCPhantomCreeper extends AbstractTCCreeper {
         @Override
         public boolean canUse() {
             LivingEntity livingentity = TCPhantomCreeper.this.getTarget();
-            return livingentity != null && TCPhantomCreeper.this.canAttack(livingentity, TargetingConditions.DEFAULT);
+            return livingentity != null && TCPhantomCreeper.this.canAttack(livingentity);
         }
 
         @Override
@@ -619,10 +621,10 @@ public class TCPhantomCreeper extends AbstractTCCreeper {
         @Override
         public void tick() {
             LivingEntity livingentity = TCPhantomCreeper.this.getTarget();
-            if (livingentity != null) {
+            if (livingentity != null && level() instanceof ServerLevel serverLevel) {
                 TCPhantomCreeper.this.moveTargetPoint = new Vec3(livingentity.getX(), livingentity.getY(0.5D), livingentity.getZ());
                 if (TCPhantomCreeper.this.getBoundingBox().inflate(0.2F).intersects(livingentity.getBoundingBox())) {
-                    TCPhantomCreeper.this.doHurtTarget(livingentity);
+                    TCPhantomCreeper.this.doHurtTarget(serverLevel, livingentity);
                     TCPhantomCreeper.this.attackPhase = TCPhantomCreeper.AttackPhase.CIRCLE;
                     if (!TCPhantomCreeper.this.isSilent()) {
                         TCPhantomCreeper.this.level().levelEvent(1039, TCPhantomCreeper.this.blockPosition(), 0);

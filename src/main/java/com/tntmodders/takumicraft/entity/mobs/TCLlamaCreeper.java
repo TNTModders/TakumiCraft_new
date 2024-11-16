@@ -165,11 +165,6 @@ public class TCLlamaCreeper extends AbstractTCCreeper implements VariantHolder<T
         return true;
     }
 
-    @Override
-    public boolean isBodyArmorItem(ItemStack p_30834_) {
-        return p_30834_.is(ItemTags.WOOL_CARPETS);
-    }
-
     @Nullable
     private static DyeColor getDyeColor(ItemStack p_30836_) {
         Block block = Block.byItem(p_30836_.getItem());
@@ -246,7 +241,7 @@ public class TCLlamaCreeper extends AbstractTCCreeper implements VariantHolder<T
 
     static class LlamaAttackWolfGoal extends NearestAttackableTargetGoal<Wolf> {
         public LlamaAttackWolfGoal(TCLlamaCreeper p_30843_) {
-            super(p_30843_, Wolf.class, 16, false, true, p_326997_ -> !((Wolf) p_326997_).isTame());
+            super(p_30843_, Wolf.class, 16, false, true, (entity, level) -> !((Wolf) entity).isTame());
         }
 
         @Override

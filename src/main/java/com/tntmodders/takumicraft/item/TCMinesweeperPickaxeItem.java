@@ -22,7 +22,7 @@ import java.util.List;
 
 public class TCMinesweeperPickaxeItem extends PickaxeItem implements ITCItems, ITCTranslator, ITCRecipe {
     public TCMinesweeperPickaxeItem() {
-        super(Tiers.IRON, new Item.Properties().attributes(PickaxeItem.createAttributes(Tiers.IRON, 1, -2.8f)));
+        super(ToolMaterial.IRON, 1, -2.8f, new Properties());
     }
 
     @Override

@@ -4,6 +4,7 @@ import com.tntmodders.takumicraft.core.TCBlockCore;
 import com.tntmodders.takumicraft.core.TCEntityCore;
 import com.tntmodders.takumicraft.utils.TCEntityUtils;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.Difficulty;
@@ -38,16 +39,16 @@ public class TCPierceCreeper extends AbstractTCCreeper {
             this.setInvisible(true);
             this.setInvulnerable(true);
             this.level().explode(this, this.getX(), this.getY(), this.getZ(), (float) this.explosionRadius * f, Level.ExplosionInteraction.MOB);
-            if (this.canDeath()) {
+            if (this.canDeath() && this.level() instanceof ServerLevel serverLevel) {
                 this.dead = true;
-                this.triggerOnDeathMobEffects(Entity.RemovalReason.KILLED);
+                this.triggerOnDeathMobEffects(serverLevel, Entity.RemovalReason.KILLED);
                 this.discard();
             }
         }
     }
 
     private boolean canDeath() {
-        return this.getHealth() < 1 || !this.level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING) || this.getOnPos().getY() < this.level().getMinBuildHeight() || this.isUnbreakableBlock(this.level().getBlockState(this.getOnPos())) || this.isUnbreakableBlock(this.level().getBlockState(this.getOnPos().below())) || this.tickCount > 10000;
+        return this.getHealth() < 1 || this.level() instanceof ServerLevel serverLevel && !serverLevel.getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING) || this.getOnPos().getY() < this.level().getMinY() || this.isUnbreakableBlock(this.level().getBlockState(this.getOnPos())) || this.isUnbreakableBlock(this.level().getBlockState(this.getOnPos().below())) || this.tickCount > 10000;
     }
 
     @Override

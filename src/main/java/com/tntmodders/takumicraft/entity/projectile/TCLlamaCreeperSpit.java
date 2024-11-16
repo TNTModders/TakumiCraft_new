@@ -1,7 +1,7 @@
 package com.tntmodders.takumicraft.entity.projectile;
 
-import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.entity.mobs.TCLlamaCreeper;
+import com.tntmodders.takumicraft.utils.TCEntityUtils;
 import com.tntmodders.takumicraft.utils.TCExplosionUtils;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EntityType;
@@ -13,7 +13,7 @@ import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 
 public class TCLlamaCreeperSpit extends LlamaSpit {
-    public static final EntityType<TCLlamaCreeperSpit> LLAMA_SPIT = EntityType.Builder.<TCLlamaCreeperSpit>of(TCLlamaCreeperSpit::new, MobCategory.MISC).sized(0.25F, 0.25F).clientTrackingRange(4).updateInterval(10).build(TakumiCraftCore.MODID + ":llamacreeperspit");
+    public static final EntityType<TCLlamaCreeperSpit> LLAMA_SPIT = EntityType.Builder.<TCLlamaCreeperSpit>of(TCLlamaCreeperSpit::new, MobCategory.MISC).sized(0.25F, 0.25F).clientTrackingRange(4).updateInterval(10).build(TCEntityUtils.TCEntityId("llamacreeperspit"));
 
     public TCLlamaCreeperSpit(EntityType<? extends TCLlamaCreeperSpit> p_37224_, Level p_37225_) {
         super(p_37224_, p_37225_);

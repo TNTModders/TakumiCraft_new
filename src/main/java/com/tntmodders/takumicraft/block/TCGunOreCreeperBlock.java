@@ -11,6 +11,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
@@ -53,7 +54,7 @@ public class TCGunOreCreeperBlock extends TCGunOreBlock {
 
     private void spawnCreeper(Level level, BlockPos pos) {
         if (!level.isClientSide()) {
-            TCGunOreCreeper creeper = (TCGunOreCreeper) TCEntityCore.GUNORE.entityType().create(level);
+            TCGunOreCreeper creeper = (TCGunOreCreeper) TCEntityCore.GUNORE.entityType().create(level, EntitySpawnReason.NATURAL);
             creeper.setPos(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
             level.addFreshEntity(creeper);
             creeper.ignite();

@@ -81,10 +81,10 @@ public class TCGoatRamTarget extends Behavior<TCGoatCreeper> {
         List<LivingEntity> list = level.getNearbyEntities(LivingEntity.class, this.ramTargeting, creeper, creeper.getBoundingBox());
         Brain<?> brain = creeper.getBrain();
         TCExplosionUtils.createExplosion(level, creeper, creeper.getX(), creeper.getY() + 0.5, creeper.getZ(), 0f, false);
-        if (!list.isEmpty()) {
+        if (!list.isEmpty() && list.getFirst().level() instanceof ServerLevel serverLevel) {
             LivingEntity livingentity = list.getFirst();
             DamageSource damagesource = level.damageSources().noAggroMobAttack(creeper);
-            if (livingentity.hurt(damagesource, (float) creeper.getAttributeValue(Attributes.ATTACK_DAMAGE))) {
+            if (livingentity.hurtServer(serverLevel, damagesource, (float) creeper.getAttributeValue(Attributes.ATTACK_DAMAGE))) {
                 EnchantmentHelper.doPostAttackEffects(level, livingentity, damagesource);
             }
 

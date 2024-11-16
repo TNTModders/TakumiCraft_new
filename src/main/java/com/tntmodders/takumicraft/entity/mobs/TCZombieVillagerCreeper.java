@@ -7,6 +7,7 @@ import com.tntmodders.takumicraft.client.renderer.entity.TCZombieVillagerCreeper
 import com.tntmodders.takumicraft.core.TCEntityCore;
 import com.tntmodders.takumicraft.utils.TCEntityUtils;
 import net.minecraft.Util;
+import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -34,7 +35,11 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.village.ReputationEventType;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.Monster;
-import net.minecraft.world.entity.npc.*;
+import net.minecraft.world.entity.monster.ZombieVillager;
+import net.minecraft.world.entity.npc.VillagerData;
+import net.minecraft.world.entity.npc.VillagerDataHolder;
+import net.minecraft.world.entity.npc.VillagerProfession;
+import net.minecraft.world.entity.npc.VillagerType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.item.ItemStack;
@@ -220,39 +225,44 @@ public class TCZombieVillagerCreeper extends TCZombieCreeper implements Villager
     }
 
     private void finishConversion(ServerLevel p_34399_) {
-        Villager villager = this.convertTo(EntityType.VILLAGER, false);
-        if (villager != null) {
-            for (EquipmentSlot equipmentslot : this.dropPreservedEquipment(p_341444_ -> !EnchantmentHelper.has(p_341444_, EnchantmentEffectComponents.PREVENT_ARMOR_CHANGE))) {
-                SlotAccess slotaccess = villager.getSlot(equipmentslot.getIndex() + 300);
-                slotaccess.set(this.getItemBySlot(equipmentslot));
-            }
+        this.convertTo(
+                EntityType.VILLAGER,
+                ConversionParams.single(this, false, false),
+                p_359261_ -> {
+                    for (EquipmentSlot equipmentslot : this.dropPreservedEquipment(
+                            p_34399_, p_341444_ -> !EnchantmentHelper.has(p_341444_, EnchantmentEffectComponents.PREVENT_ARMOR_CHANGE)
+                    )) {
+                        SlotAccess slotaccess = p_359261_.getSlot(equipmentslot.getIndex() + 300);
+                        slotaccess.set(this.getItemBySlot(equipmentslot));
+                    }
 
-            villager.setVillagerData(this.getVillagerData());
-            if (this.gossips != null) {
-                villager.setGossips(this.gossips);
-            }
+                    p_359261_.setVillagerData(this.getVillagerData());
+                    if (this.gossips != null) {
+                        p_359261_.setGossips(this.gossips);
+                    }
 
-            if (this.tradeOffers != null) {
-                villager.setOffers(this.tradeOffers.copy());
-            }
+                    if (this.tradeOffers != null) {
+                        p_359261_.setOffers(this.tradeOffers.copy());
+                    }
 
-            villager.setVillagerXp(this.villagerXp);
-            villager.finalizeSpawn(p_34399_, p_34399_.getCurrentDifficultyAt(villager.blockPosition()), EntitySpawnReason.CONVERSION, null);
-            villager.refreshBrain(p_34399_);
-            if (this.conversionStarter != null) {
-                Player player = p_34399_.getPlayerByUUID(this.conversionStarter);
-                if (player instanceof ServerPlayer) {
-                    //CriteriaTriggers.CURED_ZOMBIE_VILLAGER.trigger((ServerPlayer)player, this, villager);
-                    p_34399_.onReputationEvent(ReputationEventType.ZOMBIE_VILLAGER_CURED, player, villager);
+                    p_359261_.setVillagerXp(this.villagerXp);
+                    p_359261_.finalizeSpawn(p_34399_, p_34399_.getCurrentDifficultyAt(p_359261_.blockPosition()), EntitySpawnReason.CONVERSION, null);
+                    p_359261_.refreshBrain(p_34399_);
+                    if (this.conversionStarter != null) {
+                        Player player = p_34399_.getPlayerByUUID(this.conversionStarter);
+                        if (player instanceof ServerPlayer) {
+                            CriteriaTriggers.CURED_ZOMBIE_VILLAGER.trigger((ServerPlayer) player, new ZombieVillager(EntityType.ZOMBIE_VILLAGER, level()), p_359261_);
+                            p_34399_.onReputationEvent(ReputationEventType.ZOMBIE_VILLAGER_CURED, player, p_359261_);
+                        }
+                    }
+
+                    p_359261_.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 200, 0));
+                    if (!this.isSilent()) {
+                        p_34399_.levelEvent(null, 1027, this.blockPosition(), 0);
+                    }
+                    net.minecraftforge.event.ForgeEventFactory.onLivingConvert(this, p_359261_);
                 }
-            }
-
-            villager.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 200, 0));
-            if (!this.isSilent()) {
-                p_34399_.levelEvent(null, 1027, this.blockPosition(), 0);
-            }
-            net.minecraftforge.event.ForgeEventFactory.onLivingConvert(this, villager);
-        }
+        );
     }
 
     private int getConversionProgress() {

@@ -160,7 +160,7 @@ public class TCVindicatorCreeper extends AbstractTCIllagerCreeper {
 
     static class VindicatorJohnnyAttackGoal extends NearestAttackableTargetGoal<LivingEntity> {
         public VindicatorJohnnyAttackGoal(TCVindicatorCreeper p_34117_) {
-            super(p_34117_, LivingEntity.class, 0, true, true, LivingEntity::attackable);
+            super(p_34117_, LivingEntity.class, 0, true, true, (p_366054_, p_368223_) -> p_366054_.attackable());
         }
 
         @Override

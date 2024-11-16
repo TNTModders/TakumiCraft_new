@@ -4,6 +4,7 @@ import com.tntmodders.takumicraft.client.renderer.entity.TCRavagerCreeperRendere
 import com.tntmodders.takumicraft.core.TCBlockCore;
 import com.tntmodders.takumicraft.core.TCEntityCore;
 import com.tntmodders.takumicraft.entity.mobs.AbstractTCCreeper;
+import com.tntmodders.takumicraft.utils.TCEntityUtils;
 import com.tntmodders.takumicraft.utils.TCExplosionUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ColorParticleOption;
@@ -86,7 +87,7 @@ public class TCRavagerCreeper extends AbstractTCBossCreeper {
         this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 6.0F));
         this.goalSelector.addGoal(10, new LookAtPlayerGoal(this, Mob.class, 8.0F));
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, Player.class, true));
-        this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, AbstractVillager.class, true, p_199899_ -> !p_199899_.isBaby()));
+        this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, AbstractVillager.class, true, (p_199899_, p_364954_) -> !p_199899_.isBaby()));
         this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, IronGolem.class, true));
     }
 
@@ -152,7 +153,7 @@ public class TCRavagerCreeper extends AbstractTCBossCreeper {
                 this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(Mth.lerp(0.1, d1, d0));
             }
 
-            if (this.getTarget() != null && this.horizontalCollision && net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.level(), this)) {
+            if (this.level() instanceof ServerLevel serverLevel && this.getTarget() != null && this.horizontalCollision && net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(serverLevel, this)) {
                 boolean flag = false;
                 AABB aabb = this.getBoundingBox().inflate(0.2);
 
@@ -169,9 +170,9 @@ public class TCRavagerCreeper extends AbstractTCBossCreeper {
                     if (!blockstate.is(TCBlockCore.ANTI_EXPLOSION) && blockstate.getExplosionResistance(this.level(), blockpos, null) < 5f) {
                         boolean destFlag = this.level().destroyBlock(blockpos, true, this);
                         if (destFlag) {
-                            Explosion explosion = TCExplosionUtils.createExplosion(this.level(), this, blockpos, 0.5f);
+                            TCExplosionUtils.createExplosion(serverLevel, this, blockpos, 0.5f);
                             if (this.getRandom().nextInt(5) == 0) {
-                                this.hurt(this.damageSources().explosion(explosion), (float) (this.getRandom().nextGaussian() * 5));
+                                this.hurt(this.damageSources().explosion(this, this), (float) (this.getRandom().nextGaussian() * 5));
                             }
                         }
                         flag = destFlag || flag;
@@ -301,7 +302,7 @@ public class TCRavagerCreeper extends AbstractTCBossCreeper {
     }
 
     @Override
-    public boolean doHurtTarget(Entity target) {
+    public boolean doHurtTarget(ServerLevel serverLevel, Entity target) {
         this.attackTick = 10;
         TCExplosionUtils.createExplosion(this.level(), this, target.getX(), target.getY(), target.getZ(), this.isPowered() ? 5 : 3, false);
         if (this.isPowered() && target.isAlive() && this.level() instanceof ServerLevel level) {
@@ -315,7 +316,7 @@ public class TCRavagerCreeper extends AbstractTCBossCreeper {
         }
         this.level().broadcastEntityEvent(this, (byte) 4);
         this.playSound(SoundEvents.RAVAGER_ATTACK, 1.0F, 1.0F);
-        return super.doHurtTarget(target);
+        return super.doHurtTarget(serverLevel, target);
     }
 
     @Nullable

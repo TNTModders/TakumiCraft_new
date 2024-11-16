@@ -76,7 +76,7 @@ public class TCParrotCreeper extends AbstractTCCreeper implements FlyingAnimal {
     public void explodeCreeperEvent(ExplosionEvent.Detonate event) {
         event.getAffectedEntities().forEach(entity -> {
             if (entity instanceof ServerPlayer player) {
-                Parrot parrot = EntityType.PARROT.create(this.level());
+                Parrot parrot = EntityType.PARROT.create(this.level(), EntitySpawnReason.MOB_SUMMONED);
                 parrot.setVariant(Parrot.Variant.GREEN);
                 parrot.copyPosition(this);
                 parrot.addTag("parrotcreeper");
@@ -156,7 +156,7 @@ public class TCParrotCreeper extends AbstractTCCreeper implements FlyingAnimal {
                         );
             }
 
-            return InteractionResult.sidedSuccess(this.level().isClientSide);
+            return InteractionResult.SUCCESS;
         } else if (!itemstack.is(ItemTags.PARROT_POISONOUS_FOOD)) {
             {
                 return super.mobInteract(p_29414_, p_29415_);
@@ -168,7 +168,7 @@ public class TCParrotCreeper extends AbstractTCCreeper implements FlyingAnimal {
                 this.hurt(this.damageSources().playerAttack(p_29414_), Float.MAX_VALUE);
             }
 
-            return InteractionResult.sidedSuccess(this.level().isClientSide);
+            return InteractionResult.SUCCESS;
         }
     }
 

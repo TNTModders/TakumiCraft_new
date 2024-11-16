@@ -87,7 +87,7 @@ public class TCSpiderCreeper extends AbstractTCCreeper {
                 int i = this.getRandom().nextInt(5000 / this.level().getDifficulty().getId());
                 if (i == 0) {
                     for (int t = 0; t < 1 + this.level().getDifficulty().getId(); t++) {
-                        TCMiniSpiderCreeper miniSpiderCreeper = (TCMiniSpiderCreeper) TCEntityCore.MINI_SPIDER.entityType().create(this.level());
+                        TCMiniSpiderCreeper miniSpiderCreeper = (TCMiniSpiderCreeper) TCEntityCore.MINI_SPIDER.entityType().create(this.level(), EntitySpawnReason.TRIGGERED);
                         miniSpiderCreeper.copyPosition(this);
                         this.level().addFreshEntity(miniSpiderCreeper);
                     }
@@ -161,7 +161,7 @@ public class TCSpiderCreeper extends AbstractTCCreeper {
         p_33793_ = super.finalizeSpawn(p_33790_, p_33791_, p_33792_, p_33793_);
         RandomSource randomsource = p_33790_.getRandom();
         if (this.getContext() == TCEntityCore.SPIDER && randomsource.nextInt(100) == 0) {
-            var entity = TCEntityCore.SKELETON.entityType().create(this.level());
+            var entity = TCEntityCore.SKELETON.entityType().create(this.level(), EntitySpawnReason.MOB_SUMMONED);
             if (entity instanceof TCSkeletonCreeper skeleton) {
                 skeleton.moveTo(this.getX(), this.getY(), this.getZ(), this.getYRot(), 0.0F);
                 skeleton.finalizeSpawn(p_33790_, p_33791_, p_33792_, null);

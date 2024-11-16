@@ -15,7 +15,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -42,7 +41,6 @@ import net.minecraft.world.level.*;
 import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.WorldgenRandom;
-import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
@@ -104,7 +102,7 @@ public class TCSlimeCreeper extends AbstractTCCreeper {
         this.goalSelector.addGoal(3, new TCSlimeCreeper.SlimeRandomDirectionGoal(this));
         this.goalSelector.addGoal(5, new TCSlimeCreeper.SlimeKeepOnJumpingGoal(this));
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, 10, true, false,
-                p_33641_ -> Math.abs(p_33641_.getY() - this.getY()) <= 4.0D));
+                (entity, level) -> Math.abs(entity.getY() - this.getY()) <= 4.0D));
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, IronGolem.class, true));
     }
 
@@ -244,7 +242,7 @@ public class TCSlimeCreeper extends AbstractTCCreeper {
             for (int l = 0; l < k; ++l) {
                 float f1 = ((float) (l % 2) - 0.5F) * f;
                 float f2 = ((float) (l / 2) - 0.5F) * f;
-                TCSlimeCreeper slime = this.getType().create(this.level());
+                TCSlimeCreeper slime = this.getType().create(this.level(), EntitySpawnReason.TRIGGERED);
                 if (slime != null) {
                     if (this.isPersistenceRequired()) {
                         slime.setPersistenceRequired();
@@ -274,7 +272,7 @@ public class TCSlimeCreeper extends AbstractTCCreeper {
             for (int l = 0; l < k; ++l) {
                 float f1 = ((float) (l % 2) - 0.5F) * f;
                 float f2 = ((float) (l / 2) - 0.5F) * f;
-                TCSlimeCreeper slime = this.getType().create(this.level());
+                TCSlimeCreeper slime = this.getType().create(this.level(), EntitySpawnReason.TRIGGERED);
                 if (this.isPersistenceRequired()) {
                     slime.setPersistenceRequired();
                 }
@@ -308,9 +306,9 @@ public class TCSlimeCreeper extends AbstractTCCreeper {
     }
 
     protected void dealDamage(LivingEntity p_33638_) {
-        if (this.isAlive()) {
+        if (this.isAlive() && this.level() instanceof ServerLevel serverLevel) {
             int i = this.getSize();
-            if (this.distanceToSqr(p_33638_) < 0.6D * (double) i * 0.6D * (double) i && this.hasLineOfSight(p_33638_) && p_33638_.hurt(this.level().damageSources().mobAttack(this), this.getAttackDamage())) {
+            if (this.distanceToSqr(p_33638_) < 0.6D * (double) i * 0.6D * (double) i && this.hasLineOfSight(p_33638_) && p_33638_.hurtServer(serverLevel, serverLevel.damageSources().mobAttack(this), this.getAttackDamage())) {
                 this.playSound(SoundEvents.SLIME_ATTACK, 1.0F, (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F);
                 if (this.level() instanceof ServerLevel serverlevel) {
                     EnchantmentHelper.doPostAttackEffects(serverlevel, p_33638_, this.damageSources().mobAttack(this));
@@ -339,11 +337,6 @@ public class TCSlimeCreeper extends AbstractTCCreeper {
 
     protected SoundEvent getSquishSound() {
         return this.isTiny() ? SoundEvents.SLIME_SQUISH_SMALL : SoundEvents.SLIME_SQUISH;
-    }
-
-    @Override
-    protected ResourceKey<LootTable> getDefaultLootTable() {
-        return this.getSize() == 1 ? this.getType().getDefaultLootTable() : BuiltInLootTables.EMPTY;
     }
 
     @Override

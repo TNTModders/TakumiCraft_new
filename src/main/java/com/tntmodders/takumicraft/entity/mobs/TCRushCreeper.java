@@ -5,6 +5,7 @@ import com.tntmodders.takumicraft.core.TCEntityCore;
 import com.tntmodders.takumicraft.utils.TCEntityUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.damagesource.DamageSource;
@@ -34,14 +35,14 @@ public class TCRushCreeper extends AbstractTCCreeper {
 
     @Override
     public void explodeCreeper() {
-        if (!this.level().isClientSide) {
+        if (this.level() instanceof ServerLevel serverLevel) {
             float f = this.isPowered() ? 2.0F : 1.0F;
             this.dead = true;
             for (int i = 0; i < (this.isPowered() ? 5 : 3); i++) {
                 this.level().explode(this, this.getX(), this.getY() - 0.25f, this.getZ(), (float) this.explosionRadius * f, Level.ExplosionInteraction.MOB);
             }
             this.spawnLingeringCloud();
-            this.triggerOnDeathMobEffects(Entity.RemovalReason.KILLED);
+            this.triggerOnDeathMobEffects(serverLevel, Entity.RemovalReason.KILLED);
             this.discard();
         }
     }

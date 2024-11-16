@@ -97,7 +97,7 @@ public class TCWitherSkeletonCreeper extends AbstractTCSkeletonCreeper {
         if (entity instanceof Creeper creeper) {
             if (creeper.canDropMobsSkull()) {
                 creeper.increaseDroppedSkulls();
-                this.spawnAtLocation(Items.WITHER_SKELETON_SKULL);
+                this.spawnAtLocation(p_342918_, Items.WITHER_SKELETON_SKULL);
             }
         }
     }
@@ -119,12 +119,12 @@ public class TCWitherSkeletonCreeper extends AbstractTCSkeletonCreeper {
     }
 
     @Override
-    public boolean doHurtTarget(Entity p_34169_) {
-        if (!super.doHurtTarget(p_34169_)) {
+    public boolean doHurtTarget(ServerLevel level, Entity entity) {
+        if (!super.doHurtTarget(level, entity)) {
             return false;
         } else {
-            if (p_34169_ instanceof LivingEntity) {
-                ((LivingEntity) p_34169_).addEffect(new MobEffectInstance(MobEffects.WITHER, 200), this);
+            if (entity instanceof LivingEntity) {
+                ((LivingEntity) entity).addEffect(new MobEffectInstance(MobEffects.WITHER, 200), this);
             }
 
             return true;

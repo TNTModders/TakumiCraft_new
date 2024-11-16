@@ -57,17 +57,17 @@ public class TCMaceCreeper extends TCZombieCreeper {
     }
 
     @Override
-    protected boolean canReplaceCurrentItem(ItemStack p_32364_, ItemStack p_32365_) {
-        if (p_32365_.is(Items.HEAVY_CORE)) {
+    protected boolean canReplaceCurrentItem(ItemStack oldStack, ItemStack newStack, EquipmentSlot slot) {
+        if (newStack.is(Items.HEAVY_CORE)) {
             return false;
-        } else if (p_32365_.is(TCItemCore.CREEPER_MACE)) {
-            if (p_32364_.is(TCItemCore.CREEPER_MACE)) {
-                return p_32364_.getDamageValue() < p_32365_.getDamageValue();
+        } else if (newStack.is(TCItemCore.CREEPER_MACE)) {
+            if (oldStack.is(TCItemCore.CREEPER_MACE)) {
+                return oldStack.getDamageValue() < newStack.getDamageValue();
             } else {
                 return false;
             }
         } else {
-            return p_32364_.is(TCItemCore.CREEPER_MACE) || super.canReplaceCurrentItem(p_32364_, p_32365_);
+            return oldStack.is(TCItemCore.CREEPER_MACE) || super.canReplaceCurrentItem(oldStack, newStack, slot);
         }
     }
 

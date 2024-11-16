@@ -11,8 +11,8 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.ConversionParams;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.monster.Creeper;
@@ -97,15 +97,14 @@ public class TCSkeletonCreeper extends AbstractTCSkeletonCreeper {
     }
 
     protected void doFreezeConversion() {
-        EntityType<Mob> type = (EntityType<Mob>) TCEntityCore.STRAY.entityType();
+        EntityType type = TCEntityCore.STRAY.entityType();
         if (!net.minecraftforge.event.ForgeEventFactory.canLivingConvert(this, type, timer -> this.conversionTime = timer))
             return;
-        var result = this.convertTo(type, true);
-        if (!this.isSilent()) {
-            this.level().levelEvent(null, 1048, this.blockPosition(), 0);
-        }
-        net.minecraftforge.event.ForgeEventFactory.onLivingConvert(this, result);
-
+        this.convertTo(type, ConversionParams.single(this, true, true), p_361572_ -> {
+            if (!this.isSilent()) {
+                this.level().levelEvent(null, 1048, this.blockPosition(), 0);
+            }
+        });
     }
 
     @Override
