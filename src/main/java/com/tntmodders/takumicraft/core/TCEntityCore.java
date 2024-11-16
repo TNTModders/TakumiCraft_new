@@ -13,6 +13,7 @@ import com.tntmodders.takumicraft.entity.projectile.*;
 import com.tntmodders.takumicraft.utils.TCLoggingUtils;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
@@ -229,5 +230,9 @@ public class TCEntityCore {
             }
         });
         TCLoggingUtils.completeRegistry("EntitySpawn");
+    }
+
+    public static ResourceKey<EntityType<?>> TCEntityId(String id) {
+        return ResourceKey.create(Registries.ENTITY_TYPE, ResourceLocation.tryBuild(TakumiCraftCore.MODID, id));
     }
 }

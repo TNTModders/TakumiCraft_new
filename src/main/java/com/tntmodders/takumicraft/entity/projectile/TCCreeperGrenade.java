@@ -1,7 +1,6 @@
 package com.tntmodders.takumicraft.entity.projectile;
 
 import com.tntmodders.takumicraft.core.TCItemCore;
-import com.tntmodders.takumicraft.utils.TCEntityUtils;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -11,7 +10,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 
 public class TCCreeperGrenade extends AbstractTCGrenade {
-    public static final EntityType<TCCreeperGrenade> GRENADE = EntityType.Builder.<TCCreeperGrenade>of(TCCreeperGrenade::new, MobCategory.MISC).sized(0.25F, 0.25F).clientTrackingRange(4).updateInterval(10).build(TCEntityUtils.TCEntityId("takumithrowgrenade"));
+    public static final EntityType<TCCreeperGrenade> GRENADE = EntityType.Builder.<TCCreeperGrenade>of(TCCreeperGrenade::new, MobCategory.MISC).sized(0.25F, 0.25F).clientTrackingRange(4).updateInterval(10).build(TCEntityCore.TCEntityId("takumithrowgrenade"));
     private int power = 10;
 
     public TCCreeperGrenade(EntityType<? extends ThrowableItemProjectile> p_37442_, Level p_37443_) {

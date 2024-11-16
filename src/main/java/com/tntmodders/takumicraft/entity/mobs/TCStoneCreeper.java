@@ -53,7 +53,7 @@ public class TCStoneCreeper extends AbstractTCCreeper {
 
     public static class TCStoneCreeperContext implements TCCreeperContext<TCStoneCreeper> {
         private static final String NAME = "stonecreeper";
-        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCStoneCreeper::new, MobCategory.MONSTER).sized(0.6F, 1.7F).clientTrackingRange(8).build(TCEntityUtils.TCEntityId(NAME));
+        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCStoneCreeper::new, MobCategory.MONSTER).sized(0.6F, 1.7F).clientTrackingRange(8).build(TCEntityCore.TCEntityId(NAME));
 
         @Override
         public String getRegistryName() {

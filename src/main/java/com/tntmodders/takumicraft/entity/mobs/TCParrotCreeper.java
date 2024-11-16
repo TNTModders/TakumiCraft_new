@@ -332,7 +332,7 @@ public class TCParrotCreeper extends AbstractTCCreeper implements FlyingAnimal {
         private static final String NAME = "parrotcreeper";
         public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder
                 .of(TCParrotCreeper::new, MobCategory.MONSTER).sized(0.5F, 0.9F).eyeHeight(0.54F).passengerAttachments(0.4625F).clientTrackingRange(8)
-                .build(TCEntityUtils.TCEntityId(NAME));
+                .build(TCEntityCore.TCEntityId(NAME));
 
         @Override
         public String getRegistryName() {

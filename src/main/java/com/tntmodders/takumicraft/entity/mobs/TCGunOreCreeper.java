@@ -3,7 +3,6 @@ package com.tntmodders.takumicraft.entity.mobs;
 import com.tntmodders.takumicraft.client.renderer.entity.TCBlockCreeperRenderer;
 import com.tntmodders.takumicraft.core.TCBlockCore;
 import com.tntmodders.takumicraft.core.TCEntityCore;
-import com.tntmodders.takumicraft.utils.TCEntityUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
@@ -64,7 +63,7 @@ public class TCGunOreCreeper extends AbstractTCBlockCreeper {
     public static class TCGunOreCreeperContext implements TCCreeperContext<TCGunOreCreeper> {
         private static final String NAME = "gunorecreeper";
         public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder
-                .of(TCGunOreCreeper::new, MobCategory.MONSTER).sized(1, 1).clientTrackingRange(8).build(TCEntityUtils.TCEntityId(NAME));
+                .of(TCGunOreCreeper::new, MobCategory.MONSTER).sized(1, 1).clientTrackingRange(8).build(TCEntityCore.TCEntityId(NAME));
 
         @Override
         public String getRegistryName() {

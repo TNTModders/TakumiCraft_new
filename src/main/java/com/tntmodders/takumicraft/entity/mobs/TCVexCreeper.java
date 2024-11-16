@@ -228,7 +228,7 @@ public class TCVexCreeper extends AbstractTCCreeper implements TraceableEntity {
 
     public static class TCVexCreeperContext implements TCCreeperContext<TCVexCreeper> {
         private static final String NAME = "vexcreeper";
-        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCVexCreeper::new, MobCategory.MONSTER).fireImmune().sized(0.4F, 0.8F).eyeHeight(0.51875F).passengerAttachments(0.7375F).ridingOffset(0.04F).clientTrackingRange(8).build(TCEntityUtils.TCEntityId(NAME));
+        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCVexCreeper::new, MobCategory.MONSTER).fireImmune().sized(0.4F, 0.8F).eyeHeight(0.51875F).passengerAttachments(0.7375F).ridingOffset(0.04F).clientTrackingRange(8).build(TCEntityCore.TCEntityId(NAME));
 
         @Override
         public String getRegistryName() {

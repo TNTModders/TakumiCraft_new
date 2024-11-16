@@ -8,7 +8,6 @@ import com.tntmodders.takumicraft.core.TCItemCore;
 import com.tntmodders.takumicraft.entity.ai.TCKingCreeperSwellGoal;
 import com.tntmodders.takumicraft.entity.ai.boss.king.*;
 import com.tntmodders.takumicraft.entity.mobs.AbstractTCCreeper;
-import com.tntmodders.takumicraft.utils.TCEntityUtils;
 import com.tntmodders.takumicraft.utils.TCExplosionUtils;
 import com.tntmodders.takumicraft.utils.TCLoggingUtils;
 import net.minecraft.core.BlockPos;
@@ -359,7 +358,7 @@ public class TCKingCreeper extends AbstractTCBossCreeper {
 
     public static class TCKingCreeperContext implements TCCreeperContext<TCKingCreeper> {
         private static final String NAME = "kingcreeper";
-        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCKingCreeper::new, MobCategory.MONSTER).sized(0.6F, 1.7F).clientTrackingRange(8).build(TCEntityUtils.TCEntityId(NAME));
+        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCKingCreeper::new, MobCategory.MONSTER).sized(0.6F, 1.7F).clientTrackingRange(8).build(TCEntityCore.TCEntityId(NAME));
 
         @Override
         public String getRegistryName() {

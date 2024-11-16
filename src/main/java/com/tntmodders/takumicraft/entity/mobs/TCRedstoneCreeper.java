@@ -26,7 +26,7 @@ public class TCRedstoneCreeper extends AbstractTCCreeper {
 
     public static class TCRedstoneCreeperContext implements TCCreeperContext<TCRedstoneCreeper> {
         private static final String NAME = "redstonecreeper";
-        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCRedstoneCreeper::new, MobCategory.MONSTER).sized(0.6F, 1.7F).clientTrackingRange(8).build(TCEntityUtils.TCEntityId(NAME));
+        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCRedstoneCreeper::new, MobCategory.MONSTER).sized(0.6F, 1.7F).clientTrackingRange(8).build(TCEntityCore.TCEntityId(NAME));
 
         @Override
         public String getRegistryName() {

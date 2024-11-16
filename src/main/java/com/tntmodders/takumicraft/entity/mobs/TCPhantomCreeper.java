@@ -291,7 +291,7 @@ public class TCPhantomCreeper extends AbstractTCCreeper {
         private static final String NAME = "phantomcreeper";
         public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder
                 .of(TCPhantomCreeper::new, MobCategory.MONSTER).sized(0.9F, 0.5F).clientTrackingRange(8)
-                .build(TCEntityUtils.TCEntityId(NAME));
+                .build(TCEntityCore.TCEntityId(NAME));
 
         @Override
         public String getRegistryName() {

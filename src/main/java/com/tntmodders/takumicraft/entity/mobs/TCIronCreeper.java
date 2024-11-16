@@ -1,7 +1,6 @@
 package com.tntmodders.takumicraft.entity.mobs;
 
 import com.tntmodders.takumicraft.core.TCEntityCore;
-import com.tntmodders.takumicraft.utils.TCEntityUtils;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -26,7 +25,7 @@ public class TCIronCreeper extends AbstractTCCreeper {
 
     public static class TCIronCreeperContext implements TCCreeperContext<TCIronCreeper> {
         private static final String NAME = "ironcreeper";
-        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCIronCreeper::new, MobCategory.MONSTER).sized(0.6F / 2, 1.7F / 2).clientTrackingRange(8).build(TCEntityUtils.TCEntityId(NAME));
+        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCIronCreeper::new, MobCategory.MONSTER).sized(0.6F / 2, 1.7F / 2).clientTrackingRange(8).build(TCEntityCore.TCEntityId(NAME));
 
         @Override
         public String getRegistryName() {

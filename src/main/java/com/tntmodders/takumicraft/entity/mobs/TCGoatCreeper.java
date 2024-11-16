@@ -5,7 +5,6 @@ import com.mojang.serialization.Dynamic;
 import com.tntmodders.takumicraft.client.renderer.entity.TCGoatCreeperRenderer;
 import com.tntmodders.takumicraft.core.TCEntityCore;
 import com.tntmodders.takumicraft.entity.ai.goat.TCGoatCreeperAi;
-import com.tntmodders.takumicraft.utils.TCEntityUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
@@ -329,7 +328,7 @@ public class TCGoatCreeper extends AbstractTCCreeper {
 
     public static class TCGoatCreeperContext implements TCCreeperContext<TCGoatCreeper> {
         private static final String NAME = "goatcreeper";
-        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCGoatCreeper::new, MobCategory.MONSTER).sized(0.9F, 1.3F).passengerAttachments(1.1125F).clientTrackingRange(10).build(TCEntityUtils.TCEntityId(NAME));
+        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCGoatCreeper::new, MobCategory.MONSTER).sized(0.9F, 1.3F).passengerAttachments(1.1125F).clientTrackingRange(10).build(TCEntityCore.TCEntityId(NAME));
 
         @Override
         public String getRegistryName() {

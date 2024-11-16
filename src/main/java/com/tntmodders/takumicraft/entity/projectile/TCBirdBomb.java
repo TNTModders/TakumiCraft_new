@@ -1,7 +1,6 @@
 package com.tntmodders.takumicraft.entity.projectile;
 
 import com.tntmodders.takumicraft.entity.mobs.TCBirdCreeper;
-import com.tntmodders.takumicraft.utils.TCEntityUtils;
 import com.tntmodders.takumicraft.utils.TCExplosionUtils;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -13,7 +12,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.HitResult;
 
 public class TCBirdBomb extends ThrowableItemProjectile {
-    public static final EntityType<TCBirdBomb> BIRD_BOMB = EntityType.Builder.<TCBirdBomb>of(TCBirdBomb::new, MobCategory.MISC).sized(0.25F, 0.25F).clientTrackingRange(4).updateInterval(10).build(TCEntityUtils.TCEntityId("birdbomb"));
+    public static final EntityType<TCBirdBomb> BIRD_BOMB = EntityType.Builder.<TCBirdBomb>of(TCBirdBomb::new, MobCategory.MISC).sized(0.25F, 0.25F).clientTrackingRange(4).updateInterval(10).build(TCEntityCore.TCEntityId("birdbomb"));
 
     public TCBirdBomb(EntityType type, Level p_37443_) {
         super(type, p_37443_);

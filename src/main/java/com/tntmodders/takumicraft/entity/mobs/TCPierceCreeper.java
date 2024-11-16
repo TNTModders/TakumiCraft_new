@@ -89,7 +89,7 @@ public class TCPierceCreeper extends AbstractTCCreeper {
 
     public static class TCPierceCreeperContext implements TCCreeperContext<TCPierceCreeper> {
         private static final String NAME = "piercecreeper";
-        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCPierceCreeper::new, MobCategory.MONSTER).sized(0.6F, 1.7F).clientTrackingRange(16).build(TCEntityUtils.TCEntityId(NAME));
+        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCPierceCreeper::new, MobCategory.MONSTER).sized(0.6F, 1.7F).clientTrackingRange(16).build(TCEntityCore.TCEntityId(NAME));
 
         @Override
         public String getRegistryName() {

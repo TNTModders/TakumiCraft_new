@@ -177,7 +177,7 @@ public class TCVindicatorCreeper extends AbstractTCIllagerCreeper {
 
     public static class TCVindicatorCreeperContext implements TCCreeperContext<TCVindicatorCreeper> {
         private static final String NAME = "vindicatorcreeper";
-        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCVindicatorCreeper::new, MobCategory.MONSTER).sized(0.6F, 1.95F).passengerAttachments(2.0F).ridingOffset(-0.6F).clientTrackingRange(8).build(TCEntityUtils.TCEntityId(NAME));
+        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCVindicatorCreeper::new, MobCategory.MONSTER).sized(0.6F, 1.95F).passengerAttachments(2.0F).ridingOffset(-0.6F).clientTrackingRange(8).build(TCEntityCore.TCEntityId(NAME));
 
         @Override
         public String getRegistryName() {

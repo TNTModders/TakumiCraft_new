@@ -3,7 +3,6 @@ package com.tntmodders.takumicraft.entity.mobs;
 import com.tntmodders.takumicraft.client.renderer.entity.TCSquidCreeperRenderer;
 import com.tntmodders.takumicraft.core.TCEntityCore;
 import com.tntmodders.takumicraft.core.TCParticleTypeCore;
-import com.tntmodders.takumicraft.utils.TCEntityUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
@@ -143,7 +142,7 @@ public class TCGlowingSquidCreeper extends TCSquidCreeper {
 
     public static class TCSquidCreeperContext implements TCCreeperContext<TCGlowingSquidCreeper> {
         private static final String NAME = "glowingsquidcreeper";
-        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCGlowingSquidCreeper::new, MobCategory.MONSTER).sized(0.9F, 1.4F).clientTrackingRange(10).build(TCEntityUtils.TCEntityId(NAME));
+        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCGlowingSquidCreeper::new, MobCategory.MONSTER).sized(0.9F, 1.4F).clientTrackingRange(10).build(TCEntityCore.TCEntityId(NAME));
 
         @Override
         public String getRegistryName() {

@@ -1,6 +1,5 @@
 package com.tntmodders.takumicraft.entity.projectile;
 
-import com.tntmodders.takumicraft.utils.TCEntityUtils;
 import com.tntmodders.takumicraft.utils.TCExplosionUtils;
 import net.minecraft.core.particles.ItemParticleOption;
 import net.minecraft.core.particles.ParticleOptions;
@@ -24,7 +23,7 @@ import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 
 public class TCAmethystBomb extends ThrowableItemProjectile {
-    public static final EntityType<TCAmethystBomb> AMETHYST_BOMB = EntityType.Builder.<TCAmethystBomb>of(TCAmethystBomb::new, MobCategory.MISC).sized(0.25F, 0.25F).clientTrackingRange(4).updateInterval(10).build(TCEntityUtils.TCEntityId("amethystbomb"));
+    public static final EntityType<TCAmethystBomb> AMETHYST_BOMB = EntityType.Builder.<TCAmethystBomb>of(TCAmethystBomb::new, MobCategory.MISC).sized(0.25F, 0.25F).clientTrackingRange(4).updateInterval(10).build(TCEntityCore.TCEntityId("amethystbomb"));
 
     private int frozenTick;
 

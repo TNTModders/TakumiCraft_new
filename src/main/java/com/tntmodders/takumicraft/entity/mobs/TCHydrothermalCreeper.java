@@ -2,7 +2,6 @@ package com.tntmodders.takumicraft.entity.mobs;
 
 import com.tntmodders.takumicraft.client.renderer.entity.TCBlockCreeperRenderer;
 import com.tntmodders.takumicraft.core.TCEntityCore;
-import com.tntmodders.takumicraft.utils.TCEntityUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.tags.EntityTypeTags;
@@ -85,7 +84,7 @@ public class TCHydrothermalCreeper extends AbstractTCBlockCreeper {
     public static class TCHydrothermalCreeperContext implements TCCreeperContext<TCHydrothermalCreeper> {
         private static final String NAME = "hydrothermalcreeper";
         public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder
-                .of(TCHydrothermalCreeper::new, MobCategory.MONSTER).sized(1, 1).clientTrackingRange(8).build(TCEntityUtils.TCEntityId(NAME));
+                .of(TCHydrothermalCreeper::new, MobCategory.MONSTER).sized(1, 1).clientTrackingRange(8).build(TCEntityCore.TCEntityId(NAME));
 
         @Override
         public String getRegistryName() {

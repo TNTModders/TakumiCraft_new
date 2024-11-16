@@ -76,7 +76,7 @@ public class TCPigCreeper extends AbstractTCCreeper {
 
     public static class TCPigCreeperContext implements TCCreeperContext<TCPigCreeper> {
         private static final String NAME = "pigcreeper";
-        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCPigCreeper::new, MobCategory.MONSTER).sized(0.9F, 1.4F).clientTrackingRange(10).build(TCEntityUtils.TCEntityId(NAME));
+        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCPigCreeper::new, MobCategory.MONSTER).sized(0.9F, 1.4F).clientTrackingRange(10).build(TCEntityCore.TCEntityId(NAME));
 
         @Override
         public String getRegistryName() {

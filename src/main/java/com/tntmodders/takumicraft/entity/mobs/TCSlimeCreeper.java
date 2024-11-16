@@ -603,7 +603,7 @@ public class TCSlimeCreeper extends AbstractTCCreeper {
         private static final String NAME = "slimecreeper";
         public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder
                 .of(TCSlimeCreeper::new, MobCategory.MONSTER).sized(2.04f, 2.04f).clientTrackingRange(10)
-                .build(TCEntityUtils.TCEntityId(NAME));
+                .build(TCEntityCore.TCEntityId(NAME));
 
         @Override
         public String getRegistryName() {

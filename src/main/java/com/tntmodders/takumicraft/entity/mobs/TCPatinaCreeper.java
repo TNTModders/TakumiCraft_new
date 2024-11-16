@@ -53,7 +53,7 @@ public class TCPatinaCreeper extends AbstractTCCreeper {
         private static final String NAME = "patinacreeper";
         public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder
                 .of(TCPatinaCreeper::new, MobCategory.MONSTER).sized(0.6F, 1.7F).clientTrackingRange(8)
-                .build(TCEntityUtils.TCEntityId(NAME));
+                .build(TCEntityCore.TCEntityId(NAME));
 
         @Override
         public String getRegistryName() {

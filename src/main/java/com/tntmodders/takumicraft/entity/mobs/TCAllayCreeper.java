@@ -6,7 +6,6 @@ import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.client.renderer.entity.TCAllayCreeperRenderer;
 import com.tntmodders.takumicraft.core.TCEntityCore;
 import com.tntmodders.takumicraft.entity.ai.allay.TCAllayCreeperAi;
-import com.tntmodders.takumicraft.utils.TCEntityUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.core.Holder;
@@ -495,7 +494,7 @@ public class TCAllayCreeper extends AbstractTCCreeper implements InventoryCarrie
 
     public static class TCAllayCreeperContext implements TCCreeperContext<TCAllayCreeper> {
         private static final String NAME = "allaycreeper";
-        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCAllayCreeper::new, MobCategory.MONSTER).sized(0.35F, 0.6F).eyeHeight(0.36F).ridingOffset(0.04F).clientTrackingRange(8).updateInterval(2).build(TCEntityUtils.TCEntityId(NAME));
+        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCAllayCreeper::new, MobCategory.MONSTER).sized(0.35F, 0.6F).eyeHeight(0.36F).ridingOffset(0.04F).clientTrackingRange(8).updateInterval(2).build(TCEntityCore.TCEntityId(NAME));
 
         @Override
         public String getRegistryName() {

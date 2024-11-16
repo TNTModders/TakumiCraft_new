@@ -40,7 +40,7 @@ public class TCNetheriteCreeper extends AbstractTCCreeper {
 
     public static class TCNetheriteCreeperContext implements TCCreeperContext<TCNetheriteCreeper> {
         private static final String NAME = "netheritecreeper";
-        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCNetheriteCreeper::new, MobCategory.MONSTER).sized(0.6f * 0.75f, 1.7f * 0.75f).clientTrackingRange(8).fireImmune().build(TCEntityUtils.TCEntityId(NAME));
+        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCNetheriteCreeper::new, MobCategory.MONSTER).sized(0.6f * 0.75f, 1.7f * 0.75f).clientTrackingRange(8).fireImmune().build(TCEntityCore.TCEntityId(NAME));
 
         @Override
         public String getRegistryName() {

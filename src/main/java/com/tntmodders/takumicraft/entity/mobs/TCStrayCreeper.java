@@ -94,7 +94,7 @@ public class TCStrayCreeper extends AbstractTCSkeletonCreeper {
         private static final String NAME = "straycreeper";
         public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder
                 .of(TCStrayCreeper::new, MobCategory.MONSTER).sized(0.6F, 1.99F).clientTrackingRange(8)
-                .immuneTo(Blocks.POWDER_SNOW).build(TCEntityUtils.TCEntityId(NAME));
+                .immuneTo(Blocks.POWDER_SNOW).build(TCEntityCore.TCEntityId(NAME));
 
         @Override
         public String getRegistryName() {

@@ -1,7 +1,6 @@
 package com.tntmodders.takumicraft.entity.mobs;
 
 import com.tntmodders.takumicraft.core.TCEntityCore;
-import com.tntmodders.takumicraft.utils.TCEntityUtils;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -26,7 +25,7 @@ public class TCEmeraldCreeper extends AbstractTCCreeper {
 
     public static class TCEmeraldCreeperContext implements TCCreeperContext<TCEmeraldCreeper> {
         private static final String NAME = "emeraldcreeper";
-        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCEmeraldCreeper::new, MobCategory.MONSTER).sized(1.2F, 3.4F).clientTrackingRange(8).build(TCEntityUtils.TCEntityId(NAME));
+        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCEmeraldCreeper::new, MobCategory.MONSTER).sized(1.2F, 3.4F).clientTrackingRange(8).build(TCEntityCore.TCEntityId(NAME));
 
         @Override
         public String getRegistryName() {

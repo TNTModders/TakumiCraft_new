@@ -304,7 +304,7 @@ public class TCLlamaCreeper extends AbstractTCCreeper implements VariantHolder<T
 
     public static class TCLlamaCreeperContext implements TCCreeperContext<TCLlamaCreeper> {
         private static final String NAME = "llamacreeper";
-        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCLlamaCreeper::new, MobCategory.MONSTER).sized(0.9F, 1.87F).eyeHeight(1.7765F).passengerAttachments(new Vec3(0.0, 1.37, -0.3)).clientTrackingRange(10).build(TCEntityUtils.TCEntityId(NAME));
+        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCLlamaCreeper::new, MobCategory.MONSTER).sized(0.9F, 1.87F).eyeHeight(1.7765F).passengerAttachments(new Vec3(0.0, 1.37, -0.3)).clientTrackingRange(10).build(TCEntityCore.TCEntityId(NAME));
 
         @Override
         public String getRegistryName() {

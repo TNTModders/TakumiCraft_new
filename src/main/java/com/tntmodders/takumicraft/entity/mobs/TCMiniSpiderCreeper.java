@@ -30,7 +30,7 @@ public class TCMiniSpiderCreeper extends TCSpiderCreeper {
         private static final String NAME = "minispidercreeper";
         public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder
                 .of(TCMiniSpiderCreeper::new, MobCategory.MONSTER).sized(1.4F / 4, 0.9F / 4).clientTrackingRange(8)
-                .build(TCEntityUtils.TCEntityId(NAME));
+                .build(TCEntityCore.TCEntityId(NAME));
 
         @Override
         public String getRegistryName() {

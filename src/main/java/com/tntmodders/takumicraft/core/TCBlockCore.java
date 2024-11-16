@@ -7,6 +7,7 @@ import com.tntmodders.takumicraft.utils.TCLoggingUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
@@ -188,5 +189,9 @@ public class TCBlockCore {
         }
 
         return blockbehaviour$properties1;
+    }
+
+    public static ResourceKey<Block> TCBlockId(String id) {
+        return ResourceKey.create(Registries.BLOCK, ResourceLocation.tryBuild(TakumiCraftCore.MODID, id));
     }
 }

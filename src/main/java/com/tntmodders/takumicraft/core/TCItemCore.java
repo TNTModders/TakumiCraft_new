@@ -10,6 +10,7 @@ import com.tntmodders.takumicraft.provider.ITCItems;
 import com.tntmodders.takumicraft.utils.TCLoggingUtils;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
@@ -22,17 +23,15 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegisterEvent;
 
 import java.lang.reflect.Field;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.function.Function;
 
 public class TCItemCore {
     public static final NonNullList<Item> ITEMS = NonNullList.create();
     public static final HashMap<AbstractTCCreeper.TCCreeperContext, Item> EGGITEMS = new HashMap<>();
     public static final HashMap<Block, TCBlockItem> BLOCKITEMS = new HashMap<>();
 
-    public static final Item CREEPER_ROD = new TCTesterItem();
+    public static final Function<Properties, Item> CREEPER_ROD = properties -> new TCTesterItem();
     public static final Item TAKUMIBOOK = new TCTakumiBookItem();
     public static final Item BOLTSTONE = new TCBoltstoneItem();
     public static final Item LIGHTSABER = new TCSaberItem();
@@ -130,5 +129,9 @@ public class TCItemCore {
             }
         });
         TCLoggingUtils.completeRegistry("Item");
+    }
+
+    public static ResourceKey<Item> TCItemId(String id) {
+        return ResourceKey.create(Registries.ITEM, ResourceLocation.tryBuild(TakumiCraftCore.MODID, id));
     }
 }

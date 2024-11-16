@@ -13,7 +13,7 @@ import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 
 public class TCLlamaCreeperSpit extends LlamaSpit {
-    public static final EntityType<TCLlamaCreeperSpit> LLAMA_SPIT = EntityType.Builder.<TCLlamaCreeperSpit>of(TCLlamaCreeperSpit::new, MobCategory.MISC).sized(0.25F, 0.25F).clientTrackingRange(4).updateInterval(10).build(TCEntityUtils.TCEntityId("llamacreeperspit"));
+    public static final EntityType<TCLlamaCreeperSpit> LLAMA_SPIT = EntityType.Builder.<TCLlamaCreeperSpit>of(TCLlamaCreeperSpit::new, MobCategory.MISC).sized(0.25F, 0.25F).clientTrackingRange(4).updateInterval(10).build(TCEntityCore.TCEntityId("llamacreeperspit"));
 
     public TCLlamaCreeperSpit(EntityType<? extends TCLlamaCreeperSpit> p_37224_, Level p_37225_) {
         super(p_37224_, p_37225_);

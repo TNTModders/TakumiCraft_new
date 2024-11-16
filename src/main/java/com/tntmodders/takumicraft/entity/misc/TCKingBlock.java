@@ -1,6 +1,5 @@
 package com.tntmodders.takumicraft.entity.misc;
 
-import com.tntmodders.takumicraft.utils.TCEntityUtils;
 import com.tntmodders.takumicraft.utils.TCExplosionUtils;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -22,7 +21,7 @@ import java.util.UUID;
 
 public class TCKingBlock extends Entity implements TraceableEntity {
     public static final EntityType<TCKingBlock> KING_BLOCK = EntityType.Builder.<TCKingBlock>of(TCKingBlock::new, MobCategory.MISC)
-            .sized(1f, 1f).clientTrackingRange(4).updateInterval(20).build(TCEntityUtils.TCEntityId("king_block"));
+            .sized(1f, 1f).clientTrackingRange(4).updateInterval(20).build(TCEntityCore.TCEntityId("king_block"));
     private static final EntityDataAccessor<Integer> WAIT_TICK = SynchedEntityData.defineId(TCKingBlock.class, EntityDataSerializers.INT);
     private LivingEntity owner;
     private UUID ownerUUID;
