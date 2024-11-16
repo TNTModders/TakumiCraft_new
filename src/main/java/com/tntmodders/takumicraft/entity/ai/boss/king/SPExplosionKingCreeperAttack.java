@@ -18,6 +18,26 @@ import net.minecraftforge.event.level.ExplosionEvent;
 import org.joml.Matrix4f;
 
 public class SPExplosionKingCreeperAttack extends AbstractKingCreeperAttack {
+    @OnlyIn(Dist.CLIENT)
+    private static void vertex01(VertexConsumer p_254498_, Matrix4f p_253891_, int p_254278_) {
+        p_254498_.addVertex(p_253891_, 0.0F, 0.0F, 0.0F).setColor(255, 255, 255, p_254278_);
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    private static void vertex2(VertexConsumer p_253956_, Matrix4f p_254053_, float p_253704_, float p_253701_) {
+        p_253956_.addVertex(p_254053_, -(float) (Math.sqrt(3.0) / 2.0) * p_253701_, p_253704_, -0.5F * p_253701_).setColor(0, 255, 0, 0);
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    private static void vertex3(VertexConsumer p_253850_, Matrix4f p_254379_, float p_253729_, float p_254030_) {
+        p_253850_.addVertex(p_254379_, (float) (Math.sqrt(3.0) / 2.0) * p_254030_, p_253729_, -0.5F * p_254030_).setColor(0, 255, 0, 0);
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    private static void vertex4(VertexConsumer p_254184_, Matrix4f p_254082_, float p_253649_, float p_253694_) {
+        p_254184_.addVertex(p_254082_, 0.0F, p_253649_, p_253694_).setColor(0, 255, 0, 0);
+    }
+
     @Override
     public void serverInit(TCKingCreeper creeper) {
 
@@ -60,26 +80,6 @@ public class SPExplosionKingCreeperAttack extends AbstractKingCreeperAttack {
         }
 
         pose.popPose();
-    }
-
-    @OnlyIn(Dist.CLIENT)
-    private static void vertex01(VertexConsumer p_254498_, Matrix4f p_253891_, int p_254278_) {
-        p_254498_.addVertex(p_253891_, 0.0F, 0.0F, 0.0F).setColor(255, 255, 255, p_254278_);
-    }
-
-    @OnlyIn(Dist.CLIENT)
-    private static void vertex2(VertexConsumer p_253956_, Matrix4f p_254053_, float p_253704_, float p_253701_) {
-        p_253956_.addVertex(p_254053_, -(float) (Math.sqrt(3.0) / 2.0) * p_253701_, p_253704_, -0.5F * p_253701_).setColor(0, 255, 0, 0);
-    }
-
-    @OnlyIn(Dist.CLIENT)
-    private static void vertex3(VertexConsumer p_253850_, Matrix4f p_254379_, float p_253729_, float p_254030_) {
-        p_253850_.addVertex(p_254379_, (float) (Math.sqrt(3.0) / 2.0) * p_254030_, p_253729_, -0.5F * p_254030_).setColor(0, 255, 0, 0);
-    }
-
-    @OnlyIn(Dist.CLIENT)
-    private static void vertex4(VertexConsumer p_254184_, Matrix4f p_254082_, float p_253649_, float p_253694_) {
-        p_254184_.addVertex(p_254082_, 0.0F, p_253649_, p_253694_).setColor(0, 255, 0, 0);
     }
 
     @Override

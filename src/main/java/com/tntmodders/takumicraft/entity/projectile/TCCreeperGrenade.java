@@ -11,9 +11,8 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 
 public class TCCreeperGrenade extends AbstractTCGrenade {
-    private int power = 10;
-
     public static final EntityType<TCCreeperGrenade> GRENADE = EntityType.Builder.<TCCreeperGrenade>of(TCCreeperGrenade::new, MobCategory.MISC).sized(0.25F, 0.25F).clientTrackingRange(4).updateInterval(10).build(TCEntityUtils.TCEntityId("takumithrowgrenade"));
+    private int power = 10;
 
     public TCCreeperGrenade(EntityType<? extends ThrowableItemProjectile> p_37442_, Level p_37443_) {
         super(p_37442_, p_37443_);

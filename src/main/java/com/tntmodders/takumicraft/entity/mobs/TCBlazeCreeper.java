@@ -42,9 +42,9 @@ import java.util.EnumSet;
 import java.util.List;
 
 public class TCBlazeCreeper extends AbstractTCCreeper {
+    private static final EntityDataAccessor<Byte> DATA_FLAGS_ID = SynchedEntityData.defineId(TCBlazeCreeper.class, EntityDataSerializers.BYTE);
     private float allowedHeightOffset = 0.5F;
     private int nextHeightOffsetChangeTick;
-    private static final EntityDataAccessor<Byte> DATA_FLAGS_ID = SynchedEntityData.defineId(TCBlazeCreeper.class, EntityDataSerializers.BYTE);
 
     public TCBlazeCreeper(EntityType<? extends Creeper> entityType, Level level) {
         super(entityType, level);
@@ -53,6 +53,10 @@ public class TCBlazeCreeper extends AbstractTCCreeper {
         this.setPathfindingMalus(PathType.DANGER_FIRE, 0.0F);
         this.setPathfindingMalus(PathType.DAMAGE_FIRE, 0.0F);
         this.xpReward = 10;
+    }
+
+    public static AttributeSupplier.Builder createAttributes() {
+        return Monster.createMonsterAttributes().add(Attributes.ATTACK_DAMAGE, 6.0).add(Attributes.MOVEMENT_SPEED, 0.23F).add(Attributes.FOLLOW_RANGE, 48.0);
     }
 
     @Override
@@ -64,10 +68,6 @@ public class TCBlazeCreeper extends AbstractTCCreeper {
         this.goalSelector.addGoal(8, new RandomLookAroundGoal(this));
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this).setAlertOthers());
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
-    }
-
-    public static AttributeSupplier.Builder createAttributes() {
-        return Monster.createMonsterAttributes().add(Attributes.ATTACK_DAMAGE, 6.0).add(Attributes.MOVEMENT_SPEED, 0.23F).add(Attributes.FOLLOW_RANGE, 48.0);
     }
 
     @Override

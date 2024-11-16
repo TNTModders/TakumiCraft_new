@@ -19,6 +19,12 @@ import net.minecraft.world.entity.schedule.Activity;
 public class TCGoatCreeperAi {
     public static final int RAM_PREPARE_TIME = 20;
     public static final int RAM_MAX_DISTANCE = 7;
+    public static final int MAX_LONG_JUMP_HEIGHT = 5;
+    public static final int MAX_LONG_JUMP_WIDTH = 5;
+    public static final float MAX_JUMP_VELOCITY_MULTIPLIER = 3.5714288F;
+    public static final int RAM_MIN_DISTANCE = 4;
+    public static final float ADULT_RAM_KNOCKBACK_FORCE = 2.5F;
+    public static final float BABY_RAM_KNOCKBACK_FORCE = 1.0F;
     private static final UniformInt ADULT_FOLLOW_RANGE = UniformInt.of(5, 16);
     private static final float SPEED_MULTIPLIER_WHEN_IDLING = 1.0F;
     private static final float SPEED_MULTIPLIER_WHEN_FOLLOWING_ADULT = 1.25F;
@@ -26,17 +32,11 @@ public class TCGoatCreeperAi {
     private static final float SPEED_MULTIPLIER_WHEN_PANICKING = 2.0F;
     private static final float SPEED_MULTIPLIER_WHEN_PREPARING_TO_RAM = 1.25F;
     private static final UniformInt TIME_BETWEEN_LONG_JUMPS = UniformInt.of(600, 1200);
-    public static final int MAX_LONG_JUMP_HEIGHT = 5;
-    public static final int MAX_LONG_JUMP_WIDTH = 5;
-    public static final float MAX_JUMP_VELOCITY_MULTIPLIER = 3.5714288F;
     private static final UniformInt TIME_BETWEEN_RAMS = UniformInt.of(100, 300);
     private static final UniformInt TIME_BETWEEN_RAMS_SCREAMER = UniformInt.of(50, 150);
     private static final TargetingConditions RAM_TARGET_CONDITIONS = TargetingConditions.forCombat()
             .selector((entity, level) -> !entity.getType().equals(TCEntityCore.GOAT.entityType()) && entity.level().getWorldBorder().isWithinBounds(entity.getBoundingBox()));
     private static final float SPEED_MULTIPLIER_WHEN_RAMMING = 3.0F;
-    public static final int RAM_MIN_DISTANCE = 4;
-    public static final float ADULT_RAM_KNOCKBACK_FORCE = 2.5F;
-    public static final float BABY_RAM_KNOCKBACK_FORCE = 1.0F;
 
     public static void initMemories(TCGoatCreeper p_218765_, RandomSource p_218766_) {
         p_218765_.getBrain().setMemory(MemoryModuleType.LONG_JUMP_COOLDOWN_TICKS, TIME_BETWEEN_LONG_JUMPS.sample(p_218766_));
@@ -58,8 +58,8 @@ public class TCGoatCreeperAi {
         p_149454_.addActivity(
                 Activity.CORE,
                 0,
-                (ImmutableList<? extends BehaviorControl<? super TCGoatCreeper>>) ImmutableList.of(
-                        new Swim(0.8F),
+                ImmutableList.of(
+                        new Swim<>(0.8F),
                         new AnimalPanic<>(2.0F),
                         new LookAtTargetSink(45, 90),
                         new MoveToTargetSink(),

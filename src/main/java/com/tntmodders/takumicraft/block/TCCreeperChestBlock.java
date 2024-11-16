@@ -67,14 +67,6 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 public class TCCreeperChestBlock extends BaseEntityBlock implements ITCBlocks, ITCRecipe {
-    protected final Supplier<BlockEntityType> blockEntityType;
-
-    public TCCreeperChestBlock() {
-        super(BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).instrument(NoteBlockInstrument.BASS).strength(2.5F).sound(SoundType.WOOD).explosionResistance(1000000f));
-        this.blockEntityType = () -> TCBlockEntityCore.CHEST;
-        this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(TYPE, ChestType.SINGLE).setValue(WATERLOGGED, Boolean.FALSE));
-    }
-
     public static final MapCodec<ChestBlock> CODEC = simpleCodec(p_309280_ -> new ChestBlock(() -> BlockEntityType.CHEST, p_309280_));
     public static final EnumProperty<Direction> FACING = HorizontalDirectionalBlock.FACING;
     public static final EnumProperty<ChestType> TYPE = BlockStateProperties.CHEST_TYPE;
@@ -141,6 +133,13 @@ public class TCCreeperChestBlock extends BaseEntityBlock implements ITCBlocks, I
             return Optional.empty();
         }
     };
+    protected final Supplier<BlockEntityType> blockEntityType;
+
+    public TCCreeperChestBlock() {
+        super(BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).instrument(NoteBlockInstrument.BASS).strength(2.5F).sound(SoundType.WOOD).explosionResistance(1000000f));
+        this.blockEntityType = () -> TCBlockEntityCore.CHEST;
+        this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(TYPE, ChestType.SINGLE).setValue(WATERLOGGED, Boolean.FALSE));
+    }
 
     public static DoubleBlockCombiner.BlockType getBlockType(BlockState p_51583_) {
         ChestType chesttype = p_51583_.getValue(TYPE);
@@ -151,11 +150,61 @@ public class TCCreeperChestBlock extends BaseEntityBlock implements ITCBlocks, I
         }
     }
 
+    public static Direction getConnectedDirection(BlockState p_51585_) {
+        Direction direction = p_51585_.getValue(FACING);
+        return p_51585_.getValue(TYPE) == ChestType.LEFT ? direction.getClockWise() : direction.getCounterClockWise();
+    }
+
+    @Nullable
+    public static Container getContainer(TCCreeperChestBlock p_51512_, BlockState p_51513_, Level p_51514_, BlockPos p_51515_, boolean p_51516_) {
+        return p_51512_.combine(p_51513_, p_51514_, p_51515_, p_51516_).apply(CHEST_COMBINER).orElse(null);
+    }
+
+    public static DoubleBlockCombiner.Combiner<TCCreeperChestBlockEntity, Float2FloatFunction> opennessCombiner(final LidBlockEntity p_51518_) {
+        return new DoubleBlockCombiner.Combiner<>() {
+            @Override
+            public Float2FloatFunction acceptDouble(TCCreeperChestBlockEntity p_51633_, TCCreeperChestBlockEntity p_51634_) {
+                return p_51638_ -> Math.max(p_51633_.getOpenNess(p_51638_), p_51634_.getOpenNess(p_51638_));
+            }
+
+            @Override
+            public Float2FloatFunction acceptSingle(TCCreeperChestBlockEntity p_51631_) {
+                return p_51631_::getOpenNess;
+            }
+
+            @Override
+            public Float2FloatFunction acceptNone() {
+                return p_51518_::getOpenNess;
+            }
+        };
+    }
+
+    public static boolean isChestBlockedAt(LevelAccessor p_51509_, BlockPos p_51510_) {
+        return isBlockedChestByBlock(p_51509_, p_51510_) || isCatSittingOnChest(p_51509_, p_51510_);
+    }
+
+    private static boolean isBlockedChestByBlock(BlockGetter p_51500_, BlockPos p_51501_) {
+        BlockPos blockpos = p_51501_.above();
+        return p_51500_.getBlockState(blockpos).isRedstoneConductor(p_51500_, blockpos);
+    }
+
+    private static boolean isCatSittingOnChest(LevelAccessor p_51564_, BlockPos p_51565_) {
+        List<Cat> list = p_51564_.getEntitiesOfClass(Cat.class, new AABB(p_51565_.getX(), p_51565_.getY() + 1, p_51565_.getZ(), p_51565_.getX() + 1, p_51565_.getY() + 2, p_51565_.getZ() + 1));
+        if (!list.isEmpty()) {
+            for (Cat cat : list) {
+                if (cat.isInSittingPose()) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
     @Override
     protected RenderShape getRenderShape(BlockState p_51567_) {
         return RenderShape.ENTITYBLOCK_ANIMATED;
     }
-
 
     @Override
     protected BlockState updateShape(BlockState p_51555_, LevelReader p_51558_, ScheduledTickAccess p_366146_, BlockPos p_51559_, Direction p_51556_, BlockPos p_51560_, BlockState p_51557_, RandomSource p_363918_) {
@@ -187,11 +236,6 @@ public class TCCreeperChestBlock extends BaseEntityBlock implements ITCBlocks, I
                 case EAST -> EAST_AABB;
             };
         }
-    }
-
-    public static Direction getConnectedDirection(BlockState p_51585_) {
-        Direction direction = p_51585_.getValue(FACING);
-        return p_51585_.getValue(TYPE) == ChestType.LEFT ? direction.getClockWise() : direction.getCounterClockWise();
     }
 
     @Override
@@ -261,11 +305,6 @@ public class TCCreeperChestBlock extends BaseEntityBlock implements ITCBlocks, I
         return this.blockEntityType.get();
     }
 
-    @Nullable
-    public static Container getContainer(TCCreeperChestBlock p_51512_, BlockState p_51513_, Level p_51514_, BlockPos p_51515_, boolean p_51516_) {
-        return p_51512_.combine(p_51513_, p_51514_, p_51515_, p_51516_).apply(CHEST_COMBINER).orElse(null);
-    }
-
     public DoubleBlockCombiner.NeighborCombineResult<? extends TCCreeperChestBlockEntity> combine(BlockState p_51544_, Level p_51545_, BlockPos p_51546_, boolean p_51547_) {
         BiPredicate<LevelAccessor, BlockPos> bipredicate;
         if (p_51547_) {
@@ -283,51 +322,10 @@ public class TCCreeperChestBlock extends BaseEntityBlock implements ITCBlocks, I
         return this.combine(p_51574_, p_51575_, p_51576_, false).apply(MENU_PROVIDER_COMBINER).orElse(null);
     }
 
-    public static DoubleBlockCombiner.Combiner<TCCreeperChestBlockEntity, Float2FloatFunction> opennessCombiner(final LidBlockEntity p_51518_) {
-        return new DoubleBlockCombiner.Combiner<>() {
-            @Override
-            public Float2FloatFunction acceptDouble(TCCreeperChestBlockEntity p_51633_, TCCreeperChestBlockEntity p_51634_) {
-                return p_51638_ -> Math.max(p_51633_.getOpenNess(p_51638_), p_51634_.getOpenNess(p_51638_));
-            }
-
-            @Override
-            public Float2FloatFunction acceptSingle(TCCreeperChestBlockEntity p_51631_) {
-                return p_51631_::getOpenNess;
-            }
-
-            @Override
-            public Float2FloatFunction acceptNone() {
-                return p_51518_::getOpenNess;
-            }
-        };
-    }
-
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level p_153055_, BlockState p_153056_, BlockEntityType<T> p_153057_) {
         return p_153055_.isClientSide ? createTickerHelper(p_153057_, this.blockEntityType(), TCCreeperChestBlockEntity::lidAnimateTick) : null;
-    }
-
-    public static boolean isChestBlockedAt(LevelAccessor p_51509_, BlockPos p_51510_) {
-        return isBlockedChestByBlock(p_51509_, p_51510_) || isCatSittingOnChest(p_51509_, p_51510_);
-    }
-
-    private static boolean isBlockedChestByBlock(BlockGetter p_51500_, BlockPos p_51501_) {
-        BlockPos blockpos = p_51501_.above();
-        return p_51500_.getBlockState(blockpos).isRedstoneConductor(p_51500_, blockpos);
-    }
-
-    private static boolean isCatSittingOnChest(LevelAccessor p_51564_, BlockPos p_51565_) {
-        List<Cat> list = p_51564_.getEntitiesOfClass(Cat.class, new AABB(p_51565_.getX(), p_51565_.getY() + 1, p_51565_.getZ(), p_51565_.getX() + 1, p_51565_.getY() + 2, p_51565_.getZ() + 1));
-        if (!list.isEmpty()) {
-            for (Cat cat : list) {
-                if (cat.isInSittingPose()) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
     }
 
     @Override

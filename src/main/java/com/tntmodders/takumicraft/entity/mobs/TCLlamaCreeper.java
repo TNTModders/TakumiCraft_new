@@ -56,13 +56,19 @@ public class TCLlamaCreeper extends AbstractTCCreeper implements VariantHolder<T
         super(entityType, level);
     }
 
+    public static AttributeSupplier.Builder createAttributes() {
+        return Mob.createMobAttributes().add(Attributes.JUMP_STRENGTH, 0.9).add(Attributes.MAX_HEALTH, 20.0).add(Attributes.MOVEMENT_SPEED, 0.225F).add(Attributes.STEP_HEIGHT, 1.0).add(Attributes.SAFE_FALL_DISTANCE, 6.0).add(Attributes.FALL_DAMAGE_MULTIPLIER, 0.5).add(Attributes.FOLLOW_RANGE, 40.0);
+    }
+
+    @Nullable
+    private static DyeColor getDyeColor(ItemStack p_30836_) {
+        Block block = Block.byItem(p_30836_.getItem());
+        return block instanceof WoolCarpetBlock ? ((WoolCarpetBlock) block).getColor() : null;
+    }
+
     @Override
     public TCCreeperContext<? extends AbstractTCCreeper> getContext() {
         return TCEntityCore.LLAMA;
-    }
-
-    private void setStrength(int p_30841_) {
-        this.entityData.set(DATA_STRENGTH_ID, Math.max(1, Math.min(5, p_30841_)));
     }
 
     private void setRandomStrength(RandomSource p_218818_) {
@@ -72,6 +78,10 @@ public class TCLlamaCreeper extends AbstractTCCreeper implements VariantHolder<T
 
     public int getStrength() {
         return this.entityData.get(DATA_STRENGTH_ID);
+    }
+
+    private void setStrength(int p_30841_) {
+        this.entityData.set(DATA_STRENGTH_ID, Math.max(1, Math.min(5, p_30841_)));
     }
 
     @Override
@@ -100,10 +110,6 @@ public class TCLlamaCreeper extends AbstractTCCreeper implements VariantHolder<T
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, true));
         this.targetSelector.addGoal(2, new TCLlamaCreeper.LlamaHurtByTargetGoal(this));
         this.targetSelector.addGoal(3, new TCLlamaCreeper.LlamaAttackWolfGoal(this));
-    }
-
-    public static AttributeSupplier.Builder createAttributes() {
-        return Mob.createMobAttributes().add(Attributes.JUMP_STRENGTH, 0.9).add(Attributes.MAX_HEALTH, 20.0).add(Attributes.MOVEMENT_SPEED, 0.225F).add(Attributes.STEP_HEIGHT, 1.0).add(Attributes.SAFE_FALL_DISTANCE, 6.0).add(Attributes.FALL_DAMAGE_MULTIPLIER, 0.5).add(Attributes.FOLLOW_RANGE, 40.0);
     }
 
     @Override
@@ -163,12 +169,6 @@ public class TCLlamaCreeper extends AbstractTCCreeper implements VariantHolder<T
     @Override
     public boolean canUseSlot(EquipmentSlot p_344756_) {
         return true;
-    }
-
-    @Nullable
-    private static DyeColor getDyeColor(ItemStack p_30836_) {
-        Block block = Block.byItem(p_30836_.getItem());
-        return block instanceof WoolCarpetBlock ? ((WoolCarpetBlock) block).getColor() : null;
     }
 
     @Nullable
@@ -239,6 +239,33 @@ public class TCLlamaCreeper extends AbstractTCCreeper implements VariantHolder<T
         return this.isBaby() ? BABY_DIMENSIONS : super.getDefaultDimensions(p_332334_);
     }
 
+    public enum Variant implements StringRepresentable {
+        CREAMY(0, "creamy"), WHITE(1, "white"), BROWN(2, "brown"), GRAY(3, "gray");
+
+        public static final Codec<TCLlamaCreeper.Variant> CODEC = StringRepresentable.fromEnum(TCLlamaCreeper.Variant::values);
+        private static final IntFunction<TCLlamaCreeper.Variant> BY_ID = ByIdMap.continuous(TCLlamaCreeper.Variant::getId, values(), ByIdMap.OutOfBoundsStrategy.CLAMP);
+        final int id;
+        private final String name;
+
+        Variant(final int p_262677_, final String p_262641_) {
+            this.id = p_262677_;
+            this.name = p_262641_;
+        }
+
+        public static TCLlamaCreeper.Variant byId(int p_262608_) {
+            return BY_ID.apply(p_262608_);
+        }
+
+        public int getId() {
+            return this.id;
+        }
+
+        @Override
+        public String getSerializedName() {
+            return this.name;
+        }
+    }
+
     static class LlamaAttackWolfGoal extends NearestAttackableTargetGoal<Wolf> {
         public LlamaAttackWolfGoal(TCLlamaCreeper p_30843_) {
             super(p_30843_, Wolf.class, 16, false, true, (entity, level) -> !((Wolf) entity).isTame());
@@ -272,33 +299,6 @@ public class TCLlamaCreeper extends AbstractTCCreeper implements VariantHolder<T
             }
 
             return super.canContinueToUse();
-        }
-    }
-
-    public enum Variant implements StringRepresentable {
-        CREAMY(0, "creamy"), WHITE(1, "white"), BROWN(2, "brown"), GRAY(3, "gray");
-
-        public static final Codec<TCLlamaCreeper.Variant> CODEC = StringRepresentable.fromEnum(TCLlamaCreeper.Variant::values);
-        private static final IntFunction<TCLlamaCreeper.Variant> BY_ID = ByIdMap.continuous(TCLlamaCreeper.Variant::getId, values(), ByIdMap.OutOfBoundsStrategy.CLAMP);
-        final int id;
-        private final String name;
-
-        Variant(final int p_262677_, final String p_262641_) {
-            this.id = p_262677_;
-            this.name = p_262641_;
-        }
-
-        public int getId() {
-            return this.id;
-        }
-
-        public static TCLlamaCreeper.Variant byId(int p_262608_) {
-            return BY_ID.apply(p_262608_);
-        }
-
-        @Override
-        public String getSerializedName() {
-            return this.name;
         }
     }
 

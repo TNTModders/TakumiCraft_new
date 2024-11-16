@@ -52,6 +52,10 @@ public class TCBreezeCreeper extends AbstractTCCreeper {
     private static final float FALL_DISTANCE_SOUND_TRIGGER_THRESHOLD = 3.0F;
     private static final int WHIRL_SOUND_FREQUENCY_MIN = 1;
     private static final int WHIRL_SOUND_FREQUENCY_MAX = 80;
+    private static final ProjectileDeflection PROJECTILE_DEFLECTION = (p_341445_, p_341446_, p_341447_) -> {
+        p_341446_.level().playSound(null, p_341446_, SoundEvents.BREEZE_DEFLECT, p_341446_.getSoundSource(), 1.0F, 1.0F);
+        ProjectileDeflection.REVERSE.deflect(p_341445_, p_341446_, p_341447_);
+    };
     public AnimationState idle = new AnimationState();
     public AnimationState slide = new AnimationState();
     public AnimationState slideBack = new AnimationState();
@@ -60,20 +64,16 @@ public class TCBreezeCreeper extends AbstractTCCreeper {
     public AnimationState inhale = new AnimationState();
     private int jumpTrailStartedTick = 0;
     private int soundTick = 0;
-    private static final ProjectileDeflection PROJECTILE_DEFLECTION = (p_341445_, p_341446_, p_341447_) -> {
-        p_341446_.level().playSound(null, p_341446_, SoundEvents.BREEZE_DEFLECT, p_341446_.getSoundSource(), 1.0F, 1.0F);
-        ProjectileDeflection.REVERSE.deflect(p_341445_, p_341446_, p_341447_);
-    };
-
-    public static AttributeSupplier.Builder createAttributes() {
-        return Mob.createMobAttributes().add(Attributes.MOVEMENT_SPEED, 0.63F).add(Attributes.MAX_HEALTH, 30.0).add(Attributes.FOLLOW_RANGE, 24.0).add(Attributes.ATTACK_DAMAGE, 3.0);
-    }
 
     public TCBreezeCreeper(EntityType<? extends Creeper> entityType, Level level) {
         super(entityType, level);
         this.setPathfindingMalus(PathType.DANGER_TRAPDOOR, -1.0F);
         this.setPathfindingMalus(PathType.DAMAGE_FIRE, -1.0F);
         this.xpReward = 20;
+    }
+
+    public static AttributeSupplier.Builder createAttributes() {
+        return Mob.createMobAttributes().add(Attributes.MOVEMENT_SPEED, 0.63F).add(Attributes.MAX_HEALTH, 30.0).add(Attributes.FOLLOW_RANGE, 24.0).add(Attributes.ATTACK_DAMAGE, 3.0);
     }
 
     @Override
@@ -142,6 +142,10 @@ public class TCBreezeCreeper extends AbstractTCCreeper {
         }
 
         super.onSyncedDataUpdated(p_309800_);
+    }
+
+    public double getFiringYPosition() {
+        return this.getY() + (double) (this.getBbHeight() / 2.0F) + 0.3F;
     }
 
     private void resetAnimations() {

@@ -7,11 +7,11 @@ public class TCKingCreeperRenderState extends TCCreeperRenderState {
     public int swellDir;
     protected TCKingCreeper creeper;
 
-    public void setCreeper(TCKingCreeper creeper) {
-        this.creeper = creeper;
-    }
-
     public TCKingCreeper getCreeper() {
         return creeper;
+    }
+
+    public void setCreeper(TCKingCreeper creeper) {
+        this.creeper = creeper;
     }
 }

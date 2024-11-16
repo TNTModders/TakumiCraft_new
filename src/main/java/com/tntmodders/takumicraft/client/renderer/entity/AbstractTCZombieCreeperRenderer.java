@@ -5,7 +5,6 @@ import com.tntmodders.takumicraft.client.model.TCZombieModel;
 import com.tntmodders.takumicraft.client.renderer.entity.state.TCZombieCreeperRenderState;
 import com.tntmodders.takumicraft.entity.mobs.TCZombieCreeper;
 import com.tntmodders.takumicraft.utils.client.TCClientUtils;
-import net.minecraft.client.model.ZombieModel;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.HumanoidMobRenderer;
 import net.minecraft.client.renderer.entity.layers.HumanoidArmorLayer;

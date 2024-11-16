@@ -61,6 +61,18 @@ import javax.annotation.Nullable;
 
 public class TCGoatCreeper extends AbstractTCCreeper {
 
+    public static final EntityDimensions LONG_JUMPING_DIMENSIONS = EntityDimensions.scalable(0.9F, 1.3F).scale(0.7F);
+    public static final int GOAT_FALL_DAMAGE_REDUCTION = 10;
+    public static final double GOAT_SCREAMING_CHANCE = 0.02;
+    public static final double UNIHORN_CHANCE = 0.1F;
+    protected static final ImmutableList<SensorType<? extends Sensor<? super TCGoatCreeper>>> SENSOR_TYPES = ImmutableList.of(SensorType.NEAREST_LIVING_ENTITIES, SensorType.NEAREST_PLAYERS, SensorType.NEAREST_ITEMS, SensorType.HURT_BY, SensorType.GOAT_TEMPTATIONS);
+    protected static final ImmutableList<MemoryModuleType<?>> MEMORY_TYPES = ImmutableList.of(MemoryModuleType.LOOK_TARGET, MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES, MemoryModuleType.WALK_TARGET, MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE, MemoryModuleType.PATH, MemoryModuleType.ATE_RECENTLY, MemoryModuleType.BREED_TARGET, MemoryModuleType.LONG_JUMP_COOLDOWN_TICKS, MemoryModuleType.LONG_JUMP_MID_JUMP, MemoryModuleType.TEMPTING_PLAYER, MemoryModuleType.NEAREST_VISIBLE_ADULT, MemoryModuleType.TEMPTATION_COOLDOWN_TICKS, MemoryModuleType.IS_TEMPTED, MemoryModuleType.RAM_COOLDOWN_TICKS, MemoryModuleType.RAM_TARGET, MemoryModuleType.IS_PANICKING);
+    private static final EntityDataAccessor<Boolean> DATA_IS_SCREAMING_GOAT = SynchedEntityData.defineId(TCGoatCreeper.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Boolean> DATA_HAS_LEFT_HORN = SynchedEntityData.defineId(TCGoatCreeper.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Boolean> DATA_HAS_RIGHT_HORN = SynchedEntityData.defineId(TCGoatCreeper.class, EntityDataSerializers.BOOLEAN);
+    private boolean isLoweringHead;
+    private int lowerHeadTick;
+
     public TCGoatCreeper(EntityType<? extends Creeper> entityType, Level level) {
         super(entityType, level);
         this.getNavigation().setCanFloat(true);
@@ -68,31 +80,27 @@ public class TCGoatCreeper extends AbstractTCCreeper {
         this.setPathfindingMalus(PathType.DANGER_POWDER_SNOW, -1.0F);
     }
 
+    public static AttributeSupplier.Builder createAttributes() {
+        return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 10.0).add(Attributes.MOVEMENT_SPEED, 0.4F).add(Attributes.ATTACK_DAMAGE, 2.0);
+    }
+
+    public static boolean checkGoatSpawnRules(EntityType<AbstractTCCreeper> p_218753_, LevelAccessor p_218754_, EntitySpawnReason p_218755_, BlockPos p_218756_, RandomSource p_218757_) {
+        return p_218754_.getBlockState(p_218756_.below()).is(BlockTags.GOATS_SPAWNABLE_ON) && isBrightEnoughToSpawn(p_218754_, p_218756_);
+    }
+
     @Override
     public TCCreeperContext<? extends AbstractTCCreeper> getContext() {
         return TCEntityCore.GOAT;
     }
 
-    public static final EntityDimensions LONG_JUMPING_DIMENSIONS = EntityDimensions.scalable(0.9F, 1.3F).scale(0.7F);
-    protected static final ImmutableList<SensorType<? extends Sensor<? super TCGoatCreeper>>> SENSOR_TYPES = ImmutableList.of(SensorType.NEAREST_LIVING_ENTITIES, SensorType.NEAREST_PLAYERS, SensorType.NEAREST_ITEMS, SensorType.HURT_BY, SensorType.GOAT_TEMPTATIONS);
-    protected static final ImmutableList<MemoryModuleType<?>> MEMORY_TYPES = ImmutableList.of(MemoryModuleType.LOOK_TARGET, MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES, MemoryModuleType.WALK_TARGET, MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE, MemoryModuleType.PATH, MemoryModuleType.ATE_RECENTLY, MemoryModuleType.BREED_TARGET, MemoryModuleType.LONG_JUMP_COOLDOWN_TICKS, MemoryModuleType.LONG_JUMP_MID_JUMP, MemoryModuleType.TEMPTING_PLAYER, MemoryModuleType.NEAREST_VISIBLE_ADULT, MemoryModuleType.TEMPTATION_COOLDOWN_TICKS, MemoryModuleType.IS_TEMPTED, MemoryModuleType.RAM_COOLDOWN_TICKS, MemoryModuleType.RAM_TARGET, MemoryModuleType.IS_PANICKING);
-    public static final int GOAT_FALL_DAMAGE_REDUCTION = 10;
-    public static final double GOAT_SCREAMING_CHANCE = 0.02;
-    public static final double UNIHORN_CHANCE = 0.1F;
-    private static final EntityDataAccessor<Boolean> DATA_IS_SCREAMING_GOAT = SynchedEntityData.defineId(TCGoatCreeper.class, EntityDataSerializers.BOOLEAN);
-    private static final EntityDataAccessor<Boolean> DATA_HAS_LEFT_HORN = SynchedEntityData.defineId(TCGoatCreeper.class, EntityDataSerializers.BOOLEAN);
-    private static final EntityDataAccessor<Boolean> DATA_HAS_RIGHT_HORN = SynchedEntityData.defineId(TCGoatCreeper.class, EntityDataSerializers.BOOLEAN);
-    private boolean isLoweringHead;
-    private int lowerHeadTick;
-
     public ItemStack createHorn() {
-        RandomSource randomsource = RandomSource.create((long) this.getUUID().hashCode());
+        RandomSource randomsource = RandomSource.create(this.getUUID().hashCode());
         TagKey<Instrument> tagkey = this.isScreamingGoat() ? InstrumentTags.SCREAMING_GOAT_HORNS : InstrumentTags.REGULAR_GOAT_HORNS;
         return this.level()
                 .registryAccess()
                 .lookupOrThrow(Registries.INSTRUMENT)
                 .getRandomElementOf(tagkey, randomsource)
-                .map(p_365766_ -> InstrumentItem.create(Items.GOAT_HORN, (Holder<Instrument>) p_365766_))
+                .map(p_365766_ -> InstrumentItem.create(Items.GOAT_HORN, p_365766_))
                 .orElseGet(() -> new ItemStack(Items.GOAT_HORN));
     }
 
@@ -104,10 +112,6 @@ public class TCGoatCreeper extends AbstractTCCreeper {
     @Override
     protected Brain<?> makeBrain(Dynamic<?> p_149371_) {
         return TCGoatCreeperAi.makeBrain(this.brainProvider().makeBrain(p_149371_));
-    }
-
-    public static AttributeSupplier.Builder createAttributes() {
-        return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 10.0).add(Attributes.MOVEMENT_SPEED, 0.4F).add(Attributes.ATTACK_DAMAGE, 2.0);
     }
 
     @Override
@@ -321,10 +325,6 @@ public class TCGoatCreeper extends AbstractTCCreeper {
 
     public float getRammingXHeadRot() {
         return (float) this.lowerHeadTick / 20.0F * 30.0F * (float) (Math.PI / 180.0);
-    }
-
-    public static boolean checkGoatSpawnRules(EntityType<AbstractTCCreeper> p_218753_, LevelAccessor p_218754_, EntitySpawnReason p_218755_, BlockPos p_218756_, RandomSource p_218757_) {
-        return p_218754_.getBlockState(p_218756_.below()).is(BlockTags.GOATS_SPAWNABLE_ON) && isBrightEnoughToSpawn(p_218754_, p_218756_);
     }
 
     public static class TCGoatCreeperContext implements TCCreeperContext<TCGoatCreeper> {

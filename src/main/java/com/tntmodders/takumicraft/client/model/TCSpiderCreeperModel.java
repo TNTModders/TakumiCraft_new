@@ -1,7 +1,6 @@
 package com.tntmodders.takumicraft.client.model;
 
 import com.tntmodders.takumicraft.client.renderer.entity.state.TCCreeperRenderState;
-import com.tntmodders.takumicraft.entity.mobs.TCSpiderCreeper;
 import net.minecraft.client.model.SpiderModel;
 import net.minecraft.client.model.geom.ModelPart;
 

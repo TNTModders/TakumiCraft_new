@@ -67,6 +67,22 @@ public class TCParrotCreeper extends AbstractTCCreeper implements FlyingAnimal {
         this.setPathfindingMalus(PathType.COCOA, -1.0F);
     }
 
+    public static AttributeSupplier.Builder createAttributes() {
+        return Mob.createMobAttributes()
+                .add(Attributes.MAX_HEALTH, 6.0)
+                .add(Attributes.FLYING_SPEED, 0.4F)
+                .add(Attributes.MOVEMENT_SPEED, 0.2F)
+                .add(Attributes.ATTACK_DAMAGE, 3.0);
+    }
+
+    public static boolean checkParrotSpawnRules(EntityType<Parrot> p_218242_, LevelAccessor p_218243_, EntitySpawnReason p_218244_, BlockPos p_218245_, RandomSource p_218246_) {
+        return p_218243_.getBlockState(p_218245_.below()).is(BlockTags.PARROTS_SPAWNABLE_ON) && isBrightEnoughToSpawn(p_218243_, p_218245_);
+    }
+
+    public static float getPitch(RandomSource p_218237_) {
+        return (p_218237_.nextFloat() - p_218237_.nextFloat()) * 0.2F + 1.0F;
+    }
+
     @Override
     public TCCreeperContext<? extends AbstractTCCreeper> getContext() {
         return TCEntityCore.PARROT;
@@ -94,14 +110,6 @@ public class TCParrotCreeper extends AbstractTCCreeper implements FlyingAnimal {
         this.goalSelector.addGoal(1, new LookAtPlayerGoal(this, Player.class, 8.0F));
         this.goalSelector.addGoal(2, new TCParrotCreeper.ParrotWanderGoal(this, 1.0));
         this.goalSelector.addGoal(3, new FollowMobGoal(this, 1.0, 3.0F, 7.0F));
-    }
-
-    public static AttributeSupplier.Builder createAttributes() {
-        return Mob.createMobAttributes()
-                .add(Attributes.MAX_HEALTH, 6.0)
-                .add(Attributes.FLYING_SPEED, 0.4F)
-                .add(Attributes.MOVEMENT_SPEED, 0.2F)
-                .add(Attributes.ATTACK_DAMAGE, 3.0);
     }
 
     @Override
@@ -172,10 +180,6 @@ public class TCParrotCreeper extends AbstractTCCreeper implements FlyingAnimal {
         }
     }
 
-    public static boolean checkParrotSpawnRules(EntityType<Parrot> p_218242_, LevelAccessor p_218243_, EntitySpawnReason p_218244_, BlockPos p_218245_, RandomSource p_218246_) {
-        return p_218243_.getBlockState(p_218245_.below()).is(BlockTags.PARROTS_SPAWNABLE_ON) && isBrightEnoughToSpawn(p_218243_, p_218245_);
-    }
-
     @Override
     protected void checkFallDamage(double p_29370_, boolean p_29371_, BlockState p_29372_, BlockPos p_29373_) {
     }
@@ -217,10 +221,6 @@ public class TCParrotCreeper extends AbstractTCCreeper implements FlyingAnimal {
         return getPitch(this.random);
     }
 
-    public static float getPitch(RandomSource p_218237_) {
-        return (p_218237_.nextFloat() - p_218237_.nextFloat()) * 0.2F + 1.0F;
-    }
-
     @Override
     public SoundSource getSoundSource() {
         return SoundSource.NEUTRAL;
@@ -246,6 +246,37 @@ public class TCParrotCreeper extends AbstractTCCreeper implements FlyingAnimal {
     @Override
     public Vec3 getLeashOffset() {
         return new Vec3(0.0, 0.5F * this.getEyeHeight(), this.getBbWidth() * 0.4F);
+    }
+
+    public enum Variant implements StringRepresentable {
+        RED_BLUE(0, "red_blue"),
+        BLUE(1, "blue"),
+        GREEN(2, "green"),
+        YELLOW_BLUE(3, "yellow_blue"),
+        GRAY(4, "gray");
+
+        public static final Codec<TCParrotCreeper.Variant> CODEC = StringRepresentable.fromEnum(TCParrotCreeper.Variant::values);
+        private static final IntFunction<TCParrotCreeper.Variant> BY_ID = ByIdMap.continuous(TCParrotCreeper.Variant::getId, values(), ByIdMap.OutOfBoundsStrategy.CLAMP);
+        final int id;
+        private final String name;
+
+        Variant(final int p_262571_, final String p_262693_) {
+            this.id = p_262571_;
+            this.name = p_262693_;
+        }
+
+        public static TCParrotCreeper.Variant byId(int p_262643_) {
+            return BY_ID.apply(p_262643_);
+        }
+
+        public int getId() {
+            return this.id;
+        }
+
+        @Override
+        public String getSerializedName() {
+            return this.name;
+        }
     }
 
     static class ParrotWanderGoal extends WaterAvoidingRandomFlyingGoal {
@@ -294,37 +325,6 @@ public class TCParrotCreeper extends AbstractTCCreeper implements FlyingAnimal {
             }
 
             return null;
-        }
-    }
-
-    public enum Variant implements StringRepresentable {
-        RED_BLUE(0, "red_blue"),
-        BLUE(1, "blue"),
-        GREEN(2, "green"),
-        YELLOW_BLUE(3, "yellow_blue"),
-        GRAY(4, "gray");
-
-        public static final Codec<TCParrotCreeper.Variant> CODEC = StringRepresentable.fromEnum(TCParrotCreeper.Variant::values);
-        private static final IntFunction<TCParrotCreeper.Variant> BY_ID = ByIdMap.continuous(TCParrotCreeper.Variant::getId, values(), ByIdMap.OutOfBoundsStrategy.CLAMP);
-        final int id;
-        private final String name;
-
-        Variant(final int p_262571_, final String p_262693_) {
-            this.id = p_262571_;
-            this.name = p_262693_;
-        }
-
-        public int getId() {
-            return this.id;
-        }
-
-        public static TCParrotCreeper.Variant byId(int p_262643_) {
-            return BY_ID.apply(p_262643_);
-        }
-
-        @Override
-        public String getSerializedName() {
-            return this.name;
         }
     }
 

@@ -64,11 +64,8 @@ import java.util.stream.Stream;
 
 public class TCKingCreeper extends AbstractTCBossCreeper {
 
-    private static final EntityDataAccessor<Integer> ATTACK_ID = SynchedEntityData.defineId(TCKingCreeper.class, EntityDataSerializers.INT);
     public static final ResourceLocation KING_LOCATION = ResourceLocation.tryBuild(TakumiCraftCore.MODID, "textures/entity/creeper/kingcreeper_armor.png");
-    private int lastAttackID;
-    private boolean ULTCasted;
-
+    private static final EntityDataAccessor<Integer> ATTACK_ID = SynchedEntityData.defineId(TCKingCreeper.class, EntityDataSerializers.INT);
     private static final ProjectileDeflection PROJECTILE_DEFLECTION = (projectile, entity, randomSource) -> {
         entity.level().playLocalSound(entity, SoundEvents.BREEZE_DEFLECT, entity.getSoundSource(), 1.0F, 1.0F);
         projectile.setDeltaMovement(projectile.getDeltaMovement().scale(-1.05));
@@ -77,6 +74,8 @@ public class TCKingCreeper extends AbstractTCBossCreeper {
         projectile.yRotO += f;
         projectile.hurtMarked = true;
     };
+    private int lastAttackID;
+    private boolean ULTCasted;
 
     public TCKingCreeper(EntityType<? extends Creeper> entityType, Level level) {
         super(entityType, level);
@@ -300,6 +299,64 @@ public class TCKingCreeper extends AbstractTCBossCreeper {
         return TCEntityCore.KING;
     }
 
+    public enum EnumTCKingCreeperAttackID {
+        NONE(0, true, new NoneKingCreeperAttack()),
+        RANDOM_EXP(1, new ExplosionKingCreeperAttack(false, true)),
+        BALL_EXP(2, new ExplosionKingCreeperAttack(false, false)),
+        RANDOM_FIRE_EXP(3, new ExplosionKingCreeperAttack(true, true)),
+        BALL_FIRE_EXP(4, new ExplosionKingCreeperAttack(true, false)),
+        RANDOM_THUNDER(5, new ThunderKingCreeperAttack(true)),
+        FOLLOW_THUNDER(6, new ThunderKingCreeperAttack(false)),
+        FIREBALL(7, new FireballKingCreeperAttack()),
+        TP_EXP(8, new TPKingCreeperAttack()),
+        STORM(9, new StormKingCreeperAttack()),
+        SWORD(10, new SwordKingCreeperAttack()),
+        MACE(11, new MaceKingCreeperAttack()),
+        ARROWRAIN(12, new ArrowrainKingCreeperAttack()),
+        KINGBLOCK(13, new KingblockKingCreeperAttack()),
+        ULT_EXP(90, true, new SPExplosionKingCreeperAttack());
+
+        private final int id;
+        private final boolean isULT;
+        private final AbstractKingCreeperAttack attack;
+
+        EnumTCKingCreeperAttackID(int id, AbstractKingCreeperAttack atk) {
+            this(id, false, atk);
+        }
+
+        EnumTCKingCreeperAttackID(int id, boolean ult, AbstractKingCreeperAttack atk) {
+            this.id = id;
+            this.isULT = ult;
+            this.attack = atk;
+        }
+
+        public static Stream<EnumTCKingCreeperAttackID> getIDs() {
+            return Arrays.stream(EnumTCKingCreeperAttackID.values()).sorted(Comparator.comparingInt(EnumTCKingCreeperAttackID::getID));
+        }
+
+        public static EnumTCKingCreeperAttackID getID(int i) {
+            Optional<EnumTCKingCreeperAttackID> optional = getIDs().filter(id -> id.getID() == i).findAny();
+            return optional.orElse(NONE);
+        }
+
+        public static EnumTCKingCreeperAttackID getRandomID(RandomSource random) {
+            List<EnumTCKingCreeperAttackID> list = Arrays.stream(EnumTCKingCreeperAttackID.values()).filter(id -> !id.isULT).toList();
+            return list.get(random.nextInt(list.size()));
+        }
+
+        public AbstractKingCreeperAttack getAttack() {
+            return attack;
+        }
+
+        public int getID() {
+            return id;
+        }
+
+        public boolean isULTATK() {
+            return isULT && this != NONE;
+        }
+    }
+
     public static class TCKingCreeperContext implements TCCreeperContext<TCKingCreeper> {
         private static final String NAME = "kingcreeper";
         public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCKingCreeper::new, MobCategory.MONSTER).sized(0.6F, 1.7F).clientTrackingRange(8).build(TCEntityUtils.TCEntityId(NAME));
@@ -397,64 +454,6 @@ public class TCKingCreeper extends AbstractTCBossCreeper {
         @Override
         public UniformGenerator getDropRange() {
             return UniformGenerator.between(4f, 4f);
-        }
-    }
-
-    public enum EnumTCKingCreeperAttackID {
-        NONE(0, true, new NoneKingCreeperAttack()),
-        RANDOM_EXP(1, new ExplosionKingCreeperAttack(false, true)),
-        BALL_EXP(2, new ExplosionKingCreeperAttack(false, false)),
-        RANDOM_FIRE_EXP(3, new ExplosionKingCreeperAttack(true, true)),
-        BALL_FIRE_EXP(4, new ExplosionKingCreeperAttack(true, false)),
-        RANDOM_THUNDER(5, new ThunderKingCreeperAttack(true)),
-        FOLLOW_THUNDER(6, new ThunderKingCreeperAttack(false)),
-        FIREBALL(7, new FireballKingCreeperAttack()),
-        TP_EXP(8, new TPKingCreeperAttack()),
-        STORM(9, new StormKingCreeperAttack()),
-        SWORD(10, new SwordKingCreeperAttack()),
-        MACE(11, new MaceKingCreeperAttack()),
-        ARROWRAIN(12, new ArrowrainKingCreeperAttack()),
-        KINGBLOCK(13, new KingblockKingCreeperAttack()),
-        ULT_EXP(90, true, new SPExplosionKingCreeperAttack());
-
-        private final int id;
-        private final boolean isULT;
-        private final AbstractKingCreeperAttack attack;
-
-        EnumTCKingCreeperAttackID(int id, AbstractKingCreeperAttack atk) {
-            this(id, false, atk);
-        }
-
-        EnumTCKingCreeperAttackID(int id, boolean ult, AbstractKingCreeperAttack atk) {
-            this.id = id;
-            this.isULT = ult;
-            this.attack = atk;
-        }
-
-        public AbstractKingCreeperAttack getAttack() {
-            return attack;
-        }
-
-        public int getID() {
-            return id;
-        }
-
-        public boolean isULTATK() {
-            return isULT && this != NONE;
-        }
-
-        public static Stream<EnumTCKingCreeperAttackID> getIDs() {
-            return Arrays.stream(EnumTCKingCreeperAttackID.values()).sorted(Comparator.comparingInt(EnumTCKingCreeperAttackID::getID));
-        }
-
-        public static EnumTCKingCreeperAttackID getID(int i) {
-            Optional<EnumTCKingCreeperAttackID> optional = getIDs().filter(id -> id.getID() == i).findAny();
-            return optional.orElse(NONE);
-        }
-
-        public static EnumTCKingCreeperAttackID getRandomID(RandomSource random) {
-            List<EnumTCKingCreeperAttackID> list = Arrays.stream(EnumTCKingCreeperAttackID.values()).filter(id -> !id.isULT).toList();
-            return list.get(random.nextInt(list.size()));
         }
     }
 }

@@ -18,12 +18,14 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.CreativeInventoryListener;
-import net.minecraft.client.gui.screens.inventory.EffectRenderingInventoryScreen;
 import net.minecraft.client.player.inventory.Hotbar;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.searchtree.FullTextSearchTree;
 import net.minecraft.client.searchtree.SearchTree;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.HolderSet;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -55,7 +57,7 @@ import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 @OnlyIn(Dist.CLIENT)
-public class TCTakumiBookOutlineScreen extends EffectRenderingInventoryScreen<TCTakumiBookOutlineScreen.TakumiPickerMenu> {
+public class TCTakumiBookOutlineScreen extends AbstractContainerScreen<TCTakumiBookOutlineScreen.TakumiPickerMenu> {
     static final SimpleContainer CONTAINER = new SimpleContainer(45);
     private static final ResourceLocation SCROLLER_SPRITE = ResourceLocation.tryBuild("minecraft", "container/creative_inventory/scroller");
     private static final ResourceLocation SCROLLER_DISABLED_SPRITE = ResourceLocation.tryBuild("minecraft", "container/creative_inventory/scroller_disabled");
@@ -73,6 +75,7 @@ public class TCTakumiBookOutlineScreen extends EffectRenderingInventoryScreen<TC
     private static CreativeModeTab selectedTab = CreativeModeTabs.searchTab();
     private final Set<TagKey<Item>> visibleTags = new HashSet<>();
     private final List<net.minecraftforge.client.gui.CreativeTabsScreenPage> pages = new java.util.ArrayList<>();
+    private final SearchTree<ItemStack> searchtree;
     private float scrollOffs;
     private boolean scrolling;
     private EditBox searchBox;
@@ -85,10 +88,7 @@ public class TCTakumiBookOutlineScreen extends EffectRenderingInventoryScreen<TC
     private boolean hasClickedOutside;
     private net.minecraftforge.client.gui.CreativeTabsScreenPage currentPage = new net.minecraftforge.client.gui.CreativeTabsScreenPage(new java.util.ArrayList<>());
     private int tick = 0;
-
     private int lastPage = 0;
-
-    private final SearchTree<ItemStack> searchtree;
 
     public TCTakumiBookOutlineScreen(Player p_259788_) {
         super(new TCTakumiBookOutlineScreen.TakumiPickerMenu(p_259788_), p_259788_.getInventory(), CommonComponents.EMPTY);
@@ -334,7 +334,11 @@ public class TCTakumiBookOutlineScreen extends EffectRenderingInventoryScreen<TC
             predicate = p_98606_ -> p_98606_.getNamespace().contains(s) && p_98606_.getPath().contains(s1);
         }
 
-        BuiltInRegistries.ITEM.getTagNames().filter(p_205410_ -> predicate.test(p_205410_.location())).forEach(this.visibleTags::add);
+        BuiltInRegistries.ITEM
+                .getTags()
+                .map(HolderSet.Named::key)
+                .filter(p_205410_ -> predicate.test(p_205410_.location()))
+                .forEach(this.visibleTags::add);
     }
 
     @Override
@@ -391,7 +395,7 @@ public class TCTakumiBookOutlineScreen extends EffectRenderingInventoryScreen<TC
         p_98561_ = CreativeModeTabs.searchTab();
         CreativeModeTab creativemodetab = selectedTab;
         selectedTab = p_98561_;
-        slotColor = p_98561_.getSlotColor();
+        //slotColor = p_98561_.getSlotColor();
         this.quickCraftSlots.clear();
         this.menu.items.clear();
         this.clearDraggingState();
@@ -594,7 +598,7 @@ public class TCTakumiBookOutlineScreen extends EffectRenderingInventoryScreen<TC
     @Override
     protected void renderBg(GuiGraphics graphics, float p_98573_, int p_98574_, int p_98575_) {
         RenderSystem.setShaderTexture(0, SEARCH_GUI_TEXTURES);
-        graphics.blit(SEARCH_GUI_TEXTURES, this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight);
+        graphics.blit(RenderType::guiTextured, SEARCH_GUI_TEXTURES, this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight, 256, 256);
         this.searchBox.render(graphics, p_98574_, p_98575_, p_98573_);
         int j = this.leftPos + 175;
         int k = this.topPos + 18;
@@ -602,7 +606,7 @@ public class TCTakumiBookOutlineScreen extends EffectRenderingInventoryScreen<TC
         RenderSystem.setShaderTexture(0, SEARCH_GUI_TEXTURES);
         if (selectedTab.canScroll()) {
             ResourceLocation resourcelocation = this.canScroll() ? SCROLLER_SPRITE : SCROLLER_DISABLED_SPRITE;
-            graphics.blitSprite(resourcelocation, j, k + (int) ((float) (i - k - 17) * this.scrollOffs), 12, 15);
+            graphics.blitSprite(RenderType::guiTextured, resourcelocation, j, k + (int) ((float) (i - k - 17) * this.scrollOffs), 12, 15);
         }
     }
 

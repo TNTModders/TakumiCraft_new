@@ -57,6 +57,10 @@ public class TCVexCreeper extends AbstractTCCreeper implements TraceableEntity {
         this.xpReward = 3;
     }
 
+    public static AttributeSupplier.Builder createAttributes() {
+        return Monster.createMonsterAttributes().add(Attributes.MAX_HEALTH, 14.0).add(Attributes.ATTACK_DAMAGE, 4.0);
+    }
+
     @Override
     public TCCreeperContext<? extends AbstractTCCreeper> getContext() {
         return TCEntityCore.VEX;
@@ -96,10 +100,6 @@ public class TCVexCreeper extends AbstractTCCreeper implements TraceableEntity {
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this, Raider.class).setAlertOthers());
         this.targetSelector.addGoal(2, new TCVexCreeper.VexCopyOwnerTargetGoal(this));
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, Player.class, true));
-    }
-
-    public static AttributeSupplier.Builder createAttributes() {
-        return Monster.createMonsterAttributes().add(Attributes.MAX_HEALTH, 14.0).add(Attributes.ATTACK_DAMAGE, 4.0);
     }
 
     @Override
@@ -148,6 +148,10 @@ public class TCVexCreeper extends AbstractTCCreeper implements TraceableEntity {
         return this.owner;
     }
 
+    public void setOwner(Mob p_33995_) {
+        this.owner = p_33995_;
+    }
+
     @Nullable
     public BlockPos getBoundOrigin() {
         return this.boundOrigin;
@@ -179,10 +183,6 @@ public class TCVexCreeper extends AbstractTCCreeper implements TraceableEntity {
 
     public void setIsCharging(boolean p_34043_) {
         this.setVexFlag(1, p_34043_);
-    }
-
-    public void setOwner(Mob p_33995_) {
-        this.owner = p_33995_;
     }
 
     public void setLimitedLife(int p_33988_) {
@@ -224,6 +224,76 @@ public class TCVexCreeper extends AbstractTCCreeper implements TraceableEntity {
         ItemStack stack = p_219135_.nextInt(10) == 0 ? p_219135_.nextInt(10) == 0 ? new ItemStack(Items.NETHERITE_SWORD) : new ItemStack(Items.DIAMOND_SWORD) : new ItemStack(Items.IRON_SWORD);
         this.setItemSlot(EquipmentSlot.MAINHAND, stack);
         this.setDropChance(EquipmentSlot.MAINHAND, 0.0F);
+    }
+
+    public static class TCVexCreeperContext implements TCCreeperContext<TCVexCreeper> {
+        private static final String NAME = "vexcreeper";
+        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCVexCreeper::new, MobCategory.MONSTER).fireImmune().sized(0.4F, 0.8F).eyeHeight(0.51875F).passengerAttachments(0.7375F).ridingOffset(0.04F).clientTrackingRange(8).build(TCEntityUtils.TCEntityId(NAME));
+
+        @Override
+        public String getRegistryName() {
+            return NAME;
+        }
+
+        @Override
+        public String getJaJPRead() {
+            return "ゔぇっくすたくみ";
+        }
+
+        @Override
+        public String getEnUSDesc() {
+            return "Servant of illager, explosive flies and strong attack.";
+        }
+
+        @Override
+        public String getJaJPDesc() {
+            return "下僕は館で目覚め、羽撃き始める。闇夜風雷、轟く音。";
+        }
+
+        @Override
+        public String getEnUSName() {
+            return "Vex Creeper";
+        }
+
+        @Override
+        public String getJaJPName() {
+            return "ヴェックス匠";
+        }
+
+        @Override
+        public EntityType<?> entityType() {
+            return CREEPER;
+        }
+
+        @Override
+        public int getPrimaryColor() {
+            return 0x336633;
+        }
+
+        @Override
+        public int getSecondaryColor() {
+            return 0x996699;
+        }
+
+        @Override
+        public EnumTakumiElement getElement() {
+            return EnumTakumiElement.NORMAL_D;
+        }
+
+        @Override
+        public EnumTakumiRank getRank() {
+            return EnumTakumiRank.LOW;
+        }
+
+        @Override
+        public AttributeSupplier.Builder entityAttribute() {
+            return TCVexCreeper.createAttributes();
+        }
+
+        @Override
+        public void registerRenderer(EntityRenderersEvent.RegisterRenderers event, EntityType<?> type) {
+            event.registerEntityRenderer((EntityType<TCVexCreeper>) type, TCVexCreeperRenderer::new);
+        }
     }
 
     class VexChargeAttackGoal extends Goal {
@@ -370,77 +440,6 @@ public class TCVexCreeper extends AbstractTCCreeper implements TraceableEntity {
                     break;
                 }
             }
-        }
-    }
-
-
-    public static class TCVexCreeperContext implements TCCreeperContext<TCVexCreeper> {
-        private static final String NAME = "vexcreeper";
-        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCVexCreeper::new, MobCategory.MONSTER).fireImmune().sized(0.4F, 0.8F).eyeHeight(0.51875F).passengerAttachments(0.7375F).ridingOffset(0.04F).clientTrackingRange(8).build(TCEntityUtils.TCEntityId(NAME));
-
-        @Override
-        public String getRegistryName() {
-            return NAME;
-        }
-
-        @Override
-        public String getJaJPRead() {
-            return "ゔぇっくすたくみ";
-        }
-
-        @Override
-        public String getEnUSDesc() {
-            return "Servant of illager, explosive flies and strong attack.";
-        }
-
-        @Override
-        public String getJaJPDesc() {
-            return "下僕は館で目覚め、羽撃き始める。闇夜風雷、轟く音。";
-        }
-
-        @Override
-        public String getEnUSName() {
-            return "Vex Creeper";
-        }
-
-        @Override
-        public String getJaJPName() {
-            return "ヴェックス匠";
-        }
-
-        @Override
-        public EntityType<?> entityType() {
-            return CREEPER;
-        }
-
-        @Override
-        public int getPrimaryColor() {
-            return 0x336633;
-        }
-
-        @Override
-        public int getSecondaryColor() {
-            return 0x996699;
-        }
-
-        @Override
-        public EnumTakumiElement getElement() {
-            return EnumTakumiElement.NORMAL_D;
-        }
-
-        @Override
-        public EnumTakumiRank getRank() {
-            return EnumTakumiRank.LOW;
-        }
-
-        @Override
-        public AttributeSupplier.Builder entityAttribute() {
-            return TCVexCreeper.createAttributes();
-        }
-
-        @Override
-        public void registerRenderer(EntityRenderersEvent.RegisterRenderers event, EntityType<?> type) {
-            event.registerEntityRenderer((EntityType<TCVexCreeper>) type, TCVexCreeperRenderer::new);
         }
     }
 }

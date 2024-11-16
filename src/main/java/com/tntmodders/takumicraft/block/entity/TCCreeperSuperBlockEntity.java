@@ -32,6 +32,16 @@ public class TCCreeperSuperBlockEntity extends BlockEntity {
         super(TCBlockEntityCore.SUPER_BLOCK, pos, state);
     }
 
+    private static boolean unlocksWithPlayer(LockCode code, Player player) {
+/*        if (code.key().isEmpty()) {
+            return true;
+        } else {
+            String uuid = player.getStringUUID();
+            return player.hasPermissions(1) || code.key().equals(uuid) || code.unlocksWith(player.getMainHandItem());
+        }*/
+        return true;
+    }
+
     @Nullable
     public BlockState getState() {
         if (this.state == null || this.state.getBlock() == Blocks.AIR || this.state.getBlock() == TCBlockCore.SUPER_BLOCK) {
@@ -40,12 +50,12 @@ public class TCCreeperSuperBlockEntity extends BlockEntity {
         return state;
     }
 
-    public boolean isHideOverlay() {
-        return hideOverlay;
-    }
-
     public void setState(BlockState state) {
         this.state = state;
+    }
+
+    public boolean isHideOverlay() {
+        return hideOverlay;
     }
 
     public void setHideOverlay(boolean hideOverlay) {
@@ -67,16 +77,6 @@ public class TCCreeperSuperBlockEntity extends BlockEntity {
             return false;
         } else {
             return true;
-        }*/
-        return true;
-    }
-
-    private static boolean unlocksWithPlayer(LockCode code, Player player) {
-/*        if (code.key().isEmpty()) {
-            return true;
-        } else {
-            String uuid = player.getStringUUID();
-            return player.hasPermissions(1) || code.key().equals(uuid) || code.unlocksWith(player.getMainHandItem());
         }*/
         return true;
     }

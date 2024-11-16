@@ -2,7 +2,6 @@ package com.tntmodders.takumicraft.client.renderer.entity.state;
 
 import com.tntmodders.takumicraft.entity.mobs.AbstractTCCreeper;
 import net.minecraft.client.renderer.entity.state.BatRenderState;
-import net.minecraft.world.entity.AnimationState;
 
 public class TCBatCreeperRenderState extends BatRenderState implements ITCRenderState {
     public AbstractTCCreeper.TCCreeperContext context;

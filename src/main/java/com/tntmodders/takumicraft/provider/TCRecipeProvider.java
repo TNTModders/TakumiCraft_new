@@ -20,8 +20,8 @@ import java.util.concurrent.CompletableFuture;
 import static net.minecraft.data.recipes.RecipeBuilder.getDefaultRecipeId;
 
 public class TCRecipeProvider extends RecipeProvider {
-    private final RecipeOutput consumer;
     public final HolderGetter<Item> items;
+    private final RecipeOutput consumer;
 
     protected TCRecipeProvider(HolderLookup.Provider provider, RecipeOutput output) {
         super(provider, output);

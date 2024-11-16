@@ -49,6 +49,33 @@ public class TCBatCreeper extends AbstractTCCreeper {
         }
     }
 
+    public static AttributeSupplier.Builder createAttributes() {
+        return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 6.0);
+    }
+
+    public static boolean checkBatSpawnRules(EntityType<AbstractTCCreeper> p_218099_, LevelAccessor p_218100_, EntitySpawnReason p_218101_, BlockPos p_218102_, RandomSource p_218103_) {
+        if (p_218102_.getY() >= p_218100_.getSeaLevel()) {
+            return false;
+        } else {
+            int i = p_218100_.getMaxLocalRawBrightness(p_218102_);
+            int j = 4;
+            if (isHalloween()) {
+                j = 7;
+            } else if (p_218103_.nextBoolean()) {
+                return false;
+            }
+
+            return i <= p_218103_.nextInt(j) && checkMobSpawnRules(p_218099_, p_218100_, p_218101_, p_218102_, p_218103_);
+        }
+    }
+
+    private static boolean isHalloween() {
+        LocalDate localdate = LocalDate.now();
+        int i = localdate.get(ChronoField.DAY_OF_MONTH);
+        int j = localdate.get(ChronoField.MONTH_OF_YEAR);
+        return j == 10 && i >= 20 || j == 11 && i <= 3;
+    }
+
     @Override
     public boolean isFlapping() {
         return !this.isResting() && (float) this.tickCount % 10.0F == 0.0F;
@@ -97,10 +124,6 @@ public class TCBatCreeper extends AbstractTCCreeper {
 
     @Override
     protected void pushEntities() {
-    }
-
-    public static AttributeSupplier.Builder createAttributes() {
-        return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 6.0);
     }
 
     public boolean isResting() {
@@ -221,29 +244,6 @@ public class TCBatCreeper extends AbstractTCCreeper {
     public void addAdditionalSaveData(CompoundTag p_27443_) {
         super.addAdditionalSaveData(p_27443_);
         p_27443_.putByte("BatFlags", this.entityData.get(DATA_ID_FLAGS));
-    }
-
-    public static boolean checkBatSpawnRules(EntityType<AbstractTCCreeper> p_218099_, LevelAccessor p_218100_, EntitySpawnReason p_218101_, BlockPos p_218102_, RandomSource p_218103_) {
-        if (p_218102_.getY() >= p_218100_.getSeaLevel()) {
-            return false;
-        } else {
-            int i = p_218100_.getMaxLocalRawBrightness(p_218102_);
-            int j = 4;
-            if (isHalloween()) {
-                j = 7;
-            } else if (p_218103_.nextBoolean()) {
-                return false;
-            }
-
-            return i <= p_218103_.nextInt(j) && checkMobSpawnRules(p_218099_, p_218100_, p_218101_, p_218102_, p_218103_);
-        }
-    }
-
-    private static boolean isHalloween() {
-        LocalDate localdate = LocalDate.now();
-        int i = localdate.get(ChronoField.DAY_OF_MONTH);
-        int j = localdate.get(ChronoField.MONTH_OF_YEAR);
-        return j == 10 && i >= 20 || j == 11 && i <= 3;
     }
 
     private void setupAnimationStates() {

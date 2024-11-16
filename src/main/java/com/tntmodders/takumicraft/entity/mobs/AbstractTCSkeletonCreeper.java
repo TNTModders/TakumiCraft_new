@@ -1,7 +1,5 @@
 package com.tntmodders.takumicraft.entity.mobs;
 
-import com.tntmodders.takumicraft.utils.TCEntityUtils;
-
 import com.tntmodders.takumicraft.core.TCItemCore;
 import com.tntmodders.takumicraft.entity.projectile.TCCreeperArrow;
 import net.minecraft.core.BlockPos;

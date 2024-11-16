@@ -33,17 +33,17 @@ public class TCHydrothermalCreeper extends AbstractTCBlockCreeper {
         this.explosionRadius = 8;
     }
 
-    @Override
-    public BlockState getBlock() {
-        return Blocks.MAGMA_BLOCK.defaultBlockState();
-    }
-
     public static boolean checkHTCreeperSpawnRules(EntityType<? extends Monster> type, ServerLevelAccessor levelAccessor, EntitySpawnReason spawnType, BlockPos pos, RandomSource random) {
         boolean flg1 = pos.getY() <= levelAccessor.getSeaLevel();
         boolean flg2 = isDarkEnoughToSpawn(levelAccessor, pos, random);
         boolean flg3 = levelAccessor.getBlockState(pos).is(Blocks.WATER);
         boolean flg4 = !levelAccessor.getBlockState(pos.below()).isAir();
         return flg1 && flg2 && flg3 && flg4;
+    }
+
+    @Override
+    public BlockState getBlock() {
+        return Blocks.MAGMA_BLOCK.defaultBlockState();
     }
 
     @Override

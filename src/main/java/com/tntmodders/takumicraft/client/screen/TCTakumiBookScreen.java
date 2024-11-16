@@ -13,7 +13,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.PageButton;
-import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -21,6 +21,7 @@ import net.minecraft.network.chat.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -68,7 +69,7 @@ public class TCTakumiBookScreen extends Screen {
         this.bookAccess = EMPTY_ACCESS;
         this.playTurnSound = false;
         TCEntityCore.ENTITY_CONTEXTS.forEach(context -> {
-            if (context.entityType().create(Minecraft.getInstance().level) instanceof AbstractTCCreeper creeper) {
+            if (context.entityType().create(Minecraft.getInstance().level, EntitySpawnReason.LOAD) instanceof AbstractTCCreeper creeper) {
                 creepers.add(creeper);
             }
         });
@@ -199,14 +200,14 @@ public class TCTakumiBookScreen extends Screen {
     @Override
     public void renderBackground(GuiGraphics p_301081_, int p_297765_, int p_300192_, float p_297977_) {
         super.renderBackground(p_301081_, p_297765_, p_300192_, p_297977_);
-        p_301081_.blit(BOOK_GUI_TEXTURES, (this.width - 192) / 2, 2, 0, 0, 192, 192);
+        p_301081_.blit(RenderType::guiTextured, BOOK_GUI_TEXTURES, (this.width - 192) / 2, 2, 0, 0, 192, 192, 256, 256);
     }
 
     @Override
     public void render(GuiGraphics graphics, int mouseX, int mouseY, float p_98285_) {
         this.renderBackground(graphics, mouseX, mouseY, p_98285_);
         super.render(graphics, mouseX, mouseY, p_98285_);
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        //RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.setShaderTexture(0, BOOK_GUI_TEXTURES);
         int i = (this.width - 192) / 2;
@@ -229,7 +230,7 @@ public class TCTakumiBookScreen extends Screen {
         Component name = flg ? TCEntityUtils.getEntityName(context.entityType()) : TCEntityUtils.getUnknown();
         graphics.drawString(this.font, name, i + 80, 34, 0, false);
 
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        //RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         ResourceLocation location;
         if (flg) {
@@ -238,17 +239,17 @@ public class TCTakumiBookScreen extends Screen {
             location = ResourceLocation.tryBuild(TakumiCraftCore.MODID, "textures/book/underfound.png");
         }
         RenderSystem.setShaderTexture(0, location);
-        graphics.blit(location, i, 2, 0, 0, 192, 192);
+        graphics.blit(RenderType::guiTextured, location, i, 2, 0, 0, 192, 192, 256, 256);
         if (flg) {
             if (context.getElement().isDest()) {
                 location = ResourceLocation.tryBuild(TakumiCraftCore.MODID, "textures/book/dest.png");
                 RenderSystem.setShaderTexture(0, location);
-                graphics.blit(location, i, 2, 0, 0, 192, 192);
+                graphics.blit(RenderType::guiTextured, location, i, 2, 0, 0, 192, 192, 256, 256);
             }
             if (context.getElement().isMagic()) {
                 location = ResourceLocation.tryBuild(TakumiCraftCore.MODID, "textures/book/magic.png");
                 RenderSystem.setShaderTexture(0, location);
-                graphics.blit(location, i, 2, 0, 0, 192, 192);
+                graphics.blit(RenderType::guiTextured, location, i, 2, 0, 0, 192, 192, 256, 256);
             }
         }
         if (context.showRead() && flg) {

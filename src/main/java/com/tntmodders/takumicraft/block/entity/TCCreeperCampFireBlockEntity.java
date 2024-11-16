@@ -32,10 +32,6 @@ import javax.annotation.Nullable;
 import java.util.Optional;
 
 public class TCCreeperCampFireBlockEntity extends BlockEntity implements Clearable {
-    public TCCreeperCampFireBlockEntity(BlockPos p_155301_, BlockState p_155302_) {
-        super(TCBlockEntityCore.CAMPFIRE, p_155301_, p_155302_);
-    }
-
     private static final int BURN_COOL_SPEED = 2;
     private static final int NUM_SLOTS = 4;
     private final NonNullList<ItemStack> items = NonNullList.withSize(4, ItemStack.EMPTY);
@@ -43,6 +39,9 @@ public class TCCreeperCampFireBlockEntity extends BlockEntity implements Clearab
     private final int[] cookingTime = new int[4];
     private final RecipeManager.CachedCheck<SingleRecipeInput, CampfireCookingRecipe> quickCheck = RecipeManager.createCheck(RecipeType.CAMPFIRE_COOKING);
 
+    public TCCreeperCampFireBlockEntity(BlockPos p_155301_, BlockState p_155302_) {
+        super(TCBlockEntityCore.CAMPFIRE, p_155301_, p_155302_);
+    }
 
     public static void cookTick(Level level, BlockPos pos, BlockState state, TCCreeperCampFireBlockEntity campfire) {
         boolean flag = false;

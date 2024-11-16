@@ -33,6 +33,12 @@ import java.util.Calendar;
 import static net.minecraft.client.renderer.Sheets.CHEST_SHEET;
 
 public class TCCreeperChestRenderer<T extends TCCreeperChestBlockEntity> implements BlockEntityRenderer<T> {
+    public static final Material CHEST_LOCATION = chestMaterial("normal");
+    public static final Material CHEST_LOCATION_LEFT = chestMaterial("normal_left");
+    public static final Material CHEST_LOCATION_RIGHT = chestMaterial("normal_right");
+    public static final Material CHEST_XMAS_LOCATION = chestMaterial("christmas");
+    public static final Material CHEST_XMAS_LOCATION_LEFT = chestMaterial("christmas_left");
+    public static final Material CHEST_XMAS_LOCATION_RIGHT = chestMaterial("christmas_right");
     private static final String BOTTOM = "bottom";
     private static final String LID = "lid";
     private static final String LOCK = "lock";
@@ -46,14 +52,6 @@ public class TCCreeperChestRenderer<T extends TCCreeperChestBlockEntity> impleme
     private final ModelPart doubleRightBottom;
     private final ModelPart doubleRightLock;
     private boolean xmasTextures;
-
-    public static final Material CHEST_LOCATION = chestMaterial("normal");
-    public static final Material CHEST_LOCATION_LEFT = chestMaterial("normal_left");
-    public static final Material CHEST_LOCATION_RIGHT = chestMaterial("normal_right");
-
-    public static final Material CHEST_XMAS_LOCATION = chestMaterial("christmas");
-    public static final Material CHEST_XMAS_LOCATION_LEFT = chestMaterial("christmas_left");
-    public static final Material CHEST_XMAS_LOCATION_RIGHT = chestMaterial("christmas_right");
 
     public TCCreeperChestRenderer(BlockEntityRendererProvider.Context p_173607_) {
         Calendar calendar = Calendar.getInstance();
@@ -112,6 +110,25 @@ public class TCCreeperChestRenderer<T extends TCCreeperChestBlockEntity> impleme
                 "lock", CubeListBuilder.create().texOffs(0, 0).addBox(0.0F, -2.0F, 14.0F, 1.0F, 4.0F, 1.0F), PartPose.offset(0.0F, 9.0F, 1.0F)
         );
         return LayerDefinition.create(meshdefinition, 64, 64);
+    }
+
+    private static Material chestMaterial(String p_110779_) {
+        return new Material(CHEST_SHEET, ResourceLocation.tryBuild(TakumiCraftCore.MODID, "entity/chest/" + p_110779_));
+    }
+
+    public static Material chooseMaterial(BlockEntity p_110768_, ChestType p_110769_, boolean p_110770_) {
+        if (p_110770_) {
+            return switch (p_110769_) {
+                case LEFT -> CHEST_XMAS_LOCATION_LEFT;
+                case RIGHT -> CHEST_XMAS_LOCATION_RIGHT;
+                default -> CHEST_XMAS_LOCATION;
+            };
+        }
+        return switch (p_110769_) {
+            case LEFT -> CHEST_LOCATION_LEFT;
+            case RIGHT -> CHEST_LOCATION_RIGHT;
+            default -> CHEST_LOCATION;
+        };
     }
 
     @Override
@@ -173,24 +190,5 @@ public class TCCreeperChestRenderer<T extends TCCreeperChestBlockEntity> impleme
 
     protected Material getMaterial(BlockEntity blockEntity, ChestType chestType) {
         return chooseMaterial(blockEntity, chestType, this.xmasTextures);
-    }
-
-    private static Material chestMaterial(String p_110779_) {
-        return new Material(CHEST_SHEET, ResourceLocation.tryBuild(TakumiCraftCore.MODID, "entity/chest/" + p_110779_));
-    }
-
-    public static Material chooseMaterial(BlockEntity p_110768_, ChestType p_110769_, boolean p_110770_) {
-        if (p_110770_) {
-            return switch (p_110769_) {
-                case LEFT -> CHEST_XMAS_LOCATION_LEFT;
-                case RIGHT -> CHEST_XMAS_LOCATION_RIGHT;
-                default -> CHEST_XMAS_LOCATION;
-            };
-        }
-        return switch (p_110769_) {
-            case LEFT -> CHEST_LOCATION_LEFT;
-            case RIGHT -> CHEST_LOCATION_RIGHT;
-            default -> CHEST_LOCATION;
-        };
     }
 }

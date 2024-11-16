@@ -1,11 +1,6 @@
 package com.tntmodders.takumicraft.client.model;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Axis;
 import com.tntmodders.takumicraft.client.renderer.entity.state.TCChildCreeperRenderState;
-import com.tntmodders.takumicraft.client.renderer.entity.state.TCCreeperRenderState;
-import com.tntmodders.takumicraft.entity.mobs.TCChildCreeper;
 import net.minecraft.client.model.CreeperModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;

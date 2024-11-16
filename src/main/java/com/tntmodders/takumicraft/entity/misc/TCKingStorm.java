@@ -28,6 +28,10 @@ public class TCKingStorm extends PathfinderMob {
         super(p_21683_, p_21684_);
     }
 
+    public static AttributeSupplier.Builder createAttributes() {
+        return Mob.createMobAttributes().add(Attributes.MOVEMENT_SPEED, 1).add(Attributes.FOLLOW_RANGE, 100).add(Attributes.KNOCKBACK_RESISTANCE, 1000).add(Attributes.MAX_HEALTH, 1).add(Attributes.ATTACK_DAMAGE, 0);
+    }
+
     @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 1.0D, false));
@@ -35,10 +39,6 @@ public class TCKingStorm extends PathfinderMob {
         this.goalSelector.addGoal(3, new LookAtPlayerGoal(this, Player.class, 32.0F));
         this.goalSelector.addGoal(3, new RandomLookAroundGoal(this));
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, true));
-    }
-
-    public static AttributeSupplier.Builder createAttributes() {
-        return Mob.createMobAttributes().add(Attributes.MOVEMENT_SPEED, 1).add(Attributes.FOLLOW_RANGE, 100).add(Attributes.KNOCKBACK_RESISTANCE, 1000).add(Attributes.MAX_HEALTH, 1).add(Attributes.ATTACK_DAMAGE, 0);
     }
 
     @Override

@@ -1,7 +1,6 @@
 package com.tntmodders.takumicraft.client.renderer.entity.state;
 
 import com.tntmodders.takumicraft.entity.mobs.AbstractTCCreeper;
-import net.minecraft.client.renderer.entity.LlamaSpitRenderer;
 import net.minecraft.client.renderer.entity.state.LlamaRenderState;
 
 public class TCLlamaCreeperRenderState extends LlamaRenderState implements ITCRenderState {

@@ -30,9 +30,11 @@ import java.util.Optional;
 import static com.tntmodders.takumicraft.item.TCCreeperSwordItem.*;
 
 public class TCCreeperSwordUpgradeRecipe implements SmithingRecipe {
+    final Ingredient template;
+    final Ingredient base = Ingredient.of(TCItemCore.CREEPER_SWORD);
+    final ItemStack result = TCItemCore.CREEPER_SWORD.getDefaultInstance();
     @Nullable
     private PlacementInfo placementInfo;
-
     public TCCreeperSwordUpgradeRecipe() {
         List<Item> list = TCItemCore.ITEMS;
         list.removeIf(item -> !item.getDefaultInstance().is(TCItemCore.ELEMENT_CORE));
@@ -40,9 +42,18 @@ public class TCCreeperSwordUpgradeRecipe implements SmithingRecipe {
 
     }
 
-    final Ingredient template;
-    final Ingredient base = Ingredient.of(TCItemCore.CREEPER_SWORD);
-    final ItemStack result = TCItemCore.CREEPER_SWORD.getDefaultInstance();
+    public static ItemStack upgradeNewAttributes(ItemStack stack, TCElementCoreItem element) {
+        ItemAttributeModifiers modifiers = stack.getComponents().get(DataComponents.ATTRIBUTE_MODIFIERS);
+        CreeperSwordUpgrader damage = new CreeperSwordUpgrader(Attributes.ATTACK_DAMAGE, element.getAddAtk());
+        CreeperSwordUpgrader speed = new CreeperSwordUpgrader(Attributes.ATTACK_SPEED, element.getAddSpeed());
+        CreeperSwordUpgrader range = new CreeperSwordUpgrader(Attributes.ENTITY_INTERACTION_RANGE, element.getAddRange());
+        modifiers = modifiers
+                .withModifierAdded(damage.holder(), new AttributeModifier(damage.getUUID(), damage.getModifyAmount(modifiers, stack), AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND)
+                .withModifierAdded(speed.holder(), new AttributeModifier(speed.getUUID(), speed.getModifyAmount(modifiers, stack), AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND)
+                .withModifierAdded(range.holder(), new AttributeModifier(range.getUUID(), range.getModifyAmount(modifiers, stack), AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND);
+        stack.set(DataComponents.ATTRIBUTE_MODIFIERS, modifiers);
+        return stack;
+    }
 
     @Override
     public boolean matches(SmithingRecipeInput p_266855_, Level p_266781_) {
@@ -99,17 +110,24 @@ public class TCCreeperSwordUpgradeRecipe implements SmithingRecipe {
     @Override
     public PlacementInfo placementInfo() {
         if (this.placementInfo == null) {
-            this.placementInfo = PlacementInfo.createFromOptionals(List.<Optional<Ingredient>>of(this.templateIngredient(), this.baseIngredient(), this.additionIngredient()));
+            this.placementInfo = PlacementInfo.createFromOptionals(List.of(this.templateIngredient(), this.baseIngredient(), this.additionIngredient()));
         }
 
         return this.placementInfo;
     }
 
     public static class Serializer implements RecipeSerializer<TCCreeperSwordUpgradeRecipe> {
-        private static final MapCodec<TCCreeperSwordUpgradeRecipe> CODEC = MapCodec.unit(new TCCreeperSwordUpgradeRecipe());
         public static final StreamCodec<RegistryFriendlyByteBuf, TCCreeperSwordUpgradeRecipe> STREAM_CODEC = StreamCodec.of(
                 TCCreeperSwordUpgradeRecipe.Serializer::toNetwork, TCCreeperSwordUpgradeRecipe.Serializer::fromNetwork
         );
+        private static final MapCodec<TCCreeperSwordUpgradeRecipe> CODEC = MapCodec.unit(new TCCreeperSwordUpgradeRecipe());
+
+        private static TCCreeperSwordUpgradeRecipe fromNetwork(RegistryFriendlyByteBuf p_333917_) {
+            return new TCCreeperSwordUpgradeRecipe();
+        }
+
+        private static void toNetwork(RegistryFriendlyByteBuf p_329920_, TCCreeperSwordUpgradeRecipe p_266927_) {
+        }
 
         @Override
         public MapCodec<TCCreeperSwordUpgradeRecipe> codec() {
@@ -120,26 +138,6 @@ public class TCCreeperSwordUpgradeRecipe implements SmithingRecipe {
         public StreamCodec<RegistryFriendlyByteBuf, TCCreeperSwordUpgradeRecipe> streamCodec() {
             return STREAM_CODEC;
         }
-
-        private static TCCreeperSwordUpgradeRecipe fromNetwork(RegistryFriendlyByteBuf p_333917_) {
-            return new TCCreeperSwordUpgradeRecipe();
-        }
-
-        private static void toNetwork(RegistryFriendlyByteBuf p_329920_, TCCreeperSwordUpgradeRecipe p_266927_) {
-        }
-    }
-
-    public static ItemStack upgradeNewAttributes(ItemStack stack, TCElementCoreItem element) {
-        ItemAttributeModifiers modifiers = stack.getComponents().get(DataComponents.ATTRIBUTE_MODIFIERS);
-        CreeperSwordUpgrader damage = new CreeperSwordUpgrader(Attributes.ATTACK_DAMAGE, element.getAddAtk());
-        CreeperSwordUpgrader speed = new CreeperSwordUpgrader(Attributes.ATTACK_SPEED, element.getAddSpeed());
-        CreeperSwordUpgrader range = new CreeperSwordUpgrader(Attributes.ENTITY_INTERACTION_RANGE, element.getAddRange());
-        modifiers = modifiers
-                .withModifierAdded(damage.holder(), new AttributeModifier(damage.getUUID(), damage.getModifyAmount(modifiers, stack), AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND)
-                .withModifierAdded(speed.holder(), new AttributeModifier(speed.getUUID(), speed.getModifyAmount(modifiers, stack), AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND)
-                .withModifierAdded(range.holder(), new AttributeModifier(range.getUUID(), range.getModifyAmount(modifiers, stack), AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND);
-        stack.set(DataComponents.ATTRIBUTE_MODIFIERS, modifiers);
-        return stack;
     }
 
     record CreeperSwordUpgrader(Holder<Attribute> holder, double amount) {

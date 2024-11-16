@@ -29,6 +29,17 @@ public class TCElementCoreItem extends Item implements ITCItems, ITCTranslator {
         this.addRange = range * 0.4;
     }
 
+    public static Item getElementCoreFormElement(EnumTakumiElement element) {
+        return switch (element.getMainElement()) {
+            case FIRE -> TCItemCore.ELEMENTCORE_FIRE;
+            case GRASS -> TCItemCore.ELEMENTCORE_GRASS;
+            case WATER -> TCItemCore.ELEMENTCORE_WATER;
+            case WIND -> TCItemCore.ELEMENTCORE_WIND;
+            case GROUND -> TCItemCore.ELEMENTCORE_GROUND;
+            default -> TCItemCore.ELEMENTCORE_NORMAL;
+        };
+    }
+
     public double getAddAtk() {
         return addAtk;
     }
@@ -39,17 +50,6 @@ public class TCElementCoreItem extends Item implements ITCItems, ITCTranslator {
 
     public double getAddSpeed() {
         return addSpeed;
-    }
-
-    public static Item getElementCoreFormElement(EnumTakumiElement element) {
-        return switch (element.getMainElement()) {
-            case FIRE -> TCItemCore.ELEMENTCORE_FIRE;
-            case GRASS -> TCItemCore.ELEMENTCORE_GRASS;
-            case WATER -> TCItemCore.ELEMENTCORE_WATER;
-            case WIND -> TCItemCore.ELEMENTCORE_WIND;
-            case GROUND -> TCItemCore.ELEMENTCORE_GROUND;
-            default -> TCItemCore.ELEMENTCORE_NORMAL;
-        };
     }
 
     @Override

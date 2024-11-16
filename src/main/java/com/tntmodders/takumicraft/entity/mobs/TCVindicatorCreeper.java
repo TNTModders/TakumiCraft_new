@@ -38,12 +38,20 @@ import java.util.EnumSet;
 import java.util.function.Predicate;
 
 public class TCVindicatorCreeper extends AbstractTCIllagerCreeper {
-    private static final String TAG_JOHNNY = "Johnny";
     static final Predicate<Difficulty> DOOR_BREAKING_PREDICATE = p_34082_ -> p_34082_ == Difficulty.NORMAL || p_34082_ == Difficulty.HARD;
+    private static final String TAG_JOHNNY = "Johnny";
     boolean isJohnny;
 
     public TCVindicatorCreeper(EntityType<? extends Creeper> entityType, Level level) {
         super(entityType, level);
+    }
+
+    public static AttributeSupplier.Builder createAttributes() {
+        return Monster.createMonsterAttributes()
+                .add(Attributes.MOVEMENT_SPEED, 0.35F)
+                .add(Attributes.FOLLOW_RANGE, 12.0)
+                .add(Attributes.MAX_HEALTH, 24.0)
+                .add(Attributes.ATTACK_DAMAGE, 5.0);
     }
 
     @Override
@@ -75,14 +83,6 @@ public class TCVindicatorCreeper extends AbstractTCIllagerCreeper {
         }
 
         super.customServerAiStep(level);
-    }
-
-    public static AttributeSupplier.Builder createAttributes() {
-        return Monster.createMonsterAttributes()
-                .add(Attributes.MOVEMENT_SPEED, 0.35F)
-                .add(Attributes.FOLLOW_RANGE, 12.0)
-                .add(Attributes.MAX_HEALTH, 24.0)
-                .add(Attributes.ATTACK_DAMAGE, 5.0);
     }
 
     @Override

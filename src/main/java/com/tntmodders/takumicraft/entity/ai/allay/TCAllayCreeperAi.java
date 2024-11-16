@@ -18,7 +18,6 @@ import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.ai.behavior.*;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
-import net.minecraft.world.entity.animal.allay.Allay;
 import net.minecraft.world.entity.item.PrimedTnt;
 import net.minecraft.world.entity.npc.InventoryCarrier;
 import net.minecraft.world.entity.schedule.Activity;
@@ -60,9 +59,9 @@ public class TCAllayCreeperAi {
         p_218426_.addActivity(
                 Activity.CORE,
                 0,
-                (ImmutableList<? extends BehaviorControl<? super TCAllayCreeper>>) ImmutableList.of(
+                ImmutableList.of(
                         new Swim<>(0.8F),
-                        new AnimalPanic<Allay>(2.5F),
+                        new AnimalPanic<>(2.5F),
                         new LookAtTargetSink(45, 90),
                         new MoveToTargetSink(),
                         new CountDownCooldownTicks(MemoryModuleType.LIKED_NOTEBLOCK_COOLDOWN_TICKS),
@@ -180,6 +179,30 @@ public class TCAllayCreeperAi {
             this.speedModifier = p_249937_;
         }
 
+        private static Vec3 getThrowPosition(PositionTracker p_217212_) {
+            return p_217212_.currentPosition().add(0.0, 1.0, 0.0);
+        }
+
+        public static void throwItem(LivingEntity p_217208_, ItemStack p_217209_, Vec3 p_217210_) {
+            Vec3 vec3 = new Vec3(0.2F, 0.3F, 0.2F);
+            throwTNT(p_217208_, p_217209_, p_217210_, vec3, 0.2F);
+            Level level = p_217208_.level();
+            if (level.getGameTime() % 7L == 0L && level.random.nextDouble() < 0.9) {
+                float f = Util.getRandom(TCAllayCreeper.THROW_SOUND_PITCHES, level.getRandom());
+                level.playSound(null, p_217208_, SoundEvents.ALLAY_THROW, SoundSource.NEUTRAL, 1.0F, f);
+            }
+        }
+
+        public static void throwTNT(LivingEntity p_217134_, ItemStack p_217135_, Vec3 p_217136_, Vec3 p_217137_, float p_217138_) {
+            double d0 = p_217134_.getEyeY() - (double) p_217138_;
+            PrimedTnt tnt = new PrimedTnt(p_217134_.level(), p_217134_.getX(), d0, p_217134_.getZ(), p_217134_);
+            Vec3 vec3 = p_217136_.subtract(p_217134_.position());
+            vec3 = vec3.normalize().multiply(p_217137_.x, p_217137_.y, p_217137_.z);
+            tnt.setDeltaMovement(vec3);
+            tnt.setFuse(30);
+            p_217134_.level().addFreshEntity(tnt);
+        }
+
         @Override
         protected boolean checkExtraStartConditions(ServerLevel p_217196_, E p_217197_) {
             return this.canThrowItemToTarget(p_217197_);
@@ -227,30 +250,6 @@ public class TCAllayCreeperAi {
                 Optional<PositionTracker> optional = this.targetPositionGetter.apply(p_217203_);
                 return optional.isPresent();
             }
-        }
-
-        private static Vec3 getThrowPosition(PositionTracker p_217212_) {
-            return p_217212_.currentPosition().add(0.0, 1.0, 0.0);
-        }
-
-        public static void throwItem(LivingEntity p_217208_, ItemStack p_217209_, Vec3 p_217210_) {
-            Vec3 vec3 = new Vec3(0.2F, 0.3F, 0.2F);
-            throwTNT(p_217208_, p_217209_, p_217210_, vec3, 0.2F);
-            Level level = p_217208_.level();
-            if (level.getGameTime() % 7L == 0L && level.random.nextDouble() < 0.9) {
-                float f = Util.getRandom(TCAllayCreeper.THROW_SOUND_PITCHES, level.getRandom());
-                level.playSound(null, p_217208_, SoundEvents.ALLAY_THROW, SoundSource.NEUTRAL, 1.0F, f);
-            }
-        }
-
-        public static void throwTNT(LivingEntity p_217134_, ItemStack p_217135_, Vec3 p_217136_, Vec3 p_217137_, float p_217138_) {
-            double d0 = p_217134_.getEyeY() - (double) p_217138_;
-            PrimedTnt tnt = new PrimedTnt(p_217134_.level(), p_217134_.getX(), d0, p_217134_.getZ(), p_217134_);
-            Vec3 vec3 = p_217136_.subtract(p_217134_.position());
-            vec3 = vec3.normalize().multiply(p_217137_.x, p_217137_.y, p_217137_.z);
-            tnt.setDeltaMovement(vec3);
-            tnt.setFuse(30);
-            p_217134_.level().addFreshEntity(tnt);
         }
     }
 }

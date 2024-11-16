@@ -35,9 +35,9 @@ public class TCGoatRamTarget extends Behavior<TCGoatCreeper> {
     private final TargetingConditions ramTargeting;
     private final float speed;
     private final ToDoubleFunction<TCGoatCreeper> getKnockbackForce;
-    private Vec3 ramDirection;
     private final Function<TCGoatCreeper, SoundEvent> getImpactSound;
     private final Function<TCGoatCreeper, SoundEvent> getHornBreakSound;
+    private Vec3 ramDirection;
 
     public TCGoatRamTarget(
             Function<TCGoatCreeper, UniformInt> p_217342_,

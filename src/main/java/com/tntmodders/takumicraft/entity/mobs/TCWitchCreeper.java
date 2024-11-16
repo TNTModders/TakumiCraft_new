@@ -60,6 +60,10 @@ public class TCWitchCreeper extends AbstractTCCreeper implements RangedAttackMob
         super(entityType, level);
     }
 
+    public static AttributeSupplier.Builder createAttributes() {
+        return Monster.createMonsterAttributes().add(Attributes.MAX_HEALTH, 26.0).add(Attributes.MOVEMENT_SPEED, 0.25);
+    }
+
     @Override
     public TCCreeperContext<? extends AbstractTCCreeper> getContext() {
         return TCEntityCore.WITCH;
@@ -108,10 +112,6 @@ public class TCWitchCreeper extends AbstractTCCreeper implements RangedAttackMob
 
     public boolean isDrinkingPotion() {
         return this.getEntityData().get(DATA_USING_ITEM);
-    }
-
-    public static AttributeSupplier.Builder createAttributes() {
-        return Monster.createMonsterAttributes().add(Attributes.MAX_HEALTH, 26.0).add(Attributes.MOVEMENT_SPEED, 0.25);
     }
 
     @Override

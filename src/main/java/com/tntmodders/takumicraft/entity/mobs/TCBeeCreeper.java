@@ -73,13 +73,13 @@ public class TCBeeCreeper extends AbstractTCCreeper implements FlyingAnimal {
     private static final int POISON_SECONDS_HARD = 18;
     private static final int TOO_FAR_DISTANCE = 32;
     private static final UniformInt PERSISTENT_ANGER_TIME = TimeUtil.rangeOfSeconds(20, 39);
+    private static final int COOLDOWN_BEFORE_LOCATING_NEW_HIVE = 200;
+    private static final int COOLDOWN_BEFORE_LOCATING_NEW_FLOWER = 200;
     @Nullable
     private UUID persistentAngerTarget;
     private float rollAmount;
     private float rollAmountO;
     private int timeSinceSting;
-    private static final int COOLDOWN_BEFORE_LOCATING_NEW_HIVE = 200;
-    private static final int COOLDOWN_BEFORE_LOCATING_NEW_FLOWER = 200;
     private int underWaterTicks;
 
     public TCBeeCreeper(EntityType<? extends Creeper> entityType, Level level) {
@@ -90,6 +90,10 @@ public class TCBeeCreeper extends AbstractTCCreeper implements FlyingAnimal {
         this.setPathfindingMalus(PathType.WATER_BORDER, 16.0F);
         this.setPathfindingMalus(PathType.COCOA, -1.0F);
         this.setPathfindingMalus(PathType.FENCE, -1.0F);
+    }
+
+    public static AttributeSupplier.Builder createAttributes() {
+        return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 10.0).add(Attributes.FLYING_SPEED, 0.6F).add(Attributes.MOVEMENT_SPEED, 0.3F).add(Attributes.ATTACK_DAMAGE, 2.0).add(Attributes.FOLLOW_RANGE, 48.0);
     }
 
     @Override
@@ -219,7 +223,6 @@ public class TCBeeCreeper extends AbstractTCCreeper implements FlyingAnimal {
         }
     }
 
-
     public int getRemainingPersistentAngerTime() {
         return this.entityData.get(DATA_REMAINING_ANGER_TIME);
     }
@@ -273,10 +276,6 @@ public class TCBeeCreeper extends AbstractTCCreeper implements FlyingAnimal {
 
     private boolean getFlag(int p_27922_) {
         return (this.entityData.get(DATA_FLAGS_ID) & p_27922_) != 0;
-    }
-
-    public static AttributeSupplier.Builder createAttributes() {
-        return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 10.0).add(Attributes.FLYING_SPEED, 0.6F).add(Attributes.MOVEMENT_SPEED, 0.3F).add(Attributes.ATTACK_DAMAGE, 2.0).add(Attributes.FOLLOW_RANGE, 48.0);
     }
 
     @Override
@@ -378,41 +377,6 @@ public class TCBeeCreeper extends AbstractTCCreeper implements FlyingAnimal {
         }
     }
 
-    class BeeWanderGoal extends Goal {
-        private static final int WANDER_THRESHOLD = 22;
-
-        BeeWanderGoal() {
-            this.setFlags(EnumSet.of(Goal.Flag.MOVE));
-        }
-
-        @Override
-        public boolean canUse() {
-            return TCBeeCreeper.this.navigation.isDone() && TCBeeCreeper.this.random.nextInt(10) == 0;
-        }
-
-        @Override
-        public boolean canContinueToUse() {
-            return TCBeeCreeper.this.navigation.isInProgress();
-        }
-
-        @Override
-        public void start() {
-            Vec3 vec3 = this.findPos();
-            if (vec3 != null) {
-                TCBeeCreeper.this.navigation.moveTo(TCBeeCreeper.this.navigation.createPath(BlockPos.containing(vec3), 1), 1.0);
-            }
-        }
-
-        @Nullable
-        private Vec3 findPos() {
-            Vec3 vec3 = TCBeeCreeper.this.getViewVector(0.0F);
-
-            int i = 8;
-            Vec3 vec32 = HoverRandomPos.getPos(TCBeeCreeper.this, 8, 7, vec3.x, vec3.z, (float) (Math.PI / 2), 3, 1);
-            return vec32 != null ? vec32 : AirAndWaterRandomPos.getPos(TCBeeCreeper.this, 8, 4, -2, vec3.x, vec3.z, (float) (Math.PI / 2));
-        }
-    }
-
     public static class TCBeeCreeperContext implements TCCreeperContext<TCBeeCreeper> {
         private static final String NAME = "beecreeper";
         public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCBeeCreeper::new, MobCategory.MONSTER).sized(0.7F, 0.6F).eyeHeight(0.3F).clientTrackingRange(8).build(TCEntityUtils.TCEntityId(NAME));
@@ -501,6 +465,41 @@ public class TCBeeCreeper extends AbstractTCCreeper implements FlyingAnimal {
         public boolean registerSpawn(SpawnPlacementRegisterEvent event, EntityType<AbstractTCCreeper> type) {
             event.register(type, SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AbstractTCCreeper::checkAnimalSpawnRules, SpawnPlacementRegisterEvent.Operation.OR);
             return true;
+        }
+    }
+
+    class BeeWanderGoal extends Goal {
+        private static final int WANDER_THRESHOLD = 22;
+
+        BeeWanderGoal() {
+            this.setFlags(EnumSet.of(Goal.Flag.MOVE));
+        }
+
+        @Override
+        public boolean canUse() {
+            return TCBeeCreeper.this.navigation.isDone() && TCBeeCreeper.this.random.nextInt(10) == 0;
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            return TCBeeCreeper.this.navigation.isInProgress();
+        }
+
+        @Override
+        public void start() {
+            Vec3 vec3 = this.findPos();
+            if (vec3 != null) {
+                TCBeeCreeper.this.navigation.moveTo(TCBeeCreeper.this.navigation.createPath(BlockPos.containing(vec3), 1), 1.0);
+            }
+        }
+
+        @Nullable
+        private Vec3 findPos() {
+            Vec3 vec3 = TCBeeCreeper.this.getViewVector(0.0F);
+
+            int i = 8;
+            Vec3 vec32 = HoverRandomPos.getPos(TCBeeCreeper.this, 8, 7, vec3.x, vec3.z, (float) (Math.PI / 2), 3, 1);
+            return vec32 != null ? vec32 : AirAndWaterRandomPos.getPos(TCBeeCreeper.this, 8, 4, -2, vec3.x, vec3.z, (float) (Math.PI / 2));
         }
     }
 }

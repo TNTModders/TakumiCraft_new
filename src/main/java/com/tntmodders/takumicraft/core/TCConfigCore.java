@@ -51,15 +51,15 @@ public class TCConfigCore {
         public static final TCServerConfig SERVER;
         static final ForgeConfigSpec serverSpec;
 
-        public final ForgeConfigSpec.DoubleValue spawnProtectionRadius;
-        public final ForgeConfigSpec.BooleanValue useTakumiBlockLock;
-
         static {
             final Pair<TCServerConfig, ForgeConfigSpec> pair = new ForgeConfigSpec.Builder()
                     .configure(TCServerConfig::new);
             serverSpec = pair.getRight();
             SERVER = pair.getLeft();
         }
+
+        public final ForgeConfigSpec.DoubleValue spawnProtectionRadius;
+        public final ForgeConfigSpec.BooleanValue useTakumiBlockLock;
 
 
         public TCServerConfig(ForgeConfigSpec.Builder builder) {

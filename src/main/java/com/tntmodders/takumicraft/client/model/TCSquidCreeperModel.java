@@ -1,7 +1,6 @@
 package com.tntmodders.takumicraft.client.model;
 
 import com.tntmodders.takumicraft.client.renderer.entity.state.TCSquidCreeperRenderState;
-import com.tntmodders.takumicraft.entity.mobs.TCSquidCreeper;
 import net.minecraft.client.model.SquidModel;
 import net.minecraft.client.model.geom.ModelPart;
 

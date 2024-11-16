@@ -1,12 +1,10 @@
 package com.tntmodders.takumicraft.client.renderer.entity.model;
 
 import com.tntmodders.takumicraft.client.renderer.entity.state.ITCRenderState;
-import com.tntmodders.takumicraft.client.renderer.entity.state.TCCreeperRenderState;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
-import net.minecraft.client.renderer.entity.state.CreeperRenderState;
 import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
 import net.minecraft.util.Mth;
 import net.minecraftforge.api.distmarker.Dist;
@@ -14,12 +12,12 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class TCCreeperModel<T extends LivingEntityRenderState & ITCRenderState> extends EntityModel<T> {
+    private static final int Y_OFFSET = 6;
     private final ModelPart head;
     private final ModelPart rightHindLeg;
     private final ModelPart leftHindLeg;
     private final ModelPart rightFrontLeg;
     private final ModelPart leftFrontLeg;
-    private static final int Y_OFFSET = 6;
 
     public TCCreeperModel(ModelPart modelPart) {
         super(modelPart);

@@ -18,9 +18,9 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class ArrowrainKingCreeperAttack extends AbstractKingCreeperAttack {
 
-    private LivingEntity target;
     private static final ItemStack stack = new ItemStack(TCItemCore.CREEPER_ARROW);
     private static final ItemStack bow = new ItemStack(TCItemCore.CREEPER_BOW);
+    private LivingEntity target;
 
     @Override
     public void serverInit(TCKingCreeper creeper) {

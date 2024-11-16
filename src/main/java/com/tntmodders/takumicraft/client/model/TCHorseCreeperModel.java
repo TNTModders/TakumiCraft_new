@@ -1,7 +1,6 @@
 package com.tntmodders.takumicraft.client.model;
 
 import com.tntmodders.takumicraft.client.renderer.entity.state.TCHorseCreeperRenderState;
-import com.tntmodders.takumicraft.entity.mobs.TCHorseCreeper;
 import net.minecraft.client.model.HorseModel;
 import net.minecraft.client.model.geom.ModelPart;
 

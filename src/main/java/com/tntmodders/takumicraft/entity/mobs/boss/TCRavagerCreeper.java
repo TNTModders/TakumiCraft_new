@@ -47,8 +47,7 @@ import java.util.function.Predicate;
 
 public class TCRavagerCreeper extends AbstractTCBossCreeper {
 
-    protected final ServerBossEvent bossEvent = (ServerBossEvent) new ServerBossEvent(this.getDisplayName(), BossEvent.BossBarColor.GREEN, BossEvent.BossBarOverlay.PROGRESS).setDarkenScreen(false).setCreateWorldFog(false).setPlayBossMusic(false);
-
+    public static final int STUN_DURATION = 40;
     private static final Predicate<Entity> NO_RAVAGER_AND_ALIVE = p_33346_ -> p_33346_.isAlive() && !(p_33346_ instanceof TCRavagerCreeper);
     private static final double BASE_MOVEMENT_SPEED = 0.5;
     private static final double ATTACK_MOVEMENT_SPEED = BASE_MOVEMENT_SPEED * 1.2;
@@ -57,7 +56,7 @@ public class TCRavagerCreeper extends AbstractTCBossCreeper {
     private static final float STUNNED_COLOR_GREEN = 0.5137255F;
     private static final float STUNNED_COLOR_RED = 0.49803922F;
     private static final int ATTACK_DURATION = 10;
-    public static final int STUN_DURATION = 40;
+    protected final ServerBossEvent bossEvent = (ServerBossEvent) new ServerBossEvent(this.getDisplayName(), BossEvent.BossBarColor.GREEN, BossEvent.BossBarOverlay.PROGRESS).setDarkenScreen(false).setCreateWorldFog(false).setPlayBossMusic(false);
     private int attackTick;
     private int stunnedTick;
     private int roarTick;
@@ -67,6 +66,17 @@ public class TCRavagerCreeper extends AbstractTCBossCreeper {
         this.xpReward = 50;
         this.explosionRadius = 10;
         this.setPathfindingMalus(PathType.LEAVES, 0.0F);
+    }
+
+    public static AttributeSupplier.Builder createAttributes() {
+        return Monster.createMonsterAttributes()
+                .add(Attributes.MAX_HEALTH, 100.0)
+                .add(Attributes.MOVEMENT_SPEED, BASE_MOVEMENT_SPEED)
+                .add(Attributes.KNOCKBACK_RESISTANCE, 1)
+                .add(Attributes.ATTACK_DAMAGE, 12.0)
+                .add(Attributes.ATTACK_KNOCKBACK, 2.0)
+                .add(Attributes.FOLLOW_RANGE, 32.0)
+                .add(Attributes.STEP_HEIGHT, 1.0);
     }
 
     @Override
@@ -99,17 +109,6 @@ public class TCRavagerCreeper extends AbstractTCBossCreeper {
         this.goalSelector.setControlFlag(Goal.Flag.JUMP, flag && flag1);
         this.goalSelector.setControlFlag(Goal.Flag.LOOK, flag);
         this.goalSelector.setControlFlag(Goal.Flag.TARGET, flag);
-    }
-
-    public static AttributeSupplier.Builder createAttributes() {
-        return Monster.createMonsterAttributes()
-                .add(Attributes.MAX_HEALTH, 100.0)
-                .add(Attributes.MOVEMENT_SPEED, BASE_MOVEMENT_SPEED)
-                .add(Attributes.KNOCKBACK_RESISTANCE, 1)
-                .add(Attributes.ATTACK_DAMAGE, 12.0)
-                .add(Attributes.ATTACK_KNOCKBACK, 2.0)
-                .add(Attributes.FOLLOW_RANGE, 32.0)
-                .add(Attributes.STEP_HEIGHT, 1.0);
     }
 
     @Override

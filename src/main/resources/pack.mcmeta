@@ -1,8 +1,8 @@
 {
-    "pack": {
-        "description": {
-            "text": "Takumi Craft Resources"
-        },
-      "pack_format": 48
-    }
+  "pack": {
+    "description": {
+      "text": "Takumi Craft Resources"
+    },
+    "pack_format": 57
+  }
 }

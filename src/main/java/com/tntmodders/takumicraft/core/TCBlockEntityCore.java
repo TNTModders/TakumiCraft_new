@@ -15,18 +15,8 @@ import java.util.List;
 import java.util.Set;
 
 public class TCBlockEntityCore {
-    public static final BlockEntityType<TCCreeperBedBlockEntity> CREEPER_BED = new TCBlockEntityType<>(TCCreeperBedBlockEntity::new, createBedList());
-    public static final BlockEntityType<TCMonsterBombBlockEntity> MONSTER_BOMB = new TCBlockEntityType<>(TCMonsterBombBlockEntity::new, TCBlockCore.YUKARI_BOMB);
-    public static final BlockEntityType<TCAcidBlockEntity> ACID = new TCBlockEntityType<>(TCAcidBlockEntity::new, TCBlockCore.ACID);
-    public static final BlockEntityType<TCCreeperChestBlockEntity> CHEST = new TCBlockEntityType<>(TCCreeperChestBlockEntity::new, TCBlockCore.CREEPER_CHEST);
-    public static final BlockEntityType<TCCreeperBarrelBlockEntity> BARREL = new TCBlockEntityType<>(TCCreeperBarrelBlockEntity::new, TCBlockCore.CREEPER_BARREL);
-    public static final BlockEntityType<TCCreeperCampFireBlockEntity> CAMPFIRE = new TCBlockEntityType<>(TCCreeperCampFireBlockEntity::new, TCBlockCore.CREEPER_CAMPFIRE);
-    public static final BlockEntityType<TCCreeperSignBlockEntity> SIGN = new TCBlockEntityType<>(TCCreeperSignBlockEntity::new, TCBlockCore.CREEPER_SIGN, TCBlockCore.CREEPER_SIGN_WALL);
-    public static final BlockEntityType<TCCreeperHangingSignBlockEntity> HANGING_SIGN = new TCBlockEntityType<>(TCCreeperHangingSignBlockEntity::new, TCBlockCore.CREEPER_HANGING_SIGN, TCBlockCore.CREEPER_HANGING_SIGN_WALL);
     public static final BlockEntityType<TCCreeperShulkerBoxBlockEntity> SHULKER = new TCBlockEntityType<>(TCCreeperShulkerBoxBlockEntity::new, TCBlockCore.CREEPER_SHULKER);
-    public static final BlockEntityType<TCCreeperSuperBlockEntity> SUPER_BLOCK = new TCBlockEntityType<>(TCCreeperSuperBlockEntity::new, TCBlockCore.SUPER_BLOCK);
-    public static final BlockEntityType<TCTakenokoBlockEntity> TAKENOKO = new TCBlockEntityType<>(TCTakenokoBlockEntity::new, TCBlockCore.TAKENOKO);
-    public static final BlockEntityType<TCCreeperProtectorBlockEntity> PROTECTOR = new TCBlockEntityType<>(TCCreeperProtectorBlockEntity::new, TCBlockCore.CREEPER_PROTECTOR);
+    public static final BlockEntityType<TCCreeperBedBlockEntity> CREEPER_BED = new TCBlockEntityType<>(TCCreeperBedBlockEntity::new, createBedList());
 
     public static void register(final RegisterEvent event) {
         TCLoggingUtils.startRegistry("BlockEntity");
@@ -45,12 +35,16 @@ public class TCBlockEntityCore {
         TCLoggingUtils.completeRegistry("BlockEntity");
     }
 
+    public static final BlockEntityType<TCMonsterBombBlockEntity> MONSTER_BOMB = new TCBlockEntityType<>(TCMonsterBombBlockEntity::new, TCBlockCore.YUKARI_BOMB);
+
     public static Set<Block> createBedList() {
         List<Block> list = new ArrayList();
         list.add(TCBlockCore.SUPER_CREEPER_BED);
         list.addAll(TCBlockCore.CREEPER_BED_MAP.values());
         return Set.copyOf(list);
     }
+
+    public static final BlockEntityType<TCAcidBlockEntity> ACID = new TCBlockEntityType<>(TCAcidBlockEntity::new, TCBlockCore.ACID);
 
     public static class TCBlockEntityType<T extends BlockEntity> extends BlockEntityType<T> {
 
@@ -62,4 +56,20 @@ public class TCBlockEntityCore {
             this(supplier, Set.of(blocks));
         }
     }
+
+    public static final BlockEntityType<TCCreeperChestBlockEntity> CHEST = new TCBlockEntityType<>(TCCreeperChestBlockEntity::new, TCBlockCore.CREEPER_CHEST);
+    public static final BlockEntityType<TCCreeperBarrelBlockEntity> BARREL = new TCBlockEntityType<>(TCCreeperBarrelBlockEntity::new, TCBlockCore.CREEPER_BARREL);
+    public static final BlockEntityType<TCCreeperCampFireBlockEntity> CAMPFIRE = new TCBlockEntityType<>(TCCreeperCampFireBlockEntity::new, TCBlockCore.CREEPER_CAMPFIRE);
+    public static final BlockEntityType<TCCreeperSignBlockEntity> SIGN = new TCBlockEntityType<>(TCCreeperSignBlockEntity::new, TCBlockCore.CREEPER_SIGN, TCBlockCore.CREEPER_SIGN_WALL);
+    public static final BlockEntityType<TCCreeperHangingSignBlockEntity> HANGING_SIGN = new TCBlockEntityType<>(TCCreeperHangingSignBlockEntity::new, TCBlockCore.CREEPER_HANGING_SIGN, TCBlockCore.CREEPER_HANGING_SIGN_WALL);
+
+    public static final BlockEntityType<TCCreeperSuperBlockEntity> SUPER_BLOCK = new TCBlockEntityType<>(TCCreeperSuperBlockEntity::new, TCBlockCore.SUPER_BLOCK);
+    public static final BlockEntityType<TCTakenokoBlockEntity> TAKENOKO = new TCBlockEntityType<>(TCTakenokoBlockEntity::new, TCBlockCore.TAKENOKO);
+    public static final BlockEntityType<TCCreeperProtectorBlockEntity> PROTECTOR = new TCBlockEntityType<>(TCCreeperProtectorBlockEntity::new, TCBlockCore.CREEPER_PROTECTOR);
+
+
+
+
+
+
 }

@@ -21,10 +21,9 @@ import javax.annotation.Nullable;
 import java.util.UUID;
 
 public class TCKingBlock extends Entity implements TraceableEntity {
-    private static final EntityDataAccessor<Integer> WAIT_TICK = SynchedEntityData.defineId(TCKingBlock.class, EntityDataSerializers.INT);
     public static final EntityType<TCKingBlock> KING_BLOCK = EntityType.Builder.<TCKingBlock>of(TCKingBlock::new, MobCategory.MISC)
             .sized(1f, 1f).clientTrackingRange(4).updateInterval(20).build(TCEntityUtils.TCEntityId("king_block"));
-
+    private static final EntityDataAccessor<Integer> WAIT_TICK = SynchedEntityData.defineId(TCKingBlock.class, EntityDataSerializers.INT);
     private LivingEntity owner;
     private UUID ownerUUID;
 
@@ -39,11 +38,6 @@ public class TCKingBlock extends Entity implements TraceableEntity {
         this.setOwner(entity);
     }
 
-    public void setOwner(@Nullable LivingEntity entity) {
-        this.owner = entity;
-        this.ownerUUID = entity == null ? null : entity.getUUID();
-    }
-
     @Override
     public LivingEntity getOwner() {
         if (this.owner == null && this.ownerUUID != null && this.level() instanceof ServerLevel) {
@@ -55,6 +49,10 @@ public class TCKingBlock extends Entity implements TraceableEntity {
         return this.owner;
     }
 
+    public void setOwner(@Nullable LivingEntity entity) {
+        this.owner = entity;
+        this.ownerUUID = entity == null ? null : entity.getUUID();
+    }
 
     @Override
     public void tick() {

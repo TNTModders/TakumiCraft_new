@@ -22,15 +22,13 @@ import java.util.List;
 import java.util.Optional;
 
 public class TCSaberRecipe implements SmithingRecipe {
-    @Nullable
-    private PlacementInfo placementInfo;
-
-    public TCSaberRecipe() {
-    }
-
     final Ingredient template = Ingredient.of(TCItemCore.KING_CORE);
     final Ingredient base = Ingredient.of(TCItemCore.CREEPER_SWORD);
     final ItemStack result = TCItemCore.LIGHTSABER.getDefaultInstance();
+    @Nullable
+    private PlacementInfo placementInfo;
+    public TCSaberRecipe() {
+    }
 
     @Override
     public boolean matches(SmithingRecipeInput p_266855_, Level p_266781_) {
@@ -80,17 +78,24 @@ public class TCSaberRecipe implements SmithingRecipe {
     @Override
     public PlacementInfo placementInfo() {
         if (this.placementInfo == null) {
-            this.placementInfo = PlacementInfo.createFromOptionals(List.<Optional<Ingredient>>of(this.templateIngredient(), this.baseIngredient(), this.additionIngredient()));
+            this.placementInfo = PlacementInfo.createFromOptionals(List.of(this.templateIngredient(), this.baseIngredient(), this.additionIngredient()));
         }
 
         return this.placementInfo;
     }
 
     public static class Serializer implements RecipeSerializer<TCSaberRecipe> {
-        private static final MapCodec<TCSaberRecipe> CODEC = MapCodec.unit(new TCSaberRecipe());
         public static final StreamCodec<RegistryFriendlyByteBuf, TCSaberRecipe> STREAM_CODEC = StreamCodec.of(
                 TCSaberRecipe.Serializer::toNetwork, TCSaberRecipe.Serializer::fromNetwork
         );
+        private static final MapCodec<TCSaberRecipe> CODEC = MapCodec.unit(new TCSaberRecipe());
+
+        private static TCSaberRecipe fromNetwork(RegistryFriendlyByteBuf p_333917_) {
+            return new TCSaberRecipe();
+        }
+
+        private static void toNetwork(RegistryFriendlyByteBuf p_329920_, TCSaberRecipe p_266927_) {
+        }
 
         @Override
         public MapCodec<TCSaberRecipe> codec() {
@@ -100,13 +105,6 @@ public class TCSaberRecipe implements SmithingRecipe {
         @Override
         public StreamCodec<RegistryFriendlyByteBuf, TCSaberRecipe> streamCodec() {
             return STREAM_CODEC;
-        }
-
-        private static TCSaberRecipe fromNetwork(RegistryFriendlyByteBuf p_333917_) {
-            return new TCSaberRecipe();
-        }
-
-        private static void toNetwork(RegistryFriendlyByteBuf p_329920_, TCSaberRecipe p_266927_) {
         }
     }
 }

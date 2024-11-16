@@ -3,7 +3,6 @@ package com.tntmodders.takumicraft.client.renderer.entity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.client.renderer.entity.layer.TCCreeperPowerLayer;
-import com.tntmodders.takumicraft.client.renderer.entity.state.TCCreeperRenderState;
 import com.tntmodders.takumicraft.client.renderer.entity.state.TCLlamaCreeperRenderState;
 import com.tntmodders.takumicraft.core.TCEntityCore;
 import com.tntmodders.takumicraft.entity.mobs.TCLlamaCreeper;

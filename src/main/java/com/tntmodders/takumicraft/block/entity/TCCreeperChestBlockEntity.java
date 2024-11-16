@@ -29,7 +29,6 @@ import net.minecraft.world.level.block.state.properties.ChestType;
 
 public class TCCreeperChestBlockEntity extends RandomizableContainerBlockEntity implements LidBlockEntity {
     private static final int EVENT_SET_OPEN_COUNT = 1;
-    private NonNullList<ItemStack> items = NonNullList.withSize(27, ItemStack.EMPTY);
     private final ContainerOpenersCounter openersCounter = new ContainerOpenersCounter() {
         @Override
         protected void onOpen(Level p_155357_, BlockPos p_155358_, BlockState p_155359_) {
@@ -58,6 +57,8 @@ public class TCCreeperChestBlockEntity extends RandomizableContainerBlockEntity 
         }
     };
     private final ChestLidController chestLidController = new ChestLidController();
+    private NonNullList<ItemStack> items = NonNullList.withSize(27, ItemStack.EMPTY);
+    private net.minecraftforge.common.util.LazyOptional<net.minecraftforge.items.IItemHandlerModifiable> chestHandler;
 
     protected TCCreeperChestBlockEntity(BlockEntityType<?> p_155327_, BlockPos p_155328_, BlockState p_155329_) {
         super(p_155327_, p_155328_, p_155329_);
@@ -65,6 +66,42 @@ public class TCCreeperChestBlockEntity extends RandomizableContainerBlockEntity 
 
     public TCCreeperChestBlockEntity(BlockPos p_155331_, BlockState p_155332_) {
         this(TCBlockEntityCore.CHEST, p_155331_, p_155332_);
+    }
+
+    public static void lidAnimateTick(Level p_155344_, BlockPos p_155345_, BlockState p_155346_, TCCreeperChestBlockEntity p_155347_) {
+        p_155347_.chestLidController.tickLid();
+    }
+
+    static void playSound(Level p_155339_, BlockPos p_155340_, BlockState p_155341_, SoundEvent p_155342_) {
+        ChestType chesttype = p_155341_.getValue(ChestBlock.TYPE);
+        if (chesttype != ChestType.LEFT) {
+            double d0 = (double) p_155340_.getX() + 0.5;
+            double d1 = (double) p_155340_.getY() + 0.5;
+            double d2 = (double) p_155340_.getZ() + 0.5;
+            if (chesttype == ChestType.RIGHT) {
+                Direction direction = ChestBlock.getConnectedDirection(p_155341_);
+                d0 += (double) direction.getStepX() * 0.5;
+                d2 += (double) direction.getStepZ() * 0.5;
+            }
+
+            p_155339_.playSound(null, d0, d1, d2, p_155342_, SoundSource.BLOCKS, 0.5F, p_155339_.random.nextFloat() * 0.1F + 0.9F);
+        }
+    }
+
+    public static int getOpenCount(BlockGetter p_59087_, BlockPos p_59088_) {
+        if (p_59087_.getBlockState(p_59088_).hasBlockEntity()) {
+            if (p_59087_.getBlockEntity(p_59088_) instanceof TCCreeperChestBlockEntity chest) {
+                return chest.openersCounter.getOpenerCount();
+            }
+        }
+
+        return 0;
+    }
+
+    public static void swapContents(TCCreeperChestBlockEntity p_59104_, TCCreeperChestBlockEntity p_59105_) {
+        NonNullList<ItemStack> nonnulllist = p_59104_.getItems();
+        p_59104_.setItems(p_59105_.getItems());
+        p_59105_.setItems(nonnulllist);
     }
 
     @Override
@@ -91,26 +128,6 @@ public class TCCreeperChestBlockEntity extends RandomizableContainerBlockEntity 
         super.saveAdditional(p_187489_, p_328166_);
         if (!this.trySaveLootTable(p_187489_)) {
             ContainerHelper.saveAllItems(p_187489_, this.items, p_328166_);
-        }
-    }
-
-    public static void lidAnimateTick(Level p_155344_, BlockPos p_155345_, BlockState p_155346_, TCCreeperChestBlockEntity p_155347_) {
-        p_155347_.chestLidController.tickLid();
-    }
-
-    static void playSound(Level p_155339_, BlockPos p_155340_, BlockState p_155341_, SoundEvent p_155342_) {
-        ChestType chesttype = p_155341_.getValue(ChestBlock.TYPE);
-        if (chesttype != ChestType.LEFT) {
-            double d0 = (double) p_155340_.getX() + 0.5;
-            double d1 = (double) p_155340_.getY() + 0.5;
-            double d2 = (double) p_155340_.getZ() + 0.5;
-            if (chesttype == ChestType.RIGHT) {
-                Direction direction = ChestBlock.getConnectedDirection(p_155341_);
-                d0 += (double) direction.getStepX() * 0.5;
-                d2 += (double) direction.getStepZ() * 0.5;
-            }
-
-            p_155339_.playSound(null, d0, d1, d2, p_155342_, SoundSource.BLOCKS, 0.5F, p_155339_.random.nextFloat() * 0.1F + 0.9F);
         }
     }
 
@@ -153,22 +170,6 @@ public class TCCreeperChestBlockEntity extends RandomizableContainerBlockEntity 
         return this.chestLidController.getOpenness(p_59080_);
     }
 
-    public static int getOpenCount(BlockGetter p_59087_, BlockPos p_59088_) {
-        if (p_59087_.getBlockState(p_59088_).hasBlockEntity()) {
-            if (p_59087_.getBlockEntity(p_59088_) instanceof TCCreeperChestBlockEntity chest) {
-                return chest.openersCounter.getOpenerCount();
-            }
-        }
-
-        return 0;
-    }
-
-    public static void swapContents(TCCreeperChestBlockEntity p_59104_, TCCreeperChestBlockEntity p_59105_) {
-        NonNullList<ItemStack> nonnulllist = p_59104_.getItems();
-        p_59104_.setItems(p_59105_.getItems());
-        p_59105_.setItems(nonnulllist);
-    }
-
     @Override
     protected AbstractContainerMenu createMenu(int p_59082_, Inventory p_59083_) {
         return ChestMenu.threeRows(p_59082_, p_59083_, this);
@@ -184,8 +185,6 @@ public class TCCreeperChestBlockEntity extends RandomizableContainerBlockEntity 
         Block block = p_155335_.getBlock();
         p_155333_.blockEvent(p_155334_, block, 1, p_155337_);
     }
-
-    private net.minecraftforge.common.util.LazyOptional<net.minecraftforge.items.IItemHandlerModifiable> chestHandler;
 
     @Override
     public void setBlockState(BlockState p_155251_) {

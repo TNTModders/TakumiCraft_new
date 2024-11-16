@@ -33,13 +33,13 @@ public class TCGunOreCreeper extends AbstractTCBlockCreeper {
         this.maxSwell = 40;
     }
 
+    public static boolean checkGunOreCreeperSpawnRules(EntityType<? extends Monster> type, ServerLevelAccessor levelAccessor, EntitySpawnReason spawnType, BlockPos pos, RandomSource random) {
+        return levelAccessor.getBlockState(pos.below()).is(Blocks.STONE) && checkTakumiSpawnRules(type, levelAccessor, spawnType, pos, random);
+    }
+
     @Override
     public BlockState getBlock() {
         return TCBlockCore.GUNORE_CREEPER.defaultBlockState();
-    }
-
-    public static boolean checkGunOreCreeperSpawnRules(EntityType<? extends Monster> type, ServerLevelAccessor levelAccessor, EntitySpawnReason spawnType, BlockPos pos, RandomSource random) {
-        return levelAccessor.getBlockState(pos.below()).is(Blocks.STONE) && checkTakumiSpawnRules(type, levelAccessor, spawnType, pos, random);
     }
 
     @Override

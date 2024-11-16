@@ -81,17 +81,32 @@ import java.util.function.Function;
 public class TCCreeperCampFireBlock extends CampfireBlock implements ITCBlocks, ITCRecipe {
     public static final MapCodec<CampfireBlock> CODEC = simpleCodec(TCCreeperCampFireBlock::new);
 
-    @Override
-    public MapCodec<CampfireBlock> codec() {
-        return CODEC;
-    }
-
     public TCCreeperCampFireBlock(Properties properties) {
         super(false, 5, properties);
     }
 
     public TCCreeperCampFireBlock() {
         this(BlockBehaviour.Properties.of().mapColor(MapColor.PODZOL).instrument(NoteBlockInstrument.BASS).strength(2.0F, 1000000F).sound(SoundType.WOOD).lightLevel(p_50763_ -> p_50763_.getValue(BlockStateProperties.LIT) ? 15 : 0).noOcclusion().ignitedByLava());
+    }
+
+    public static void dowse(@Nullable Entity p_152750_, LevelAccessor p_152751_, BlockPos p_152752_, BlockState p_152753_) {
+        if (p_152751_.isClientSide()) {
+            for (int i = 0; i < 20; i++) {
+                makeParticles((Level) p_152751_, p_152752_, p_152753_.getValue(SIGNAL_FIRE), true);
+            }
+        }
+
+        BlockEntity blockentity = p_152751_.getBlockEntity(p_152752_);
+        if (blockentity instanceof TCCreeperCampFireBlockEntity) {
+            ((TCCreeperCampFireBlockEntity) blockentity).dowse();
+        }
+
+        p_152751_.gameEvent(p_152750_, GameEvent.BLOCK_CHANGE, p_152752_);
+    }
+
+    @Override
+    public MapCodec<CampfireBlock> codec() {
+        return CODEC;
     }
 
     @Override
@@ -193,21 +208,6 @@ public class TCCreeperCampFireBlock extends CampfireBlock implements ITCBlocks, 
             });
             super.onRemove(state, level, pos, newState, p_51285_);
         }
-    }
-
-    public static void dowse(@Nullable Entity p_152750_, LevelAccessor p_152751_, BlockPos p_152752_, BlockState p_152753_) {
-        if (p_152751_.isClientSide()) {
-            for (int i = 0; i < 20; i++) {
-                makeParticles((Level) p_152751_, p_152752_, p_152753_.getValue(SIGNAL_FIRE), true);
-            }
-        }
-
-        BlockEntity blockentity = p_152751_.getBlockEntity(p_152752_);
-        if (blockentity instanceof TCCreeperCampFireBlockEntity) {
-            ((TCCreeperCampFireBlockEntity) blockentity).dowse();
-        }
-
-        p_152751_.gameEvent(p_152750_, GameEvent.BLOCK_CHANGE, p_152752_);
     }
 
     @Override

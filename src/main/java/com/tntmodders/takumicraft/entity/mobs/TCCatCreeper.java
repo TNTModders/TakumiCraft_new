@@ -36,6 +36,10 @@ public class TCCatCreeper extends AbstractTCCreeper {
         super(entityType, level);
     }
 
+    public static AttributeSupplier.Builder createAttributes() {
+        return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 10.0).add(Attributes.MOVEMENT_SPEED, 0.4F).add(Attributes.ATTACK_DAMAGE, 3.0);
+    }
+
     @Override
     public TCCreeperContext<? extends AbstractTCCreeper> getContext() {
         return TCEntityCore.CAT;
@@ -82,10 +86,6 @@ public class TCCatCreeper extends AbstractTCCreeper {
             this.setPose(Pose.STANDING);
             this.setSprinting(false);
         }
-    }
-
-    public static AttributeSupplier.Builder createAttributes() {
-        return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 10.0).add(Attributes.MOVEMENT_SPEED, 0.4F).add(Attributes.ATTACK_DAMAGE, 3.0);
     }
 
     @Nullable

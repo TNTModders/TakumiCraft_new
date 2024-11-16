@@ -19,7 +19,6 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
-import net.minecraft.client.renderer.entity.state.BreezeRenderState;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraftforge.api.distmarker.Dist;
@@ -34,6 +33,19 @@ public class TCBreezeCreeperRenderer extends MobRenderer<TCBreezeCreeper, TCBree
         this.addLayer(new TCCreeperPowerLayer<>(this, p_173956_.getModelSet(), new TCBreezeCreeperModel(p_173956_.bakeLayer(ModelLayers.BREEZE)), TCEntityCore.BLAZE, false));
         this.addLayer(new TCBreezeCreeperWindLayer(p_173956_, this));
         this.addLayer(new TCBreezeCreeperEyesLayer(this));
+    }
+
+    public static TCBreezeCreeperModel<TCBreezeCreeperRenderState> enable(TCBreezeCreeperModel<TCBreezeCreeperRenderState> p_328756_, ModelPart... p_332502_) {
+        p_328756_.head().visible = false;
+        p_328756_.eyes().visible = false;
+        p_328756_.rods().visible = false;
+        p_328756_.wind().visible = false;
+
+        for (ModelPart modelpart : p_332502_) {
+            modelpart.visible = true;
+        }
+
+        return p_328756_;
     }
 
     @Override
@@ -78,20 +90,6 @@ public class TCBreezeCreeperRenderer extends MobRenderer<TCBreezeCreeper, TCBree
         state.longJump.copyFrom(creeper.longJump);
         state.isOnBook = creeper.isOnBook();
     }
-
-    public static TCBreezeCreeperModel<TCBreezeCreeperRenderState> enable(TCBreezeCreeperModel<TCBreezeCreeperRenderState> p_328756_, ModelPart... p_332502_) {
-        p_328756_.head().visible = false;
-        p_328756_.eyes().visible = false;
-        p_328756_.rods().visible = false;
-        p_328756_.wind().visible = false;
-
-        for (ModelPart modelpart : p_332502_) {
-            modelpart.visible = true;
-        }
-
-        return p_328756_;
-    }
-
 
     @OnlyIn(Dist.CLIENT)
     public static class TCBreezeCreeperModel<T extends TCBreezeCreeperRenderState> extends EntityModel<T> {

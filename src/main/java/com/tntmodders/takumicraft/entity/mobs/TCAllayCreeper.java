@@ -71,12 +71,9 @@ import java.util.Optional;
 import java.util.function.BiConsumer;
 
 public class TCAllayCreeper extends AbstractTCCreeper implements InventoryCarrier, VibrationSystem {
-    private static final Vec3i ITEM_PICKUP_REACH = new Vec3i(1, 1, 1);
-    private static final int LIFTING_ITEM_ANIMATION_DURATION = 5;
-    private static final float DANCING_LOOP_DURATION = 55.0F;
-    private static final float SPINNING_ANIMATION_DURATION = 15.0F;
-    private static final int NUM_OF_DUPLICATION_HEARTS = 3;
-    private static final EntityDataAccessor<Boolean> DATA_DANCING = SynchedEntityData.defineId(TCAllayCreeper.class, EntityDataSerializers.BOOLEAN);
+    public static final ImmutableList<Float> THROW_SOUND_PITCHES = ImmutableList.of(
+            0.5625F, 0.625F, 0.75F, 0.9375F, 1.0F, 1.0F, 1.125F, 1.25F, 1.5F, 1.875F, 2.0F, 2.25F, 2.5F, 3.0F, 3.75F, 4.0F
+    );
     protected static final ImmutableList<SensorType<? extends Sensor<? super TCAllayCreeper>>> SENSOR_TYPES = ImmutableList.of(
             SensorType.NEAREST_LIVING_ENTITIES, SensorType.NEAREST_PLAYERS, SensorType.HURT_BY, SensorType.NEAREST_ITEMS
     );
@@ -94,14 +91,17 @@ public class TCAllayCreeper extends AbstractTCCreeper implements InventoryCarrie
             MemoryModuleType.ITEM_PICKUP_COOLDOWN_TICKS,
             MemoryModuleType.IS_PANICKING
     );
-    public static final ImmutableList<Float> THROW_SOUND_PITCHES = ImmutableList.of(
-            0.5625F, 0.625F, 0.75F, 0.9375F, 1.0F, 1.0F, 1.125F, 1.25F, 1.5F, 1.875F, 2.0F, 2.25F, 2.5F, 3.0F, 3.75F, 4.0F
-    );
+    private static final Vec3i ITEM_PICKUP_REACH = new Vec3i(1, 1, 1);
+    private static final int LIFTING_ITEM_ANIMATION_DURATION = 5;
+    private static final float DANCING_LOOP_DURATION = 55.0F;
+    private static final float SPINNING_ANIMATION_DURATION = 15.0F;
+    private static final int NUM_OF_DUPLICATION_HEARTS = 3;
+    private static final EntityDataAccessor<Boolean> DATA_DANCING = SynchedEntityData.defineId(TCAllayCreeper.class, EntityDataSerializers.BOOLEAN);
     private final DynamicGameEventListener<VibrationSystem.Listener> dynamicVibrationListener;
-    private VibrationSystem.Data vibrationData;
     private final VibrationSystem.User vibrationUser;
     private final DynamicGameEventListener<TCAllayCreeper.JukeboxListener> dynamicJukeboxListener;
     private final SimpleContainer inventory = new SimpleContainer(1);
+    private VibrationSystem.Data vibrationData;
     @Nullable
     private BlockPos jukeboxPos;
     private long duplicationCooldown;
@@ -119,6 +119,15 @@ public class TCAllayCreeper extends AbstractTCCreeper implements InventoryCarrie
         this.vibrationData = new VibrationSystem.Data();
         this.dynamicVibrationListener = new DynamicGameEventListener<>(new VibrationSystem.Listener(this));
         this.dynamicJukeboxListener = new DynamicGameEventListener<>(new TCAllayCreeper.JukeboxListener(this.vibrationUser.getPositionSource(), GameEvent.JUKEBOX_PLAY.value().notificationRadius()));
+    }
+
+    public static AttributeSupplier.Builder createAttributes() {
+        return Mob.createMobAttributes()
+                .add(Attributes.MAX_HEALTH, 20.0)
+                .add(Attributes.FLYING_SPEED, 0.1F)
+                .add(Attributes.MOVEMENT_SPEED, 0.1F)
+                .add(Attributes.ATTACK_DAMAGE, 2.0)
+                .add(Attributes.FOLLOW_RANGE, 48.0);
     }
 
     @Override
@@ -147,15 +156,6 @@ public class TCAllayCreeper extends AbstractTCCreeper implements InventoryCarrie
     @Override
     public Brain<TCAllayCreeper> getBrain() {
         return (Brain<TCAllayCreeper>) super.getBrain();
-    }
-
-    public static AttributeSupplier.Builder createAttributes() {
-        return Mob.createMobAttributes()
-                .add(Attributes.MAX_HEALTH, 20.0)
-                .add(Attributes.FLYING_SPEED, 0.1F)
-                .add(Attributes.MOVEMENT_SPEED, 0.1F)
-                .add(Attributes.ATTACK_DAMAGE, 2.0)
-                .add(Attributes.FOLLOW_RANGE, 48.0);
     }
 
     @Override
@@ -483,83 +483,6 @@ public class TCAllayCreeper extends AbstractTCCreeper implements InventoryCarrie
         return this.vibrationUser;
     }
 
-    class JukeboxListener implements GameEventListener {
-        private final PositionSource listenerSource;
-        private final int listenerRadius;
-
-        public JukeboxListener(final PositionSource p_239448_, final int p_239449_) {
-            this.listenerSource = p_239448_;
-            this.listenerRadius = p_239449_;
-        }
-
-        @Override
-        public PositionSource getListenerSource() {
-            return this.listenerSource;
-        }
-
-        @Override
-        public int getListenerRadius() {
-            return this.listenerRadius;
-        }
-
-        @Override
-        public boolean handleGameEvent(ServerLevel p_250009_, Holder<GameEvent> p_333132_, GameEvent.Context p_249478_, Vec3 p_250852_) {
-            if (p_333132_.is(GameEvent.JUKEBOX_PLAY)) {
-                TCAllayCreeper.this.setJukeboxPlaying(BlockPos.containing(p_250852_), true);
-                return true;
-            } else if (p_333132_.is(GameEvent.JUKEBOX_STOP_PLAY)) {
-                TCAllayCreeper.this.setJukeboxPlaying(BlockPos.containing(p_250852_), false);
-                return true;
-            } else {
-                return false;
-            }
-        }
-    }
-
-    class VibrationUser implements VibrationSystem.User {
-        private static final int VIBRATION_EVENT_LISTENER_RANGE = 16;
-        private final PositionSource positionSource = new EntityPositionSource(TCAllayCreeper.this, TCAllayCreeper.this.getEyeHeight());
-
-        @Override
-        public int getListenerRadius() {
-            return 16;
-        }
-
-        @Override
-        public PositionSource getPositionSource() {
-            return this.positionSource;
-        }
-
-        @Override
-        public boolean canReceiveVibration(ServerLevel p_282038_, BlockPos p_283385_, Holder<GameEvent> p_334911_, GameEvent.Context p_282208_) {
-            if (TCAllayCreeper.this.isNoAi()) {
-                return false;
-            } else {
-                Optional<GlobalPos> optional = TCAllayCreeper.this.getBrain().getMemory(MemoryModuleType.LIKED_NOTEBLOCK_POSITION);
-                if (optional.isEmpty()) {
-                    return true;
-                } else {
-                    GlobalPos globalpos = optional.get();
-                    return globalpos.dimension().equals(p_282038_.dimension()) && globalpos.pos().equals(p_283385_);
-                }
-            }
-        }
-
-        @Override
-        public void onReceiveVibration(
-                ServerLevel p_281422_, BlockPos p_281449_, Holder<GameEvent> p_333452_, @Nullable Entity p_281794_, @Nullable Entity p_281864_, float p_281642_
-        ) {
-            if (p_333452_.is(GameEvent.NOTE_BLOCK_PLAY)) {
-                TCAllayCreeperAi.hearNoteblock(TCAllayCreeper.this, new BlockPos(p_281449_));
-            }
-        }
-
-        @Override
-        public TagKey<GameEvent> getListenableEvents() {
-            return GameEventTags.ALLAY_CAN_LISTEN;
-        }
-    }
-
     @Override
     public boolean ignoreExplosion(Explosion p_309517_) {
         return true;
@@ -642,6 +565,83 @@ public class TCAllayCreeper extends AbstractTCCreeper implements InventoryCarrie
         @Override
         public void registerRenderer(EntityRenderersEvent.RegisterRenderers event, EntityType<?> type) {
             event.registerEntityRenderer((EntityType<TCAllayCreeper>) type, TCAllayCreeperRenderer::new);
+        }
+    }
+
+    class JukeboxListener implements GameEventListener {
+        private final PositionSource listenerSource;
+        private final int listenerRadius;
+
+        public JukeboxListener(final PositionSource p_239448_, final int p_239449_) {
+            this.listenerSource = p_239448_;
+            this.listenerRadius = p_239449_;
+        }
+
+        @Override
+        public PositionSource getListenerSource() {
+            return this.listenerSource;
+        }
+
+        @Override
+        public int getListenerRadius() {
+            return this.listenerRadius;
+        }
+
+        @Override
+        public boolean handleGameEvent(ServerLevel p_250009_, Holder<GameEvent> p_333132_, GameEvent.Context p_249478_, Vec3 p_250852_) {
+            if (p_333132_.is(GameEvent.JUKEBOX_PLAY)) {
+                TCAllayCreeper.this.setJukeboxPlaying(BlockPos.containing(p_250852_), true);
+                return true;
+            } else if (p_333132_.is(GameEvent.JUKEBOX_STOP_PLAY)) {
+                TCAllayCreeper.this.setJukeboxPlaying(BlockPos.containing(p_250852_), false);
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
+
+    class VibrationUser implements VibrationSystem.User {
+        private static final int VIBRATION_EVENT_LISTENER_RANGE = 16;
+        private final PositionSource positionSource = new EntityPositionSource(TCAllayCreeper.this, TCAllayCreeper.this.getEyeHeight());
+
+        @Override
+        public int getListenerRadius() {
+            return 16;
+        }
+
+        @Override
+        public PositionSource getPositionSource() {
+            return this.positionSource;
+        }
+
+        @Override
+        public boolean canReceiveVibration(ServerLevel p_282038_, BlockPos p_283385_, Holder<GameEvent> p_334911_, GameEvent.Context p_282208_) {
+            if (TCAllayCreeper.this.isNoAi()) {
+                return false;
+            } else {
+                Optional<GlobalPos> optional = TCAllayCreeper.this.getBrain().getMemory(MemoryModuleType.LIKED_NOTEBLOCK_POSITION);
+                if (optional.isEmpty()) {
+                    return true;
+                } else {
+                    GlobalPos globalpos = optional.get();
+                    return globalpos.dimension().equals(p_282038_.dimension()) && globalpos.pos().equals(p_283385_);
+                }
+            }
+        }
+
+        @Override
+        public void onReceiveVibration(
+                ServerLevel p_281422_, BlockPos p_281449_, Holder<GameEvent> p_333452_, @Nullable Entity p_281794_, @Nullable Entity p_281864_, float p_281642_
+        ) {
+            if (p_333452_.is(GameEvent.NOTE_BLOCK_PLAY)) {
+                TCAllayCreeperAi.hearNoteblock(TCAllayCreeper.this, new BlockPos(p_281449_));
+            }
+        }
+
+        @Override
+        public TagKey<GameEvent> getListenableEvents() {
+            return GameEventTags.ALLAY_CAN_LISTEN;
         }
     }
 }

@@ -44,6 +44,10 @@ public class TCTakumiBucketItem extends BucketItem implements ITCItems, ITCRecip
         this.jpName = jpName;
     }
 
+    public static ItemStack getEmptySuccessItem(ItemStack stack, Player player) {
+        return !player.hasInfiniteMaterials() ? new ItemStack(TCItemCore.TAKUMI_BUCKET) : stack;
+    }
+
     @Override
     public String getRegistryName() {
         return registryName;
@@ -115,10 +119,6 @@ public class TCTakumiBucketItem extends BucketItem implements ITCItems, ITCRecip
                 }
             }
         }
-    }
-
-    public static ItemStack getEmptySuccessItem(ItemStack stack, Player player) {
-        return !player.hasInfiniteMaterials() ? new ItemStack(TCItemCore.TAKUMI_BUCKET) : stack;
     }
 
     @Override

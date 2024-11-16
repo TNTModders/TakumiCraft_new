@@ -56,6 +56,10 @@ public class TCEvokerCreeper extends AbstractTCSpellcasterCreeper {
         this.xpReward = 10;
     }
 
+    public static AttributeSupplier.Builder createAttributes() {
+        return Monster.createMonsterAttributes().add(Attributes.MOVEMENT_SPEED, 0.5).add(Attributes.FOLLOW_RANGE, 12.0).add(Attributes.MAX_HEALTH, 24.0);
+    }
+
     @Override
     public TCCreeperContext<? extends AbstractTCCreeper> getContext() {
         return TCEntityCore.EVOKER;
@@ -87,10 +91,6 @@ public class TCEvokerCreeper extends AbstractTCSpellcasterCreeper {
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true).setUnseenMemoryTicks(300));
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, AbstractVillager.class, false).setUnseenMemoryTicks(300));
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, IronGolem.class, false));
-    }
-
-    public static AttributeSupplier.Builder createAttributes() {
-        return Monster.createMonsterAttributes().add(Attributes.MOVEMENT_SPEED, 0.5).add(Attributes.FOLLOW_RANGE, 12.0).add(Attributes.MAX_HEALTH, 24.0);
     }
 
     @Override
@@ -141,17 +141,13 @@ public class TCEvokerCreeper extends AbstractTCSpellcasterCreeper {
         return SoundEvents.EVOKER_HURT;
     }
 
-    void setWololoTarget(@Nullable Sheep p_32635_) {
-        this.wololoTarget = p_32635_;
-    }
-
-    void setWololoCreeperTarget(@Nullable TCSheepCreeper p_32635_) {
-        this.wololoCreeperTarget = p_32635_;
-    }
-
     @Nullable
     Sheep getWololoTarget() {
         return this.wololoTarget;
+    }
+
+    void setWololoTarget(@Nullable Sheep p_32635_) {
+        this.wololoTarget = p_32635_;
     }
 
     @Nullable
@@ -159,10 +155,78 @@ public class TCEvokerCreeper extends AbstractTCSpellcasterCreeper {
         return this.wololoCreeperTarget;
     }
 
+    void setWololoCreeperTarget(@Nullable TCSheepCreeper p_32635_) {
+        this.wololoCreeperTarget = p_32635_;
+    }
 
     @Override
     protected SoundEvent getCastingSoundEvent() {
         return SoundEvents.EVOKER_CAST_SPELL;
+    }
+
+    public static class TCEvokerCreeperContext implements TCCreeperContext<TCEvokerCreeper> {
+        private static final String NAME = "evokercreeper";
+        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCEvokerCreeper::new, MobCategory.MONSTER).sized(0.6F, 1.95F).passengerAttachments(2.0F).ridingOffset(-0.6F).clientTrackingRange(8).build(TCEntityUtils.TCEntityId(NAME));
+
+        @Override
+        public String getRegistryName() {
+            return NAME;
+        }
+
+        @Override
+        public String getJaJPRead() {
+            return "えゔぉーかーたくみ";
+        }
+
+        @Override
+        public String getEnUSDesc() {
+            return "Magician of illager, explosive spell and strong servant.";
+        }
+
+        @Override
+        public String getJaJPDesc() {
+            return "魔道士は館で目覚め、蠢き始める。闇夜疾風、黒を呼ぶ。";
+        }
+
+        @Override
+        public String getEnUSName() {
+            return "Evoker Creeper";
+        }
+
+        @Override
+        public String getJaJPName() {
+            return "エヴォーカー匠";
+        }
+
+        @Override
+        public EntityType<?> entityType() {
+            return CREEPER;
+        }
+
+        @Override
+        public int getPrimaryColor() {
+            return 0x336633;
+        }
+
+        @Override
+        public int getSecondaryColor() {
+            return 0xbb99bb;
+        }
+
+        @Override
+        public EnumTakumiElement getElement() {
+            return EnumTakumiElement.NORMAL;
+        }
+
+        @Override
+        public EnumTakumiRank getRank() {
+            return EnumTakumiRank.MID;
+        }
+
+        @Override
+        public void registerRenderer(EntityRenderersEvent.RegisterRenderers event, EntityType<?> type) {
+            event.registerEntityRenderer((EntityType<TCEvokerCreeper>) type, TCEvokerCreeperRenderer::new);
+        }
     }
 
     class EvokerAttackSpellGoal extends AbstractTCSpellcasterCreeper.SpellcasterUseSpellGoal {
@@ -399,72 +463,6 @@ public class TCEvokerCreeper extends AbstractTCSpellcasterCreeper {
         @Override
         protected AbstractTCSpellcasterCreeper.IllagerSpell getSpell() {
             return AbstractTCSpellcasterCreeper.IllagerSpell.WOLOLO;
-        }
-    }
-
-
-    public static class TCEvokerCreeperContext implements TCCreeperContext<TCEvokerCreeper> {
-        private static final String NAME = "evokercreeper";
-        public static final EntityType<? extends AbstractTCCreeper> CREEPER = EntityType.Builder.of(TCEvokerCreeper::new, MobCategory.MONSTER).sized(0.6F, 1.95F).passengerAttachments(2.0F).ridingOffset(-0.6F).clientTrackingRange(8).build(TCEntityUtils.TCEntityId(NAME));
-
-        @Override
-        public String getRegistryName() {
-            return NAME;
-        }
-
-        @Override
-        public String getJaJPRead() {
-            return "えゔぉーかーたくみ";
-        }
-
-        @Override
-        public String getEnUSDesc() {
-            return "Magician of illager, explosive spell and strong servant.";
-        }
-
-        @Override
-        public String getJaJPDesc() {
-            return "魔道士は館で目覚め、蠢き始める。闇夜疾風、黒を呼ぶ。";
-        }
-
-        @Override
-        public String getEnUSName() {
-            return "Evoker Creeper";
-        }
-
-        @Override
-        public String getJaJPName() {
-            return "エヴォーカー匠";
-        }
-
-        @Override
-        public EntityType<?> entityType() {
-            return CREEPER;
-        }
-
-        @Override
-        public int getPrimaryColor() {
-            return 0x336633;
-        }
-
-        @Override
-        public int getSecondaryColor() {
-            return 0xbb99bb;
-        }
-
-        @Override
-        public EnumTakumiElement getElement() {
-            return EnumTakumiElement.NORMAL;
-        }
-
-        @Override
-        public EnumTakumiRank getRank() {
-            return EnumTakumiRank.MID;
-        }
-
-        @Override
-        public void registerRenderer(EntityRenderersEvent.RegisterRenderers event, EntityType<?> type) {
-            event.registerEntityRenderer((EntityType<TCEvokerCreeper>) type, TCEvokerCreeperRenderer::new);
         }
     }
 }
