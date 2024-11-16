@@ -14,16 +14,16 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.SmithingRecipe;
-import net.minecraft.world.item.crafting.SmithingRecipeInput;
+import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 
+import javax.annotation.Nullable;
 import java.util.List;
-import java.util.stream.Stream;
+import java.util.Optional;
 
 public class TCSaberRecipe implements SmithingRecipe {
+    @Nullable
+    private PlacementInfo placementInfo;
 
     public TCSaberRecipe() {
     }
@@ -58,33 +58,32 @@ public class TCSaberRecipe implements SmithingRecipe {
     }
 
     @Override
-    public ItemStack getResultItem(HolderLookup.Provider p_330801_) {
-        return this.result;
+    public Optional<Ingredient> templateIngredient() {
+        return Optional.of(this.template);
     }
 
     @Override
-    public boolean isTemplateIngredient(ItemStack p_267113_) {
-        return this.template.test(p_267113_);
+    public Optional<Ingredient> baseIngredient() {
+        return Optional.of(this.base);
     }
 
     @Override
-    public boolean isBaseIngredient(ItemStack p_267276_) {
-        return this.base.test(p_267276_);
+    public Optional<Ingredient> additionIngredient() {
+        return Optional.empty();
     }
 
     @Override
-    public boolean isAdditionIngredient(ItemStack p_267260_) {
-        return p_267260_.isEmpty();
-    }
-
-    @Override
-    public RecipeSerializer<?> getSerializer() {
+    public RecipeSerializer<SmithingRecipe> getSerializer() {
         return TCRecipeSerializerCore.SABER;
     }
 
     @Override
-    public boolean isIncomplete() {
-        return Stream.of(this.template, this.base).anyMatch(net.minecraftforge.common.ForgeHooks::hasNoElements);
+    public PlacementInfo placementInfo() {
+        if (this.placementInfo == null) {
+            this.placementInfo = PlacementInfo.createFromOptionals(List.<Optional<Ingredient>>of(this.templateIngredient(), this.baseIngredient(), this.additionIngredient()));
+        }
+
+        return this.placementInfo;
     }
 
     public static class Serializer implements RecipeSerializer<TCSaberRecipe> {

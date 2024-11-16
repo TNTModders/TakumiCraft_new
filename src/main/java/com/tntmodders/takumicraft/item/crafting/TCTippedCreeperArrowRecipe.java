@@ -62,13 +62,13 @@ public class TCTippedCreeperArrowRecipe extends CustomRecipe {
         }
     }
 
-    @Override
+/*    @Override
     public boolean canCraftInDimensions(int p_44505_, int p_44506_) {
         return p_44505_ >= 2 && p_44506_ >= 2;
-    }
+    }*/
 
     @Override
-    public RecipeSerializer<?> getSerializer() {
+    public RecipeSerializer<? extends CustomRecipe> getSerializer() {
         return TCRecipeSerializerCore.CREEPER_ARROW_TIP;
     }
 }
