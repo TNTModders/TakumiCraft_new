@@ -73,9 +73,17 @@ public class TCTippedCreeperArrowItem extends TCCreeperArrowItem {
     //@TODO name
     @Override
     public Component getName(ItemStack p_41458_) {
-        String base = p_41458_.get(DataComponents.POTION_CONTENTS).potion().get().value().name();
-        String parts = Component.translatable(base).getString().replaceAll("の矢|な矢", "").replaceAll("ありふれた矢", "平凡").replaceAll("タートルマスター", "亀").replaceAll("クラフト不可能な効能付き", "???").replaceAll("Arrow", "Creeper Arrow");
-        return Component.translatable(this.getDescriptionId()).append("[" + parts + "]");
+        if (p_41458_.has(DataComponents.POTION_CONTENTS) && p_41458_.get(DataComponents.POTION_CONTENTS).potion().isPresent()) {
+            String base = "item.minecraft.tipped_arrow.effect." + p_41458_.get(DataComponents.POTION_CONTENTS).potion().get().value().name();
+            String parts = Component.translatable(base).getString().replaceAll("の矢|な矢", "").replaceAll("ありふれた矢", "平凡").replaceAll("タートルマスター", "亀").replaceAll("クラフト不可能な効能付き", "???").replaceAll("Arrow", "Creeper Arrow");
+            return Component.translatable(this.getDescriptionId()).append("[" + parts + "]");
+        } else {
+            if (p_41458_.get(DataComponents.POTION_CONTENTS).hasEffects() && p_41458_.get(DataComponents.POTION_CONTENTS).customEffects().stream().anyMatch(mobEffectInstance -> mobEffectInstance.getEffect() == MobEffects.WITHER)) {
+                String parts = Component.translatable("effect.minecraft.wither").getString();
+                return Component.translatable(this.getDescriptionId()).append("[" + parts + "]");
+            }
+            return super.getName(p_41458_);
+        }
     }
 
     @Override

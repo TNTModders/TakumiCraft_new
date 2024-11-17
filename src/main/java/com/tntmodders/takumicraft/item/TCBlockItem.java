@@ -2,8 +2,10 @@ package com.tntmodders.takumicraft.item;
 
 import com.tntmodders.takumicraft.core.TCItemCore;
 import com.tntmodders.takumicraft.provider.ITCBlocks;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 
 public class TCBlockItem<T extends Block & ITCBlocks> extends BlockItem {
@@ -24,5 +26,10 @@ public class TCBlockItem<T extends Block & ITCBlocks> extends BlockItem {
 
     public String getRegistryName() {
         return ((ITCBlocks) block).getRegistryName();
+    }
+
+    @Override
+    public Component getName(ItemStack p_41458_) {
+        return this.block.getName();
     }
 }
