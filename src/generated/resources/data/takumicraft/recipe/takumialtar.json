@@ -2,15 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "#": {
-      "item": "takumicraft:creeperbomb"
-    },
-    "D": {
-      "item": "minecraft:diamond_block"
-    },
-    "E": {
-      "item": "minecraft:emerald_block"
-    }
+    "#": "takumicraft:creeperbomb",
+    "D": "minecraft:diamond_block",
+    "E": "minecraft:emerald_block"
   },
   "pattern": [
     "EEE",

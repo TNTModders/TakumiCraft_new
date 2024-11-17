@@ -1,5 +1,6 @@
 package com.tntmodders.takumicraft.entity.projectile;
 
+import com.tntmodders.takumicraft.core.TCEntityCore;
 import com.tntmodders.takumicraft.entity.mobs.TCBreezeCreeper;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.sounds.SoundEvents;

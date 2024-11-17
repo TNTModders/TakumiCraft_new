@@ -28,7 +28,7 @@ import java.util.function.Function;
 
 public class TCCreeperLanternBlock extends LanternBlock implements ITCBlocks, ITCRecipe {
     public TCCreeperLanternBlock() {
-        super(BlockBehaviour.Properties.of().mapColor(MapColor.METAL).forceSolidOn().requiresCorrectToolForDrops().strength(3.5F, 100000F).sound(SoundType.LANTERN).lightLevel(p_187433_ -> 15).noOcclusion().pushReaction(PushReaction.DESTROY));
+        super(BlockBehaviour.Properties.of().mapColor(MapColor.METAL).forceSolidOn().requiresCorrectToolForDrops().strength(3.5F, 100000F).sound(SoundType.LANTERN).lightLevel(p_187433_ -> 15).noOcclusion().pushReaction(PushReaction.DESTROY).setId(TCBlockCore.TCBlockId("creeperlantern")));
     }
 
     @Override

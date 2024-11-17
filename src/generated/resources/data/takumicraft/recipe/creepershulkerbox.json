@@ -2,12 +2,8 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "#": {
-      "item": "takumicraft:creeperbomb"
-    },
-    "B": {
-      "item": "minecraft:shulker_box"
-    }
+    "#": "takumicraft:creeperbomb",
+    "B": "minecraft:shulker_box"
   },
   "pattern": [
     "BBB",

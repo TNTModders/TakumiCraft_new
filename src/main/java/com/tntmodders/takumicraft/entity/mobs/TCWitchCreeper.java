@@ -2,7 +2,6 @@ package com.tntmodders.takumicraft.entity.mobs;
 
 import com.tntmodders.takumicraft.client.renderer.entity.TCWitchCreeperRenderer;
 import com.tntmodders.takumicraft.core.TCEntityCore;
-import com.tntmodders.takumicraft.utils.TCEntityUtils;
 import com.tntmodders.takumicraft.utils.TCExplosionUtils;
 import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponents;

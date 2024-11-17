@@ -43,7 +43,7 @@ public class TCCreeperSwordItem extends SwordItem implements ITCItems, ITCRecipe
     private final double maxRange = 2;
 
     public TCCreeperSwordItem() {
-        super(ToolMaterial.IRON, 3.0F, -2.4F, new Item.Properties().attributes(createAttributes()));
+        super(ToolMaterial.IRON, 3.0F, -2.4F, new Item.Properties().attributes(createAttributes()).setId(TCItemCore.TCItemId("creepersword")));
     }
 
     public static ItemAttributeModifiers createAttributes() {

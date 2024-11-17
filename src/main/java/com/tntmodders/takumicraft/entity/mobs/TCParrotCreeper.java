@@ -3,7 +3,6 @@ package com.tntmodders.takumicraft.entity.mobs;
 import com.mojang.serialization.Codec;
 import com.tntmodders.takumicraft.client.renderer.entity.TCParrotCreeperRenderer;
 import com.tntmodders.takumicraft.core.TCEntityCore;
-import com.tntmodders.takumicraft.utils.TCEntityUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerPlayer;

@@ -18,7 +18,7 @@ import java.util.List;
 
 public class TCCreeperIronBlock extends AbstractTCAntiExplosionBlock implements ITCRecipe {
     public TCCreeperIronBlock() {
-        super(BlockBehaviour.Properties.of().requiresCorrectToolForDrops().strength(5.0F, 6.0F).sound(SoundType.METAL));
+        super(BlockBehaviour.Properties.of().requiresCorrectToolForDrops().strength(5.0F, 6.0F).sound(SoundType.METAL).setId(TCBlockCore.TCBlockId("creeperiron")));
     }
 
     @Override

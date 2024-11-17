@@ -1,7 +1,6 @@
 package com.tntmodders.takumicraft.entity.mobs;
 
 import com.tntmodders.takumicraft.core.TCEntityCore;
-import com.tntmodders.takumicraft.utils.TCEntityUtils;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;

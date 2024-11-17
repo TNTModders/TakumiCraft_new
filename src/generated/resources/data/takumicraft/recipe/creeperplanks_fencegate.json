@@ -2,12 +2,8 @@
   "type": "minecraft:crafting_shaped",
   "category": "redstone",
   "key": {
-    "#": {
-      "item": "takumicraft:creeperplanks"
-    },
-    "S": {
-      "item": "minecraft:stick"
-    }
+    "#": "takumicraft:creeperplanks",
+    "S": "minecraft:stick"
   },
   "pattern": [
     "S#S",

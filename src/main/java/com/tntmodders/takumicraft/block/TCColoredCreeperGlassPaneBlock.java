@@ -18,7 +18,7 @@ public class TCColoredCreeperGlassPaneBlock extends TCCreeperGlassPaneBlock {
     private final Block baseBlock;
 
     public TCColoredCreeperGlassPaneBlock(DyeColor colorIn) {
-        super(TCBlockCore.CREEPER_COLORED_GLASS_MAP.get(colorIn));
+        super("creeperglasspane_" + colorIn.getName(), TCBlockCore.CREEPER_COLORED_GLASS_MAP.get(colorIn));
         this.color = colorIn;
         this.baseBlock = ForgeRegistries.BLOCKS.getValue(ResourceLocation.withDefaultNamespace(this.color.getName() + "_stained_glass_pane"));
     }

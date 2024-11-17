@@ -3,12 +3,8 @@
   "category": "building",
   "group": "creepercopper",
   "key": {
-    "#": {
-      "item": "takumicraft:creeperbomb"
-    },
-    "B": {
-      "item": "minecraft:waxed_oxidized_copper"
-    }
+    "#": "takumicraft:creeperbomb",
+    "B": "minecraft:waxed_oxidized_copper"
   },
   "pattern": [
     "BBB",

@@ -2,6 +2,7 @@ package com.tntmodders.takumicraft.item;
 
 import com.tntmodders.takumicraft.client.renderer.block.TCBEWLRenderer;
 import com.tntmodders.takumicraft.core.TCEnchantmentCore;
+import com.tntmodders.takumicraft.core.TCItemCore;
 import com.tntmodders.takumicraft.entity.mobs.AbstractTCCreeper;
 import com.tntmodders.takumicraft.provider.TCItemModelProvider;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
@@ -29,7 +30,7 @@ public class TCSaberItem extends AbstractTCWeaponItem {
     public static final ResourceLocation ATTACK_RANGE_ID = ResourceLocation.withDefaultNamespace("base_attack_range");
 
     public TCSaberItem() {
-        super(AbstractTCCreeper.TCCreeperContext.EnumTakumiElement.NORMAL, new Properties().fireResistant().rarity(Rarity.EPIC).attributes(createAttributes()));
+        super(AbstractTCCreeper.TCCreeperContext.EnumTakumiElement.NORMAL, new Properties().fireResistant().rarity(Rarity.EPIC).attributes(createAttributes()).setId(TCItemCore.TCItemId("typesword_normal")));
     }
 
     public static ItemAttributeModifiers createAttributes() {

@@ -27,7 +27,7 @@ import java.util.function.Function;
 
 public class TCCreeperChainBlock extends ChainBlock implements ITCBlocks, ITCRecipe {
     public TCCreeperChainBlock() {
-        super(BlockBehaviour.Properties.of().forceSolidOn().requiresCorrectToolForDrops().strength(5.0F, 1000000.0F).sound(SoundType.CHAIN).noOcclusion());
+        super(BlockBehaviour.Properties.of().forceSolidOn().requiresCorrectToolForDrops().strength(5.0F, 1000000.0F).sound(SoundType.CHAIN).noOcclusion().setId(TCBlockCore.TCBlockId("creeperchain")));
     }
 
     @Override

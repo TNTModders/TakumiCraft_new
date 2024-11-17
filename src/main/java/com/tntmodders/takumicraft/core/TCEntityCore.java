@@ -183,8 +183,8 @@ public class TCEntityCore {
                 entityTypeRegisterHelper.register(ResourceLocation.tryBuild(TakumiCraftCore.MODID, "creeperframe"), TCCreeperFrame.ITEM_FRAME));
         event.register(ForgeRegistries.ENTITY_TYPES.getRegistryKey(), entityTypeRegisterHelper ->
                 entityTypeRegisterHelper.register(ResourceLocation.tryBuild(TakumiCraftCore.MODID, "creeperframe_glowing"), TCCreeperGlowingFrame.GLOWING_FRAME));
-        event.register(ForgeRegistries.ENTITY_TYPES.getRegistryKey(), entityTypeRegisterHelper ->
-                entityTypeRegisterHelper.register(ResourceLocation.tryBuild(TakumiCraftCore.MODID, "breezecreeper_windcharge"), TCBreezeCreeperWindCharge.BREEZE_WIND_CHARGE));
+/*        event.register(ForgeRegistries.ENTITY_TYPES.getRegistryKey(), entityTypeRegisterHelper ->
+                entityTypeRegisterHelper.register(ResourceLocation.tryBuild(TakumiCraftCore.MODID, "breezecreeper_windcharge"), TCBreezeCreeperWindCharge.BREEZE_WIND_CHARGE));*/
         event.register(ForgeRegistries.ENTITY_TYPES.getRegistryKey(), entityTypeRegisterHelper ->
                 entityTypeRegisterHelper.register(ResourceLocation.tryBuild(TakumiCraftCore.MODID, "llamacreeperspit"), TCLlamaCreeperSpit.LLAMA_SPIT));
     }

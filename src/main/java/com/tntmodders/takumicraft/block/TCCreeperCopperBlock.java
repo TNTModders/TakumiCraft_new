@@ -26,8 +26,12 @@ public class TCCreeperCopperBlock extends AbstractTCAntiExplosionBlock implement
         this.base = block;
     }
 
+    public TCCreeperCopperBlock(String name, WeatheringCopper.WeatherState weather, Block block) {
+        this(weather, block, Properties.of().requiresCorrectToolForDrops().strength(5.0F, 1000000.0F).sound(SoundType.COPPER).setId(TCBlockCore.TCBlockId(getName(name, weather))));
+    }
+
     public TCCreeperCopperBlock(WeatheringCopper.WeatherState weather, Block block) {
-        this(weather, block, Properties.of().requiresCorrectToolForDrops().strength(5.0F, 1000000.0F).sound(SoundType.COPPER));
+        this("creepercopper", weather, block);
     }
 
     protected String getBaseRegistryName() {
@@ -42,9 +46,13 @@ public class TCCreeperCopperBlock extends AbstractTCAntiExplosionBlock implement
         return "匠式硬質銅";
     }
 
+    public static String getName(String baseName, WeatheringCopper.WeatherState state) {
+        return baseName + (state == WeatheringCopper.WeatherState.UNAFFECTED ? "" : "_" + state.getSerializedName());
+    }
+
     @Override
     public String getRegistryName() {
-        return this.getBaseRegistryName() + (this.state == WeatheringCopper.WeatherState.UNAFFECTED ? "" : "_" + this.state.getSerializedName());
+        return getName(this.getBaseRegistryName(), this.state);
     }
 
     @Override

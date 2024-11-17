@@ -3,12 +3,8 @@
   "category": "building",
   "group": "creeperwool",
   "key": {
-    "#": {
-      "item": "takumicraft:creeperbomb"
-    },
-    "B": {
-      "item": "minecraft:cyan_wool"
-    }
+    "#": "takumicraft:creeperbomb",
+    "B": "minecraft:cyan_wool"
   },
   "pattern": [
     "BBB",

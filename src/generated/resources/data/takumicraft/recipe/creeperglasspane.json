@@ -3,12 +3,8 @@
   "category": "misc",
   "group": "creeperglasspane",
   "key": {
-    "#": {
-      "item": "takumicraft:creeperbomb"
-    },
-    "B": {
-      "item": "minecraft:glass_pane"
-    }
+    "#": "takumicraft:creeperbomb",
+    "B": "minecraft:glass_pane"
   },
   "pattern": [
     "BBB",

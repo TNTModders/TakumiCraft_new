@@ -23,7 +23,7 @@ public class TCTakumiSpecialMeatItem extends Item implements ITCItems {
     private final boolean isFish;
 
     public TCTakumiSpecialMeatItem(Item item, Item rawItem, boolean isFish) {
-        super(new Properties().food(new FoodProperties.Builder().nutrition(item.components().get(DataComponents.FOOD).nutrition() * 3).saturationModifier(item.components().get(DataComponents.FOOD).saturation() * 3).build(), Consumables.defaultFood().consumeSeconds(0.7f).build()).rarity(Rarity.EPIC));
+        super(new Properties().food(new FoodProperties.Builder().nutrition(item.components().get(DataComponents.FOOD).nutrition() * 3).saturationModifier(item.components().get(DataComponents.FOOD).saturation() * 3).build(), Consumables.defaultFood().consumeSeconds(0.7f).build()).rarity(Rarity.EPIC).setId(TCItemCore.TCItemId("takumispecialmeat_" + ForgeRegistries.ITEMS.getKey(item).getPath())));
         this.base = item;
         this.rawBase = rawItem;
         this.isFish = isFish;

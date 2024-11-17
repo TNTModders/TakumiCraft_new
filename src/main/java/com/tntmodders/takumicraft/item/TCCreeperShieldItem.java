@@ -22,7 +22,7 @@ import java.util.function.Consumer;
 public class TCCreeperShieldItem extends ShieldItem implements ITCItems, ITCTranslator, ITCRecipe {
 
     public TCCreeperShieldItem() {
-        super(new Item.Properties().durability(256));
+        super(new Item.Properties().durability(256).setId(TCItemCore.TCItemId("creepershield")));
     }
 
     @Override

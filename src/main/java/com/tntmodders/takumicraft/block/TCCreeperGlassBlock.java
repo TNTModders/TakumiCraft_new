@@ -24,8 +24,13 @@ import java.util.List;
 import java.util.function.Function;
 
 public class TCCreeperGlassBlock extends TransparentBlock implements ITCBlocks, ITCRecipe {
+    public TCCreeperGlassBlock(String name) {
+        super(BlockBehaviour.Properties.of().strength(6f).sound(SoundType.GLASS).noOcclusion().isValidSpawn((state, getter, pos, type) -> TCBlockCore.never(state, getter, pos)).isRedstoneConductor(TCBlockCore::never).isSuffocating(TCBlockCore::never).isViewBlocking(TCBlockCore::never).explosionResistance(1000000f).setId(TCBlockCore.TCBlockId(name)));
+
+    }
+
     public TCCreeperGlassBlock() {
-        super(BlockBehaviour.Properties.of().strength(6f).sound(SoundType.GLASS).noOcclusion().isValidSpawn((state, getter, pos, type) -> TCBlockCore.never(state, getter, pos)).isRedstoneConductor(TCBlockCore::never).isSuffocating(TCBlockCore::never).isViewBlocking(TCBlockCore::never).explosionResistance(1000000f));
+        this("creeperglass");
     }
 
     @Override

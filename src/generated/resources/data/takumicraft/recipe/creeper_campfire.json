@@ -2,15 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "#": {
-      "item": "takumicraft:creeperbomb"
-    },
-    "B": {
-      "item": "takumicraft:creeperplanks"
-    },
-    "S": {
-      "item": "minecraft:stick"
-    }
+    "#": "takumicraft:creeperbomb",
+    "B": "takumicraft:creeperplanks",
+    "S": "minecraft:stick"
   },
   "pattern": [
     " S ",

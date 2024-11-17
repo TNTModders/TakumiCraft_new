@@ -28,7 +28,6 @@ import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
 
 import javax.annotation.Nullable;
 import java.time.LocalDate;
-import java.time.temporal.ChronoField;
 
 public class TCBatCreeper extends AbstractTCCreeper {
     public static final float FLAP_LENGTH_SECONDS = 0.5F;
@@ -70,8 +69,8 @@ public class TCBatCreeper extends AbstractTCCreeper {
 
     private static boolean isHalloween() {
         LocalDate localdate = LocalDate.now();
-        int i = localdate.get(ChronoField.DAY_OF_MONTH);
-        int j = localdate.get(ChronoField.MONTH_OF_YEAR);
+        int i = localdate.getDayOfMonth();
+        int j = localdate.getMonth().getValue();
         return j == 10 && i >= 20 || j == 11 && i <= 3;
     }
 

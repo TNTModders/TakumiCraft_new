@@ -4,7 +4,6 @@ import com.tntmodders.takumicraft.client.renderer.entity.TCWitherSkeletonCreeper
 import com.tntmodders.takumicraft.core.TCEnchantmentCore;
 import com.tntmodders.takumicraft.core.TCEntityCore;
 import com.tntmodders.takumicraft.core.TCItemCore;
-import com.tntmodders.takumicraft.utils.TCEntityUtils;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;

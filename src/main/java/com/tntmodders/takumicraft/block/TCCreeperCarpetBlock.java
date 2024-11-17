@@ -33,7 +33,7 @@ public class TCCreeperCarpetBlock extends AbstractTCAntiExplosionBlock implement
     private final Block baseBlock;
 
     public TCCreeperCarpetBlock(DyeColor colorIn) {
-        super(Properties.of().mapColor(colorIn.getMapColor()).instrument(NoteBlockInstrument.GUITAR).strength(0.8F).sound(SoundType.WOOL));
+        super(Properties.of().mapColor(colorIn.getMapColor()).instrument(NoteBlockInstrument.GUITAR).strength(0.8F).sound(SoundType.WOOL).setId(TCBlockCore.TCBlockId("creepercarpet_" + colorIn.getName())));
         this.color = colorIn;
         this.baseBlock = ForgeRegistries.BLOCKS.getValue(ResourceLocation.withDefaultNamespace(this.color.getName() + "_carpet"));
     }

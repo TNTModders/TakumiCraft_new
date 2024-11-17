@@ -3,12 +3,8 @@
   "category": "building",
   "group": "creepercopper_grate",
   "key": {
-    "#": {
-      "item": "takumicraft:creeperbomb"
-    },
-    "B": {
-      "item": "minecraft:copper_grate"
-    }
+    "#": "takumicraft:creeperbomb",
+    "B": "minecraft:copper_grate"
   },
   "pattern": [
     "BBB",

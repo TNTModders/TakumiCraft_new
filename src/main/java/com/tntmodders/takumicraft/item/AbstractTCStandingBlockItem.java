@@ -1,5 +1,6 @@
 package com.tntmodders.takumicraft.item;
 
+import com.tntmodders.takumicraft.core.TCItemCore;
 import com.tntmodders.takumicraft.provider.ITCBlocks;
 import com.tntmodders.takumicraft.provider.ITCItems;
 import com.tntmodders.takumicraft.provider.TCItemModelProvider;
@@ -21,7 +22,7 @@ public abstract class AbstractTCStandingBlockItem extends TCBlockItem implements
     private final Block base;
 
     public AbstractTCStandingBlockItem(Block block, Block wallBlock, Direction direction) {
-        super(block, new Item.Properties());
+        super(block, new Item.Properties().setId(TCItemCore.TCItemId(((ITCBlocks) block).getRegistryName())));
         this.wallBlock = wallBlock;
         this.attachmentDirection = direction;
         this.base = block;

@@ -22,7 +22,7 @@ import java.util.List;
 
 public class TCMinesweeperAxeItem extends AxeItem implements ITCItems, ITCTranslator, ITCRecipe {
     public TCMinesweeperAxeItem() {
-        super(ToolMaterial.IRON, 6f, -3.2f, new Item.Properties());
+        super(ToolMaterial.IRON, 6f, -3.2f, new Item.Properties().setId(TCItemCore.TCItemId("minesweeper_axe")));
     }
 
     @Override

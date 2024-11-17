@@ -28,7 +28,7 @@ public class TCCreeperBowItem extends BowItem implements ITCItems, ITCTranslator
     public static final Predicate<ItemStack> ARROW_AND_CARROW = p_43017_ -> p_43017_.is(TCItemCore.CREEPER_ARROWS) || p_43017_.is(ItemTags.ARROWS);
 
     public TCCreeperBowItem() {
-        super(new Item.Properties().durability(256));
+        super(new Item.Properties().durability(256).setId(TCItemCore.TCItemId("creeperbow")));
     }
 
     @Override

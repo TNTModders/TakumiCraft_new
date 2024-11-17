@@ -24,7 +24,7 @@ public class TCTippedCreeperArrowItem extends TCCreeperArrowItem {
     public static final MobEffectInstance WITHER = new MobEffectInstance(MobEffects.WITHER, 800, 1);
 
     public TCTippedCreeperArrowItem() {
-        super();
+        super(new Item.Properties().setId(TCItemCore.TCItemId("tipped_creeperarrow")));
     }
 
     @Override

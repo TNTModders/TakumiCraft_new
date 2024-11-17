@@ -3,9 +3,7 @@
   "category": "building",
   "group": "creepercopper_cut_stairs",
   "key": {
-    "#": {
-      "item": "takumicraft:creepercopper_cut"
-    }
+    "#": "takumicraft:creepercopper_cut"
   },
   "pattern": [
     "#  ",

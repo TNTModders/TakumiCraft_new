@@ -3,12 +3,8 @@
   "category": "misc",
   "group": "creeperbed",
   "key": {
-    "#": {
-      "item": "takumicraft:creeperplanks"
-    },
-    "B": {
-      "item": "takumicraft:creeperwool_purple"
-    }
+    "#": "takumicraft:creeperplanks",
+    "B": "takumicraft:creeperwool_purple"
   },
   "pattern": [
     "BBB",

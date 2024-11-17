@@ -19,7 +19,7 @@ public class TCColoredCreeperGlassBlock extends TCCreeperGlassBlock {
     private final Block baseBlock;
 
     public TCColoredCreeperGlassBlock(DyeColor colorIn) {
-        super();
+        super("creeperglass_" + colorIn.getName());
         this.color = colorIn;
         this.baseBlock = ForgeRegistries.BLOCKS.getValue(ResourceLocation.withDefaultNamespace(this.color.getName() + "_stained_glass"));
     }

@@ -1,8 +1,6 @@
 {
   "type": "minecraft:stonecutting",
-  "ingredient": {
-    "item": "takumicraft:creeperbrick"
-  },
+  "ingredient": "takumicraft:creeperbrick",
   "result": {
     "count": 2,
     "id": "takumicraft:creeperbrick_half"

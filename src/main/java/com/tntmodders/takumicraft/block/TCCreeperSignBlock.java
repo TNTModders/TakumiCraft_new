@@ -38,7 +38,7 @@ import java.util.function.Function;
 
 public class TCCreeperSignBlock extends StandingSignBlock implements ITCBlocks, ITCRecipe {
     public TCCreeperSignBlock() {
-        super(TCWoodType.CREEPER_WOOD, BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).forceSolidOn().instrument(NoteBlockInstrument.BASS).noCollission().strength(1.0F, 1000000F).ignitedByLava());
+        super(TCWoodType.CREEPER_WOOD, BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).forceSolidOn().instrument(NoteBlockInstrument.BASS).noCollission().strength(1.0F, 1000000F).ignitedByLava().setId(TCBlockCore.TCBlockId("creepersign")));
     }
 
     @Override

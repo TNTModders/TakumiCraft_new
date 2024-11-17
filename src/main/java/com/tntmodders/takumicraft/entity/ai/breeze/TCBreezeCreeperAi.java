@@ -152,6 +152,13 @@ public class TCBreezeCreeperAi {
             );
         }
 
+        private static Vec3 randomPointInMiddleCircle(TCBreezeCreeper p_310635_, LivingEntity p_312574_) {
+            Vec3 vec3 = p_312574_.position().subtract(p_310635_.position());
+            double d0 = vec3.length() - Mth.lerp(p_310635_.getRandom().nextDouble(), 8.0, 4.0);
+            Vec3 vec31 = vec3.normalize().multiply(d0, d0, d0);
+            return p_310635_.position().add(vec31);
+        }
+
         @Override
         protected boolean checkExtraStartConditions(ServerLevel p_312721_, TCBreezeCreeper p_311782_) {
             return p_311782_.onGround() && !p_311782_.isInWater() && p_311782_.getPose() == Pose.STANDING;
@@ -178,13 +185,6 @@ public class TCBreezeCreeperAi {
 
                 p_310251_.getBrain().setMemory(MemoryModuleType.WALK_TARGET, new WalkTarget(BlockPos.containing(vec3), 0.6F, 1));
             }
-        }
-
-        private static Vec3 randomPointInMiddleCircle(TCBreezeCreeper p_310635_, LivingEntity p_312574_) {
-            Vec3 vec3 = p_312574_.position().subtract(p_310635_.position());
-            double d0 = vec3.length() - Mth.lerp(p_310635_.getRandom().nextDouble(), 8.0, 4.0);
-            Vec3 vec31 = vec3.normalize().multiply(d0, d0, d0);
-            return p_310635_.position().add(vec31);
         }
     }
 
@@ -254,6 +254,11 @@ public class TCBreezeCreeperAi {
             );
         }
 
+        private static boolean isTargetWithinRange(TCBreezeCreeper p_311470_, LivingEntity p_309385_) {
+            double d0 = p_311470_.position().distanceToSqr(p_309385_.position());
+            return d0 < 256.0;
+        }
+
         @Override
         protected boolean checkExtraStartConditions(ServerLevel p_310608_, TCBreezeCreeper p_310203_) {
             return p_310203_.getPose() == Pose.STANDING && p_310203_.getBrain().getMemory(MemoryModuleType.ATTACK_TARGET).map(p_311282_ -> isTargetWithinRange(p_310203_, p_311282_)).map(p_311912_ -> {
@@ -299,7 +304,8 @@ public class TCBreezeCreeperAi {
                     double d1 = livingentity.getY(livingentity.isPassenger() ? 0.8 : 0.3) - p_309721_.getFiringYPosition();
                     double d2 = livingentity.getZ() - p_309721_.getZ();
                     Projectile.spawnProjectileUsingShoot(
-                            new BreezeWindCharge(EntityType.BREEZE_WIND_CHARGE, p_312469_),
+                            //@TODO solve the tag-error
+                            /*new TCBreezeCreeperWindCharge(TCBreezeCreeperWindCharge.BREEZE_WIND_CHARGE, p_312469_),*/new BreezeWindCharge(EntityType.BREEZE_WIND_CHARGE, p_312469_),
                             p_312469_,
                             ItemStack.EMPTY,
                             d0,
@@ -311,11 +317,6 @@ public class TCBreezeCreeperAi {
                     p_309721_.playSound(SoundEvents.BREEZE_SHOOT, 1.5F, 1.0F);
                 }
             }
-        }
-
-        private static boolean isTargetWithinRange(TCBreezeCreeper p_311470_, LivingEntity p_309385_) {
-            double d0 = p_311470_.position().distanceToSqr(p_309385_.position());
-            return d0 < 256.0;
         }
     }
 
@@ -389,6 +390,75 @@ public class TCBreezeCreeperAi {
             }
         }
 
+        private static boolean isFinishedInhaling(TCBreezeCreeper p_330141_) {
+            return p_330141_.getBrain().getMemory(MemoryModuleType.BREEZE_JUMP_INHALING).isEmpty() && p_330141_.getPose() == Pose.INHALING;
+        }
+
+        private static boolean isFinishedJumping(TCBreezeCreeper p_330755_) {
+            boolean flag = p_330755_.getPose() == Pose.LONG_JUMPING;
+            boolean flag1 = p_330755_.onGround();
+            boolean flag2 = p_330755_.isInWater() && p_330755_.getBrain().checkMemory(MemoryModuleType.BREEZE_LEAVING_WATER, MemoryStatus.VALUE_ABSENT);
+            return flag && (flag1 || flag2);
+        }
+
+        @Nullable
+        private static BlockPos snapToSurface(LivingEntity p_312785_, Vec3 p_311613_) {
+            ClipContext clipcontext = new ClipContext(
+                    p_311613_, p_311613_.relative(Direction.DOWN, 10.0), ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, p_312785_
+            );
+            HitResult hitresult = p_312785_.level().clip(clipcontext);
+            if (hitresult.getType() == HitResult.Type.BLOCK) {
+                return BlockPos.containing(hitresult.getLocation()).above();
+            } else {
+                ClipContext clipcontext1 = new ClipContext(
+                        p_311613_, p_311613_.relative(Direction.UP, 10.0), ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, p_312785_
+                );
+                HitResult hitresult1 = p_312785_.level().clip(clipcontext1);
+                return hitresult1.getType() == HitResult.Type.BLOCK ? BlockPos.containing(hitresult1.getLocation()).above() : null;
+            }
+        }
+
+        private static boolean outOfAggroRange(TCBreezeCreeper p_310244_, LivingEntity p_309508_) {
+            return !p_309508_.closerThan(p_310244_, p_310244_.getAttributeValue(Attributes.FOLLOW_RANGE));
+        }
+
+        private static boolean tooCloseForJump(TCBreezeCreeper p_310091_, LivingEntity p_311303_) {
+            return p_311303_.distanceTo(p_310091_) - 4.0F <= 0.0F;
+        }
+
+        private static boolean canJumpFromCurrentPosition(ServerLevel p_312023_, TCBreezeCreeper p_313218_) {
+            BlockPos blockpos = p_313218_.blockPosition();
+            if (p_312023_.getBlockState(blockpos).is(Blocks.HONEY_BLOCK)) {
+                return false;
+            } else {
+                for (int i = 1; i <= 4; i++) {
+                    BlockPos blockpos1 = blockpos.relative(Direction.UP, i);
+                    if (!p_312023_.getBlockState(blockpos1).isAir() && !p_312023_.getFluidState(blockpos1).is(FluidTags.WATER)) {
+                        return false;
+                    }
+                }
+
+                return true;
+            }
+        }
+
+        private static Optional<Vec3> calculateOptimalJumpVector(TCBreezeCreeper p_310143_, RandomSource p_313023_, Vec3 p_309973_) {
+            for (int i : Util.shuffledCopy(ALLOWED_ANGLES, p_313023_)) {
+                float f = 0.058333334F * (float) p_310143_.getAttributeValue(Attributes.FOLLOW_RANGE);
+                Optional<Vec3> optional = LongJumpUtil.calculateJumpVectorForAngle(p_310143_, p_309973_, f, i, false);
+                if (optional.isPresent()) {
+                    if (p_310143_.hasEffect(MobEffects.JUMP)) {
+                        double d0 = optional.get().normalize().y * (double) p_310143_.getJumpBoostPower();
+                        return optional.map(p_359268_ -> p_359268_.add(0.0, d0, 0.0));
+                    }
+
+                    return optional;
+                }
+            }
+
+            return Optional.empty();
+        }
+
         @Override
         protected boolean checkExtraStartConditions(ServerLevel p_312411_, TCBreezeCreeper p_309539_) {
             return canRun(p_312411_, p_309539_);
@@ -457,75 +527,6 @@ public class TCBreezeCreeperAi {
             p_311681_.getBrain().eraseMemory(MemoryModuleType.BREEZE_JUMP_TARGET);
             p_311681_.getBrain().eraseMemory(MemoryModuleType.BREEZE_JUMP_INHALING);
             p_311681_.getBrain().eraseMemory(MemoryModuleType.BREEZE_LEAVING_WATER);
-        }
-
-        private static boolean isFinishedInhaling(TCBreezeCreeper p_330141_) {
-            return p_330141_.getBrain().getMemory(MemoryModuleType.BREEZE_JUMP_INHALING).isEmpty() && p_330141_.getPose() == Pose.INHALING;
-        }
-
-        private static boolean isFinishedJumping(TCBreezeCreeper p_330755_) {
-            boolean flag = p_330755_.getPose() == Pose.LONG_JUMPING;
-            boolean flag1 = p_330755_.onGround();
-            boolean flag2 = p_330755_.isInWater() && p_330755_.getBrain().checkMemory(MemoryModuleType.BREEZE_LEAVING_WATER, MemoryStatus.VALUE_ABSENT);
-            return flag && (flag1 || flag2);
-        }
-
-        @Nullable
-        private static BlockPos snapToSurface(LivingEntity p_312785_, Vec3 p_311613_) {
-            ClipContext clipcontext = new ClipContext(
-                    p_311613_, p_311613_.relative(Direction.DOWN, 10.0), ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, p_312785_
-            );
-            HitResult hitresult = p_312785_.level().clip(clipcontext);
-            if (hitresult.getType() == HitResult.Type.BLOCK) {
-                return BlockPos.containing(hitresult.getLocation()).above();
-            } else {
-                ClipContext clipcontext1 = new ClipContext(
-                        p_311613_, p_311613_.relative(Direction.UP, 10.0), ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, p_312785_
-                );
-                HitResult hitresult1 = p_312785_.level().clip(clipcontext1);
-                return hitresult1.getType() == HitResult.Type.BLOCK ? BlockPos.containing(hitresult1.getLocation()).above() : null;
-            }
-        }
-
-        private static boolean outOfAggroRange(TCBreezeCreeper p_310244_, LivingEntity p_309508_) {
-            return !p_309508_.closerThan(p_310244_, p_310244_.getAttributeValue(Attributes.FOLLOW_RANGE));
-        }
-
-        private static boolean tooCloseForJump(TCBreezeCreeper p_310091_, LivingEntity p_311303_) {
-            return p_311303_.distanceTo(p_310091_) - 4.0F <= 0.0F;
-        }
-
-        private static boolean canJumpFromCurrentPosition(ServerLevel p_312023_, TCBreezeCreeper p_313218_) {
-            BlockPos blockpos = p_313218_.blockPosition();
-            if (p_312023_.getBlockState(blockpos).is(Blocks.HONEY_BLOCK)) {
-                return false;
-            } else {
-                for (int i = 1; i <= 4; i++) {
-                    BlockPos blockpos1 = blockpos.relative(Direction.UP, i);
-                    if (!p_312023_.getBlockState(blockpos1).isAir() && !p_312023_.getFluidState(blockpos1).is(FluidTags.WATER)) {
-                        return false;
-                    }
-                }
-
-                return true;
-            }
-        }
-
-        private static Optional<Vec3> calculateOptimalJumpVector(TCBreezeCreeper p_310143_, RandomSource p_313023_, Vec3 p_309973_) {
-            for (int i : Util.shuffledCopy(ALLOWED_ANGLES, p_313023_)) {
-                float f = 0.058333334F * (float) p_310143_.getAttributeValue(Attributes.FOLLOW_RANGE);
-                Optional<Vec3> optional = LongJumpUtil.calculateJumpVectorForAngle(p_310143_, p_309973_, f, i, false);
-                if (optional.isPresent()) {
-                    if (p_310143_.hasEffect(MobEffects.JUMP)) {
-                        double d0 = optional.get().normalize().y * (double) p_310143_.getJumpBoostPower();
-                        return optional.map(p_359268_ -> p_359268_.add(0.0, d0, 0.0));
-                    }
-
-                    return optional;
-                }
-            }
-
-            return Optional.empty();
         }
     }
 }

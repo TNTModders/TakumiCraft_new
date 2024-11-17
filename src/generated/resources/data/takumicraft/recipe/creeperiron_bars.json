@@ -2,12 +2,8 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "#": {
-      "item": "takumicraft:creeperbomb"
-    },
-    "B": {
-      "item": "minecraft:iron_bars"
-    }
+    "#": "takumicraft:creeperbomb",
+    "B": "minecraft:iron_bars"
   },
   "pattern": [
     "BBB",

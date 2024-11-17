@@ -3,12 +3,8 @@
   "category": "building",
   "group": "creeperglass",
   "key": {
-    "#": {
-      "item": "takumicraft:creeperbomb"
-    },
-    "B": {
-      "item": "minecraft:orange_stained_glass"
-    }
+    "#": "takumicraft:creeperbomb",
+    "B": "minecraft:orange_stained_glass"
   },
   "pattern": [
     "BBB",

@@ -1,5 +1,6 @@
 package com.tntmodders.takumicraft.item;
 
+import com.tntmodders.takumicraft.core.TCItemCore;
 import com.tntmodders.takumicraft.entity.mobs.AbstractTCCreeper;
 import com.tntmodders.takumicraft.provider.ITCItems;
 import com.tntmodders.takumicraft.provider.TCItemModelProvider;
@@ -14,7 +15,7 @@ public class TCSpawnEggItem extends ForgeSpawnEggItem implements ITCItems {
     private final String registryName;
 
     public TCSpawnEggItem(Supplier<? extends EntityType<? extends Mob>> type, AbstractTCCreeper.TCCreeperContext<?> context) {
-        super(type, context.getPrimaryColor(), context.getSecondaryColor(), new Properties());
+        super(type, context.getPrimaryColor(), context.getSecondaryColor(), new Properties().setId(TCItemCore.TCItemId(context.getRegistryName() + "_spawn_egg")));
         this.context = context;
         this.registryName = context.getRegistryName() + "_spawn_egg";
     }

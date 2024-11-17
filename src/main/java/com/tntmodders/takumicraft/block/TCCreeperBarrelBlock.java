@@ -56,7 +56,7 @@ public class TCCreeperBarrelBlock extends BarrelBlock implements ITCBlocks, ITCR
     public static final BooleanProperty EXPLOSIVE = BooleanProperty.create("explosive");
 
     public TCCreeperBarrelBlock() {
-        super(BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).instrument(NoteBlockInstrument.BASS).strength(2.5F).sound(SoundType.WOOD).explosionResistance(1000000f));
+        super(BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).instrument(NoteBlockInstrument.BASS).strength(2.5F).sound(SoundType.WOOD).explosionResistance(1000000f).setId(TCBlockCore.TCBlockId("creeperbarrel")));
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(OPEN, false).setValue(EXPLOSIVE, false));
     }
 

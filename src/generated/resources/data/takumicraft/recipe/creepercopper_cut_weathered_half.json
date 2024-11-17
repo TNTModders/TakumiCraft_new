@@ -3,9 +3,7 @@
   "category": "building",
   "group": "creepercopper_cut_half",
   "key": {
-    "#": {
-      "item": "takumicraft:creepercopper_cut_weathered"
-    }
+    "#": "takumicraft:creepercopper_cut_weathered"
   },
   "pattern": [
     "###"

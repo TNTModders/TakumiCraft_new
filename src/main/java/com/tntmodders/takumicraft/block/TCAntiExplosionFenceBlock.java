@@ -1,6 +1,7 @@
 package com.tntmodders.takumicraft.block;
 
 import com.google.common.collect.Lists;
+import com.tntmodders.takumicraft.core.TCBlockCore;
 import com.tntmodders.takumicraft.data.loot.TCBlockLoot;
 import com.tntmodders.takumicraft.provider.ITCBlocks;
 import com.tntmodders.takumicraft.provider.ITCRecipe;
@@ -28,7 +29,7 @@ public class TCAntiExplosionFenceBlock extends FenceBlock implements ITCBlocks, 
     private final Block baseBlock;
 
     public TCAntiExplosionFenceBlock(Supplier<BlockState> state) {
-        super(Properties.ofFullCopy(state.get().getBlock()));
+        super(Properties.ofFullCopy(state.get().getBlock()).setId(TCBlockCore.TCBlockId(((ITCBlocks) state.get().getBlock()).getRegistryName() + "_fence")));
         this.baseBlock = state.get().getBlock();
     }
 

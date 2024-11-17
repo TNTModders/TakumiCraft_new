@@ -2,15 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "equipment",
   "key": {
-    "#": {
-      "item": "minecraft:stick"
-    },
-    "X": {
-      "item": "minecraft:creeper_head"
-    },
-    "Y": {
-      "item": "minecraft:feather"
-    }
+    "#": "minecraft:stick",
+    "X": "minecraft:creeper_head",
+    "Y": "minecraft:feather"
   },
   "pattern": [
     "X",

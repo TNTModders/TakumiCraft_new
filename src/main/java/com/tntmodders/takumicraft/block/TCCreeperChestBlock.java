@@ -136,7 +136,7 @@ public class TCCreeperChestBlock extends BaseEntityBlock implements ITCBlocks, I
     protected final Supplier<BlockEntityType> blockEntityType;
 
     public TCCreeperChestBlock() {
-        super(BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).instrument(NoteBlockInstrument.BASS).strength(2.5F).sound(SoundType.WOOD).explosionResistance(1000000f));
+        super(BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).instrument(NoteBlockInstrument.BASS).strength(2.5F).sound(SoundType.WOOD).explosionResistance(1000000f).setId(TCBlockCore.TCBlockId("creepervault")));
         this.blockEntityType = () -> TCBlockEntityCore.CHEST;
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(TYPE, ChestType.SINGLE).setValue(WATERLOGGED, Boolean.FALSE));
     }

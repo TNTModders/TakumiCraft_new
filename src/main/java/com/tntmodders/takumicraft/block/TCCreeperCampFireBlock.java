@@ -86,7 +86,7 @@ public class TCCreeperCampFireBlock extends CampfireBlock implements ITCBlocks, 
     }
 
     public TCCreeperCampFireBlock() {
-        this(BlockBehaviour.Properties.of().mapColor(MapColor.PODZOL).instrument(NoteBlockInstrument.BASS).strength(2.0F, 1000000F).sound(SoundType.WOOD).lightLevel(p_50763_ -> p_50763_.getValue(BlockStateProperties.LIT) ? 15 : 0).noOcclusion().ignitedByLava());
+        this(BlockBehaviour.Properties.of().mapColor(MapColor.PODZOL).instrument(NoteBlockInstrument.BASS).strength(2.0F, 1000000F).sound(SoundType.WOOD).lightLevel(p_50763_ -> p_50763_.getValue(BlockStateProperties.LIT) ? 15 : 0).noOcclusion().ignitedByLava().setId(TCBlockCore.TCBlockId("creeper_campfire")));
     }
 
     public static void dowse(@Nullable Entity p_152750_, LevelAccessor p_152751_, BlockPos p_152752_, BlockState p_152753_) {

@@ -1,5 +1,6 @@
 package com.tntmodders.takumicraft.block;
 
+import com.tntmodders.takumicraft.core.TCBlockCore;
 import com.tntmodders.takumicraft.core.TCFluidCore;
 import com.tntmodders.takumicraft.provider.ITCBlocks;
 import com.tntmodders.takumicraft.provider.TCBlockStateProvider;
@@ -26,7 +27,7 @@ import java.util.function.Function;
 public class TCHotspringBlock extends LiquidBlock implements ITCBlocks {
 
     public TCHotspringBlock() {
-        super(() -> (FlowingFluid) TCFluidCore.HOTSPRING.get(), BlockBehaviour.Properties.of().mapColor(MapColor.SNOW).replaceable().noCollission().randomTicks().strength(100f, 1000000f).lightLevel(state -> 7).pushReaction(PushReaction.DESTROY).noLootTable().liquid().sound(SoundType.EMPTY));
+        super(() -> (FlowingFluid) TCFluidCore.HOTSPRING.get(), BlockBehaviour.Properties.of().mapColor(MapColor.SNOW).replaceable().noCollission().randomTicks().strength(100f, 1000000f).lightLevel(state -> 7).pushReaction(PushReaction.DESTROY).noLootTable().liquid().sound(SoundType.EMPTY).setId(TCBlockCore.TCBlockId("takumihotspring")));
     }
 
     @Override

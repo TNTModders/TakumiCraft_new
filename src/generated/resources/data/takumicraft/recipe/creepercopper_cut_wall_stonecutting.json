@@ -1,8 +1,6 @@
 {
   "type": "minecraft:stonecutting",
-  "ingredient": {
-    "item": "takumicraft:creepercopper_cut"
-  },
+  "ingredient": "takumicraft:creepercopper_cut",
   "result": {
     "count": 1,
     "id": "takumicraft:creepercopper_cut_wall"

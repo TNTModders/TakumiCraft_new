@@ -1,7 +1,7 @@
 package com.tntmodders.takumicraft.entity.projectile;
 
+import com.tntmodders.takumicraft.core.TCEntityCore;
 import com.tntmodders.takumicraft.entity.mobs.TCLlamaCreeper;
-import com.tntmodders.takumicraft.utils.TCEntityUtils;
 import com.tntmodders.takumicraft.utils.TCExplosionUtils;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EntityType;

@@ -3,12 +3,8 @@
   "category": "misc",
   "group": "creepercarpet",
   "key": {
-    "#": {
-      "item": "takumicraft:creeperbomb"
-    },
-    "B": {
-      "item": "minecraft:black_carpet"
-    }
+    "#": "takumicraft:creeperbomb",
+    "B": "minecraft:black_carpet"
   },
   "pattern": [
     "BBB",

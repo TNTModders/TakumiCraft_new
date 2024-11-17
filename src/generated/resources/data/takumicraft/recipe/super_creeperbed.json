@@ -3,9 +3,7 @@
   "category": "misc",
   "group": "creeperbed",
   "key": {
-    "#": {
-      "tag": "takumicraft:creeperbed"
-    }
+    "#": "#takumicraft:creeperbed"
   },
   "pattern": [
     "###",

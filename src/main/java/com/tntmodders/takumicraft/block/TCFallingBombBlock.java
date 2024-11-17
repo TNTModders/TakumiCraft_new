@@ -1,5 +1,6 @@
 package com.tntmodders.takumicraft.block;
 
+import com.tntmodders.takumicraft.core.TCBlockCore;
 import com.tntmodders.takumicraft.core.TCEnchantmentCore;
 import com.tntmodders.takumicraft.core.TCItemCore;
 import com.tntmodders.takumicraft.provider.ITCBlocks;
@@ -29,7 +30,7 @@ import java.util.function.Function;
 public class TCFallingBombBlock extends ColoredFallingBlock implements ITCBlocks {
 
     public TCFallingBombBlock() {
-        super(new ColorRGBA(0x006600), BlockBehaviour.Properties.of().mapColor(MapColor.STONE).instrument(NoteBlockInstrument.SNARE).strength(0.6F, 0F).sound(SoundType.GRAVEL));
+        super(new ColorRGBA(0x006600), BlockBehaviour.Properties.of().mapColor(MapColor.STONE).instrument(NoteBlockInstrument.SNARE).strength(0.6F, 0F).sound(SoundType.GRAVEL).setId(TCBlockCore.TCBlockId("fallingbomb")));
     }
 
     @Override

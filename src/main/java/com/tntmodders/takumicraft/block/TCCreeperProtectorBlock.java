@@ -51,7 +51,7 @@ public class TCCreeperProtectorBlock extends BaseEntityBlock implements ITCBlock
     }
 
     public TCCreeperProtectorBlock() {
-        super(Properties.of().strength(0.1f).sound(SoundType.GLASS).isValidSpawn((state, getter, pos, type) -> TCBlockCore.never(state, getter, pos)).isRedstoneConductor(TCBlockCore::never).isSuffocating(TCBlockCore::never).pushReaction(PushReaction.DESTROY).explosionResistance(1000000f).dynamicShape().isViewBlocking(TCBlockCore::never).noCollission());
+        super(Properties.of().strength(0.1f).sound(SoundType.GLASS).isValidSpawn((state, getter, pos, type) -> TCBlockCore.never(state, getter, pos)).isRedstoneConductor(TCBlockCore::never).isSuffocating(TCBlockCore::never).pushReaction(PushReaction.DESTROY).explosionResistance(1000000f).dynamicShape().isViewBlocking(TCBlockCore::never).noCollission().setId(TCBlockCore.TCBlockId("creeperprotector")));
         BlockState defaultState = this.getStateDefinition().any();
         for (Direction direction : Direction.values()) {
             defaultState = defaultState.setValue(FACEING_PROPERTIES.get(direction), true);

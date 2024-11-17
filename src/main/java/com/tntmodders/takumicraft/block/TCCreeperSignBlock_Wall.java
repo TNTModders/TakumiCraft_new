@@ -27,7 +27,7 @@ public class TCCreeperSignBlock_Wall extends WallSignBlock implements ITCBlocks 
 
 
     public TCCreeperSignBlock_Wall() {
-        super(TCWoodType.CREEPER_WOOD, TCBlockCore.variant(TCBlockCore.CREEPER_SIGN, true).mapColor(MapColor.WOOD).forceSolidOn().instrument(NoteBlockInstrument.BASS).noCollission().strength(1.0F, 1000000F).ignitedByLava());
+        super(TCWoodType.CREEPER_WOOD, TCBlockCore.variant(TCBlockCore.CREEPER_SIGN, true).mapColor(MapColor.WOOD).forceSolidOn().instrument(NoteBlockInstrument.BASS).noCollission().strength(1.0F, 1000000F).ignitedByLava().setId(TCBlockCore.TCBlockId("creepersign_wall")));
     }
 
     @Override

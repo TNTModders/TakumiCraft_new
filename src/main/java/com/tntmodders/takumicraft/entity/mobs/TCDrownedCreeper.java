@@ -1,6 +1,7 @@
 package com.tntmodders.takumicraft.entity.mobs;
 
 import com.tntmodders.takumicraft.client.renderer.entity.TCDrownedCreeperRenderer;
+import com.tntmodders.takumicraft.core.TCEntityCore;
 import com.tntmodders.takumicraft.entity.ai.TCZombieCreeperAttackGoal;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;

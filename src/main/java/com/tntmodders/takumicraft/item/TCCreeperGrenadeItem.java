@@ -1,5 +1,6 @@
 package com.tntmodders.takumicraft.item;
 
+import com.tntmodders.takumicraft.core.TCItemCore;
 import com.tntmodders.takumicraft.entity.projectile.TCCreeperGrenade;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Position;
@@ -11,7 +12,7 @@ import net.minecraft.world.level.Level;
 
 public class TCCreeperGrenadeItem extends AbstractTCGrenadeItem {
     public TCCreeperGrenadeItem() {
-        super(new Properties().rarity(Rarity.UNCOMMON));
+        super(new Properties().rarity(Rarity.UNCOMMON).setId(TCItemCore.TCItemId("takumithrowgrenede")));
     }
 
     @Override

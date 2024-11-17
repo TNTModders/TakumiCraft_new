@@ -14,6 +14,10 @@ import net.minecraftforge.client.model.generators.ModelFile;
 
 public class TCCreeperTintedGlassBlock extends TCCreeperGlassBlock {
 
+    public TCCreeperTintedGlassBlock() {
+        super("creepertintedglass");
+    }
+
     @Override
     public void addRecipes(TCRecipeProvider provider, ItemLike itemLike, RecipeOutput consumer) {
         provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(provider.items, RecipeCategory.BUILDING_BLOCKS, TCBlockCore.CREEPER_TINTED_GLASS, 8).define('#', TCBlockCore.CREEPER_BOMB).define('B', Blocks.TINTED_GLASS).pattern("BBB").pattern("B#B").pattern("BBB").unlockedBy("has_creeperbomb", provider.hasItem(TCBlockCore.CREEPER_BOMB)).group("creeperglass"));

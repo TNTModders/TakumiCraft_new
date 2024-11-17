@@ -35,7 +35,6 @@ import net.minecraft.world.level.block.state.BlockState;
 
 import javax.annotation.Nullable;
 import java.time.LocalDate;
-import java.time.temporal.ChronoField;
 import java.util.function.Predicate;
 
 public abstract class AbstractTCSkeletonCreeper extends AbstractTCCreeper implements RangedAttackMob {
@@ -136,8 +135,8 @@ public abstract class AbstractTCSkeletonCreeper extends AbstractTCCreeper implem
         this.setCanPickUpLoot(randomsource.nextFloat() < 0.55F * p_32147_.getSpecialMultiplier());
         if (this.getItemBySlot(EquipmentSlot.HEAD).isEmpty()) {
             LocalDate localdate = LocalDate.now();
-            int i = localdate.get(ChronoField.DAY_OF_MONTH);
-            int j = localdate.get(ChronoField.MONTH_OF_YEAR);
+            int i = localdate.getDayOfMonth();
+            int j = localdate.getMonth().getValue();
             if (j == 10 && i == 31 && randomsource.nextFloat() < 0.25F) {
                 this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(randomsource.nextFloat() < 0.1F ? Blocks.JACK_O_LANTERN : Blocks.CARVED_PUMPKIN));
                 this.armorDropChances[EquipmentSlot.HEAD.getIndex()] = 0.0F;

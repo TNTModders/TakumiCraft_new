@@ -22,7 +22,7 @@ public class TCElementCoreItem extends Item implements ITCItems, ITCTranslator {
     private final double addRange;
 
     public TCElementCoreItem(EnumTakumiElement elem, double atk, double speed, double range) {
-        super(new Properties().rarity(Rarity.UNCOMMON));
+        super(new Properties().rarity(Rarity.UNCOMMON).setId(TCItemCore.TCItemId("elementcore_" + elem.getElementID())));
         this.element = elem;
         this.addAtk = atk * 1.2;
         this.addSpeed = speed * 0.32;

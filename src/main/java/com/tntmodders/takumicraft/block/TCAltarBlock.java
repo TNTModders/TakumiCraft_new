@@ -35,7 +35,7 @@ import java.util.List;
 public class TCAltarBlock extends AbstractTCAntiExplosionBlock implements ITCRecipe {
 
     public TCAltarBlock() {
-        super(Properties.of().strength(0.5f, 1000000f).lightLevel(state -> 7));
+        super(Properties.of().strength(0.5f, 1000000f).lightLevel(state -> 7).setId(TCBlockCore.TCBlockId("takumialtar")));
     }
 
     @Override

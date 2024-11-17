@@ -23,8 +23,12 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 public class TCCreeperArrowItem extends ArrowItem implements ITCItems, ITCTranslator, ITCRecipe {
+    public TCCreeperArrowItem(Properties properties) {
+        super(properties);
+    }
+
     public TCCreeperArrowItem() {
-        super(new Item.Properties());
+        this(new Item.Properties().setId(TCItemCore.TCItemId("creeperarrow")));
     }
 
     @Override

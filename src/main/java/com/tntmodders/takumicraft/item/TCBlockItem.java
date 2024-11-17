@@ -10,7 +10,7 @@ public class TCBlockItem<T extends Block & ITCBlocks> extends BlockItem {
     private final Block block;
 
     public TCBlockItem(T block) {
-        this(block, new Properties());
+        this(block, new Properties().setId(TCItemCore.TCItemId(block.getRegistryName())));
     }
 
     public TCBlockItem(T block, Item.Properties properties) {

@@ -2,6 +2,7 @@ package com.tntmodders.takumicraft.block;
 
 import com.google.common.collect.Lists;
 import com.tntmodders.takumicraft.TakumiCraftCore;
+import com.tntmodders.takumicraft.core.TCBlockCore;
 import com.tntmodders.takumicraft.data.loot.TCBlockLoot;
 import com.tntmodders.takumicraft.provider.ITCBlocks;
 import com.tntmodders.takumicraft.provider.ITCRecipe;
@@ -41,7 +42,7 @@ public class TCAntiExplosionTrapDoorBlock extends TrapDoorBlock implements ITCBl
     }
 
     public TCAntiExplosionTrapDoorBlock(Supplier<BlockState> state, BlockSetType type, boolean orientable, String group) {
-        super(type, Properties.ofFullCopy(state.get().getBlock()).noOcclusion());
+        super(type, Properties.ofFullCopy(state.get().getBlock()).noOcclusion().setId(TCBlockCore.TCBlockId(((ITCBlocks) state.get().getBlock()).getRegistryName() + "_trapdoor")));
         this.baseBlock = state.get().getBlock();
         this.orientable = orientable;
         this.group = group;

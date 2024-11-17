@@ -5,7 +5,6 @@ import com.tntmodders.takumicraft.core.TCEnchantmentCore;
 import com.tntmodders.takumicraft.core.TCItemCore;
 import com.tntmodders.takumicraft.provider.ITCItems;
 import com.tntmodders.takumicraft.provider.ITCTranslator;
-import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
@@ -29,8 +28,8 @@ public class TCTesterItem extends Item implements ITCItems, ITCTranslator {
 
     private final AttributeModifier defaultModifier;
 
-    public TCTesterItem(ItemProperties properties) {
-        super(new Properties().rarity(Rarity.EPIC).stacksTo(1).attributes(ItemAttributeModifiers.builder().add(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_ID, 19f, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND).build()));
+    public TCTesterItem() {
+        super(new Properties().rarity(Rarity.EPIC).stacksTo(1).attributes(ItemAttributeModifiers.builder().add(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_ID, 19f, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND).build()).setId(TCItemCore.TCItemId("tester")));
 
         this.defaultModifier = new AttributeModifier(BASE_ATTACK_DAMAGE_ID, 99, AttributeModifier.Operation.ADD_VALUE);
     }

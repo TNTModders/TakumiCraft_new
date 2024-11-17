@@ -42,8 +42,12 @@ import java.util.function.Function;
 public class TCCreeperBedBlock extends BedBlock implements ITCBlocks, ITCRecipe {
     private final DyeColor color;
 
-    public TCCreeperBedBlock(DyeColor colorIn) {
-        super(colorIn, BlockBehaviour.Properties.of().mapColor(p_284863_ -> p_284863_.getValue(BedBlock.PART) == BedPart.FOOT ? colorIn.getMapColor() : MapColor.WOOL).sound(SoundType.WOOD).strength(0.2F).noOcclusion().ignitedByLava().pushReaction(PushReaction.DESTROY).strength(5.0F, 6.0F).explosionResistance(1000000f).lightLevel(state -> state.getBlock() instanceof TCSuperCreeperBedBlock ? 15 : 0));
+    public TCCreeperBedBlock(DyeColor color) {
+        this("creeperbed_" + color.getName(), color);
+    }
+
+    public TCCreeperBedBlock(String name, DyeColor colorIn) {
+        super(colorIn, BlockBehaviour.Properties.of().mapColor(p_284863_ -> p_284863_.getValue(BedBlock.PART) == BedPart.FOOT ? colorIn.getMapColor() : MapColor.WOOL).sound(SoundType.WOOD).strength(0.2F).noOcclusion().ignitedByLava().pushReaction(PushReaction.DESTROY).strength(5.0F, 6.0F).explosionResistance(1000000f).lightLevel(state -> state.getBlock() instanceof TCSuperCreeperBedBlock ? 15 : 0).setId(TCBlockCore.TCBlockId(name)));
         this.color = colorIn;
     }
 

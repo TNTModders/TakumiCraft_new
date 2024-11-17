@@ -4,7 +4,6 @@ import com.mojang.serialization.Codec;
 import com.tntmodders.takumicraft.client.renderer.entity.TCLlamaCreeperRenderer;
 import com.tntmodders.takumicraft.core.TCEntityCore;
 import com.tntmodders.takumicraft.entity.projectile.TCLlamaCreeperSpit;
-import com.tntmodders.takumicraft.utils.TCEntityUtils;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;

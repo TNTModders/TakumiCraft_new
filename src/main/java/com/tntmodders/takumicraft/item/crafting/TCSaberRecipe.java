@@ -27,6 +27,7 @@ public class TCSaberRecipe implements SmithingRecipe {
     final ItemStack result = TCItemCore.LIGHTSABER.getDefaultInstance();
     @Nullable
     private PlacementInfo placementInfo;
+
     public TCSaberRecipe() {
     }
 

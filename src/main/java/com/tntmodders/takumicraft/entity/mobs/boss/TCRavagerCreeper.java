@@ -4,7 +4,6 @@ import com.tntmodders.takumicraft.client.renderer.entity.TCRavagerCreeperRendere
 import com.tntmodders.takumicraft.core.TCBlockCore;
 import com.tntmodders.takumicraft.core.TCEntityCore;
 import com.tntmodders.takumicraft.entity.mobs.AbstractTCCreeper;
-import com.tntmodders.takumicraft.utils.TCEntityUtils;
 import com.tntmodders.takumicraft.utils.TCExplosionUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ColorParticleOption;

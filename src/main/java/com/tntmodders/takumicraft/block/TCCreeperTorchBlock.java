@@ -31,7 +31,7 @@ import java.util.function.Function;
 
 public class TCCreeperTorchBlock extends TorchBlock implements ITCBlocks, ITCRecipe {
     public TCCreeperTorchBlock() {
-        super(ParticleTypes.SMOKE, BlockBehaviour.Properties.of().noCollission().instabreak().lightLevel(p_50886_ -> 15).sound(SoundType.WOOD).pushReaction(PushReaction.DESTROY).explosionResistance(10000000f));
+        super(ParticleTypes.SMOKE, BlockBehaviour.Properties.of().noCollission().instabreak().lightLevel(p_50886_ -> 15).sound(SoundType.WOOD).pushReaction(PushReaction.DESTROY).explosionResistance(10000000f).setId(TCBlockCore.TCBlockId("creepertorch")));
     }
 
     @Override

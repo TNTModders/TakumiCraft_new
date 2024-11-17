@@ -23,7 +23,7 @@ import java.util.function.Function;
 
 public class TCCreeperIronBarsBlock extends IronBarsBlock implements ITCBlocks, ITCRecipe {
     public TCCreeperIronBarsBlock() {
-        super(BlockBehaviour.Properties.of().instrument(NoteBlockInstrument.HAT).strength(0.3f, 1000000f).noOcclusion());
+        super(BlockBehaviour.Properties.of().instrument(NoteBlockInstrument.HAT).strength(0.3f, 1000000f).noOcclusion().setId(TCBlockCore.TCBlockId("creeperiron_bars")));
     }
 
     @Override

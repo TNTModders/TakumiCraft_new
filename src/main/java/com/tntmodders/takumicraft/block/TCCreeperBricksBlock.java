@@ -17,7 +17,7 @@ import java.util.List;
 
 public class TCCreeperBricksBlock extends AbstractTCAntiExplosionBlock implements ITCRecipe {
     public TCCreeperBricksBlock() {
-        super(BlockBehaviour.Properties.of().requiresCorrectToolForDrops().strength(2.0F, 6.0F));
+        super(BlockBehaviour.Properties.of().requiresCorrectToolForDrops().strength(2.0F, 6.0F).setId(TCBlockCore.TCBlockId("creeperbrick")));
     }
 
     @Override

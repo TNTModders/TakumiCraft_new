@@ -28,7 +28,7 @@ import java.util.function.Function;
 
 public class TCTakenokoBlock extends BambooSaplingBlock implements ITCBlocks, EntityBlock {
     public TCTakenokoBlock() {
-        super(TCBlockCore.variant(Blocks.BAMBOO_SAPLING, false).mapColor(MapColor.WOOD).forceSolidOn().randomTicks().instabreak().noCollission().strength(1.0F).sound(SoundType.BAMBOO_SAPLING).offsetType(BlockBehaviour.OffsetType.XZ).ignitedByLava().pushReaction(PushReaction.DESTROY));
+        super(TCBlockCore.variant(Blocks.BAMBOO_SAPLING, false).mapColor(MapColor.WOOD).forceSolidOn().randomTicks().instabreak().noCollission().strength(1.0F).sound(SoundType.BAMBOO_SAPLING).offsetType(BlockBehaviour.OffsetType.XZ).ignitedByLava().pushReaction(PushReaction.DESTROY).setId(TCBlockCore.TCBlockId("takenoko")));
     }
 
     @Override

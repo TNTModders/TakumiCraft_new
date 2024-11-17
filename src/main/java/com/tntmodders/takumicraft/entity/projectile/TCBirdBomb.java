@@ -1,5 +1,6 @@
 package com.tntmodders.takumicraft.entity.projectile;
 
+import com.tntmodders.takumicraft.core.TCEntityCore;
 import com.tntmodders.takumicraft.entity.mobs.TCBirdCreeper;
 import com.tntmodders.takumicraft.utils.TCExplosionUtils;
 import net.minecraft.world.entity.EntityType;

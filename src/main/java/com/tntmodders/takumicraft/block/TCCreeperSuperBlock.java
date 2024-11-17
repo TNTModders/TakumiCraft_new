@@ -62,7 +62,7 @@ public class TCCreeperSuperBlock extends BaseEntityBlock implements EntityBlock,
     public static final MapCodec<TCCreeperSuperBlock> CODEC = simpleCodec(p_309280_ -> new TCCreeperSuperBlock());
 
     public TCCreeperSuperBlock() {
-        super(BlockBehaviour.Properties.of().mapColor(MapColor.STONE).instrument(NoteBlockInstrument.BASEDRUM).strength(-1.0F, 1000000.0F).noOcclusion().isViewBlocking(TCBlockCore::never).isValidSpawn(TCBlockCore::never).isRedstoneConductor(TCBlockCore::never).lightLevel(p_50886_ -> 15).pushReaction(PushReaction.BLOCK).dynamicShape());
+        super(BlockBehaviour.Properties.of().mapColor(MapColor.STONE).instrument(NoteBlockInstrument.BASEDRUM).strength(-1.0F, 1000000.0F).noOcclusion().isViewBlocking(TCBlockCore::never).isValidSpawn(TCBlockCore::never).isRedstoneConductor(TCBlockCore::never).lightLevel(p_50886_ -> 15).pushReaction(PushReaction.BLOCK).dynamicShape().setId(TCBlockCore.TCBlockId("takumiblock")));
     }
 
     @Override

@@ -16,7 +16,6 @@ import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
@@ -30,16 +29,13 @@ import java.util.Optional;
 import static com.tntmodders.takumicraft.item.TCCreeperSwordItem.*;
 
 public class TCCreeperSwordUpgradeRecipe implements SmithingRecipe {
-    final Ingredient template;
+    final Ingredient template = Ingredient.of(TCItemCore.ELEMENTCORE_FIRE, TCItemCore.ELEMENTCORE_GRASS, TCItemCore.ELEMENTCORE_GROUND, TCItemCore.ELEMENTCORE_NORMAL, TCItemCore.ELEMENTCORE_WATER, TCItemCore.ELEMENTCORE_WIND);
     final Ingredient base = Ingredient.of(TCItemCore.CREEPER_SWORD);
     final ItemStack result = TCItemCore.CREEPER_SWORD.getDefaultInstance();
     @Nullable
     private PlacementInfo placementInfo;
-    public TCCreeperSwordUpgradeRecipe() {
-        List<Item> list = TCItemCore.ITEMS;
-        list.removeIf(item -> !item.getDefaultInstance().is(TCItemCore.ELEMENT_CORE));
-        template = Ingredient.of(list.stream());
 
+    public TCCreeperSwordUpgradeRecipe() {
     }
 
     public static ItemStack upgradeNewAttributes(ItemStack stack, TCElementCoreItem element) {

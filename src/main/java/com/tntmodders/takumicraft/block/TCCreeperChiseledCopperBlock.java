@@ -13,7 +13,7 @@ public class TCCreeperChiseledCopperBlock extends TCCreeperCopperBlock {
     private final TCCreeperCopperBlock baseBlock;
 
     public TCCreeperChiseledCopperBlock(WeatheringCopper.WeatherState weather, Block block, TCCreeperCopperBlock base) {
-        super(weather, block);
+        super("creepercopper_chiseled", weather, block);
         this.baseBlock = base;
     }
 

@@ -3,12 +3,8 @@
   "category": "misc",
   "group": "creeperglasspane",
   "key": {
-    "#": {
-      "item": "takumicraft:creeperbomb"
-    },
-    "B": {
-      "item": "minecraft:pink_stained_glass_pane"
-    }
+    "#": "takumicraft:creeperbomb",
+    "B": "minecraft:pink_stained_glass_pane"
   },
   "pattern": [
     "BBB",

@@ -2,6 +2,7 @@ package com.tntmodders.takumicraft.block;
 
 import com.google.common.collect.Lists;
 import com.tntmodders.takumicraft.TakumiCraftCore;
+import com.tntmodders.takumicraft.core.TCBlockCore;
 import com.tntmodders.takumicraft.data.loot.TCBlockLoot;
 import com.tntmodders.takumicraft.provider.ITCBlocks;
 import com.tntmodders.takumicraft.provider.ITCRecipe;
@@ -75,7 +76,7 @@ public class TCAntiExplosionHalfBlock extends Block implements ITCBlocks, ITCRec
     }
 
     public TCAntiExplosionHalfBlock(Supplier<BlockState> state, boolean stoneCutter, String group) {
-        super(Properties.ofFullCopy(state.get().getBlock()));
+        super(Properties.ofFullCopy(state.get().getBlock()).setId(TCBlockCore.TCBlockId(((ITCBlocks) state.get().getBlock()).getRegistryName() + "_half")));
         this.baseBlock = state.get().getBlock();
         this.addStoneCutterRecipe = stoneCutter;
         this.group = group;

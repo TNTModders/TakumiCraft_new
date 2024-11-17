@@ -29,7 +29,11 @@ public class TCCreeperGlassPaneBlock extends IronBarsBlock implements ITCBlocks,
     private final Block baseTakumiBlock;
 
     public TCCreeperGlassPaneBlock(Block takumiBlock) {
-        super(BlockBehaviour.Properties.of().sound(SoundType.GLASS).instrument(NoteBlockInstrument.HAT).strength(6F).sound(SoundType.GLASS).noOcclusion().isValidSpawn((state, getter, pos, type) -> TCBlockCore.never(state, getter, pos)).isRedstoneConductor(TCBlockCore::never).isSuffocating(TCBlockCore::never).isViewBlocking(TCBlockCore::never).explosionResistance(1000000f));
+        this("creeperglasspane", takumiBlock);
+    }
+
+    public TCCreeperGlassPaneBlock(String name, Block takumiBlock) {
+        super(BlockBehaviour.Properties.of().sound(SoundType.GLASS).instrument(NoteBlockInstrument.HAT).strength(6F).sound(SoundType.GLASS).noOcclusion().isValidSpawn((state, getter, pos, type) -> TCBlockCore.never(state, getter, pos)).isRedstoneConductor(TCBlockCore::never).isSuffocating(TCBlockCore::never).isViewBlocking(TCBlockCore::never).explosionResistance(1000000f).setId(TCBlockCore.TCBlockId(name)));
         this.baseTakumiBlock = takumiBlock;
     }
 

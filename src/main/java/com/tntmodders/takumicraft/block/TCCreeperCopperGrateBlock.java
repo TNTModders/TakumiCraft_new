@@ -40,7 +40,7 @@ public class TCCreeperCopperGrateBlock extends TCCreeperCopperBlock implements S
     private final TCCreeperCopperBlock baseBlock;
 
     public TCCreeperCopperGrateBlock(WeatheringCopper.WeatherState weather, Block block, TCCreeperCopperBlock base) {
-        super(weather, block, BlockBehaviour.Properties.of().strength(3.0F, 1000000.0F).sound(SoundType.COPPER_GRATE).mapColor(MapColor.COLOR_ORANGE).noOcclusion().requiresCorrectToolForDrops().isValidSpawn(TCBlockCore::never).isRedstoneConductor(TCBlockCore::never).isSuffocating(TCBlockCore::never).isViewBlocking(TCBlockCore::never));
+        super(weather, block, BlockBehaviour.Properties.of().strength(3.0F, 1000000.0F).sound(SoundType.COPPER_GRATE).mapColor(MapColor.COLOR_ORANGE).noOcclusion().requiresCorrectToolForDrops().isValidSpawn(TCBlockCore::never).isRedstoneConductor(TCBlockCore::never).isSuffocating(TCBlockCore::never).isViewBlocking(TCBlockCore::never).setId(TCBlockCore.TCBlockId(TCCreeperCopperBlock.getName("creepercopper_grate", weather))));
         this.registerDefaultState(this.defaultBlockState().setValue(WATERLOGGED, Boolean.FALSE));
         this.baseBlock = base;
     }

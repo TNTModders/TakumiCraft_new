@@ -2,12 +2,8 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "#": {
-      "item": "takumicraft:creeperplanks"
-    },
-    "C": {
-      "item": "takumicraft:creeperchain"
-    }
+    "#": "takumicraft:creeperplanks",
+    "C": "takumicraft:creeperchain"
   },
   "pattern": [
     "C C",

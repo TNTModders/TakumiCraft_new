@@ -1,6 +1,7 @@
 package com.tntmodders.takumicraft.item;
 
 import com.tntmodders.takumicraft.core.TCBlockCore;
+import com.tntmodders.takumicraft.core.TCItemCore;
 import com.tntmodders.takumicraft.entity.decoration.TCCreeperFrame;
 import com.tntmodders.takumicraft.entity.decoration.TCCreeperGlowingFrame;
 import com.tntmodders.takumicraft.provider.ITCItems;
@@ -33,7 +34,7 @@ public class TCCreeperFrameItem extends ItemFrameItem implements ITCItems, ITCRe
     private final String ja;
 
     public TCCreeperFrameItem(EntityType<? extends HangingEntity> type, Item base, String suffix, String enName, String jaName) {
-        super(type, new Properties());
+        super(type, new Properties().setId(TCItemCore.TCItemId("creeperframe" + suffix)));
         this.base = base;
         this.suffix = suffix;
         this.en = enName;

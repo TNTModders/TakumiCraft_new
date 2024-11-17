@@ -2,15 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "#": {
-      "item": "takumicraft:creeperbomb"
-    },
-    "B": {
-      "item": "takumicraft:creepertintedglass"
-    },
-    "H": {
-      "item": "minecraft:honeycomb"
-    }
+    "#": "takumicraft:creeperbomb",
+    "B": "takumicraft:creepertintedglass",
+    "H": "minecraft:honeycomb"
   },
   "pattern": [
     "BBB",

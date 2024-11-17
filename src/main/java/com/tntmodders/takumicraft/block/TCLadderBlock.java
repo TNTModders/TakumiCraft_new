@@ -28,7 +28,7 @@ import java.util.function.Function;
 
 public class TCLadderBlock extends LadderBlock implements ITCBlocks, ITCRecipe {
     public TCLadderBlock() {
-        super(BlockBehaviour.Properties.of().requiresCorrectToolForDrops().forceSolidOff().strength(0.4F).sound(SoundType.LADDER).noOcclusion().pushReaction(PushReaction.DESTROY).explosionResistance(1000000f));
+        super(BlockBehaviour.Properties.of().requiresCorrectToolForDrops().forceSolidOff().strength(0.4F).sound(SoundType.LADDER).noOcclusion().pushReaction(PushReaction.DESTROY).explosionResistance(1000000f).setId(TCBlockCore.TCBlockId("creeperladder")));
     }
 
     @Override

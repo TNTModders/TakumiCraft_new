@@ -3,9 +3,7 @@
   "category": "redstone",
   "group": "creepercopper_trapdoor",
   "key": {
-    "#": {
-      "item": "takumicraft:creepercopper_oxidized"
-    }
+    "#": "takumicraft:creepercopper_oxidized"
   },
   "pattern": [
     "##",

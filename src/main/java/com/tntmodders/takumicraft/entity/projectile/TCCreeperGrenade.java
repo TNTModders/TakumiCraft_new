@@ -1,5 +1,6 @@
 package com.tntmodders.takumicraft.entity.projectile;
 
+import com.tntmodders.takumicraft.core.TCEntityCore;
 import com.tntmodders.takumicraft.core.TCItemCore;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.EntityType;

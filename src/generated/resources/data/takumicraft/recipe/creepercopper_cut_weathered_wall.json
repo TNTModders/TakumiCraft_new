@@ -3,9 +3,7 @@
   "category": "misc",
   "group": "creepercopper_cut_wall",
   "key": {
-    "#": {
-      "item": "takumicraft:creepercopper_cut_weathered"
-    }
+    "#": "takumicraft:creepercopper_cut_weathered"
   },
   "pattern": [
     "###",

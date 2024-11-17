@@ -1,5 +1,6 @@
 package com.tntmodders.takumicraft.entity.decoration;
 
+import com.tntmodders.takumicraft.core.TCEntityCore;
 import com.tntmodders.takumicraft.core.TCItemCore;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;

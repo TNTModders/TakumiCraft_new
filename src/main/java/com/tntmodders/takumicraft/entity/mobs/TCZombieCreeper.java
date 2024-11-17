@@ -3,7 +3,6 @@ package com.tntmodders.takumicraft.entity.mobs;
 import com.tntmodders.takumicraft.client.renderer.entity.TCZombieCreeperRenderer;
 import com.tntmodders.takumicraft.core.TCEntityCore;
 import com.tntmodders.takumicraft.entity.ai.TCZombieCreeperAttackGoal;
-import com.tntmodders.takumicraft.utils.TCEntityUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.loot.EntityLootSubProvider;

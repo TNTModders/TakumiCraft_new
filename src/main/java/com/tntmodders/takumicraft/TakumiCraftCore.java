@@ -46,8 +46,8 @@ public class TakumiCraftCore {
     public static final String MODID = "takumicraft";
     public static final Logger TC_LOGGER = LogManager.getLogger();
 
-    public TakumiCraftCore() {
-        IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+    public TakumiCraftCore(FMLJavaModLoadingContext context) {
+        IEventBus modEventBus = context.getModEventBus();
         modEventBus.addListener(this::setup);
         TCConfigCore.register();
         modEventBus.addListener(this::registerProviders);
@@ -97,6 +97,7 @@ public class TakumiCraftCore {
     public static class RegistryEvents {
         @SubscribeEvent
         public static void OnRegistry(final RegisterEvent event) {
+
             if (ForgeRegistries.BLOCKS.equals(event.getForgeRegistry())) {
                 TCBlockCore.register(event);
             }

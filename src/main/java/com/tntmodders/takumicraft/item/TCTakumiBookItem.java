@@ -1,5 +1,6 @@
 package com.tntmodders.takumicraft.item;
 
+import com.tntmodders.takumicraft.core.TCItemCore;
 import com.tntmodders.takumicraft.provider.ITCItems;
 import com.tntmodders.takumicraft.provider.ITCTranslator;
 import net.minecraft.world.item.Item;
@@ -8,7 +9,7 @@ import net.minecraft.world.item.Rarity;
 
 public class TCTakumiBookItem extends Item implements ITCItems, ITCTranslator {
     public TCTakumiBookItem() {
-        super(new Properties().rarity(Rarity.EPIC).stacksTo(1));
+        super(new Properties().rarity(Rarity.EPIC).stacksTo(1).setId(TCItemCore.TCItemId("takumibook")));
     }
 
     @Override

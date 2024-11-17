@@ -1,5 +1,6 @@
 package com.tntmodders.takumicraft.item;
 
+import com.tntmodders.takumicraft.core.TCItemCore;
 import com.tntmodders.takumicraft.provider.ITCItems;
 import com.tntmodders.takumicraft.provider.ITCTranslator;
 import net.minecraft.world.item.Item;
@@ -9,7 +10,7 @@ import net.minecraft.world.item.Rarity;
 public class TCOfalenItem extends Item implements ITCItems, ITCTranslator {
 
     public TCOfalenItem() {
-        super(new Properties().rarity(Rarity.EPIC));
+        super(new Properties().rarity(Rarity.EPIC).setId(TCItemCore.TCItemId("takumi_ofalen")));
     }
 
     @Override

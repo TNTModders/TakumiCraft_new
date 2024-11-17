@@ -3,9 +3,7 @@
   "category": "misc",
   "group": "creeperglasspane_from_creeperglass",
   "key": {
-    "#": {
-      "item": "takumicraft:creeperglass_lime"
-    }
+    "#": "takumicraft:creeperglass_lime"
   },
   "pattern": [
     "###",

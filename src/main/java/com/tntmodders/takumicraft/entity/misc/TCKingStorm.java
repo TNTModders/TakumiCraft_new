@@ -1,5 +1,6 @@
 package com.tntmodders.takumicraft.entity.misc;
 
+import com.tntmodders.takumicraft.core.TCEntityCore;
 import com.tntmodders.takumicraft.utils.TCExplosionUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.EntityType;

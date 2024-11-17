@@ -38,7 +38,7 @@ public class TCTakumiBucketItem extends BucketItem implements ITCItems, ITCRecip
     private final String jpName;
 
     public TCTakumiBucketItem(Supplier<? extends Fluid> supplier, String registryName, String enName, String jpName) {
-        super(supplier, new Item.Properties().craftRemainder(TCItemCore.TAKUMI_BUCKET).stacksTo(supplier.get() == Fluids.EMPTY ? 16 : 1));
+        super(supplier, new Item.Properties().craftRemainder(TCItemCore.TAKUMI_BUCKET).stacksTo(supplier.get() == Fluids.EMPTY ? 16 : 1).setId(TCItemCore.TCItemId(registryName)));
         this.registryName = registryName;
         this.enName = enName;
         this.jpName = jpName;

@@ -3,9 +3,7 @@
   "category": "misc",
   "cookingtime": 100,
   "experience": 0.5,
-  "ingredient": {
-    "item": "takumicraft:gunore"
-  },
+  "ingredient": "takumicraft:gunore",
   "result": {
     "id": "minecraft:gunpowder"
   }

@@ -3,7 +3,6 @@ package com.tntmodders.takumicraft.entity.mobs;
 import com.tntmodders.takumicraft.client.renderer.entity.TCMaceCreeperRenderer;
 import com.tntmodders.takumicraft.core.TCEntityCore;
 import com.tntmodders.takumicraft.core.TCItemCore;
-import com.tntmodders.takumicraft.utils.TCEntityUtils;
 import com.tntmodders.takumicraft.utils.TCExplosionUtils;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;

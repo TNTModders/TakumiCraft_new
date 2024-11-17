@@ -35,7 +35,7 @@ import java.util.function.Function;
 
 public class TCCreeperHangingSignBlock extends CeilingHangingSignBlock implements ITCBlocks, ITCRecipe {
     public TCCreeperHangingSignBlock() {
-        super(TCWoodType.CREEPER_WOOD, BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).forceSolidOn().instrument(NoteBlockInstrument.BASS).noCollission().strength(1.0F, 1000000F).ignitedByLava());
+        super(TCWoodType.CREEPER_WOOD, BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).forceSolidOn().instrument(NoteBlockInstrument.BASS).noCollission().strength(1.0F, 1000000F).ignitedByLava().setId(TCBlockCore.TCBlockId("creeperhangingsign")));
     }
 
     @Override

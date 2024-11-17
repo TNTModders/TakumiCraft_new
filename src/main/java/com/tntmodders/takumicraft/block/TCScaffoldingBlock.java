@@ -47,7 +47,7 @@ public class TCScaffoldingBlock extends ScaffoldingBlock implements ITCBlocks, I
     public static final int STABILITY_MAX_DISTANCE = 7;
 
     public TCScaffoldingBlock() {
-        super(BlockBehaviour.Properties.of().mapColor(MapColor.SAND).noCollission().sound(SoundType.SCAFFOLDING).dynamicShape().isValidSpawn(TCBlockCore::never).pushReaction(PushReaction.DESTROY).isRedstoneConductor(TCBlockCore::never).explosionResistance(1000000f));
+        super(BlockBehaviour.Properties.of().mapColor(MapColor.SAND).noCollission().sound(SoundType.SCAFFOLDING).dynamicShape().isValidSpawn(TCBlockCore::never).pushReaction(PushReaction.DESTROY).isRedstoneConductor(TCBlockCore::never).explosionResistance(1000000f).setId(TCBlockCore.TCBlockId("creeperscaffolding")));
     }
 
     public static int getDistanceTC(BlockGetter p_56025_, BlockPos p_56026_) {

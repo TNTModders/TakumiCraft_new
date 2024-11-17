@@ -26,7 +26,7 @@ import java.util.List;
 
 public class TCCreeperIceBlock extends AbstractTCAntiExplosionBlock implements ITCRecipe {
     public TCCreeperIceBlock() {
-        super(BlockBehaviour.Properties.of().mapColor(MapColor.ICE).friction(0.989F).strength(0.5F).sound(SoundType.GLASS).noOcclusion().isRedstoneConductor((p_61036_, p_61037_, p_61038_) -> false));
+        super(BlockBehaviour.Properties.of().mapColor(MapColor.ICE).friction(0.989F).strength(0.5F).sound(SoundType.GLASS).noOcclusion().isRedstoneConductor((p_61036_, p_61037_, p_61038_) -> false).setId(TCBlockCore.TCBlockId("creeperice")));
     }
 
     @Override

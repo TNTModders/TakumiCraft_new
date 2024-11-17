@@ -1,33 +1,17 @@
 {
   "type": "minecraft:smithing_transform",
-  "addition": {
-    "item": "takumicraft:creeperbomb"
-  },
-  "base": {
-    "item": "minecraft:shield"
-  },
+  "addition": "takumicraft:creeperbomb",
+  "base": "minecraft:shield",
   "result": {
     "count": 1,
     "id": "takumicraft:creepershield"
   },
   "template": [
-    {
-      "item": "takumicraft:elementcore_fire"
-    },
-    {
-      "item": "takumicraft:elementcore_normal"
-    },
-    {
-      "item": "takumicraft:elementcore_water"
-    },
-    {
-      "item": "takumicraft:elementcore_grass"
-    },
-    {
-      "item": "takumicraft:elementcore_wind"
-    },
-    {
-      "item": "takumicraft:elementcore_ground"
-    }
+    "takumicraft:elementcore_fire",
+    "takumicraft:elementcore_normal",
+    "takumicraft:elementcore_water",
+    "takumicraft:elementcore_grass",
+    "takumicraft:elementcore_wind",
+    "takumicraft:elementcore_ground"
   ]
 }

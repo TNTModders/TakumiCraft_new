@@ -17,7 +17,7 @@ import java.util.List;
 
 public class TCCreeperPlanksBlock extends AbstractTCAntiExplosionBlock implements ITCRecipe {
     public TCCreeperPlanksBlock() {
-        super(Properties.of().requiresCorrectToolForDrops().strength(5.0F, 6.0F).sound(SoundType.WOOD));
+        super(Properties.of().requiresCorrectToolForDrops().strength(5.0F, 6.0F).sound(SoundType.WOOD).setId(TCBlockCore.TCBlockId("creeperplanks")));
     }
 
     @Override

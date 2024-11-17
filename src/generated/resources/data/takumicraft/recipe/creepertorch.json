@@ -2,12 +2,8 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "#": {
-      "item": "takumicraft:creeperbomb"
-    },
-    "S": {
-      "item": "minecraft:stick"
-    }
+    "#": "takumicraft:creeperbomb",
+    "S": "minecraft:stick"
   },
   "pattern": [
     "#",

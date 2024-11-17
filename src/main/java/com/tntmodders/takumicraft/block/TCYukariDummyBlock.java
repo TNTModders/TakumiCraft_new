@@ -1,5 +1,6 @@
 package com.tntmodders.takumicraft.block;
 
+import com.tntmodders.takumicraft.core.TCBlockCore;
 import com.tntmodders.takumicraft.item.TCBlockItem;
 import com.tntmodders.takumicraft.provider.ITCBlocks;
 import net.minecraft.core.HolderLookup;
@@ -15,7 +16,7 @@ import java.util.function.Function;
 
 public class TCYukariDummyBlock extends Block implements ITCBlocks {
     public TCYukariDummyBlock() {
-        super(Properties.of().mapColor(DyeColor.PINK).strength(0f, 0f).lightLevel(state -> 7));
+        super(Properties.of().mapColor(DyeColor.PINK).strength(0f, 0f).lightLevel(state -> 7).setId(TCBlockCore.TCBlockId("yukaridummy")));
     }
 
     @Override

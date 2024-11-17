@@ -28,7 +28,7 @@ public abstract class AbstractTCBombBlock extends Block implements ITCBlocks {
     private final String registryName;
 
     public AbstractTCBombBlock(Properties properties, String name) {
-        super(properties);
+        super(properties.setId(TCBlockCore.TCBlockId(name)));
         this.registryName = name;
     }
 

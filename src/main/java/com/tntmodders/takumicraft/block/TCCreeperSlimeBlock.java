@@ -33,7 +33,7 @@ import java.util.function.Function;
 
 public class TCCreeperSlimeBlock extends SlimeBlock implements ITCBlocks, ITCRecipe {
     public TCCreeperSlimeBlock() {
-        super(BlockBehaviour.Properties.of().mapColor(MapColor.GRASS).friction(0.8F).sound(SoundType.SLIME_BLOCK).noOcclusion().explosionResistance(1000000f));
+        super(BlockBehaviour.Properties.of().mapColor(MapColor.GRASS).friction(0.8F).sound(SoundType.SLIME_BLOCK).noOcclusion().explosionResistance(1000000f).setId(TCBlockCore.TCBlockId("creeperslimeblock")));
     }
 
 

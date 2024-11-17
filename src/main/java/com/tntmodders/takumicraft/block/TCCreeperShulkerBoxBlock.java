@@ -50,7 +50,7 @@ public class TCCreeperShulkerBoxBlock extends ShulkerBoxBlock implements ITCBloc
     private static final BlockBehaviour.StatePredicate NOT_CLOSED_SHULKER = (state, getter, pos) -> !(getter.getBlockEntity(pos) instanceof ShulkerBoxBlockEntity shulkerboxblockentity) || shulkerboxblockentity.isClosed();
 
     public TCCreeperShulkerBoxBlock() {
-        super(null, BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GREEN).forceSolidOn().strength(2.0F, 1000000F).dynamicShape().noOcclusion().isSuffocating(NOT_CLOSED_SHULKER).isViewBlocking(NOT_CLOSED_SHULKER).pushReaction(PushReaction.DESTROY));
+        super(null, BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GREEN).forceSolidOn().strength(2.0F, 1000000F).dynamicShape().noOcclusion().isSuffocating(NOT_CLOSED_SHULKER).isViewBlocking(NOT_CLOSED_SHULKER).pushReaction(PushReaction.DESTROY).setId(TCBlockCore.TCBlockId("creepershulkerbox")));
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.tntmodders.takumicraft.item;
 
+import com.tntmodders.takumicraft.core.TCItemCore;
 import com.tntmodders.takumicraft.provider.ITCItems;
 import com.tntmodders.takumicraft.provider.ITCTranslator;
 import net.minecraft.world.item.Item;
@@ -9,7 +10,7 @@ import net.minecraft.world.item.Rarity;
 public class TCKingCoreItem extends Item implements ITCItems, ITCTranslator {
 
     public TCKingCoreItem() {
-        super(new Properties().rarity(Rarity.EPIC).fireResistant());
+        super(new Properties().rarity(Rarity.EPIC).fireResistant().setId(TCItemCore.TCItemId("kingcore")));
     }
 
     @Override

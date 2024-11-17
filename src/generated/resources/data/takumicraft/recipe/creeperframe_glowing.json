@@ -2,12 +2,8 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "#": {
-      "item": "takumicraft:creeperbomb"
-    },
-    "B": {
-      "item": "minecraft:glow_item_frame"
-    }
+    "#": "takumicraft:creeperbomb",
+    "B": "minecraft:glow_item_frame"
   },
   "pattern": [
     "BBB",

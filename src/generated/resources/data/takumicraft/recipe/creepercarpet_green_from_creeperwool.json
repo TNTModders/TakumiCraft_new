@@ -3,9 +3,7 @@
   "category": "misc",
   "group": "creepercarpet",
   "key": {
-    "#": {
-      "item": "takumicraft:creeperwool_green"
-    }
+    "#": "takumicraft:creeperwool_green"
   },
   "pattern": [
     "##"

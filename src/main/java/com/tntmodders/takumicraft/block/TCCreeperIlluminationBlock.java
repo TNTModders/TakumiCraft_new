@@ -19,7 +19,7 @@ import net.minecraftforge.client.model.generators.ModelFile;
 
 public class TCCreeperIlluminationBlock extends AbstractTCAntiExplosionBlock implements ITCRecipe {
     public TCCreeperIlluminationBlock() {
-        super(BlockBehaviour.Properties.of().mapColor(MapColor.DIAMOND).instrument(NoteBlockInstrument.HAT).strength(3.0f, 1000000f).lightLevel(p_152688_ -> 15).noOcclusion().isRedstoneConductor(TCBlockCore::never).sound(SoundType.GLASS));
+        super(BlockBehaviour.Properties.of().mapColor(MapColor.DIAMOND).instrument(NoteBlockInstrument.HAT).strength(3.0f, 1000000f).lightLevel(p_152688_ -> 15).noOcclusion().isRedstoneConductor(TCBlockCore::never).sound(SoundType.GLASS).setId(TCBlockCore.TCBlockId("creeperillumination")));
     }
 
     @Override

@@ -2,12 +2,8 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "#": {
-      "item": "takumicraft:creeperbomb"
-    },
-    "B": {
-      "item": "minecraft:ladder"
-    }
+    "#": "takumicraft:creeperbomb",
+    "B": "minecraft:ladder"
   },
   "pattern": [
     "BBB",

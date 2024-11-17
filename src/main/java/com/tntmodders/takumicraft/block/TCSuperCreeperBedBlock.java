@@ -33,7 +33,7 @@ import java.util.function.Consumer;
 
 public class TCSuperCreeperBedBlock extends TCCreeperBedBlock {
     public TCSuperCreeperBedBlock() {
-        super(DyeColor.GREEN);
+        super("super_creeperbed", DyeColor.GREEN);
     }
 
 
