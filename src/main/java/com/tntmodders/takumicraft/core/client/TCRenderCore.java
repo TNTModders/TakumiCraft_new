@@ -19,7 +19,10 @@ import com.tntmodders.takumicraft.utils.TCLoggingUtils;
 import net.minecraft.client.model.CreeperModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
-import net.minecraft.client.renderer.entity.*;
+import net.minecraft.client.renderer.entity.ArrowRenderer;
+import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.LlamaSpitRenderer;
+import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.client.renderer.entity.state.ArrowRenderState;
 import net.minecraft.client.renderer.entity.state.EntityRenderState;
 import net.minecraft.resources.ResourceLocation;
@@ -75,7 +78,7 @@ public class TCRenderCore {
         event.registerEntityRenderer(TCCreeperGrenade.GRENADE, ThrownItemRenderer::new);
         event.registerEntityRenderer(TCCreeperFrame.ITEM_FRAME, TCCreeperFrameRenderer::new);
         event.registerEntityRenderer(TCCreeperGlowingFrame.GLOWING_FRAME, TCCreeperFrameRenderer::new);
-        event.registerEntityRenderer(TCBreezeCreeperWindCharge.BREEZE_WIND_CHARGE, WindChargeRenderer::new);
+        //event.registerEntityRenderer(TCBreezeCreeperWindCharge.BREEZE_WIND_CHARGE, WindChargeRenderer::new);
         event.registerEntityRenderer(TCLlamaCreeperSpit.LLAMA_SPIT, LlamaSpitRenderer::new);
     }
 

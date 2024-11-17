@@ -106,7 +106,7 @@ public class TCBreezeCreeperRenderer extends MobRenderer<TCBreezeCreeper, TCBree
         private final ModelPart rods;
 
         public TCBreezeCreeperModel(ModelPart p_309507_) {
-            super(p_309507_.getChild("root"), RenderType::entityTranslucent);
+            super(p_309507_, RenderType::entityTranslucent);
             this.root = p_309507_;
             this.wind = p_309507_.getChild("wind_body");
             this.windBottom = this.wind.getChild("wind_bottom");

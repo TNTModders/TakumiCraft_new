@@ -80,7 +80,7 @@ public class TCBatCreeperRenderer<T extends TCBatCreeper, S extends TCBatCreeper
         private final ModelPart feet;
 
         public TCBatCreeperModel(ModelPart p_170427_) {
-            super(p_170427_.getChild("root"), RenderType::entityCutout);
+            super(p_170427_, RenderType::entityCutout);
             this.root = p_170427_;
             this.body = p_170427_.getChild("body");
             this.head = p_170427_.getChild("head");
