@@ -14,7 +14,7 @@ public class TCKingCreeperLayer<S extends TCKingCreeperRenderState, M extends Cr
 
     @Override
     public void render(PoseStack pose, MultiBufferSource source, int p_117351_, S state, float p_117353_, float partialTicks) {
-        if (state.swelling > 5 && state.swellDir > 0) {
+        if (state.swellDir > 0 && state.swelling > 0.05) {
             state.id.getAttack().clientTick(state, state.getCreeper(), state.swellDir, pose, source, partialTicks);
         }
     }

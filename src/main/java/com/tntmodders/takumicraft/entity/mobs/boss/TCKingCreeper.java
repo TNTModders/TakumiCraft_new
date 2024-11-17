@@ -105,6 +105,7 @@ public class TCKingCreeper extends AbstractTCBossCreeper {
     public void ignite() {
         if (!this.isIgnited()) {
             this.setRandomAttackID();
+            TCLoggingUtils.info(this.getAttackID());
         }
         this.entityData.set(DATA_IS_IGNITED, true);
     }
