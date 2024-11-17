@@ -43,4 +43,9 @@ public class TCEvokerCreeperRenderer<T extends TCEvokerCreeper, S extends TCEvok
         super.extractRenderState(creeper, state, f);
         state.isCastingSpell = creeper.isCastingSpell();
     }
+
+    @Override
+    public S createRenderState() {
+        return (S) new TCEvokerCreeperRenderState();
+    }
 }

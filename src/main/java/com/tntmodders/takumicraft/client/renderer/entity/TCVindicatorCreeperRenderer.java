@@ -3,7 +3,7 @@ package com.tntmodders.takumicraft.client.renderer.entity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.client.renderer.entity.layer.TCCreeperPowerLayer;
-import com.tntmodders.takumicraft.client.renderer.entity.state.TCVindicatorCreeperRenderState;
+import com.tntmodders.takumicraft.client.renderer.entity.state.TCIllagerCreeperRenderState;
 import com.tntmodders.takumicraft.core.TCEntityCore;
 import com.tntmodders.takumicraft.entity.mobs.TCVindicatorCreeper;
 import net.minecraft.client.model.geom.ModelLayers;
@@ -15,7 +15,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class TCVindicatorCreeperRenderer<T extends TCVindicatorCreeper, S extends TCVindicatorCreeperRenderState> extends AbstractTCIllagerCreeperRenderer<T, S> {
+public class TCVindicatorCreeperRenderer<T extends TCVindicatorCreeper, S extends TCIllagerCreeperRenderState> extends AbstractTCIllagerCreeperRenderer<T, S> {
     private static final ResourceLocation LOCATION = ResourceLocation.tryBuild(TakumiCraftCore.MODID, "textures/entity/creeper/vindicatorcreeper.png");
 
     public TCVindicatorCreeperRenderer(EntityRendererProvider.Context context) {
