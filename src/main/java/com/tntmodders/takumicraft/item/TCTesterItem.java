@@ -57,7 +57,7 @@ public class TCTesterItem extends Item implements ITCItems, ITCTranslator {
     public InteractionResult useOn(UseOnContext p_41427_) {
         if (p_41427_.getLevel().getBlockEntity(p_41427_.getClickedPos()) instanceof TCCreeperSuperBlockEntity superBlock) {
             p_41427_.getItemInHand().set(DataComponents.CUSTOM_NAME, Component.literal("LOCK_TEST"));
-            superBlock.setLockCode("LOCK_TEST");
+            superBlock.setLockCode(p_41427_.getLevel(), "LOCK_TEST");
             superBlock.setChanged();
         }
         return super.useOn(p_41427_);
