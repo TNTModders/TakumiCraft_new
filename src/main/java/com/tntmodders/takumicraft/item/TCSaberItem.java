@@ -30,7 +30,7 @@ public class TCSaberItem extends AbstractTCWeaponItem {
     public static final ResourceLocation ATTACK_RANGE_ID = ResourceLocation.withDefaultNamespace("base_attack_range");
 
     public TCSaberItem() {
-        super(AbstractTCCreeper.TCCreeperContext.EnumTakumiElement.NORMAL, new Properties().fireResistant().rarity(Rarity.EPIC).attributes(createAttributes()).setId(TCItemCore.TCItemId("typesword_normal")));
+        super(AbstractTCCreeper.TCCreeperContext.EnumTakumiElement.NORMAL, new Properties().fireResistant().rarity(Rarity.EPIC).attributes(createAttributes()).setId(TCItemCore.TCItemId("typesword_normal")), -2.0f);
     }
 
     public static ItemAttributeModifiers createAttributes() {
