@@ -1,0 +1,11 @@
+{
+  "required": true,
+  "package": "com.tntmodders.takumicraft.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "TCMixinCreeper"
+  ],
+  "client": [
+    "TCMixinBlockStateModelLoader"
+  ]
+}

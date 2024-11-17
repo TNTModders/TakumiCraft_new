@@ -106,11 +106,4 @@ public class TCRenderCore {
         event.registerLayerDefinition(FRAME, TCCreeperFrameRenderer::createLayer);
         event.registerLayerDefinition(PROTECTOR, TCCreeperProtectorBlockRenderer::createLayer);
     }
-    //@TODO alt method of replace CreeperFrame
-/*    public static void registerAdditionalModels(ModelEvent.RegisterAdditional event) {
-        StateDefinition<Block, BlockState> fake_def = new StateDefinition.Builder<Block, BlockState>(Blocks.AIR).add(BooleanProperty.create("map")).create(Block::defaultBlockState, BlockState::new);
-        Map<ResourceLocation, StateDefinition<Block, BlockState>> static_def = ImmutableMap.of(ResourceLocation.tryBuild(TakumiCraftCore.MODID, "creeperframe"), fake_def, ResourceLocation.tryBuild(TakumiCraftCore.MODID, "creeperframe_glowing"), fake_def);
-
-        static_def.forEach((location, statedef) -> statedef.getPossibleStates().forEach(state -> event.register(BlockModelShaper.stateToModelLocation(location, state))));
-    }*/
 }

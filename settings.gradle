@@ -6,4 +6,19 @@ pluginManagement {
     plugins {
         id 'org.gradle.toolchains.foojay-resolver-convention' version '0.7.0'
     }
+
+    pluginManagement {
+        repositories {
+            gradlePluginPortal()
+            maven { url = 'https://maven.minecraftforge.net/' }
+            maven { url = 'https://spongepowered.org/maven/' }
+        }
+        resolutionStrategy {
+            eachPlugin {
+                if (requested.id.id == 'org.spongepowered.mixin') {
+                    useModule('org.spongepowered:mixingradle:0.7.+')
+                }
+            }
+        }
+    }
 }

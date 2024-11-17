@@ -3,6 +3,11 @@ plugins {
     id 'maven-publish'
     id 'net.minecraftforge.gradle' version '[6.0.24,6.2)'
     id 'io.github.serenibyss.fractureiser-scanner' version '1.0.1'
+    id 'org.spongepowered.mixin' version '0.7.+'
+}
+
+mixin {
+    config 'takumicraft.mixins.json'
 }
 
 version = mod_version
@@ -18,6 +23,7 @@ java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
     implementation('net.sf.jopt-simple:jopt-simple:5.0.4') { version { strictly '5.0.4' } }
+    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 }
 
 println "Java: ${System.getProperty 'java.version'}, JVM: ${System.getProperty 'java.vm.version'} (${System.getProperty 'java.vendor'}), Arch: ${System.getProperty 'os.arch'}"

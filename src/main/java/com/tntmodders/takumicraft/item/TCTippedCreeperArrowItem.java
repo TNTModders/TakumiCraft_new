@@ -70,7 +70,6 @@ public class TCTippedCreeperArrowItem extends TCCreeperArrowItem {
         return "tipped_creeperarrow";
     }
 
-    //@TODO name
     @Override
     public Component getName(ItemStack p_41458_) {
         if (p_41458_.has(DataComponents.POTION_CONTENTS) && p_41458_.get(DataComponents.POTION_CONTENTS).potion().isPresent()) {
