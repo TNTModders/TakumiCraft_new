@@ -560,7 +560,7 @@ public class TCTakumiBookOutlineScreen extends AbstractContainerScreen<TCTakumiB
     public void renderSlot(GuiGraphics graphics, Slot slot) {
 
         if (slot.getItem().getItem() instanceof TCSpawnEggItem item) {
-            TCClientUtils.renderEntity(graphics.pose(), slot.x + (double) this.imageWidth / 25, slot.y + (double) this.imageHeight / 9, 7, this.tick / 100f, 0f, item.getContext().entityType(), true);
+            TCClientUtils.renderEntity(graphics.pose(), slot.x + (double) this.imageWidth / 25, slot.y + (double) this.imageHeight / 9, 7, 0f, 0f, item.getContext().entityType(), true, this.tick);
         } else {
             super.renderSlot(graphics, slot);
         }

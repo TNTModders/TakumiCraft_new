@@ -46,7 +46,7 @@ public class TCClientUtils {
     }
 
     @OnlyIn(Dist.CLIENT)
-    public static void renderEntity(PoseStack posestack, double x, double y, int size, float yrot, float xrot, EntityType<?> entityType, boolean isOutline) {
+    public static void renderEntity(PoseStack posestack, double x, double y, int size, float yrot, float xrot, EntityType<?> entityType, boolean isOutline, int tick) {
         if (entityType.create(Minecraft.getInstance().level, EntitySpawnReason.LOAD) instanceof AbstractTCCreeper creeper) {
             creeper.setOnBook(true);
             posestack.pushPose();
@@ -62,16 +62,17 @@ public class TCClientUtils {
             Quaternionf quaternion1 = Axis.XP.rotationDegrees(xrot * 20.0F);
             quaternion.mul(quaternion1);
             posestack1.mulPose(quaternion);
+            posestack1.rotateAround(Axis.YP.rotationDegrees(tick / 2.5f), 0, 0, 0);
             float f2 = creeper.yBodyRot;
             float f3 = creeper.getYRot();
             float f4 = creeper.getXRot();
             float f5 = creeper.yHeadRotO;
             float f6 = creeper.yHeadRot;
-            creeper.yBodyRot = 180.0F + yrot * 20.0F;
+ /*           creeper.yBodyRot = 180.0F + yrot * 20.0F;
             creeper.setYRot(180.0F + yrot * 40.0F);
             creeper.setXRot(-xrot * 20.0F);
             creeper.yHeadRot = creeper.getYRot();
-            creeper.yHeadRotO = creeper.getYRot();
+            creeper.yHeadRotO = creeper.getYRot();*/
             Lighting.setupForEntityInInventory();
             EntityRenderDispatcher entityrenderdispatcher = Minecraft.getInstance().getEntityRenderDispatcher();
             quaternion1.conjugate();
@@ -82,11 +83,11 @@ public class TCClientUtils {
             entityrenderdispatcher.render(creeper, 0.0D, 0.0D, 0.0D, 0.0F, posestack1, multibuffersource$buffersource, checkSlayAdv(entityType) ? 0xf000f0 : -10000);
             multibuffersource$buffersource.endBatch();
             entityrenderdispatcher.setRenderShadow(true);
-            creeper.yBodyRot = f2;
+/*            creeper.yBodyRot = f2;
             creeper.setYRot(f3);
             creeper.setXRot(f4);
             creeper.yHeadRotO = f5;
-            creeper.yHeadRot = f6;
+            creeper.yHeadRot = f6;*/
             posestack.popPose();
             RenderSystem.getModelViewMatrix();
             Lighting.setupFor3DItems();
