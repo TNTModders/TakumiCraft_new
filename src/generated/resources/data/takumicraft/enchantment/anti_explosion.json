@@ -1,0 +1,21 @@
+{
+  "anvil_cost": 10,
+  "description": {
+    "translate": "enchantment.takumicraft.anti_explosion"
+  },
+  "exclusive_set": "#minecraft:exclusive_set/armor",
+  "max_cost": {
+    "base": 50,
+    "per_level_above_first": 0
+  },
+  "max_level": 1,
+  "min_cost": {
+    "base": 25,
+    "per_level_above_first": 0
+  },
+  "slots": [
+    "armor"
+  ],
+  "supported_items": "#c:armors",
+  "weight": 1
+}

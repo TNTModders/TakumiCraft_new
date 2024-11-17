@@ -70,6 +70,17 @@ public class TCEvents {
         event.getAffectedBlocks().removeAll(removePosList);
 
         event.getAffectedEntities().removeIf(entity -> {
+            if (entity instanceof LivingEntity living) {
+                for (ItemStack stack : living.getArmorAndBodyArmorSlots()) {
+                    if (!stack.isEmpty() && EnchantmentHelper.getItemEnchantmentLevel(living.level().holderLookup(Registries.ENCHANTMENT).getOrThrow(TCEnchantmentCore.ANTI_EXPLOSION), stack) > 0) {
+                        if (living instanceof ServerPlayer serverPlayer) {
+                            stack.hurtAndBreak(serverPlayer.getRandom().nextInt(3) + 1, serverPlayer.serverLevel(), serverPlayer, consumer -> {
+                            });
+                        }
+                        return true;
+                    }
+                }
+            }
             if (entity instanceof ItemEntity item) {
                 if (TCTakumiSpecialMeatItem.canConvertToSpecialMeat(item.getItem())) {
                     item.setItem(TCTakumiSpecialMeatItem.getSpecialMeat(item.getItem()));
@@ -182,7 +193,7 @@ public class TCEvents {
         if (event.getDamageSource().is(DamageTypes.EXPLOSION) || event.getDamageSource().is(DamageTypes.PLAYER_EXPLOSION)) {
             ItemStack stack = event.getEntity().getUseItem();
             if (event.getEntity().isBlocking() && !stack.isEmpty() && !stack.is(TCItemCore.EXPLOSIVE_SHIELDS)) {
-                stack.hurtAndBreak(10, event.getEntity(), null);
+                stack.hurtAndBreak(event.getEntity().getRandom().nextInt(6) + 3, event.getEntity(), null);
                 event.getEntity().stopUsingItem();
                 event.setCanceled(true);
             }

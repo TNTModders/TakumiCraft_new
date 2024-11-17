@@ -153,11 +153,6 @@ public class TakumiCraftCore {
             TCRenderCore.registerEntityRender(rendererRegister);
         }
 
-/*        @SubscribeEvent
-        public static void registerAdditionalModels(ModelEvent.RegisterAdditional modelRegister) {
-            TCRenderCore.registerAdditionalModels(modelRegister);
-        }*/
-
         @SubscribeEvent
         public static void clientInit(FMLClientSetupEvent event) {
             //TCSearchTreeCore.register();

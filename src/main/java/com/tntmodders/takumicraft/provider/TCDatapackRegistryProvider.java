@@ -4,10 +4,7 @@ import com.tntmodders.takumicraft.TakumiCraftCore;
 import com.tntmodders.takumicraft.core.TCBiomeModifierCore;
 import com.tntmodders.takumicraft.core.TCBlockCore;
 import com.tntmodders.takumicraft.core.TCEnchantmentCore;
-import com.tntmodders.takumicraft.enchantment.AbstractTCEnchantmentContext;
-import com.tntmodders.takumicraft.enchantment.TCAntiPoweredContext;
-import com.tntmodders.takumicraft.enchantment.TCBlastPoweredContext;
-import com.tntmodders.takumicraft.enchantment.TCMinesweeperContext;
+import com.tntmodders.takumicraft.enchantment.*;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistrySetBuilder;
@@ -55,6 +52,7 @@ public class TCDatapackRegistryProvider extends RegistriesDatapackGenerator {
                 registerEnchantment(bootstrap, TCEnchantmentCore.ANTI_POWERED, new TCAntiPoweredContext(bootstrap));
                 registerEnchantment(bootstrap, TCEnchantmentCore.MINESWEEPER, new TCMinesweeperContext(bootstrap));
                 registerEnchantment(bootstrap, TCEnchantmentCore.BLAST_POWERED, new TCBlastPoweredContext(bootstrap));
+                registerEnchantment(bootstrap, TCEnchantmentCore.ANTI_EXPLOSION, new TCAntiExplosionContext(bootstrap));
             });
 
     public TCDatapackRegistryProvider(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> lookupProvider) {

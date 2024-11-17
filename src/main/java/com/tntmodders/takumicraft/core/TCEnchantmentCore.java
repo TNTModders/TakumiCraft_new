@@ -15,6 +15,7 @@ public class TCEnchantmentCore {
     public static final ResourceKey<Enchantment> ANTI_POWERED = ResourceKey.create(Registries.ENCHANTMENT, ResourceLocation.tryBuild(TakumiCraftCore.MODID, "anti_powered"));
     public static final ResourceKey<Enchantment> MINESWEEPER = ResourceKey.create(Registries.ENCHANTMENT, ResourceLocation.tryBuild(TakumiCraftCore.MODID, "minesweeper"));
     public static final ResourceKey<Enchantment> BLAST_POWERED = ResourceKey.create(Registries.ENCHANTMENT, ResourceLocation.tryBuild(TakumiCraftCore.MODID, "blast_powered"));
+    public static final ResourceKey<Enchantment> ANTI_EXPLOSION = ResourceKey.create(Registries.ENCHANTMENT, ResourceLocation.tryBuild(TakumiCraftCore.MODID, "anti_explosion"));
 
     public static final NonNullList<AbstractTCEnchantmentContext> ENCHANTMENTS = NonNullList.create();
 
