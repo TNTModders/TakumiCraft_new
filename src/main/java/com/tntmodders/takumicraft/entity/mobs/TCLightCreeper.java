@@ -120,11 +120,6 @@ public class TCLightCreeper extends AbstractTCCreeper {
         }
 
         @Override
-        public AttributeSupplier.Builder entityAttribute() {
-            return Creeper.createAttributes();
-        }
-
-        @Override
         @OnlyIn(Dist.CLIENT)
         public void registerRenderer(EntityRenderersEvent.RegisterRenderers event, EntityType<?> type) {
             event.registerEntityRenderer((EntityType<Creeper>) type, context -> new TCCreeperRenderer(context, true));

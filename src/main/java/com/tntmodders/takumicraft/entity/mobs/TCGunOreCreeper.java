@@ -21,6 +21,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
 
@@ -121,6 +123,7 @@ public class TCGunOreCreeper extends AbstractTCBlockCreeper {
         }
 
         @Override
+        @OnlyIn(Dist.CLIENT)
         public void registerRenderer(EntityRenderersEvent.RegisterRenderers event, EntityType<?> type) {
             event.registerEntityRenderer((EntityType<TCGunOreCreeper>) type, TCBlockCreeperRenderer::new);
         }

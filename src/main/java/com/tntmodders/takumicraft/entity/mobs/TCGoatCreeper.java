@@ -52,6 +52,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.common.world.ModifiableBiomeInfo;
 import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
@@ -399,6 +401,7 @@ public class TCGoatCreeper extends AbstractTCCreeper {
         }
 
         @Override
+        @OnlyIn(Dist.CLIENT)
         public void registerRenderer(EntityRenderersEvent.RegisterRenderers event, EntityType<?> type) {
             event.registerEntityRenderer((EntityType<TCGoatCreeper>) type, TCGoatCreeperRenderer::new);
         }

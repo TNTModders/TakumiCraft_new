@@ -30,6 +30,8 @@ import net.minecraft.world.entity.raid.Raider;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 
 import javax.annotation.Nullable;
@@ -229,6 +231,7 @@ public class TCVindicatorCreeper extends AbstractTCIllagerCreeper {
         }
 
         @Override
+        @OnlyIn(Dist.CLIENT)
         public void registerRenderer(EntityRenderersEvent.RegisterRenderers event, EntityType<?> type) {
             event.registerEntityRenderer((EntityType<TCVindicatorCreeper>) type, TCVindicatorCreeperRenderer::new);
         }

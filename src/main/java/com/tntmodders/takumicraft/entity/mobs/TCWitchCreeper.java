@@ -46,6 +46,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.event.level.ExplosionEvent;
 
@@ -354,6 +356,7 @@ public class TCWitchCreeper extends AbstractTCCreeper implements RangedAttackMob
         }
 
         @Override
+        @OnlyIn(Dist.CLIENT)
         public void registerRenderer(EntityRenderersEvent.RegisterRenderers event, EntityType<?> type) {
             event.registerEntityRenderer((EntityType<TCWitchCreeper>) type, TCWitchCreeperRenderer::new);
         }

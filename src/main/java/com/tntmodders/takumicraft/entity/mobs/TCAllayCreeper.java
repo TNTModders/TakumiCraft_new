@@ -63,6 +63,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.*;
 import net.minecraft.world.level.gameevent.vibrations.VibrationSystem;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 
 import javax.annotation.Nullable;
@@ -562,6 +564,7 @@ public class TCAllayCreeper extends AbstractTCCreeper implements InventoryCarrie
         }
 
         @Override
+        @OnlyIn(Dist.CLIENT)
         public void registerRenderer(EntityRenderersEvent.RegisterRenderers event, EntityType<?> type) {
             event.registerEntityRenderer((EntityType<TCAllayCreeper>) type, TCAllayCreeperRenderer::new);
         }
