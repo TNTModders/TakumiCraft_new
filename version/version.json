@@ -8,6 +8,9 @@
     "3.0.0.0-beta.2.1.1": "Port to MC1.21",
     "3.0.0.0-beta.2.2.0": "Add 31 creepers, including new boss and several new mobs."
   },
+  "1.21.3": {
+    "3.0.0.0-beta.2.3.0": "Port to MC1.21.3"
+  },
   "promos": {
     "1.21-latest": "1.20.6-3.0.0.0-beta.2.2.0"
   }
