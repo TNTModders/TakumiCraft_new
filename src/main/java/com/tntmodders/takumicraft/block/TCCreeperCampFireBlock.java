@@ -315,6 +315,11 @@ public class TCCreeperCampFireBlock extends CampfireBlock implements ITCBlocks, 
     }
 
     @Override
+    public String getBlockRenderType() {
+        return "cutout";
+    }
+
+    @Override
     public TCBlockItem getCustomBlockItem(Block block) {
         return new TCBlockItem(block) {
             @Override

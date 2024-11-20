@@ -64,4 +64,9 @@ public class TCCreeperIronBarsBlock extends IronBarsBlock implements ITCBlocks, 
         provider.paneBlockWithRenderType(this, sourceName, sourceName, "tripwire");
         provider.singleBlockItem(this, sourceName);
     }
+
+    @Override
+    public String getBlockRenderType() {
+        return "tripwire";
+    }
 }

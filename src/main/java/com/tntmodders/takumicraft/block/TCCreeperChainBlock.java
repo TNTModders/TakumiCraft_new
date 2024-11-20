@@ -63,6 +63,11 @@ public class TCCreeperChainBlock extends ChainBlock implements ITCBlocks, ITCRec
     }
 
     @Override
+    public String getBlockRenderType() {
+        return "cutout";
+    }
+
+    @Override
     public List<TagKey<Block>> getBlockTags() {
         return List.of(TCBlockCore.ANTI_EXPLOSION);
     }

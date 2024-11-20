@@ -157,6 +157,7 @@ public class TakumiCraftCore {
         public static void clientInit(FMLClientSetupEvent event) {
             //TCSearchTreeCore.register();
             TCItemPropertyCore.register();
+            TCRenderCore.registerBlockRenderType();
         }
 
         @SubscribeEvent

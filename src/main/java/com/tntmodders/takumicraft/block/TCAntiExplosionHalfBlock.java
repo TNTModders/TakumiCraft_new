@@ -193,6 +193,11 @@ public class TCAntiExplosionHalfBlock extends Block implements ITCBlocks, ITCRec
     }
 
     @Override
+    public String getBlockRenderType() {
+        return "cutout";
+    }
+
+    @Override
     public void addRecipes(TCRecipeProvider provider, ItemLike itemLike, RecipeOutput consumer) {
         ShapedRecipeBuilder builder = ShapedRecipeBuilder.shaped(provider.items, RecipeCategory.BUILDING_BLOCKS, itemLike, 6).define('#', this.baseBlock).pattern("###").unlockedBy("has_baseblock", provider.hasItem(this.baseBlock));
         if (!this.group.isEmpty()) {

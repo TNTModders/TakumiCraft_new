@@ -53,6 +53,11 @@ public class TCCreeperTorchBlock_Wall extends WallTorchBlock implements ITCBlock
     }
 
     @Override
+    public String getBlockRenderType() {
+        return "cutout";
+    }
+
+    @Override
     public List<TagKey<Block>> getBlockTags() {
         return List.of(TCBlockCore.ANTI_EXPLOSION, BlockTags.WALL_POST_OVERRIDE);
     }

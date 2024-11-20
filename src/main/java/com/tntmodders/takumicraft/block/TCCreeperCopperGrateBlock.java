@@ -114,6 +114,11 @@ public class TCCreeperCopperGrateBlock extends TCCreeperCopperBlock implements S
     }
 
     @Override
+    public String getBlockRenderType() {
+        return "cutout";
+    }
+
+    @Override
     public void addRecipes(TCRecipeProvider provider, ItemLike itemLike, RecipeOutput consumer) {
         super.addRecipes(provider, itemLike, consumer);
         provider.saveRecipe(itemLike, consumer, SingleItemRecipeBuilder.stonecutting(Ingredient.of(this.baseBlock), RecipeCategory.BUILDING_BLOCKS, itemLike, 4), "stonecutting");

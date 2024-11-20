@@ -44,6 +44,10 @@ public class TCCreeperIlluminationBlock extends AbstractTCAntiExplosionBlock imp
         provider.simpleBlockItem(this, model);
     }
 
+    @Override
+    public String getBlockRenderType() {
+        return "cutout";
+    }
 
     @Override
     public void addRecipes(TCRecipeProvider provider, ItemLike itemLike, RecipeOutput consumer) {

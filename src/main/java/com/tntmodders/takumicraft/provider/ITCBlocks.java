@@ -54,4 +54,8 @@ public interface ITCBlocks extends ITCTranslator {
             provider.simpleBlockItem(block, model);
         }
     }
+
+    default String getBlockRenderType() {
+        return "";
+    }
 }

@@ -8,6 +8,7 @@ import com.tntmodders.takumicraft.client.renderer.block.model.TCShieldModel;
 import com.tntmodders.takumicraft.client.renderer.entity.TCAmethystBombRenderer;
 import com.tntmodders.takumicraft.client.renderer.entity.TCCreeperFrameRenderer;
 import com.tntmodders.takumicraft.client.renderer.entity.TCKingBlockRenderer;
+import com.tntmodders.takumicraft.core.TCBlockCore;
 import com.tntmodders.takumicraft.core.TCBlockEntityCore;
 import com.tntmodders.takumicraft.core.TCEntityCore;
 import com.tntmodders.takumicraft.entity.decoration.TCCreeperFrame;
@@ -15,10 +16,13 @@ import com.tntmodders.takumicraft.entity.decoration.TCCreeperGlowingFrame;
 import com.tntmodders.takumicraft.entity.misc.TCKingBlock;
 import com.tntmodders.takumicraft.entity.misc.TCKingStorm;
 import com.tntmodders.takumicraft.entity.projectile.*;
+import com.tntmodders.takumicraft.provider.ITCBlocks;
 import com.tntmodders.takumicraft.utils.TCLoggingUtils;
 import net.minecraft.client.model.CreeperModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.ArrowRenderer;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.LlamaSpitRenderer;
@@ -26,9 +30,15 @@ import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.client.renderer.entity.state.ArrowRenderState;
 import net.minecraft.client.renderer.entity.state.EntityRenderState;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.Block;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.EntityRenderersEvent;
+
+import java.lang.reflect.Field;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 @OnlyIn(Dist.CLIENT)
 public class TCRenderCore {
@@ -105,5 +115,28 @@ public class TCRenderCore {
         event.registerLayerDefinition(ACID, TCAcidBlockRenderer::createLayer);
         event.registerLayerDefinition(FRAME, TCCreeperFrameRenderer::createLayer);
         event.registerLayerDefinition(PROTECTOR, TCCreeperProtectorBlockRenderer::createLayer);
+    }
+
+    public static void registerBlockRenderType() {
+        List<Field> fieldList = Arrays.asList(TCBlockCore.class.getDeclaredFields());
+        fieldList.forEach(field -> {
+            try {
+                Object obj = field.get(null);
+                if (obj instanceof ITCBlocks && obj instanceof Block block) {
+                    if (!((ITCBlocks) block).getBlockRenderType().isEmpty()) {
+                        RenderType type = ((ITCBlocks) block).getBlockRenderType().equals("cutout") ? RenderType.cutout() : ((ITCBlocks) block).getBlockRenderType().equals("translucent") ? RenderType.translucent() : RenderType.tripwire();
+                        ItemBlockRenderTypes.setRenderLayer(block, type);
+                    }
+                } else if (obj instanceof Map map) {
+                    map.values().forEach(value -> {
+                        if (value instanceof ITCBlocks && value instanceof Block block) {
+                            RenderType type = ((ITCBlocks) block).getBlockRenderType().equals("cutout") ? RenderType.cutout() : ((ITCBlocks) block).getBlockRenderType().equals("translucent") ? RenderType.translucent() : RenderType.tripwire();
+                            ItemBlockRenderTypes.setRenderLayer(block, type);
+                        }
+                    });
+                }
+            } catch (IllegalAccessException ignored) {
+            }
+        });
     }
 }

@@ -46,6 +46,11 @@ public class TCCreeperGlassPaneBlock extends IronBarsBlock implements ITCBlocks,
     }
 
     @Override
+    public String getBlockRenderType() {
+        return "cutout";
+    }
+
+    @Override
     public Function<HolderLookup.Provider, LootTableSubProvider> getBlockLootSubProvider(Block block) {
         return provider -> new TCBlockLoot(provider, block, true);
     }

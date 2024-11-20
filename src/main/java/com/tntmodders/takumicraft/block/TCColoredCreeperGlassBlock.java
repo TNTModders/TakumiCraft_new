@@ -37,6 +37,11 @@ public class TCColoredCreeperGlassBlock extends TCCreeperGlassBlock {
     }
 
     @Override
+    public String getBlockRenderType() {
+        return "translucent";
+    }
+
+    @Override
     public String getRegistryName() {
         return "creeperglass_" + this.color.getName();
     }

@@ -48,6 +48,11 @@ public class TCCreeperTintedGlassBlock extends TCCreeperGlassBlock {
     }
 
     @Override
+    public String getBlockRenderType() {
+        return "translucent";
+    }
+
+    @Override
     public boolean propagatesSkylightDown(BlockState p_154824_) {
         return false;
     }

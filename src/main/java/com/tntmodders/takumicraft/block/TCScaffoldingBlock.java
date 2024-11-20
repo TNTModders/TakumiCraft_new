@@ -145,6 +145,11 @@ public class TCScaffoldingBlock extends ScaffoldingBlock implements ITCBlocks, I
     }
 
     @Override
+    public String getBlockRenderType() {
+        return "cutout";
+    }
+
+    @Override
     public void addRecipes(TCRecipeProvider provider, ItemLike itemLike, RecipeOutput consumer) {
         provider.saveRecipe(itemLike, consumer, ShapedRecipeBuilder.shaped(provider.items, RecipeCategory.BUILDING_BLOCKS, TCBlockCore.CREEPER_SCAFFOLDING, 8).define('#', TCBlockCore.CREEPER_BOMB).define('B', Blocks.SCAFFOLDING).pattern("BBB").pattern("B#B").pattern("BBB").unlockedBy("has_creeperbomb", provider.hasItem(TCBlockCore.CREEPER_BOMB)));
     }

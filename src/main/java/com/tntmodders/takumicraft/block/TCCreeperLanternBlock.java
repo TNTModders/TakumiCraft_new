@@ -74,6 +74,11 @@ public class TCCreeperLanternBlock extends LanternBlock implements ITCBlocks, IT
     }
 
     @Override
+    public String getBlockRenderType() {
+        return "cutout";
+    }
+
+    @Override
     public List<TagKey<Block>> getBlockTags() {
         return List.of(TCBlockCore.ANTI_EXPLOSION);
     }

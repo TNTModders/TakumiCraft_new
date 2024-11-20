@@ -38,6 +38,11 @@ public class TCColoredCreeperGlassPaneBlock extends TCCreeperGlassPaneBlock {
     }
 
     @Override
+    public String getBlockRenderType() {
+        return "translucent";
+    }
+
+    @Override
     public String getRegistryName() {
         return "creeperglasspane_" + this.color.getName();
     }

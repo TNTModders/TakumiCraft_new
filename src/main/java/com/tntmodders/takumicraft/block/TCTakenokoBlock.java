@@ -88,6 +88,11 @@ public class TCTakenokoBlock extends BambooSaplingBlock implements ITCBlocks, En
         provider.itemModels().getBuilder(this.getRegistryName()).parent(new ModelFile.UncheckedModelFile("item/generated")).texture("layer0", "minecraft:block/bamboo_stage0");
     }
 
+    @Override
+    public String getBlockRenderType() {
+        return "cutout";
+    }
+
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos p_153215_, BlockState p_153216_) {

@@ -82,6 +82,11 @@ public class TCAntiExplosionDoorBlock extends DoorBlock implements ITCBlocks, IT
     }
 
     @Override
+    public String getBlockRenderType() {
+        return "cutout";
+    }
+
+    @Override
     public void addRecipes(TCRecipeProvider provider, ItemLike itemLike, RecipeOutput consumer) {
         ShapedRecipeBuilder builder = ShapedRecipeBuilder.shaped(provider.items, RecipeCategory.REDSTONE,
                         itemLike, 3)

@@ -122,6 +122,11 @@ public class TCCreeperProtectorBlock extends BaseEntityBlock implements ITCBlock
     }
 
     @Override
+    public String getBlockRenderType() {
+        return "cutout";
+    }
+
+    @Override
     public Function<HolderLookup.Provider, LootTableSubProvider> getBlockLootSubProvider(Block block) {
         return provider -> new TCBlockLoot(provider, block, true);
     }
