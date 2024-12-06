@@ -94,4 +94,9 @@ public class TCCreeperSlimeBlock extends SlimeBlock implements ITCBlocks, ITCRec
         provider.getVariantBuilder(this).partialState().addModels(new ConfiguredModel(blockModel));
         provider.itemModels().withExistingParent(provider.name(this), provider.blockTexture(this));
     }
+
+    @Override
+    public String getBlockRenderType() {
+        return "translucent";
+    }
 }
