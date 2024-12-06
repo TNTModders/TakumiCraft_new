@@ -10,7 +10,6 @@ import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.client.model.BakedModelWrapper;
 import net.minecraftforge.client.model.data.ModelData;
@@ -44,13 +43,13 @@ public class TCCreeperFrameModel extends BakedModelWrapper {
             TextureAtlasSprite sprite = bakedQuad.getSprite();
             TextureAtlasSprite newSprite = null;
             if (sprite.contents().name().equals(ResourceLocation.withDefaultNamespace("block/birch_planks"))) {
-                TextureAtlas atlas = Minecraft.getInstance().getModelManager().getAtlas(InventoryMenu.BLOCK_ATLAS);
+                TextureAtlas atlas = Minecraft.getInstance().getModelManager().getAtlas(TextureAtlas.LOCATION_BLOCKS);
                 newSprite = atlas.getSprite(ResourceLocation.tryBuild(TakumiCraftCore.MODID, "block/creeperplanks"));
             } else if (sprite.contents().name().equals(ResourceLocation.withDefaultNamespace("block/item_frame"))) {
-                TextureAtlas atlas = Minecraft.getInstance().getModelManager().getAtlas(InventoryMenu.BLOCK_ATLAS);
+                TextureAtlas atlas = Minecraft.getInstance().getModelManager().getAtlas(TextureAtlas.LOCATION_BLOCKS);
                 newSprite = atlas.getSprite(ResourceLocation.tryBuild(TakumiCraftCore.MODID, "block/creeperframe"));
             } else if (sprite.contents().name().equals(ResourceLocation.withDefaultNamespace("block/glow_item_frame"))) {
-                TextureAtlas atlas = Minecraft.getInstance().getModelManager().getAtlas(InventoryMenu.BLOCK_ATLAS);
+                TextureAtlas atlas = Minecraft.getInstance().getModelManager().getAtlas(TextureAtlas.LOCATION_BLOCKS);
                 newSprite = atlas.getSprite(ResourceLocation.tryBuild(TakumiCraftCore.MODID, "block/creeperframe_glowing"));
             }
             if (newSprite != null) {

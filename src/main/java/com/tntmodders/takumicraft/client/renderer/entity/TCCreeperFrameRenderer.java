@@ -18,24 +18,20 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.BlockRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.ItemFrameRenderer;
-import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.entity.state.ItemFrameRenderState;
+import net.minecraft.client.renderer.item.ItemModelResolver;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.resources.model.ModelManager;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ItemDisplayContext;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.level.saveddata.maps.MapId;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.Map;
@@ -59,14 +55,14 @@ public class TCCreeperFrameRenderer<T extends TCCreeperFrame> extends ItemFrameR
     public static final ModelResourceLocation FRAME_LOCATION = new ModelResourceLocation(TC_ITEM_FRAME_LOCATION, "map=false");
 
     private final ModelPart modelPart;
-    private final ItemRenderer itemRenderer;
+    private final ItemModelResolver itemRenderer;
     private final MapRenderer mapRenderer;
     private final BlockRenderDispatcher blockRenderer;
 
     public TCCreeperFrameRenderer(EntityRendererProvider.Context p_174204_) {
         super(p_174204_);
         this.modelPart = p_174204_.bakeLayer(TCRenderCore.FRAME);
-        this.itemRenderer = p_174204_.getItemRenderer();
+        this.itemRenderer = p_174204_.getItemModelResolver();
         this.mapRenderer = p_174204_.getMapRenderer();
         this.blockRenderer = p_174204_.getBlockRenderDispatcher();
     }
@@ -99,10 +95,9 @@ public class TCCreeperFrameRenderer<T extends TCCreeperFrame> extends ItemFrameR
 
         p_115061_.mulPose(Axis.XP.rotationDegrees(f));
         p_115061_.mulPose(Axis.YP.rotationDegrees(f1));
-        ItemStack itemstack = p_361692_.itemStack;
         if (!p_361692_.isInvisible) {
             ModelManager modelmanager = this.blockRenderer.getBlockModelShaper().getModelManager();
-            ModelResourceLocation modelresourcelocation = this.getFrameModelResourceLoc(p_361692_.isGlowFrame, itemstack);
+            ModelResourceLocation modelresourcelocation = this.getFrameModelResourceLoc(p_361692_.isGlowFrame, p_361692_.mapId != null);
             p_115061_.pushPose();
             p_115061_.translate(-0.5F, -0.5F, -0.5F);
             this.blockRenderer
@@ -121,31 +116,23 @@ public class TCCreeperFrameRenderer<T extends TCCreeperFrame> extends ItemFrameR
             p_115061_.popPose();
         }
 
-        if (!itemstack.isEmpty()) {
-            MapId mapid = p_361692_.mapId;
-            if (p_361692_.isInvisible) {
-                p_115061_.translate(0.0F, 0.0F, 0.5F);
-            } else {
-                p_115061_.translate(0.0F, 0.0F, 0.4375F);
-            }
-
-            int j = mapid != null ? p_361692_.rotation % 4 * 2 : p_361692_.rotation;
+        if (p_361692_.mapId != null) {
+            int j = p_361692_.rotation % 4 * 2;
             p_115061_.mulPose(Axis.ZP.rotationDegrees((float) j * 360.0F / 8.0F));
             if (!net.minecraftforge.client.event.ForgeEventFactoryClient.onRenderItemInFrame(p_361692_, this, p_115061_, p_115062_, p_115063_)) {
-                if (mapid != null) {
-                    p_115061_.mulPose(Axis.ZP.rotationDegrees(180.0F));
-                    float f2 = 0.0078125F;
-                    p_115061_.scale(0.0078125F, 0.0078125F, 0.0078125F);
-                    p_115061_.translate(-64.0F, -64.0F, 0.0F);
-                    p_115061_.translate(0.0F, 0.0F, -1.0F);
-                    int i = this.getLightVal(p_361692_.isGlowFrame, 15728850, p_115063_);
-                    this.mapRenderer.render(p_361692_.mapRenderState, p_115061_, p_115062_, true, i);
-                } else if (p_361692_.itemModel != null) {
-                    int k = this.getLightVal(p_361692_.isGlowFrame, 15728880, p_115063_);
-                    p_115061_.scale(0.5F, 0.5F, 0.5F);
-                    this.itemRenderer.render(itemstack, ItemDisplayContext.FIXED, false, p_115061_, p_115062_, k, OverlayTexture.NO_OVERLAY, p_361692_.itemModel);
-                }
+                p_115061_.mulPose(Axis.ZP.rotationDegrees(180.0F));
+                float f2 = 0.0078125F;
+                p_115061_.scale(0.0078125F, 0.0078125F, 0.0078125F);
+                p_115061_.translate(-64.0F, -64.0F, 0.0F);
+                p_115061_.translate(0.0F, 0.0F, -1.0F);
+                int i = this.getLightVal(p_361692_.isGlowFrame, 15728850, p_115063_);
+                this.mapRenderer.render(p_361692_.mapRenderState, p_115061_, p_115062_, true, i);
             }
+        } else if (!p_361692_.item.isEmpty()) {
+            p_115061_.mulPose(Axis.ZP.rotationDegrees((float) p_361692_.rotation * 360.0F / 8.0F));
+            int k = this.getLightVal(p_361692_.isGlowFrame, 15728880, p_115063_);
+            p_115061_.scale(0.5F, 0.5F, 0.5F);
+            p_361692_.item.render(p_115061_, p_115062_, k, OverlayTexture.NO_OVERLAY);
         }
 
         p_115061_.popPose();
@@ -155,11 +142,11 @@ public class TCCreeperFrameRenderer<T extends TCCreeperFrame> extends ItemFrameR
         return p_368253_ ? p_174210_ : p_174211_;
     }
 
-    private ModelResourceLocation getFrameModelResourceLoc(boolean p_366996_, ItemStack p_174214_) {
-        if (p_174214_.has(DataComponents.MAP_ID)) {
-            return p_366996_ ? GLOW_MAP_FRAME_LOCATION : MAP_FRAME_LOCATION;
+    private ModelResourceLocation getFrameModelResourceLoc(boolean glowing, boolean hasmap) {
+        if (hasmap) {
+            return glowing ? GLOW_MAP_FRAME_LOCATION : MAP_FRAME_LOCATION;
         } else {
-            return p_366996_ ? GLOW_FRAME_LOCATION : FRAME_LOCATION;
+            return glowing ? GLOW_FRAME_LOCATION : FRAME_LOCATION;
         }
     }
 

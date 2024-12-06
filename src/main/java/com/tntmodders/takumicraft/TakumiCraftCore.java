@@ -1,7 +1,6 @@
 package com.tntmodders.takumicraft;
 
 import com.tntmodders.takumicraft.core.*;
-import com.tntmodders.takumicraft.core.client.TCColorsCore;
 import com.tntmodders.takumicraft.core.client.TCItemPropertyCore;
 import com.tntmodders.takumicraft.core.client.TCKeyBindingCore;
 import com.tntmodders.takumicraft.core.client.TCRenderCore;
@@ -171,8 +170,8 @@ public class TakumiCraftCore {
         }
 
         @SubscribeEvent
-        public static void registerItemColors(RegisterColorHandlersEvent.Item event) {
-            TCColorsCore.registerItemColors(event);
+        public static void registerItemColors(RegisterColorHandlersEvent.ColorResolvers event) {
+            //TCColorsCore.registerItemColors(event);
         }
     }
 }

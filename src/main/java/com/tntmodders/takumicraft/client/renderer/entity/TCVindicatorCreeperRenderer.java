@@ -22,7 +22,7 @@ public class TCVindicatorCreeperRenderer<T extends TCVindicatorCreeper, S extend
         super(context, new IllagerCreeperModel<>(context.bakeLayer(ModelLayers.VINDICATOR)), 0.7F);
         this.addLayer(new TCCreeperPowerLayer<>(this, context.getModelSet(), new IllagerCreeperModel<>(context.bakeLayer(ModelLayers.VINDICATOR)), TCEntityCore.VINDICATOR, true));
         this.addLayer(
-                new ItemInHandLayer<>(this, context.getItemRenderer()) {
+                new ItemInHandLayer<>(this) {
                     @Override
                     public void render(PoseStack p_117204_, MultiBufferSource p_117205_, int p_117206_, S p_363689_, float p_117208_, float p_117209_) {
                         if (p_363689_.isAggressive) {

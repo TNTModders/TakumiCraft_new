@@ -30,7 +30,7 @@ public class TCAllayCreeperRenderer<T extends TCAllayCreeper, S extends TCAllayC
 
     public TCAllayCreeperRenderer(EntityRendererProvider.Context p_234551_) {
         super(p_234551_, new TCAllayCreeperModel(p_234551_.bakeLayer(ModelLayers.ALLAY)), 0.4F);
-        this.addLayer(new ItemInHandLayer<>(this, p_234551_.getItemRenderer()));
+        this.addLayer(new ItemInHandLayer<>(this));
         this.addLayer(new TCCreeperPowerLayer<>(this, p_234551_.getModelSet(), new TCAllayCreeperModel(p_234551_.bakeLayer(ModelLayers.ALLAY)), TCEntityCore.ALLAY, true));
     }
 

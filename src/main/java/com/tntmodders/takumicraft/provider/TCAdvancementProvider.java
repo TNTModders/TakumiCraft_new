@@ -125,7 +125,7 @@ public class TCAdvancementProvider extends ForgeAdvancementProvider {
                             AdvancementType.CHALLENGE, true, true, false)
                     .addCriterion("kingslayer", KilledTrigger.TriggerInstance.playerKilledEntity(new EntityPredicate.Builder().of(types, TCEntityCore.KING.entityType()))).parent(takumialtar).save(consumer, ResourceLocation.tryBuild(TakumiCraftCore.MODID, "kingslayer"));
             ItemStack barrel = new ItemStack(TCBlockCore.CREEPER_BARREL);
-            barrel.set(DataComponents.CUSTOM_MODEL_DATA, new CustomModelData(898));
+            barrel.set(DataComponents.CUSTOM_MODEL_DATA, new CustomModelData(List.of(898f), List.of(false), List.of(""), List.of(0)));
             AdvancementHolder creeperbarrel = Advancement.Builder.advancement()
                     .display(barrel, Component.translatable("advancement.takumicraft.creeperbarrel.title"),
                             Component.translatable("advancement.takumicraft.creeperbarrel.desc"), null,

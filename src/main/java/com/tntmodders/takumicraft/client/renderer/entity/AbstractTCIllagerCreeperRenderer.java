@@ -22,7 +22,7 @@ import net.minecraft.world.item.CrossbowItem;
 public abstract class AbstractTCIllagerCreeperRenderer<T extends AbstractTCIllagerCreeper, S extends TCIllagerCreeperRenderState> extends MobRenderer<T, S, AbstractTCIllagerCreeperRenderer.IllagerCreeperModel<S>> {
     protected AbstractTCIllagerCreeperRenderer(EntityRendererProvider.Context p_174182_, IllagerCreeperModel<S> p_174183_, float p_174184_) {
         super(p_174182_, p_174183_, p_174184_);
-        this.addLayer(new CustomHeadLayer<>(this, p_174182_.getModelSet(), p_174182_.getItemRenderer()));
+        this.addLayer(new CustomHeadLayer<>(this, p_174182_.getModelSet()));
     }
 
     @Override

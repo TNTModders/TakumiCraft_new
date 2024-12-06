@@ -19,7 +19,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.HumanoidArm;
-import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -31,7 +30,7 @@ public class TCVexCreeperRenderer<T extends TCVexCreeper, S extends TCVexCreeper
     public TCVexCreeperRenderer(EntityRendererProvider.Context p_173956_) {
         super(p_173956_, (M) new TCVexCreeperModel(p_173956_.bakeLayer(ModelLayers.VEX)), 0.7F);
         this.addLayer(new TCCreeperPowerLayer(this, p_173956_.getModelSet(), new TCVexCreeperModel<>(p_173956_.bakeLayer(ModelLayers.VEX)), TCEntityCore.VEX, true));
-        this.addLayer(new ItemInHandLayer<>(this, p_173956_.getItemRenderer()));
+        this.addLayer(new ItemInHandLayer<>(this));
     }
 
     @Override
@@ -102,7 +101,7 @@ public class TCVexCreeperRenderer<T extends TCVexCreeper, S extends TCVexCreeper
             this.leftArm.zRot = -((float) (Math.PI / 5) + f);
             if (state.isCharging) {
                 this.body.xRot = 0.0F;
-                this.setArmsCharging(state.rightHandItem, state.leftHandItem, f);
+                this.setArmsCharging(!state.rightHandItem.isEmpty(), !state.leftHandItem.isEmpty(), f);
             } else {
                 this.body.xRot = (float) (Math.PI / 20);
             }
@@ -115,8 +114,8 @@ public class TCVexCreeperRenderer<T extends TCVexCreeper, S extends TCVexCreeper
             this.rightWing.zRot = 0.47123888F;
         }
 
-        private void setArmsCharging(ItemStack p_265484_, ItemStack p_265329_, float p_265125_) {
-            if (p_265484_.isEmpty() && p_265329_.isEmpty()) {
+        private void setArmsCharging(boolean p_265484_, boolean p_265329_, float p_265125_) {
+            if (p_265484_ && p_265329_) {
                 this.rightArm.xRot = -1.2217305F;
                 this.rightArm.yRot = (float) (Math.PI / 12);
                 this.rightArm.zRot = -0.47123888F - p_265125_;
@@ -124,13 +123,13 @@ public class TCVexCreeperRenderer<T extends TCVexCreeper, S extends TCVexCreeper
                 this.leftArm.yRot = (float) (-Math.PI / 12);
                 this.leftArm.zRot = 0.47123888F + p_265125_;
             } else {
-                if (!p_265484_.isEmpty()) {
+                if (!p_265484_) {
                     this.rightArm.xRot = (float) (Math.PI * 7.0 / 6.0);
                     this.rightArm.yRot = (float) (Math.PI / 12);
                     this.rightArm.zRot = -0.47123888F - p_265125_;
                 }
 
-                if (!p_265329_.isEmpty()) {
+                if (!p_265329_) {
                     this.leftArm.xRot = (float) (Math.PI * 7.0 / 6.0);
                     this.leftArm.yRot = (float) (-Math.PI / 12);
                     this.leftArm.zRot = 0.47123888F + p_265125_;

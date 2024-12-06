@@ -6,7 +6,6 @@ import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
 public abstract class AbstractTCBlockCreeper extends AbstractTCCreeper {
@@ -28,11 +27,6 @@ public abstract class AbstractTCBlockCreeper extends AbstractTCCreeper {
     @Override
     public boolean canBeCollidedWith() {
         return this.isAlive();
-    }
-
-    @Override
-    protected AABB makeBoundingBox() {
-        return super.makeBoundingBox();
     }
 
     @Override

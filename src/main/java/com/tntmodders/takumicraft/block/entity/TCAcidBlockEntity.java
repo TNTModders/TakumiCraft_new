@@ -52,7 +52,7 @@ public class TCAcidBlockEntity extends BlockEntity {
         if (blockentity instanceof TCAcidBlockEntity acid) {
             if (acid.stage < 15 && acid.tick % 20 == 0) {
                 for (int i = 0; i < (acid.stage + 3) / 3; i++) {
-                    level.addParticle(ParticleTypes.CAMPFIRE_COSY_SMOKE, true, pos.getX() + level.getRandom().nextDouble(), pos.getY() + 0.95 + level.getRandom().nextDouble(), pos.getZ() + level.getRandom().nextDouble(), (level.getRandom().nextDouble() - 0.5) / 10, 0.05 + level.getRandom().nextDouble() * Math.sqrt(acid.stage + 1) / 40, (level.getRandom().nextDouble() - 0.5) / 10);
+                    level.addParticle(ParticleTypes.CAMPFIRE_COSY_SMOKE, pos.getX() + level.getRandom().nextDouble(), pos.getY() + 0.95 + level.getRandom().nextDouble(), pos.getZ() + level.getRandom().nextDouble(), (level.getRandom().nextDouble() - 0.5) / 10, 0.05 + level.getRandom().nextDouble() * Math.sqrt(acid.stage + 1) / 40, (level.getRandom().nextDouble() - 0.5) / 10);
                 }
             }
             acid.tick++;

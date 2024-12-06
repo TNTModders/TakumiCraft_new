@@ -6,11 +6,11 @@ import com.tntmodders.takumicraft.provider.ITCItems;
 import com.tntmodders.takumicraft.provider.TCItemModelProvider;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
-import net.minecraftforge.common.ForgeSpawnEggItem;
+import net.minecraft.world.item.SpawnEggItem;
 
 import java.util.function.Supplier;
 
-public class TCSpawnEggItem extends ForgeSpawnEggItem implements ITCItems {
+public class TCSpawnEggItem extends SpawnEggItem implements ITCItems {
     private final AbstractTCCreeper.TCCreeperContext<?> context;
     private final String registryName;
 

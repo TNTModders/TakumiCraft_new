@@ -6,9 +6,6 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.util.Mth;
-import net.minecraft.world.entity.HumanoidArm;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 
 public class TCDrownedModel<T extends TCZombieCreeperRenderState> extends TCZombieModel<T> {
     public TCDrownedModel(ModelPart p_170337_) {
@@ -32,22 +29,14 @@ public class TCDrownedModel<T extends TCZombieCreeperRenderState> extends TCZomb
     }
 
     @Override
-    protected HumanoidModel.ArmPose getArmPose(T p_362447_, HumanoidArm p_364107_) {
-        ItemStack itemstack = p_364107_ == HumanoidArm.RIGHT ? p_362447_.rightHandItem : p_362447_.leftHandItem;
-        return itemstack.is(Items.TRIDENT) && p_362447_.isAggressive && p_362447_.mainArm == p_364107_
-                ? HumanoidModel.ArmPose.THROW_SPEAR
-                : HumanoidModel.ArmPose.EMPTY;
-    }
-
-    @Override
     public void setupAnim(T p_368669_) {
         super.setupAnim(p_368669_);
-        if (this.getArmPose(p_368669_, HumanoidArm.LEFT) == HumanoidModel.ArmPose.THROW_SPEAR) {
+        if (p_368669_.leftArmPose == HumanoidModel.ArmPose.THROW_SPEAR) {
             this.leftArm.xRot = this.leftArm.xRot * 0.5F - (float) Math.PI;
             this.leftArm.yRot = 0.0F;
         }
 
-        if (this.getArmPose(p_368669_, HumanoidArm.RIGHT) == HumanoidModel.ArmPose.THROW_SPEAR) {
+        if (p_368669_.rightArmPose == HumanoidModel.ArmPose.THROW_SPEAR) {
             this.rightArm.xRot = this.rightArm.xRot * 0.5F - (float) Math.PI;
             this.rightArm.yRot = 0.0F;
         }

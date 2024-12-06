@@ -10,18 +10,19 @@ import com.tntmodders.takumicraft.entity.mobs.TCWitchCreeper;
 import com.tntmodders.takumicraft.utils.client.TCClientUtils;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.HeadedModel;
-import net.minecraft.client.model.VillagerHeadModel;
+import net.minecraft.client.model.VillagerLikeModel;
+import net.minecraft.client.model.VillagerModel;
 import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.model.geom.PartPose;
+import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.CrossedArmsItemLayer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
-import net.minecraft.world.item.Items;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -32,7 +33,7 @@ public class TCWitchCreeperRenderer<T extends TCWitchCreeper, S extends TCWitchC
     public TCWitchCreeperRenderer(EntityRendererProvider.Context context) {
         super(context, (M) new TCWitchCreeperRenderer.TCWitchCreeperModel<>(context.bakeLayer(ModelLayers.WITCH)), 0.7F);
         this.addLayer(new TCCreeperPowerLayer(this, context.getModelSet(), new TCWitchCreeperModel(context.bakeLayer(ModelLayers.WITCH)), TCEntityCore.WITCH, true));
-        this.addLayer(new TCWitchCreeperItemLayer(this, context.getItemRenderer()));
+        this.addLayer(new TCWitchCreeperItemLayer(this));
     }
 
     @Override
@@ -73,14 +74,14 @@ public class TCWitchCreeperRenderer<T extends TCWitchCreeper, S extends TCWitchC
 
     @OnlyIn(Dist.CLIENT)
     public static class TCWitchCreeperItemLayer<S extends TCWitchCreeperRenderState, M extends TCWitchCreeperModel<S>> extends CrossedArmsItemLayer<S, M> {
-        public TCWitchCreeperItemLayer(RenderLayerParent<S, M> p_234926_, ItemRenderer p_364299_) {
-            super(p_234926_, p_364299_);
+        public TCWitchCreeperItemLayer(RenderLayerParent<S, M> p_234926_) {
+            super(p_234926_);
         }
 
         @Override
         public void render(PoseStack p_362411_, MultiBufferSource p_368708_, int p_368191_, S p_367958_, float p_367022_, float p_362108_) {
             p_362411_.pushPose();
-            if (p_367958_.rightHandItem.is(Items.POTION)) {
+            if (p_367958_.isHoldingPotion) {
                 this.getParentModel().root().translateAndRotate(p_362411_);
                 this.getParentModel().getHead().translateAndRotate(p_362411_);
                 this.getParentModel().getNose().translateAndRotate(p_362411_);
@@ -97,13 +98,14 @@ public class TCWitchCreeperRenderer<T extends TCWitchCreeper, S extends TCWitchC
     }
 
     @OnlyIn(Dist.CLIENT)
-    public static class TCWitchCreeperModel<T extends TCWitchCreeperRenderState> extends EntityModel<T> implements HeadedModel, VillagerHeadModel {
+    public static class TCWitchCreeperModel<T extends TCWitchCreeperRenderState> extends EntityModel<T> implements HeadedModel, VillagerLikeModel {
         protected final ModelPart nose;
         private final ModelPart head;
         private final ModelPart hat;
         private final ModelPart hatRim;
         private final ModelPart rightLeg;
         private final ModelPart leftLeg;
+        private final ModelPart arms;
 
         public TCWitchCreeperModel(ModelPart p_171055_) {
             super(p_171055_);
@@ -113,6 +115,40 @@ public class TCWitchCreeperRenderer<T extends TCWitchCreeper, S extends TCWitchC
             this.nose = this.head.getChild("nose");
             this.rightLeg = p_171055_.getChild("right_leg");
             this.leftLeg = p_171055_.getChild("left_leg");
+            this.arms = p_171055_.getChild("arms");
+        }
+
+        public static LayerDefinition createBodyLayer() {
+            MeshDefinition meshdefinition = VillagerModel.createBodyModel();
+            PartDefinition partdefinition = meshdefinition.getRoot();
+            PartDefinition partdefinition1 = partdefinition.addOrReplaceChild(
+                    "head", CubeListBuilder.create().texOffs(0, 0).addBox(-4.0F, -10.0F, -4.0F, 8.0F, 10.0F, 8.0F), PartPose.ZERO
+            );
+            PartDefinition partdefinition2 = partdefinition1.addOrReplaceChild(
+                    "hat", CubeListBuilder.create().texOffs(0, 64).addBox(0.0F, 0.0F, 0.0F, 10.0F, 2.0F, 10.0F), PartPose.offset(-5.0F, -10.03125F, -5.0F)
+            );
+            PartDefinition partdefinition3 = partdefinition2.addOrReplaceChild(
+                    "hat2",
+                    CubeListBuilder.create().texOffs(0, 76).addBox(0.0F, 0.0F, 0.0F, 7.0F, 4.0F, 7.0F),
+                    PartPose.offsetAndRotation(1.75F, -4.0F, 2.0F, -0.05235988F, 0.0F, 0.02617994F)
+            );
+            PartDefinition partdefinition4 = partdefinition3.addOrReplaceChild(
+                    "hat3",
+                    CubeListBuilder.create().texOffs(0, 87).addBox(0.0F, 0.0F, 0.0F, 4.0F, 4.0F, 4.0F),
+                    PartPose.offsetAndRotation(1.75F, -4.0F, 2.0F, -0.10471976F, 0.0F, 0.05235988F)
+            );
+            partdefinition4.addOrReplaceChild(
+                    "hat4",
+                    CubeListBuilder.create().texOffs(0, 95).addBox(0.0F, 0.0F, 0.0F, 1.0F, 2.0F, 1.0F, new CubeDeformation(0.25F)),
+                    PartPose.offsetAndRotation(1.75F, -2.0F, 2.0F, (float) (-Math.PI / 15), 0.0F, 0.10471976F)
+            );
+            PartDefinition partdefinition5 = partdefinition1.getChild("nose");
+            partdefinition5.addOrReplaceChild(
+                    "mole",
+                    CubeListBuilder.create().texOffs(0, 0).addBox(0.0F, 3.0F, -6.75F, 1.0F, 1.0F, 1.0F, new CubeDeformation(-0.25F)),
+                    PartPose.offset(0.0F, -2.0F, 0.0F)
+            );
+            return LayerDefinition.create(meshdefinition, 64, 128);
         }
 
         @Override
@@ -145,6 +181,12 @@ public class TCWitchCreeperRenderer<T extends TCWitchCreeper, S extends TCWitchC
             this.head.visible = p_363566_;
             this.hat.visible = p_363566_;
             this.hatRim.visible = p_363566_;
+        }
+
+        @Override
+        public void translateToArms(PoseStack p_375815_) {
+            this.root.translateAndRotate(p_375815_);
+            this.arms.translateAndRotate(p_375815_);
         }
     }
 }

@@ -202,11 +202,6 @@ public class TCCreeperChestBlock extends BaseEntityBlock implements ITCBlocks, I
     }
 
     @Override
-    protected RenderShape getRenderShape(BlockState p_51567_) {
-        return RenderShape.ENTITYBLOCK_ANIMATED;
-    }
-
-    @Override
     protected BlockState updateShape(BlockState p_51555_, LevelReader p_51558_, ScheduledTickAccess p_366146_, BlockPos p_51559_, Direction p_51556_, BlockPos p_51560_, BlockState p_51557_, RandomSource p_363918_) {
         if (p_51555_.getValue(WATERLOGGED)) {
             p_366146_.scheduleTick(p_51559_, Fluids.WATER, Fluids.WATER.getTickDelay(p_51558_));

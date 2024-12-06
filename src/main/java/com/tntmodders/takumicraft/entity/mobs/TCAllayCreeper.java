@@ -164,7 +164,7 @@ public class TCAllayCreeper extends AbstractTCCreeper implements InventoryCarrie
         FlyingPathNavigation flyingpathnavigation = new FlyingPathNavigation(this, p_218342_);
         flyingpathnavigation.setCanOpenDoors(false);
         flyingpathnavigation.setCanFloat(true);
-        flyingpathnavigation.setCanPassDoors(true);
+        flyingpathnavigation.setRequiredPathLength(48.0F);
         return flyingpathnavigation;
     }
 

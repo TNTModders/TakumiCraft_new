@@ -48,7 +48,6 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.*;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.ForgeSpawnEggItem;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nullable;
@@ -311,7 +310,7 @@ public class TCTakumiBookOutlineScreen extends AbstractContainerScreen<TCTakumiB
         this.visibleTags.clear();
         String s = this.searchBox.getValue();
         if (s.isEmpty()) {
-            TCEntityCore.ENTITY_CONTEXTS.forEach(context -> this.menu.items.add(new ItemStack(ForgeSpawnEggItem.fromEntityType(context.entityType()))));
+            TCEntityCore.ENTITY_CONTEXTS.forEach(context -> this.menu.items.add(new ItemStack(SpawnEggItem.byId(context.entityType()))));
         } else {
             //TCSearchTreeCore.register();
             //<ItemStack> searchtree = this.minecraft.getConnection().searchTrees().getSearchTree(TCSearchTreeCore.CREEPER_NAMES);
@@ -819,7 +818,7 @@ public class TCTakumiBookOutlineScreen extends AbstractContainerScreen<TCTakumiB
 
         @Override
         @Nullable
-        public Pair<ResourceLocation, ResourceLocation> getNoItemIcon() {
+        public ResourceLocation getNoItemIcon() {
             return this.target.getNoItemIcon();
         }
 
@@ -849,8 +848,8 @@ public class TCTakumiBookOutlineScreen extends AbstractContainerScreen<TCTakumiB
         }
 
         @Override
-        public Slot setBackground(ResourceLocation atlas, ResourceLocation sprite) {
-            this.target.setBackground(atlas, sprite);
+        public Slot setBackground(ResourceLocation sprite) {
+            this.target.setBackground(sprite);
             return this;
         }
     }

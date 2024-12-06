@@ -24,12 +24,12 @@ import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.blockentity.BrightnessCombiner;
+import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.Material;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.ChestBlock;
@@ -43,7 +43,7 @@ public class TCCreeperBedRenderer implements BlockEntityRenderer<TCCreeperBedBlo
     public static final Material[] BED_TEXTURES = Arrays.stream(DyeColor.values()).sorted(Comparator.comparingInt(DyeColor::getId)).map(p_110766_ -> new Material(Sheets.BED_SHEET, ResourceLocation.tryBuild(TakumiCraftCore.MODID, "entity/bed/" + p_110766_.getName()))).toArray(Material[]::new);
 
     public static final Material SUPER_TEXTURE = new Material(Sheets.BED_SHEET, ResourceLocation.tryBuild(TakumiCraftCore.MODID, "entity/bed/super"));
-    public static final Material OVERLAY_TEXTURE = new Material(InventoryMenu.BLOCK_ATLAS, ResourceLocation.tryBuild(TakumiCraftCore.MODID, "block/creeperbomb"));
+    public static final Material OVERLAY_TEXTURE = new Material(TextureAtlas.LOCATION_BLOCKS, ResourceLocation.tryBuild(TakumiCraftCore.MODID, "block/creeperbomb"));
 
     public static final ResourceLocation POWERED_TEXTURE = ResourceLocation.tryBuild(TakumiCraftCore.MODID, "textures/entity/bed/creepersuperbed_overlay.png");
 

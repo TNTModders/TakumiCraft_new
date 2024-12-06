@@ -289,7 +289,7 @@ public class TCBeeCreeper extends AbstractTCCreeper implements FlyingAnimal {
         };
         flyingpathnavigation.setCanOpenDoors(false);
         flyingpathnavigation.setCanFloat(false);
-        flyingpathnavigation.setCanPassDoors(true);
+        flyingpathnavigation.setRequiredPathLength(48.0F);
         return flyingpathnavigation;
     }
 
