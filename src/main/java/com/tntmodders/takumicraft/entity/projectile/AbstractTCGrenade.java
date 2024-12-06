@@ -10,6 +10,7 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 
 public abstract class AbstractTCGrenade extends ThrowableItemProjectile {
@@ -30,7 +31,7 @@ public abstract class AbstractTCGrenade extends ThrowableItemProjectile {
     @Override
     protected void onHit(HitResult hitResult) {
         this.count++;
-        if (!this.level().isClientSide()) {
+        if ((this.tickCount > 20 || !(hitResult instanceof EntityHitResult entityHitResult && entityHitResult.getEntity() == this.getOwner())) && !this.level().isClientSide()) {
             if (this.count <= this.getCount()) {
                 TCExplosionUtils.createExplosion(this.level(), this, this.getX(), this.getY(), this.getZ(), this.getPower(), false);
             } else {
