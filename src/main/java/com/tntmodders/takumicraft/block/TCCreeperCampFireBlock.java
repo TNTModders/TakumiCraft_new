@@ -16,7 +16,6 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.data.loot.LootTableSubProvider;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
@@ -41,14 +40,10 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.Projectile;
-import net.minecraft.world.entity.projectile.ThrownPotion;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.ShovelItem;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.item.alchemy.PotionContents;
-import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.item.crafting.CampfireCookingRecipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.ItemLike;
@@ -117,8 +112,8 @@ public class TCCreeperCampFireBlock extends CampfireBlock implements ITCBlocks, 
                 if (player instanceof ServerPlayer serverplayer) {
                     Function<Component, Packet<?>> function = ClientboundSetTitleTextPacket::new;
                     try {
-                        serverplayer.connection.send(function.apply(ComponentUtils.updateForEntity(serverplayer.createCommandSourceStack(), Component.literal("CAMPFIRE LIT").withStyle(ChatFormatting.DARK_RED), serverplayer, 0)));
-                        serverplayer.playSound(SoundEvents.UI_TOAST_CHALLENGE_COMPLETE);
+                        serverplayer.connection.send(function.apply(ComponentUtils.updateForEntity(serverplayer.createCommandSourceStack(), Component.literal("CAMPFIRE LIT").withStyle(ChatFormatting.DARK_RED).withStyle(ChatFormatting.BOLD), serverplayer, 0)));
+                        serverplayer.playNotifySound(SoundEvents.UI_TOAST_CHALLENGE_COMPLETE, serverplayer.getSoundSource(), 1f, 0.5f);
                         serverplayer.getAdvancements().award(Objects.requireNonNull(serverplayer.server.getAdvancements().get(ResourceLocation.tryBuild(TakumiCraftCore.MODID, "creepercampfire"))), "impossible");
                     } catch (CommandSyntaxException ignored) {
                     }
@@ -150,7 +145,7 @@ public class TCCreeperCampFireBlock extends CampfireBlock implements ITCBlocks, 
         }
     }
 
-    @Override
+/*    @Override
     protected void onProjectileHit(Level level, BlockState state, BlockHitResult result, Projectile projectile) {
         super.onProjectileHit(level, state, result, projectile);
         if (projectile instanceof ThrownPotion potion && potion.getItem().getOrDefault(DataComponents.POTION_CONTENTS, PotionContents.EMPTY).is(Potions.WATER)) {
@@ -159,7 +154,7 @@ public class TCCreeperCampFireBlock extends CampfireBlock implements ITCBlocks, 
             dowse(potion, level, pos, state);
             level.setBlockAndUpdate(pos, state.setValue(CampfireBlock.LIT, Boolean.FALSE));
         }
-    }
+    }*/
 
     @Override
     protected InteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult result) {
